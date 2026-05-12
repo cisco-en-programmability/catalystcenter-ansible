@@ -42,7 +42,7 @@ cisco.catalystcenter.events_and_notifications_playbook_config_generator module -
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.8.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.7.2
+- catalystcentersdk \>= 3.1.6.0.2
 - python \>= 3.9
 
 
@@ -152,10 +152,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_debug:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_debug:
 
       .. rst-class:: ansible-option-title
 
@@ -164,10 +162,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_debug`
 
       .. rst-class:: ansible-option-type-line
 
@@ -200,10 +194,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_host:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
@@ -212,10 +204,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_host`
 
       .. rst-class:: ansible-option-type-line
 
@@ -240,10 +228,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_log:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_log:
 
       .. rst-class:: ansible-option-title
 
@@ -252,10 +238,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_log`
 
       .. rst-class:: ansible-option-type-line
 
@@ -298,10 +280,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_append"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_log_append:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_log_append:
 
       .. rst-class:: ansible-option-title
 
@@ -310,10 +290,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_log_append`
 
       .. rst-class:: ansible-option-type-line
 
@@ -346,10 +322,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_file_path"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_log_file_path:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_log_file_path:
 
       .. rst-class:: ansible-option-title
 
@@ -358,10 +332,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_log_file_path`
 
       .. rst-class:: ansible-option-type-line
 
@@ -394,10 +364,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_level"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_log_level:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_log_level:
 
       .. rst-class:: ansible-option-title
 
@@ -406,10 +374,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_log_level`
 
       .. rst-class:: ansible-option-type-line
 
@@ -448,10 +412,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_password:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_password:
 
       .. rst-class:: ansible-option-title
 
@@ -460,10 +422,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_password`
 
       .. rst-class:: ansible-option-type-line
 
@@ -488,12 +446,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_api_port:
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_port:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_port:
 
       .. rst-class:: ansible-option-title
 
@@ -502,10 +456,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
 
       .. rst-class:: ansible-option-type-line
 
@@ -572,12 +522,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_username:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_username:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -586,10 +532,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_username, user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -618,10 +560,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_verify:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_verify:
 
       .. rst-class:: ansible-option-title
 
@@ -630,10 +570,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_verify`
 
       .. rst-class:: ansible-option-type-line
 
@@ -666,10 +602,8 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
-        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-catalystcenter_version:
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-dnac_version:
 
       .. rst-class:: ansible-option-title
 
@@ -678,10 +612,6 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: dnac_version`
 
       .. rst-class:: ansible-option-type-line
 
@@ -777,7 +707,9 @@ Parameters
 
       When components\_list is specified, only listed components are retrieved regardless of other filters.
 
-      Destination and notification filters provide name-based filtering within selected components.
+      Component-specific filter keys use the same names as the component values in \ :literal:`components\_list`\ .
+
+      If filters for specific components are provided without explicitly including them in \ :literal:`components\_list`\ , those components are automatically added.
 
 
       .. raw:: html
@@ -813,25 +745,25 @@ Parameters
 
       List of component types to include in generated YAML playbook file.
 
-      Optional, but conditionally required when no other filter blocks are provided under \ :literal:`component\_specific\_filters`\ .
+      Optional, but conditionally required when no other component- specific filter keys are provided under \ :literal:`component\_specific\_filters`\ .
 
       Each component type corresponds to specific API endpoint and configuration structure.
 
-      Valid component types - \ :literal:`webhook\_destinations`\  - REST webhook destination configurations - \ :literal:`email\_destinations`\  - Email destination with SMTP settings - \ :literal:`syslog\_destinations`\  - Syslog server configurations - \ :literal:`snmp\_destinations`\  - SNMP trap receiver configurations - \ :literal:`itsm\_settings`\  - ITSM integration connection settings - \ :literal:`webhook\_event\_notifications`\  - Webhook event subscription configurations - \ :literal:`email\_event\_notifications`\  - Email event subscription configurations - \ :literal:`syslog\_event\_notifications`\  - Syslog event subscription configurations
+      Valid component types - \ :literal:`webhook\_destination`\  - REST webhook destination configurations - \ :literal:`email\_destination`\  - Email destination with SMTP settings - \ :literal:`syslog\_destination`\  - Syslog server configurations - \ :literal:`snmp\_destination`\  - SNMP trap receiver configurations - \ :literal:`itsm\_setting`\  - ITSM integration connection settings - \ :literal:`webhook\_event\_notification`\  - Webhook event subscription configurations - \ :literal:`email\_event\_notification`\  - Email event subscription configurations - \ :literal:`syslog\_event\_notification`\  - Syslog event subscription configurations
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"webhook\_destinations"`
-      - :ansible-option-choices-entry:`"email\_destinations"`
-      - :ansible-option-choices-entry:`"syslog\_destinations"`
-      - :ansible-option-choices-entry:`"snmp\_destinations"`
-      - :ansible-option-choices-entry:`"itsm\_settings"`
-      - :ansible-option-choices-entry:`"webhook\_event\_notifications"`
-      - :ansible-option-choices-entry:`"email\_event\_notifications"`
-      - :ansible-option-choices-entry:`"syslog\_event\_notifications"`
+      - :ansible-option-choices-entry:`"webhook\_destination"`
+      - :ansible-option-choices-entry:`"email\_destination"`
+      - :ansible-option-choices-entry:`"syslog\_destination"`
+      - :ansible-option-choices-entry:`"snmp\_destination"`
+      - :ansible-option-choices-entry:`"itsm\_setting"`
+      - :ansible-option-choices-entry:`"webhook\_event\_notification"`
+      - :ansible-option-choices-entry:`"email\_event\_notification"`
+      - :ansible-option-choices-entry:`"syslog\_event\_notification"`
 
 
       .. raw:: html
@@ -841,21 +773,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/destination_filters"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/email_destination"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/destination_filters:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/email_destination:
 
       .. rst-class:: ansible-option-title
 
-      **destination_filters**
+      **email_destination**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/destination_filters" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/email_destination" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -865,138 +797,35 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Filters for destination configurations based on name or type matching.
+      List of filter dictionaries for email destinations.
 
-      Applies to webhook\_destinations, email\_destinations, syslog\_destinations, and snmp\_destinations components.
+      Supported filter keys are \ :literal:`sender\_email`\  and \ :literal:`recipient\_email`\ .
 
-      When \ :literal:`destination\_filters`\  is provided, the corresponding destination components are automatically added to \ :literal:`components\_list`\  if not already present. If \ :literal:`destination\_types`\  is specified, only those types are added. If \ :literal:`destination\_types`\  is omitted, all four destination component types are added.
-
-      Filtering is applied independently per component type selected in components\_list.
-
-      Each component type only retrieves destinations of its own type and applies destination\_names filter within that scope.
-
-      When destination\_names provided and at least one name matches a destination within a component type, only matching destinations of that type are included.
+      If omitted while the component is selected, all email destinations are retrieved.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/destination_filters/destination_names"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/destination_filters/destination_names:
-
-      .. rst-class:: ansible-option-title
-
-      **destination_names**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/destination_filters/destination_names" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of exact destination names to filter from retrieved configurations.
-
-      When \ :literal:`destination\_names`\  is provided, you must target at least one destination component using either \ :literal:`destination\_types`\  or \ :literal:`components\_list`\  with one or more of \ :literal:`webhook\_destinations`\ , \ :literal:`email\_destinations`\ , \ :literal:`syslog\_destinations`\ , \ :literal:`snmp\_destinations`\ .
-
-      Names must match exactly as configured in Catalyst Center (case-sensitive).
-
-      Only components listed in components\_list are retrieved. The destination\_names filter is applied only within those selected component types. Names belonging to a component type that is not in components\_list are completely ignored.
-
-      If a destination name matches a destination within a selected component type, only matching destinations of that type are included in the output.
-
-      Empty list or not specified retrieves all destinations for selected component types.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/destination_filters/destination_types"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/destination_filters/destination_types:
-
-      .. rst-class:: ansible-option-title
-
-      **destination_types**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/destination_filters/destination_types" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which destination component types the \ :literal:`destination\_names`\  filter applies to.
-
-      Components implied by \ :literal:`destination\_types`\  are automatically added to \ :literal:`components\_list`\  if not already present. For example \ :literal:`webhook`\  auto-adds \ :literal:`webhook\_destinations`\ .
-
-      Use this when you want name-based filtering for some destination types but want to retrieve all destinations for other types in \ :literal:`components\_list`\ .
-
-      For example, with \ :literal:`components\_list`\  set to \ :literal:`[webhook\_destinations, email\_destinations]`\  and \ :literal:`destination\_types`\  set to \ :literal:`[webhook]`\  and \ :literal:`destination\_names`\  set to \ :literal:`[my-webhook-1]`\ , only webhook destinations matching "my-webhook-1" are filtered while all email destinations are retrieved without any name filtering.
-
-      Valid types are \ :literal:`webhook`\ , \ :literal:`email`\ , \ :literal:`syslog`\ , \ :literal:`snmp`\ .
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"webhook"`
-      - :ansible-option-choices-entry:`"email"`
-      - :ansible-option-choices-entry:`"syslog"`
-      - :ansible-option-choices-entry:`"snmp"`
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/itsm_filters"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/email_event_notification"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/itsm_filters:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/email_event_notification:
 
       .. rst-class:: ansible-option-title
 
-      **itsm_filters**
+      **email_event_notification**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/itsm_filters" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/email_event_notification" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1006,78 +835,35 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Filters for ITSM integration settings based on instance name matching.
+      List of filter dictionaries for email event subscriptions.
 
-      When \ :literal:`itsm\_filters`\  is provided, the \ :literal:`itsm\_settings`\  component is automatically added to \ :literal:`components\_list`\  if not already present.
+      Supported filter key is \ :literal:`name`\ .
 
-      Filters ITSM integration instances by configured instance names.
-
-      Empty list or not specified retrieves all configured ITSM integration instances.
+      If omitted while the component is selected, all email event notifications are retrieved.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/itsm_filters/instance_names"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/itsm_filters/instance_names:
-
-      .. rst-class:: ansible-option-title
-
-      **instance_names**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/itsm_filters/instance_names" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of exact ITSM instance names to filter from retrieved configurations.
-
-      Names must match exactly as configured in Catalyst Center ITSM integration settings.
-
-      Filters ServiceNow, BMC Remedy, or custom ITSM integration instances.
-
-      Empty list or not specified retrieves all ITSM integration instances.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/notification_filters"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/itsm_setting"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/notification_filters:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/itsm_setting:
 
       .. rst-class:: ansible-option-title
 
-      **notification_filters**
+      **itsm_setting**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/notification_filters" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/itsm_setting" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1087,64 +873,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Filters for event notification subscription configurations based on name or type.
+      List of filter dictionaries for ITSM settings.
 
-      Applies to webhook\_event\_notifications, email\_event\_notifications, and syslog\_event\_notifications.
+      Supported filter key is \ :literal:`instance\_name`\ .
 
-      When \ :literal:`notification\_filters`\  is provided, the corresponding notification components are automatically added to \ :literal:`components\_list`\  if not already present. If \ :literal:`notification\_types`\  is specified, only those types are added. If \ :literal:`notification\_types`\  is omitted, all three notification component types are added.
-
-      When subscription\_names provided, filters notifications to include only matching subscriptions.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/notification_filters/notification_types"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/notification_filters/notification_types:
-
-      .. rst-class:: ansible-option-title
-
-      **notification_types**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/notification_filters/notification_types" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which notification component types the \ :literal:`subscription\_names`\  filter applies to.
-
-      Components implied by \ :literal:`notification\_types`\  are automatically added to \ :literal:`components\_list`\  if not already present. For example \ :literal:`webhook`\  auto-adds \ :literal:`webhook\_event\_notifications`\ .
-
-      Use this when you want name-based filtering for some notification types but want to retrieve all subscriptions for other types in \ :literal:`components\_list`\ .
-
-      For example, with \ :literal:`components\_list`\  set to \ :literal:`[webhook\_event\_notifications, email\_event\_notifications]`\  and \ :literal:`notification\_types`\  set to \ :literal:`[webhook]`\  and \ :literal:`subscription\_names`\  set to \ :literal:`[Critical Alerts]`\ , only webhook event notifications matching "Critical Alerts" are filtered while all email event notifications are retrieved without name filtering.
-
-      Valid types are \ :literal:`webhook`\ , \ :literal:`email`\ , \ :literal:`syslog`\ .
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"webhook"`
-      - :ansible-option-choices-entry:`"email"`
-      - :ansible-option-choices-entry:`"syslog"`
+      If omitted while the component is selected, all ITSM integration instances are retrieved.
 
 
       .. raw:: html
@@ -1153,22 +886,22 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/notification_filters/subscription_names"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/snmp_destination"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/notification_filters/subscription_names:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/snmp_destination:
 
       .. rst-class:: ansible-option-title
 
-      **subscription_names**
+      **snmp_destination**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/notification_filters/subscription_names" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/snmp_destination" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -1176,23 +909,170 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of exact event subscription names to filter from retrieved configurations.
+      List of filter dictionaries for SNMP destinations.
 
-      When \ :literal:`subscription\_names`\  is provided, you must target at least one notification component using either \ :literal:`notification\_types`\  or \ :literal:`components\_list`\  with one or more of \ :literal:`webhook\_event\_notifications`\ , \ :literal:`email\_event\_notifications`\ , \ :literal:`syslog\_event\_notifications`\ .
+      Supported filter key is \ :literal:`name`\ .
 
-      Names must match exactly as configured in Catalyst Center event subscriptions.
-
-      Filters webhook, email, and syslog event notifications based on subscription name.
-
-      Empty list or not specified retrieves all event subscriptions for selected types.
+      If omitted while the component is selected, all SNMP destinations are retrieved.
 
 
       .. raw:: html
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/syslog_destination"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/syslog_destination:
+
+      .. rst-class:: ansible-option-title
+
+      **syslog_destination**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/syslog_destination" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of filter dictionaries for syslog destinations.
+
+      Supported filter key is \ :literal:`name`\ .
+
+      If omitted while the component is selected, all syslog destinations are retrieved.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/syslog_event_notification"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/syslog_event_notification:
+
+      .. rst-class:: ansible-option-title
+
+      **syslog_event_notification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/syslog_event_notification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of filter dictionaries for syslog event subscriptions.
+
+      Supported filter key is \ :literal:`name`\ .
+
+      If omitted while the component is selected, all syslog event notifications are retrieved.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/webhook_destination"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/webhook_destination:
+
+      .. rst-class:: ansible-option-title
+
+      **webhook_destination**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/webhook_destination" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of filter dictionaries for webhook destinations.
+
+      Supported filter key is \ :literal:`name`\ .
+
+      If omitted while the component is selected, all webhook destinations are retrieved.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/component_specific_filters/webhook_event_notification"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_playbook_config_generator_module__parameter-config/component_specific_filters/webhook_event_notification:
+
+      .. rst-class:: ansible-option-title
+
+      **webhook_event_notification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/component_specific_filters/webhook_event_notification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of filter dictionaries for webhook event subscriptions.
+
+      Supported filter key is \ :literal:`name`\ .
+
+      If omitted while the component is selected, all webhook event notifications are retrieved.
+
+
+      .. raw:: html
+
+        </div>
 
 
 
@@ -1394,9 +1274,8 @@ Notes
    - Event IDs are automatically resolved to event names using Event Artifacts API.
    - Pagination is automatically handled for large datasets in webhook, syslog, SNMP destinations, ITSM settings and webhook, email, syslog notifications.
    - Generated playbooks are compatible with events\_and\_notifications\_workflow\_manager module.
-   - When filter blocks (\ :literal:`destination\_filters`\ , \ :literal:`notification\_filters`\ , \ :literal:`itsm\_filters`\ ) are provided, the corresponding components are automatically added to \ :literal:`components\_list`\  if not already present. This means \ :literal:`components\_list`\  is optional when filter blocks are provided.
-   - If no filter blocks are provided, \ :literal:`components\_list`\  is mandatory and must be non-empty.
-   - Destination name filtering in destination\_filters.destination\_names is applied only within component types present in the final components\_list (including auto-added components).
+   - Component-specific filter keys such as \ :literal:`webhook\_destination`\ , \ :literal:`itsm\_setting`\ , and \ :literal:`email\_event\_notification`\  are automatically added to \ :literal:`components\_list`\  if not already present.
+   - If no component-specific filter keys are provided, \ :literal:`components\_list`\  is mandatory and must be non-empty.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -1447,7 +1326,7 @@ Examples
         file_path: "/tmp/catc_destinations_config.yaml"
         config:
           component_specific_filters:
-            components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
+            components_list: ["webhook_destination", "email_destination", "syslog_destination"]
 
     - name: Generate YAML Configuration for specific webhook destinations
       cisco.catalystcenter.events_and_notifications_playbook_config_generator:
@@ -1464,10 +1343,9 @@ Examples
         file_path: "/tmp/catc_webhook_config.yaml"
         config:
           component_specific_filters:
-            components_list: ["webhook_destinations", "webhook_event_notifications"]
-            destination_filters:
-              destination_names: ["webhook-dest-1", "webhook-dest-2"]
-              destination_types: ["webhook"]
+            components_list: ["webhook_destination", "webhook_event_notification"]
+            webhook_destination:
+              - name: ["webhook-dest-1", "webhook-dest-2"]
 
     - name: Generate YAML Configuration with combined filters
       cisco.catalystcenter.events_and_notifications_playbook_config_generator:
@@ -1485,15 +1363,18 @@ Examples
         file_mode: append
         config:
           component_specific_filters:
-            components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
-            destination_filters:
-              destination_names: ["Production Webhook", "Alert Email Server"]
-              destination_types: ["webhook", "email"]
-            notification_filters:
-              subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
-              notification_types: ["webhook", "email"]
+            components_list: ["webhook_destination", "webhook_event_notification", "email_destination", "email_event_notification"]
+            webhook_destination:
+              - name: ["Production Webhook"]
+            email_destination:
+              - sender_email: ["alerts@cisco.com"]
+              - recipient_email: ["noc@cisco.com"]
+            webhook_event_notification:
+              - name: ["Critical System Alerts"]
+            email_event_notification:
+              - name: ["Network Health Monitoring"]
 
-    - name: Generate YAML Configuration for ITSM settings using filter block (auto-adds itsm_settings to components_list)
+    - name: Generate YAML Configuration for ITSM settings using component filter (auto-adds itsm_setting to components_list)
       cisco.catalystcenter.events_and_notifications_playbook_config_generator:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1508,62 +1389,27 @@ Examples
         file_path: "/tmp/catc_itsm_config.yaml"
         config:
           component_specific_filters:
-            itsm_filters:
-              instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
+            itsm_setting:
+              - instance_name: ["ServiceNow Instance 1", "BMC Remedy Prod"]
 
-    # destination_names with destination_types (new filter in isolation)
-    - name: Generate config filtering specific destinations by name and type
+    - name: Generate config with component-specific name filters
       cisco.catalystcenter.events_and_notifications_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        component_specific_filters:
-          destination_filters:
-            destination_names:
-              - "Scale Syslog 7"
-              - "Prod Webhook Endpoint"
-            destination_types:        # Required when destination_names is specified
-              - "syslog"
-              - "webhook"
-
-    # subscription_names with notification_types (new filter in isolation)
-    - name: Generate config filtering specific subscriptions by name and type
-      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        component_specific_filters:
-          notification_filters:
-            subscription_names:
-              - "Critical Email Alerts"
-              - "Syslog Infra Events"
-            notification_types:       # Required when subscription_names is specified
-              - "email"
-              - "syslog"
-
-    # Combined filters with components_list as the targeting mechanism (multi-entry, mixed)
-    - name: Generate config with name filters targeted via components_list
-      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        component_specific_filters:
+        config:
+          component_specific_filters:
           components_list:
-            - "syslog_destinations"          # Targets destination_names filter
-            - "email_event_notifications"    # Targets subscription_names filter
-            - "itsm_settings"                # No name filter, retrieves all
-          destination_filters:
-            destination_names:
-              - "Scale Syslog 7"             # Filtered — only syslog destinations matched
-          notification_filters:
-            subscription_names:
-              - "Critical Email Alerts"      # Filtered — only email notifications matched
-          itsm_filters:
-            instance_names:
-              - "ServiceNow Prod"
+            - "syslog_destination"
+            - "email_event_notification"
+            - "itsm_setting"
+          syslog_destination:
+            - name: ["Scale Syslog 7"]
+          email_event_notification:
+            - name: ["Critical Email Alerts"]
+          itsm_setting:
+            - instance_name: ["ServiceNow Prod"]
 
 
 
