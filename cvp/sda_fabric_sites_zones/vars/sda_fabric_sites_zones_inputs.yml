@@ -1,5 +1,5 @@
 #Minimum supported version of the Cisco Catalyst Center
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # Fabric Sites and Zones design.
 fabric_sites_and_zones:
   - fabric_sites:

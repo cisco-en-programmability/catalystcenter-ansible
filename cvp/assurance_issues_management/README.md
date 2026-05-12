@@ -66,16 +66,16 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/assurance_issues_manag
     catalyst_center_hosts:
         hosts:
             your_catalyst_center_instance_name:
-                catalyst_center_host: xx.xx.xx.xx
-                catalyst_center_password: XXXXXXXX
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: admin
-                catalyst_center_verify: false # Set to true for production with valid certificates
-                catalyst_center_version: 2.3.7.9 # Specify your Catalyst Center version
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: xx.xx.xx.xx
+                catalystcenter_password: XXXXXXXX
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: admin
+                catalystcenter_verify: false # Set to true for production with valid certificates
+                catalystcenter_version: 2.3.7.9 # Specify your Catalyst Center version
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Schema Overview
@@ -169,7 +169,7 @@ In this example, we are creating a custom assurance issue called **"High CPU Usa
 
 ### Example: Input YAML
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_user_defined_issue_settings:
       - name: High CPU Usage Alert issue
@@ -237,7 +237,7 @@ In this example, we are updating the previously created **"High CPU Usage Alert 
 
 ### Example: Input YAML
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_user_defined_issue_settings:
       - prev_name: High CPU Usage Alert issue
@@ -269,7 +269,7 @@ assurance_issues_settings:
 
 You can also update multiple assurance issues in a single playbook run by specifying more than one entry under `assurance_user_defined_issue_settings`:
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_user_defined_issue_settings:
       - prev_name: High CPU Usage Alert issue
@@ -309,7 +309,7 @@ In this example, we are deleting the previously updated assurance issue named **
 
 ### Example: Input YAML
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_user_defined_issue_settings:
     - name: Excessive CPU Utilization Alert
@@ -330,7 +330,7 @@ assurance_issues_settings:
 You can also delete multiple assurance issues in a single playbook run by specifying more than one entry under `assurance_user_defined_issue_settings`:
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_user_defined_issue_settings:
       - name: Excessive CPU Utilization Alert
@@ -345,7 +345,7 @@ In this example, we are updating the system-defined issue named **"Radio Down (2
 
 ### Example: Input YAML
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 assurance_issues_settings:
   - assurance_system_issue_settings:
       - name: "Radio Down (2.4 GHz)"

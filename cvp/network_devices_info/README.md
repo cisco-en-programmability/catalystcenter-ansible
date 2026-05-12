@@ -171,12 +171,12 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/network_devices_info/p
 
 
 # Catalyst Center Connection Parameters
-catalyst_center_host: "your-catalyst-center-hostname"
-catalyst_center_username: "xxxx"
-catalyst_center_password: "xxxxxxx"
-catalyst_center_verify: false
-catalyst_center_port: 443
-catalyst_center_version: "2.3.7.9"
+catalystcenter_host: "your-catalyst-center-hostname"
+catalystcenter_username: "xxxx"
+catalystcenter_password: "xxxxxxx"
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
 ```
 
 ### Step 2: Configure Device Queries

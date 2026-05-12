@@ -70,16 +70,16 @@ File example: `host_inventory_dnac1/hosts.yml`
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      catalyst_center_host:  <CatC IP Address>
-      catalyst_center_password: <CatC UI admin Password>
-      catalyst_center_port: 443
-      catalyst_center_timeout: 60
-      catalyst_center_username: <CatC UI admin username>
-      catalyst_center_verify: false
-      catalyst_center_version: <CatC Release version>
-      catalyst_center_debug: true
-      catalyst_center_log_level: INFO
-      catalyst_center_log: true
+      catalystcenter_host:  <CatC IP Address>
+      catalystcenter_password: <CatC UI admin Password>
+      catalystcenter_port: 443
+      catalystcenter_api_task_timeout: 60
+      catalystcenter_username: <CatC UI admin username>
+      catalystcenter_verify: false
+      catalystcenter_version: <CatC Release version>
+      catalystcenter_debug: true
+      catalystcenter_log_level: INFO
+      catalystcenter_log: true
 ```
 
 #### 2.2. Prerequisite
@@ -154,7 +154,7 @@ Prepare a YAML input (e.g. `vars/sda_host_onboarding_input.yml`) aligned with sc
 #### 4.1. Generate Input (Existing example)
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -195,7 +195,7 @@ sda_host_onboarding_details:
 #### 4.1.1. Advanced trunk configuration (VLAN filtering)
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -245,7 +245,7 @@ sda_host_onboarding_details:
 #### 5.1. Generate Input (Full update example)
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -287,7 +287,7 @@ sda_host_onboarding_details:
 #### 5.1.1. Update trunk with VLAN filtering
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -311,7 +311,7 @@ sda_host_onboarding_details:
 #### 5.1.2. Change device type when protocol is PAGP (TRUNK ↔ EXTENDED_NODE)
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -345,7 +345,7 @@ sda_host_onboarding_details:
 #### 6.1.1. Delete trunk objects with VLAN filtering context
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: 204.1.2.8
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -361,7 +361,7 @@ sda_host_onboarding_details:
 #### 6.1.2. Delete all using hostname
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   - hostname: EDGE-SF-9300.local
     fabric_site_name_hierarchy: Global/USA/SAN-FRANCISCO
@@ -384,7 +384,7 @@ sda_host_onboarding_details:
 #### 7.1.1. Multiple SSIDs with Security Group Tags
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   - fabric_site_name_hierarchy: "Global/USA/New York"
     wireless_ssids:
@@ -399,7 +399,7 @@ sda_host_onboarding_details:
 #### 7.1.2. Remove all SSIDs from a VLAN
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   - fabric_site_name_hierarchy: "Global/USA/New York"
     wireless_ssids:
@@ -420,7 +420,7 @@ Only trunking device ports support the `native_vlan_id` and VLAN range fields. U
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -509,7 +509,7 @@ sda_host_onboarding_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -567,7 +567,7 @@ sda_host_onboarding_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -598,7 +598,7 @@ Trunk port channels support both `native_vlan_id` and `allowed_vlan_ranges` fiel
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -643,7 +643,7 @@ sda_host_onboarding_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -670,7 +670,7 @@ sda_host_onboarding_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.70"
     fabric_site_name_hierarchy: "Global/USA/San Jose"
@@ -706,7 +706,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml \
 Input:
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 sda_host_onboarding_details:
   - ip_address: "204.1.2.2"
     device_collection_status_check: false

@@ -1,6 +1,6 @@
 # Cisco Catalyst Center Switch Network Profile Playbooks
 
-This module manages switch network profiles in Cisco Catalyst Center (DNAC), a platform for intent-based networking. It automates the creation, deletion, and assignment of switch profiles to sites and templates.
+This module manages switch network profiles in Cisco Catalyst Center (formerly DNAC), a platform for intent-based networking. It automates the creation, deletion, and assignment of switch profiles to sites and templates.
 
 **Description:**
 - Create and delete switch network profiles.
@@ -67,16 +67,16 @@ Before running the playbooks, ensure you have Ansible installed and the necessar
     catalyst_center_hosts:
         hosts:
             your_catalyst_center_instance_name:
-                catalyst_center_host: xx.xx.xx.xx
-                catalyst_center_password: XXXXXXXX
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: admin
-                catalyst_center_verify: false # Set to true for production with valid certificates
-                catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: xx.xx.xx.xx
+                catalystcenter_password: XXXXXXXX
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: admin
+                catalystcenter_verify: false # Set to true for production with valid certificates
+                catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Validate
@@ -104,7 +104,7 @@ This step involves preparing the input data for creating or managing network pro
 
     ```yaml
     ---
-    catalyst_center_version: 2.3.7.9
+    catalystcenter_version: 2.3.7.9
     network_profiles:
       - profile_name: "Switch Profile"
         site_names:
@@ -122,7 +122,7 @@ This step involves preparing the input data for creating or managing network pro
     Users can update their profiles by modifying the configuration and input assignments. The site assignment can be changed using the following inputs:
     ```yaml
     ---
-    catalyst_center_version: 2.3.7.9
+    catalystcenter_version: 2.3.7.9
     network_profiles:
       - profile_name: "Switch Profile"
         site_names:
@@ -139,7 +139,7 @@ This step involves preparing the input data for creating or managing network pro
     In Delete section, user only need to provide profile_name to delete them
     ```yaml
     ---
-    catalyst_center_version: 2.3.7.9
+    catalystcenter_version: 2.3.7.9
     network_profiles:
       - profile_name: "Switch Profile"
     ```

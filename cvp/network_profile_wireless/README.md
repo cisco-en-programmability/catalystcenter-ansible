@@ -90,22 +90,22 @@ Follow these steps to configure and deploy wireless network profiles in *Cisco C
    ```
 
 3. **Generate Inventory**:  
-   Create an Ansible inventory file (e.g., `inventory.yml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalyst_center_host`, `catalyst_center_username`, and `catalyst_center_password`.  
+   Create an Ansible inventory file (e.g., `inventory.yml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalystcenter_host`, `catalystcenter_username`, and `catalystcenter_password`.  
    > **Note**: For security, consider using *Ansible Vault* to encrypt sensitive data like passwords.  
    ```yaml
    catalyst_center_hosts:
        hosts:
            your_catalyst_center_instance_name:
-               catalyst_center_host: xx.xx.xx.xx
-               catalyst_center_password: XXXXXXXX
-               catalyst_center_port: 443
-               catalyst_center_timeout: 60
-               catalyst_center_username: admin
-               catalyst_center_verify: false  # Enable for production with valid certificates
-               catalyst_center_version: 2.3.7.9  # Specify the version, Refer the compliance Table for selecting correct version
-               catalyst_center_debug: true
-               catalyst_center_log_level: INFO
-               catalyst_center_log: true
+               catalystcenter_host: xx.xx.xx.xx
+               catalystcenter_password: XXXXXXXX
+               catalystcenter_port: 443
+               catalystcenter_api_task_timeout: 60
+               catalystcenter_username: admin
+               catalystcenter_verify: false  # Enable for production with valid certificates
+               catalystcenter_version: 2.3.7.9  # Specify the version, Refer the compliance Table for selecting correct version
+               catalystcenter_debug: true
+               catalystcenter_log_level: INFO
+               catalystcenter_log: true
    ```
 
 ---
@@ -191,7 +191,7 @@ The *Network Profile Wireless* feature relies on optional components. If used, t
 ##### 1. **Create Wireless Network Profile**  
 a. *Example*: Configure a new wireless profile with specific site assignments and SSID details using interface name
 ```yaml
-catalyst_center_version: 2.3.7.9  # Cisco Catalyst Center version
+catalystcenter_version: 2.3.7.9  # Cisco Catalyst Center version
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile Creation"  # Name of the profile
     site_names:  # Sites where the profile is applied
@@ -219,7 +219,7 @@ wireless_nw_profiles_details:
 
 b. *Example*: Configure a new wireless profile with specific site assignments and SSID details using Vlan Group name
 ```yaml
-catalyst_center_version: 2.3.7.9  # Cisco Catalyst Center version
+catalystcenter_version: 2.3.7.9  # Cisco Catalyst Center version
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile Creation"  # Name of the profile
     site_names:  # Sites where the profile is applied
@@ -250,7 +250,7 @@ wireless_nw_profiles_details:
 > **Note**: Ensure the profile exists before updating.  
 > **Note**: To update a wireless network profile, provide all configurations in the input file. Only modify the specific configurations you want to change. Any omitted configurations will be treated as a request to remove them. In the example below, only the ssid_details configuration is updated, while other settings remain unchanged. As a result, the network profile will reflect the updated SSID details
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile Update"
     site_names:
@@ -280,19 +280,19 @@ wireless_nw_profiles_details:
 *Example*: Delete one or more profiles by specifying their names.  
 > **Warning**: Deleting profiles may impact existing configurations. Verify before proceeding.  
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile Creation"
   - profile_name: "Ansible Wireless Profile Update"
 ```
 
 ##### 4. **Create Wireless Network Profile with Feature Template Designs**
-*Only supports the API for DNAC version 3.1.3 and above*
+*Only supports the API for Catalyst Center version 3.1.3 and above*
 
 a. *Example*: Configure wireless profile with AAA RADIUS Attributes Configuration
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile with Feature Templates"
     site_names:
@@ -321,7 +321,7 @@ b. *Example*: Configure wireless profile with multiple feature template designs 
   *Note: If a feature template of type 'ADVANCED_SSID_CONFIGURATION' is added, it need associate an SSID to enable the addition of the feature template.*
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile with Feature Templates"
     ssid_details:
@@ -351,7 +351,7 @@ c. *Example*: Update wireless profile to remove feature template designs (delete
 
   To delete the existing feature template on the network profile, we can provide the feature template to be deleted and use the **state 'deleted'**.
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 wireless_nw_profiles_details:
   - profile_name: "Ansible Wireless Profile with Feature Templates"
     feature_template_designs:
@@ -408,7 +408,7 @@ Run the following command to validate your input file against the schema:
    > **Note**: If an error occurs (e.g., invalid input or API failure), the playbook will halt and display details. Check the `logs/wireless_profile.log` for troubleshooting.
 
 2. **Verify Deployment**:  
-   After execution, verify the configuration in the *Cisco Catalyst Center* UI under the wireless design section. If `catalyst_center_debug` is enabled, review the logs for detailed operation information.  
+   After execution, verify the configuration in the *Cisco Catalyst Center* UI under the wireless design section. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.  
 
    ![Wireless profile configuration in Cisco Catalyst Center UI](./images/wireless_profile_1.png)  
    **Figure 1**: *Wireless Profile Configuration in Cisco Catalyst Center*

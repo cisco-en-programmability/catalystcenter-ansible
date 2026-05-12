@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 swim_details:
   delete_images:
     - image_name:
