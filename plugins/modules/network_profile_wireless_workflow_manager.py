@@ -5,7 +5,6 @@
 
 """Ansible module to perform operations on create and delete wireless network profile details
 in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -217,7 +216,7 @@ options:
             type: int
             required: true
 requirements:
-  - catalystcentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -239,7 +238,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -734,12 +733,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "feature_templates": {
                     "type": "list",
                     "elements": "str",
-                    "required": False,
+                    "required": False
                 },
                 "applicability_ssids": {
                     "type": "list",
                     "elements": "str",
-                    "required": False,
+                    "required": False
                 },
             },
         }
@@ -1052,9 +1051,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         feature_template_designs = config.get("feature_template_designs")
         if feature_template_designs:
-            self.validate_feature_templates(
-                feature_template_designs, ssid_list, errormsg
-            )
+            self.validate_feature_templates(feature_template_designs, ssid_list, errormsg)
 
     def validate_ap_zone(self, ap_zones, ssid_list, errormsg):
         """
@@ -1131,23 +1128,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             None: This function updates the errormsg list directly if any validation errors are found.
         """
-        self.log(
-            "Validating feature template configurations for wireless network profile template assignment",
-            "DEBUG",
-        )
-        self.log(
-            "Processing {0} feature templates for validation against wireless profile requirements".format(
-                len(feature_template_designs)
-                if isinstance(feature_template_designs, list)
-                else 0
-            ),
-            "DEBUG",
-        )
+        self.log("Validating feature template configurations for wireless network profile template assignment", "DEBUG")
+        self.log("Processing {0} feature templates for validation against wireless profile requirements".format(
+            len(feature_template_designs) if isinstance(feature_template_designs, list) else 0), "DEBUG")
 
         if not isinstance(feature_template_designs, list):
-            errormsg.append(
-                "feature_template_designs: Expected a list, but got a non-list value."
-            )
+            errormsg.append("feature_template_designs: Expected a list, but got a non-list value.")
             return None
 
         if len(feature_template_designs) > 500:
@@ -1156,23 +1142,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
             return None
 
-        if (
-            feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
-            < 0
-        ):
+        if feature_template_designs \
+           and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             errormsg.append(
                 "The specified version '{0}' does not support for feature template."
                 "Supported version(s) start from '3.1.3.0' onwards.".format(
-                    self.get_ccc_version()
-                )
+                    self.get_ccc_version())
             )
             return None
 
-        self.log(
-            "Feature template basic validation passed - proceeding with detailed template configuration validation",
-            "DEBUG",
-        )
+        self.log("Feature template basic validation passed - proceeding with detailed template configuration validation", "DEBUG")
 
         # Track validation statistics for operational visibility
         templates_processed = 0
@@ -1183,12 +1162,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             templates_processed += 1
             template_has_errors = False
 
-            self.log(
-                "Validating feature template design configuration {0}/{1}".format(
-                    templates_processed, len(feature_template_designs)
-                ),
-                "DEBUG",
-            )
+            self.log("Validating feature template design configuration {0}/{1}".format(
+                templates_processed, len(feature_template_designs)), "DEBUG")
 
             # Validate design type configuration
             design_type = feature_template_design.get("design_type")
@@ -1209,12 +1184,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         )
                     )
                     template_has_errors = True
-                    self.log(
-                        "Design type validation failed for '{0}' - not in supported design types".format(
-                            design_type
-                        ),
-                        "ERROR",
-                    )
+                    self.log("Design type validation failed for '{0}' - not in supported design types".format(design_type), "ERROR")
 
             feature_templates = feature_template_design.get("feature_templates", [])
             if not feature_templates:
@@ -1235,31 +1205,21 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "feature_templates: Expected a string for each item in 'feature_templates', but got a non-string value."
                         )
                         template_has_errors = True
-                    elif (
-                        "Default Advanced SSID Design" in feature_templates
-                        and len(feature_templates) > 1
-                    ):
+                    elif "Default Advanced SSID Design" in feature_templates and len(feature_templates) > 1:
                         default_design_templates_found += 1
                         if len(feature_templates) > 1:
                             errormsg.append(
-                                "feature_templates: 'Default Advanced SSID Design' is a special case and should be the only "
-                                + "template design in feature_template_designs. "
-                                + "Please remove other template designs if 'Default Advanced SSID Design' is used."
+                                "feature_templates: 'Default Advanced SSID Design' is a special case and should be the only " +
+                                "template design in feature_template_designs. " +
+                                "Please remove other template designs if 'Default Advanced SSID Design' is used."
                             )
                             template_has_errors = True
-                            self.log(
-                                "Default Advanced SSID Design validation failed - cannot be combined with other designs",
-                                "ERROR",
-                            )
+                            self.log("Default Advanced SSID Design validation failed - cannot be combined with other designs", "ERROR")
 
             applicability_ssids = feature_template_design.get("applicability_ssids", [])
             if applicability_ssids:
-                self.log(
-                    "Validating SSID applicability for {0} SSIDs".format(
-                        len(applicability_ssids)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Validating SSID applicability for {0} SSIDs".format(
+                    len(applicability_ssids)), "DEBUG")
                 if "Default Advanced SSID Design" not in feature_templates:
                     errormsg.append(
                         "applicability_ssids: 'applicability_ssids' should only be used with 'Default Advanced SSID Design' template design."
@@ -1279,12 +1239,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         )
                         template_has_errors = True
                     else:
-                        validate_str(
-                            feature_ssid,
-                            dict(type="str", length_max=32),
-                            "applicability_ssids",
-                            errormsg,
-                        )
+                        validate_str(feature_ssid,
+                                     dict(type="str", length_max=32),
+                                     "applicability_ssids", errormsg)
 
                         # Cross-reference SSID with ssid_details
                         if not self.value_exists(ssid_list, "ssid_name", feature_ssid):
@@ -1294,67 +1251,38 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 )
                             )
                             template_has_errors = True
-                            self.log(
-                                "SSID applicability validation failed - SSID '{0}' not found in ssid_details".format(
-                                    feature_ssid
-                                ),
-                                "ERROR",
-                            )
+                            self.log("SSID applicability validation failed - SSID '{0}' not found in ssid_details".format(
+                                feature_ssid), "ERROR")
 
             if template_has_errors:
                 templates_with_errors += 1
 
-            self.log(
-                "Checking for duplicate template designs across feature template configurations",
-                "DEBUG",
-            )
+            self.log("Checking for duplicate template designs across feature template configurations", "DEBUG")
 
-            duplicates, matches = self.find_duplicates_in_feature_templates(
-                feature_template_designs
-            )
+            duplicates, matches = self.find_duplicates_in_feature_templates(feature_template_designs)
             if duplicates or matches:
                 errormsg.append(
                     "feature_templates: Duplicate feature_template '{0} {1}' found in playbook.".format(
                         str(duplicates), str(matches)
                     )
                 )
-                self.log(
-                    "Duplicate feature_template validation failed - found duplicates: {0} {1}".format(
-                        str(duplicates), str(matches)
-                    ),
-                    "ERROR",
-                )
+                self.log("Duplicate feature_template validation failed - found duplicates: {0} {1}".format(
+                    str(duplicates), str(matches)), "ERROR")
 
         if templates_with_errors > 0:
-            self.log(
-                "Feature template validation completed with errors - {0}/{1} templates failed validation".format(
-                    templates_with_errors, templates_processed
-                ),
-                "WARNING",
-            )
+            self.log("Feature template validation completed with errors - {0}/{1} templates failed validation".format(
+                templates_with_errors, templates_processed), "WARNING")
         else:
-            self.log(
-                "Feature template validation completed successfully - all {0} templates passed validation".format(
-                    templates_processed
-                ),
-                "INFO",
-            )
+            self.log("Feature template validation completed successfully - all {0} templates passed validation".format(
+                templates_processed), "INFO")
 
         if advanced_ssid_templates_found > 0:
-            self.log(
-                "Advanced SSID Configuration templates found: {0}".format(
-                    advanced_ssid_templates_found
-                ),
-                "INFO",
-            )
+            self.log("Advanced SSID Configuration templates found: {0}".format(
+                advanced_ssid_templates_found), "INFO")
 
         if default_design_templates_found > 0:
-            self.log(
-                "Default Advanced SSID Design templates found: {0}".format(
-                    default_design_templates_found
-                ),
-                "INFO",
-            )
+            self.log("Default Advanced SSID Design templates found: {0}".format(
+                default_design_templates_found), "INFO")
 
     def find_duplicates_in_feature_templates(self, feature_template_designs):
         """
@@ -1378,16 +1306,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             - 'Matching' means two different dictionaries have exactly the same
               'feature_templates' list (order matters).
         """
-        self.log(
-            "Analyzing feature template configurations for duplicate feature_templates and identical feature_templates lists",
-            "DEBUG",
-        )
-        self.log(
-            "Processing {0} feature templates for duplicate detection analysis".format(
-                len(feature_template_designs)
-            ),
-            "DEBUG",
-        )
+        self.log("Analyzing feature template configurations for duplicate feature_templates and identical feature_templates lists", "DEBUG")
+        self.log("Processing {0} feature templates for duplicate detection analysis".format(
+            len(feature_template_designs)), "DEBUG")
 
         duplicates_found = []
         matching_indices = []
@@ -1403,47 +1324,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         global_template_designs = []
 
         # Process each feature template for duplicate detection
-        for template_index, feature_template_design in enumerate(
-            feature_template_designs
-        ):
+        for template_index, feature_template_design in enumerate(feature_template_designs):
             templates_processed += 1
-            template_design_list = feature_template_design.get("feature_templates", [])
+            template_design_list = feature_template_design.get('feature_templates', [])
 
-            self.log(
-                "Analyzing feature template {0}/{1} with {2} feature templates".format(
-                    template_index + 1,
-                    len(feature_template_designs),
-                    len(template_design_list),
-                ),
-                "DEBUG",
-            )
+            self.log("Analyzing feature template {0}/{1} with {2} feature templates".format(
+                template_index + 1, len(feature_template_designs), len(template_design_list)), "DEBUG")
 
             # Check for intra-template duplicates (within same feature_templates list)
             if len(template_design_list) != len(set(template_design_list)):
                 intra_template_duplicates += 1
                 duplicates_found.append(feature_template_design)
-                self.log(
-                    "Intra-template duplicate detected in feature_templates at index {0}: {1}".format(
-                        template_index, template_design_list
-                    ),
-                    "DEBUG",
-                )
+                self.log("Intra-template duplicate detected in feature_templates at index {0}: {1}".format(
+                    template_index, template_design_list), "DEBUG")
 
             # Check for identical feature_templates lists across feature templates
             template_design_tuple = tuple(template_design_list)
             if template_design_tuple in seen_template_designs:
                 identical_lists_found += 1
-                matching_indices.append(
-                    (seen_template_designs[template_design_tuple], template_index)
-                )
-                self.log(
-                    "Identical feature_templates lists found between indices {0} and {1}: {2}".format(
-                        seen_template_designs[template_design_tuple],
-                        template_index,
-                        template_design_list,
-                    ),
-                    "DEBUG",
-                )
+                matching_indices.append((seen_template_designs[template_design_tuple], template_index))
+                self.log("Identical feature_templates lists found between indices {0} and {1}: {2}".format(
+                    seen_template_designs[template_design_tuple], template_index, template_design_list), "DEBUG")
             else:
                 seen_template_designs[template_design_tuple] = template_index
 
@@ -1453,12 +1354,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     inter_template_duplicates += 1
                     if feature_template_design not in duplicates_found:
                         duplicates_found.append(feature_template_design)
-                    self.log(
-                        "Inter-template duplicate design '{0}' found in feature template at index {1}".format(
-                            feature_template, template_index
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Inter-template duplicate design '{0}' found in feature template at index {1}".format(
+                        feature_template, template_index), "DEBUG")
                 else:
                     global_template_designs.append(feature_template)
 
@@ -1466,45 +1363,25 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         total_matches = len(matching_indices)
 
         if total_duplicates > 0 or total_matches > 0:
-            self.log(
-                "Duplicate detection completed - found {0} templates with duplicates and {1} identical template lists".format(
-                    total_duplicates, total_matches
-                ),
-                "WARNING",
-            )
+            self.log("Duplicate detection completed - found {0} templates with duplicates and {1} identical template lists".format(
+                total_duplicates, total_matches), "WARNING")
 
             if intra_template_duplicates > 0:
-                self.log(
-                    "Intra-template duplicates found in {0} feature templates".format(
-                        intra_template_duplicates
-                    ),
-                    "WARNING",
-                )
+                self.log("Intra-template duplicates found in {0} feature templates".format(
+                    intra_template_duplicates), "WARNING")
 
             if inter_template_duplicates > 0:
-                self.log(
-                    "Inter-template duplicate designs detected: {0} occurrences".format(
-                        inter_template_duplicates
-                    ),
-                    "WARNING",
-                )
+                self.log("Inter-template duplicate designs detected: {0} occurrences".format(
+                    inter_template_duplicates), "WARNING")
 
             if identical_lists_found > 0:
-                self.log(
-                    "Identical template design lists found: {0} matches".format(
-                        identical_lists_found
-                    ),
-                    "WARNING",
-                )
+                self.log("Identical template design lists found: {0} matches".format(
+                    identical_lists_found), "WARNING")
 
             return duplicates_found, matching_indices
 
-        self.log(
-            "Duplicate detection completed successfully - no duplicates or identical lists found in {0} feature templates".format(
-                templates_processed
-            ),
-            "INFO",
-        )
+        self.log("Duplicate detection completed successfully - no duplicates or identical lists found in {0} feature templates".format(
+            templates_processed), "INFO")
 
         return None, None
 
@@ -1694,11 +1571,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.get_additional_interface_info(additional_interfaces, profile_info)
 
         feature_template_designs = config.get("feature_template_designs")
-        if (
-            feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
-            >= 0
-        ):
+        if feature_template_designs \
+           and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log("Fetching feature template information.", "DEBUG")
             self.get_feature_template_info(feature_template_designs, profile_info)
 
@@ -1991,7 +1865,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "vlan_id": vlan_id,
         }
         try:
-            interfaces = self.execute_get_request("wireless", "get_interfaces", payload)
+            interfaces = self.execute_get_request(
+                "wireless", "get_interfaces", payload
+            )
             if interfaces and isinstance(interfaces.get("response"), list):
                 self.log(
                     "Interface {0} with VLAN {1} already exists.".format(
@@ -2073,22 +1949,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 and defines how specific wireless features are applied to network profiles
                 and associated SSIDs within the Catalyst Center wireless infrastructure.
         """
-        self.log(
-            "Retrieving feature template configuration details for wireless network profile management",
-            "DEBUG",
-        )
-        self.log(
-            "Processing {0} feature template configurations for template design collection".format(
-                len(feature_template_designs)
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieving feature template configuration details for wireless network profile management", "DEBUG")
+        self.log("Processing {0} feature template configurations for template design collection".format(
+            len(feature_template_designs)), "DEBUG")
 
         if not feature_template_designs:
-            self.log(
-                "No feature template designs provided for template information retrieval - returning without processing",
-                "DEBUG",
-            )
+            self.log("No feature template designs provided for template information retrieval - returning without processing", "DEBUG")
             return None
 
         all_template_details = []
@@ -2104,64 +1970,37 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 design_type = feature_template_design.get("design_type")
                 feature_templates = feature_template_design.get("feature_templates", [])
 
-                self.log(
-                    "Processing feature template {0}/{1} with design type '{2}' and {3} feature templates".format(
-                        templates_processed,
-                        len(feature_template_designs),
-                        design_type,
-                        len(feature_templates),
-                    ),
-                    "DEBUG",
-                )
+                self.log("Processing feature template {0}/{1} with design type '{2}' and {3} feature templates".format(
+                    templates_processed, len(feature_template_designs), design_type, len(feature_templates)), "DEBUG")
 
                 if not design_type:
-                    self.log(
-                        "Design type missing in feature template configuration - skipping template",
-                        "WARNING",
-                    )
+                    self.log("Design type missing in feature template configuration - skipping template", "WARNING")
                 else:
-                    self.log(
-                        "Design type '{0}' found for feature template configuration".format(
-                            design_type
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Design type '{0}' found for feature template configuration".format(
+                        design_type), "DEBUG")
                     payload_template["type"] = design_type
 
                 if not feature_templates or not isinstance(feature_templates, list):
-                    self.log(
-                        "Feature templates missing or invalid in feature template configuration - skipping template",
-                        "WARNING",
-                    )
+                    self.log("Feature templates missing or invalid in feature template configuration - skipping template", "WARNING")
                     continue
 
                 # Process each template design within the feature template
                 for feature_template in feature_templates:
                     payload_template["design_name"] = feature_template
 
-                    self.log(
-                        "Querying feature template design '{0}' for design type '{1}'".format(
-                            feature_template, design_type
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Querying feature template design '{0}' for design type '{1}'".format(
+                        feature_template, design_type), "DEBUG")
 
                     try:
                         design_response = self.execute_get_request(
                             "wireless", "get_feature_template_summary", payload_template
                         )
 
-                        self.log(
-                            "Feature template design query completed for '{0}'".format(
-                                feature_template
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Feature template design query completed for '{0}'".format(
+                            feature_template), "DEBUG")
 
                         # Validate and process template design response
-                        if design_response and isinstance(
-                            design_response.get("response"), list
-                        ):
+                        if design_response and isinstance(design_response.get("response"), list):
                             response_data = design_response.get("response", [])
 
                             if response_data and len(response_data) > 0:
@@ -2174,107 +2013,57 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         designs_collected += 1
                                         template_detail = {
                                             "design_id": design_id,
-                                            "design_name": feature_template,
+                                            "design_name": feature_template
                                         }
 
                                         if design_type:
                                             template_detail["design_type"] = design_type
 
                                         # Add SSID applicability if specified
-                                        applicability_ssids = (
-                                            feature_template_design.get(
-                                                "applicability_ssids"
-                                            )
-                                        )
+                                        applicability_ssids = feature_template_design.get("applicability_ssids")
                                         if applicability_ssids:
-                                            template_detail["ssids"] = (
-                                                applicability_ssids
-                                            )
-                                            self.log(
-                                                "Added SSID applicability for feature templates '{0}': {1}".format(
-                                                    feature_template,
-                                                    applicability_ssids,
-                                                ),
-                                                "DEBUG",
-                                            )
+                                            template_detail["ssids"] = applicability_ssids
+                                            self.log("Added SSID applicability for feature templates '{0}': {1}".format(
+                                                feature_template, applicability_ssids), "DEBUG")
 
                                         all_template_details.append(template_detail)
-                                        self.log(
-                                            "Feature template design '{0}' collected successfully with ID '{1}'".format(
-                                                feature_template, design_id
-                                            ),
-                                            "DEBUG",
-                                        )
+                                        self.log("Feature template design '{0}' collected successfully with ID '{1}'".format(
+                                            feature_template, design_id), "DEBUG")
                                     else:
-                                        self.log(
-                                            "No design ID found in template response for '{0}'".format(
-                                                feature_template
-                                            ),
-                                            "WARNING",
-                                        )
+                                        self.log("No design ID found in template response for '{0}'".format(
+                                            feature_template), "WARNING")
                                 else:
-                                    self.log(
-                                        "No instances found in template response for '{0}'".format(
-                                            feature_template
-                                        ),
-                                        "WARNING",
-                                    )
+                                    self.log("No instances found in template response for '{0}'".format(
+                                        feature_template), "WARNING")
                             else:
-                                self.log(
-                                    "Empty response data received for feature template '{0}'".format(
-                                        feature_template
-                                    ),
-                                    "WARNING",
-                                )
+                                self.log("Empty response data received for feature template '{0}'".format(
+                                    feature_template), "WARNING")
                         else:
-                            self.log(
-                                "Invalid or empty response received for feature template '{0}'".format(
-                                    feature_template
-                                ),
-                                "WARNING",
-                            )
+                            self.log("Invalid or empty response received for feature template '{0}'".format(
+                                feature_template), "WARNING")
 
                     except Exception as design_exception:
                         templates_with_errors += 1
-                        self.log(
-                            "Failed to retrieve feature template design '{0}': {1}".format(
-                                feature_template, str(design_exception)
-                            ),
-                            "ERROR",
-                        )
+                        self.log("Failed to retrieve feature template design '{0}': {1}".format(
+                            feature_template, str(design_exception)), "ERROR")
 
             # Update profile_info with collected template details
             if all_template_details:
                 profile_info["feature_template_designs"] = all_template_details
-                self.log(
-                    "Feature template information collection completed - collected {0} template designs from {1} feature templates".format(
-                        designs_collected, templates_processed
-                    ),
-                    "INFO",
-                )
+                self.log("Feature template information collection completed - collected {0} template designs from {1} feature templates".format(
+                    designs_collected, templates_processed), "INFO")
 
                 if templates_with_errors > 0:
-                    self.log(
-                        "Warning: {0} template designs encountered errors during collection".format(
-                            templates_with_errors
-                        ),
-                        "WARNING",
-                    )
+                    self.log("Warning: {0} template designs encountered errors during collection".format(
+                        templates_with_errors), "WARNING")
 
                 return self
 
-            self.log(
-                "No feature template designs found for the provided feature template configurations",
-                "DEBUG",
-            )
+            self.log("No feature template designs found for the provided feature template configurations", "DEBUG")
             return None
 
         except Exception as api_exception:
-            error_message = (
-                "Failed to retrieve feature template information: {0}".format(
-                    str(api_exception)
-                )
-            )
+            error_message = "Failed to retrieve feature template information: {0}".format(str(api_exception))
             self.log(error_message, "ERROR")
             return None
 
@@ -2317,22 +2106,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             else:
                 if ssid_list:
                     for each_ssid in ssid_list:
-                        self.log(
-                            "Comparing Input SSID configurations for {0}".format(
-                                each_ssid.get("ssid_name")
-                            ),
-                            "INFO",
-                        )
+                        self.log("Comparing Input SSID configurations for {0}".format(
+                            each_ssid.get("ssid_name")), "INFO")
                         input_ssid_exist_state = False
                         for have_ssid in have_ssid_details:
                             if each_ssid.get("ssid_name") == have_ssid.get("ssidName"):
                                 input_ssid_exist_state = True
-                                self.log(
-                                    "Matching SSID found: {0}. Comparing configurations...".format(
-                                        each_ssid.get("ssid_name")
-                                    ),
-                                    "INFO",
-                                )
+                                self.log("Matching SSID found: {0}. Comparing configurations...".format(
+                                    each_ssid.get("ssid_name")), "INFO")
                                 ssid_match, unmatched_values = (
                                     self.compare_each_config_with_have(
                                         each_ssid, have_ssid, "ssid_details"
@@ -2361,27 +2142,18 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.log("No AP Zone details found in the existing profile.", "DEBUG")
                 unmatched_keys.append(ap_zones_list)
             else:
-                self.log(
-                    "Comparing AP Zone configurations with existing profile AP Zones",
-                    "INFO",
-                )
+                self.log("Comparing AP Zone configurations with existing profile AP Zones", "INFO")
                 for ap_zone in ap_zones_list:
-                    self.log(
-                        "Comparing Input AP Zone configuration for {0}".format(
-                            ap_zone.get("ap_zone_name")
-                        ),
-                        "INFO",
-                    )
+                    self.log("Comparing Input AP Zone configuration for {0}".format(
+                        ap_zone.get("ap_zone_name")), "INFO")
                     input_ap_zone_exist_state = False
                     for have_zone in have_ap_zones:
-                        if ap_zone.get("ap_zone_name") == have_zone.get("apZoneName"):
+                        if ap_zone.get("ap_zone_name") == have_zone.get(
+                            "apZoneName"
+                        ):
                             input_ap_zone_exist_state = True
-                            self.log(
-                                "Matching AP Zone found: {0}. Comparing configurations...".format(
-                                    ap_zone.get("ap_zone_name")
-                                ),
-                                "INFO",
-                            )
+                            self.log("Matching AP Zone found: {0}. Comparing configurations...".format(
+                                ap_zone.get("ap_zone_name")), "INFO")
                             zone_match, unmatched_values = (
                                 self.compare_each_config_with_have(
                                     ap_zone, have_zone, "ap_zones"
@@ -2397,11 +2169,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 unmatched_keys.append(unmatched_values)
 
                     if not input_ap_zone_exist_state:
-                        ap_zone_name = (
-                            ap_zone.get("ap_zone_name", "Unknown")
-                            if ap_zone
-                            else "Unknown"
-                        )
+                        ap_zone_name = ap_zone.get("ap_zone_name", "Unknown") if ap_zone else "Unknown"
                         unmatched_keys.append(ap_zone)
                         self.log(
                             "AP Zone '{0}' not found in existing profile configuration.".format(
@@ -2412,16 +2180,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if additional_interfaces:
             if not have_additional_interfaces:
-                self.log(
-                    "No Additional interface details found in the existing profile.",
-                    "DEBUG",
-                )
+                self.log("No Additional interface details found in the existing profile.", "DEBUG")
                 unmatched_keys.append(additional_interfaces)
             else:
-                self.log(
-                    "Validating additional interface configurations against existing profile interfaces",
-                    "INFO",
-                )
+                self.log("Validating additional interface configurations against existing profile interfaces", "INFO")
                 for each_interface in additional_interfaces:
                     interface_name = each_interface.get("interface_name")
                     if interface_name not in have_additional_interfaces:
@@ -2433,28 +2195,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "WARNING",
                         )
 
-        if (
-            feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
-            >= 0
-        ):
+        if feature_template_designs \
+           and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             if not have_feature_templates:
-                self.log(
-                    "No Feature template details found in the existing profile.",
-                    "DEBUG",
-                )
+                self.log("No Feature template details found in the existing profile.", "DEBUG")
                 unmatched_keys.append(feature_template_designs)
             else:
-                self.log(
-                    "Validating feature template configurations against existing profile template assignments",
-                    "DEBUG",
-                )
-                self.log(
-                    "Processing {0} feature template designs for configuration comparison with existing assignments".format(
-                        len(feature_template_designs)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Validating feature template configurations against existing profile template assignments", "DEBUG")
+                self.log("Processing {0} feature template designs for configuration comparison with existing assignments".format(
+                    len(feature_template_designs)), "DEBUG")
 
                 feature_templates_processed = 0
                 feature_templates_with_mismatches = 0
@@ -2464,68 +2213,39 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     template_design_id = feature_template_design.get("design_id")
                     template_ssids = feature_template_design.get("ssids")
 
-                    self.log(
-                        "Validating feature template {0}/{1} with design '{2}'".format(
-                            feature_templates_processed,
-                            len(feature_template_designs),
-                            template_design_name,
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Validating feature template {0}/{1} with design '{2}'".format(
+                        feature_templates_processed, len(feature_template_designs), template_design_name), "DEBUG")
 
                     # Validate template design ID exists in current profile assignments
-                    if template_design_id and not self.value_exists(
-                        have_feature_templates, "id", template_design_id
-                    ):
+                    if template_design_id and not self.value_exists(have_feature_templates, "id", template_design_id):
                         feature_templates_with_mismatches += 1
                         unmatched_keys.append(
-                            "Feature template designs with feature template '{0}' not found.".format(
-                                template_design_name
-                            )
+                            "Feature template designs with feature template '{0}' not found.".format(template_design_name)
                         )
                         self.log(
                             "Feature template design mismatch detected - feature template "
                             "'{0}' (ID: {1}) not found in existing profile assignments".format(
-                                template_design_name, template_design_id
-                            ),
-                            "WARNING",
-                        )
+                                template_design_name, template_design_id), "WARNING")
 
                     # Validate SSID applicability exists in current profile assignments
-                    if template_ssids and not self.value_exists(
-                        have_feature_templates, "ssids", template_ssids
-                    ):
+                    if template_ssids and not self.value_exists(have_feature_templates, "ssids", template_ssids):
                         feature_templates_with_mismatches += 1
                         unmatched_keys.append(
-                            "Feature template with applicability_ssids '{0}' not found.".format(
-                                template_ssids
-                            )
+                            "Feature template with applicability_ssids '{0}' not found.".format(template_ssids)
                         )
                         self.log(
                             "Feature template SSID applicability number of mismatch "
                             "detected '{0}'- SSIDs '{1}' not found in existing profile template assignments".format(
-                                len(unmatched_keys), template_ssids
-                            ),
-                            "WARNING",
-                        )
+                                len(unmatched_keys), template_ssids), "WARNING")
 
                 # Log comprehensive feature template validation summary
                 if feature_templates_with_mismatches > 0:
-                    self.log(
-                        "Feature template validation completed with mismatches"
-                        " - {0}/{1} templates have configuration differences".format(
-                            feature_templates_with_mismatches,
-                            feature_templates_processed,
-                        ),
-                        "WARNING",
-                    )
+                    self.log("Feature template validation completed with mismatches"
+                             " - {0}/{1} templates have configuration differences".format(
+                                 feature_templates_with_mismatches, feature_templates_processed), "WARNING")
                 else:
-                    self.log(
-                        "Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
-                            feature_templates_processed
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Feature template validation completed successfully - all {0} templates match existing profile assignments".format(
+                        feature_templates_processed), "DEBUG")
 
         if unmatched_keys:
             self.log(
@@ -2790,17 +2510,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     elif (
                         key == "feature_template_designs"
                         and isinstance(value, list)
-                        and self.compare_catalystcenter_versions(
-                            self.get_ccc_version(), "3.1.3.0"
-                        )
-                        >= 0
+                        and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0
                     ):
                         payload_data["featureTemplates"] = []
                         feature_template_designs = wireless_data[key]
                         if feature_template_designs:
-                            have_feature = self.have.get("wireless_profile").get(
-                                "feature_template_designs", []
-                            )
+                            have_feature = self.have.get("wireless_profile").get("feature_template_designs", [])
                             for template in have_feature:
                                 mapped_template = {}
                                 if template.get("design_id"):
@@ -2817,22 +2532,18 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     else:
                         payload_data[mapped_key] = value
 
-            if self.params.get("state") == "merged" and self.have.get(
-                "wireless_profile", {}
-            ).get("profile_info"):
+            if self.params.get("state") == "merged" and self.have.get("wireless_profile", {}).get("profile_info"):
                 self.log(
                     "Merging input data with existing wireless profile data", "INFO"
                 )
-                existing_profile = copy.deepcopy(
-                    self.have.get("wireless_profile", {}).get("profile_info")
-                )
+                existing_profile = copy.deepcopy(self.have.get("wireless_profile", {}).get("profile_info"))
                 self.log(
                     "Starting profile data merge operation with {0} existing components "
                     "and {1} new components".format(
                         len(existing_profile.keys()) if existing_profile else 0,
-                        len(payload_data.keys()) if payload_data else 0,
+                        len(payload_data.keys()) if payload_data else 0
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 self.parse_with_existing_profile_data(existing_profile, payload_data)
                 self.log(
@@ -2840,7 +2551,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "contains {0} components".format(
                         len(payload_data.keys()) if payload_data else 0
                     ),
-                    "INFO",
+                    "INFO"
                 )
             self.log(
                 "Parsed payload data: {0}".format(self.pprint(payload_data)), "INFO"
@@ -2864,38 +2575,38 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         self.log(
             "Starting merged profile data processing for wireless network profile management",
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Processing profile data merge with existing profile components: {0} and new payload size: {1}".format(
                 len(existing_profile.keys()) if existing_profile else 0,
-                len(payload_data.keys()) if payload_data else 0,
+                len(payload_data.keys()) if payload_data else 0
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Statistics tracking for merge operations
         merge_stats = {
-            "ssids_preserved": 0,
-            "ap_zones_preserved": 0,
-            "feature_templates_preserved": 0,
-            "interfaces_preserved": 0,
-            "components_processed": 0,
+            'ssids_preserved': 0,
+            'ap_zones_preserved': 0,
+            'feature_templates_preserved': 0,
+            'interfaces_preserved': 0,
+            'components_processed': 0
         }
 
         # SSID details from existing profile data
         existing_ssids = existing_profile.get("ssidDetails", [])
         if existing_ssids:
             # Initialize ssidDetails if not present
-            merge_stats["components_processed"] += 1
+            merge_stats['components_processed'] += 1
             payload_data.setdefault("ssidDetails", [])
 
             self.log(
                 "Processing SSID merge operation - existing SSIDs: {0}, new SSIDs: {1}".format(
                     len(existing_ssids), len(payload_data.get("ssidDetails", []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             ssids_preserved = []
@@ -2905,31 +2616,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 # Skip invalid entries
                 if not ssid_name:
-                    self.log(
-                        "Skipping SSID entry without name in existing profile",
-                        "WARNING",
-                    )
+                    self.log("Skipping SSID entry without name in existing profile", "WARNING")
                     continue
 
                 # Check if SSID already exists in payload
-                if not self.value_exists(
-                    payload_data["ssidDetails"], "ssidName", ssid_name
-                ):
+                if not self.value_exists(payload_data["ssidDetails"], "ssidName", ssid_name):
                     self.log(
-                        "Preserving existing SSID '{0}' in updated profile configuration".format(
-                            ssid_name
-                        ),
-                        "INFO",
+                        "Preserving existing SSID '{0}' in updated profile configuration".format(ssid_name),
+                        "INFO"
                     )
                     payload_data["ssidDetails"].append(existing_ssid)
                     ssids_preserved.append(ssid_name)
-                    merge_stats["ssids_preserved"] += 1
+                    merge_stats['ssids_preserved'] += 1
                 else:
                     self.log(
-                        "SSID '{0}' already exists in new configuration - using new configuration".format(
-                            ssid_name
-                        ),
-                        "DEBUG",
+                        "SSID '{0}' already exists in new configuration - using new configuration".format(ssid_name),
+                        "DEBUG"
                     )
 
             # Summary logging
@@ -2938,50 +2640,41 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Preserved {0} existing SSID(s) in profile update: {1}".format(
                         len(ssids_preserved), ", ".join(ssids_preserved)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         # AP Zones details from existing profile data
         existing_ap_zones = existing_profile.get("apZones", [])
         if existing_ap_zones:
-            merge_stats["components_processed"] += 1
+            merge_stats['components_processed'] += 1
             payload_data.setdefault("apZones", [])
             zones_preserved = []
             self.log(
                 "Processing AP Zones merge operation - existing zones: {0}, new zones: {1}".format(
                     len(existing_ap_zones), len(payload_data.get("apZones", []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             for existing_apzone in existing_ap_zones:
                 apzone_name = existing_apzone.get("apZoneName")
 
                 if not apzone_name:
-                    self.log(
-                        "Skipping AP Zone entry without name in existing profile",
-                        "WARNING",
-                    )
+                    self.log("Skipping AP Zone entry without name in existing profile", "WARNING")
                     continue
 
-                if not self.value_exists(
-                    payload_data["apZones"], "apZoneName", apzone_name
-                ):
+                if not self.value_exists(payload_data["apZones"], "apZoneName", apzone_name):
                     self.log(
-                        "Preserving existing AP Zone '{0}' in updated profile configuration".format(
-                            apzone_name
-                        ),
-                        "INFO",
+                        "Preserving existing AP Zone '{0}' in updated profile configuration".format(apzone_name),
+                        "INFO"
                     )
                     payload_data["apZones"].append(existing_apzone)
                     zones_preserved.append(apzone_name)
-                    merge_stats["ap_zones_preserved"] += 1
+                    merge_stats['ap_zones_preserved'] += 1
                 else:
                     self.log(
-                        "AP Zone '{0}' being updated with new configuration".format(
-                            apzone_name
-                        ),
-                        "DEBUG",
+                        "AP Zone '{0}' being updated with new configuration".format(apzone_name),
+                        "DEBUG"
                     )
 
             if zones_preserved:
@@ -2989,7 +2682,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Preserved {0} existing AP Zone(s): {1}".format(
                         len(zones_preserved), ", ".join(zones_preserved)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         # Feature Templates data from existing profile data
@@ -2999,10 +2692,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             templates_preserved = []
             self.log(
                 "Processing feature templates merge operation - existing templates: {0}, new templates: {1}".format(
-                    len(existing_feature_templates),
-                    len(payload_data.get("featureTemplates", [])),
+                    len(existing_feature_templates), len(payload_data.get("featureTemplates", []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             for existing_template in existing_feature_templates:
@@ -3012,28 +2704,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if not template_id:
                     self.log(
                         "Skipping feature template entry without ID in existing profile",
-                        "WARNING",
+                        "WARNING"
                     )
                     continue
 
-                if not self.value_exists(
-                    payload_data["featureTemplates"], "id", template_id
-                ):
+                if not self.value_exists(payload_data["featureTemplates"], "id", template_id):
                     self.log(
                         "Preserving existing feature template '{0}' (ID: {1}) in profile update".format(
                             template_name, template_id
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     payload_data["featureTemplates"].append(existing_template)
                     templates_preserved.append(template_name)
-                    merge_stats["feature_templates_preserved"] += 1
+                    merge_stats['feature_templates_preserved'] += 1
                 else:
                     self.log(
-                        "Feature template '{0}' being updated with new configuration".format(
-                            template_name
-                        ),
-                        "DEBUG",
+                        "Feature template '{0}' being updated with new configuration".format(template_name),
+                        "DEBUG"
                     )
 
             if templates_preserved:
@@ -3041,7 +2729,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Preserved {0} existing feature template(s): {1}".format(
                         len(templates_preserved), ", ".join(templates_preserved)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         # Additional Interfaces data from existing profile data
@@ -3049,35 +2737,29 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if existing_interfaces:
             payload_data.setdefault("additionalInterfaces", [])
             interfaces_preserved = []
-            merge_stats["components_processed"] += 1
+            merge_stats['components_processed'] += 1
             self.log(
                 "Processing additional interfaces merge operation - existing interfaces: {0}, new interfaces: {1}".format(
-                    len(existing_interfaces),
-                    len(payload_data.get("additionalInterfaces", [])),
+                    len(existing_interfaces), len(payload_data.get("additionalInterfaces", []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             for existing_interface in existing_interfaces:
-                if (
-                    existing_interface
-                    and existing_interface not in payload_data["additionalInterfaces"]
-                ):
+                if existing_interface and existing_interface not in payload_data["additionalInterfaces"]:
                     self.log(
                         "Preserving existing interface '{0}' in updated profile configuration".format(
                             existing_interface
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     payload_data["additionalInterfaces"].append(existing_interface)
                     interfaces_preserved.append(existing_interface)
-                    merge_stats["interfaces_preserved"] += 1
+                    merge_stats['interfaces_preserved'] += 1
                 elif existing_interface:
                     self.log(
-                        "Interface '{0}' already in new configuration".format(
-                            existing_interface
-                        ),
-                        "DEBUG",
+                        "Interface '{0}' already in new configuration".format(existing_interface),
+                        "DEBUG"
                     )
 
             if interfaces_preserved:
@@ -3085,32 +2767,32 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Preserved {0} existing interface(s): {1}".format(
                         len(interfaces_preserved), ", ".join(interfaces_preserved)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         total_preserved = (
-            merge_stats["ssids_preserved"]
-            + merge_stats["ap_zones_preserved"]
-            + merge_stats["feature_templates_preserved"]
-            + merge_stats["interfaces_preserved"]
+            merge_stats['ssids_preserved'] +
+            merge_stats['ap_zones_preserved'] +
+            merge_stats['feature_templates_preserved'] +
+            merge_stats['interfaces_preserved']
         )
 
         self.log(
             "Profile data merge completed - processed {0} component types, preserved {1} total items".format(
-                merge_stats["components_processed"], total_preserved
+                merge_stats['components_processed'], total_preserved
             ),
-            "INFO",
+            "INFO"
         )
 
         if total_preserved > 0:
             self.log(
                 "Merge statistics - SSIDs: {0}, AP Zones: {1}, Feature Templates: {2}, Interfaces: {3}".format(
-                    merge_stats["ssids_preserved"],
-                    merge_stats["ap_zones_preserved"],
-                    merge_stats["feature_templates_preserved"],
-                    merge_stats["interfaces_preserved"],
+                    merge_stats['ssids_preserved'],
+                    merge_stats['ap_zones_preserved'],
+                    merge_stats['feature_templates_preserved'],
+                    merge_stats['interfaces_preserved']
                 ),
-                "INFO",
+                "INFO"
             )
 
         return
@@ -3187,7 +2869,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             input_data (dict): A dict containing playbook config of ssid info and ap zone data.
-            have_data (dict): A dict contain the data exist with specific ssid retrieved data
+            have_data (dict): A dict contain the data exist with specific ssid retrived data
             type_of (str): A string contain the ssid details or ap_zone for check data
 
         Returns:
@@ -3255,10 +2937,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "interface_name",
                     "anchor_group_name",
                 ] and not input_data.get("enable_fabric"):
-                    self.log(
-                        f"Comparing the '{ssid_key}' while 'Enable Fabric' is False",
-                        "DEBUG",
-                    )
+                    self.log(f"Comparing the '{ssid_key}' while 'Enable Fabric' is False", "DEBUG")
                     if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
                         un_match_data[ssid_key] = input_data[ssid_key]
                         self.log(
@@ -3271,9 +2950,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "DEBUG",
                         )
 
-                elif ssid_key == "local_to_vlan" and not input_data.get(
-                    "enable_fabric"
-                ):
+                elif ssid_key == "local_to_vlan" and not input_data.get("enable_fabric"):
                     input_vlan = int(input_data.get(ssid_key, 0))
                     have_vlan = int(
                         have_data.get("flexConnect", {}).get(self.keymap[ssid_key], 0)
@@ -3513,11 +3190,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "DEBUG",
         )
 
-        if (
-            feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
-            < 0
-        ):
+        if feature_template_designs \
+           and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             del config["feature_template_designs"]
 
         for profile in self.have["wireless_profile_list"]:
@@ -3577,12 +3251,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         elif (
             profile_id
             and not profile_unmatch_stat
-            and (
-                ssid_details
-                or ap_zones
-                or additional_interfaces
-                or feature_template_designs
-            )
+            and (ssid_details or ap_zones or additional_interfaces or feature_template_designs)
         ):
             self.log(
                 "Starting update for existing wireless profile '{0}' (ID: {1}) with new configuration.".format(
@@ -3757,7 +3426,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         self.log(
             "Starting comprehensive network profile data removal for wireless profile management",
-            "INFO",
+            "INFO"
         )
 
         profile_name = each_profile.get("profile_name")
@@ -3765,13 +3434,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing profile data removal for profile '{0}' with configuration: {1}".format(
                 profile_name, self.pprint(each_profile)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Input validation
-        if not isinstance(each_profile, dict) or not isinstance(
-            each_have_profile, dict
-        ):
+        if not isinstance(each_profile, dict) or not isinstance(each_have_profile, dict):
             self.log("Invalid parameters provided for profile data removal", "ERROR")
             return None
 
@@ -3781,16 +3448,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         removable_data = copy.deepcopy(each_have_profile.get("profile_info", {}))
         have_profile_id = each_have_profile.get("profile_info", {}).get("id")
-        have_profile_name = each_have_profile.get("profile_info", {}).get(
-            "wirelessProfileName"
-        )
+        have_profile_name = each_have_profile.get("profile_info", {}).get("wirelessProfileName")
 
         if not have_profile_id or not have_profile_name:
             self.log(
                 "Missing essential profile information - ID: {0}, Name: {1}".format(
                     have_profile_id, have_profile_name
                 ),
-                "ERROR",
+                "ERROR"
             )
             return None
 
@@ -3811,10 +3476,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
 
         if each_profile.get("additional_interfaces"):
-            remove_required["additional_interfaces_status"] = (
-                self._remove_additional_interfaces(
-                    each_profile, removable_data, have_profile_name
-                )
+            remove_required["additional_interfaces_status"] = self._remove_additional_interfaces(
+                each_profile, removable_data, have_profile_name
             )
 
         if each_profile.get("ap_zones"):
@@ -3823,10 +3486,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
 
         if each_profile.get("feature_template_designs"):
-            remove_required["feature_template_designs_status"] = (
-                self._remove_feature_template_designs(
-                    each_profile, removable_data, have_profile_name
-                )
+            remove_required["feature_template_designs_status"] = self._remove_feature_template_designs(
+                each_profile, removable_data, have_profile_name
             )
 
         unassign_templates = []
@@ -3845,10 +3506,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         # Profile update processing
         profile_update_required = (
-            remove_required["ssid_status"]
-            or remove_required["additional_interfaces_status"]
-            or remove_required["ap_zones_status"]
-            or remove_required["feature_template_designs_status"]
+            remove_required["ssid_status"] or
+            remove_required["additional_interfaces_status"] or
+            remove_required["ap_zones_status"] or
+            remove_required["feature_template_designs_status"]
         )
 
         if profile_update_required:
@@ -3856,24 +3517,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "Profile update required - applying removable data changes to profile '{0}'".format(
                     have_profile_name
                 ),
-                "INFO",
+                "INFO"
             )
 
-            update_response = self.create_update_wireless_profile(
-                removable_data, have_profile_id
-            )
+            update_response = self.create_update_wireless_profile(removable_data, have_profile_id)
 
             if update_response:
                 self.log(
                     "Successfully applied profile data removal changes to profile '{0}'".format(
                         have_profile_name
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 return remove_required
             else:
-                self.msg = "Failed to apply profile data removal changes to profile: '{0}'.".format(
-                    each_profile["profile_name"]
+                self.msg = (
+                    "Failed to apply profile data removal changes to profile: '{0}'.".format(
+                        each_profile["profile_name"]
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
@@ -3884,12 +3545,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log(
             "Network profile data removal completed for profile '{0}' - "
             "processed {1} component types, templates unassigned: {2}, sites unassigned: {3}".format(
-                profile_name,
-                total_operations,
-                len(unassign_templates),
-                len(unassign_sites),
+                profile_name, total_operations, len(unassign_templates), len(unassign_sites)
             ),
-            "INFO",
+            "INFO"
         )
 
         return remove_required
@@ -3908,15 +3566,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         self.log(
             "Starting SSID details removal process for wireless network profile",
-            "DEBUG",
+            "DEBUG"
         )
 
         ssid_details = each_profile.get("ssid_details")
         if not ssid_details:
-            self.log(
-                "No SSID details specified for removal - skipping SSID processing",
-                "DEBUG",
-            )
+            self.log("No SSID details specified for removal - skipping SSID processing", "DEBUG")
             return False
 
         ssids_removed = 0
@@ -3926,7 +3581,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing SSID removal for {0} SSID configurations from profile '{1}'".format(
                 total_ssids, have_profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for ssid in ssid_details:
@@ -3935,22 +3590,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if not ssid_name:
                 self.log(
                     "Skipping SSID entry with missing name in removal configuration",
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
-            if self.value_exists(
-                removable_data.get("ssidDetails", []), "ssidName", ssid_name
-            ):
+            if self.value_exists(removable_data.get("ssidDetails", []), "ssidName", ssid_name):
                 self.log(
                     "Removing SSID '{0}' from profile '{1}' during deletion process".format(
                         ssid_name, have_profile_name
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 removable_data["ssidDetails"] = [
-                    have_ssid
-                    for have_ssid in removable_data.get("ssidDetails", [])
+                    have_ssid for have_ssid in removable_data.get("ssidDetails", [])
                     if have_ssid.get("ssidName") != ssid_name
                 ]
                 ssids_removed += 1
@@ -3959,21 +3611,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "SSID '{0}' not found in current profile configuration - skipping removal".format(
                         ssid_name
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
 
         self.log(
             "SSID removal completed - removed {0}/{1} SSID configurations from profile".format(
                 ssids_removed, total_ssids
             ),
-            "INFO",
+            "INFO"
         )
 
         return ssids_removed > 0
 
-    def _remove_additional_interfaces(
-        self, each_profile, removable_data, have_profile_name
-    ):
+    def _remove_additional_interfaces(self, each_profile, removable_data, have_profile_name):
         """
         Remove additional interface configurations from the wireless network profile.
 
@@ -3988,14 +3638,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log(
             "Starting additional interfaces removal process for wireless network profile",
-            "DEBUG",
+            "DEBUG"
         )
 
         additional_interfaces = each_profile.get("additional_interfaces")
         if not additional_interfaces:
             self.log(
                 "No additional interfaces specified for removal - skipping interface processing",
-                "DEBUG",
+                "DEBUG"
             )
             return False
 
@@ -4006,7 +3656,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing interface removal for {0} additional interfaces from profile '{1}'".format(
                 total_interfaces, have_profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for interface in additional_interfaces:
@@ -4015,7 +3665,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if not interface_name:
                 self.log(
                     "Skipping interface entry with missing name in removal configuration",
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
@@ -4024,7 +3674,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Removing additional interface '{0}' from profile '{1}' during deletion".format(
                         interface_name, have_profile_name
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 removable_data["additionalInterfaces"].remove(interface_name)
                 interfaces_removed += 1
@@ -4033,14 +3683,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Additional interface '{0}' not found in profile - skipping removal".format(
                         interface_name
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
 
         self.log(
             "Interface removal completed - removed {0}/{1} additional interfaces from profile".format(
                 interfaces_removed, total_interfaces
             ),
-            "INFO",
+            "INFO"
         )
 
         return interfaces_removed > 0
@@ -4059,15 +3709,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
 
         self.log(
-            "Starting AP zones removal process for wireless network profile", "DEBUG"
+            "Starting AP zones removal process for wireless network profile",
+            "DEBUG"
         )
 
         ap_zones = each_profile.get("ap_zones")
         if not ap_zones:
-            self.log(
-                "No AP zones specified for removal - skipping AP zone processing",
-                "DEBUG",
-            )
+            self.log("No AP zones specified for removal - skipping AP zone processing", "DEBUG")
             return False
 
         zones_removed = 0
@@ -4077,7 +3725,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing AP zone removal for {0} zones from profile '{1}'".format(
                 total_zones, have_profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for ap_zone in ap_zones:
@@ -4086,22 +3734,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if not ap_zone_name:
                 self.log(
                     "Skipping AP zone entry with missing name in removal configuration",
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
-        if self.value_exists(
-            removable_data.get("apZones", []), "apZoneName", ap_zone_name
-        ):
+        if self.value_exists(removable_data.get("apZones", []), "apZoneName", ap_zone_name):
             self.log(
                 "Removing AP zone '{0}' from profile '{1}' during deletion process".format(
                     ap_zone_name, have_profile_name
                 ),
-                "INFO",
+                "INFO"
             )
             removable_data["apZones"] = [
-                have_apzone
-                for have_apzone in removable_data.get("apZones", [])
+                have_apzone for have_apzone in removable_data.get("apZones", [])
                 if have_apzone.get("apZoneName") != ap_zone_name
             ]
             zones_removed += 1
@@ -4110,21 +3755,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "AP zone '{0}' not found in current profile configuration - skipping removal".format(
                     ap_zone_name
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         self.log(
             "AP zone removal completed - removed {0}/{1} AP zones from profile".format(
                 zones_removed, total_zones
             ),
-            "INFO",
+            "INFO"
         )
 
         return zones_removed > 0
 
-    def _remove_feature_template_designs(
-        self, each_profile, removable_data, have_profile_name
-    ):
+    def _remove_feature_template_designs(self, each_profile, removable_data, have_profile_name):
         """
         Remove feature template design configurations from the wireless network profile.
 
@@ -4139,14 +3782,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log(
             "Starting feature template designs removal process for wireless network profile",
-            "DEBUG",
+            "DEBUG"
         )
 
         feature_template_designs = each_profile.get("feature_template_designs")
         if not feature_template_designs:
             self.log(
                 "No feature template designs specified for removal - skipping template processing",
-                "DEBUG",
+                "DEBUG"
             )
             return False
 
@@ -4157,7 +3800,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing feature template removal for {0} template designs from profile '{1}'".format(
                 total_templates, have_profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for feature_template in feature_template_designs:
@@ -4166,7 +3809,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if not feature_template_names:
                 self.log(
                     "Skipping feature template entry with missing template names",
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
@@ -4180,15 +3823,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Removing feature template '{0}' from profile '{1}' during deletion".format(
                             each_feature_template, have_profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     removable_data["featureTemplates"] = [
                         have_feature_template
-                        for have_feature_template in removable_data.get(
-                            "featureTemplates", []
-                        )
-                        if have_feature_template.get("designName")
-                        != each_feature_template
+                        for have_feature_template in removable_data.get("featureTemplates", [])
+                        if have_feature_template.get("designName") != each_feature_template
                     ]
                     templates_removed += 1
                 else:
@@ -4196,14 +3836,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Feature template '{0}' not found in profile - skipping removal".format(
                             each_feature_template
                         ),
-                        "WARNING",
+                        "WARNING"
                     )
 
         self.log(
             "Feature template removal completed - removed {0} template designs from profile".format(
                 templates_removed
             ),
-            "INFO",
+            "INFO"
         )
 
         return templates_removed > 0
@@ -4223,15 +3863,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log(
             "Starting Day-N templates removal process for wireless network profile",
-            "DEBUG",
+            "DEBUG"
         )
 
         day_n_templates = each_profile.get("day_n_templates")
         if not day_n_templates:
-            self.log(
-                "No Day-N templates specified for removal - skipping template processing",
-                "DEBUG",
-            )
+            self.log("No Day-N templates specified for removal - skipping template processing", "DEBUG")
             return []
 
         unassign_templates = []
@@ -4242,7 +3879,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing Day-N template removal for {0} templates from profile '{1}'".format(
                 len(day_n_templates), profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for day_n_template in day_n_templates:
@@ -4255,7 +3892,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Day-N template '{0}' not found in current profile assignments - skipping".format(
                         day_n_template
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
@@ -4268,7 +3905,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Unassigning Day-N template '{0}' (ID: {1}) from profile '{2}'".format(
                             template_name, template_id, profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
 
                     result = self.detach_networkprofile_cli_template(
@@ -4281,21 +3918,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Successfully unassigned Day-N template '{0}' from profile '{1}'".format(
                             template_name, profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
 
         self.log(
             "Day-N template removal completed - removed {0} template assignments from profile".format(
                 templates_removed
             ),
-            "INFO",
+            "INFO"
         )
 
         return unassign_templates
 
-    def _remove_site_names(
-        self, each_profile, each_have_profile, have_profile_name, have_profile_id
-    ):
+    def _remove_site_names(self, each_profile, each_have_profile, have_profile_name, have_profile_id):
         """
         Remove site name assignments from the wireless network profile.
 
@@ -4310,15 +3945,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
 
         self.log(
-            "Starting site names removal process for wireless network profile", "DEBUG"
+            "Starting site names removal process for wireless network profile",
+            "DEBUG"
         )
 
         site_names = each_profile.get("site_names")
         if not site_names:
-            self.log(
-                "No site names specified for removal - skipping site processing",
-                "DEBUG",
-            )
+            self.log("No site names specified for removal - skipping site processing", "DEBUG")
             return []
 
         unassign_sites = []
@@ -4328,7 +3961,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing site removal for {0} sites from profile '{1}'".format(
                 len(site_names), have_profile_name
             ),
-            "INFO",
+            "INFO"
         )
 
         for site_name in site_names:
@@ -4341,7 +3974,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Site '{0}' not found in current profile assignments - skipping removal".format(
                         site_name
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
@@ -4354,7 +3987,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Unassigning site '{0}' from profile '{1}' during removal process".format(
                             site_name, have_profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
 
                     unassign_response = self.unassign_site_to_network_profile(
@@ -4367,14 +4000,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Successfully unassigned site '{0}' from profile '{1}'".format(
                             have_site_name, have_profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
 
         self.log(
             "Site removal completed - removed {0} site assignments from profile".format(
                 sites_removed
             ),
-            "INFO",
+            "INFO"
         )
 
         return unassign_sites
@@ -4392,7 +4025,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         self.log(
             "Starting comprehensive wireless network profile deletion process for profile management",
-            "INFO",
+            "INFO"
         )
 
         profile_name = each_profile.get("profile_name")
@@ -4400,7 +4033,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "Processing profile deletion request for profile configuration: {0}".format(
                 self.pprint(each_profile)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not isinstance(each_profile, dict):
@@ -4408,7 +4041,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "Invalid each_profile parameter - expected dict, got: {0}".format(
                     type(each_profile).__name__
                 ),
-                "ERROR",
+                "ERROR"
             )
             self.msg = "Invalid profile configuration provided for deletion"
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4417,7 +4050,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if not profile_name:
             self.log(
                 "Profile name missing in deletion configuration - cannot proceed with deletion",
-                "ERROR",
+                "ERROR"
             )
             self.msg = "Profile name is required for deletion operations"
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4461,7 +4094,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "Profile ID missing for profile '{0}' - cannot proceed with deletion".format(
                     profile_name
                 ),
-                "ERROR",
+                "ERROR"
             )
             self.msg = "Profile ID not found for deletion operations"
             self.fail_and_exit(self.msg)
@@ -4469,29 +4102,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log(
             "Profile validation completed - proceeding with deletion for profile '{0}' "
             "with ID '{1}'".format(have_profile_name, have_profile_id),
-            "INFO",
+            "INFO"
         )
 
         have_profile_id = each_have.get("profile_info", {}).get("id")
 
         # Determine deletion type based on profile components
-        profile_components_specified = any(
-            each_profile.get(key)
-            for key in [
-                "site_names",
-                "ssid_details",
-                "day_n_templates",
-                "additional_interfaces",
-                "ap_zones",
-                "feature_template_designs",
-            ]
-        )
+        profile_components_specified = any(each_profile.get(key) for key in [
+            "site_names", "ssid_details", "day_n_templates",
+            "additional_interfaces", "ap_zones", "feature_template_designs"
+        ])
 
         if not profile_components_specified:
             self.log(
                 "No specific components specified - proceeding with complete profile deletion "
                 "for profile '{0}'".format(have_profile_name),
-                "INFO",
+                "INFO"
             )
 
             # Phase 2: Complete Profile Deletion
@@ -4502,7 +4128,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "Phase 2a: Unassigning {0} sites before complete profile deletion".format(
                         len(sites)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 unassign_site = []
@@ -4516,7 +4142,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "Unassigning site '{0}' (ID: {1}) from profile '{2}' before deletion".format(
                             site_name, site_id, have_profile_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     unassign_response = self.unassign_site_to_network_profile(
                         have_profile_name,
@@ -4532,28 +4158,28 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                             "Successfully unassigned site '{0}' from profile '{1}'".format(
                                 site_name, have_profile_name
                             ),
-                            "INFO",
+                            "INFO"
                         )
 
                 self.log(
                     "Site unassignment completed - unassigned {0}/{1} sites from profile".format(
                         sites_unassigned, len(sites)
                     ),
-                    "INFO",
+                    "INFO"
                 )
             else:
                 self.log(
                     "No sites associated with profile '{0}' - skipping site unassignment".format(
                         have_profile_name
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
             # Phase 2b: Delete the complete profile
             self.log(
                 "Phase 2b: Executing complete profile deletion for profile '{0}' "
                 "with ID '{1}'".format(have_profile_name, have_profile_id),
-                "INFO",
+                "INFO"
             )
 
             task_details = None
@@ -4571,7 +4197,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.fail_and_exit(self.msg)
 
             profile_response = dict(
-                profile_name=profile_name, status=task_details["progress"]
+                profile_name=profile_name,
+                status=task_details["progress"]
             )
 
             self.deleted.append(profile_response)
@@ -4589,32 +4216,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log(
                 "Specific profile components specified - proceeding with selective "
                 "component removal for profile '{0}'".format(have_profile_name),
-                "INFO",
+                "INFO"
             )
 
-            remove_status = (
-                self.remove_network_profile_data(each_profile, each_have) or {}
-            )
+            remove_status = self.remove_network_profile_data(each_profile, each_have) or {}
 
             self.log(
                 "Profile component removal status: {0}".format(
                     self.pprint(remove_status)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate removal operation results
-            removal_occurred = any(
-                remove_status.get(key, False)
-                for key in [
-                    "site_remove_status",
-                    "day_n_templates_status",
-                    "ssid_status",
-                    "ap_zones_status",
-                    "feature_template_designs_status",
-                    "additional_interfaces_status",
-                ]
-            )
+            removal_occurred = any(remove_status.get(key, False) for key in [
+                "site_remove_status", "day_n_templates_status", "ssid_status",
+                "ap_zones_status", "feature_template_designs_status",
+                "additional_interfaces_status"
+            ])
 
             if not remove_status or not removal_occurred:
                 self.msg = (
@@ -4646,10 +4265,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             # Process Day N template removal status
             if remove_status.get("day_n_templates_status"):
                 templates = each_profile.get("day_n_templates", [])
-                templates_message = (
-                    "Day N templates '{0}' unassigned successfully.".format(
-                        "', '".join(templates)
-                    )
+                templates_message = "Day N templates '{0}' unassigned successfully.".format(
+                    "', '".join(templates)
                 )
                 self.msg += " " + templates_message
                 response_status["day_n_templates_status"] = templates_message
@@ -4657,9 +4274,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             # Process SSID removal status
             if remove_status.get("ssid_status"):
                 ssids = each_profile.get("ssid_details", [])
-                ssid_names = [
-                    ssid.get("ssid_name") for ssid in ssids if ssid.get("ssid_name")
-                ]
+                ssid_names = [ssid.get("ssid_name") for ssid in ssids if ssid.get("ssid_name")]
 
                 if ssid_names:
                     ssids_message = "SSIDs '{0}' removed successfully.".format(
@@ -4678,10 +4293,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 ]
 
                 if interface_names:
-                    interfaces_message = (
-                        "Additional Interfaces '{0}' removed successfully.".format(
-                            "', '".join(interface_names)
-                        )
+                    interfaces_message = "Additional Interfaces '{0}' removed successfully.".format(
+                        "', '".join(interface_names)
                     )
                     self.msg += " " + interfaces_message
                     response_status["additional_interfaces_status"] = interfaces_message
@@ -4704,9 +4317,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
             # Process feature template designs removal status
             if remove_status.get("feature_template_designs_status"):
-                feature_template_designs = each_profile.get(
-                    "feature_template_designs", []
-                )
+                feature_template_designs = each_profile.get("feature_template_designs", [])
                 template_names = []
                 for design in feature_template_designs:
                     template_names.extend(design.get("feature_templates", []))
@@ -4718,9 +4329,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         )
                     )
                     self.msg += " " + feature_templates_message
-                    response_status["feature_template_designs_status"] = (
-                        feature_templates_message
-                    )
+                    response_status["feature_template_designs_status"] = feature_templates_message
 
             self.remove_profile_data.append({profile_name: response_status})
 
@@ -4730,29 +4339,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             ).check_return_status()
 
         # Comprehensive deletion operation logging
-        total_components_processed = sum(
-            [
-                1 if each_profile.get("site_names") else 0,
-                1 if each_profile.get("ssid_details") else 0,
-                1 if each_profile.get("day_n_templates") else 0,
-                1 if each_profile.get("additional_interfaces") else 0,
-                1 if each_profile.get("ap_zones") else 0,
-                1 if each_profile.get("feature_template_designs") else 0,
-            ]
-        )
+        total_components_processed = sum([
+            1 if each_profile.get("site_names") else 0,
+            1 if each_profile.get("ssid_details") else 0,
+            1 if each_profile.get("day_n_templates") else 0,
+            1 if each_profile.get("additional_interfaces") else 0,
+            1 if each_profile.get("ap_zones") else 0,
+            1 if each_profile.get("feature_template_designs") else 0
+        ])
 
-        deletion_type = (
-            "Complete profile deletion"
-            if not profile_components_specified
-            else "Selective component removal"
-        )
+        deletion_type = "Complete profile deletion" if not profile_components_specified else "Selective component removal"
 
         self.log(
             "Wireless network profile deletion process completed for profile '{0}' - "
             "operation type: {1}, components processed: {2}".format(
                 profile_name, deletion_type, total_components_processed
             ),
-            "INFO",
+            "INFO"
         )
 
         return self
@@ -4903,25 +4506,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

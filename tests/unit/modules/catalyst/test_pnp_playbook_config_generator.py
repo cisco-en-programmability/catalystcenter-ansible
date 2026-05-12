@@ -28,7 +28,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import pnp_playboo
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
     module = pnp_playbook_config_generator
 
@@ -39,21 +39,21 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
     playbook_no_config = test_data.get("playbook_no_config")
 
     def setUp(self):
-        super(TestDnacBrownfieldPnpPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterBrownfieldPnpPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.return_value = None
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.return_value = None
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacBrownfieldPnpPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterBrownfieldPnpPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def _get_written_yaml(self, mock_file):
         handle = mock_file()
@@ -78,12 +78,12 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         """
 
         if "playbook_pnp_generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices"),
             ]
 
         elif "playbook_component_global_specific_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices1"),
                 self.test_data.get("site_response1"),
                 self.test_data.get("site_response2"),
@@ -93,7 +93,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         elif "playbook_no_config" in self._testMethodName:
             pass
         elif "default_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices"),
             ]
 
@@ -219,7 +219,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         """
         with tempfile.TemporaryDirectory() as temp_dir:
             file_path = os.path.join(temp_dir, "pnp_overwrite.yml")
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices"),
                 self.test_data.get("PnPdevices"),
             ]
@@ -254,7 +254,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         """
         with tempfile.TemporaryDirectory() as temp_dir:
             file_path = os.path.join(temp_dir, "pnp_append.yml")
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices"),
                 self.test_data.get("PnPdevices"),
             ]
@@ -301,7 +301,7 @@ class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             file_path = os.path.join(temp_dir, "pnp_append_diff.yml")
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("PnPdevices"),
                 updated_devices,
             ]

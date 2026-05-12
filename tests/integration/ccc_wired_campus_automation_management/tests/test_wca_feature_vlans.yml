@@ -43,12 +43,12 @@
 # - debug: msg="Role Path {{ role_path }}"
 
 # - block:
-#     - name: Load vars and declare dnac vars
+#     - name: Load vars and declare catalystcenter vars
 #       include_vars:
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_vlans.yml"
 #         name: vlan_vars_map
 #       vars:
-#         catalyst_login: &catalyst_login
+#         catalystcenter_login: &catalystcenter_login
 #           catalystcenter_host: "{{ catalystcenter_host }}"
 #           catalystcenter_username: "{{ catalystcenter_username }}"
 #           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -59,8 +59,8 @@
 #           catalystcenter_log: true
 #           catalystcenter_log_level: DEBUG
 #           config_verify: true
-#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-#           dnac_log_append: false
+#           catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+#           catalystcenter_log_append: false
 
 #     # =============================================================================
 #     # Negative Validation Tests for VLANs
@@ -71,8 +71,8 @@
 #     # #############################################
 
 #     - name: Test VLAN - Invalid VLAN ID (below minimum)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_below_min }}"
@@ -89,8 +89,8 @@
 #           - "'4094' in result_vlan_id_below_min.msg"
 
 #     - name: Test VLAN - Invalid VLAN ID (above maximum)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_above_max }}"
@@ -105,8 +105,8 @@
 #           - "'range' in result_vlan_id_above_max.msg"
 
 #     - name: Test VLAN - Invalid VLAN ID (zero)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_zero }}"
@@ -121,8 +121,8 @@
 #           - "'range' in result_vlan_id_zero.msg"
 
 #     - name: Test VLAN - Invalid VLAN ID (negative)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_negative }}"
@@ -137,8 +137,8 @@
 #           - "'range' in result_vlan_id_negative.msg"
 
 #     - name: Test VLAN - Missing required VLAN ID
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_missing }}"
@@ -157,8 +157,8 @@
 #     # #############################################
 
 #     - name: Test VLAN - Invalid admin status (string instead of boolean)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_admin_status_string }}"
@@ -172,8 +172,8 @@
 #           - "'vlan_admin_status' in result_vlan_admin_status_string.msg"
 
 #     - name: Test VLAN - Invalid admin status (integer instead of boolean)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_admin_status_integer }}"
@@ -191,8 +191,8 @@
 #     # #############################################
 
 #     - name: Test VLAN - Invalid data type (string instead of dict)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_invalid_dict_type }}"
@@ -206,8 +206,8 @@
 #           - "'dictionary' in result_vlan_invalid_dict_type.msg"
 
 #     - name: Test VLAN - Invalid VLAN list structure (not a list)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_not_list }}"
@@ -225,8 +225,8 @@
 #     # #############################################
 
 #     - name: Test VLAN - Minimum valid VLAN ID (1)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_id_min_valid }}"
@@ -240,8 +240,8 @@
 #           - result_vlan_id_min_valid.changed == false
 
 #     - name: Test VLAN - Multiple VLANs with one invalid
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_multiple_one_invalid }}"
@@ -255,8 +255,8 @@
 #           - "'vlan_id' in result_vlan_multiple_one_invalid.msg"
 
 #     - name: Test VLAN Creation - Single VLAN admin disabled
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_single_disabled_1 }}"
@@ -279,8 +279,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Creation - Single VLAN with minimal parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_single_minimal }}"
@@ -300,8 +300,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Creation - Single VLAN with all parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_single_all_params }}"
@@ -321,8 +321,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Creation - Single VLAN admin disabled
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_single_disabled_2 }}"
@@ -346,8 +346,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Creation - Multiple VLANs mixed configurations
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_multiple_mixed }}"
@@ -371,8 +371,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Creation - Minimum boundary VLAN ID
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_boundary_min }}"
@@ -392,8 +392,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Creation - Maximum boundary VLAN ID
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_boundary_max }}"
@@ -417,8 +417,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Creation - Special characters in name
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_special_chars }}"
@@ -438,8 +438,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Creation - Numeric name
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_create_numeric_name }}"
@@ -467,8 +467,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Update - Change name only
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_update_name_only }}"
@@ -488,8 +488,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Update - Change both name and status
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_update_both_params }}"
@@ -513,8 +513,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Update - Multiple VLANs
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_update_multiple }}"
@@ -534,8 +534,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Update - Enable disabled VLAN
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_update_enable_disabled }}"
@@ -555,8 +555,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Update - Minimal parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_update_minimal }}"
@@ -584,8 +584,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Deletion - Single VLAN
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_delete_single }}"
@@ -609,8 +609,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Deletion - Multiple VLANs
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_delete_multiple }}"
@@ -630,8 +630,8 @@
 #         seconds: 10
 
 #     - name: Test VLAN Deletion - Selective deletion
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_delete_selective }}"
@@ -655,8 +655,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Deletion - Boundary VLANs
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_delete_boundary }}"
@@ -680,8 +680,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Deletion - Special characteristics VLANs
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vlan_vars_map.test_vlan_delete_special_chars }}"
@@ -709,8 +709,8 @@
 #     # #############################################
 
 #     - name: Test VLAN Idempotency - Create same VLAN twice
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - ip_address: 204.1.2.3
@@ -727,8 +727,8 @@
 #         seconds: 40
 
 #     - name: Test VLAN Idempotency - Create same VLAN again
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - ip_address: 204.1.2.3
@@ -760,8 +760,8 @@
 #     # #############################################
 
 #     - name: Cleanup - Delete test VLANs created during positive tests
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - ip_address: 204.1.2.3
@@ -781,8 +781,8 @@
 # # #############################################
 
 # # - name: Test VLAN Deletion - ALL
-# #   cisco.dnac.wired_campus_automation_workflow_manager:
-# #     <<: *catalyst_login
+# #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #     <<: *catalystcenter_login
 # #     state: deleted
 # #     config:
 # #       - "{{ vlan_vars_map.test_vlan_delete_all }}"

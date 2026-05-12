@@ -225,10 +225,10 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             AssuranceDeviceHealthScorePlaybookGenerator
 
         # Mock the parent class initialization and log method
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.DnacBase.__init__') as mock_dnac_init:
+        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__') as mock_catalystcenter_init:
             with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__') as mock_helper_init:
-                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.DnacBase.log') as mock_log:
-                    mock_dnac_init.return_value = None
+                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log') as mock_log:
+                    mock_catalystcenter_init.return_value = None
                     mock_helper_init.return_value = None
                     mock_log.return_value = None
 
@@ -254,7 +254,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             assurance_device_health_score_settings_playbook_config_generator import \
             AssuranceDeviceHealthScorePlaybookGenerator
 
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.DnacBase.__init__'):
+        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__'):
             with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
                 mock_module = MagicMock()
                 mock_module.params = {"config": {}}
@@ -484,9 +484,9 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         print("Comprehensive integration scenario tested")
 
     def _build_validation_generator(self):
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.DnacBase.__init__', return_value=None):
+        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__', return_value=None):
             with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__', return_value=None):
-                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.DnacBase.log', return_value=None):
+                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log', return_value=None):
                     generator = test_module.AssuranceDeviceHealthScorePlaybookGenerator(MagicMock())
 
         generator.status = "success"

@@ -21,7 +21,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_i
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
 
     module = assurance_issue_playbook_config_generator
     test_data = loadPlaybookData("assurance_issue_playbook_config_generator")
@@ -33,62 +33,62 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
     playbook_config_with_file_path = test_data.get("playbook_config_with_file_path")
 
     def setUp(self):
-        super(TestDnacAssuranceIssuePlaybookGenerator, self).setUp()
+        super(TestCatalystCenterAssuranceIssuePlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacAssuranceIssuePlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterAssuranceIssuePlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for assurance issue playbook generator tests.
         """
         if "generate_all_configurations_success" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response"),
                 self.test_data.get("get_system_issues_response")
             ]
 
         elif "specific_components_success" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response")
             ]
 
         elif "user_defined_only_success" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_filtered_response")
             ]
 
         elif "system_only_success" in self._testMethodName:
             # Mock multiple API calls for system issues (enabled/disabled for different device types)
             system_response = self.test_data.get("get_system_issues_filtered_response")
-            self.run_dnac_exec.side_effect = [system_response] * 12  # Cover all device type/enabled combinations
+            self.run_catalystcenter_exec.side_effect = [system_response] * 12  # Cover all device type/enabled combinations
 
         elif "with_file_path_success" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response")
             ]
 
         elif "api_error" in self._testMethodName:
-            self.run_dnac_exec.side_effect = Exception("API connection failed")
+            self.run_catalystcenter_exec.side_effect = Exception("API connection failed")
 
         elif "empty_response" in self._testMethodName:
             # Use empty response for all API calls
             empty_response = self.test_data.get("empty_response")
-            self.run_dnac_exec.side_effect = [empty_response] * 15  # Cover all possible API calls
+            self.run_catalystcenter_exec.side_effect = [empty_response] * 15  # Cover all possible API calls
 
         elif "severity_integer_conversion" in self._testMethodName:
             # Test response with string severity values that need conversion
@@ -98,16 +98,16 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
             for issue in response_data["response"]:
                 for rule in issue.get("rules", []):
                     rule["severity"] = str(rule["severity"])
-            self.run_dnac_exec.side_effect = [response_data]
+            self.run_catalystcenter_exec.side_effect = [response_data]
 
         elif "validation_error" in self._testMethodName:
             # Return empty responses since validation happens before API calls
             empty_response = self.test_data.get("empty_response")
-            self.run_dnac_exec.side_effect = [empty_response] * 15
+            self.run_catalystcenter_exec.side_effect = [empty_response] * 15
 
         elif "default_file_path" in self._testMethodName:
             # Test with actual data for default file path scenario
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response"),
                 self.test_data.get("get_system_issues_response")
             ]
@@ -115,7 +115,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
         else:
             # Default case - provide empty responses
             empty_response = self.test_data.get("empty_response")
-            self.run_dnac_exec.side_effect = [empty_response] * 15
+            self.run_catalystcenter_exec.side_effect = [empty_response] * 15
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
@@ -286,7 +286,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
         """
         Test case for assurance issue playbook generator when API call fails.
 
-        This test case checks the behavior when the DNAC API returns an error
+        This test case checks the behavior when the Catalyst Center API returns an error
         during issue retrieval.
         """
         set_module_args(
@@ -311,7 +311,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
         """
         Test case for assurance issue playbook generator with empty API response.
 
-        This test case checks the behavior when DNAC returns empty responses
+        This test case checks the behavior when Catalyst Center returns empty responses
         for issue queries.
         """
         mock_exists.return_value = True
@@ -409,11 +409,11 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
             with patch('os.path.dirname') as mock_dirname:
                 with patch('os.path.abspath') as mock_abspath:
                     mock_dirname.return_value = '/tmp'
-                    mock_abspath.return_value = '/tmp/dnac.log'
+                    mock_abspath.return_value = '/tmp/catalystcenter.log'
                     # Override exists check for log directory to return True
 
                     def side_effect_exists(path):
-                        if 'dnac.log' in str(path) or path == '/tmp':
+                        if 'catalystcenter.log' in str(path) or path == '/tmp':
                             return True
                         return False
                     mock_exists.side_effect = side_effect_exists
@@ -561,7 +561,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
         Test case to verify duplicate entries in components_list are deduplicated.
         """
         mock_exists.return_value = True
-        self.run_dnac_exec.side_effect = [
+        self.run_catalystcenter_exec.side_effect = [
             self.test_data.get("get_user_defined_issues_response")
         ]
 
@@ -601,7 +601,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
         mock_exists.return_value = True
 
         user_defined_response = self.test_data.get("get_user_defined_issues_response")
-        self.run_dnac_exec.side_effect = [user_defined_response]
+        self.run_catalystcenter_exec.side_effect = [user_defined_response]
 
         set_module_args(
             dict(
@@ -628,7 +628,7 @@ class TestDnacAssuranceIssuePlaybookGenerator(TestCatalystModule):
 
         self.assertIn("response", result)
         # Two unique filter blocks should trigger only two API executions.
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")

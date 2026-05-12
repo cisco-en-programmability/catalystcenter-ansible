@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on global pool, reserve pool and network in DNAC."""
-
+"""Ansible module to perform operations on global pool, reserve pool and network in Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -400,7 +399,7 @@ options:
               sub-pool will be reserved.
             type: str
 requirements:
-  - catalystcentersdk == 2.4.5
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -713,7 +712,7 @@ class NetworkSettings(CatalystCenterBase):
                           (global pool, reserve pool, network details)
             want (dict) - Users provided information from the playbook
             obj_params (list of tuples) - A list of parameter mappings specifying which
-                                          Cisco Catalyst Center parameters (dnac_param) correspond to
+                                          Cisco Catalyst Center parameters (catalystcenter_param) correspond to
                                           the user-provided parameters (ansible_param).
 
         Returns:
@@ -730,9 +729,9 @@ class NetworkSettings(CatalystCenterBase):
 
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def get_obj_params(self, get_object):
@@ -2110,11 +2109,7 @@ class NetworkSettings(CatalystCenterBase):
                 "INFO",
             )
             result_reserve_pool.get("response").get(name).update(
-                {
-                    "Cisco Catalyst Center params": self.have.get("reservePool").get(
-                        "details"
-                    )
-                }
+                {"Cisco Catalyst Center params": self.have.get("reservePool").get("details")}
             )
             result_reserve_pool.get("response").get(name).update(
                 {"Id": self.have.get("reservePool").get("id")}
@@ -2368,7 +2363,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2400,7 +2395,7 @@ class NetworkSettings(CatalystCenterBase):
                 self.want.get("wantGlobal"),
                 self.global_pool_obj_params,
             ):
-                self.msg = "Global Pool Config is not applied to the DNAC"
+                self.msg = "Global Pool Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2435,7 +2430,7 @@ class NetworkSettings(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-                self.msg = "Reserved Pool Config is not applied to the DNAC"
+                self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2455,7 +2450,7 @@ class NetworkSettings(CatalystCenterBase):
                 self.want.get("wantNetwork"),
                 self.network_obj_params,
             ):
-                self.msg = "Network Functions Config is not applied to the DNAC"
+                self.msg = "Network Functions Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2476,7 +2471,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2493,7 +2488,7 @@ class NetworkSettings(CatalystCenterBase):
         if config.get("global_pool_details") is not None:
             global_pool_exists = self.have.get("globalPool").get("exists")
             if global_pool_exists:
-                self.msg = "Global Pool Config is not applied to the DNAC"
+                self.msg = "Global Pool Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2552,25 +2547,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

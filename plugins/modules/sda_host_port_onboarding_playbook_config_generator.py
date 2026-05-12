@@ -354,7 +354,7 @@ options:
                 required: false
 
 requirements:
-- catalystcentersdk >= 2.3.7.9
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 - PyYAML >= 5.1
 notes:
@@ -796,7 +796,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - catalystcentersdk: 2.3.7.9 or higher
+        - catalystcentersdk: 3.1.6.0.2 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -962,21 +962,31 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         return {
             "network_elements": {
                 "port_assignments": {
-                    "filters": ["fabric_site_name_hierarchy"],
+                    "filters": {
+                        "fabric_site_name_hierarchy": {"type": "str"},
+                        "device_ips": {"type": "list", "elements": "str"},
+                        "serial_numbers": {"type": "list", "elements": "str"},
+                        "hostnames": {"type": "list", "elements": "str"},
+                    },
                     "reverse_mapping_function": self.port_assignments_temp_spec,
                     "api_function": "get_port_assignments",
                     "api_family": "sda",
                     "get_function_name": self.get_port_assignments_configuration,
                 },
                 "port_channels": {
-                    "filters": ["fabric_site_name_hierarchy"],
+                    "filters": {
+                        "fabric_site_name_hierarchy": {"type": "str"},
+                        "device_ips": {"type": "list", "elements": "str"},
+                        "serial_numbers": {"type": "list", "elements": "str"},
+                        "hostnames": {"type": "list", "elements": "str"},
+                    },
                     "reverse_mapping_function": self.port_channels_temp_spec,
                     "api_function": "get_port_channels",
                     "api_family": "sda",
                     "get_function_name": self.get_port_channels_configuration,
                 },
                 "wireless_ssids": {
-                    "filters": ["fabric_site_name_hierarchy"],
+                    "filters": {"fabric_site_name_hierarchy": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_ssids_temp_spec,
                     "api_function": "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site",
                     "api_family": "fabric_wireless",
@@ -2364,7 +2374,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
+            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -2373,7 +2383,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
+            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -2459,28 +2469,23 @@ def main():
         # ============================================
         "catalystcenter_host": {
             "required": True,
-            "type": "str",
-            "aliases": ["dnac_host"]
+            "type": "str"
         },
         "catalystcenter_port": {
             "type": "str",
-            "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"]
+            "default": "443"
         },
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["dnac_username", "user"]
         },
         "catalystcenter_password": {
             "type": "str",
-            "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"]
+            "no_log": True  # Prevent password from appearing in logs
         },
         "catalystcenter_verify": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_verify"]
+            "default": True
         },
 
         # ============================================
@@ -2488,8 +2493,7 @@ def main():
         # ============================================
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.3.7.6",
-            "aliases": ["dnac_version"]
+            "default": "2.3.7.6"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2509,28 +2513,23 @@ def main():
         # ============================================
         "catalystcenter_debug": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_debug"]
+            "default": False
         },
         "catalystcenter_log_level": {
             "type": "str",
-            "default": "WARNING",
-            "aliases": ["dnac_log_level"]
+            "default": "WARNING"
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"]
+            "default": "catalystcenter.log"
         },
         "catalystcenter_log_append": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_log_append"]
+            "default": True
         },
         "catalystcenter_log": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_log"]
+            "default": False
         },
 
         # ============================================

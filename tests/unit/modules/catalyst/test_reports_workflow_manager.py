@@ -20,45 +20,31 @@ __metaclass__ = type
 # common approach when a module relies on optional dependencies that are not available during the validation process.
 try:
     import pytz  # pylint: disable=unused-import
-
     HAS_PYTZ = True
 except ImportError:
     HAS_PYTZ = False
     pytz = None
 import unittest
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    reports_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import reports_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacreportsWorkflow(TestCatalystModule):
+class TestCatalystCenterreportsWorkflow(TestCatalystModule):
     module = reports_workflow_manager
     test_data = loadPlaybookData("reports_workflow_manager")
     playbook_config_create = test_data.get("playbook_config_create")
-    playbook_config_missing_schedule_type = test_data.get(
-        "playbook_config_missing_schedule_type"
-    )
+    playbook_config_missing_schedule_type = test_data.get("playbook_config_missing_schedule_type")
     playbook_config_schedule_later = test_data.get("playbook_config_schedule_later")
-    playbook_config_schedule_recurrance = test_data.get(
-        "playbook_config_schedule_recurrance"
-    )
-    playbook_config_schedule_recurrance_weekly = test_data.get(
-        "playbook_config_schedule_recurrance_weekly"
-    )
-    playbook_config_schedule_recurrance_weekly_daily = test_data.get(
-        "playbook_config_schedule_recurrance_weekly_daily"
-    )
-    playbook_parallel_report_creation = test_data.get(
-        "playbook_parallel_report_creation"
-    )
+    playbook_config_schedule_recurrance = test_data.get("playbook_config_schedule_recurrance")
+    playbook_config_schedule_recurrance_weekly = test_data.get("playbook_config_schedule_recurrance_weekly")
+    playbook_config_schedule_recurrance_weekly_daily = test_data.get("playbook_config_schedule_recurrance_weekly_daily")
+    playbook_parallel_report_creation = test_data.get("playbook_parallel_report_creation")
 
     def setUp(self):
-        super(TestDnacreportsWorkflow, self).setUp()
+        super(TestCatalystCenterreportsWorkflow, self).setUp()
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -68,7 +54,7 @@ class TestDnacreportsWorkflow(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacreportsWorkflow, self).tearDown()
+        super(TestCatalystCenterreportsWorkflow, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -86,9 +72,7 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("download_get_execution_id_for_report"),
                 Exception(),
@@ -110,9 +94,7 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("later_create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("download_get_execution_id_for_report"),
             ]
 
@@ -121,9 +103,7 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 Exception(),
             ]
@@ -133,16 +113,12 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("delete_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
         if "RECURRENCE_monthly" in self._testMethodName:
@@ -150,16 +126,12 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("delete_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
         if "RECURRENCE_weekly" in self._testMethodName:
@@ -167,16 +139,12 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("delete_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
         if "RECUR_daily" in self._testMethodName:
@@ -184,16 +152,12 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("delete_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
             ]
 
         if "parallel_report_creation" in self._testMethodName:
@@ -201,9 +165,7 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 self.test_data.get("create_get_all_view_groups"),
                 self.test_data.get("create_get_views_for_a_given_view_group"),
                 self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
+                self.test_data.get("create_get_view_details_for_a_given_view_group_and_view"),
                 self.test_data.get("create_first_report_response"),
             ]
 
@@ -225,13 +187,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_create,
+                config=self.playbook_config_create
             )
         )
         result = self.execute_module(changed=True, failed=True)
-        print(result["response"])
+        print(result['response'])
         self.assertIn(
-            "Failed to download report 'compliance_report_test1'", result["response"]
+            "Failed to download report 'compliance_report_test1'",
+            result['response']
         )
 
     def test_reports_workflow_manager_delete_reports(self):
@@ -251,15 +214,15 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="deleted",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_create,
+                config=self.playbook_config_create
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"])
+        print(result['response'])
         delete_msg = result["response"][0]["delete_report"]["msg"]
         self.assertIn(
             "Report 'compliance_report_test1' has been successfully deleted.",
-            delete_msg,
+            delete_msg
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -280,13 +243,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_create,
+                config=self.playbook_config_create
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result["response"])
+        print(result['response'])
         self.assertIn(
-            "An error occurred while downloading the report", result["response"]
+            "An error occurred while downloading the report",
+            result['response']
         )
 
     def test_reports_workflow_manager_missing_schedule_type(self):
@@ -306,14 +270,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_missing_schedule_type,
+                config=self.playbook_config_missing_schedule_type
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertIn(
             "Invalid parameters in playbook: ['schedule_type : Required parameter not found']",
-            result["response"],
+            result['response']
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -334,14 +298,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_schedule_later,
+                config=self.playbook_config_schedule_later
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0]["create_report"]["msg"])
+        print(result['response'][0]["create_report"]["msg"])
         self.assertIn(
             "Successfully created or scheduled report 'compliance_report_test1'.",
-            result["response"][0]["create_report"]["msg"],
+            result['response'][0]["create_report"]["msg"]
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -362,14 +326,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_schedule_recurrance,
+                config=self.playbook_config_schedule_recurrance
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0]["create_report"]["msg"])
+        print(result['response'][0]["create_report"]["msg"])
         self.assertIn(
             "Successfully created or scheduled report 'compliance_report_test1'.",
-            result["response"][0]["create_report"]["msg"],
+            result['response'][0]["create_report"]["msg"]
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -390,14 +354,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_schedule_recurrance_weekly,
+                config=self.playbook_config_schedule_recurrance_weekly
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0]["create_report"]["msg"])
+        print(result['response'][0]["create_report"]["msg"])
         self.assertIn(
             "Successfully created or scheduled report 'compliance_report_test1'.",
-            result["response"][0]["create_report"]["msg"],
+            result['response'][0]["create_report"]["msg"]
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -415,14 +379,14 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=False,
-                config=self.playbook_config_schedule_recurrance_weekly_daily,
+                config=self.playbook_config_schedule_recurrance_weekly_daily
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0]["create_report"]["msg"])
+        print(result['response'][0]["create_report"]["msg"])
         self.assertIn(
             "Successfully created or scheduled report 'compliance_report_check'.",
-            result["response"][0]["create_report"]["msg"],
+            result['response'][0]["create_report"]["msg"]
         )
 
     @unittest.skipUnless(HAS_PYTZ, "pytz is required for timezone validation tests")
@@ -443,9 +407,12 @@ class TestDnacreportsWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_log_level="DEBUG",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_parallel_report_creation,
+                config=self.playbook_parallel_report_creation
             )
         )
         result = self.execute_module(changed=True, failed=True)
-        print(result["response"])
-        self.assertEqual([], result["response"])
+        print(result['response'])
+        self.assertEqual(
+            [],
+            result['response']
+        )

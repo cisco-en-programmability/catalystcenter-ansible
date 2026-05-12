@@ -17,7 +17,7 @@
 
 # Example 1: Generate all configurations (default behavior when config is omitted)
 - name: Generate YAML playbook for all SDA fabric multicast configurations
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -39,7 +39,7 @@
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete SDA fabric multicast configuration with custom filename
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -63,7 +63,7 @@
 
 # Example 3: Generate fabric multicast configurations for a specific fabric site
 - name: Generate YAML playbook for specific fabric site
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -91,7 +91,7 @@
 
 # Example 4: Generate configuration for specific fabric and virtual network
 - name: Generate YAML playbook for specific fabric and virtual network
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -117,7 +117,7 @@
 
 # Example 5: Auto-populate components_list from component filters
 - name: Generate configuration with auto-populated components_list
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -144,7 +144,7 @@
 
 # Example 6: Generate configuration with append mode
 - name: Generate and append SDA fabric multicast configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -171,7 +171,7 @@
 
 # Example 7: Generate playbook for multiple fabric sites
 - name: Generate playbook for multiple fabric sites
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false

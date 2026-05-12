@@ -535,7 +535,7 @@ options:
               in the playbook.
             type: bool
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - To ensure the module operates correctly for scaled
@@ -3993,7 +3993,7 @@ class VirtualNetwork(CatalystCenterBase):
             self (object): The instance of the class, allowing for method chaining. The status of the operation
                 can be checked via the `status` attribute.
         Description:
-            This function interacts with the Cisco DNA Center API to add Anycast Gateways. It sends the provided
+            This function interacts with the Cisco Catalyst Center API to add Anycast Gateways. It sends the provided
             payload to the API and processes the response.
             In case of an exception during the API call, the function captures the exception and logs the error.
             The method returns the instance itself, allowing for further interactions with the object.
@@ -4069,7 +4069,7 @@ class VirtualNetwork(CatalystCenterBase):
             self (object): The instance of the class, allowing for method chaining. The status of the operation
                 can be checked via the `status` attribute.
         Description:
-            This function interacts with the Cisco DNA Center API to update Anycast Gateways. It sends the provided
+            This function interacts with the Cisco Catalyst Center API to update Anycast Gateways. It sends the provided
             payload to the API and processes the response.
             In case of an exception during the API call, the function captures the exception and logs the error.
             The method returns the instance itself, allowing for further interactions with the object.
@@ -4145,7 +4145,7 @@ class VirtualNetwork(CatalystCenterBase):
             self (object): The instance of the class, allowing for method chaining. The status of the operation
                 can be checked via the `status` attribute.
         Description:
-            This function sends a request to the Cisco DNA Center API to delete the specified Anycast Gateway
+            This function sends a request to the Cisco Catalyst Center API to delete the specified Anycast Gateway
             using its ID. It processes the API response and checks for the presence of a task ID to confirm that
             the deletion request was received.
             If the deletion is successful, it logs a success message and appends the deleted gateway's name to the
@@ -6221,18 +6221,17 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "sda_fabric_vlan_limit": {"type": "int", "default": 20},

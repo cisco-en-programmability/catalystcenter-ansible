@@ -65,21 +65,21 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestSdaFabricMulticastPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
         super(TestSdaFabricMulticastPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -88,7 +88,7 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         if "test_generate_all_configurations_case_1" in self._testMethodName:
             # Case 1: Generate all configurations
             # Only 1 fabric has multicast VN configs (fabric ID 085089aa-5077-440c-bf98-3028f87ce067)
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_multicast_case_1"),
                 self.test_data.get("get_multicast_virtual_networks_case_1"),
@@ -98,7 +98,7 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         elif "test_generate_specific_fabric_site_case_2" in self._testMethodName:
             # Case 2: Specific fabric site with fabric_name filter
             # Reuses case 1 data but with filter
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1_call_1"),
                 self.test_data.get("get_multicast_case_1"),
@@ -109,7 +109,7 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         elif "test_generate_specific_fabric_and_vn_case_3" in self._testMethodName:
             # Case 3: Specific fabric site and virtual network filters
             # Reuses case 1 data but with both fabric and VN filters
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1_call_1"),
                 self.test_data.get("get_multicast_case_1"),
@@ -120,7 +120,7 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         elif "test_generate_multiple_fabric_sites_case_4" in self._testMethodName:
             # Case 4: Multiple fabric sites - simulate 2 fabrics with separate VN configs
             # This will create 2 new fabric IDs using modified case 1 data
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1_call_1"),
                 self.test_data.get("get_multicast_case_4"),
@@ -131,14 +131,14 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         elif "test_invalid_fabric_site_case_5" in self._testMethodName:
             # Case 5: Invalid fabric site name provided in filter
             # Site lookup returns real data but specified site name doesn't match
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_multicast_case_1"),
             ]
         elif "test_no_multicast_configs_case_6" in self._testMethodName:
             # Case 6: No multicast configurations exist in CATC
             # All APIs return empty responses since no multicast configs exist
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_multicast_case_6"),
                 self.test_data.get("get_multicast_virtual_networks_case_6"),
@@ -148,7 +148,7 @@ class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
         elif "test_fabric_site_not_in_sda_case_7" in self._testMethodName:
             # Case 7: Site exists but not in SDA (not a fabric site or zone)
             # Site lookup succeeds, but get_fabric_sites returns empty (site not a fabric)
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_7"),
                 self.test_data.get("get_multicast_case_6"),

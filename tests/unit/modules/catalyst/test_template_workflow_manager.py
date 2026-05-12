@@ -33,7 +33,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import template_wo
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTemplateWorkflow(TestCatalystModule):
+class TestCatalystCenterTemplateWorkflow(TestCatalystModule):
 
     module = template_workflow_manager
     test_data = loadPlaybookData("template_workflow_manager")
@@ -88,34 +88,34 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacTemplateWorkflow, self).setUp()
+        super(TestCatalystCenterTemplateWorkflow, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacTemplateWorkflow, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterTemplateWorkflow, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
         if "invalid_delete_config" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # self.test_data.get(""),
             ]
         elif "test_create_template_playbook_case_1" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_project_details_new"),
                 self.test_data.get("create_template_task_id"),
                 self.test_data.get("get_task_details_by_id_case_1_call_1"),
@@ -125,7 +125,7 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
             ]
         elif "test_create_template_without_template_content" in self._testMethodName:
             # Flow mirrors create case_1 without providing any template content
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_project_details_new"),
                 self.test_data.get("create_template_task_id"),
                 self.test_data.get("get_task_details_by_id_case_1_call_1"),
@@ -134,7 +134,7 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("get_task_details_by_id_case_1_call_4")
             ]
         elif "test_update_template_playbook_case_2" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_update_project_details"),
                 self.test_data.get("get_available_templates_update"),
                 self.test_data.get("create_template_task_id"),
@@ -144,7 +144,7 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("get_task_details_by_id_case_1_call_4")
             ]
         elif "test_delete_template_playbook_case_3" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_case_3_call_1"),
                 self.test_data.get("gets_the_templates_available_case_3_call_1"),
                 self.test_data.get("get_template_details_case_3_call_1"),
@@ -153,50 +153,50 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("gets_the_templates_available_case_3_call_2"),
             ]
         elif "test_export_project_playbook_case_4" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_task_id_case_4_call_1"),
                 self.test_data.get("get_task_details_by_id_case_4_call_1"),
             ]
         elif "test_export_template_playbook_case_5" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_export_template_values_case_5_call_1"),
                 self.test_data.get("get_task_id_case_5_call_1"),
                 self.test_data.get("get_task_details_by_id_case_5_call_1"),
             ]
         elif "test_import_project_playbook_case_6" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_case_6_call_1"),
                 self.test_data.get("get_task_id_case_6_call_1"),
                 self.test_data.get("get_task_details_by_id_case_6_call_1"),
             ]
         elif "test_import_template_playbook_case_7" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_case_7_call_1"),
                 self.test_data.get("get_task_id_case_7_call_1"),
                 self.test_data.get("get_task_details_by_id_case_7_call_1"),
                 self.test_data.get("get_task_details_by_id_case_7_call_2"),
             ]
         elif "test_import_project_playbook_case_8" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_case_8_call_1"),
                 self.test_data.get("get_projects_response_case_8_call_2"),
                 self.test_data.get("get_projects_response_case_8_call_3"),
             ]
         elif "test_import_project_playbook_case_9" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_update_case_9_call_1"),
                 self.test_data.get("get_projects_response_update_case_9_call_1"),
                 self.test_data.get("get_projects_response_case_8_call_2"),
                 self.test_data.get("get_projects_response_case_8_call_3"),
             ]
         elif "test_import_project_playbook_case_10" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_response_delete_case_10_call_1"),
                 self.test_data.get("get_projects_response_case_8_call_2"),
                 self.test_data.get("get_projects_response_case_8_call_1")
             ]
         elif "test_import_profile_add_playbook_case_11" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_project_details_new"),
                 self.test_data.get("get_profile_list_case_11_call_1"),
                 self.test_data.get("create_template_task_id"),
@@ -208,7 +208,7 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("get_task_details_progress_case_11_call_3")
             ]
         elif "test_import_profile_remove_playbook_case_12" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_update_project_details"),
                 self.test_data.get("get_available_templates_update"),
                 self.test_data.get("get_profile_list_case_11_call_1"),
@@ -221,7 +221,7 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("get_task_details_progress_case_11_call_3")
             ]
         elif "test_deploy_composite_template_case_13" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_details_case_13"),
                 self.test_data.get("get_templates_details_case_13"),
                 self.test_data.get("get_device_by_ip_case_13"),
@@ -233,14 +233,14 @@ class TestDnacTemplateWorkflow(TestCatalystModule):
                 self.test_data.get("get_deployment_status_case_13"),
             ]
         elif "test_deploy_composite_no_member_info_case_14" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_details_case_13"),
                 self.test_data.get("get_templates_details_case_13"),
                 self.test_data.get("get_device_by_ip_case_13"),
                 self.test_data.get("get_template_versions_parent_case_13"),
             ]
         elif "test_deploy_composite_missing_member_name_case_15" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_projects_details_case_13"),
                 self.test_data.get("get_templates_details_case_13"),
                 self.test_data.get("get_device_by_ip_case_13"),

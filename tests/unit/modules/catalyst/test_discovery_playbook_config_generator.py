@@ -21,7 +21,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import discovery_p
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
 
     module = discovery_playbook_config_generator
     test_data = loadPlaybookData("discovery_playbook_config_generator")
@@ -31,16 +31,16 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
     playbook_config_with_filters = test_data.get("playbook_config_with_filters")
 
     def setUp(self):
-        super(TestDnacBrownfieldDiscoveryPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         # Mock file operations
         self.mock_open = patch("builtins.open")
@@ -53,9 +53,9 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldDiscoveryPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
         self.mock_open.stop()
         self.mock_yaml_dump.stop()
 
@@ -65,78 +65,78 @@ class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
         """
 
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "discovery_name_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "discovery_type_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "component_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "empty_discoveries_response" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_empty_response"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "api_exception_handling" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 Exception("API Error: Connection failed"),
             ]
 
         elif "credential_mapping" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "invalid_state" in self._testMethodName:
-            self.run_dnac_exec.side_effect = []
+            self.run_catalystcenter_exec.side_effect = []
 
         elif "missing_config" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "file_path_specified" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "no_global_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = []
+            self.run_catalystcenter_exec.side_effect = []
 
         elif "successful_generation" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "config_verify_false" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]
 
         elif "debug_logging" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_discoveries_response_success"),
                 self.test_data.get("get_global_credentials_response_success"),
             ]

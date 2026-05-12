@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-    - name: Load vars and declare dnac vars
+    - name: Load vars and declare catalystcenter vars
       include_vars:
         file: "{{ role_path }}/vars/vars_assurance_icap_management.yml"
         name: vars_map
       vars:
-        catalyst_login: &catalyst_login
+        catalystcenter_login: &catalystcenter_login
           catalystcenter_host: "{{ catalystcenter_host }}"
           catalystcenter_username: "{{ catalystcenter_username }}"
           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -18,7 +18,7 @@
           catalystcenter_debug: "{{ catalystcenter_debug }}"
           catalystcenter_log: true
           catalystcenter_log_level: DEBUG
-          dnac_log_append: false
+          catalystcenter_log_append: false
           config_verify: true
 
     # ############################################
@@ -26,8 +26,8 @@
     # ############################################
 
     - name: Create assurance ICAP
-      cisco.dnac.assurance_icap_settings_workflow_manager:
-        <<: *catalyst_login
+      cisco.catalystcenter.assurance_icap_settings_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - "{{ item }}"
