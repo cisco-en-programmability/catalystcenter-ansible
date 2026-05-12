@@ -436,330 +436,55 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     def validate_input(self):
         """
-        Validates input configuration parameters for application policy playbook generation.
-
-        Validates and normalizes top-level file settings and config filters.
-        File settings are accepted only at top-level module parameters.
-
+        Validates the input configuration parameters for the playbook.
         Returns:
-            self: Instance with updated attributes:
-                - self.validated_config: Validated configuration dictionary
-                - self.msg: Validation result message
-                - self.status: Operation status (success/failed)
+            object: An instance of the class with updated attributes:
+                self.msg: A message describing the validation result.
+                self.status: The status of the validation (either "success" or "failed").
+                self.validated_config: If successful, a validated version of the "config" parameter.
         """
+        self.log("Starting validation of input configuration parameters.", "DEBUG")
+
+        # Check if configuration is available
+        if not self.config:
+            self.status = "success"
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = "Configuration is not provided or empty - treating as generate_all_configurations mode"
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
+
+        # Expected schema for configuration parameters
+        temp_spec = {
+            "component_specific_filters": {
+                "type": "dict",
+                "required": False
+            }
+        }
+
+        # Validate params
+        self.log("Validating configuration against schema.", "DEBUG")
+
+        valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.log(
-            "Starting validation of input configuration parameters for application "
-            "policy playbook generation",
+            "Schema validation passed successfully. All parameters conform to expected "
+            "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
             "DEBUG"
         )
-        config = self.config
-        config_provided = config is not None
-        if config is None:
-            self.log(
-                "config is not provided. Defaulting to generate all configurations.",
-                "INFO"
-            )
-            config = {}
 
-        elif not isinstance(config, dict):
-            self.msg = (
-                "config must be a dictionary when provided. Got: {0}.".format(
-                    type(config).__name__
-                )
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        self.log("Validating invalid parameters against provided config", "DEBUG")
+        self.validate_invalid_params(self.config, temp_spec.keys())
 
-        if config_provided and config == {}:
-            self.msg = (
-                "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        # Auto-populate components_list from component filters and validate
+        component_specific_filters = valid_temp.get("component_specific_filters")
+        if component_specific_filters:
+            self.auto_populate_and_validate_components_list(component_specific_filters)
 
-        allowed_config_keys = {"component_specific_filters"}
-        invalid_config_keys = set(config.keys()) - allowed_config_keys
-        if invalid_config_keys:
-            if "file_path" in invalid_config_keys or "file_mode" in invalid_config_keys:
-                self.msg = (
-                    "file_path and file_mode must be provided as top-level module "
-                    "parameters, not under config."
-                )
-            else:
-                self.msg = (
-                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
-                        sorted(list(invalid_config_keys)), sorted(list(allowed_config_keys))
-                    )
-                )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        file_path = self.params.get("file_path")
-        file_mode = self.params.get("file_mode", "overwrite")
-        valid_file_modes = ["overwrite", "append"]
-
-        if file_path and file_mode not in valid_file_modes:
-            self.msg = (
-                "Invalid file_mode '{0}'. Allowed values are: {1}.".format(
-                    file_mode, valid_file_modes
-                )
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        if not file_path and file_mode != "overwrite":
-            self.log(
-                "file_mode='{0}' is ignored because file_path is not provided.".format(
-                    file_mode
-                ),
-                "WARNING"
-            )
-
-        generate_all = not config_provided
-
-        allowed_component_filter_keys = {"components_list", "queuing_profile", "application_policy"}
-        allowed_component_choices = {"queuing_profile", "application_policy"}
-        component_filters = config.get("component_specific_filters")
-
-        if config_provided and component_filters is None:
-            self.msg = (
-                "'component_specific_filters' is mandatory when 'config' is provided."
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        normalized_component_filters = None
-        if component_filters is not None:
-            if not isinstance(component_filters, dict):
-                self.msg = (
-                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
-                        type(component_filters).__name__
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            normalized_component_filters = dict(component_filters)
-            invalid_filter_keys = set(normalized_component_filters.keys()) - allowed_component_filter_keys
-            if invalid_filter_keys:
-                self.msg = (
-                    "Invalid keys found in 'component_specific_filters': {0}. Allowed keys are: {1}.".format(
-                        sorted(list(invalid_filter_keys)),
-                        sorted(list(allowed_component_filter_keys))
-                    )
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            components_list = normalized_component_filters.get("components_list")
-            normalized_components_list = []
-            if components_list is not None:
-                if not isinstance(components_list, list):
-                    self.msg = (
-                        "'components_list' must be a list, got: {0}.".format(
-                            type(components_list).__name__
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                invalid_components = set(components_list) - allowed_component_choices
-                if invalid_components:
-                    self.msg = (
-                        "Invalid component names found in 'components_list': {0}. "
-                        "Allowed values are: {1}.".format(
-                            sorted(list(invalid_components)),
-                            sorted(list(allowed_component_choices))
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                duplicate_components = [
-                    item for item in set(components_list)
-                    if components_list.count(item) > 1
-                ]
-                if duplicate_components:
-                    self.msg = (
-                        "Duplicate component names found in 'components_list': {0}. "
-                        "Each component must appear only once.".format(
-                            sorted(duplicate_components)
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-                normalized_components_list = list(components_list)
-
-            component_blocks = []
-
-            if "queuing_profile" in normalized_component_filters:
-                queuing_profile = self._normalize_component_filter_block(
-                    "queuing_profile",
-                    normalized_component_filters.get("queuing_profile"),
-                    "profile_names_list"
-                )
-                if queuing_profile is None:
-                    self.log(
-                        "Normalization failed for 'queuing_profile' filter block. "
-                        "Stopping validation.",
-                        "ERROR"
-                    )
-                    return self
-
-                normalized_component_filters["queuing_profile"] = queuing_profile
-
-                self.log(
-                    "Validated 'profile_names_list' - {0} for 'queuing_profile'.".format(
-                        queuing_profile.get("profile_names_list")
-                    ),
-                    "DEBUG"
-                )
-
-                component_blocks.append("queuing_profile")
-
-            if "application_policy" in normalized_component_filters:
-                application_policy = self._normalize_component_filter_block(
-                    "application_policy",
-                    normalized_component_filters.get("application_policy"),
-                    "policy_names_list"
-                )
-                if application_policy is None:
-                    self.log(
-                        "Normalization failed for 'application_policy' filter block. "
-                        "Stopping validation.",
-                        "ERROR"
-                    )
-                    return self
-
-                normalized_component_filters["application_policy"] = application_policy
-
-                self.log(
-                    "Validated 'policy_names_list' - {0} for 'application_policy'.".format(
-                        application_policy.get("policy_names_list")
-                    ),
-                    "DEBUG"
-                )
-
-                component_blocks.append("application_policy")
-
-            if component_blocks:
-                for component_name in component_blocks:
-                    if component_name not in normalized_components_list:
-                        normalized_components_list.append(component_name)
-                normalized_component_filters["components_list"] = normalized_components_list
-            elif not normalized_components_list:
-                self.msg = (
-                    "'components_list' must be provided with at least one component "
-                    "when no component-specific filter block is defined."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-            else:
-                normalized_component_filters["components_list"] = normalized_components_list
-
-        normalized_config = {"generate_all_configurations": generate_all}
-        if normalized_component_filters is not None:
-            normalized_config["component_specific_filters"] = normalized_component_filters
-
-        if file_path:
-            normalized_config["file_path"] = file_path
-            normalized_config["file_mode"] = file_mode
-
-        self.validated_config = normalized_config
-
-        self.log(
-            "All validation checks passed successfully. Validated configuration "
-            "is ready for processing",
-            "INFO"
-        )
-
-        self.msg = "Successfully validated playbook configuration parameters"
+        # Set the validated configuration and update the result with success status
+        self.validated_config = valid_temp
+        self.msg = f"Successfully validated playbook configuration parameters using 'validated_input': {str(valid_temp)}"
         self.set_operation_result("success", False, self.msg, "INFO")
-
-        self.log(
-            "Input validation completed successfully - configuration is ready for "
-            "processing",
-            "INFO"
-        )
-
         return self
-
-    def write_dict_to_yaml_with_mode(self, data_dict, file_path,
-                                     file_mode="overwrite", dumper=OrderedDumper):
-        """
-        Converts a dictionary to YAML format and writes it to a specified file path.
-
-        Extends the parent write_dict_to_yaml to add file_mode support.
-
-        Args:
-            data_dict (dict): The dictionary to convert to YAML format.
-            file_path (str): The path where the YAML file will be written.
-            file_mode (str): The file write mode - "overwrite" or "append"
-                (default is "overwrite").
-            dumper: The YAML dumper class to use for serialization
-                (default is OrderedDumper).
-
-        Returns:
-            bool: True if the YAML file was successfully written, False otherwise.
-        """
-        self.log(
-            "Starting to write dictionary to YAML file at: {0} "
-            "with file_mode: {1}".format(file_path, file_mode),
-            "DEBUG",
-        )
-        try:
-            self.log(
-                "Starting conversion of dictionary to YAML format.",
-                "INFO"
-            )
-
-            yaml_content = yaml.dump(
-                data_dict,
-                Dumper=dumper,
-                default_flow_style=False,
-                indent=2,
-                allow_unicode=True,
-                sort_keys=False,
-            )
-
-            if file_mode == "append":
-                yaml_content = "\n" + yaml_content
-            else:
-                yaml_content = "---\n" + yaml_content
-
-            self.log(
-                "Dictionary successfully converted to YAML format.",
-                "DEBUG"
-            )
-
-            # Ensure the directory exists
-            self.ensure_directory_exists(file_path)
-
-            write_mode = "a" if file_mode == "append" else "w"
-
-            self.log(
-                "Preparing to write YAML content to file: {0} "
-                "with mode: {1}".format(file_path, write_mode),
-                "INFO"
-            )
-            with open(file_path, write_mode) as yaml_file:
-                yaml_file.write(yaml_content)
-
-            self.log(
-                "Successfully written YAML content to {0}.".format(
-                    file_path
-                ),
-                "INFO"
-            )
-            return True
-
-        except Exception as e:
-            self.msg = (
-                "An error occurred while writing to {0}: {1}".format(
-                    file_path, str(e)
-                )
-            )
-            self.fail_and_exit(self.msg)
 
     def get_workflow_elements_schema(self):
         """
@@ -3220,21 +2945,16 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "INFO"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        app_policy_filters = component_specific_filters.get("application_policy", {})
-        policy_names_list = app_policy_filters.get("policy_names_list", [])
+        app_policy_filters = filters.get("component_specific_filters", [])
+        policy_names_list = [{
+            'policy_names_list': [
+                item
+                for d in app_policy_filters
+                for item in d.get('policy_names_list', [])
+            ]
+        }]
 
-        self.log(
-            "Extracted filter parameters. component_specific_filters present: {0}, "
-            "application_policy filters present: {1}, policy_names_list count: {2}, "
-            "policy names: {3}".format(
-                bool(component_specific_filters),
-                bool(app_policy_filters),
-                len(policy_names_list) if policy_names_list else 0,
-                policy_names_list if policy_names_list else "None (retrieve all policies)"
-            ),
-            "DEBUG"
-        )
+        policy_names_list = policy_names_list[0]['policy_names_list'] if policy_names_list and len(policy_names_list) > 0 else []
 
         if policy_names_list:
             self.log(
@@ -4151,7 +3871,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         return bandwidth_settings, dscp_result
 
-    def get_queuing_profiles(self, network_element, config):
+    def get_queuing_profiles(self, network_element, filters):
         """
         Retrieves queuing profiles from Cisco Catalyst Center and transforms them into
         playbook-compatible format.
@@ -4177,27 +3897,21 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting queuing profile retrieval with configuration filters. "
             "Has component_specific_filters: {0}".format(
-                bool(config.get("component_specific_filters"))
+                bool(filters.get("component_specific_filters"))
             ),
             "INFO"
         )
 
-        # Extract filters from config
-        component_specific_filters = config.get("component_specific_filters", {})
-        queuing_profile_filters = component_specific_filters.get("queuing_profile", {})
-        profile_names_list = queuing_profile_filters.get("profile_names_list", [])
+        queuing_profile_filters = filters.get("component_specific_filters", [])
+        profile_names_list = [{
+            'profile_names_list': [
+                item
+                for d in queuing_profile_filters
+                for item in d.get('profile_names_list', [])
+            ]
+        }]
 
-        self.log(
-            "Extracted filter parameters. component_specific_filters present: {0}, "
-            "queuing_profile filters present: {1}, profile_names_list count: {2}, "
-            "profile names: {3}".format(
-                bool(component_specific_filters),
-                bool(queuing_profile_filters),
-                len(profile_names_list) if profile_names_list else 0,
-                profile_names_list if profile_names_list else "None (retrieve all profiles)"
-            ),
-            "DEBUG"
-        )
+        profile_names_list = profile_names_list[0].get('profile_names_list', []) if profile_names_list and len(profile_names_list) > 0 else []
 
         if profile_names_list:
             self.log(
@@ -4444,581 +4158,74 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             return {"queuing_profile": []}
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates YAML configuration file from retrieved application policy and queuing profile data.
-
-        This function orchestrates the complete YAML generation workflow by retrieving component
-        configurations from Cisco Catalyst Center, transforming them to playbook format, and
-        writing the consolidated output to a YAML file compatible with application_policy_workflow_manager.
-
-        Args:
-            yaml_config_generator (dict): Configuration dictionary containing file path and component filters.
-
-        Returns:
-            object: Self instance with updated status and result information.
-        """
-        self.log(
-            "Starting YAML configuration file generation workflow for module '{0}'. Processing "
-            "configuration and determining output file path.".format(self.module_name),
-            "INFO"
-        )
-
-        if not isinstance(yaml_config_generator, dict):
-            self.msg = (
-                "yaml_config_generator parameter must be a dictionary, got: {0}. Cannot "
-                "proceed with YAML generation.".format(type(yaml_config_generator).__name__)
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        try:
-            # Determine output file path (user-provided or auto-generated)
-            file_path = yaml_config_generator.get("file_path")
-
-            if not file_path:
-                self.log(
-                    "No file_path provided in configuration. Generating default filename using "
-                    "timestamp-based naming convention.",
-                    "DEBUG"
-                )
-                file_path = self.generate_filename()
-
-                if not file_path:
-                    self.msg = (
-                        "Failed to generate default filename for YAML configuration file. "
-                        "generate_filename() returned None or empty string."
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                self.log(
-                    "Auto-generated default filename for YAML output: '{0}'".format(file_path),
-                    "INFO"
-                )
-            else:
-                self.log(
-                    "Using user-provided file path for YAML output: '{0}'".format(file_path),
-                    "INFO"
-                )
-
-            component_specific_filters = yaml_config_generator.get("component_specific_filters", {})
-            components_list = component_specific_filters.get("components_list", ["queuing_profile", "application_policy"])
-
-            self.log(
-                "Extracted component configuration. component_specific_filters present: {0}, "
-                "components_list: {1} (count: {2})".format(
-                    bool(component_specific_filters),
-                    components_list,
-                    len(components_list) if components_list else 0
-                ),
-                "DEBUG"
-            )
-
-            if not components_list:
-                self.log(
-                    "Components list is empty. No components to process. This will result in "
-                    "empty configuration output.",
-                    "WARNING"
-                )
-
-            # Use list of dicts instead of single list
-            final_output = []
-
-            components_processed = 0
-            components_skipped = 0
-            total_configurations = 0
-
-            self.log(
-                "Starting component iteration and retrieval. Processing {0} component(s): {1}".format(
-                    len(components_list), components_list
-                ),
-                "INFO"
-            )
-
-            # Process each component in the components list
-            for component_index, component_name in enumerate(components_list, start=1):
-                self.log(
-                    "Processing component {0}/{1}: '{2}'. Checking module schema for component "
-                    "definition.".format(component_index, len(components_list), component_name),
-                    "DEBUG"
-                )
-
-                # Validate component exists in module schema
-                if component_name not in self.module_schema["network_elements"]:
-                    self.log(
-                        "Component '{0}' ({1}/{2}) not found in module schema network_elements. "
-                        "Available components: {3}. Skipping this component.".format(
-                            component_name,
-                            component_index,
-                            len(components_list),
-                            list(self.module_schema["network_elements"].keys())
-                        ),
-                        "WARNING"
-                    )
-                    components_skipped += 1
-                    continue
-
-                # Get component definition and retrieval function
-                network_element = self.module_schema["network_elements"][component_name]
-                get_function = network_element.get("get_function_name")
-
-                if not get_function:
-                    self.log(
-                        "Component '{0}' ({1}/{2}) has no get_function_name defined in schema. "
-                        "Cannot retrieve configurations. Skipping this component.".format(
-                            component_name, component_index, len(components_list)
-                        ),
-                        "ERROR"
-                    )
-                    components_skipped += 1
-                    continue
-
-                self.log(
-                    "Initiating retrieval for component '{0}' ({1}/{2}). Calling retrieval "
-                    "function to fetch configurations from Cisco Catalyst Center.".format(
-                        component_name, component_index, len(components_list)
-                    ),
-                    "INFO"
-                )
-
-                # Call component-specific retrieval function
-                component_data = get_function(network_element, yaml_config_generator)
-
-                # Validate component data returned
-                if not component_data:
-                    self.log(
-                        "Component '{0}' ({1}/{2}) retrieval returned None or empty result. "
-                        "No configurations retrieved for this component. Skipping.".format(
-                            component_name, component_index, len(components_list)
-                        ),
-                        "WARNING"
-                    )
-                    components_skipped += 1
-                    continue
-
-                if not isinstance(component_data, dict):
-                    self.log(
-                        "Component '{0}' ({1}/{2}) retrieval returned invalid data type. "
-                        "Expected dict, got: {3}. Skipping this component.".format(
-                            component_name, component_index, len(components_list),
-                            type(component_data).__name__
-                        ),
-                        "WARNING"
-                    )
-                    components_skipped += 1
-                    continue
-
-                # Check if component data contains the component key with actual configurations
-                if component_name not in component_data:
-                    self.log(
-                        "Component '{0}' ({1}/{2}) data missing expected key '{0}'. "
-                        "Data keys: {3}. Skipping this component.".format(
-                            component_name, component_index, len(components_list),
-                            list(component_data.keys())
-                        ),
-                        "WARNING"
-                    )
-                    components_skipped += 1
-                    continue
-
-                component_configs = component_data.get(component_name)
-
-                if not component_configs:
-                    self.log(
-                        "Component '{0}' ({1}/{2}) has no configurations (empty list or None). "
-                        "No data to include in YAML output. Skipping this component.".format(
-                            component_name, component_index, len(components_list)
-                        ),
-                        "INFO"
-                    )
-                    components_skipped += 1
-                    continue
-
-                config_count = len(component_configs) if isinstance(component_configs, list) else 1
-
-                self.log(
-                    "Successfully retrieved {0} configuration(s) for component '{1}' ({2}/{3}). "
-                    "Adding to final output collection.".format(
-                        config_count, component_name, component_index, len(components_list)
-                    ),
-                    "INFO"
-                )
-
-                # Add component configurations to final output
-                final_output.append({component_name: component_configs})
-                components_processed += 1
-                total_configurations += config_count
-
-            self.log(
-                "Completed component iteration. Components processed successfully: {0}, "
-                "Components skipped (not found/no data): {1}, Total configurations collected: {2}".format(
-                    components_processed, components_skipped, total_configurations
-                ),
-                "INFO"
-            )
-
-            # Validate that we have configurations to write
-            if not final_output:
-                self.msg = (
-                    "No configurations found to generate YAML file. All components either had "
-                    "no data or were skipped. Components requested: {0}, Components skipped: {1}. "
-                    "No YAML file will be created.".format(
-                        components_list, components_skipped
-                    )
-                )
-                self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg, "INFO")
-                return self
-
-            self.log(
-                "Initiating YAML file write operation. Target file path: '{0}', "
-                "Total configurations to write: {1}, Components included: {2}".format(
-                    file_path, total_configurations, components_processed
-                ),
-                "INFO"
-            )
-
-            # Write to YAML file - wrap output under 'config' key for schema compatibility
-            file_mode = yaml_config_generator.get("file_mode", "overwrite")
-            wrapped_output = OrderedDict([("config", final_output)])
-            success = self.write_dict_to_yaml_with_mode(
-                wrapped_output, file_path, file_mode=file_mode
-            )
-
-            if success:
-                self.msg = "YAML config generation succeeded for module '{0}'.".format(
-                    self.module_name
-                )
-
-                # Build structured response with detailed operation metrics
-                structured_response = {
-                    "status": "success",
-                    "message": self.msg,
-                    "file_path": file_path,
-                    "configurations_count": total_configurations,
-                    "components_processed": components_processed,
-                    "components_skipped": components_skipped
-                }
-
-                self.log(
-                    "YAML configuration file successfully written to: '{0}'. Total configurations "
-                    "written: {1}, Components included: {2}, File write operation completed.".format(
-                        file_path, total_configurations, components_processed
-                    ),
-                    "INFO"
-                )
-
-                # Pass structured response as additional_info to preserve detailed metrics
-                self.set_operation_result("success", True, self.msg, "INFO", structured_response)
-            else:
-                self.msg = (
-                    "Failed to write YAML configuration file to path: '{0}'. File write operation "
-                    "returned failure status. Check file path validity, permissions, and disk space.".format(
-                        file_path
-                    )
-                )
-
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-
-            return self
-
-        except Exception as e:
-            self.msg = (
-                "Exception occurred during YAML configuration generation workflow. "
-                "Error type: {0}, Error message: {1}. YAML file generation failed.".format(
-                    type(e).__name__, str(e)
-                )
-            )
-
-            self.log(self.msg, "ERROR")
-
-            # Log full traceback for debugging
-            import traceback
-            self.log(
-                "Full exception traceback for YAML generation: {0}".format(
-                    traceback.format_exc()
-                ),
-                "DEBUG"
-            )
-
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
     def get_diff_gathered(self):
         """
-        Execute the application policy gathering workflow to collect brownfield configurations.
+        Executes YAML configuration file generation for template workflow.
 
-        This method orchestrates the complete brownfield application policy extraction workflow
-        by coordinating YAML configuration generation operations based on user-provided
-        parameters and filters. It serves as the main execution entry point for the 'gathered'
-        state operation.
-
-        Purpose:
-            Coordinates the execution of application policy extraction operations to generate
-            Ansible-compatible YAML playbook configurations from existing Cisco Catalyst
-            Center deployments (brownfield environments).
-
-        Workflow Steps:
-            1. Log workflow initiation with timestamp
-            2. Validate operation registry and parameters
-            3. Iterate through registered operations
-            4. Check parameter availability for each operation
-            5. Execute operation functions with error handling
-            6. Track execution time per operation and total
-            7. Aggregate results and operation summaries
-            8. Log completion with performance metrics
-
-        Args:
-            None
-
-        Returns:
-            object: Self instance with updated status after YAML generation.
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing network element details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
-        self.log(
-            "Starting brownfield application policy gathering workflow for state 'gathered' "
-            "to extract existing application policies and queuing profiles from Cisco Catalyst "
-            "Center and generate Ansible-compatible YAML playbooks",
-            "DEBUG"
-        )
 
-        # Record workflow start time for performance tracking
-        workflow_start_time = time.time()
-
-        self.log(
-            "Workflow execution started at timestamp: {0}".format(
-                time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_start_time))
-            ),
-            "INFO"
-        )
-
-        # Define operations registry for this workflow state
-        # Each tuple contains: (param_key, operation_name, operation_func)
-        operations = [
-            ("yaml_config_generator", "YAML Configuration Generator", self.yaml_config_generator)
-        ]
-
-        self.log(
-            "Registered {0} operation(s) for execution in 'gathered' workflow: {1}".format(
-                len(operations),
-                [op[1] for op in operations]
-            ),
-            "DEBUG"
-        )
-
-        # Validate operations registry
-        if not operations:
-            error_msg = (
-                "Operations registry is empty for state 'gathered' - no operations to execute"
+        start_time = time.time()
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        # Define workflow operations
+        workflow_operations = [
+            (
+                "yaml_config_generator",
+                "YAML Config Generator",
+                self.yaml_config_generator,
             )
-            self.log(error_msg, "ERROR")
-            self.msg = error_msg
-            self.status = "failed"
-            return self
-
-        # Track operation execution statistics
-        operations_attempted = 0
+        ]
         operations_executed = 0
         operations_skipped = 0
-        operations_failed = 0
 
-        # Get configuration from validated_config
-        config = self.validated_config if self.validated_config else {}
-
-        self.log(
-            "Extracted configuration from validated_config. Config keys: {0}".format(
-                list(config.keys()) if config else "None"
-            ),
-            "DEBUG"
-        )
-
-        # Build want dictionary for operation execution
-        self.want = {
-            "yaml_config_generator": config
-        }
-
-        # Execute each operation in sequence
-        for operation_index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
-            operations_attempted += 1
-
+        # Iterate over operations and process them
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            workflow_operations, start=1
+        ):
             self.log(
-                "Processing operation {0}/{1}: '{2}' (checking for parameter key '{3}' "
-                "in workflow state)".format(
-                    operation_index, len(operations), operation_name, param_key
-                ),
-                "INFO"
+                f"Iteration {index}: Checking parameters for {operation_name} operation with param_key '{param_key}'.",
+                "DEBUG",
             )
-
-            # Validate operation function is callable
-            if not operation_func or not callable(operation_func):
-                error_msg = (
-                    "Operation {0}/{1} '{2}' has invalid function reference (expected "
-                    "callable, got {3}). Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_func).__name__ if operation_func else "None"
-                    )
-                )
-                self.log(error_msg, "ERROR")
-                operations_skipped += 1
-                continue
-
-            # Check if parameters are available for this operation
-            operation_params = self.want.get(param_key)
-
-            if not operation_params:
+            params = self.want.get(param_key)
+            if params:
                 self.log(
-                    "Operation {0}/{1} '{2}' has no parameters in workflow state "
-                    "(parameter key '{3}' not found or empty). Skipping operation.".format(
-                        operation_index, len(operations), operation_name, param_key
-                    ),
-                    "WARNING"
+                    f"Iteration {index}: Parameters found for {operation_name}. Starting processing.",
+                    "INFO",
                 )
-                operations_skipped += 1
-                continue
 
-            # Validate operation parameters structure
-            if not isinstance(operation_params, dict):
-                self.log(
-                    "Operation {0}/{1} '{2}' has invalid parameters structure - "
-                    "expected dict, got {3}. Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_params).__name__
-                    ),
-                    "WARNING"
-                )
-                operations_skipped += 1
-                continue
-
-            self.log(
-                "Operation {0}/{1} '{2}' parameters found in workflow state with "
-                "{3} configuration key(s): {4}. Starting operation execution.".format(
-                    operation_index, len(operations), operation_name,
-                    len(operation_params), list(operation_params.keys())
-                ),
-                "INFO"
-            )
-
-            # Record operation start time
-            operation_start_time = time.time()
-
-            self.log(
-                "Executing operation '{0}' with parameters: {1}".format(
-                    operation_name, operation_params
-                ),
-                "DEBUG"
-            )
-
-            try:
-                # Execute the operation function with parameters
-                operation_result = operation_func(operation_params)
-
-                # Validate operation result
-                if not operation_result:
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
                     self.log(
-                        "Operation '{0}' completed but returned None result".format(
-                            operation_name
-                        ),
-                        "WARNING"
+                        f"{operation_name} operation completed successfully",
+                        "DEBUG"
                     )
+                except Exception as e:
+                    self.log(
+                        f"{operation_name} operation failed with error: {str(e)}",
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        f"{operation_name} operation failed: {str(e)}",
+                        "ERROR"
+                    ).check_return_status()
 
-                # Check operation status via check_return_status()
-                # This will exit module if status is 'failed'
-                operation_result.check_return_status()
-
-                # Calculate operation execution time
-                operation_end_time = time.time()
-                operation_duration = operation_end_time - operation_start_time
-
+            else:
+                operations_skipped += 1
                 self.log(
-                    "Operation {0}/{1} '{2}' completed successfully in {3:.2f} seconds".format(
-                        operation_index, len(operations), operation_name, operation_duration
-                    ),
-                    "INFO"
+                    f"Iteration {index}: No parameters found for {operation_name}. Skipping operation.",
+                    "WARNING",
                 )
 
-                operations_executed += 1
-
-            except Exception as e:
-                # Calculate operation execution time even on failure
-                operation_end_time = time.time()
-                operation_duration = operation_end_time - operation_start_time
-
-                error_msg = (
-                    "Operation {0}/{1} '{2}' failed after {3:.2f} seconds with error: {4}".format(
-                        operation_index, len(operations), operation_name,
-                        operation_duration, str(e)
-                    )
-                )
-                self.log(error_msg, "ERROR")
-
-                operations_failed += 1
-
-                # Set failure status and message
-                self.msg = (
-                    "Workflow execution failed during operation '{0}': {1}".format(
-                        operation_name, str(e)
-                    )
-                )
-                self.status = "failed"
-
-                # Exit immediately on operation failure
-                # Note: check_return_status() will handle module exit
-                return self
-
-        # Calculate total workflow execution time
-        workflow_end_time = time.time()
-        workflow_duration = workflow_end_time - workflow_start_time
-
-        # Log workflow completion summary
+        end_time = time.time()
         self.log(
-            "Brownfield application policy gathering workflow completed. "
-            "Execution summary: attempted={0}, executed={1}, skipped={2}, failed={3}, "
-            "total_duration={4:.2f} seconds".format(
-                operations_attempted, operations_executed, operations_skipped,
-                operations_failed, workflow_duration
-            ),
-            "INFO"
-        )
-
-        # Determine overall workflow success
-        if operations_executed == 0:
-            self.log(
-                "No operations were executed - all operations were skipped or had invalid "
-                "configurations. Workflow completed with warnings.",
-                "WARNING"
-            )
-            self.msg = (
-                "Workflow completed but no operations were executed. "
-                "Verify configuration parameters."
-            )
-            self.status = "ok"
-        elif operations_failed > 0:
-            self.log(
-                "Workflow completed with {0} operation failure(s)".format(operations_failed),
-                "ERROR"
-            )
-            self.status = "failed"
-        else:
-            self.log(
-                "All {0} operation(s) executed successfully without errors".format(
-                    operations_executed
-                ),
-                "INFO"
-            )
-            # Note: Individual operation may have already set status to "success"
-            # We preserve that status if it was set
-            if self.status != "success":
-                self.status = "ok"
-
-        self.log(
-            "Brownfield application policy gathering workflow execution finished at "
-            "timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
-                time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_end_time)),
-                workflow_duration,
-                self.status
-            ),
-            "INFO"
+            f"Completed 'get_diff_gathered' operation in {end_time - start_time:.2f} seconds.",
+            "DEBUG",
         )
 
         return self

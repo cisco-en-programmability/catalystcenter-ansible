@@ -23,9 +23,11 @@
   "playbook_config_wireless_ssids_filtered": {
     "component_specific_filters": {
       "components_list": ["wireless_ssids"],
-      "wireless_ssids": {
-        "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
-      }
+      "wireless_ssids": [
+        {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      ]
     }
   },
   "playbook_config_all_components_filtered": {
@@ -41,9 +43,11 @@
           "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1"
         }
       ],
-      "wireless_ssids": {
-        "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
-      }
+      "wireless_ssids": [
+        {
+          "fabric_site_name_hierarchy": ["Global/USA/San Jose/Building1"]
+        }
+      ]
     }
   },
   "playbook_config_no_file_path": {
