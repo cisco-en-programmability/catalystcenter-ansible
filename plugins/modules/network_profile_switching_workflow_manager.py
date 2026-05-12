@@ -5,7 +5,6 @@
 
 """Ansible module to create, update, or delete network switch profiles
 in Cisco Catalyst Center, and manage associated sites and CLI templates."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -96,7 +95,7 @@ options:
         elements: str
         required: false
 requirements:
-  - catalystcentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
@@ -121,7 +120,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -440,7 +439,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.result_response = {
             "success_responses": self.switch,
             "unprocessed": self.not_processed,
-            "already_processed": self.already_processed,
+            "already_processed": self.already_processed
         }
 
     def validate_input(self):
@@ -658,9 +657,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         limit = 500
 
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(
-            self.payload.get("catalystcenter_task_poll_interval")
-        )
+        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
         while resync_retry_count > 0:
             profiles = self.get_network_profile("Switching", offset, limit)
             if not profiles:
@@ -828,9 +825,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not host_name:
             msg = "Cisco Catalyst Center host information is missing."
             self.log(msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, msg, "ERROR", self.result_response
-            ).check_return_status()
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         # Direct API call as SDK is not available yet
         dnac_url = "https://{0}".format(str(host_name))
@@ -839,9 +835,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not token_str:
             msg = "Failed to retrieve access token from Cisco Catalyst Center."
             self.log(msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, msg, "ERROR", self.result_response
-            ).check_return_status()
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         headers = {
             "Content-Type": "application/json",
@@ -924,9 +919,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         each_config["profile_name"]
                     )
                     self.log(msg + str(e), "ERROR")
-                    self.set_operation_result(
-                        "failed", False, msg, "ERROR", self.result_response
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, msg, "ERROR",
+                                              self.result_response).check_return_status()
 
         self.log("No matching switch profile found. Skipping profile creation.", "INFO")
         return None
@@ -972,14 +966,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         for each_profile in profile_list:
             config_profile_name = each_profile["profile_name"]
-            profile_response = dict(profile_name=config_profile_name)
+            profile_response = dict(
+                profile_name=config_profile_name
+            )
 
             if not self.value_exists(
                 self.have[type_list_name], "name", config_profile_name
             ):
                 msg = "No changes required, profile '{0}' already deleted".format(
-                    config_profile_name
-                )
+                    config_profile_name)
                 self.log(msg, "DEBUG")
                 profile_response["profile_status"] = msg
                 self.common_delete.append(profile_response)
@@ -1002,27 +997,27 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     unassign_templates = []
 
                     if sites or each_have.get("previous_sites"):
-                        self.process_unassign_sites(
-                            sites, each_have, given_profile, profile_id, unassign_site
-                        )
+                        self.process_unassign_sites(sites, each_have,
+                                                    given_profile,
+                                                    profile_id, unassign_site)
 
                         if unassign_site:
                             profile_response["site_unassign_status"] = (
-                                "Site(s) '{0}' unassigned successfully.".format(sites)
+                                "Site(s) '{0}' unassigned successfully.".format(
+                                    sites
+                                )
                             )
                         elif sites:
                             profile_response["site_unassign_status"] = (
-                                "Site(s) '{0}' already disassociated.".format(sites)
+                                "Site(s) '{0}' already disassociated.".format(
+                                    sites
+                                )
                             )
 
                     if each_profile.get("day_n_templates") or have_templates:
-                        self.process_unassign_templates(
-                            dayn_templates,
-                            have_templates,
-                            given_profile,
-                            profile_id,
-                            unassign_templates,
-                        )
+                        self.process_unassign_templates(dayn_templates, have_templates,
+                                                        given_profile,
+                                                        profile_id, unassign_templates)
 
                         if unassign_templates:
                             profile_response["template_unassign_status"] = (
@@ -1047,28 +1042,18 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         if not unassign_site and not unassign_templates:
                             self.already_processed.append(config_profile_name)
 
-                    if not each_profile.get("site_names") and not each_profile.get(
-                        "day_n_templates"
-                    ):
-                        self.delete_switch_profile(
-                            each_profile,
-                            given_profile,
-                            profile_id,
-                            unassign_site,
-                            unassign_templates,
-                            have_templates,
-                        )
+                    if not each_profile.get("site_names") and not each_profile.get("day_n_templates"):
+                        self.delete_switch_profile(each_profile, given_profile, profile_id,
+                                                   unassign_site, unassign_templates, have_templates)
                         break
                     else:
                         if unassign_site:
                             self.msg += "Site(s) '{0}' unassigned successfully for the profile {1}.".format(
-                                sites, given_profile
-                            )
+                                sites, given_profile)
 
                         if unassign_templates:
                             self.msg += "Template(s) '{0}' unassigned Successfully for the profile {1}.".format(
-                                dayn_templates, given_profile
-                            )
+                                dayn_templates, given_profile)
 
         if self.common_delete:
             self.msg = "Network Profile deleted successfully for '{0}'.".format(
@@ -1082,15 +1067,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             ).check_return_status()
         return self
 
-    def delete_switch_profile(
-        self,
-        each_profile,
-        given_profile,
-        profile_id,
-        unassign_site,
-        unassign_templates,
-        have_templates,
-    ):
+    def delete_switch_profile(self, each_profile, given_profile, profile_id,
+                              unassign_site, unassign_templates, have_templates):
         """
         Delete the switch profile if templates and sites are unassigned.
 
@@ -1106,11 +1084,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             bool - If switch profile deleted it return True else False.
         """
         self.log(
-            "Initiating deletion of profile '{0}'.".format(given_profile),
+            "Initiating deletion of profile '{0}'.".format(
+                given_profile
+            ),
             "INFO",
         )
 
-        task_details = self.delete_network_profiles(given_profile, profile_id)
+        task_details = self.delete_network_profiles(
+            given_profile, profile_id
+        )
         if task_details:
             if self.result["changed"]:
                 profile_response = dict(
@@ -1131,7 +1113,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 self.common_delete.append(profile_response)
                 self.log(
-                    "Profile '{0}' deleted successfully.".format(given_profile),
+                    "Profile '{0}' deleted successfully.".format(
+                        given_profile
+                    ),
                     "INFO",
                 )
                 return True
@@ -1142,7 +1126,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 )
                 self.not_processed.append(profile_response)
                 self.log(
-                    "Profile '{0}' deletion not processed.".format(given_profile),
+                    "Profile '{0}' deletion not processed.".format(
+                        given_profile
+                    ),
                     "WARNING",
                 )
                 return False
@@ -1150,15 +1136,16 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.not_processed.append(each_profile)
             self.msg += "Unable to delete profile: '{0}'.".format(self.not_processed)
             self.log(
-                "Unable to delete profile '{0}'.".format(given_profile),
+                "Unable to delete profile '{0}'.".format(
+                    given_profile
+                ),
                 "ERROR",
             )
 
         return False
 
-    def process_unassign_sites(
-        self, given_sites, existing_sites, profile_name, profile_id, unassign_site
-    ):
+    def process_unassign_sites(self, given_sites, existing_sites, profile_name,
+                               profile_id, unassign_site):
         """
         Unassign sites from the network profile if they exist in the delete state.
 
@@ -1173,12 +1160,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             bool: True if the unassignment process completes, False if some sites fail to unassign.
             None: If no input sites or existing sites are available for unassignment.
         """
-        self.log(
-            "Started processing unassign the site for the profile: '{0}'.".format(
-                profile_name
-            ),
-            "INFO",
-        )
+        self.log("Started processing unassign the site for the profile: '{0}'.".format(
+            profile_name), "INFO")
         site_response = existing_sites.get("site_response")
         previous_sites = existing_sites.get("previous_sites")
         failed_unassign_site = []
@@ -1188,11 +1171,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 "Found site(s): {0} exist for the profile '{1}'.".format(
                     str(previous_sites), profile_name
                 ),
-                "INFO",
-            )
+                "INFO")
             for each_have_site in previous_sites:
-                unassign_response = self.unassign_site_to_network_profile(
-                    profile_name, profile_id, "existing_site", each_have_site.get("id")
+                unassign_response = (
+                    self.unassign_site_to_network_profile(
+                        profile_name,
+                        profile_id,
+                        "existing_site",
+                        each_have_site.get("id")
+                    )
                 )
 
                 if unassign_response:
@@ -1231,22 +1218,18 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             )
 
             for each_site in site_response:
-                if not self.value_exists(
-                    previous_sites, "id", each_site.get("site_id")
-                ):
-                    self.log(
-                        "Skipping site '{0}' as it does not exist in previous sites for profile '{1}'.".format(
-                            each_site.get("site_names"), profile_name
-                        ),
-                        "DEBUG",
-                    )
+                if not self.value_exists(previous_sites, 'id', each_site.get("site_id")):
+                    self.log("Skipping site '{0}' as it does not exist in previous sites for profile '{1}'.".format(
+                        each_site.get("site_names"), profile_name), "DEBUG")
                     continue
 
-                unassign_response = self.unassign_site_to_network_profile(
-                    profile_name,
-                    profile_id,
-                    each_site.get("site_names"),
-                    each_site.get("site_id"),
+                unassign_response = (
+                    self.unassign_site_to_network_profile(
+                        profile_name,
+                        profile_id,
+                        each_site.get("site_names"),
+                        each_site.get("site_id"),
+                    )
                 )
                 if unassign_response:
                     msg = "Site '{0}' successfully disassociated from network profile.".format(
@@ -1274,19 +1257,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 )
                 return False
 
-        self.log(
-            "No sites to unassign for the profile '{0}'.".format(profile_name), "INFO"
-        )
+        self.log("No sites to unassign for the profile '{0}'.".format(profile_name), "INFO")
         return None
 
-    def process_unassign_templates(
-        self,
-        given_templates,
-        existing_templates,
-        profile_name,
-        profile_id,
-        unassign_templates,
-    ):
+    def process_unassign_templates(self, given_templates, existing_templates, profile_name,
+                                   profile_id, unassign_templates):
         """
         Unassign templates from the network profile if it exists in the delete state.
 
@@ -1300,113 +1275,67 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         Returns:
             bool or None - Returns None if no templates to unassign, True if unassignment processed.
         """
-        self.log(
-            "Started processing unassign the template from the profile: {0}.".format(
-                profile_name
-            ),
-            "INFO",
-        )
+        self.log("Started processing unassign the template from the profile: {0}.".format(
+            profile_name), "INFO")
 
         if given_templates:
-            self.log(
-                "Given templates to unassign: {0}".format(given_templates), "DEBUG"
-            )
+            self.log("Given templates to unassign: {0}".format(given_templates), "DEBUG")
             filter_templates = []
             for each_have_template in given_templates:
                 input_template = each_have_template.get("template_name")
                 input_template_id = each_have_template.get("template_id")
                 if self.value_exists(existing_templates, "name", input_template):
-                    filter_templates.append(
-                        {
-                            "template_name": input_template,
-                            "template_id": input_template_id,
-                        }
-                    )
+                    filter_templates.append({
+                        "template_name": input_template,
+                        "template_id": input_template_id
+                    })
                 else:
-                    self.log(
-                        f"Template '{0}' not found in existing profile templates; skipping.".format(
-                            input_template
-                        ),
-                        "DEBUG",
-                    )
+                    self.log(f"Template '{0}' not found in existing profile templates; skipping.".format(
+                        input_template), "DEBUG")
 
             if not filter_templates:
                 self.log(
                     "Nothing to unassign, given template(s): {0} not available in the profile '{1}'.".format(
-                        given_templates, profile_name
-                    ),
-                    "INFO",
-                )
+                        given_templates, profile_name), "INFO")
                 return None
 
             given_templates = filter_templates
-            self.log(
-                "Filtered templates to unassign from profile '{0}': {1}".format(
-                    profile_name, given_templates
-                ),
-                "INFO",
-            )
+            self.log("Filtered templates to unassign from profile '{0}': {1}".format(
+                profile_name, given_templates), "INFO")
         elif existing_templates:
             given_templates = existing_templates
-            self.log(
-                "No given templates provided; defaulting to existing templates for profile '{0}': {1}".format(
-                    profile_name, existing_templates
-                ),
-                "INFO",
-            )
+            self.log("No given templates provided; defaulting to existing templates for profile '{0}': {1}".format(
+                profile_name, existing_templates), "INFO")
         else:
-            self.log(
-                "No templates provided or existing for profile '{0}'. Nothing to unassign.".format(
-                    profile_name
-                ),
-                "INFO",
-            )
+            self.log("No templates provided or existing for profile '{0}'. Nothing to unassign.".format(
+                profile_name), "INFO")
             return None
 
         for each_have_template in given_templates:
             template_name = each_have_template.get(
-                "template_name", each_have_template.get("name")
-            )
+                "template_name", each_have_template.get("name"))
             template_id = each_have_template.get(
-                "template_id", each_have_template.get("id")
-            )
+                "template_id", each_have_template.get("id"))
 
             if not template_name or not template_id:
-                self.log(
-                    "Template information incomplete (name:{0}, id: {1}); skipping unassignment.".format(
-                        template_name, template_id
-                    ),
-                    "WARNING",
-                )
+                self.log("Template information incomplete (name:{0}, id: {1}); skipping unassignment.".format(
+                    template_name, template_id), "WARNING")
                 continue
 
-            self.log(
-                "Unassigning template '{0}' (ID: {1}) from profile '{2}'.".format(
-                    template_name, template_id, profile_name
-                ),
-                "INFO",
-            )
+            self.log("Unassigning template '{0}' (ID: {1}) from profile '{2}'.".format(
+                template_name, template_id, profile_name), "INFO")
             result = self.detach_networkprofile_cli_template(
-                profile_name, profile_id, template_name, template_id
-            )
+                profile_name, profile_id, template_name, template_id)
             unassign_templates.append(result)
-            self.log(
-                "Successfully unassigned template '{0}' from profile '{1}'.".format(
-                    template_name, profile_name
-                ),
-                "INFO",
-            )
+            self.log("Successfully unassigned template '{0}' from profile '{1}'.".format(
+                template_name, profile_name), "INFO")
 
             # This if condition will be removed once CLI unassign templete API upgrade released
             if unassign_templates:
                 break
 
-        self.log(
-            "Completed processing unassigning templates from profile '{0}'.".format(
-                profile_name
-            ),
-            "INFO",
-        )
+        self.log("Completed processing unassigning templates from profile '{0}'.".format(
+            profile_name), "INFO")
         return True
 
     def get_diff_merged(self, config):
@@ -1537,8 +1466,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 if dn_template and profile_id:
                     template_state = self.process_templates(
-                        dn_template, previous_templates, profile_name, profile_id
-                    )
+                        dn_template, previous_templates, profile_name, profile_id)
 
                     if template_state:
                         update_temp_status = template_state
@@ -1580,27 +1508,19 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     )
 
                     if update_temp_status:
-                        self.log(
-                            "Templates assigned successfully for: '{0}'.".format(
-                                update_temp_status
-                            ),
-                            "INFO",
-                        )
+                        self.log("Templates assigned successfully for: '{0}'.".format(
+                            update_temp_status), "INFO")
                         profile_response["template_assign_status"] = update_temp_status
 
                     if assign_site_task:
-                        msg = "Site(s) '{0}' Successfully Associated".format(
-                            assign_site_task
-                        )
+                        msg = "Site(s) '{0}' Successfully Associated".format(assign_site_task)
                         profile_response["site_assign_status"] = msg
 
                     self.switch.append(profile_response)
                 elif not update_temp_status and not assign_site_task:
                     self.already_processed.append(
                         "No changes required, switch profile '{0}' already processed".format(
-                            each_profile["profile_name"]
-                        )
-                    )
+                            each_profile["profile_name"]))
                 else:
                     self.not_processed.append(each_profile["profile_name"])
             else:
@@ -1614,18 +1534,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     )
 
                     if update_temp_status:
-                        self.log(
-                            "Templates assigned successfully for: '{0}'.".format(
-                                update_temp_status
-                            ),
-                            "INFO",
-                        )
+                        self.log("Templates assigned successfully for: '{0}'.".format(
+                            update_temp_status), "INFO")
                         profile_response["template_assign_status"] = update_temp_status
 
                     if assign_site_task:
-                        msg = "Site(s) '{0}' Successfully Associated".format(
-                            assign_site_task
-                        )
+                        msg = "Site(s) '{0}' Successfully Associated".format(assign_site_task)
                         profile_response["site_assign_status"] = msg
 
                     self.switch.append(profile_response)
@@ -1688,9 +1602,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not success_profile:
             msg = "Unable to create the profile for '{0}'.".format(config)
             self.log(msg, "INFO")
-            self.set_operation_result(
-                "failed", False, msg, "ERROR", self.result_response
-            ).check_return_status()
+            self.set_operation_result("failed", False, msg, "ERROR",
+                                      self.result_response).check_return_status()
 
         msg = "Profile created/updated are verified successfully for '{0}'.".format(
             str(success_profile)
@@ -1747,23 +1660,23 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 ).check_return_status()
                 return self
 
-            if not self.value_exists(
-                self.have["switch_profile_list"], "name", each_profile["profile_name"]
-            ):
+            if not self.value_exists(self.have["switch_profile_list"], "name",
+                                     each_profile["profile_name"]):
                 success_profile.append(each_profile["profile_name"])
             else:
                 profile_check_info = self.have["switch_profile"][profile_index]
                 if (
-                    each_profile.get("site_names")
-                    or each_profile.get("day_n_templates")
+                    each_profile.get("site_names") or each_profile.get("day_n_templates")
                 ) and not profile_check_info.get("profile_compare_stat"):
                     success_profile.append(each_profile["profile_name"])
 
             profile_index += 1
 
         if len(success_profile) > 0:
-            self.msg = "Switch profile(s) deleted/unassigned and verified successfully for '{0}'.".format(
-                str(success_profile)
+            self.msg = (
+                "Switch profile(s) deleted/unassigned and verified successfully for '{0}'.".format(
+                    str(success_profile)
+                )
             )
             self.changed = True
 
@@ -1773,10 +1686,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.status = "failed"
 
         if len(self.already_processed) == len(config):
-            self.msg = (
-                "No Changes required, profile(s) already deleted/unassigned "
-                + "and verified successfully for '{0}'.".format(self.already_processed)
-            )
+            self.msg = "No Changes required, profile(s) already deleted/unassigned " +\
+                "and verified successfully for '{0}'.".format(self.already_processed)
             self.changed = False
             self.status = "success"
 
@@ -1792,25 +1703,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

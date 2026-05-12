@@ -62,16 +62,16 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/provision/playbook/pro
     catalyst_center_hosts:
         hosts:
             your_catalyst_center_instance_name:
-                catalyst_center_host: xx.xx.xx.xx
-                catalyst_center_password: XXXXXXXX
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: admin
-                catalyst_center_verify: false # Set to true for production with valid certificates
-                catalyst_center_version: 2.3.7.9 # Specify your Catalyst Center version
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: xx.xx.xx.xx
+                catalystcenter_password: XXXXXXXX
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: admin
+                catalystcenter_verify: false # Set to true for production with valid certificates
+                catalystcenter_version: 2.3.7.9 # Specify your Catalyst Center version
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Schema Overview
@@ -141,7 +141,7 @@ Can refer to the full workflow specification details here: [Ansible Galaxy - Pro
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 provision_details:
 # Wired device controller site assignment
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
@@ -171,7 +171,7 @@ provision_details:
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 provision_details:
 # Wired device controller provisioning
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
@@ -224,7 +224,7 @@ provision_details:
 ```yml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 provision_details:
   #Reprovision wired device Hubs and Switches
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
@@ -248,7 +248,7 @@ provision_details:
 ```yml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 #Reprovision wireless device
 provision_details:
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
@@ -306,7 +306,7 @@ In this example, we are enabling application telemetry for a wired device. This 
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 provision_details:
   - application_telemetry:
     # Define the devices for application telemetry
@@ -346,7 +346,7 @@ In this example, we are enabling application telemetry for a wireless device inc
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 provision_details:
 # Application telemetry for wireless devices
   - application_telemetry:
@@ -389,7 +389,7 @@ In this example, we are disabling application telemetry for a wired device. This
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 provision_details:
   - application_telemetry:
     # Define the devices for application telemetry
@@ -418,7 +418,7 @@ In this example, we are disabling application telemetry for a wireless device. T
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 provision_details:
 # Application telemetry for wireless devices
   - application_telemetry:
@@ -456,7 +456,7 @@ For example, we will have a network profile attached with the feature template '
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 provision_details:
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
     management_ip_address: 204.192.4.200
@@ -492,7 +492,7 @@ When calling with the above input, not only is `App Name: Model Config Provision
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 provision_details:
   - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
     management_ip_address: 204.192.4.200
@@ -531,7 +531,7 @@ To configure a wireless controller with AP authorization policies while skipping
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 provision_details:
   - site_name_hierarchy: Global/USA/San Francisco/BGL_18
     management_ip_address: 204.192.3.40
@@ -572,7 +572,7 @@ To provision both the wireless controller and all associated APs with authorizat
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 provision_details:
   - site_name_hierarchy: Global/USA/San Francisco/BGL_18
     management_ip_address: 204.192.3.40
@@ -614,7 +614,7 @@ Rolling AP upgrade allows you to upgrade Access Points in phases, minimizing net
 #### Input (YAML)
 ```yml
 ---
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 provision_details:
   - site_name_hierarchy: Global/USA/San Francisco/BGL_18
     management_ip_address: 204.192.3.40

@@ -7,7 +7,7 @@
     - vars/credentials.yml
 
   vars:
-    dnac_login: &dnac_login
+    catalystcenter_login: &catalystcenter_login
       catalystcenter_host: "{{ catalystcenter_host }}"
       catalystcenter_username: "{{ catalystcenter_username }}"
       catalystcenter_password: "{{ catalystcenter_password }}"
@@ -23,7 +23,7 @@
   tasks:
     - name: Create Extranet Policy
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
@@ -33,7 +33,7 @@
 
     - name: Create Extranet Policy with Fabric Site(s) specified
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
@@ -44,7 +44,7 @@
 
     - name: Update existing Extranet Policy
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
@@ -53,7 +53,7 @@
 
     - name: Update existing Extranet Policy with Fabric Site(s) specified
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
@@ -64,7 +64,7 @@
 
     - name: Delete Extranet Policy
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: deleted
         config:
           - extranet_policy_name: "test_extranet_policy_1"

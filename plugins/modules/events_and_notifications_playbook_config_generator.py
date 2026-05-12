@@ -90,197 +90,114 @@ options:
         - Mandatory when C(config) is provided.
         - When components_list is specified, only listed components are
           retrieved regardless of other filters.
-        - Destination and notification filters provide name-based filtering
-          within selected components.
+        - Component-specific filter keys use the same names as the component
+          values in C(components_list).
+        - If filters for specific components are provided without explicitly
+          including them in C(components_list), those components are
+          automatically added.
         type: dict
         suboptions:
           components_list:
             description:
             - List of component types to include in generated YAML playbook
               file.
-            - Optional, but conditionally required when no other filter blocks
-              are provided under C(component_specific_filters).
+            - Optional, but conditionally required when no other component-
+              specific filter keys are provided under
+              C(component_specific_filters).
             - Each component type corresponds to specific API endpoint and
               configuration structure.
             - Valid component types
-              - C(webhook_destinations) - REST webhook destination
+              - C(webhook_destination) - REST webhook destination
                 configurations
-              - C(email_destinations) - Email destination with SMTP
+              - C(email_destination) - Email destination with SMTP
                 settings
-              - C(syslog_destinations) - Syslog server configurations
-              - C(snmp_destinations) - SNMP trap receiver configurations
-              - C(itsm_settings) - ITSM integration connection settings
-              - C(webhook_event_notifications) - Webhook event subscription
+              - C(syslog_destination) - Syslog server configurations
+              - C(snmp_destination) - SNMP trap receiver configurations
+              - C(itsm_setting) - ITSM integration connection settings
+              - C(webhook_event_notification) - Webhook event subscription
                 configurations
-              - C(email_event_notifications) - Email event subscription
+              - C(email_event_notification) - Email event subscription
                 configurations
-              - C(syslog_event_notifications) - Syslog event subscription
+              - C(syslog_event_notification) - Syslog event subscription
                 configurations
             type: list
             elements: str
             choices:
-            - webhook_destinations
-            - email_destinations
-            - syslog_destinations
-            - snmp_destinations
-            - itsm_settings
-            - webhook_event_notifications
-            - email_event_notifications
-            - syslog_event_notifications
-          destination_filters:
+            - webhook_destination
+            - email_destination
+            - syslog_destination
+            - snmp_destination
+            - itsm_setting
+            - webhook_event_notification
+            - email_event_notification
+            - syslog_event_notification
+          webhook_destination:
             description:
-            - Filters for destination configurations based on name or type
-              matching.
-            - Applies to webhook_destinations, email_destinations,
-              syslog_destinations, and snmp_destinations components.
-            - When C(destination_filters) is provided, the corresponding
-              destination components are automatically added to
-              C(components_list) if not already present. If
-              C(destination_types) is specified, only those types are added.
-              If C(destination_types) is omitted, all four destination
-              component types are added.
-            - Filtering is applied independently per component type selected
-              in components_list.
-            - Each component type only retrieves destinations of its own type
-              and applies destination_names filter within that scope.
-            - When destination_names provided and at least one name matches
-              a destination within a component type, only matching destinations
-              of that type are included.
-            type: dict
-            suboptions:
-              destination_names:
-                description:
-                - List of exact destination names to filter from retrieved
-                  configurations.
-                - When C(destination_names) is provided, you must target at
-                  least one destination component using either
-                  C(destination_types) or C(components_list) with one or more
-                  of C(webhook_destinations), C(email_destinations),
-                  C(syslog_destinations), C(snmp_destinations).
-                - Names must match exactly as configured in Catalyst Center
-                  (case-sensitive).
-                - Only components listed in components_list are retrieved.
-                  The destination_names filter is applied only within those
-                  selected component types. Names belonging to a component
-                  type that is not in components_list are completely ignored.
-                - If a destination name matches a destination within a
-                  selected component type, only matching destinations of
-                  that type are included in the output.
-                - Empty list or not specified retrieves all destinations for
-                  selected component types.
-                type: list
-                elements: str
-              destination_types:
-                description:
-                - Specifies which destination component types the
-                  C(destination_names) filter applies to.
-                - Components implied by C(destination_types) are
-                  automatically added to C(components_list) if not
-                  already present. For example C(webhook) auto-adds
-                  C(webhook_destinations).
-                - Use this when you want name-based filtering for some
-                  destination types but want to retrieve all destinations
-                  for other types in C(components_list).
-                - For example, with C(components_list) set to
-                  C([webhook_destinations, email_destinations]) and
-                  C(destination_types) set to C([webhook]) and
-                  C(destination_names) set to C([my-webhook-1]), only
-                  webhook destinations matching "my-webhook-1" are
-                  filtered while all email destinations are retrieved
-                  without any name filtering.
-                - Valid types are C(webhook), C(email), C(syslog),
-                  C(snmp).
-                type: list
-                elements: str
-                choices:
-                - webhook
-                - email
-                - syslog
-                - snmp
-          notification_filters:
+            - List of filter dictionaries for webhook destinations.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all webhook
+              destinations are retrieved.
+            type: list
+            elements: dict
+          email_destination:
             description:
-            - Filters for event notification subscription configurations based
-              on name or type.
-            - Applies to webhook_event_notifications,
-              email_event_notifications, and syslog_event_notifications.
-            - When C(notification_filters) is provided, the corresponding
-              notification components are automatically added to
-              C(components_list) if not already present. If
-              C(notification_types) is specified, only those types are added.
-              If C(notification_types) is omitted, all three notification
-              component types are added.
-            - When subscription_names provided, filters notifications to
-              include only matching subscriptions.
-            type: dict
-            suboptions:
-              subscription_names:
-                description:
-                - List of exact event subscription names to filter from
-                  retrieved configurations.
-                - When C(subscription_names) is provided, you must target at
-                  least one notification component using either
-                  C(notification_types) or C(components_list) with one or more
-                  of C(webhook_event_notifications),
-                  C(email_event_notifications), C(syslog_event_notifications).
-                - Names must match exactly as configured in Catalyst Center
-                  event subscriptions.
-                - Filters webhook, email, and syslog event notifications based
-                  on subscription name.
-                - Empty list or not specified retrieves all event subscriptions
-                  for selected types.
-                type: list
-                elements: str
-              notification_types:
-                description:
-                - Specifies which notification component types the
-                  C(subscription_names) filter applies to.
-                - Components implied by C(notification_types) are
-                  automatically added to C(components_list) if not
-                  already present. For example C(webhook) auto-adds
-                  C(webhook_event_notifications).
-                - Use this when you want name-based filtering for some
-                  notification types but want to retrieve all subscriptions
-                  for other types in C(components_list).
-                - For example, with C(components_list) set to
-                  C([webhook_event_notifications,
-                  email_event_notifications]) and C(notification_types)
-                  set to C([webhook]) and C(subscription_names) set to
-                  C([Critical Alerts]), only webhook event notifications
-                  matching "Critical Alerts" are filtered while all email
-                  event notifications are retrieved without name filtering.
-                - Valid types are C(webhook), C(email), C(syslog).
-                type: list
-                elements: str
-                choices:
-                - webhook
-                - email
-                - syslog
-          itsm_filters:
+            - List of filter dictionaries for email destinations.
+            - Supported filter keys are C(sender_email) and
+              C(recipient_email).
+            - If omitted while the component is selected, all email
+              destinations are retrieved.
+            type: list
+            elements: dict
+          syslog_destination:
             description:
-            - Filters for ITSM integration settings based on instance name
-              matching.
-            - When C(itsm_filters) is provided, the C(itsm_settings)
-              component is automatically added to C(components_list) if
-              not already present.
-            - Filters ITSM integration instances by configured instance names.
-            - Empty list or not specified retrieves all configured ITSM
-              integration instances.
-            type: dict
-            suboptions:
-              instance_names:
-                description:
-                - List of exact ITSM instance names to filter from retrieved
-                  configurations.
-                - Names must match exactly as configured in Catalyst Center
-                  ITSM integration settings.
-                - Filters ServiceNow, BMC Remedy, or custom ITSM integration
-                  instances.
-                - Empty list or not specified retrieves all ITSM integration
-                  instances.
-                type: list
-                elements: str
+            - List of filter dictionaries for syslog destinations.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all syslog
+              destinations are retrieved.
+            type: list
+            elements: dict
+          snmp_destination:
+            description:
+            - List of filter dictionaries for SNMP destinations.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all SNMP
+              destinations are retrieved.
+            type: list
+            elements: dict
+          itsm_setting:
+            description:
+            - List of filter dictionaries for ITSM settings.
+            - Supported filter key is C(instance_name).
+            - If omitted while the component is selected, all ITSM
+              integration instances are retrieved.
+            type: list
+            elements: dict
+          webhook_event_notification:
+            description:
+            - List of filter dictionaries for webhook event subscriptions.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all webhook event
+              notifications are retrieved.
+            type: list
+            elements: dict
+          email_event_notification:
+            description:
+            - List of filter dictionaries for email event subscriptions.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all email event
+              notifications are retrieved.
+            type: list
+            elements: dict
+          syslog_event_notification:
+            description:
+            - List of filter dictionaries for syslog event subscriptions.
+            - Supported filter key is C(name).
+            - If omitted while the component is selected, all syslog event
+              notifications are retrieved.
+            type: list
+            elements: dict
 requirements:
-- catalystcentersdk >= 2.7.2
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -319,15 +236,11 @@ notes:
   SNMP destinations, ITSM settings and webhook, email, syslog notifications.
 - Generated playbooks are compatible with
   events_and_notifications_workflow_manager module.
-- When filter blocks (C(destination_filters), C(notification_filters),
-  C(itsm_filters)) are provided, the corresponding components are
-  automatically added to C(components_list) if not already present.
-  This means C(components_list) is optional when filter blocks are provided.
-- If no filter blocks are provided, C(components_list) is mandatory and
-  must be non-empty.
-- Destination name filtering in destination_filters.destination_names is
-  applied only within component types present in the final
-  components_list (including auto-added components).
+- Component-specific filter keys such as C(webhook_destination),
+  C(itsm_setting), and C(email_event_notification) are automatically added to
+  C(components_list) if not already present.
+- If no component-specific filter keys are provided, C(components_list) is
+  mandatory and must be non-empty.
 
 seealso:
 - module: cisco.catalystcenter.events_and_notifications_workflow_manager
@@ -364,7 +277,7 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_destinations_config.yaml"
     config:
       component_specific_filters:
-        components_list: ["webhook_destinations", "email_destinations", "syslog_destinations"]
+        components_list: ["webhook_destination", "email_destination", "syslog_destination"]
 
 - name: Generate YAML Configuration for specific webhook destinations
   cisco.catalystcenter.events_and_notifications_playbook_config_generator:
@@ -381,10 +294,9 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_webhook_config.yaml"
     config:
       component_specific_filters:
-        components_list: ["webhook_destinations", "webhook_event_notifications"]
-        destination_filters:
-          destination_names: ["webhook-dest-1", "webhook-dest-2"]
-          destination_types: ["webhook"]
+        components_list: ["webhook_destination", "webhook_event_notification"]
+        webhook_destination:
+          - name: ["webhook-dest-1", "webhook-dest-2"]
 
 - name: Generate YAML Configuration with combined filters
   cisco.catalystcenter.events_and_notifications_playbook_config_generator:
@@ -402,15 +314,18 @@ EXAMPLES = r"""
     file_mode: append
     config:
       component_specific_filters:
-        components_list: ["webhook_destinations", "webhook_event_notifications", "email_destinations", "email_event_notifications"]
-        destination_filters:
-          destination_names: ["Production Webhook", "Alert Email Server"]
-          destination_types: ["webhook", "email"]
-        notification_filters:
-          subscription_names: ["Critical System Alerts", "Network Health Monitoring"]
-          notification_types: ["webhook", "email"]
+        components_list: ["webhook_destination", "webhook_event_notification", "email_destination", "email_event_notification"]
+        webhook_destination:
+          - name: ["Production Webhook"]
+        email_destination:
+          - sender_email: ["alerts@cisco.com"]
+          - recipient_email: ["noc@cisco.com"]
+        webhook_event_notification:
+          - name: ["Critical System Alerts"]
+        email_event_notification:
+          - name: ["Network Health Monitoring"]
 
-- name: Generate YAML Configuration for ITSM settings using filter block (auto-adds itsm_settings to components_list)
+- name: Generate YAML Configuration for ITSM settings using component filter (auto-adds itsm_setting to components_list)
   cisco.catalystcenter.events_and_notifications_playbook_config_generator:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -425,62 +340,27 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_itsm_config.yaml"
     config:
       component_specific_filters:
-        itsm_filters:
-          instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
+        itsm_setting:
+          - instance_name: ["ServiceNow Instance 1", "BMC Remedy Prod"]
 
-# destination_names with destination_types (new filter in isolation)
-- name: Generate config filtering specific destinations by name and type
+- name: Generate config with component-specific name filters
   cisco.catalystcenter.events_and_notifications_playbook_config_generator:
     catalystcenter_host: "{{ catalystcenter_host }}"
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    component_specific_filters:
-      destination_filters:
-        destination_names:
-          - "Scale Syslog 7"
-          - "Prod Webhook Endpoint"
-        destination_types:        # Required when destination_names is specified
-          - "syslog"
-          - "webhook"
-
-# subscription_names with notification_types (new filter in isolation)
-- name: Generate config filtering specific subscriptions by name and type
-  cisco.catalystcenter.events_and_notifications_playbook_config_generator:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
-    component_specific_filters:
-      notification_filters:
-        subscription_names:
-          - "Critical Email Alerts"
-          - "Syslog Infra Events"
-        notification_types:       # Required when subscription_names is specified
-          - "email"
-          - "syslog"
-
-# Combined filters with components_list as the targeting mechanism (multi-entry, mixed)
-- name: Generate config with name filters targeted via components_list
-  cisco.catalystcenter.events_and_notifications_playbook_config_generator:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
-    component_specific_filters:
+    config:
+      component_specific_filters:
       components_list:
-        - "syslog_destinations"          # Targets destination_names filter
-        - "email_event_notifications"    # Targets subscription_names filter
-        - "itsm_settings"                # No name filter, retrieves all
-      destination_filters:
-        destination_names:
-          - "Scale Syslog 7"             # Filtered — only syslog destinations matched
-      notification_filters:
-        subscription_names:
-          - "Critical Email Alerts"      # Filtered — only email notifications matched
-      itsm_filters:
-        instance_names:
-          - "ServiceNow Prod"
+        - "syslog_destination"
+        - "email_event_notification"
+        - "itsm_setting"
+      syslog_destination:
+        - name: ["Scale Syslog 7"]
+      email_event_notification:
+        - name: ["Critical Email Alerts"]
+      itsm_setting:
+        - instance_name: ["ServiceNow Prod"]
 """
 
 RETURN = r"""
@@ -648,9 +528,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Filtering Capabilities:
             - components_list: Selects which configuration types to include
-            - destination_names: Filters destinations by exact name matching
-            - subscription_names: Filters event subscriptions by name
-            - instance_names: Filters ITSM integration instances by name
+            - Component-specific name lists filter destinations, event
+              subscriptions, and ITSM instances by exact match
             - Smart fallback: Returns all configs when filters produce no matches
             - Comprehensive coverage: Ensures no data loss during filtering process
 
@@ -690,24 +569,24 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             modify_parameters(): Transforms API responses using specifications
 
             Component Retrieval Methods:
-            get_webhook_destinations(): Retrieves and filters webhook configurations
-            get_email_destinations(): Retrieves and filters email configurations
-            get_syslog_destinations(): Retrieves and filters syslog configurations
-            get_snmp_destinations(): Retrieves and filters SNMP configurations
-            get_itsm_settings(): Retrieves and filters ITSM integration settings
-            get_webhook_event_notifications(): Retrieves webhook event subscriptions
-            get_email_event_notifications(): Retrieves email event subscriptions
-            get_syslog_event_notifications(): Retrieves syslog event subscriptions
+            get_webhook_destination(): Retrieves and filters webhook configurations
+            get_email_destination(): Retrieves and filters email configurations
+            get_syslog_destination(): Retrieves and filters syslog configurations
+            get_snmp_destination(): Retrieves and filters SNMP configurations
+            get_itsm_setting(): Retrieves and filters ITSM integration settings
+            get_webhook_event_notification(): Retrieves webhook event subscriptions
+            get_email_event_notification(): Retrieves email event subscriptions
+            get_syslog_event_notification(): Retrieves syslog event subscriptions
 
             Helper Methods:
-            get_all_webhook_destinations(): Paginated webhook destination retrieval
-            get_all_email_destinations(): Email destination retrieval from API
-            get_all_syslog_destinations(): Syslog destination retrieval from API
-            get_all_snmp_destinations(): Paginated SNMP destination retrieval
-            get_all_itsm_settings(): ITSM settings retrieval from API
-            get_all_webhook_event_notifications(): Paginated webhook notification retrieval
-            get_all_email_event_notifications(): Email notification retrieval from API
-            get_all_syslog_event_notifications(): Paginated syslog notification retrieval
+            get_all_webhook_destination(): Paginated webhook destination retrieval
+            get_all_email_destination(): Email destination retrieval from API
+            get_all_syslog_destination(): Syslog destination retrieval from API
+            get_all_snmp_destination(): Paginated SNMP destination retrieval
+            get_all_itsm_setting(): ITSM settings retrieval from API
+            get_all_webhook_event_notification(): Paginated webhook notification retrieval
+            get_all_email_event_notification(): Email notification retrieval from API
+            get_all_syslog_event_notification(): Paginated syslog notification retrieval
 
             Transformation Functions:
             redact_password(): Masks sensitive password information
@@ -725,17 +604,17 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
             Specification Methods:
             events_notifications_workflow_manager_mapping(): Constructs component mapping
-            webhook_destinations_temp_spec(): Defines webhook transformation rules
-            email_destinations_temp_spec(): Defines email transformation rules
-            syslog_destinations_temp_spec(): Defines syslog transformation rules
-            snmp_destinations_temp_spec(): Defines SNMP transformation rules
-            itsm_settings_temp_spec(): Defines ITSM transformation rules
-            webhook_event_notifications_temp_spec(): Defines webhook notification rules
-            email_event_notifications_temp_spec(): Defines email notification rules
-            syslog_event_notifications_temp_spec(): Defines syslog notification rules
+            webhook_destination_temp_spec(): Defines webhook transformation rules
+            email_destination_temp_spec(): Defines email transformation rules
+            syslog_destination_temp_spec(): Defines syslog transformation rules
+            snmp_destination_temp_spec(): Defines SNMP transformation rules
+            itsm_setting_temp_spec(): Defines ITSM transformation rules
+            webhook_event_notification_temp_spec(): Defines webhook notification rules
+            email_event_notification_temp_spec(): Defines email notification rules
+            syslog_event_notification_temp_spec(): Defines syslog notification rules
 
         Inheritance:
-            CatalystCenterBase: Provides core DNA Center SDK integration and helper methods
+            CatalystCenterBase: Provides core Catalyst Center SDK integration and helper methods
             BrownFieldHelper: Provides YAML generation utilities and file operations
 
         Returns:
@@ -820,7 +699,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Validation Error: 'component_specific_filters' is mandatory when "
                     "'config' is provided. Please provide "
                     "'config.component_specific_filters' with either "
-                    "'components_list' or component filter blocks."
+                    "'components_list' or component-specific filter keys."
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
@@ -828,7 +707,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "'component_specific_filters' key is present but value is null/empty under "
                 "'config'. Normalizing to empty dict to enforce standard minimum requirement "
-                "validation for components_list/component filters.",
+                "validation for components_list/component-specific filters.",
                 "DEBUG"
             )
             component_filters = {}
@@ -859,12 +738,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
 
             # Define allowed nested keys for component_specific_filters
-            allowed_component_filter_keys = {
-                "components_list",
-                "destination_filters",
-                "notification_filters",
-                "itsm_filters"
+            allowed_components = {
+                "webhook_destination", "email_destination", "syslog_destination",
+                "snmp_destination", "itsm_setting", "webhook_event_notification",
+                "email_event_notification", "syslog_event_notification"
             }
+            allowed_component_filter_keys = {"components_list"} | allowed_components
 
             # Check for invalid keys in component_specific_filters
             component_filter_keys = set(component_filters.keys())
@@ -881,12 +760,6 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate components_list values against allowed choices
-            allowed_components = {
-                "webhook_destinations", "email_destinations", "syslog_destinations",
-                "snmp_destinations", "itsm_settings", "webhook_event_notifications",
-                "email_event_notifications", "syslog_event_notifications"
-            }
             components_list = component_filters.get("components_list")
             if components_list and isinstance(components_list, list):
                 invalid_components = [c for c in components_list if c not in allowed_components]
@@ -902,239 +775,70 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     return self
             if components_list is None:
                 components_list = []
-
-            # Validate destination_filters
-            allowed_destination_filter_keys = {"destination_names", "destination_types"}
-            destination_filters = component_filters.get("destination_filters")
-            if destination_filters and isinstance(destination_filters, dict):
-                dest_filter_keys = set(destination_filters.keys())
-                invalid_dest_keys = dest_filter_keys - allowed_destination_filter_keys
-                if invalid_dest_keys:
+            for component_name in allowed_components:
+                component_value = component_filters.get(component_name)
+                if component_value is None:
+                    continue
+                if not isinstance(component_value, list):
                     self.msg = (
-                        "Invalid parameters found in 'destination_filters': {0}. "
-                        "Only the following parameters are allowed: {1}. "
-                        "Please remove the invalid parameters and try again.".format(
-                            list(invalid_dest_keys), list(allowed_destination_filter_keys)
+                        "Validation Error: 'component_specific_filters.{0}' must be a list "
+                        "of dictionaries. Received type: {1}.".format(
+                            component_name, type(component_value).__name__
                         )
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
+                expected_filter_keys = {
+                    "email_destination": {"sender_email", "recipient_email"},
+                    "itsm_setting": {"instance_name"},
+                }.get(component_name, {"name"})
 
-                # Validate destination_types values against allowed choices
-                allowed_destination_types = {"webhook", "email", "syslog", "snmp"}
-                destination_types = destination_filters.get("destination_types")
-                if destination_types and isinstance(destination_types, list):
-                    invalid_dest_types = [dt for dt in destination_types if dt not in allowed_destination_types]
-                    if invalid_dest_types:
+                for filter_entry in component_value:
+                    if not isinstance(filter_entry, dict):
                         self.msg = (
-                            "Invalid destination type(s) in 'destination_types': {0}. "
-                            "Allowed types are: {1}. "
-                            "Please provide valid destination types and try again.".format(
-                                invalid_dest_types, sorted(allowed_destination_types)
+                            "Validation Error: 'component_specific_filters.{0}' must "
+                            "contain only dictionaries. Invalid entry: {1}.".format(
+                                component_name, filter_entry
                             )
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                destination_names = destination_filters.get("destination_names")
-                if destination_names and isinstance(destination_names, list):
-                    self.log("Validating destination name filters against targeted components.", "DEBUG")
-                    destination_component_map = {
-                        "webhook": "webhook_destinations",
-                        "email": "email_destinations",
-                        "syslog": "syslog_destinations",
-                        "snmp": "snmp_destinations",
-                    }
-                    destination_components = set(destination_component_map.values())
-                    self.log("Destination component mapping: {0}".format(destination_component_map), "DEBUG")
-
-                    targeted_components_from_types = set()
-                    if destination_types:
-                        self.log("Determining targeted components from destination_types filter: {0}".format(destination_types), "DEBUG")
-                        targeted_components_from_types = {
-                            destination_component_map[dest_type]
-                            for dest_type in destination_types
-                            if dest_type in destination_component_map
-                        }
-
-                    targeted_components_from_list = set()
-                    if components_list:
-                        self.log("Determining targeted components from components_list filter: {0}".format(components_list), "DEBUG")
-                        targeted_components_from_list = {
-                            component_name
-                            for component_name in components_list
-                            if component_name in destination_components
-                        }
-
-                    if not (targeted_components_from_types or targeted_components_from_list):
+                    invalid_filter_keys = set(filter_entry.keys()) - expected_filter_keys
+                    if invalid_filter_keys:
                         self.msg = (
-                            "Validation Error: 'destination_filters.destination_names' requires "
-                            "at least one destination target. Provide "
-                            "'destination_filters.destination_types' (webhook/email/syslog/snmp) "
-                            "or include destination component(s) in "
-                            "'component_specific_filters.components_list'."
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-
-            # Validate notification_filters
-            allowed_notification_filter_keys = {"subscription_names", "notification_types"}
-            notification_filters = component_filters.get("notification_filters")
-            if notification_filters and isinstance(notification_filters, dict):
-                notif_filter_keys = set(notification_filters.keys())
-                invalid_notif_keys = notif_filter_keys - allowed_notification_filter_keys
-                if invalid_notif_keys:
-                    self.msg = (
-                        "Invalid parameters found in 'notification_filters': {0}. "
-                        "Only the following parameters are allowed: {1}. "
-                        "Please remove the invalid parameters and try again.".format(
-                            list(invalid_notif_keys), list(allowed_notification_filter_keys)
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-                # Validate notification_types values against allowed choices
-                allowed_notification_types = {"webhook", "email", "syslog"}
-                notification_types = notification_filters.get("notification_types")
-                if notification_types and isinstance(notification_types, list):
-                    invalid_notif_types = [nt for nt in notification_types if nt not in allowed_notification_types]
-                    if invalid_notif_types:
-                        self.msg = (
-                            "Invalid notification type(s) in 'notification_types': {0}. "
-                            "Allowed types are: {1}. "
-                            "Please provide valid notification types and try again.".format(
-                                invalid_notif_types, sorted(allowed_notification_types)
+                            "Validation Error: Invalid filter key(s) in "
+                            "'component_specific_filters.{0}': {1}. Allowed keys are: {2}.".format(
+                                component_name, sorted(invalid_filter_keys), sorted(expected_filter_keys)
                             )
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                subscription_names = notification_filters.get("subscription_names")
-                if subscription_names and isinstance(subscription_names, list):
-                    self.log("Validating subscription name filters against targeted components.", "DEBUG")
-                    notification_component_map = {
-                        "webhook": "webhook_event_notifications",
-                        "email": "email_event_notifications",
-                        "syslog": "syslog_event_notifications",
-                    }
-                    notification_components = set(notification_component_map.values())
+                    for filter_key, filter_values in filter_entry.items():
+                        if not isinstance(filter_values, list):
+                            self.msg = (
+                                "Validation Error: 'component_specific_filters.{0}.{1}' "
+                                "must be a list of strings. Received type: {2}.".format(
+                                    component_name, filter_key, type(filter_values).__name__
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+                        invalid_filter_values = [
+                            item for item in filter_values if not isinstance(item, str)
+                        ]
+                        if invalid_filter_values:
+                            self.msg = (
+                                "Validation Error: 'component_specific_filters.{0}.{1}' "
+                                "must contain only strings. Invalid entries: {2}.".format(
+                                    component_name, filter_key, invalid_filter_values
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
 
-                    targeted_notification_components_from_types = set()
-                    if notification_types:
-                        self.log("Determining targeted components from notification_types filter: {0}".format(notification_types), "DEBUG")
-                        targeted_notification_components_from_types = {
-                            notification_component_map[notif_type]
-                            for notif_type in notification_types
-                            if notif_type in notification_component_map
-                        }
-
-                    targeted_notification_components_from_list = set()
-                    if components_list:
-                        self.log("Determining targeted components from components_list filter: {0}".format(components_list), "DEBUG")
-                        targeted_notification_components_from_list = {
-                            component_name
-                            for component_name in components_list
-                            if component_name in notification_components
-                        }
-
-                    if not (
-                        targeted_notification_components_from_types
-                        or targeted_notification_components_from_list
-                    ):
-                        self.msg = (
-                            "Validation Error: 'notification_filters.subscription_names' requires "
-                            "at least one notification target. Provide "
-                            "'notification_filters.notification_types' (webhook/email/syslog) "
-                            "or include notification component(s) in "
-                            "'component_specific_filters.components_list'."
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
-
-            # Validate itsm_filters
-            allowed_itsm_filter_keys = {"instance_names"}
-            itsm_filters = component_filters.get("itsm_filters")
-            if itsm_filters and isinstance(itsm_filters, dict):
-                itsm_filter_keys = set(itsm_filters.keys())
-                invalid_itsm_keys = itsm_filter_keys - allowed_itsm_filter_keys
-                if invalid_itsm_keys:
-                    self.msg = (
-                        "Invalid parameters found in 'itsm_filters': {0}. "
-                        "Only the following parameters are allowed: {1}. "
-                        "Please remove the invalid parameters and try again.".format(
-                            list(invalid_itsm_keys), list(allowed_itsm_filter_keys)
-                        )
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-            destination_filters_present = isinstance(destination_filters, dict)
-            notification_filters_present = isinstance(notification_filters, dict)
-            itsm_filters_present = isinstance(itsm_filters, dict)
-            any_filter_block_present = (
-                destination_filters_present or notification_filters_present or itsm_filters_present
-            )
-
-            inferred_components = set(components_list)
-            if destination_filters_present:
-                destination_types = destination_filters.get("destination_types")
-                if destination_types:
-                    destination_type_map = {
-                        "webhook": "webhook_destinations",
-                        "email": "email_destinations",
-                        "syslog": "syslog_destinations",
-                        "snmp": "snmp_destinations",
-                    }
-                    inferred_components.update(
-                        [destination_type_map[dt] for dt in destination_types]
-                    )
-
-                else:
-                    if not components_list:
-                        inferred_components.update(
-                            {
-                                "webhook_destinations",
-                                "email_destinations",
-                                "syslog_destinations",
-                                "snmp_destinations",
-                            }
-                        )
-
-            if notification_filters_present:
-                notification_types = notification_filters.get("notification_types")
-                if notification_types:
-                    notification_type_map = {
-                        "webhook": "webhook_event_notifications",
-                        "email": "email_event_notifications",
-                        "syslog": "syslog_event_notifications",
-                    }
-                    inferred_components.update(
-                        [notification_type_map[nt] for nt in notification_types]
-                    )
-                else:
-                    if not components_list:
-                        inferred_components.update(
-                            {
-                                "webhook_event_notifications",
-                                "email_event_notifications",
-                                "syslog_event_notifications",
-                            }
-                        )
-
-            if itsm_filters_present:
-                inferred_components.add("itsm_settings")
-
-            if any_filter_block_present:
-                component_filters["components_list"] = sorted(inferred_components)
-            elif not components_list:
-                self.msg = (
-                    "Validation Error: 'components_list' is mandatory and must be non-empty "
-                    "when no component filter blocks are provided under "
-                    "'component_specific_filters'."
-                )
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            self.auto_populate_and_validate_components_list(component_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = validated_config
@@ -1185,119 +889,78 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
         network_elements_mapping = {
-            "webhook_destinations": {
+            "webhook_destination": {
                 "filters": {
-                    "destination_names": {"type": "list", "elements": "str", "required": False},
-                    "destination_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["webhook"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.webhook_destinations_reverse_mapping_function,
+                "reverse_mapping_function": self.webhook_destination_reverse_mapping_function,
                 "api_function": "get_webhook_destination",
                 "api_family": "event_management",
-                "get_function_name": self.get_webhook_destinations,
+                "get_function_name": self.get_webhook_destination,
             },
-            "email_destinations": {
+            "email_destination": {
                 "filters": {
-                    "destination_names": {"type": "list", "elements": "str", "required": False},
-                    "destination_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["email"]
-                    },
+                    "sender_email": {"type": "list", "elements": "str", "required": False},
+                    "recipient_email": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.email_destinations_reverse_mapping_function,
+                "reverse_mapping_function": self.email_destination_reverse_mapping_function,
                 "api_function": "get_email_destination",
                 "api_family": "event_management",
-                "get_function_name": self.get_email_destinations,
+                "get_function_name": self.get_email_destination,
             },
-            "syslog_destinations": {
+            "syslog_destination": {
                 "filters": {
-                    "destination_names": {"type": "list", "elements": "str", "required": False},
-                    "destination_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["syslog"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.syslog_destinations_reverse_mapping_function,
+                "reverse_mapping_function": self.syslog_destination_reverse_mapping_function,
                 "api_function": "get_syslog_destination",
                 "api_family": "event_management",
-                "get_function_name": self.get_syslog_destinations,
+                "get_function_name": self.get_syslog_destination,
             },
-            "snmp_destinations": {
+            "snmp_destination": {
                 "filters": {
-                    "destination_names": {"type": "list", "elements": "str", "required": False},
-                    "destination_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["snmp"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.snmp_destinations_reverse_mapping_function,
+                "reverse_mapping_function": self.snmp_destination_reverse_mapping_function,
                 "api_function": "get_snmp_destination",
                 "api_family": "event_management",
-                "get_function_name": self.get_snmp_destinations,
+                "get_function_name": self.get_snmp_destination,
             },
-            "itsm_settings": {
+            "itsm_setting": {
                 "filters": {
-                    "instance_names": {"type": "list", "elements": "str", "required": False},
+                    "instance_name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.itsm_settings_reverse_mapping_function,
+                "reverse_mapping_function": self.itsm_setting_reverse_mapping_function,
                 "api_function": "get_all_itsm_integration_settings",
                 "api_family": "itsm_integration",
-                "get_function_name": self.get_itsm_settings,
+                "get_function_name": self.get_itsm_setting,
             },
-            "webhook_event_notifications": {
+            "webhook_event_notification": {
                 "filters": {
-                    "subscription_names": {"type": "list", "elements": "str", "required": False},
-                    "notification_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["webhook"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.webhook_event_notifications_reverse_mapping_function,
+                "reverse_mapping_function": self.webhook_event_notification_reverse_mapping_function,
                 "api_function": "get_rest_webhook_event_subscriptions",
                 "api_family": "event_management",
-                "get_function_name": self.get_webhook_event_notifications,
+                "get_function_name": self.get_webhook_event_notification,
             },
-            "email_event_notifications": {
+            "email_event_notification": {
                 "filters": {
-                    "subscription_names": {"type": "list", "elements": "str", "required": False},
-                    "notification_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["email"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.email_event_notifications_reverse_mapping_function,
+                "reverse_mapping_function": self.email_event_notification_reverse_mapping_function,
                 "api_function": "get_email_event_subscriptions",
                 "api_family": "event_management",
-                "get_function_name": self.get_email_event_notifications,
+                "get_function_name": self.get_email_event_notification,
             },
-            "syslog_event_notifications": {
+            "syslog_event_notification": {
                 "filters": {
-                    "subscription_names": {"type": "list", "elements": "str", "required": False},
-                    "notification_types": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                        "choices": ["syslog"]
-                    },
+                    "name": {"type": "list", "elements": "str", "required": False},
                 },
-                "reverse_mapping_function": self.syslog_event_notifications_reverse_mapping_function,
+                "reverse_mapping_function": self.syslog_event_notification_reverse_mapping_function,
                 "api_function": "get_syslog_event_subscriptions",
                 "api_family": "event_management",
-                "get_function_name": self.get_syslog_event_notifications,
+                "get_function_name": self.get_syslog_event_notification,
             },
         }
         self.log(
@@ -1325,47 +988,74 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         return mapping_result
 
     # Reverse mapping functions for temp specs
-    def webhook_destinations_reverse_mapping_function(self):
+    def webhook_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook destination details."""
         self.log("Generating reverse mapping specification for webhook destination details", "DEBUG")
-        return self.webhook_destinations_temp_spec()
+        return self.webhook_destination_temp_spec()
 
-    def email_destinations_reverse_mapping_function(self):
+    def email_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email destination details."""
         self.log("Generating reverse mapping specification for email destination details", "DEBUG")
-        return self.email_destinations_temp_spec()
+        return self.email_destination_temp_spec()
 
-    def syslog_destinations_reverse_mapping_function(self):
+    def syslog_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog destination details."""
         self.log("Generating reverse mapping specification for syslog destination details", "DEBUG")
-        return self.syslog_destinations_temp_spec()
+        return self.syslog_destination_temp_spec()
 
-    def snmp_destinations_reverse_mapping_function(self):
+    def snmp_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for SNMP destination details."""
         self.log("Generating reverse mapping specification for SNMP destination details", "DEBUG")
-        return self.snmp_destinations_temp_spec()
+        return self.snmp_destination_temp_spec()
 
-    def itsm_settings_reverse_mapping_function(self):
+    def itsm_setting_reverse_mapping_function(self):
         """Returns the reverse mapping specification for ITSM settings details."""
         self.log("Generating reverse mapping specification for ITSM settings details", "DEBUG")
-        return self.itsm_settings_temp_spec()
+        return self.itsm_setting_temp_spec()
 
-    def webhook_event_notifications_reverse_mapping_function(self):
+    def webhook_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook event notification details."""
         self.log("Generating reverse mapping specification for webhook event notification details", "DEBUG")
-        return self.webhook_event_notifications_temp_spec()
+        return self.webhook_event_notification_temp_spec()
 
-    def email_event_notifications_reverse_mapping_function(self):
+    def email_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email event notification details."""
         self.log("Generating reverse mapping specification for email event notification details", "DEBUG")
-        return self.email_event_notifications_temp_spec()
+        return self.email_event_notification_temp_spec()
 
-    def syslog_event_notifications_reverse_mapping_function(self):
+    def syslog_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog event notification details."""
         self.log("Generating reverse mapping specification for syslog event notification details", "DEBUG")
-        return self.syslog_event_notifications_temp_spec()
+        return self.syslog_event_notification_temp_spec()
 
-    def webhook_destinations_temp_spec(self):
+    def _extract_component_filter_values(self, component_filters, allowed_keys):
+        """
+        Normalize component filter entries into deduplicated value lists.
+
+        Args:
+            component_filters (list): Filter entries from component_specific_filters.
+            allowed_keys (set): Allowed filter keys for the component.
+
+        Returns:
+            dict: Mapping of filter key to deduplicated list of string values.
+        """
+        normalized_filters = {key: [] for key in allowed_keys}
+        if not component_filters:
+            return normalized_filters
+
+        for filter_entry in component_filters:
+            if not isinstance(filter_entry, dict):
+                continue
+            for filter_key, filter_values in filter_entry.items():
+                if filter_key not in allowed_keys or not isinstance(filter_values, list):
+                    continue
+                for filter_value in filter_values:
+                    if isinstance(filter_value, str) and filter_value not in normalized_filters[filter_key]:
+                        normalized_filters[filter_key].append(filter_value)
+
+        return normalized_filters
+
+    def webhook_destination_temp_spec(self):
         """
         Constructs detailed specification for webhook destination data transformation.
 
@@ -1402,7 +1092,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             },
         })
 
-    def email_destinations_temp_spec(self):
+    def email_destination_temp_spec(self):
         """
         Constructs detailed specification for email destination data transformation.
 
@@ -1448,7 +1138,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             },
         })
 
-    def syslog_destinations_temp_spec(self):
+    def syslog_destination_temp_spec(self):
         """
         Constructs detailed specification for syslog destination data transformation.
 
@@ -1474,7 +1164,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "port": {"type": "int", "source_key": "port"},
         })
 
-    def snmp_destinations_temp_spec(self):
+    def snmp_destination_temp_spec(self):
         """
         Constructs detailed specification for SNMP destination data transformation.
 
@@ -1507,7 +1197,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "privacy_password": {"type": "str", "source_key": "privacyPassword", "transform": self.redact_password},
         })
 
-    def itsm_settings_temp_spec(self):
+    def itsm_setting_temp_spec(self):
         """
         Constructs detailed specification for ITSM settings data transformation.
 
@@ -1539,7 +1229,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             },
         })
 
-    def webhook_event_notifications_temp_spec(self):
+    def webhook_event_notification_temp_spec(self):
         """
         Constructs detailed specification for webhook event notification data transformation.
 
@@ -1565,7 +1255,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "destination": {"type": "str", "source_key": "webhookEndpointIds", "transform": self.extract_webhook_destination_name},
         })
 
-    def email_event_notifications_temp_spec(self):
+    def email_event_notification_temp_spec(self):
         """
         Constructs detailed specification for email event notification data transformation.
 
@@ -1595,7 +1285,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "instance_description": {"type": "str", "source_key": "description", "transform": self.create_instance_description},
         })
 
-    def syslog_event_notifications_temp_spec(self):
+    def syslog_event_notification_temp_spec(self):
         """
         Constructs detailed specification for syslog event notification data transformation.
 
@@ -2823,49 +2513,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return None
 
-    def _resolve_name_filter(self, type_filters, names_filter, expected_type):
-        """
-        Returns effective names filter list for a destination/notification type.
-
-        Centralises the repeated pattern of checking whether the current component
-        type is included in the user-supplied type filter list before applying the
-        name-based filter.  If ``type_filters`` is empty or ``None`` the names
-        filter is returned as-is (all types selected).  If ``type_filters`` is
-        non-empty but does not contain ``expected_type``, an empty list is returned
-        so that name filtering is skipped for this component.
-
-        Args:
-            type_filters (list): destination_types or notification_types from the
-                playbook filter block.  May be ``None`` or empty.
-            names_filter (list): destination_names or subscription_names from the
-                playbook filter block.  May be ``None`` or empty.
-            expected_type (str): The component type to check for, e.g. ``"webhook"``,
-                ``"email"``, ``"syslog"``, ``"snmp"``.
-
-        Returns:
-            tuple: A two-element tuple ``(effective_names_filter, type_selected)``.
-                - effective_names_filter (list): The names filter to apply for this
-                  component type.  Returns an empty list when the component type is
-                  excluded by ``type_filters``.
-                - type_selected (bool): ``True`` when the component type is included
-                  (or no type filter is set); ``False`` when it is excluded.
-        """
-        type_filters = type_filters or []
-        names_filter = names_filter or []
-
-        if type_filters and expected_type not in type_filters:
-            self.log(
-                "Component type '{0}' not in type_filters {1}. "
-                "Clearing name filter for this component.".format(
-                    expected_type, type_filters
-                ),
-                "DEBUG"
-            )
-            return [], False
-
-        return names_filter, True
-
-    def get_webhook_destinations(self, network_element, filters):
+    def get_webhook_destination(self, network_element, filters):
         """
         Retrieves webhook destination configurations from Cisco Catalyst Center.
 
@@ -2881,7 +2529,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - webhook_destinations (list): List of webhook destination configurations with transformed
+                - webhook_destination (list): List of webhook destination configurations with transformed
                 parameters according to the webhook destinations specification.
         """
         self.log(
@@ -2890,20 +2538,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names, type_selected = self._resolve_name_filter(
-            destination_filters.get("destination_types"),
-            destination_filters.get("destination_names"),
-            "webhook"
-        )
-        if not type_selected:
-            self.log(
-                "Webhook destination type not selected in destination_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"webhook_destinations": []}
+        component_filters = filters.get("component_specific_filters") or []
+        destination_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -2922,7 +2560,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            webhook_configs = self.get_all_webhook_destinations(
+            webhook_configs = self.get_all_webhook_destination(
                 api_family, api_function,
                 target_destination_names=destination_names if destination_names else None
             )
@@ -2975,11 +2613,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving webhook destination specification for parameter transformation. "
-            "Calling webhook_destinations_temp_spec() for mapping rules.",
+            "Calling webhook_destination_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        webhook_destinations_temp_spec = self.webhook_destinations_temp_spec()
+        webhook_destination_temp_spec = self.webhook_destination_temp_spec()
 
         self.log(
             "Transforming {0} webhook destination(s) using specification. Converting "
@@ -2988,9 +2626,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_webhook_configs = self.modify_parameters(webhook_destinations_temp_spec, final_webhook_configs)
+        modified_webhook_configs = self.modify_parameters(webhook_destination_temp_spec, final_webhook_configs)
 
-        result = {"webhook_destinations": modified_webhook_configs}
+        result = {"webhook_destination": modified_webhook_configs}
         self.log(
             "Webhook destination retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -3000,7 +2638,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_email_destinations(self, network_element, filters):
+    def get_email_destination(self, network_element, filters):
         """
         Retrieves email destination configurations from Cisco Catalyst Center.
 
@@ -3015,7 +2653,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - email_destinations (list): List of email destination configurations including
+                - email_destination (list): List of email destination configurations including
                 primary and secondary SMTP settings with transformed parameters.
         """
         self.log(
@@ -3024,25 +2662,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names, type_selected = self._resolve_name_filter(
-            destination_filters.get("destination_types"),
-            destination_filters.get("destination_names"),
-            "email"
+        component_filters = filters.get("component_specific_filters") or []
+        email_filter_values = self._extract_component_filter_values(
+            component_filters, {"sender_email", "recipient_email"}
         )
-        if not type_selected:
-            self.log(
-                "Email destination type not selected in destination_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"email_destinations": []}
+        sender_emails = email_filter_values.get("sender_email", [])
+        recipient_emails = email_filter_values.get("recipient_email", [])
 
         self.log(
-            "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
-                len(destination_names),
-                "name-based filtering" if destination_names else "retrieve all"
+            "Email destination filters extracted: sender_email={0}, recipient_email={1}. "
+            "Filter mode: {2}".format(
+                len(sender_emails),
+                len(recipient_emails),
+                "field-based filtering" if sender_emails or recipient_emails else "retrieve all"
             ),
             "DEBUG"
         )
@@ -3057,25 +2689,29 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            email_configs = self.get_all_email_destinations(api_family, api_function)
+            email_configs = self.get_all_email_destination(api_family, api_function)
             self.log(
                 "Retrieved {0} email destination(s) from Catalyst Center. Processing "
-                "filtering logic based on destination_names.".format(len(email_configs)),
+                "filtering logic based on sender_email and recipient_email.".format(len(email_configs)),
                 "INFO"
             )
 
-            if destination_names:
+            if sender_emails or recipient_emails:
                 self.log(
-                    "Applying destination name filter: {0}. Searching for matching "
-                    "emails by primarySMTPConfig.userName or secondarySMTPConfig.userName "
-                    "in retrieved configurations.".format(destination_names),
+                    "Applying email destination filters. sender_email={0}, "
+                    "recipient_email={1}.".format(sender_emails, recipient_emails),
                     "DEBUG"
                 )
-                matching_configs = [
-                    config for config in email_configs
-                    if config.get("primarySMTPConfig", {}).get("userName") in destination_names
-                    or config.get("secondarySMTPConfig", {}).get("userName") in destination_names
-                ]
+                matching_configs = []
+                for config in email_configs:
+                    sender_match = (
+                        not sender_emails or config.get("fromEmail") in sender_emails
+                    )
+                    recipient_match = (
+                        not recipient_emails or config.get("toEmail") in recipient_emails
+                    )
+                    if sender_match and recipient_match:
+                        matching_configs.append(config)
                 if matching_configs:
                     final_email_configs = matching_configs
                     self.log(
@@ -3088,13 +2724,15 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 else:
                     final_email_configs = []
                     self.log(
-                        "No matching email destinations found for destination_names "
-                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "No matching email destinations found for sender_email={0}, "
+                        "recipient_email={1}. Returning empty list.".format(
+                            sender_emails, recipient_emails
+                        ),
                         "INFO"
                     )
             else:
                 self.log(
-                    "No destination name filters provided. Including all {0} email "
+                    "No email destination filters provided. Including all {0} email "
                     "destination(s) for YAML generation.".format(len(email_configs)),
                     "DEBUG"
                 )
@@ -3112,11 +2750,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving email destination specification for parameter transformation. "
-            "Calling email_destinations_temp_spec() for mapping rules.",
+            "Calling email_destination_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        email_destinations_temp_spec = self.email_destinations_temp_spec()
+        email_destination_temp_spec = self.email_destination_temp_spec()
 
         self.log(
             "Transforming {0} email destination(s) using specification. Converting "
@@ -3126,9 +2764,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        modified_email_configs = self.modify_parameters(email_destinations_temp_spec, final_email_configs)
+        modified_email_configs = self.modify_parameters(email_destination_temp_spec, final_email_configs)
 
-        result = {"email_destinations": modified_email_configs}
+        result = {"email_destination": modified_email_configs}
         self.log(
             "Email destination retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -3138,7 +2776,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_syslog_destinations(self, network_element, filters):
+    def get_syslog_destination(self, network_element, filters):
         """
         Retrieves syslog destination configurations from Cisco Catalyst Center.
 
@@ -3153,7 +2791,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - syslog_destinations (list): List of syslog destination configurations with
+                - syslog_destination (list): List of syslog destination configurations with
                 server details, protocols, and ports according to the syslog specification.
         """
         self.log(
@@ -3162,20 +2800,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names, type_selected = self._resolve_name_filter(
-            destination_filters.get("destination_types"),
-            destination_filters.get("destination_names"),
-            "syslog"
-        )
-        if not type_selected:
-            self.log(
-                "Syslog destination type not selected in destination_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"syslog_destinations": []}
+        component_filters = filters.get("component_specific_filters") or []
+        destination_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3194,7 +2822,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            syslog_configs = self.get_all_syslog_destinations(
+            syslog_configs = self.get_all_syslog_destination(
                 api_family, api_function,
                 target_destination_names=destination_names if destination_names else None
             )
@@ -3247,11 +2875,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving syslog destination specification for parameter transformation. "
-            "Calling syslog_destinations_temp_spec() for mapping rules.",
+            "Calling syslog_destination_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        syslog_destinations_temp_spec = self.syslog_destinations_temp_spec()
+        syslog_destination_temp_spec = self.syslog_destination_temp_spec()
 
         self.log(
             "Transforming {0} syslog destination(s) using specification. Converting "
@@ -3260,9 +2888,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_syslog_configs = self.modify_parameters(syslog_destinations_temp_spec, final_syslog_configs)
+        modified_syslog_configs = self.modify_parameters(syslog_destination_temp_spec, final_syslog_configs)
 
-        result = {"syslog_destinations": modified_syslog_configs}
+        result = {"syslog_destination": modified_syslog_configs}
         self.log(
             "Syslog destination retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -3272,7 +2900,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_snmp_destinations(self, network_element, filters):
+    def get_snmp_destination(self, network_element, filters):
         """
         Retrieves SNMP destination configurations from Cisco Catalyst Center.
 
@@ -3287,7 +2915,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - snmp_destinations (list): List of SNMP destination configurations including
+                - snmp_destination (list): List of SNMP destination configurations including
                 version, community strings, authentication, and privacy settings.
         """
         self.log(
@@ -3296,20 +2924,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names, type_selected = self._resolve_name_filter(
-            destination_filters.get("destination_types"),
-            destination_filters.get("destination_names"),
-            "snmp"
-        )
-        if not type_selected:
-            self.log(
-                "SNMP destination type not selected in destination_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"snmp_destinations": []}
+        component_filters = filters.get("component_specific_filters") or []
+        destination_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3329,7 +2947,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            snmp_configs = self.get_all_snmp_destinations(
+            snmp_configs = self.get_all_snmp_destination(
                 api_family, api_function,
                 target_destination_names=destination_names if destination_names else None
             )
@@ -3382,11 +3000,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving SNMP destination specification for parameter transformation. "
-            "Calling snmp_destinations_temp_spec() for mapping rules.",
+            "Calling snmp_destination_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        snmp_destinations_temp_spec = self.snmp_destinations_temp_spec()
+        snmp_destination_temp_spec = self.snmp_destination_temp_spec()
 
         self.log(
             "Transforming {0} SNMP destination(s) using specification. Converting "
@@ -3395,9 +3013,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_snmp_configs = self.modify_parameters(snmp_destinations_temp_spec, final_snmp_configs)
+        modified_snmp_configs = self.modify_parameters(snmp_destination_temp_spec, final_snmp_configs)
 
-        result = {"snmp_destinations": modified_snmp_configs}
+        result = {"snmp_destination": modified_snmp_configs}
         self.log(
             "SNMP destination retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -3407,7 +3025,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_webhook_destinations(self, api_family, api_function, target_destination_names=None):
+    def get_all_webhook_destination(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all webhook destinations using pagination from the API.
 
@@ -3525,7 +3143,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_all_email_destinations(self, api_family, api_function):
+    def get_all_email_destination(self, api_family, api_function):
         """
         Retrieves all email destinations from the API.
 
@@ -3593,7 +3211,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_all_syslog_destinations(self, api_family, api_function, target_destination_names=None):
+    def get_all_syslog_destination(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all syslog destinations using pagination from the API.
 
@@ -3724,7 +3342,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_all_snmp_destinations(self, api_family, api_function, target_destination_names=None):
+    def get_all_snmp_destination(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all SNMP destinations using pagination from the API.
 
@@ -3854,7 +3472,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_itsm_settings(self, network_element, filters):
+    def get_itsm_setting(self, network_element, filters):
         """
         Retrieves ITSM integration settings from Cisco Catalyst Center.
 
@@ -3869,7 +3487,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - itsm_settings (list): List of ITSM integration configurations including
+                - itsm_setting (list): List of ITSM integration configurations including
                 connection settings, URLs, and authentication parameters.
         """
         self.log(
@@ -3878,9 +3496,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        itsm_filters = component_specific_filters.get("itsm_filters", {})
-        instance_names = itsm_filters.get("instance_names", [])
+        component_filters = filters.get("component_specific_filters") or []
+        instance_names = self._extract_component_filter_values(
+            component_filters, {"instance_name"}
+        ).get("instance_name", [])
 
         self.log(
             "Instance name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3899,7 +3518,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            itsm_configs = self.get_all_itsm_settings(
+            itsm_configs = self.get_all_itsm_setting(
                 api_family, api_function,
                 target_instance_names=instance_names if instance_names else None
             )
@@ -3941,11 +3560,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving ITSM settings specification for parameter transformation. Calling "
-            "itsm_settings_temp_spec() for mapping rules.",
+            "itsm_setting_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        itsm_settings_temp_spec = self.itsm_settings_temp_spec()
+        itsm_setting_temp_spec = self.itsm_setting_temp_spec()
 
         self.log(
             "Transforming {0} ITSM setting(s) using specification. Converting camelCase "
@@ -3954,9 +3573,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_itsm_configs = self.modify_parameters(itsm_settings_temp_spec, final_itsm_configs)
+        modified_itsm_configs = self.modify_parameters(itsm_setting_temp_spec, final_itsm_configs)
 
-        result = {"itsm_settings": modified_itsm_configs}
+        result = {"itsm_setting": modified_itsm_configs}
         self.log(
             "ITSM settings retrieval completed. Final result contains {0} transformed "
             "configuration(s) ready for YAML serialization.".format(
@@ -3967,7 +3586,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return result
 
-    def get_all_itsm_settings(self, api_family, api_function, target_instance_names=None):
+    def get_all_itsm_setting(self, api_family, api_function, target_instance_names=None):
         """
         Retrieves all ITSM integration settings from the API with full connection details.
 
@@ -3977,7 +3596,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             then for each instance calls get_itsm_integration_setting_by_id to retrieve full
             connection details (URL, username, password). The connection settings are normalized
             from API PascalCase format (ConnectionSettings.Url, Auth_UserName, Auth_Password)
-            to the snake_case format expected by itsm_settings_temp_spec (connectionSettings.url,
+            to the snake_case format expected by itsm_setting_temp_spec (connectionSettings.url,
             username, password).
 
         Args:
@@ -4000,7 +3619,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         try:
             page = 1
             page_size = 50
-            all_itsm_settings = []
+            all_itsm_setting = []
             page_count = 0
 
             while True:
@@ -4022,23 +3641,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     },
                 )
 
-                itsm_settings = []
+                itsm_setting = []
                 if isinstance(response, dict):
-                    itsm_settings = response.get("data") or response.get("response", [])
+                    itsm_setting = response.get("data") or response.get("response", [])
                 elif isinstance(response, list):
-                    itsm_settings = response
+                    itsm_setting = response
 
-                if not isinstance(itsm_settings, list):
+                if not isinstance(itsm_setting, list):
                     self.log(
                         "ITSM listing response format unexpected in page {0}. Expected list, "
                         "got: {1}. Terminating pagination.".format(
-                            page_count, type(itsm_settings).__name__
+                            page_count, type(itsm_setting).__name__
                         ),
                         "WARNING"
                     )
                     break
 
-                if not itsm_settings:
+                if not itsm_setting:
                     self.log(
                         "No ITSM instances returned in page {0}. Terminating pagination loop.".format(
                             page_count
@@ -4047,10 +3666,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     )
                     break
 
-                all_itsm_settings.extend(itsm_settings)
+                all_itsm_setting.extend(itsm_setting)
                 self.log(
                     "Added {0} ITSM instance(s) from page {1}. Total accumulated: {2}.".format(
-                        len(itsm_settings), page_count, len(all_itsm_settings)
+                        len(itsm_setting), page_count, len(all_itsm_setting)
                     ),
                     "DEBUG"
                 )
@@ -4059,7 +3678,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 if target_instance_names:
                     found_names = {
                         item.get("name", "").lower()
-                        for item in all_itsm_settings
+                        for item in all_itsm_setting
                         if isinstance(item, dict)
                     }
                     target_lower = {n.lower() for n in target_instance_names}
@@ -4073,11 +3692,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         )
                         break
 
-                if len(itsm_settings) < page_size:
+                if len(itsm_setting) < page_size:
                     self.log(
                         "Received {0} ITSM instance(s) in page {1}, less than page_size {2}. "
                         "No more pages available.".format(
-                            len(itsm_settings), page_count, page_size
+                            len(itsm_setting), page_count, page_size
                         ),
                         "DEBUG"
                     )
@@ -4088,7 +3707,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "Extracted {0} ITSM setting(s) from listing API. Now retrieving full "
                 "details for each instance using get_itsm_integration_setting_by_id.".format(
-                    len(all_itsm_settings)
+                    len(all_itsm_setting)
                 ),
                 "INFO"
             )
@@ -4097,19 +3716,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             if target_instance_names:
                 target_names_lower = {n.lower() for n in target_instance_names}
                 filtered_itsm = [
-                    item for item in all_itsm_settings
+                    item for item in all_itsm_setting
                     if isinstance(item, dict) and item.get("name", "").lower() in target_names_lower
                 ]
                 self.log(
                     "Target instance filter active: {0} target(s). Matched {1} of {2} "
                     "listing entries. Only matched entries will have details fetched.".format(
-                        len(target_instance_names), len(filtered_itsm), len(all_itsm_settings)
+                        len(target_instance_names), len(filtered_itsm), len(all_itsm_setting)
                     ),
                     "INFO"
                 )
                 if not filtered_itsm:
                     available_names = [
-                        item.get("name", "unknown") for item in all_itsm_settings
+                        item.get("name", "unknown") for item in all_itsm_setting
                         if isinstance(item, dict)
                     ]
                     self.log(
@@ -4117,14 +3736,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "instance names: {1}".format(target_instance_names, available_names),
                         "WARNING"
                     )
-                all_itsm_settings = filtered_itsm
+                all_itsm_setting = filtered_itsm
 
             detailed_settings = []
-            for idx, item in enumerate(all_itsm_settings, start=1):
+            for idx, item in enumerate(all_itsm_setting, start=1):
                 if not isinstance(item, dict):
                     self.log(
                         "Skipping ITSM entry {0}/{1} - not a valid dictionary.".format(
-                            idx, len(all_itsm_settings)
+                            idx, len(all_itsm_setting)
                         ),
                         "WARNING"
                     )
@@ -4136,7 +3755,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 if not instance_id:
                     self.log(
                         "Skipping ITSM instance {0}/{1} '{2}' - no 'id' field found in "
-                        "listing response.".format(idx, len(all_itsm_settings), instance_name),
+                        "listing response.".format(idx, len(all_itsm_setting), instance_name),
                         "WARNING"
                     )
                     continue
@@ -4144,7 +3763,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Processing ITSM instance {0}/{1} - name: '{2}', ID: '{3}'. "
                     "Fetching full details.".format(
-                        idx, len(all_itsm_settings), instance_name, instance_id
+                        idx, len(all_itsm_setting), instance_name, instance_id
                     ),
                     "DEBUG"
                 )
@@ -4154,7 +3773,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "Could not retrieve full details for ITSM instance {0}/{1} '{2}' "
                         "(ID: {3}). Falling back to listing data.".format(
-                            idx, len(all_itsm_settings), instance_name, instance_id
+                            idx, len(all_itsm_setting), instance_name, instance_id
                         ),
                         "WARNING"
                     )
@@ -4164,13 +3783,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 detailed_settings.append(detail)
                 self.log(
                     "Successfully retrieved full details for ITSM instance {0}/{1} "
-                    "'{2}'.".format(idx, len(all_itsm_settings), instance_name),
+                    "'{2}'.".format(idx, len(all_itsm_setting), instance_name),
                     "DEBUG"
                 )
 
             self.log(
                 "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
-                "connection details.".format(len(detailed_settings), len(all_itsm_settings)),
+                "connection details.".format(len(detailed_settings), len(all_itsm_setting)),
                 "INFO"
             )
             return detailed_settings
@@ -4195,7 +3814,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             complete ITSM configuration details including connection settings (URL,
             username, password) for a specific ITSM instance. The API response contains
             ConnectionSettings in PascalCase format which is normalized to the snake_case
-            format expected by itsm_settings_temp_spec.
+            format expected by itsm_setting_temp_spec.
 
         Args:
             instance_id (str): The unique identifier of the ITSM integration setting.
@@ -4274,7 +3893,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return None
 
-    def get_webhook_event_notifications(self, network_element, filters):
+    def get_webhook_event_notification(self, network_element, filters):
         """
         Retrieves webhook event notification subscriptions from Cisco Catalyst Center.
 
@@ -4289,7 +3908,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - webhook_event_notifications (list): List of webhook event subscription
+                - webhook_event_notification (list): List of webhook event subscription
                 configurations with sites, events, and destination details.
         """
         self.log(
@@ -4298,20 +3917,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names, type_selected = self._resolve_name_filter(
-            notification_filters.get("notification_types"),
-            notification_filters.get("subscription_names"),
-            "webhook"
-        )
-        if not type_selected:
-            self.log(
-                "Webhook notification type not selected in notification_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"webhook_event_notifications": []}
+        component_filters = filters.get("component_specific_filters") or []
+        subscription_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4330,7 +3939,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            notification_configs = self.get_all_webhook_event_notifications(
+            notification_configs = self.get_all_webhook_event_notification(
                 api_family, api_function,
                 target_subscription_names=subscription_names if subscription_names else None
             )
@@ -4395,12 +4004,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving webhook event notification specification for parameter "
-            "transformation. Calling webhook_event_notifications_temp_spec() for mapping "
+            "transformation. Calling webhook_event_notification_temp_spec() for mapping "
             "rules.",
             "DEBUG"
         )
 
-        webhook_event_notifications_temp_spec = self.webhook_event_notifications_temp_spec()
+        webhook_event_notification_temp_spec = self.webhook_event_notification_temp_spec()
 
         self.log(
             "Transforming {0} webhook event notification(s) using specification. Converting "
@@ -4409,9 +4018,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_notification_configs = self.modify_parameters(webhook_event_notifications_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(webhook_event_notification_temp_spec, final_notification_configs)
 
-        result = {"webhook_event_notifications": modified_notification_configs}
+        result = {"webhook_event_notification": modified_notification_configs}
         self.log(
             "Webhook event notification retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -4421,7 +4030,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_webhook_event_notifications(self, api_family, api_function, target_subscription_names=None):
+    def get_all_webhook_event_notification(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all webhook event notifications using pagination from the API.
 
@@ -4574,7 +4183,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_email_event_notifications(self, network_element, filters):
+    def get_email_event_notification(self, network_element, filters):
         """
         Retrieves email event notification subscriptions from Cisco Catalyst Center.
 
@@ -4589,7 +4198,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - email_event_notifications (list): List of email event subscription
+                - email_event_notification (list): List of email event subscription
                 configurations with email addresses, subjects, and event details.
         """
         self.log(
@@ -4597,20 +4206,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "and subscription names for filtering email event configurations.",
             "DEBUG"
         )
-        component_specific_filters = filters.get("component_specific_filters", {})
-        notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names, type_selected = self._resolve_name_filter(
-            notification_filters.get("notification_types"),
-            notification_filters.get("subscription_names"),
-            "email"
-        )
-        if not type_selected:
-            self.log(
-                "Email notification type not selected in notification_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"email_event_notifications": []}
+        component_filters = filters.get("component_specific_filters") or []
+        subscription_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4630,7 +4229,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            notification_configs = self.get_all_email_event_notifications(
+            notification_configs = self.get_all_email_event_notification(
                 api_family, api_function,
                 target_subscription_names=subscription_names if subscription_names else None
             )
@@ -4695,11 +4294,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving email event notification specification for parameter transformation. "
-            "Calling email_event_notifications_temp_spec() for mapping rules.",
+            "Calling email_event_notification_temp_spec() for mapping rules.",
             "DEBUG"
         )
 
-        email_event_notifications_temp_spec = self.email_event_notifications_temp_spec()
+        email_event_notification_temp_spec = self.email_event_notification_temp_spec()
 
         self.log(
             "Transforming {0} email event notification(s) using specification. Converting "
@@ -4708,9 +4307,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_notification_configs = self.modify_parameters(email_event_notifications_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(email_event_notification_temp_spec, final_notification_configs)
 
-        result = {"email_event_notifications": modified_notification_configs}
+        result = {"email_event_notification": modified_notification_configs}
         self.log(
             "Email event notification retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -4720,7 +4319,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_email_event_notifications(self, api_family, api_function, target_subscription_names=None):
+    def get_all_email_event_notification(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all email event notifications using pagination from the API.
 
@@ -4850,7 +4449,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_syslog_event_notifications(self, network_element, filters):
+    def get_syslog_event_notification(self, network_element, filters):
         """
         Retrieves syslog event notification subscriptions from Cisco Catalyst Center.
 
@@ -4865,7 +4464,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Returns:
             dict: A dictionary containing:
-                - syslog_event_notifications (list): List of syslog event subscription
+                - syslog_event_notification (list): List of syslog event subscription
                 configurations with sites, events, and destination details.
         """
         self.log(
@@ -4874,20 +4473,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
 
-        component_specific_filters = filters.get("component_specific_filters", {})
-        notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names, type_selected = self._resolve_name_filter(
-            notification_filters.get("notification_types"),
-            notification_filters.get("subscription_names"),
-            "syslog"
-        )
-        if not type_selected:
-            self.log(
-                "Syslog notification type not selected in notification_types filter. "
-                "Skipping retrieval and returning empty list.",
-                "DEBUG"
-            )
-            return {"syslog_event_notifications": []}
+        component_filters = filters.get("component_specific_filters") or []
+        subscription_names = self._extract_component_filter_values(
+            component_filters, {"name"}
+        ).get("name", [])
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4907,7 +4496,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            notification_configs = self.get_all_syslog_event_notifications(
+            notification_configs = self.get_all_syslog_event_notification(
                 api_family, api_function,
                 target_subscription_names=subscription_names if subscription_names else None
             )
@@ -4972,12 +4561,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "Retrieving syslog event notification specification for parameter "
-            "transformation. Calling syslog_event_notifications_temp_spec() for mapping "
+            "transformation. Calling syslog_event_notification_temp_spec() for mapping "
             "rules.",
             "DEBUG"
         )
 
-        syslog_event_notifications_temp_spec = self.syslog_event_notifications_temp_spec()
+        syslog_event_notification_temp_spec = self.syslog_event_notification_temp_spec()
 
         self.log(
             "Transforming {0} syslog event notification(s) using specification. Converting "
@@ -4986,9 +4575,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             ),
             "DEBUG"
         )
-        modified_notification_configs = self.modify_parameters(syslog_event_notifications_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(syslog_event_notification_temp_spec, final_notification_configs)
 
-        result = {"syslog_event_notifications": modified_notification_configs}
+        result = {"syslog_event_notification": modified_notification_configs}
         self.log(
             "Syslog event notification retrieval completed. Final result contains {0} "
             "transformed configuration(s) ready for YAML serialization.".format(
@@ -4999,7 +4588,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return result
 
-    def get_all_syslog_event_notifications(self, api_family, api_function, target_subscription_names=None):
+    def get_all_syslog_event_notification(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all syslog event notifications using pagination from the API.
 
@@ -5370,328 +4959,6 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return modified_configs
 
-    def yaml_config_generator(self, yaml_config_generator):
-        """
-        Generates comprehensive YAML configuration files for events and notifications.
-
-        Description:
-            This method orchestrates the complete YAML generation process by processing
-            configuration parameters, retrieving data for specified components, and
-            creating structured YAML files. It handles component validation, data
-            retrieval coordination, and file generation with proper error handling
-            and logging throughout the process.
-
-        Args:
-            yaml_config_generator (dict): Configuration parameters including file path,
-                component filters, and generation options.
-
-        Returns:
-            object: Self instance with updated status and results. Sets operation
-            result to success with file path information or failure with error details.
-        """
-        self.log(
-            "Starting YAML configuration generation workflow. Configuration parameters: "
-            "{0}".format(yaml_config_generator),
-            "DEBUG"
-        )
-
-        # Check if generate_all_configurations is enabled
-        generate_all = yaml_config_generator.get("generate_all_configurations", False)
-        file_path = yaml_config_generator.get("file_path")
-
-        # Extract file_mode with default of 'overwrite'
-        file_mode = yaml_config_generator.get("file_mode", "overwrite")
-        self.log("File mode for YAML generation: '{0}'.".format(file_mode), "DEBUG")
-
-        if not file_path:
-            file_path = self.generate_filename()
-            self.log(
-                "No file path provided in configuration. Generated default filename: {0} "
-                "for YAML output.".format(file_path),
-                "DEBUG"
-            )
-        else:
-            self.log(
-                "Using provided file path for YAML output: {0}".format(file_path),
-                "DEBUG"
-            )
-
-        component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
-
-        # Set defaults for generate_all_configurations mode
-        if generate_all:
-            self.log(
-                "Generate all configurations mode enabled. Ignoring any user-provided "
-                "component_specific_filters and including all supported components.",
-                "INFO"
-            )
-            component_specific_filters = {
-                "components_list": [
-                    "webhook_destinations",
-                    "email_destinations",
-                    "syslog_destinations",
-                    "snmp_destinations",
-                    "itsm_settings",
-                    "webhook_event_notifications",
-                    "email_event_notifications",
-                    "syslog_event_notifications"
-                ]
-            }
-            self.log(
-                "Set components list with all {0} supported component types "
-                "for complete configuration capture. Any user-provided filters are ignored.".format(
-                    len(component_specific_filters["components_list"])
-                ),
-                "DEBUG"
-            )
-
-        # Validate components_list
-        components_list = component_specific_filters.get("components_list", [])
-        if components_list:
-            self.log(
-                "Validating {0} component(s) against allowed component types: {1}".format(
-                    len(components_list), components_list
-                ),
-                "DEBUG"
-            )
-            allowed_components = list(self.module_schema["network_elements"].keys())
-            invalid_components = [comp for comp in components_list if comp not in allowed_components]
-
-            if invalid_components:
-                error_message = (
-                    "Invalid components found in components_list: {0}. "
-                    "Only the following components are allowed: {1}. "
-                    "Please remove the invalid components and try again.".format(
-                        invalid_components, allowed_components
-                    )
-                )
-                response_data = {
-                    "message": error_message,
-                    "status": "failed"
-                }
-                self.msg = response_data
-                self.result["response"] = response_data
-                self.set_operation_result("failed", False, error_message, "ERROR")
-                self.log(
-                    "Component validation failed. Found {0} invalid component(s) that do not "
-                    "match allowed component types.".format(len(invalid_components)),
-                    "ERROR"
-                )
-                return self
-
-        try:
-            self.log(
-                "Beginning component processing loop for {0} component(s). Retrieving "
-                "configurations from Catalyst Center.".format(len(components_list)),
-                "DEBUG"
-            )
-            final_config = {}
-
-            components_processed = 0
-            components_skipped = 0
-            total_configurations = 0
-
-            for component_index, component in enumerate(components_list, start=1):
-                self.log(
-                    "Processing component {0}/{1}: {2}. Checking if component exists in "
-                    "module schema mapping.".format(
-                        component_index, len(components_list), component
-                    ),
-                    "DEBUG"
-                )
-                if component in self.module_schema["network_elements"]:
-                    component_info = self.module_schema["network_elements"][component]
-                    get_function = component_info.get("get_function_name")
-
-                    if get_function and callable(get_function):
-                        self.log(
-                            "Calling getter function for component {0}/{1}: {2}. Retrieving "
-                            "configurations with applied filters.".format(
-                                component_index, len(components_list), component
-                            ),
-                            "DEBUG"
-                        )
-                        try:
-                            result = get_function(component_info, {"component_specific_filters": component_specific_filters})
-
-                            if isinstance(result, dict):
-                                component_has_data = False
-                                for key, value in result.items():
-                                    if value:
-                                        final_config[key] = value
-                                        config_count = len(value) if isinstance(value, list) else 1
-                                        total_configurations += config_count
-                                        component_has_data = True
-                                        self.log(
-                                            "Added {0} configuration(s) for component key '{1}'. "
-                                            "Total configurations so far: {2}".format(
-                                                config_count, key, total_configurations
-                                            ),
-                                            "DEBUG"
-                                        )
-
-                                if component_has_data:
-                                    components_processed += 1
-                                    self.log(
-                                        "Successfully processed component {0}/{1}: {2} with data.".format(
-                                            component_index, len(components_list), component
-                                        ),
-                                        "DEBUG"
-                                    )
-                                else:
-                                    components_skipped += 1
-                                    self.log(
-                                        "Skipped component {0}/{1}: {2} - no data returned from "
-                                        "getter function.".format(
-                                            component_index, len(components_list), component
-                                        ),
-                                        "WARNING"
-                                    )
-
-                        except Exception as e:
-                            self.log(
-                                "Exception during component {0}/{1} ({2}) processing. Exception "
-                                "type: {3}, Exception message: {4}. Skipping component and "
-                                "continuing.".format(
-                                    component_index, len(components_list), component,
-                                    type(e).__name__, str(e)
-                                ),
-                                "ERROR"
-                            )
-                            components_skipped += 1
-                            continue
-                    else:
-                        self.log(
-                            "No getter function found for component {0}/{1}: {2}. Skipping "
-                            "component processing.".format(
-                                component_index, len(components_list), component
-                            ),
-                            "WARNING"
-                        )
-                        components_skipped += 1
-                else:
-                    self.log(
-                        "Component {0}/{1}: {2} not found in module schema mapping. Skipping component processing.".format(
-                            component_index, len(components_list), component
-                        ),
-                        "WARNING"
-                    )
-                    components_skipped += 1
-
-            if final_config:
-                self.log(
-                    "Configuration retrieval completed successfully. Generated configurations "
-                    "for {0} component(s) with {1} total configuration item(s). Proceeding "
-                    "with playbook structure generation.".format(
-                        len(final_config), total_configurations
-                    ),
-                    "INFO"
-                )
-                playbook_data = self.generate_playbook_structure(final_config, file_path)
-                self.log(
-                    "Playbook structure generated. Writing YAML data to file: {0}".format(
-                        file_path
-                    ),
-                    "DEBUG"
-                )
-                header_notes = [
-                    "Auto-generated configuration for Events and Notifications workflow.",
-                    "Components requested: {0}".format(", ".join(components_list)),
-                    "File mode: {0}".format(file_mode),
-                ]
-
-                write_result = self.write_dict_to_yaml(
-                    playbook_data, file_path, file_mode, notes=header_notes
-                )
-
-                if write_result:
-                    success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
-
-                    response_data = {
-                        "components_processed": components_processed,
-                        "components_skipped": components_skipped,
-                        "configurations_count": total_configurations,
-                        "file_path": file_path,
-                        "message": success_message,
-                        "status": "success"
-                    }
-
-                    self.set_operation_result("success", True, success_message, "INFO")
-
-                    self.msg = response_data
-                    self.result["response"] = response_data
-                    self.log(
-                        "YAML configuration file generated successfully for module '{0}'".format(self.module_name),
-                        "INFO"
-                    )
-
-                else:
-                    success_message = (
-                        "YAML configuration file already up-to-date for module '{0}'. "
-                        "No changes written.".format(self.module_name)
-                    )
-                    response_data = {
-                        "components_processed": components_processed,
-                        "components_skipped": components_skipped,
-                        "configurations_count": total_configurations,
-                        "file_path": file_path,
-                        "message": success_message,
-                        "status": "success"
-                    }
-
-                    self.set_operation_result("success", False, success_message, "INFO")
-                    self.msg = response_data
-                    self.result["response"] = response_data
-                    self.log(success_message, "INFO")
-
-            else:
-                no_config_message = "No configurations found to generate. Verify that the components exist and have data."
-
-                response_data = {
-                    "components_processed": components_processed,
-                    "components_skipped": components_skipped,
-                    "configurations_count": 0,
-                    "message": no_config_message,
-                    "status": "success"
-                }
-
-                self.set_operation_result("success", False, no_config_message, "INFO")
-
-                self.msg = response_data
-                self.result["response"] = response_data
-                self.log(
-                    "No configuration data retrieved. All {0} component(s) returned empty "
-                    "results. Possible reasons: no configurations exist in Catalyst Center, "
-                    "filters too restrictive, or API access issues.".format(
-                        len(components_list)
-                    ),
-                    "WARNING"
-                )
-
-            return self
-
-        except Exception as e:
-            error_message = "Error during YAML config generation: {0}".format(str(e))
-
-            response_data = {
-                "message": error_message,
-                "status": "failed"
-            }
-
-            self.msg = response_data
-            self.result["response"] = response_data
-
-            self.set_operation_result("failed", False, error_message, "ERROR")
-            self.log(
-                "Fatal exception during YAML generation workflow. Exception type: {0}, "
-                "Exception message: {1}. Returning failure status.".format(
-                    type(e).__name__, str(e)
-                ),
-                "ERROR"
-            )
-
-        return self
-
     def generate_playbook_structure(self, configurations, file_path):
         """
         Generates structured playbook format from configuration data.
@@ -5722,121 +4989,70 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         config_list = []
 
         # Add ALL webhook destinations to the same config block
-        if configurations.get("webhook_destinations"):
-            webhooks = configurations["webhook_destinations"]
+        if configurations.get("webhook_destination"):
+            webhooks = configurations["webhook_destination"]
             for webhook in webhooks:
                 config_list.append(OrderedDict([
                     ("webhook_destination", webhook)
                 ]))
 
         # Add ALL email destinations to the same config block
-        if configurations.get("email_destinations"):
-            emails = configurations["email_destinations"]
+        if configurations.get("email_destination"):
+            emails = configurations["email_destination"]
             for email in emails:
                 config_list.append(OrderedDict([
                     ("email_destination", email)
                 ]))
 
         # Add ALL syslog destinations to the same config block
-        if configurations.get("syslog_destinations"):
-            syslogs = configurations["syslog_destinations"]
+        if configurations.get("syslog_destination"):
+            syslogs = configurations["syslog_destination"]
             for syslog in syslogs:
                 config_list.append(OrderedDict([
                     ("syslog_destination", syslog)
                 ]))
 
         # Add ALL SNMP destinations to the same config block
-        if configurations.get("snmp_destinations"):
-            snmps = configurations["snmp_destinations"]
+        if configurations.get("snmp_destination"):
+            snmps = configurations["snmp_destination"]
             for snmp in snmps:
                 config_list.append(OrderedDict([
                     ("snmp_destination", snmp)
                 ]))
 
         # Add ALL ITSM settings to the same config block
-        if configurations.get("itsm_settings"):
-            itsms = configurations["itsm_settings"]
+        if configurations.get("itsm_setting"):
+            itsms = configurations["itsm_setting"]
             for itsm in itsms:
                 config_list.append(OrderedDict([
                     ("itsm_setting", itsm)
                 ]))
 
         # Add ALL webhook event notifications to the same config block
-        if configurations.get("webhook_event_notifications"):
-            webhook_notifs = configurations["webhook_event_notifications"]
+        if configurations.get("webhook_event_notification"):
+            webhook_notifs = configurations["webhook_event_notification"]
             for webhook_notif in webhook_notifs:
                 config_list.append(OrderedDict([
                     ("webhook_event_notification", webhook_notif)
                 ]))
 
         # Add ALL email event notifications to the same config block
-        if configurations.get("email_event_notifications"):
-            email_notifs = configurations["email_event_notifications"]
+        if configurations.get("email_event_notification"):
+            email_notifs = configurations["email_event_notification"]
             for email_notif in email_notifs:
                 config_list.append(OrderedDict([
                     ("email_event_notification", email_notif)
                 ]))
 
         # Add ALL syslog event notifications to the same config block
-        if configurations.get("syslog_event_notifications"):
-            syslog_notifs = configurations["syslog_event_notifications"]
+        if configurations.get("syslog_event_notification"):
+            syslog_notifs = configurations["syslog_event_notification"]
             for syslog_notif in syslog_notifs:
                 config_list.append(OrderedDict([
                     ("syslog_event_notification", syslog_notif)
                 ]))
 
         return {"config": config_list}
-
-    def get_want(self, config, state):
-        """
-        Processes and validates configuration parameters for API operations.
-
-        Description:
-            This method transforms input configuration parameters into the internal
-            'want' structure used throughout the module. It validates the state
-            parameter and prepares configuration data for subsequent processing
-            steps in the YAML generation workflow.
-
-        Args:
-            config (dict): The configuration data containing generation parameters
-                and component filters.
-            state (str): The desired state for the operation (should be 'gathered').
-
-        Returns:
-            object: Self instance with updated attributes including:
-                - self.want (dict): Structured configuration ready for processing with
-                yaml_config_generator key containing all generation parameters.
-                - self.msg (str): Success message confirming parameter collection.
-                - self.status (str): Operation status set to 'success'.
-        """
-        self.log(
-            "Processing configuration parameters for YAML generation workflow. State: {0}, "
-            "Configuration provided: {1}".format(state, bool(config)),
-            "DEBUG"
-        )
-
-        want = {}
-        want["yaml_config_generator"] = config
-        self.log(
-            "Structured 'want' configuration created with yaml_config_generator containing: "
-            "file_path={0}, component_filters_present={1}".format(
-                config.get("file_path", "not specified"),
-                bool(config.get("component_specific_filters"))
-            ),
-            "DEBUG"
-        )
-
-        self.want = want
-        self.log(
-            "Configuration parameters successfully organized into internal 'want' structure. "
-            "Ready for YAML generation processing with {0} configuration key(s).".format(
-                len(want)
-            ),
-            "INFO"
-        )
-        self.msg = "Successfully collected all parameters from the playbook for Events and Notifications operations."
-        self.status = "success"
-        return self
 
     def get_diff_gathered(self):
         """
@@ -5989,7 +5205,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
+            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -5998,7 +5214,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
+            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -6050,28 +5266,23 @@ def main():
         # ============================================
         "catalystcenter_host": {
             "required": True,
-            "type": "str",
-            "aliases": ["dnac_host"]
+            "type": "str"
         },
         "catalystcenter_port": {
             "type": "str",
-            "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"]
+            "default": "443"
         },
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["dnac_username", "user"]
         },
         "catalystcenter_password": {
             "type": "str",
-            "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"]
+            "no_log": True  # Prevent password from appearing in logs
         },
         "catalystcenter_verify": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_verify"]
+            "default": True
         },
 
         # ============================================
@@ -6079,8 +5290,7 @@ def main():
         # ============================================
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.3.7.6",
-            "aliases": ["dnac_version"]
+            "default": "2.3.7.6"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -6100,28 +5310,23 @@ def main():
         # ============================================
         "catalystcenter_debug": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_debug"]
+            "default": False
         },
         "catalystcenter_log_level": {
             "type": "str",
-            "default": "WARNING",
-            "aliases": ["dnac_log_level"]
+            "default": "WARNING"
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"]
+            "default": "catalystcenter.log"
         },
         "catalystcenter_log_append": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_log_append"]
+            "default": True
         },
         "catalystcenter_log": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_log"]
+            "default": False
         },
 
         # ============================================
@@ -6302,7 +5507,7 @@ def main():
             "Validation Error: 'component_specific_filters' is mandatory when "
             "'config' is provided. Please provide "
             "'config.component_specific_filters' with either "
-            "'components_list' or component filter blocks."
+            "'components_list' or component-specific filter keys."
         )
         ccc_events_and_notifications_playbook_generator.set_operation_result(
             "failed", False, ccc_events_and_notifications_playbook_generator.msg, "ERROR"

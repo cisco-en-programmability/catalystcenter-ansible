@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-    - name: Load vars and declare dnac vars
+    - name: Load vars and declare catalystcenter vars
       include_vars:
         file: "{{ role_path }}/vars/vars_network_compliance_management.yml"
         name: vars_map
       vars:
-        catalyst_login: &catalyst_login
+        catalystcenter_login: &catalystcenter_login
           catalystcenter_host: "{{ catalystcenter_host }}"
           catalystcenter_username: "{{ catalystcenter_username }}"
           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -19,17 +19,17 @@
           catalystcenter_log: true
           catalystcenter_log_level: "DEBUG"
           config_verify: true
-          dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-          dnac_log_append: true
+          catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+          catalystcenter_log_append: true
 
     # ############################################
     #           Run Full Compliance             #
     # ############################################
 
     - name: Run complaince checks
-      cisco.dnac.network_compliance_workflow_manager:
-        <<: *catalyst_login
-        dnac_log_append: false
+      cisco.catalystcenter.network_compliance_workflow_manager:
+        <<: *catalystcenter_login
+        catalystcenter_log_append: false
         config:
           - "{{ item }}"
       loop: "{{ vars_map.run_complaince_vars }}"
@@ -61,9 +61,9 @@
     # ############################################
 
     - name: Sync Device Configuration on device(s) using IP address list
-      cisco.dnac.network_compliance_workflow_manager:
-        <<: *catalyst_login
-        dnac_log_append: false
+      cisco.catalystcenter.network_compliance_workflow_manager:
+        <<: *catalystcenter_login
+        catalystcenter_log_append: false
         config:
           - "{{ item }}"
       loop: "{{ vars_map.sync_config_vars }}"
@@ -87,9 +87,9 @@
     # ############################################
 
     - name: Negative Test Case for run compliance actions
-      cisco.dnac.network_compliance_workflow_manager:
-        <<: *catalyst_login
-        dnac_log_append: false
+      cisco.catalystcenter.network_compliance_workflow_manager:
+        <<: *catalystcenter_login
+        catalystcenter_log_append: false
         config:
           - "{{ item }}"
       loop: "{{ vars_map.negative_test_case_vars }}"

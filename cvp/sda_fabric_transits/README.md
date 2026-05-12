@@ -88,22 +88,22 @@ Follow these steps to configure and deploy SDA fabric transits in *Cisco Catalys
    ```
 
 3. **Generate Inventory**:  
-   Create an Ansible inventory file (e.g., `inventory/demo_lab/hosts.yaml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalyst_center_host`, `catalyst_center_username`, and `catalyst_center_password`.  
+   Create an Ansible inventory file (e.g., `inventory/demo_lab/hosts.yaml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalystcenter_host`, `catalystcenter_username`, and `catalystcenter_password`.  
    > **Note**: For security, consider using *Ansible Vault* to encrypt sensitive data like passwords.  
    ```yaml
    catalyst_center_hosts:
        hosts:
            catalyst_center220:
-               catalyst_center_host: xx.xx.xx.xx
-               catalyst_center_password: XXXXXXXX
-               catalyst_center_port: 443
-               catalyst_center_timeout: 60
-               catalyst_center_username: admin
-               catalyst_center_verify: false  # Enable for production with valid certificates
-               catalyst_center_version: 3.1.3.0  # Specify the version
-               catalyst_center_debug: true
-               catalyst_center_log_level: debug
-               catalyst_center_log: true
+               catalystcenter_host: xx.xx.xx.xx
+               catalystcenter_password: XXXXXXXX
+               catalystcenter_port: 443
+               catalystcenter_api_task_timeout: 60
+               catalystcenter_username: admin
+               catalystcenter_verify: false  # Enable for production with valid certificates
+               catalystcenter_version: 3.1.3.0  # Specify the version
+               catalystcenter_debug: true
+               catalystcenter_log_level: debug
+               catalystcenter_log: true
                ansible_python_interpreter: /auto/cat-sol/pyats-ws/pyats-apoorv/bin/python
    ```
 
@@ -164,8 +164,8 @@ Before creating fabric transits, ensure the following are configured in *Cisco C
 *Example*: Configure a new IP-based transit with BGP routing.
 ![Alt text](images/image.png)
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -180,8 +180,8 @@ fabric_transits:
 ##### 2. **Create SDA LISP Pub/Sub Transit**  
 *Example*: Configure an SDA transit with multicast enabled.
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -200,8 +200,8 @@ fabric_transits:
 *Example*: Configure an SDA BGP transit with control plane devices.
 ![Alt text](images/image-1.png)
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -216,8 +216,8 @@ fabric_transits:
 ##### 4. **Create Multiple Transits**  
 *Example*: Deploy multiple transit types in a single playbook run.
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -246,8 +246,8 @@ fabric_transits:
 ![Alt text](./images/image-3.png)
 > **Note**: IP-based transits cannot change ASN after creation. Only control plane devices and multicast settings can be updated for SDA transits.
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -264,8 +264,8 @@ fabric_transits:
 ##### 6. **Update Site Hierarchy**  
 *Example*: Change the site association of an existing transit (3.1.3.0+).
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -281,8 +281,8 @@ fabric_transits:
 ![Alt text](images/image-2.png)
 > **Warning**: Deleting transits may impact network connectivity. Verify dependencies before proceeding.
 ```yaml
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:
@@ -320,7 +320,7 @@ yamale -s cvp/sda_fabric_transits/schema/sda_fabric_transits_workflow_schema.yml
    ```
 
 3. **Verify Deployment**:  
-   After execution, verify the configuration in the *Cisco Catalyst Center* UI under **Design > Network Settings > SDA Fabric Transits**. If `catalyst_center_debug` is enabled, review the logs for detailed operation information.  
+   After execution, verify the configuration in the *Cisco Catalyst Center* UI under **Design > Network Settings > SDA Fabric Transits**. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.  
 
    ![Fabric transit configuration in Cisco Catalyst Center UI](./images/image-1.png)  
    **Figure 1**: *Fabric Transit Configuration in Cisco Catalyst Center*
@@ -361,7 +361,7 @@ yamale -s cvp/sda_fabric_transits/schema/sda_fabric_transits_workflow_schema.yml
 ### Best Practices
 - Back up your configuration before running delete playbooks
 - Validate input files using the schema validator before deployment
-- Use `catalyst_center_debug: true` for troubleshooting
+- Use `catalystcenter_debug: true` for troubleshooting
 - Monitor task execution in Catalyst Center UI (Design > Tasks)
 - Test configurations in non-production environment first
 

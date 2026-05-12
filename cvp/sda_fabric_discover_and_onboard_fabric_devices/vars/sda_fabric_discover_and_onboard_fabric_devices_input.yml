@@ -3,7 +3,7 @@
 state: merged
 
 # Optional Catalyst Center version override
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 
 # End-to-end SDA fabric discover and onboarding workflow data model
 #

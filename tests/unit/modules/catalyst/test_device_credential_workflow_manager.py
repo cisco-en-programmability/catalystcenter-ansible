@@ -17,13 +17,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    device_credential_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import device_credential_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacCredentialWorkflow(TestCatalystModule):
+class TestCatalystCenterCredentialWorkflow(TestCatalystModule):
 
     module = device_credential_workflow_manager
     test_data = loadPlaybookData("device_credential_workflow_manager")
@@ -34,11 +32,10 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
     playbook_invalid_cli = test_data.get("playbook_invalid_cli")
 
     def setUp(self):
-        super(TestDnacCredentialWorkflow, self).setUp()
+        super(TestCatalystCenterCredentialWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -49,7 +46,7 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacCredentialWorkflow, self).tearDown()
+        super(TestCatalystCenterCredentialWorkflow, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -131,6 +128,7 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 self.test_data.get("assign_task_response_2"),
                 self.test_data.get("assign_task_response_1"),
                 self.test_data.get("assign_task_response_2"),
+
             ]
 
         if "already_sync_cred" in self._testMethodName:
@@ -185,7 +183,8 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
             ]
 
         if "invalid_cli" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = []
+            self.run_catalystcenter_exec.side_effect = [
+            ]
 
         if "invalid_site_response" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -211,14 +210,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_creation,
+                config=self.playbook_config_creation
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0])
+        print(result['response'][0])
         self.assertEqual(
-            result["response"][0]["global_credential"]["Creation"]["msg"],
-            "Global Credential Created Successfully",
+            result['response'][0]['global_credential']['Creation']['msg'],
+            "Global Credential Created Successfully"
         )
 
     def test_device_credentials_workflow_manager_deletion(self):
@@ -236,24 +235,22 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_deletion,
+                config=self.playbook_config_deletion
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][0]["global_credential"]["Deletion"]["msg"],
-            "Global Device Credentials Deleted Successfully",
+            result['response'][0]['global_credential']['Deletion']['msg'],
+            "Global Device Credentials Deleted Successfully"
         )
 
     def test_device_credentials_workflow_manager_assign_cred_1(self):
         """
-        Test case for device credential workflow manager when assigning a device
-        credential to site in catalystcenter_version="2.3.7.6".
+        Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.7.6".
 
-        This test case checks the behavior of the device credential workflow
-        manager when assigning a device credential to site in the specified
-        Catalyst Center.
+        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site
+        in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -263,23 +260,22 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.5.3",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_assign,
+                config=self.playbook_config_assign
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][0]["assign_credential"]["Assign Credentials"]["msg"],
-            "Device Credential Assigned to a site is Successfully",
+            result['response'][0]['assign_credential']['Assign Credentials']['msg'],
+            "Device Credential Assigned to a site is Successfully"
         )
 
     def test_device_credentials_workflow_manager_assign_cred_2(self):
         """
         Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.5.3".
 
-        This test case checks the behavior of the device credential workflow
-        manager when assigning a device credential to site in the specified
-        Catalyst Center.
+        This test case checks the behavior of the device credential workflow manager when assigning
+        a device credential to site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -289,14 +285,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.5.3",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_assign,
+                config=self.playbook_config_assign
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][0]["assign_credential"]["Assign Credentials"]["msg"],
-            "Device Credential Assigned to a site is Successfully",
+            result['response'][0]['assign_credential']['Assign Credentials']['msg'],
+            "Device Credential Assigned to a site is Successfully"
         )
 
     def test_device_credentials_workflow_manager_already_sync_cred(self):
@@ -315,14 +311,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][0]["apply_credential"]["No Apply Credentials"]["msg"],
-            "No device available in the site",
+            result['response'][0]['apply_credential']['No Apply Credentials']['msg'],
+            "No device available in the site"
         )
 
     def test_device_credentials_workflow_manager_update_verify(self):
@@ -340,14 +336,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_creation,
+                config=self.playbook_config_creation
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][0]["global_credential"]["Update"]["msg"],
-            "Global Device Credential Updated Successfully",
+            result['response'][0]['global_credential']['Update']['msg'],
+            "Global Device Credential Updated Successfully"
         )
 
     def test_device_credentials_workflow_manager_apply_sync(self):
@@ -366,14 +362,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        print(result["response"][0]["apply_credential"]["No Apply Credentials"]["msg"])
+        print(result['response'][0]['apply_credential']['No Apply Credentials']['msg'])
         self.assertEqual(
-            result["response"][0]["apply_credential"]["No Apply Credentials"]["msg"],
-            "No device available in the site",
+            result['response'][0]['apply_credential']['No Apply Credentials']['msg'],
+            "No device available in the site"
         )
 
     def test_device_credentials_workflow_manager_invalid_state(self):
@@ -390,22 +386,22 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merge",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result["msg"], "value of state must be one of: merged, deleted, got: merge"
+            result['msg'],
+            "value of state must be one of: merged, deleted, got: merge"
         )
 
     def test_device_credentials_workflow_manager_get_device_cred_exception(self):
         """
         Test case for device credential workflow manager when exception occured during sync credential.
 
-        This test case checks the behavior of the device credential workflow manager,
-        when exception occured during sync credential in the specified
-        Catalyst Center.
+        This test case checks the behavior of the device credential workflow manager, when exception
+        occured during sync credential in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -415,14 +411,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result["msg"])
+        print(result['msg'])
         self.assertEqual(
-            result["msg"],
-            "Exception occurred while getting global device credentials: ",
+            result['msg'],
+            "Exception occurred while getting global device credentials: "
         )
 
     def test_device_credentials_workflow_manager_invalid_site(self):
@@ -439,15 +435,12 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_version="2.3.7.6",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_assign,
+                config=self.playbook_config_assign
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertIn(
-            "An exception occurred while retrieving Site details for Site 'Global/Vietnam/halong/Hanoi'",
-            result["msg"],
-        )
+        self.assertIn("An exception occurred while retrieving Site details for Site 'Global/Vietnam/halong/Hanoi'", result['msg'])
 
     def test_device_credentials_workflow_manager_invalid_cli(self):
         """
@@ -463,14 +456,14 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_invalid_cli,
+                config=self.playbook_invalid_cli
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result["msg"],
-            "Exception occurred while getting global device credentials: ",
+            result['msg'],
+            "Exception occurred while getting global device credentials: "
         )
 
     def test_device_credentials_workflow_manager_invalid_site_response(self):
@@ -487,13 +480,13 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertTrue(
-            result["msg"].startswith(
+            result['msg'].startswith(
                 "An exception occurred while retrieving Site details for Site 'Global/Vietnam/halong/Hanoi' does not exist in the Cisco Catalyst Center."
             )
         )
@@ -512,12 +505,12 @@ class TestDnacCredentialWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_apply,
+                config=self.playbook_config_apply
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result["msg"],
-            "Exception occurred while getting global device credentials: ",
+            result['msg'],
+            "Exception occurred while getting global device credentials: "
         )

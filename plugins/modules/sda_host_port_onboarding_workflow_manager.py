@@ -3,7 +3,6 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to manage SD-Access Host Onboarding operations in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -525,7 +524,7 @@ options:
         type: bool
         default: true
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Methods used are - devices.Devices.get_device_list
@@ -1570,10 +1569,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "connected_device_type",
             "authentication_template_name",
             "interface_description",
+            "native_vlan_id",
+            "allowed_vlan_ranges",
         }
-        if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
-            valid_params.add("allowed_vlan_ranges")
-            valid_params.add("native_vlan_id")
 
         provided_params = set(port_assignment.keys())
         invalid_params = provided_params - valid_params
@@ -1839,53 +1837,40 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Validating VLAN parameters for port assignment: interface_name={0}, connected_device_type={1}".format(
                 interface_name, connected_device_type
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
-        if (
-            not connected_device_type
-            or connected_device_type.upper() != "TRUNKING_DEVICE"
-        ):
+        if not connected_device_type or connected_device_type.upper() != "TRUNKING_DEVICE":
             self.log(
                 "Interface {0}: VLAN parameter validation skipped - not a TRUNKING_DEVICE (type: {1})".format(
                     interface_name, connected_device_type
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             return
 
         native_vlan_id = port_assignment.get("native_vlan_id")
         if native_vlan_id is not None:
             self.log(
-                "Interface {0}: Validating native VLAN ID: {1}".format(
-                    interface_name, native_vlan_id
-                ),
-                "DEBUG",
+                "Interface {0}: Validating native VLAN ID: {1}".format(interface_name, native_vlan_id),
+                "DEBUG"
             )
             self.validate_native_vlan(native_vlan_id, interface_name)
             self.log(
-                "Interface {0}: Native VLAN ID validation completed successfully".format(
-                    interface_name
-                ),
-                "DEBUG",
+                "Interface {0}: Native VLAN ID validation completed successfully".format(interface_name),
+                "DEBUG"
             )
 
         allowed_vlan_ranges = port_assignment.get("allowed_vlan_ranges")
         if allowed_vlan_ranges is not None:
             self.log(
-                "Interface {0}: Validating allowed VLAN ranges: {1}".format(
-                    interface_name, allowed_vlan_ranges
-                ),
-                "DEBUG",
+                "Interface {0}: Validating allowed VLAN ranges: {1}".format(interface_name, allowed_vlan_ranges),
+                "DEBUG"
             )
-            self.validate_allowed_vlan_ranges_format(
-                allowed_vlan_ranges, interface_name
-            )
+            self.validate_allowed_vlan_ranges_format(allowed_vlan_ranges, interface_name)
             self.log(
-                "Interface {0}: Allowed VLAN ranges validation completed successfully".format(
-                    interface_name
-                ),
-                "DEBUG",
+                "Interface {0}: Allowed VLAN ranges validation completed successfully".format(interface_name),
+                "DEBUG"
             )
 
     def validate_native_vlan(self, native_vlan_id, interface_name=None):
@@ -1908,7 +1893,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Interface {0}: Validating native VLAN ID parameter: {1} (type: {2})".format(
                 interface_name, native_vlan_id, type(native_vlan_id).__name__
             ),
-            "DEBUG",
+            "DEBUG"
         )
         if not isinstance(native_vlan_id, int):
             self.msg = (
@@ -1921,7 +1906,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Interface {0}: Native VLAN ID type validation passed: {1}".format(
                 interface_name, native_vlan_id
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not (1 <= native_vlan_id <= 4094):
@@ -1935,18 +1920,14 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Interface {0}: Native VLAN ID range validation passed: {1}".format(
                 interface_name, native_vlan_id
             ),
-            "DEBUG",
+            "DEBUG"
         )
         self.log(
-            "Interface {0}: Finished native VLAN ID validation successfully".format(
-                interface_name
-            ),
-            "DEBUG",
+            "Interface {0}: Finished native VLAN ID validation successfully".format(interface_name),
+            "DEBUG"
         )
 
-    def validate_allowed_vlan_ranges_format(
-        self, allowed_vlan_ranges, interface_name=None
-    ):
+    def validate_allowed_vlan_ranges_format(self, allowed_vlan_ranges, interface_name=None):
         """
         Validates the format of allowed VLAN ranges.
         Args:
@@ -1967,30 +1948,24 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Interface {0}: Validating allowed VLAN ranges format: '{1}' (type: {2})".format(
                 interface_name, allowed_vlan_ranges, type(allowed_vlan_ranges).__name__
             ),
-            "DEBUG",
+            "DEBUG"
         )
-        if allowed_vlan_ranges.lower() == "all":
+        if allowed_vlan_ranges.lower() == 'all':
             self.log(
-                "Interface {0}: Allowed VLAN ranges set to 'all' - permitting all VLANs 1-4094".format(
-                    interface_name
-                ),
-                "DEBUG",
+                "Interface {0}: Allowed VLAN ranges set to 'all' - permitting all VLANs 1-4094".format(interface_name),
+                "DEBUG"
             )
             self.log(
-                "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(
-                    interface_name
-                ),
-                "INFO",
+                "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(interface_name),
+                "INFO"
             )
             return
 
         # Split by comma and validate each part
-        vlan_parts = [part.strip() for part in allowed_vlan_ranges.split(",")]
+        vlan_parts = [part.strip() for part in allowed_vlan_ranges.split(',')]
         self.log(
-            "Interface {0}: Parsed VLAN parts for validation: {1}".format(
-                interface_name, vlan_parts
-            ),
-            "DEBUG",
+            "Interface {0}: Parsed VLAN parts for validation: {1}".format(interface_name, vlan_parts),
+            "DEBUG"
         )
 
         for part in vlan_parts:
@@ -2001,23 +1976,17 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 ).format(interface_name, allowed_vlan_ranges)
                 self.fail_and_exit(self.msg)
 
-            if "-" in part:
+            if '-' in part:
                 self.log(
-                    "Interface {0}: Validating VLAN range: '{1}'".format(
-                        interface_name, part
-                    ),
-                    "DEBUG",
+                    "Interface {0}: Validating VLAN range: '{1}'".format(interface_name, part),
+                    "DEBUG"
                 )
                 try:
-                    start, end = part.split("-", 1)
+                    start, end = part.split('-', 1)
                     start_vlan = int(start.strip())
                     end_vlan = int(end.strip())
 
-                    if not (
-                        1 <= start_vlan <= 4094
-                        and 1 <= end_vlan <= 4094
-                        and start_vlan < end_vlan
-                    ):
+                    if not (1 <= start_vlan <= 4094 and 1 <= end_vlan <= 4094 and start_vlan < end_vlan):
                         self.msg = (
                             "Interface {0}: Invalid VLAN range '{1}'. "
                             "VLAN IDs must be between 1 and 4094, and start must be less than end. "
@@ -2033,10 +2002,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
             else:
                 self.log(
-                    "Interface {0}: Validating single VLAN ID: '{1}'".format(
-                        interface_name, part
-                    ),
-                    "DEBUG",
+                    "Interface {0}: Validating single VLAN ID: '{1}'".format(interface_name, part),
+                    "DEBUG"
                 )
                 try:
                     vlan_num = int(part)
@@ -2054,10 +2021,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
 
         self.log(
-            "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(
-                interface_name
-            ),
-            "DEBUG",
+            "Interface {0}: Allowed VLAN ranges format validation completed successfully".format(interface_name),
+            "DEBUG"
         )
 
     def validate_native_vlan_and_ranges_for_port_channel(self, port_channel):
@@ -2082,48 +2047,37 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         # Create logical port channel context - this should reference the port channel, not members
         # Note: We don't have port channel name yet (it's created by the system),
         # so we reference it by its member interfaces for identification
-        port_channel_context = "Port Channel with members: {0}".format(
-            ", ".join(interface_names)
-        )
+        port_channel_context = "Port Channel with members: {0}".format(", ".join(interface_names))
         self.log(
             "Validating VLAN parameters for {0}: connected_device_type={1}, "
             "native_vlan_id={2}, allowed_vlan_ranges={3}".format(
-                port_channel_context,
-                connected_device_type,
-                native_vlan_id,
-                allowed_vlan_ranges,
+                port_channel_context, connected_device_type, native_vlan_id, allowed_vlan_ranges
             ),
-            "DEBUG",
+            "DEBUG"
         )
         if not connected_device_type or connected_device_type.upper() != "TRUNK":
             self.log(
                 "{0}: VLAN parameter validation skipped - not a TRUNK device (type: {1})".format(
                     port_channel_context, connected_device_type
                 ),
-                "WARNING",
+                "WARNING"
             )
             return
 
         self.log(
-            "{0}: Validating VLAN parameters for TRUNK device".format(
-                port_channel_context
-            ),
-            "DEBUG",
+            "{0}: Validating VLAN parameters for TRUNK device".format(port_channel_context),
+            "DEBUG"
         )
 
         if native_vlan_id is not None:
             self.log(
-                "{0}: Validating native VLAN ID: {1}".format(
-                    port_channel_context, native_vlan_id
-                ),
-                "DEBUG",
+                "{0}: Validating native VLAN ID: {1}".format(port_channel_context, native_vlan_id),
+                "DEBUG"
             )
             self.validate_native_vlan(native_vlan_id, port_channel_context)
             self.log(
-                "{0}: Native VLAN ID validation completed successfully".format(
-                    port_channel_context
-                ),
-                "DEBUG",
+                "{0}: Native VLAN ID validation completed successfully".format(port_channel_context),
+                "DEBUG"
             )
 
         if allowed_vlan_ranges is not None:
@@ -2131,23 +2085,19 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "{0}: Validating allowed VLAN ranges: {1}".format(
                     port_channel_context, allowed_vlan_ranges
                 ),
-                "DEBUG",
+                "DEBUG"
             )
-            self.validate_allowed_vlan_ranges_format(
-                allowed_vlan_ranges, port_channel_context
-            )
+            self.validate_allowed_vlan_ranges_format(allowed_vlan_ranges, port_channel_context)
             self.log(
-                "{0}: Allowed VLAN ranges validation completed successfully".format(
-                    port_channel_context
-                ),
-                "DEBUG",
+                "{0}: Allowed VLAN ranges validation completed successfully".format(port_channel_context),
+                "DEBUG"
             )
 
         self.log(
             "{0}: VLAN parameter validation completed successfully for port channel logical interface".format(
                 port_channel_context
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
     def validate_port_channel_params(self, port_channel):
@@ -2515,16 +2465,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         interface_name, connected_device_type
                     )
                     self.validate_device_specific_params(interface)
-                    if (
-                        self.compare_catalystcenter_versions(
-                            self.current_version, "3.1.3.0"
-                        )
-                        >= 0
-                    ):
+                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
                         self.log("Validating native VLAN and ranges.", "DEBUG")
-                        self.validate_native_vlan_and_ranges_for_port_assignment(
-                            interface
-                        )
+                        self.validate_native_vlan_and_ranges_for_port_assignment(interface)
 
             # Validate parameters for add/update in port channels
             if port_channel_details:
@@ -2539,16 +2482,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     self.validate_port_channel_connected_device_type(port_channel)
                     self.validate_port_channel_protocol(port_channel)
                     self.validate_port_channel_interfaces(port_channel)
-                    if (
-                        self.compare_catalystcenter_versions(
-                            self.current_version, "3.1.3.0"
-                        )
-                        >= 0
-                    ):
+                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
                         self.log("Validating native VLAN and ranges.", "DEBUG")
-                        self.validate_native_vlan_and_ranges_for_port_channel(
-                            port_channel
-                        )
+                        self.validate_native_vlan_and_ranges_for_port_channel(port_channel)
 
             if wireless_ssids_details:
                 self.log("Validating Wireless SSIDs Details.", "INFO")
@@ -3126,20 +3062,10 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 ("nativeVlanId", "native_vlan_id"),
                 ("allowedVlanRanges", "allowed_vlan_ranges"),
             ]
-            self.log(
-                "Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(
-                    self.current_version
-                ),
-                "DEBUG",
-            )
+            self.log("Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(self.current_version), "DEBUG")
             comparison_fields.extend(new_fields)
 
-        self.log(
-            "Comparing existing port: {0} with requested port: {1}".format(
-                existing_port, requested_port
-            ),
-            "DEBUG",
-        )
+        self.log("Comparing existing port: {0} with requested port: {1}".format(existing_port, requested_port), "DEBUG")
         for existing_field, requested_field in comparison_fields:
             if existing_field == "authenticateTemplateName":
                 if existing_port.get(
@@ -3177,24 +3103,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 ):
                     if existing_port[existing_field] != requested_port[requested_field]:
                         self.log(
-                            "Difference found in field '{0}': existing value '{1}' vs requested value '{2}'.".format(
-                                existing_field,
-                                existing_port[existing_field],
-                                requested_port[requested_field],
-                            ),
-                            "DEBUG",
+                            "Difference found in field '{0}': existing value '{1}' vs requested value '{2}'."
+                            .format(existing_field, existing_port[existing_field], requested_port[requested_field]),
+                            "DEBUG"
                         )
                         return True
-                elif (
-                    requested_field in requested_port
-                    and existing_port[existing_field] is None
-                ):
-                    self.log(
-                        "Field '{0}' is None in existing port but has value in requested port.".format(
-                            existing_field
-                        ),
-                        "DEBUG",
-                    )
+                elif requested_field in requested_port and existing_port[existing_field] is None:
+                    self.log("Field '{0}' is None in existing port but has value in requested port.".format(existing_field), "DEBUG")
                     return True
 
         return False
@@ -3484,26 +3399,15 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     interface_params[parameter] = interface.get(parameter_name)
 
             device_type = interface.get("connected_device_type")
-            if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
-                >= 0
-                and device_type == "TRUNKING_DEVICE"
-            ):
+            if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0 and device_type == "TRUNKING_DEVICE":
                 interface_params["nativeVlanId"] = interface.get("native_vlan_id", 1)
-                interface_params["allowedVlanRanges"] = interface.get(
-                    "allowed_vlan_ranges", "all"
-                )
-                self.log(
-                    "Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
-                        {
-                            "native_vlan_id": interface_params["nativeVlanId"],
-                            "allowed_vlan_ranges": interface_params[
-                                "allowedVlanRanges"
-                            ],
-                        }
-                    ),
-                    "DEBUG",
-                )
+                interface_params["allowedVlanRanges"] = interface.get("allowed_vlan_ranges", "all")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": interface_params["nativeVlanId"],
+                        "allowed_vlan_ranges": interface_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
 
             # if interface.get("connected_device_type") == "TRUNKING_DEVICE" and not interface.get("authentication_template_name"):
             if not interface.get("authentication_template_name"):
@@ -3569,28 +3473,15 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     interface_params[parameter] = interface.get(parameter_name)
 
             device_type = interface.get("connected_device_type")
-            if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
-                >= 0
-                and device_type == "TRUNKING_DEVICE"
-            ):
-                interface_params["nativeVlanId"] = interface.get(
-                    "native_vlan_id"
-                ) or self.have.get("nativeVlanId")
-                interface_params["allowedVlanRanges"] = interface.get(
-                    "allowed_vlan_ranges"
-                ) or self.have.get("allowedVlanRanges")
-                self.log(
-                    "Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
-                        {
-                            "native_vlan_id": interface_params["nativeVlanId"],
-                            "allowed_vlan_ranges": interface_params[
-                                "allowedVlanRanges"
-                            ],
-                        }
-                    ),
-                    "DEBUG",
-                )
+            if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0 and device_type == "TRUNKING_DEVICE":
+                interface_params["nativeVlanId"] = interface.get("native_vlan_id") or self.have.get("nativeVlanId")
+                interface_params["allowedVlanRanges"] = interface.get("allowed_vlan_ranges") or self.have.get("allowedVlanRanges")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": interface_params["nativeVlanId"],
+                        "allowed_vlan_ranges": interface_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
 
             self.log(
                 "Updated parameters with VLAN and security info for interface {0}: {1}".format(
@@ -3743,12 +3634,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 ("nativeVlanId", "native_vlan_id"),
                 ("allowedVlanRanges", "allowed_vlan_ranges"),
             ]
-            self.log(
-                "Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(
-                    self.current_version
-                ),
-                "DEBUG",
-            )
+            self.log("Including nativeVlanId and allowedVlanRanges in comparison for version {0}".format(self.current_version), "DEBUG")
             comparison_fields.extend(new_fields)
 
         value_options = ["", "None", None]
@@ -3871,10 +3757,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                                 "DEBUG",
                             )
                             continue
-                        elif (
-                            req_value not in value_options
-                            and existing_value in value_options
-                        ):
+                        elif req_value not in value_options and existing_value in value_options:
                             self.log(
                                 "Update needed for {0} - Existing value is empty or None, Requested: {1}".format(
                                     req_field, req_value
@@ -3883,10 +3766,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                             )
                             update_needed = True
                             updated_channel[req_field] = req_value
-                        elif (
-                            req_value in value_options
-                            and existing_value not in value_options
-                        ):
+                        elif req_value in value_options and existing_value not in value_options:
                             self.log(
                                 "No update needed for {0} - Requested value is empty or None, Existing: {1}".format(
                                     req_field, existing_value
@@ -4080,28 +3960,15 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             if port_channel_description:
                 port_channel_params["description"] = port_channel_description
 
-            if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
-                >= 0
-                and connected_device_type.upper() == "TRUNK"
-            ):
-                port_channel_params["nativeVlanId"] = port_channel.get(
-                    "native_vlan_id", 1
-                )
-                port_channel_params["allowedVlanRanges"] = port_channel.get(
-                    "allowed_vlan_ranges", "all"
-                )
-                self.log(
-                    "Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
-                        {
-                            "native_vlan_id": port_channel_params["nativeVlanId"],
-                            "allowed_vlan_ranges": port_channel_params[
-                                "allowedVlanRanges"
-                            ],
-                        }
-                    ),
-                    "DEBUG",
-                )
+            if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0 and connected_device_type.upper() == "TRUNK":
+                port_channel_params["nativeVlanId"] = port_channel.get("native_vlan_id", 1)
+                port_channel_params["allowedVlanRanges"] = port_channel.get("allowed_vlan_ranges", "all")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": port_channel_params["nativeVlanId"],
+                        "allowed_vlan_ranges": port_channel_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
             # Append the constructed parameters to the list
             port_channels_params_list.append(port_channel_params)
             self.log(
@@ -4153,28 +4020,15 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             if port_channel_description:
                 port_channel_params["description"] = port_channel_description
 
-            if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
-                >= 0
-                and connected_device_type.upper() == "TRUNK"
-            ):
-                port_channel_params["nativeVlanId"] = port_channel.get(
-                    "native_vlan_id"
-                ) or self.have.get("nativeVlanId")
-                port_channel_params["allowedVlanRanges"] = port_channel.get(
-                    "allowed_vlan_ranges"
-                ) or self.have.get("allowedVlanRanges")
-                self.log(
-                    "Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
-                        {
-                            "native_vlan_id": port_channel_params["nativeVlanId"],
-                            "allowed_vlan_ranges": port_channel_params[
-                                "allowedVlanRanges"
-                            ],
-                        }
-                    ),
-                    "DEBUG",
-                )
+            if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0 and connected_device_type.upper() == "TRUNK":
+                port_channel_params["nativeVlanId"] = port_channel.get("native_vlan_id") or self.have.get("nativeVlanId")
+                port_channel_params["allowedVlanRanges"] = port_channel.get("allowed_vlan_ranges") or self.have.get("allowedVlanRanges")
+                self.log("Current CCC version supports new parameters for TRUNKING_DEVICE: {0}".format(
+                    {
+                        "native_vlan_id": port_channel_params["nativeVlanId"],
+                        "allowed_vlan_ranges": port_channel_params["allowedVlanRanges"]
+                    }
+                ), "DEBUG")
 
             port_channels_params_list.append(port_channel_params)
             self.log(
@@ -4942,10 +4796,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             waiting for each batch to complete before proceeding to the next batch.
         """
         self.log(
-            "Starting bulk port channel addition with parameters: {0}".format(
-                add_port_channels_params
-            ),
-            "DEBUG",
+            "Starting bulk port channel addition with parameters: {0}".format(add_port_channels_params),
+            "DEBUG"
         )
         payload = add_port_channels_params.get("payload", [])
         if not payload:
@@ -4954,16 +4806,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
         batch_size = self.params.get("sda_fabric_port_channel_limit", 20)
         self.log(
-            "Using batch size of {0} for port channel processing (from sda_fabric_port_channel_limit parameter)".format(
-                batch_size
-            ),
-            "DEBUG",
+            "Using batch size of {0} for port channel processing (from sda_fabric_port_channel_limit parameter)".format(batch_size),
+            "DEBUG"
         )
 
         if batch_size <= 0:
-            self.msg = "Invalid sda_fabric_port_channel_limit value: {0}. Must be greater than 0".format(
-                batch_size
-            )
+            self.msg = "Invalid sda_fabric_port_channel_limit value: {0}. Must be greater than 0".format(batch_size)
             self.fail_and_exit(self.msg)
 
         # If payload has 20 or fewer items, process normally
@@ -4984,7 +4832,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Processing {0} port channels in {1} batches of {2} sequentially".format(
                 len(payload), total_batches, batch_size
             ),
-            "INFO",
+            "INFO"
         )
 
         final_task_id = None
@@ -4998,7 +4846,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log("Starting batch processing for port channel addition.", "DEBUG")
         try:
             for i in range(0, len(payload), batch_size):
-                batch = payload[i : i + batch_size]
+                batch = payload[i:i + batch_size]
                 batch_params = {"payload": batch}
                 batch_number = (i // batch_size) + 1
                 self.log(
@@ -5016,7 +4864,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     "Batch {0} includes interfaces: {1}".format(
                         batch_number, batch_interfaces[:5]
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 task_id = self.get_taskid_post_api_call(
@@ -5024,17 +4872,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 )
 
                 if not task_id:
-                    error_msg = "Failed to get task ID for batch {0}".format(
-                        batch_number
-                    )
+                    error_msg = "Failed to get task ID for batch {0}".format(batch_number)
                     self.log(error_msg, "ERROR")
-                    failed_batches.append(
-                        {
-                            "batch_number": batch_number,
-                            "error": error_msg,
-                            "channels_count": len(batch),
-                        }
-                    )
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch)
+                    })
                     continue
 
                 self.log(
@@ -5049,9 +4893,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     batch_number, len(batch)
                 )
 
-                self.log(
-                    "Checking task status for batch {0}.".format(batch_number), "DEBUG"
-                )
+                self.log("Checking task status for batch {0}.".format(batch_number), "DEBUG")
                 self.get_task_status_from_tasks_by_id(task_id, task_name, batch_msg)
 
                 if self.status == "success":
@@ -5066,35 +4908,26 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         "INFO",
                     )
                 else:
-                    error_msg = "Batch {0} failed with status: {1}".format(
-                        batch_number, self.status
-                    )
+                    error_msg = "Batch {0} failed with status: {1}".format(batch_number, self.status)
                     self.log(error_msg, "ERROR")
-                    failed_batches.append(
-                        {
-                            "batch_number": batch_number,
-                            "error": error_msg,
-                            "channels_count": len(batch),
-                            "task_id": task_id,
-                        }
-                    )
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch),
+                        "task_id": task_id
+                    })
 
                     # Continue processing remaining batches instead of stopping
                     self.log(
-                        "Continuing with remaining batches despite batch {0} failure".format(
-                            batch_number
-                        ),
-                        "WARNING",
+                        "Continuing with remaining batches despite batch {0} failure".format(batch_number),
+                        "WARNING"
                     )
         except Exception as e:
             self.log(
-                "Critical error during batch processing: {0}".format(str(e)), "ERROR"
+                "Critical error during batch processing: {0}".format(str(e)),
+                "ERROR"
             )
-            self.msg = (
-                "Bulk port channel addition failed due to critical error: {0}".format(
-                    str(e)
-                )
-            )
+            self.msg = "Bulk port channel addition failed due to critical error: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return final_task_id
 
@@ -5105,7 +4938,10 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "INFO",
         )
         if failed_batches:
-            self.log("Failed batches details: {0}".format(failed_batches), "WARNING")
+            self.log(
+                "Failed batches details: {0}".format(failed_batches),
+                "WARNING"
+            )
 
         # Set final status based on results
         if successful_batches == total_batches:
@@ -5113,23 +4949,21 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "All {0} batches completed successfully. Total port channels processed: {1}".format(
                     total_batches, processed_channels
                 ),
-                "INFO",
+                "INFO"
             )
         elif successful_batches > 0:
             self.log(
                 "Partial success: {0}/{1} batches completed successfully."
                 " {2} port channels processed, {3} failed".format(
-                    successful_batches,
-                    total_batches,
-                    processed_channels,
-                    sum(batch["channels_count"] for batch in failed_batches),
+                    successful_batches, total_batches, processed_channels,
+                    sum(batch["channels_count"] for batch in failed_batches)
                 ),
-                "WARNING",
+                "WARNING"
             )
         else:
             self.log(
                 "All batches failed. No port channels were successfully processed",
-                "ERROR",
+                "ERROR"
             )
 
         return final_task_id
@@ -5149,7 +4983,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Starting bulk port channel update operation with parameters: {0}".format(
                 update_port_channels_params
             ),
-            "DEBUG",
+            "DEBUG"
         )
         payload = update_port_channels_params.get("payload", [])
         if not payload:
@@ -5160,7 +4994,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log(
             "Using batch size of {0} for port channel processing (from "
             "sda_fabric_port_channel_limit parameter)".format(batch_size),
-            "DEBUG",
+            "DEBUG"
         )
         if batch_size <= 0:
             self.msg = (
@@ -5183,7 +5017,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Processing {0} port channels in {1} batches of {2} sequentially".format(
                 len(payload), total_batches, batch_size
             ),
-            "INFO",
+            "INFO"
         )
 
         final_task_id = None
@@ -5191,12 +5025,10 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         failed_batches = []
         processed_channels = 0
 
-        self.log(
-            "Starting sequential batch processing for port channel updates.", "DEBUG"
-        )
+        self.log("Starting sequential batch processing for port channel updates.", "DEBUG")
         try:
             for i in range(0, len(payload), batch_size):
-                batch = payload[i : i + batch_size]
+                batch = payload[i:i + batch_size]
                 batch_params = {"payload": batch}
                 batch_number = (i // batch_size) + 1
 
@@ -5216,24 +5048,20 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     "Batch {0} includes port channels: {1}".format(
                         batch_number, batch_channels[:5]  # Log first 5 channels
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 # Execute the API call for this batch
                 task_id = self.get_taskid_post_api_call(
                     "sda", "update_port_channels", batch_params
                 )
                 if not task_id:
-                    error_msg = "Failed to get task ID for batch {0}".format(
-                        batch_number
-                    )
+                    error_msg = "Failed to get task ID for batch {0}".format(batch_number)
                     self.log(error_msg, "ERROR")
-                    failed_batches.append(
-                        {
-                            "batch_number": batch_number,
-                            "error": error_msg,
-                            "channels_count": len(batch),
-                        }
-                    )
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch)
+                    })
                     continue
 
                 self.log(
@@ -5244,16 +5072,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 )
 
                 # Wait for this batch to complete before proceeding
-                task_name = "Update Port Channel(s) Task - Batch {0}".format(
-                    batch_number
-                )
+                task_name = "Update Port Channel(s) Task - Batch {0}".format(batch_number)
                 batch_msg = "Batch {0} with {1} port channels has completed successfully.".format(
                     batch_number, len(batch)
                 )
 
-                self.log(
-                    "Checking task status for batch {0}.".format(batch_number), "DEBUG"
-                )
+                self.log("Checking task status for batch {0}.".format(batch_number), "DEBUG")
                 self.get_task_status_from_tasks_by_id(task_id, task_name, batch_msg)
 
                 if self.status == "success":
@@ -5272,29 +5096,26 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         batch_number, self.status
                     )
                     self.log(error_msg, "ERROR")
-                    failed_batches.append(
-                        {
-                            "batch_number": batch_number,
-                            "error": error_msg,
-                            "channels_count": len(batch),
-                            "task_id": task_id,
-                        }
-                    )
+                    failed_batches.append({
+                        "batch_number": batch_number,
+                        "error": error_msg,
+                        "channels_count": len(batch),
+                        "task_id": task_id
+                    })
 
                     # Continue processing remaining batches instead of stopping
                     self.log(
                         "Continuing with remaining batches despite batch {0} "
                         "failure".format(batch_number),
-                        "WARNING",
+                        "WARNING"
                     )
         except Exception as e:
             self.log(
-                "Critical error during batch processing: {0}".format(str(e)), "ERROR"
+                "Critical error during batch processing: {0}".format(str(e)),
+                "ERROR"
             )
-            self.msg = (
-                "Bulk port channel update failed due to critical error: {0}".format(
-                    str(e)
-                )
+            self.msg = "Bulk port channel update failed due to critical error: {0}".format(
+                str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return final_task_id
@@ -5307,30 +5128,31 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "INFO",
         )
         if failed_batches:
-            self.log("Failed batches details: {0}".format(failed_batches), "WARNING")
+            self.log(
+                "Failed batches details: {0}".format(failed_batches),
+                "WARNING"
+            )
 
         # Set final status based on results
         if successful_batches == total_batches:
             self.log(
                 "All {0} batches completed successfully. Total port channels "
                 "processed: {1}".format(total_batches, processed_channels),
-                "INFO",
+                "INFO"
             )
         elif successful_batches > 0:
             self.log(
                 "Partial success: {0}/{1} batches completed successfully. "
                 "{2} port channels processed, {3} failed".format(
-                    successful_batches,
-                    total_batches,
-                    processed_channels,
-                    sum(batch["channels_count"] for batch in failed_batches),
+                    successful_batches, total_batches, processed_channels,
+                    sum(batch["channels_count"] for batch in failed_batches)
                 ),
-                "WARNING",
+                "WARNING"
             )
         else:
             self.log(
                 "All batches failed. No port channels were successfully processed",
-                "ERROR",
+                "ERROR"
             )
 
         return final_task_id
@@ -5534,7 +5356,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log(
             "Starting task status retrieval for add port channels operation with "
             "task ID: {0}".format(task_id),
-            "DEBUG",
+            "DEBUG"
         )
         task_name = "Add Port Channel(s) Task"
         add_port_channels_params = self.want["add_port_channels_params"]
@@ -5543,14 +5365,14 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log(
             "Using batch size of {0} for port channel processing "
             "(from sda_fabric_port_channel_limit parameter)".format(batch_size),
-            "DEBUG",
+            "DEBUG"
         )
 
         if batch_size <= 0:
             self.log(
                 "Invalid sda_fabric_port_channel_limit value: {0}. "
                 "Must be greater than 0".format(batch_size),
-                "WARNING",
+                "WARNING"
             )
             batch_size = 20
 
@@ -5571,7 +5393,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     "Retrieved {0} existing port channels for name matching".format(
                         len(existing_port_channels) if existing_port_channels else 0
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # Compare interface names and collect created port channel names
@@ -5591,7 +5413,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     "processing: {2}".format(
                         matched_channels, len(payload), port_channels_names
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 self.log(
@@ -5603,23 +5425,21 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
                 updated_msg = {}
                 updated_msg[
-                    "{0} Succeeded for following port channel(s) (Sequential Processing)".format(
-                        task_name
-                    )
+                    "{0} Succeeded for following port channel(s) (Sequential Processing)".format(task_name)
                 ] = {
                     "success_count": len(port_channels_names),
                     "success_port_channels": port_channels_names,
                     "total_batches": (len(payload) + batch_size - 1) // batch_size,
                     "batch_size": batch_size,
                     "sequential_processing": True,
-                    "total_channels_requested": len(payload),
+                    "total_channels_requested": len(payload)
                 }
                 self.msg = updated_msg
                 self.log(
                     "Sequential port channel processing completed with status: {0}".format(
                         self.status
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
 
             return self
@@ -5631,7 +5451,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Executing task status check for single batch with task ID: {0}".format(
                 task_id
             ),
-            "DEBUG",
+            "DEBUG"
         )
         # Execute the task and get the status
         self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
@@ -5668,7 +5488,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "processing: {2}".format(
                     matched_count, len(payload), port_channels_names
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             updated_msg = {}
@@ -5699,7 +5519,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log(
             "Starting task status retrieval for update port channels operation with "
             "task ID: {0}".format(task_id),
-            "DEBUG",
+            "DEBUG"
         )
         task_name = "Update Port Channel(s) Task"
 
@@ -5710,18 +5530,21 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.log(
             "Using batch size of {0} for port channel processing "
             "(from sda_fabric_port_channel_limit parameter)".format(batch_size),
-            "DEBUG",
+            "DEBUG"
         )
 
         if batch_size <= 0:
             self.log(
                 "Invalid sda_fabric_port_channel_limit value: {0}. "
                 "Must be greater than 0".format(batch_size),
-                "WARNING",
+                "WARNING"
             )
             batch_size = 20
 
-        port_channels_list = [port.get("portChannelName") for port in payload]
+        port_channels_list = [
+            port.get("portChannelName")
+            for port in payload
+        ]
 
         # Check if this was sequential processing (more than batch_size port channels)
         if len(payload) > batch_size:
@@ -5737,17 +5560,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
             if self.status == "success":
                 msg = {}
-                msg[
-                    "{0} Succeeded for following port channel(s) (Sequential Processing)".format(
-                        task_name
-                    )
-                ] = {
+                msg["{0} Succeeded for following port channel(s) (Sequential Processing)".format(task_name)] = {
                     "success_count": len(port_channels_list),
                     "success_port_channels": port_channels_list,
                     "total_batches": (len(payload) + batch_size - 1) // batch_size,
                     "batch_size": batch_size,
                     "sequential_processing": True,
-                    "total_channels_requested": len(payload),
+                    "total_channels_requested": len(payload)
                 }
                 self.msg = msg
                 return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
@@ -5759,7 +5578,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     "total_batches": (len(payload) + batch_size - 1) // batch_size,
                     "batch_size": batch_size,
                     "sequential_processing": True,
-                    "status": self.status,
+                    "status": self.status
                 }
                 return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
 
@@ -5768,12 +5587,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "success_count": len(port_channels_list),
             "success_port_channels": port_channels_list,
             "single_batch": True,
-            "total_channels_requested": len(payload),
+            "total_channels_requested": len(payload)
         }
 
         self.log(
             "Completed task status retrieval for update port channels operation",
-            "DEBUG",
+            "DEBUG"
         )
 
         # Retrieve and return the task status using the provided task ID
@@ -5798,7 +5617,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         )
         msg = {}
         interface_list = [
-            interface.get("interfaceName") for interface in no_update_port_assignments
+            interface.get("interfaceName")
+            for interface in no_update_port_assignments
         ]
         msg["Port assignment does not needs any update for following interface(s)"] = {
             "success_count": len(interface_list),
@@ -5808,7 +5628,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Successfully compiled port assignment no-update details for {0} interface(s)".format(
                 len(interface_list)
             ),
-            "INFO",
+            "INFO"
         )
         return msg
 
@@ -5841,13 +5661,11 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Successfully compiled port channel no-update details for {0} channel(s)".format(
                 len(port_channels_list)
             ),
-            "INFO",
+            "INFO"
         )
         return msg
 
-    def get_no_update_vlans_and_ssids_mapped_to_vlans_details(
-        self, no_update_vlans_and_ssids_mapped_to_vlans
-    ):
+    def get_no_update_vlans_and_ssids_mapped_to_vlans_details(self, no_update_vlans_and_ssids_mapped_to_vlans):
         """
         Retrieves details of VLANs and SSIDs that do not require any updates.
         Args:
@@ -5869,9 +5687,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         for vlan, ssids in no_update_vlans_and_ssids_mapped_to_vlans.items():
             ssid_names = [ssid["ssid_name"] for ssid in ssids]
             vlan_ssid_list.append(f"{vlan}: {', '.join(ssid_names)}")
-        msg[
-            "VLANs and SSIDs does not needs any update for following VLAN(s) and SSID(s)"
-        ] = {
+        msg["VLANs and SSIDs does not needs any update for following VLAN(s) and SSID(s)"] = {
             "success_count": len(vlan_ssid_list),
             "vlan_ssids_no_update_needed": vlan_ssid_list,
         }
@@ -5879,7 +5695,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Successfully compiled VLAN-SSID no-update details for {0} mapping(s)".format(
                 len(vlan_ssid_list)
             ),
-            "INFO",
+            "INFO"
         )
         return msg
 
@@ -6741,9 +6557,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "WARNING",
             )
 
-    def compare_port_assignments_already_deleted(
-        self, input_port_assignment_details, deleted_port_assignments
-    ):
+    def compare_port_assignments_already_deleted(self, input_port_assignment_details, deleted_port_assignments):
         """
         Compares the input port assignment details with the already deleted port assignments.
         Args:
@@ -6757,13 +6571,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Starting comparison of {0} input port assignments against already deleted assignments".format(
                 len(input_port_assignment_details)
             ),
-            "DEBUG",
+            "DEBUG"
         )
         self.log(
             "Comparing input port assignments: {0} with deleted assignments: {1}".format(
                 input_port_assignment_details, deleted_port_assignments
             ),
-            "DEBUG",
+            "DEBUG"
         )
         absent_interfaces_list, deleted_interface_list = [], []
 
@@ -6771,10 +6585,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         if deleted_port_assignments:
             for v in deleted_port_assignments.values():
                 interface_name = v["delete_port_assignment_params"]["interface_name"]
-                self.log(
-                    "Found already deleted interface: {0}".format(interface_name),
-                    "DEBUG",
-                )
+                self.log("Found already deleted interface: {0}".format(interface_name), "DEBUG")
                 deleted_interface_list.append(interface_name)
 
         self.log("Deleted interfaces list: {0}".format(deleted_interface_list), "DEBUG")
@@ -6793,7 +6604,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Comparison completed - found {0} already deleted ports: {1}".format(
                 len(absent_interfaces_list), absent_interfaces_list
             ),
-            "INFO",
+            "INFO"
         )
 
         return absent_interfaces_list
@@ -6812,13 +6623,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Starting comparison of {0} input port channels against already deleted channels".format(
                 len(input_port_channel_details)
             ),
-            "DEBUG",
+            "DEBUG"
         )
         self.log(
             "Comparing input port channels: {0} with deleted channels.".format(
                 input_port_channel_details
             ),
-            "DEBUG",
+            "DEBUG"
         )
         absent_channels_list = []
         channel_interfaces_list, input_interfaces_list = [], []
@@ -6828,10 +6639,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         for channel in channel_details:
             self.log("Existing channel details: {0}".format(channel), "DEBUG")
             interface_names = channel.get("interfaceNames")
-            self.log(
-                "Interface names in existing channel: {0}".format(interface_names),
-                "DEBUG",
-            )
+            self.log("Interface names in existing channel: {0}".format(interface_names), "DEBUG")
             channel_interfaces_list.append(interface_names)
 
         channel_interfaces_tuple = {tuple(sorted(x)) for x in channel_interfaces_list}
@@ -6839,9 +6647,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         for channel in input_port_channel_details:
             interfaces_names = channel.get("interface_names")
             input_interfaces_list.append(interfaces_names)
-            self.log(
-                "Input channel interface names: {0}".format(interfaces_names), "DEBUG"
-            )
+            self.log("Input channel interface names: {0}".format(interfaces_names), "DEBUG")
 
         # Sort input interfaces before comparing
         for interface in input_interfaces_list:
@@ -6858,14 +6664,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Comparison completed - found {0} already deleted port channels: {1}".format(
                 len(absent_channels_list), absent_channels_list
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return absent_channels_list
 
-    def compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
-        self, input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans
-    ):
+    def compare_vlans_and_ssids_mapped_to_vlans_already_deleted(self, input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans):
         """
         Compares the input wireless SSIDs details with the already deleted VLANs and SSIDs mapped to VLANs.
         Args:
@@ -6879,13 +6683,13 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Starting comparison of {0} input wireless SSIDs against already deleted VLANs and SSIDs".format(
                 len(input_wireless_ssids_details)
             ),
-            "DEBUG",
+            "DEBUG"
         )
         self.log(
             "Comparing input wireless SSIDs: {0} with deleted VLANs: {1}".format(
                 input_wireless_ssids_details, deleted_vlans_and_ssids_mapped_to_vlans
             ),
-            "DEBUG",
+            "DEBUG"
         )
         absent_vlans_list = []
         deleted_vlan_list = []
@@ -6900,16 +6704,14 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Collected {0} deleted VLANs: {1}".format(
                 len(deleted_vlan_list), deleted_vlan_list
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         for ssid_detail in input_wireless_ssids_details:
             vlan_name = ssid_detail.get("vlan_name")
             if vlan_name not in deleted_vlan_list:
                 self.log(
-                    "VLAN '{0}' is already deleted - adding to absent list".format(
-                        vlan_name
-                    ),
+                    "VLAN '{0}' is already deleted - adding to absent list".format(vlan_name),
                     "DEBUG",
                 )
                 absent_vlans_list.append(vlan_name)
@@ -6918,7 +6720,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "Comparison completed - found {0} already deleted VLANs: {1}".format(
                 len(absent_vlans_list), absent_vlans_list
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return absent_vlans_list
@@ -7368,23 +7170,26 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         if no_update_port_assignments:
             self.log(
                 "Processing {0} port assignments interfaces that require no updates"
-                " in Cisco Catalyst Center".format(len(no_update_port_assignments)),
-                "DEBUG",
+                " in Cisco Catalyst Center".format(
+                    len(no_update_port_assignments)
+                ),
+                "DEBUG"
             )
             self.log(
                 "Generating no-update details for port assignment interface(s): {0}".format(
                     no_update_port_assignments
                 ),
-                "DEBUG",
+                "DEBUG"
             )
-            no_update_port_assignments_details = (
-                self.get_no_update_port_assignments_details(no_update_port_assignments)
+            no_update_port_assignments_details = self.get_no_update_port_assignments_details(
+                no_update_port_assignments
             )
-            result_details["no_update_port_assignments"] = (
-                no_update_port_assignments_details
-            )
+            result_details["no_update_port_assignments"] = no_update_port_assignments_details
             final_status_list.append("ok")
-            self.log("Successfully processed no-update port channels summary", "DEBUG")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
 
         no_update_port_channels = self.have.get("no_update_port_channels")
         if no_update_port_channels:
@@ -7392,20 +7197,23 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "Processing {0} port channels that require no updates in Cisco Catalyst Center".format(
                     len(no_update_port_channels)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             self.log(
                 "Generating no-update details for port channels: {0}".format(
                     no_update_port_channels
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             no_update_port_channels_details = self.get_no_update_port_channels_details(
                 no_update_port_channels
             )
             result_details["no_update_port_channels"] = no_update_port_channels_details
             final_status_list.append("ok")
-            self.log("Successfully processed no-update port channels summary", "DEBUG")
+            self.log(
+                "Successfully processed no-update port channels summary",
+                "DEBUG"
+            )
 
         no_update_vlans_and_ssids_mapped_to_vlans = self.have.get(
             "no_update_vlans_and_ssids_mapped_to_vlans"
@@ -7427,7 +7235,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             )
             final_status_list.append("ok")
             self.log(
-                "Successfully processed no-update VLAN-SSID mappings summary", "DEBUG"
+                "Successfully processed no-update VLAN-SSID mappings summary",
+                "DEBUG"
             )
 
         final_status, is_changed = self.process_final_result(final_status_list)
@@ -7468,32 +7277,25 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             result_details.update(result)
             final_status_list.append(self.status)
 
-        if self.config[0].get("port_assignments"):
+        if self.config[0].get('port_assignments'):
             self.log("Checking for already deleted port assignments.", "INFO")
             self.log(
                 "Comparing input port assignments: {0} with deleted assignments: {1}".format(
-                    self.config[0].get("port_assignments"),
-                    delete_port_assignments_params,
+                    self.config[0].get('port_assignments'), delete_port_assignments_params
                 ),
-                "DEBUG",
+                "DEBUG"
             )
-            already_deleted_port_assignments = (
-                self.compare_port_assignments_already_deleted(
-                    self.config[0].get("port_assignments"),
-                    delete_port_assignments_params,
-                )
+            already_deleted_port_assignments = self.compare_port_assignments_already_deleted(
+                self.config[0].get('port_assignments'), delete_port_assignments_params
             )
             if already_deleted_port_assignments:
                 self.log(
                     "Found {0} port assignments that were already deleted: {1}".format(
-                        len(already_deleted_port_assignments),
-                        already_deleted_port_assignments,
+                        len(already_deleted_port_assignments), already_deleted_port_assignments
                     ),
                     "INFO",
                 )
-                result_details[
-                    "Already deleted port assignments for the following interface(s): "
-                ] = {
+                result_details["Already deleted port assignments for the following interface(s): "] = {
                     "success_count": len(already_deleted_port_assignments),
                     "success_interfaces": already_deleted_port_assignments,
                 }
@@ -7501,35 +7303,32 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
         # Process deletion of port channels if required
         delete_port_channels_params_list = self.want.get("delete_port_channels_params")
-        if self.config[0].get("port_channels"):
+        if self.config[0].get('port_channels'):
             self.log("Checking for already deleted port channels.", "INFO")
             self.log(
                 "Comparing input port channels: {0} with deleted channels".format(
-                    self.config[0].get("port_channels")
+                    self.config[0].get('port_channels')
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             already_deleted_port_channels = self.compare_port_channels_already_deleted(
-                self.config[0].get("port_channels")
+                self.config[0].get('port_channels')
             )
             if already_deleted_port_channels:
                 self.log(
                     "Found {0} port channels that were already deleted: {1}".format(
-                        len(already_deleted_port_channels),
-                        already_deleted_port_channels,
+                        len(already_deleted_port_channels), already_deleted_port_channels
                     ),
-                    "INFO",
+                    "INFO"
                 )
-                result_details[
-                    "Already deleted port channels for the following interface(s): "
-                ] = {
+                result_details["Already deleted port channels for the following interface(s): "] = {
                     "success_count": len(already_deleted_port_channels),
                     "already_deleted_port_channels_interfaces": already_deleted_port_channels,
                 }
                 final_status_list.append("ok")
                 self.log(
                     "Successfully processed already deleted port channels summary",
-                    "DEBUG",
+                    "DEBUG"
                 )
 
         if delete_port_channels_params_list:
@@ -7559,30 +7358,23 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             result_details.update(result)
             final_status_list.append(self.status)
 
-        if self.config[0].get("wireless_ssids"):
-            self.log(
-                "Checking for already deleted vlans and ssids mapped to vlans.", "INFO"
-            )
+        if self.config[0].get('wireless_ssids'):
+            self.log("Checking for already deleted vlans and ssids mapped to vlans.", "INFO")
             self.log(
                 "Comparing input wireless SSIDs: {0} with deleted VLANs and SSIDs: {1}".format(
-                    self.config[0].get("wireless_ssids"),
-                    delete_vlans_and_ssids_mapped_to_vlans_params,
+                    self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
                 ),
-                "DEBUG",
+                "DEBUG"
             )
-            already_deleted_vlans_and_ssids = (
-                self.compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
-                    self.config[0].get("wireless_ssids"),
-                    delete_vlans_and_ssids_mapped_to_vlans_params,
-                )
+            already_deleted_vlans_and_ssids = self.compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
+                self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
             )
             if already_deleted_vlans_and_ssids:
                 self.log(
                     "Found {0} VLANs and SSIDs that were already deleted: {1}".format(
-                        len(already_deleted_vlans_and_ssids),
-                        already_deleted_vlans_and_ssids,
+                        len(already_deleted_vlans_and_ssids), already_deleted_vlans_and_ssids
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 result_details["Already deleted vlans and ssids mapped to vlans: "] = {
                     "success_count": len(already_deleted_vlans_and_ssids),
@@ -7591,7 +7383,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 final_status_list.append("ok")
                 self.log(
                     "Successfully processed already deleted VLANs and SSIDs summary",
-                    "DEBUG",
+                    "DEBUG"
                 )
 
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
@@ -7742,25 +7534,17 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "sda_fabric_port_channel_limit": {"type": "int", "default": 20},
@@ -7775,9 +7559,7 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_sda_host_port_onboarding = SDAHostPortOnboarding(module)
-    ccc_sda_host_port_onboarding.current_version = (
-        ccc_sda_host_port_onboarding.get_ccc_version()
-    )
+    ccc_sda_host_port_onboarding.current_version = ccc_sda_host_port_onboarding.get_ccc_version()
     if (
         ccc_sda_host_port_onboarding.compare_catalystcenter_versions(
             ccc_sda_host_port_onboarding.current_version, "2.3.7.6"

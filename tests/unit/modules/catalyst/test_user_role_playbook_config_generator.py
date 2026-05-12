@@ -25,7 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import user_role_p
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
 
     module = user_role_playbook_config_generator
 
@@ -43,16 +43,16 @@ class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacUserRolePlaybookGenerator, self).setUp()
+        super(TestCatalystCenterUserRolePlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         # Ensure changed=True tests are deterministic by removing prior outputs.
         for file_path in [
@@ -63,9 +63,9 @@ class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
                 os.remove(file_path)
 
     def tearDown(self):
-        super(TestDnacUserRolePlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterUserRolePlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -73,20 +73,20 @@ class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
         """
 
         if "playbook_user_role_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_roles"),
                 self.test_data.get("get_users"),
                 self.test_data.get("get_roles_1"),
             ]
 
         elif "playbook_specific_user_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_users1"),
                 self.test_data.get("get_roles2"),
             ]
 
         elif "playbook_specific_role_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_roles3")
             ]
 
@@ -94,7 +94,7 @@ class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
             "playbook_generate_all_configurations" in self._testMethodName
             or "config_empty_defaults_generate_all" in self._testMethodName
         ):
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_users2"),
                 self.test_data.get("get_roles4"),
                 self.test_data.get("get_roles5")
@@ -104,7 +104,7 @@ class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
             pass
 
         elif "playbook_all_role_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_roles6"),
             ]
 

@@ -29,16 +29,16 @@ Before starting, ensure the following requirements are met:
 catalyst_center_hosts:
     hosts:
         catalyst_center220:
-            catalyst_center_host: xx.xx.xx.xx.
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false
-            catalyst_center_version: 2.3.7.6
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx.
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false
+            catalystcenter_version: 2.3.7.6
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ## Defining Events and Notifications Destination and Subscription Details
@@ -54,8 +54,8 @@ This task demonstrates how to create or update an Email destination in Cisco Cat
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - email_destination:
       sender_email: "test@cisco.com"
@@ -118,8 +118,8 @@ This task demonstrates how to create or update an Syslog destination in Cisco Ca
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - syslog_destination:
       name: Syslog test 100
@@ -190,8 +190,8 @@ This task demonstrates how to create or update an Webhook destination in Cisco C
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - webhook_destination:
       name: webhook demo 110
@@ -278,8 +278,8 @@ This task demonstrates how to create or update an SNMP destination in Cisco Cata
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - snmp_destination:
       name: SNMP
@@ -355,8 +355,8 @@ This task demonstrates how to create or update an ITSM destination in Cisco Cata
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - itsm_setting:
       instance_name: "Playbook itsm demo 01"
@@ -438,8 +438,8 @@ This task demonstrates how to create or update an Email Event Subsription in Cis
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - email_event_notification:
       name: EMAIL Notification Testing
@@ -509,8 +509,8 @@ This task demonstrates how to create or update an Syslog Event Subsription in Ci
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - syslog_event_notification:
       name: Syslog Notification 001
@@ -576,8 +576,8 @@ This task demonstrates how to create or update an Webhook Event Subsription in C
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - webhook_event_notification:
       name: Webhook Notification SEEN-4890-02
@@ -642,8 +642,8 @@ Note: Input for deleting a Email Event Subscription should be specified in "/var
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - email_event_notification:
       name: EMAIL Notification Testing
@@ -725,8 +725,8 @@ Note: Input for deleting a Syslog Event Subscription should be specified in "/va
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - syslog_event_notification:
       name: Syslog Notification 001
@@ -805,8 +805,8 @@ Note: Input for deleting a Webhook Event Subscription should be specified in "/v
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - webhook_event_notification:
       name: Webhook Notification SEEN-4890-02
@@ -867,8 +867,8 @@ Note: Input for deleting ITSM Event Destination should be specified in "/vars/ev
 ### Example: Input (YAML)
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 events_notifications_destination_and_subscription_details:
   - itsm_setting:
       instance_name: "Playbook itsm demo 01"

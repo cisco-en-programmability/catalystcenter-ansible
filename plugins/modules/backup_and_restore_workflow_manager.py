@@ -275,7 +275,7 @@ options:
             default: 3600
 
 requirements:
-- catalystcentersdk >= 2.9.3
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9.19
 
 notes:
@@ -343,7 +343,7 @@ EXAMPLES = r"""
 - name: Configure NFS backup server for enterprise data protection
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -375,7 +375,7 @@ EXAMPLES = r"""
 - name: Configure backup target for automated data protection workflow
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -411,7 +411,7 @@ EXAMPLES = r"""
 - name: Create backup for automated network infrastructure backup
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -439,7 +439,7 @@ EXAMPLES = r"""
 - name: Restore backup for disaster recovery and data restoration
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -468,7 +468,7 @@ EXAMPLES = r"""
 - name: Remove NFS configuration from backup infrastructure
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -496,7 +496,7 @@ EXAMPLES = r"""
 - name: Remove backup from automated backup operations
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -523,7 +523,7 @@ EXAMPLES = r"""
 - name: Remove old backups using retention-based cleanup with name filtering
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -551,7 +551,7 @@ EXAMPLES = r"""
 - name: Remove all old backups using retention policy
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -578,7 +578,7 @@ EXAMPLES = r"""
 - name: Remove all backups from Cisco Catalyst Center
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -605,7 +605,7 @@ EXAMPLES = r"""
 - name: Complete backup and restore workflow for enterprise infrastructure
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -649,7 +649,7 @@ EXAMPLES = r"""
 - name: Configure multiple NFS servers for backup redundancy
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -685,7 +685,7 @@ EXAMPLES = r"""
 - name: Create automated backup with timestamp for unique identification
   hosts: localhost
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
@@ -855,8 +855,7 @@ import json
 import re
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
-    validate_list_of_dicts,
-)
+    validate_list_of_dicts,)
 
 
 class BackupRestore(CatalystCenterBase):
@@ -921,11 +920,7 @@ class BackupRestore(CatalystCenterBase):
             return self
 
         if not isinstance(self.config, list):
-            self.msg = (
-                "Backup configuration must be a list structure, found type: {0}".format(
-                    type(self.config)
-                )
-            )
+            self.msg = "Backup configuration must be a list structure, found type: {0}".format(type(self.config))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -936,12 +931,11 @@ class BackupRestore(CatalystCenterBase):
                 "Processing configuration item {0}/{1} with {2} sections".format(
                     config_index + 1, len(self.config), len(config_item.keys())
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             if not isinstance(config_item, dict):
                 self.msg = "Configuration item {0} must be dictionary structure, found type: {1}".format(
-                    config_index + 1, type(config_item).__name__
-                )
+                    config_index + 1, type(config_item).__name__)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -951,25 +945,31 @@ class BackupRestore(CatalystCenterBase):
             "nfs_configuration": {
                 "type": "list",
                 "elements": "dict",
-                "server_ip": {"type": "str", "required": True},
-                "source_path": {"type": "str", "required": True},
+                "server_ip": {
+                    "type": "str",
+                    "required": True
+                },
+                "source_path": {
+                    "type": "str",
+                    "required": True
+                },
                 "nfs_port": {
                     "type": "int",
                     "default": 2049,
                     "range_min": 1,
-                    "range_max": 65535,
+                    "range_max": 65535
                 },
                 "nfs_version": {
                     "type": "str",
                     "allowed_values": ["nfs3", "nfs4"],
-                    "default": "nfs4",
+                    "default": "nfs4"
                 },
                 "nfs_portmapper_port": {
                     "type": "int",
                     "default": 111,
                     "range_min": 1,
-                    "range_max": 65535,
-                },
+                    "range_max": 65535
+                }
             },
             "backup_storage_configuration": {
                 "type": "list",
@@ -977,36 +977,38 @@ class BackupRestore(CatalystCenterBase):
                 "server_type": {
                     "type": "str",
                     "required": True,
-                    "allowed_values": ["NFS", "PHYSICAL_DISK"],
+                    "allowed_values": ["NFS", "PHYSICAL_DISK"]
                 },
                 "nfs_details": {
                     "type": "dict",
                     "elements": "dict",
-                    "server_ip": {"type": "str", "required": True},
-                    "source_path": {"type": "str", "required": True},
+                    "server_ip": {
+                        "type": "str",
+                        "required": True
+                    },
+                    "source_path": {
+                        "type": "str",
+                        "required": True
+                    },
                     "nfs_port": {
                         "type": "int",
                         "default": 2049,
                         "range_min": 1,
-                        "range_max": 65535,
+                        "range_max": 65535
                     },
                     "nfs_version": {
                         "type": "str",
                         "allowed_values": ["nfs3", "nfs4"],
-                        "default": "nfs4",
+                        "default": "nfs4"
                     },
                     "nfs_portmapper_port": {
                         "type": "int",
                         "default": 111,
                         "range_min": 1,
-                        "range_max": 65535,
-                    },
+                        "range_max": 65535
+                    }
                 },
-                "data_retention_period": {
-                    "type": "int",
-                    "range_min": 3,
-                    "range_max": 60,
-                },
+                "data_retention_period": {"type": "int", "range_min": 3, "range_max": 60},
                 "encryption_passphrase": {"type": "str"},
             },
             "backup": {
@@ -1019,60 +1021,61 @@ class BackupRestore(CatalystCenterBase):
                     "type": "str",
                     "allowed_values": [
                         "CISCO_DNA_DATA_WITH_ASSURANCE",
-                        "CISCO_DNA_DATA_WITHOUT_ASSURANCE",
-                    ],
+                        "CISCO_DNA_DATA_WITHOUT_ASSURANCE"
+                    ]
                 },
-                "backup_task_timeout": {"type": "int", "default": 1200},
-                "generate_new_backup": {"type": "bool", "default": False},
-                "delete_all_backup": {"type": "bool", "default": False},
+                "backup_task_timeout": {
+                    "type": "int",
+                    "default": 1200
+                },
+                "generate_new_backup": {
+                    "type": "bool",
+                    "default": False
+                },
+                "delete_all_backup": {
+                    "type": "bool",
+                    "default": False
+                },
                 "backup_retention_days": {
                     "type": "int",
-                },
+                }
             },
             "restore_operations": {
                 "type": "list",
                 "elements": "dict",
-                "name": {"type": "str", "required": True},
-                "restore_task_timeout": {"type": "int", "default": 3600},
-                "encryption_passphrase": {"type": "str", "required": True},
-            },
+                "name": {
+                    "type": "str",
+                    "required": True
+                },
+                "restore_task_timeout": {
+                    "type": "int",
+                    "default": 3600
+                },
+                "encryption_passphrase": {
+                    "type": "str",
+                    "required": True
+                }
+            }
         }
 
         allowed_fields = {
             "nfs_configuration": {
-                "server_ip",
-                "source_path",
-                "nfs_port",
-                "nfs_version",
-                "nfs_portmapper_port",
+                "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
             },
             "backup_storage_configuration": {
-                "server_type",
-                "nfs_details",
-                "data_retention_period",
-                "encryption_passphrase",
+                "server_type", "nfs_details", "data_retention_period", "encryption_passphrase"
             },
             "backup": {
-                "name",
-                "scope",
-                "backup_task_timeout",
-                "generate_new_backup",
-                "delete_all_backup",
-                "backup_retention_days",
+                "name", "scope", "backup_task_timeout", "generate_new_backup",
+                "delete_all_backup", "backup_retention_days"
             },
             "restore_operations": {
-                "name",
-                "encryption_passphrase",
-                "restore_task_timeout",
-            },
+                "name", "encryption_passphrase", "restore_task_timeout"
+            }
         }
 
         nfs_details_allowed_fields = {
-            "server_ip",
-            "source_path",
-            "nfs_port",
-            "nfs_version",
-            "nfs_portmapper_port",
+            "server_ip", "source_path", "nfs_port", "nfs_version", "nfs_portmapper_port"
         }
 
         for config_index, config_item in enumerate(self.config):
@@ -1080,39 +1083,25 @@ class BackupRestore(CatalystCenterBase):
                 "Processing configuration item {0}/{1} with {2} sections".format(
                     config_index + 1, len(self.config), len(config_item.keys())
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             for section_name, section_data in config_item.items():
-                self.log(
-                    "Validating section '{0}' in configuration item {1}".format(
-                        section_name, config_index + 1
-                    ),
-                    "DEBUG",
-                )
+                self.log("Validating section '{0}' in configuration item {1}".format(
+                    section_name, config_index + 1), "DEBUG")
 
                 if section_name in config_spec and section_data is None:
-                    self.log(
-                        "Section '{0}' in configuration item {1} has None value - converting to empty list".format(
-                            section_name, config_index + 1
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Section '{0}' in configuration item {1} has None value - converting to empty list".format(
+                        section_name, config_index + 1), "DEBUG")
                     config_item[section_name] = []
                     continue
 
                 if section_name not in allowed_fields:
-                    self.log(
-                        "Section '{0}' is not recognized".format(section_name), "DEBUG"
-                    )
+                    self.log("Section '{0}' is not recognized".format(section_name), "DEBUG")
                     continue
 
                 if section_data and isinstance(section_data, list):
-                    self.log(
-                        "Validating fields for section '{0}' with {1} items".format(
-                            section_name, len(section_data)
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Validating fields for section '{0}' with {1} items".format(
+                        section_name, len(section_data)), "DEBUG")
 
                     for item_index, item in enumerate(section_data):
                         if not isinstance(item, dict):
@@ -1120,16 +1109,9 @@ class BackupRestore(CatalystCenterBase):
                                 "Item {0} in section '{1}' must be a dictionary, "
                                 "found type: {2}"
                             ).format(item_index + 1, section_name, type(item).__name__)
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                        self.log(
-                            "Validating item {0} in section '{1}'".format(
-                                item_index + 1, section_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Validating item {0} in section '{1}'".format(item_index + 1, section_name), "DEBUG")
 
                         item_fields = set(item.keys())
                         allowed_section_fields = allowed_fields[section_name]
@@ -1140,87 +1122,61 @@ class BackupRestore(CatalystCenterBase):
                                 "Invalid fields {0} found in '{1}'. "
                                 "Allowed fields: {2}"
                             ).format(
-                                list(invalid_fields),
-                                section_name,
-                                sorted(list(allowed_section_fields)),
+                                list(invalid_fields), section_name,
+                                sorted(list(allowed_section_fields))
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                        if (
-                            section_name == "backup_storage_configuration"
-                            and "nfs_details" in item
-                        ):
+                        if section_name == "backup_storage_configuration" and "nfs_details" in item:
                             nfs_details = item["nfs_details"]
                             if not isinstance(nfs_details, dict):
                                 self.msg = (
                                     "Field 'nfs_details' in backup_storage_configuration item {0} "
                                     "must be a dictionary, found type: {1}"
                                 ).format(item_index + 1, type(nfs_details).__name__)
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                ).check_return_status()
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                             nfs_details_fields = set(nfs_details.keys())
-                            invalid_nfs_fields = (
-                                nfs_details_fields - nfs_details_allowed_fields
-                            )
+                            invalid_nfs_fields = nfs_details_fields - nfs_details_allowed_fields
 
                             if invalid_nfs_fields:
                                 self.msg = (
                                     "Invalid fields {0} found in 'nfs_details' of backup_storage_configuration item {1}. "
                                     "Allowed fields: {2}"
                                 ).format(
-                                    list(invalid_nfs_fields),
-                                    item_index + 1,
-                                    list(nfs_details_allowed_fields),
+                                    list(invalid_nfs_fields), item_index + 1,
+                                    list(nfs_details_allowed_fields)
                                 )
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                ).check_return_status()
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         self.log(
                             "Field validation passed for '{0}' section item {1}".format(
                                 section_name, item_index + 1
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
 
         try:
-            valid_config, invalid_params = validate_list_of_dicts(
-                self.config, config_spec
-            )
+            valid_config, invalid_params = validate_list_of_dicts(self.config, config_spec)
 
             if invalid_params:
                 self.msg = "Configuration validation failed with invalid parameters: {0}".format(
-                    invalid_params
-                )
+                    invalid_params)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             self.validated_config = valid_config
 
-            self.log(
-                "Backup and restore configuration validation completed successfully",
-                "INFO",
-            )
-            self.log(
-                "Validated {0} configuration sections for workflow processing".format(
-                    len(valid_config)
-                ),
-                "DEBUG",
-            )
+            self.log("Backup and restore configuration validation completed successfully", "INFO")
+            self.log("Validated {0} configuration sections for workflow processing".format(
+                len(valid_config)), "DEBUG")
 
             return self
 
         except Exception as validation_exception:
             self.msg = "Configuration validation encountered error: {0}".format(
-                str(validation_exception)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+                str(validation_exception))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_want(self, config):
         """
@@ -1248,14 +1204,8 @@ class BackupRestore(CatalystCenterBase):
                 and 'restore_operations', if present.
             - Logs the final desired state for visibility.
         """
-        self.log(
-            "Extracting desired backup and restore workflow state from playbook configuration",
-            "DEBUG",
-        )
-        self.log(
-            "Processing configuration sections for comprehensive workflow validation",
-            "DEBUG",
-        )
+        self.log("Extracting desired backup and restore workflow state from playbook configuration", "DEBUG")
+        self.log("Processing configuration sections for comprehensive workflow validation", "DEBUG")
 
         want = {}
         backup_config = config.get("backup_storage_configuration")
@@ -1273,40 +1223,25 @@ class BackupRestore(CatalystCenterBase):
         if restore_operations:
             config_sections.append("restore_operations")
 
-        self.log(
-            "Available configuration sections: {0}".format(
-                ", ".join(config_sections) if config_sections else "none"
-            ),
-            "DEBUG",
-        )
+        self.log("Available configuration sections: {0}".format(", ".join(config_sections) if config_sections else "none"), "DEBUG")
 
         if not any([backup_config, nfs_config, backup, restore_operations]):
             self.msg = (
                 "Backup and restore workflow requires at least one configuration section: "
                 "'backup_storage_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         want = {
             "backup_storage_configuration": backup_config,
             "backup": backup,
             "restore_operations": restore_operations,
-            "nfs_configuration": nfs_config,
+            "nfs_configuration": nfs_config
         }
 
         self.want = want
-        self.log(
-            "Backup and restore workflow desired state extraction completed successfully",
-            "DEBUG",
-        )
-        self.log(
-            "Extracted {0} configuration sections for workflow processing".format(
-                len(config_sections)
-            ),
-            "DEBUG",
-        )
+        self.log("Backup and restore workflow desired state extraction completed successfully", "DEBUG")
+        self.log("Extracted {0} configuration sections for workflow processing".format(len(config_sections)), "DEBUG")
         return self
 
     def get_nfs_configuration_details(self):
@@ -1336,14 +1271,8 @@ class BackupRestore(CatalystCenterBase):
             - Validates the API response structure and logs it for traceability.
             - Iterates through existing NFS configs to find a match based on both 'server' and 'sourcePath' fields.
         """
-        self.log(
-            "Retrieving NFS server configurations for backup infrastructure validation",
-            "DEBUG",
-        )
-        self.log(
-            "Executing API call to fetch all existing NFS configurations from Catalyst Center",
-            "DEBUG",
-        )
+        self.log("Retrieving NFS server configurations for backup infrastructure validation", "DEBUG")
+        self.log("Executing API call to fetch all existing NFS configurations from Catalyst Center", "DEBUG")
 
         current_nfs_configs = []
 
@@ -1353,38 +1282,23 @@ class BackupRestore(CatalystCenterBase):
                 function="get_all_n_f_s_configurations",
             )
             self.log(
-                "Received API response from 'get_all_n_f_s_configurations': {0}".format(
-                    str(response)
-                ),
+                "Received API response from 'get_all_n_f_s_configurations': {0}".format(str(response)),
                 "DEBUG",
             )
 
             if not response or "response" not in response:
-                self.log(
-                    "Invalid NFS configuration API response structure - missing required response field",
-                    "ERROR",
-                )
+                self.log("Invalid NFS configuration API response structure - missing required response field", "ERROR")
                 self.log("Received response data: {0}".format(response), "ERROR")
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             current_nfs_configs = response.get("response", [])
 
         except Exception as e:
-            self.msg = "An error occurred while retrieving all NFS configuration details: {0}".format(
-                e
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while retrieving all NFS configuration details: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log(
-            "Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
-                len(current_nfs_configs)
-            ),
-            "error",
-        )
+        self.log("Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
+            len(current_nfs_configs)), "error")
 
         return current_nfs_configs
 
@@ -1434,16 +1348,9 @@ class BackupRestore(CatalystCenterBase):
             expected_server_ip = nfs_details.get("server_ip")
             expected_source_path = nfs_details.get("source_path")
 
-        self.log(
-            "Retrieving backup target configuration for enterprise data protection validation",
-            "DEBUG",
-        )
-        self.log(
-            "Expected backup configuration - server_type: {0}, server_ip: {1}, source_path: {2}".format(
-                expected_server_type, expected_server_ip, expected_source_path
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieving backup target configuration for enterprise data protection validation", "DEBUG")
+        self.log("Expected backup configuration - server_type: {0}, server_ip: {1}, source_path: {2}".format(
+            expected_server_type, expected_server_ip, expected_source_path), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
@@ -1451,72 +1358,40 @@ class BackupRestore(CatalystCenterBase):
                 function="get_backup_configuration",
             )
             self.log(
-                "Received API response from 'get_backup_configuration': {0}".format(
-                    str(response)
-                ),
+                "Received API response from 'get_backup_configuration': {0}".format(str(response)),
                 "DEBUG",
             )
 
             if not response or "response" not in response:
                 self.log(
-                    "Invalid or empty response for backup configurations: {0}".format(
-                        response
-                    ),
+                    "Invalid or empty response for backup configurations: {0}".format(response),
                     "ERROR",
                 )
-                return (
-                    backup_configuration_exists,
-                    current_backup_configuration,
-                    matched_config,
-                )
+                return backup_configuration_exists, current_backup_configuration, matched_config
 
             current_backup_configuration = response.get("response", {})
             backup_configuration_exists = bool(current_backup_configuration)
 
-            self.log(
-                "Backup configuration exists in system: {0}".format(
-                    backup_configuration_exists
-                ),
-                "DEBUG",
-            )
+            self.log("Backup configuration exists in system: {0}".format(backup_configuration_exists), "DEBUG")
 
             if expected_server_type and expected_server_type.upper() == "NFS":
-                self.log(
-                    "Validating NFS backup configuration against desired state", "DEBUG"
-                )
+                self.log("Validating NFS backup configuration against desired state", "DEBUG")
 
                 current_server = current_backup_configuration.get("server")
                 current_path = current_backup_configuration.get("sourcePath")
 
-                self.log(
-                    "Current NFS configuration - server: {0}, sourcePath: {1}".format(
-                        current_server, current_path
-                    ),
-                    "DEBUG",
-                )
+                self.log("Current NFS configuration - server: {0}, sourcePath: {1}".format(
+                    current_server, current_path), "DEBUG")
 
-                if (
-                    current_server == expected_server_ip
-                    and current_path == expected_source_path
-                ):
+                if current_server == expected_server_ip and current_path == expected_source_path:
                     matched_config = current_backup_configuration
-                    self.log(
-                        "Backup configuration successfully matched with desired NFS settings",
-                        "DEBUG",
-                    )
+                    self.log("Backup configuration successfully matched with desired NFS settings", "DEBUG")
                 else:
-                    self.log(
-                        "Backup configuration does not match desired NFS settings",
-                        "DEBUG",
-                    )
+                    self.log("Backup configuration does not match desired NFS settings", "DEBUG")
 
         except Exception as e:
-            self.msg = "An error occurred while retrieving the backup configuration details: {0}".format(
-                e
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while retrieving the backup configuration details: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return backup_configuration_exists, current_backup_configuration, matched_config
 
@@ -1573,9 +1448,7 @@ class BackupRestore(CatalystCenterBase):
                 function="get_all_backup",
             )
             self.log(
-                "Received API response from 'get_all_backup': {0}".format(
-                    str(response)
-                ),
+                "Received API response from 'get_all_backup': {0}".format(str(response)),
                 "DEBUG",
             )
 
@@ -1589,38 +1462,28 @@ class BackupRestore(CatalystCenterBase):
             current_backups = response.get("response", [])
             backup_exists = bool(current_backups)
 
-            self.log(
-                "Retrieved {0} backup for validation".format(len(current_backups)),
-                "DEBUG",
-            )
+            self.log("Retrieved {0} backup for validation".format(len(current_backups)), "DEBUG")
             self.log("backup exist in system: {0}".format(backup_exists), "DEBUG")
 
             if expected_backup_name:
-                self.log(
-                    "Searching for backup with name: {0}".format(expected_backup_name),
-                    "DEBUG",
-                )
+                self.log("Searching for backup with name: {0}".format(expected_backup_name), "DEBUG")
 
                 for backup in current_backups:
                     current_backup_name = backup.get("name")
                     if current_backup_name == expected_backup_name:
                         matched_config = backup
-                        self.log(
-                            "Successfully matched backup configuration by name", "DEBUG"
-                        )
+                        self.log("Successfully matched backup configuration by name", "DEBUG")
                         break
 
                 if not matched_config:
-                    self.log(
-                        "No backup found with name: {0}".format(expected_backup_name),
-                        "DEBUG",
-                    )
+                    self.log("No backup found with name: {0}".format(expected_backup_name), "DEBUG")
             else:
                 self.log("No backup name specified for matching", "DEBUG")
 
         except Exception as e:
             self.log(
-                "An error occurred while retrieving backup: {0}".format(e), "ERROR"
+                "An error occurred while retrieving backup: {0}".format(e),
+                "ERROR"
             )
 
         return backup_exists, current_backups, matched_config
@@ -1658,88 +1521,50 @@ class BackupRestore(CatalystCenterBase):
                 - If 'restore_operations' is provided:
                     - Logs that restore processing is initiated, though no current state is retrieved for it.
         """
-        self.log(
-            "Retrieving current backup infrastructure state for enterprise workflow validation",
-            "DEBUG",
-        )
-        self.log(
-            "Processing desired configuration sections for current state comparison",
-            "DEBUG",
-        )
+        self.log("Retrieving current backup infrastructure state for enterprise workflow validation", "DEBUG")
+        self.log("Processing desired configuration sections for current state comparison", "DEBUG")
         have = {}
-        self.log(
-            "Fetching NFS server configurations for backup storage validation", "DEBUG"
-        )
+        self.log("Fetching NFS server configurations for backup storage validation", "DEBUG")
 
         current_nfs_configs = self.get_nfs_configuration_details()
         have["current_nfs_configurations"] = current_nfs_configs
-        self.log(
-            "Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
-                len(current_nfs_configs)
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieved {0} NFS configurations for backup infrastructure evaluation".format(
+            len(current_nfs_configs)), "DEBUG")
 
         backup_configuration_details = self.want.get("backup_storage_configuration", [])
 
         if backup_configuration_details:
-            self.log(
-                "Retrieving current backup target configuration for validation", "DEBUG"
-            )
-            backup_configuration_exists, current_backup_config, matched_backup = (
-                self.get_backup_configuration()
-            )
+            self.log("Retrieving current backup target configuration for validation", "DEBUG")
+            backup_configuration_exists, current_backup_config, matched_backup = self.get_backup_configuration()
             have["backup_configuration_exists"] = bool(current_backup_config)
-            have["current_backup_configuration"] = (
-                current_backup_config if current_backup_config else {}
-            )
+            have["current_backup_configuration"] = current_backup_config if current_backup_config else {}
 
-            self.log(
-                "Backup configuration exists in system: {0}".format(
-                    have["backup_configuration_exists"]
-                ),
-                "DEBUG",
-            )
-            self.log(
-                "Current backup configuration details retrieved for comparison", "DEBUG"
-            )
+            self.log("Backup configuration exists in system: {0}".format(
+                have["backup_configuration_exists"]), "DEBUG")
+            self.log("Current backup configuration details retrieved for comparison", "DEBUG")
 
         backup_details = self.want.get("backup", [])
         if backup_details:
             self.log("Retrieving current backup information for validation", "DEBUG")
             backup_exists, current_backups, matched_backup = self.get_backup()
-            matched_exists = isinstance(matched_backup, dict) and matched_backup.get(
-                "name"
-            )
+            matched_exists = isinstance(matched_backup, dict) and matched_backup.get("name")
             have["backup_exists"] = bool(matched_exists)
             have["current_backup"] = matched_backup if matched_exists else {}
             have["all_backups"] = current_backups if current_backups else []
 
-            self.log(
-                "Backup exists in system: {0}".format(have["backup_exists"]), "DEBUG"
-            )
+            self.log("Backup exists in system: {0}".format(have["backup_exists"]), "DEBUG")
             self.log("Current backup details retrieved for comparison", "DEBUG")
 
         restore_operations = self.want.get("restore_operations", [])
         if restore_operations:
-            self.log(
-                "Processing restore operation context for backup workflow validation",
-                "DEBUG",
-            )
+            self.log("Processing restore operation context for backup workflow validation", "DEBUG")
             self.log("Processing restore details...", "DEBUG")
 
         self.have = have
 
-        self.log(
-            "Current backup infrastructure state retrieval completed successfully",
-            "DEBUG",
-        )
-        self.log(
-            "Retrieved state includes {0} configuration sections for validation".format(
-                len([k for k in have.keys() if have[k]])
-            ),
-            "DEBUG",
-        )
+        self.log("Current backup infrastructure state retrieval completed successfully", "DEBUG")
+        self.log("Retrieved state includes {0} configuration sections for validation".format(
+            len([k for k in have.keys() if have[k]])), "DEBUG")
         return self
 
     def get_diff_merged(self, config):
@@ -1777,32 +1602,19 @@ class BackupRestore(CatalystCenterBase):
             update or restore action is required.
 
             The method also logs the progress of each configuration section for traceability and debugging purposes.
-        """
-        self.log(
-            "Processing backup workflow configuration for merged state operations",
-            "DEBUG",
-        )
-        self.log(
-            "Configuration sections for processing: {0}".format(
-                ", ".join([k for k in config.keys() if config.get(k)])
-            ),
-            "DEBUG",
-        )
+            """
+        self.log("Processing backup workflow configuration for merged state operations", "DEBUG")
+        self.log("Configuration sections for processing: {0}".format(
+            ", ".join([k for k in config.keys() if config.get(k)])), "DEBUG")
 
         self.config = config
 
         if config.get("nfs_configuration"):
-            self.log(
-                "Processing NFS server configuration for backup storage validation",
-                "DEBUG",
-            )
+            self.log("Processing NFS server configuration for backup storage validation", "DEBUG")
             self.get_diff_nfs_configuration()
 
         if config.get("backup_storage_configuration"):
-            self.log(
-                "Processing backup target configuration for data protection workflow",
-                "DEBUG",
-            )
+            self.log("Processing backup target configuration for data protection workflow", "DEBUG")
             self.get_diff_backup_configuration()
 
         if config.get("backup"):
@@ -1810,16 +1622,10 @@ class BackupRestore(CatalystCenterBase):
             self.get_diff_backup()
 
         if config.get("restore_operations"):
-            self.log(
-                "Processing restore operation configuration for disaster recovery workflow",
-                "DEBUG",
-            )
+            self.log("Processing restore operation configuration for disaster recovery workflow", "DEBUG")
             self.get_diff_restore_backup()
 
-        self.log(
-            "Backup workflow configuration processing completed for merged state",
-            "DEBUG",
-        )
+        self.log("Backup workflow configuration processing completed for merged state", "DEBUG")
         return self
 
     def get_diff_deleted(self, config):
@@ -1850,34 +1656,22 @@ class BackupRestore(CatalystCenterBase):
             Each operation is logged for traceability and debugging. The outcomes from these deletion tasks are used to
             update internal tracking attributes like 'result', which determines if a change occurred ('changed: True')
             during execution.
-        """
-        self.log(
-            "Processing backup infrastructure deletion requests for cleanup operations",
-            "DEBUG",
-        )
-        self.log(
-            "Configuration sections for deletion: {0}".format(
-                ", ".join([k for k in config.keys() if config.get(k)])
-            ),
-            "DEBUG",
-        )
+            """
+        self.log("Processing backup infrastructure deletion requests for cleanup operations", "DEBUG")
+        self.log("Configuration sections for deletion: {0}".format(
+            ", ".join([k for k in config.keys() if config.get(k)])), "DEBUG")
 
         self.config = config
 
         if config.get("nfs_configuration"):
-            self.log(
-                "Processing NFS server configuration deletion for infrastructure cleanup",
-                "DEBUG",
-            )
+            self.log("Processing NFS server configuration deletion for infrastructure cleanup", "DEBUG")
             self.delete_nfs_configuration()
 
         if config.get("backup"):
             self.log("Processing backup details for deletion...", "INFO")
             self.delete_backup()
 
-        self.log(
-            "Backup infrastructure deletion processing completed successfully", "DEBUG"
-        )
+        self.log("Backup infrastructure deletion processing completed successfully", "DEBUG")
         return self
 
     def get_diff_nfs_configuration(self):
@@ -1911,43 +1705,24 @@ class BackupRestore(CatalystCenterBase):
         current_nfs_configs = self.have.get("current_nfs_configurations", [])
         expected_nfs_configs = self.want.get("nfs_configuration", [])
 
-        self.log(
-            "Processing NFS server configurations for backup storage infrastructure validation",
-            "DEBUG",
-        )
-        self.log(
-            "Expected NFS configurations: {0}, Current NFS configurations: {1}".format(
-                len(expected_nfs_configs), len(current_nfs_configs)
-            ),
-            "DEBUG",
-        )
+        self.log("Processing NFS server configurations for backup storage infrastructure validation", "DEBUG")
+        self.log("Expected NFS configurations: {0}, Current NFS configurations: {1}".format(
+            len(expected_nfs_configs), len(current_nfs_configs)), "DEBUG")
 
         for config_index, nfs_config_details in enumerate(expected_nfs_configs):
             server_ip = nfs_config_details.get("server_ip")
             source_path = nfs_config_details.get("source_path")
-            self.log(
-                "Processing NFS configuration {0}: server_ip={1}, source_path={2}".format(
-                    config_index + 1, server_ip, source_path
-                ),
-                "DEBUG",
-            )
+            self.log("Processing NFS configuration {0}: server_ip={1}, source_path={2}".format(
+                config_index + 1, server_ip, source_path), "DEBUG")
 
             if not server_ip or not source_path:
-                self.msg = (
-                    "NFS configuration validation failed: Both 'server_ip' and 'source_path' "
-                    "must be specified for backup storage infrastructure setup"
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = ("NFS configuration validation failed: Both 'server_ip' and 'source_path' "
+                            "must be specified for backup storage infrastructure setup")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 continue
 
-            self.log(
-                "Searching for existing NFS configuration matching server: {0}, path: {1}".format(
-                    server_ip, source_path
-                ),
-                "DEBUG",
-            )
+            self.log("Searching for existing NFS configuration matching server: {0}, path: {1}".format(
+                server_ip, source_path), "DEBUG")
 
             nfs_configuration_found = False
             for existing_config in current_nfs_configs:
@@ -1955,46 +1730,28 @@ class BackupRestore(CatalystCenterBase):
                 existing_server = spec.get("server")
                 existing_path = spec.get("sourcePath")
 
-                self.log(
-                    "Comparing with existing NFS: server={0}, path={1}".format(
-                        existing_server, existing_path
-                    ),
-                    "DEBUG",
-                )
+                self.log("Comparing with existing NFS: server={0}, path={1}".format(
+                    existing_server, existing_path), "DEBUG")
 
                 if existing_server == server_ip and existing_path == source_path:
                     nfs_configuration_found = True
-                    self.log(
-                        "Found matching NFS configuration for backup storage infrastructure",
-                        "DEBUG",
-                    )
+                    self.log("Found matching NFS configuration for backup storage infrastructure", "DEBUG")
                     break
 
             if not nfs_configuration_found:
-                self.log(
-                    "NFS configuration not found - initiating creation for backup storage infrastructure",
-                    "DEBUG",
-                )
-                self.log(
-                    "Creating NFS server configuration for server '{0}' with source path '{1}'".format(
-                        server_ip, source_path
-                    ),
-                    "INFO",
-                )
+                self.log("NFS configuration not found - initiating creation for backup storage infrastructure", "DEBUG")
+                self.log("Creating NFS server configuration for server '{0}' with source path '{1}'".format(
+                    server_ip, source_path), "INFO")
                 self.create_nfs_configuration(nfs_config_details)
 
             else:
-                self.msg = (
-                    "NFS server configuration already exists for server_ip '{0}' "
-                    "and source_path '{1}' in backup storage infrastructure"
-                ).format(server_ip, source_path)
+                self.msg = ("NFS server configuration already exists for server_ip '{0}' "
+                            "and source_path '{1}' in backup storage infrastructure").format(
+                    server_ip, source_path)
                 self.already_exists_nfs_config.append(source_path)
                 self.set_operation_result("success", False, self.msg, "INFO")
 
-        self.log(
-            "NFS server configuration processing completed for backup storage infrastructure",
-            "DEBUG",
-        )
+        self.log("NFS server configuration processing completed for backup storage infrastructure", "DEBUG")
         return self
 
     def get_diff_backup_configuration(self):
@@ -2033,34 +1790,19 @@ class BackupRestore(CatalystCenterBase):
         expected_backup_configs = self.want.get("backup_storage_configuration", [])
         backup_configuration = self.have
 
-        self.log(
-            "Processing backup target configurations for enterprise data protection validation",
-            "DEBUG",
-        )
-        self.log(
-            "Expected backup configurations: {0}".format(len(expected_backup_configs)),
-            "DEBUG",
-        )
+        self.log("Processing backup target configurations for enterprise data protection validation", "DEBUG")
+        self.log("Expected backup configurations: {0}".format(len(expected_backup_configs)), "DEBUG")
 
         for config_index, backup_config_details in enumerate(expected_backup_configs):
             nfs_details = backup_config_details.get("nfs_details", {})
             server_ip = nfs_details.get("server_ip")
             source_path = nfs_details.get("source_path")
 
-            self.log(
-                "Processing backup configuration {0}: server_ip={1}, source_path={2}".format(
-                    config_index + 1, server_ip, source_path
-                ),
-                "DEBUG",
-            )
+            self.log("Processing backup configuration {0}: server_ip={1}, source_path={2}".format(
+                config_index + 1, server_ip, source_path), "DEBUG")
 
-            backup_configuration_exists = backup_configuration.get(
-                "backup_configuration_exists"
-            )
-            self.log(
-                "Backup configuration exists: {0}".format(backup_configuration_exists),
-                "DEBUG",
-            )
+            backup_configuration_exists = backup_configuration.get("backup_configuration_exists")
+            self.log("Backup configuration exists: {0}".format(backup_configuration_exists), "DEBUG")
             if backup_configuration.get("backup_configuration_exists") is False:
                 self.log(
                     "Backup configuration does not exist. Initiating creation process.",
@@ -2069,24 +1811,12 @@ class BackupRestore(CatalystCenterBase):
                 self.create_backup_configuration(backup_config_details)
                 continue
 
-            self.log(
-                "Required Backup configuration details: {0}".format(
-                    backup_config_details
-                ),
-                "DEBUG",
-            )
-            self.log(
-                "Existing Backup configuration details: {0}".format(
-                    backup_configuration.get("current_backup_configuration")
-                ),
-                "DEBUG",
-            )
+            self.log("Required Backup configuration details: {0}".format(backup_config_details), "DEBUG")
+            self.log("Existing Backup configuration details: {0}".format(backup_configuration.get('current_backup_configuration')), "DEBUG")
             self.log("Existing NFS details: {0}".format(nfs_details), "DEBUG")
 
             current_nfs_config = self.get_nfs_configuration_details()
-            self.log(
-                "Current NFS configurations: {0}".format(current_nfs_config), "DEBUG"
-            )
+            self.log("Current NFS configurations: {0}".format(current_nfs_config), "DEBUG")
 
             nfs_exists = False
             matched_config = None
@@ -2094,41 +1824,22 @@ class BackupRestore(CatalystCenterBase):
 
             if current_nfs_config:
                 for current_nfs_config_item in current_nfs_config:
-                    current_nfs_server = current_nfs_config_item.get("spec", {}).get(
-                        "server"
-                    )
-                    current_nfs_source_path = current_nfs_config_item.get(
-                        "spec", {}
-                    ).get("sourcePath")
+                    current_nfs_server = current_nfs_config_item.get('spec', {}).get('server')
+                    current_nfs_source_path = current_nfs_config_item.get('spec', {}).get('sourcePath')
 
-                    self.log(
-                        "Comparing NFS config: server={0}, path={1}".format(
-                            current_nfs_server, current_nfs_source_path
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Comparing NFS config: server={0}, path={1}".format(
+                        current_nfs_server, current_nfs_source_path), "DEBUG")
 
-                    if (
-                        server_ip == current_nfs_server
-                        and source_path == current_nfs_source_path
-                    ):
+                    if (server_ip == current_nfs_server and source_path == current_nfs_source_path):
                         nfs_exists = True
                         matched_config = current_nfs_config_item
-                        self.log(
-                            "Found matching NFS configuration for backup target",
-                            "DEBUG",
-                        )
+                        self.log("Found matching NFS configuration for backup target", "DEBUG")
                         break
 
             self.log("NFS exists: {0}".format(nfs_exists), "DEBUG")
 
             if not nfs_exists:
-                self.log(
-                    "NFS mount path not found for {0}:{1}, attempting to create/verify NFS configuration.".format(
-                        server_ip, source_path
-                    ),
-                    "INFO",
-                )
+                self.log("NFS mount path not found for {0}:{1}, attempting to create/verify NFS configuration.".format(server_ip, source_path), "INFO")
                 self.create_nfs_configuration(nfs_details)
 
             time.sleep(30)
@@ -2142,36 +1853,19 @@ class BackupRestore(CatalystCenterBase):
                     matched_config = item
                     break
 
-            unhealthy_nodes = (
-                matched_config.get("status", {}).get("unhealthyNodes")
-                if matched_config
-                else None
-            )
+            unhealthy_nodes = matched_config.get("status", {}).get("unhealthyNodes") if matched_config else None
 
-            self.log(
-                "NFS node health status - unhealthy nodes: {0}".format(unhealthy_nodes),
-                "DEBUG",
-            )
+            self.log("NFS node health status - unhealthy nodes: {0}".format(unhealthy_nodes), "DEBUG")
 
             if unhealthy_nodes:
                 timeout_seconds = 120
                 retry_interval = 10
 
-                self.log(
-                    "Detected unhealthy NFS node(s). Retrying health check for up to {0} seconds.".format(
-                        timeout_seconds
-                    ),
-                    "INFO",
-                )
+                self.log("Detected unhealthy NFS node(s). Retrying health check for up to {0} seconds.".format(timeout_seconds), "INFO")
 
                 start_time = time.time()
                 while unhealthy_nodes and (time.time() - start_time) < timeout_seconds:
-                    self.log(
-                        "Waiting {0} seconds before next health check...".format(
-                            retry_interval
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Waiting {0} seconds before next health check...".format(retry_interval), "DEBUG")
                     time.sleep(retry_interval)
                     refreshed_config = self.get_nfs_configuration_details()
                     matched_config = next(
@@ -2183,137 +1877,82 @@ class BackupRestore(CatalystCenterBase):
                         ),
                         None,
                     )
-                    unhealthy_nodes = (
-                        matched_config.get("status", {}).get("unhealthyNodes")
-                        if matched_config
-                        else None
-                    )
-                    self.log(
-                        "NFS node retry check - unhealthy nodes: {0}".format(
-                            unhealthy_nodes
-                        ),
-                        "DEBUG",
-                    )
+                    unhealthy_nodes = matched_config.get("status", {}).get("unhealthyNodes") if matched_config else None
+                    self.log("NFS node retry check - unhealthy nodes: {0}".format(unhealthy_nodes), "DEBUG")
 
                 if unhealthy_nodes:
                     spec = matched_config.get("spec", {})
                     server_ip = spec.get("server")
                     source_path = spec.get("sourcePath")
 
-                    self.msg = "Mount path not retrievable as NFS node is unhealthy for server IP '{0}', source path '{1}'.".format(
-                        server_ip, source_path
+                    self.msg = (
+                        "Mount path not retrievable as NFS node is unhealthy for server IP '{0}', source path '{1}'."
+                        .format(server_ip, source_path)
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 else:
                     self.log(
                         "NFS node health validation completed successfully - server '{0}' with source path '{1}' "
-                        "recovered from unhealthy state to healthy status".format(
-                            server_ip, source_path
-                        ),
+                        "recovered from unhealthy state to healthy status".format(server_ip, source_path),
                         "INFO",
                     )
-                    mount_path = (
-                        matched_config.get("status", {}).get("destinationPath")
-                        if matched_config
-                        else None
-                    )
+                    mount_path = matched_config.get("status", {}).get("destinationPath") if matched_config else None
 
             else:
-                self.log(
-                    "NFS node is healthy - retrieving mount path for backup configuration",
-                    "DEBUG",
-                )
-                mount_path = (
-                    matched_config.get("status", {}).get("destinationPath")
-                    if matched_config
-                    else None
-                )
+                self.log("NFS node is healthy - retrieving mount path for backup configuration", "DEBUG")
+                mount_path = matched_config.get("status", {}).get("destinationPath") if matched_config else None
                 self.log("Retrieved mount path: {0}".format(mount_path), "DEBUG")
 
-            current_backup = backup_configuration.get(
-                "current_backup_configuration", {}
-            )
-            config_server_type = backup_config_details.get("server_type")
-            current_type = current_backup.get("type")
+            current_backup = backup_configuration.get('current_backup_configuration', {})
+            config_server_type = backup_config_details.get('server_type')
+            current_type = current_backup.get('type')
 
-            final_server_type = (
-                current_backup.get("type")
-                if config_server_type == current_type
-                else config_server_type
-            )
+            final_server_type = current_backup.get('type') if config_server_type == current_type else config_server_type
 
-            config_retention = backup_config_details.get("data_retention_period")
-            current_retention = current_backup.get("dataRetention")
+            config_retention = backup_config_details.get('data_retention_period')
+            current_retention = current_backup.get('dataRetention')
             final_data_retention = (
                 config_retention if config_retention is not None else current_retention
             )
-            current_mount_path = current_backup.get("mountPath")
+            current_mount_path = current_backup.get('mountPath')
 
-            final_mount_path = (
-                current_mount_path if mount_path == current_mount_path else mount_path
-            )
+            final_mount_path = current_mount_path if mount_path == current_mount_path else mount_path
 
-            self.log(
-                "Comparing backup parameters - server_type: {0}=={1}, retention: {2}=={3}, mount_path: {4}=={5}".format(
-                    config_server_type,
-                    current_type,
-                    config_retention,
-                    current_retention,
-                    mount_path,
-                    current_mount_path,
-                ),
-                "DEBUG",
-            )
+            self.log("Comparing backup parameters - server_type: {0}=={1}, retention: {2}=={3}, mount_path: {4}=={5}".format(
+                config_server_type, current_type, config_retention, current_retention, mount_path, current_mount_path), "DEBUG")
 
             if (
-                config_server_type == current_type
-                and config_retention == current_retention
-                and mount_path == current_mount_path
+                config_server_type == current_type and
+                config_retention == current_retention and
+                mount_path == current_mount_path
             ):
-                self.msg = "Backup configuration already exists with desired settings for source path '{0}'".format(
-                    source_path
+                self.msg = (
+                    "Backup configuration already exists with desired settings for source path '{0}'".format(source_path)
                 )
                 self.already_exists_backup_config.append(source_path)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             payload = {
-                "mountPath": final_mount_path,
-                "type": final_server_type,
-                "dataRetention": final_data_retention,
+                'mountPath': final_mount_path,
+                'type': final_server_type,
+                'dataRetention': final_data_retention
             }
 
-            if (
-                "encryption_passphrase" in backup_config_details
-                and backup_config_details["encryption_passphrase"]
-            ):
-                payload["encryptionPassphrase"] = backup_config_details[
-                    "encryption_passphrase"
-                ]
+            if 'encryption_passphrase' in backup_config_details and backup_config_details['encryption_passphrase']:
+                payload['encryptionPassphrase'] = backup_config_details['encryption_passphrase']
 
-            self.log(
-                "Final payload for backup configuration: {0}".format(
-                    json.dumps(payload, indent=4)
-                ),
-                "DEBUG",
-            )
+            self.log("Final payload for backup configuration: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
                 family="backup",
                 function="create_backup_configuration",
                 op_modifies=True,
-                params={"payload": payload},
+                params={"payload": payload}
             )
-            self.log(
-                "Received API response from 'create_backup_configuration': {0}".format(
-                    response
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.updated_backup_config.append(source_path)
 
             if response or response is None:
@@ -2322,17 +1961,10 @@ class BackupRestore(CatalystCenterBase):
                 return self
 
         except Exception as e:
-            self.msg = (
-                "An error occurred while updating backup configuration: {0}".format(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while updating backup configuration: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log(
-            "Backup target configuration processing completed for enterprise data protection",
-            "DEBUG",
-        )
+        self.log("Backup target configuration processing completed for enterprise data protection", "DEBUG")
         return self
 
     def get_diff_backup(self):
@@ -2369,20 +2001,18 @@ class BackupRestore(CatalystCenterBase):
                 self.msg = (
                     "Mandatory fields 'name', 'scope' must be specified for backup."
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log(
-                "Checking backup for name: {0}, scope: {1}".format(name, scope),
+                "Checking backup for name: {0}, scope: {1}".format(
+                    name, scope
+                ),
                 "DEBUG",
             )
 
             if generate_new_backup:
                 self.log(
-                    "generate_new_backup enabled. Creating new backup with timestamp for prefix '{0}'.".format(
-                        name
-                    ),
+                    "generate_new_backup enabled. Creating new backup with timestamp for prefix '{0}'.".format(name),
                     "INFO",
                 )
                 self.create_backup(backup_details)
@@ -2390,9 +2020,7 @@ class BackupRestore(CatalystCenterBase):
 
             if not backup.get("backup_exists"):
                 self.log(
-                    "Backup does not exist. Initiating creation process for name='{0}'.".format(
-                        name
-                    ),
+                    "Backup does not exist. Initiating creation process for name='{0}'.".format(name),
                     "INFO",
                 )
                 self.create_backup(backup_details)
@@ -2429,51 +2057,29 @@ class BackupRestore(CatalystCenterBase):
 
         expected_restore_details = self.want.get("restore_operations", [])
 
-        self.log(
-            "Processing backup restoration requests for disaster recovery workflows",
-            "DEBUG",
-        )
-        self.log(
-            "Expected restore operations: {0}".format(len(expected_restore_details)),
-            "DEBUG",
-        )
+        self.log("Processing backup restoration requests for disaster recovery workflows", "DEBUG")
+        self.log("Expected restore operations: {0}".format(len(expected_restore_details)), "DEBUG")
 
         if not expected_restore_details:
-            self.log(
-                "No restore operations specified - skipping restoration processing",
-                "DEBUG",
-            )
+            self.log("No restore operations specified - skipping restoration processing", "DEBUG")
             return self
 
         for restore_index, restore_detail in enumerate(expected_restore_details):
             backup_name = restore_detail.get("name")
             encryption_passphrase = restore_detail.get("encryption_passphrase")
 
-            self.log(
-                "Processing restore operation {0}: backup_name={1}".format(
-                    restore_index + 1, backup_name
-                ),
-                "DEBUG",
-            )
+            self.log("Processing restore operation {0}: backup_name={1}".format(
+                restore_index + 1, backup_name), "DEBUG")
 
             if not backup_name or not encryption_passphrase:
-                self.msg = (
-                    "Restore operation validation failed: Both 'name' and 'encryption_passphrase' "
-                    "must be specified for backup restoration and disaster recovery"
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = ("Restore operation validation failed: Both 'name' and 'encryption_passphrase' "
+                            "must be specified for backup restoration and disaster recovery")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log(
-                "Initiating restore for backup name: {0}".format(backup_name), "INFO"
-            )
+            self.log("Initiating restore for backup name: {0}".format(backup_name), "INFO")
             self.restore_backup()
 
-        self.log(
-            "Backup restoration processing completed for disaster recovery workflows",
-            "DEBUG",
-        )
+        self.log("Backup restoration processing completed for disaster recovery workflows", "DEBUG")
         return self
 
     def create_backup_configuration(self, backup_config_details):
@@ -2502,27 +2108,16 @@ class BackupRestore(CatalystCenterBase):
         self.log(
             "Starting backup configuration creation for server_type={0}, retention={1}".format(
                 backup_config_details.get("server_type"),
-                backup_config_details.get("data_retention_period"),
+                backup_config_details.get("data_retention_period")
             ),
-            "INFO",
+            "INFO"
         )
 
-        mandatory_fields = [
-            "server_type",
-            "nfs_details",
-            "data_retention_period",
-            "encryption_passphrase",
-        ]
+        mandatory_fields = ["server_type", "nfs_details", "data_retention_period", "encryption_passphrase"]
         for field in mandatory_fields:
             if field not in backup_config_details:
-                self.msg = (
-                    "Mandatory field '{0}' is missing in backup configuration.".format(
-                        field
-                    )
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Mandatory field '{0}' is missing in backup configuration.".format(field)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         nfs_details = backup_config_details.get("nfs_details", {})
         server_ip = nfs_details.get("server_ip")
@@ -2532,31 +2127,23 @@ class BackupRestore(CatalystCenterBase):
             "Extracted NFS details for backup configuration: server_ip={0}, source_path={1}".format(
                 server_ip, source_path
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not server_ip or not source_path:
-            self.msg = (
-                "Both 'server_ip' and 'source_path' must be specified in NFS details."
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Both 'server_ip' and 'source_path' must be specified in NFS details."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         current_nfs_configs = self.get_nfs_configuration_details()
         matched_config = None
         for config in current_nfs_configs:
             spec = config.get("spec", {})
-            if (
-                spec.get("server") == server_ip
-                and spec.get("sourcePath") == source_path
-            ):
+            if spec.get("server") == server_ip and spec.get("sourcePath") == source_path:
                 matched_config = config
                 self.log(
-                    "Found existing NFS configuration for server_ip={0}, source_path={1}. Using existing mount path.".format(
-                        server_ip, source_path
-                    ),
-                    "INFO",
+                    "Found existing NFS configuration for server_ip={0}, source_path={1}. Using existing mount path."
+                    .format(server_ip, source_path),
+                    "INFO"
                 )
                 break
 
@@ -2566,10 +2153,9 @@ class BackupRestore(CatalystCenterBase):
 
         if not mount_path:
             self.log(
-                "NFS mount path not found for server_ip={0}, source_path={1}. Attempting to create/verify NFS configuration.".format(
-                    server_ip, source_path
-                ),
-                "INFO",
+                "NFS mount path not found for server_ip={0}, source_path={1}. Attempting to create/verify NFS configuration."
+                .format(server_ip, source_path),
+                "INFO"
             )
             try:
                 self.create_nfs_configuration(nfs_details)
@@ -2578,56 +2164,35 @@ class BackupRestore(CatalystCenterBase):
                 matched_config_after_create = None
                 for config in current_nfs_configs_after_create:
                     spec = config.get("spec", {})
-                    if (
-                        spec.get("server") == server_ip
-                        and spec.get("sourcePath") == source_path
-                    ):
+                    if spec.get("server") == server_ip and spec.get("sourcePath") == source_path:
                         matched_config_after_create = config
                         self.log(
-                            "Found newly created NFS configuration for server_ip={0}, source_path={1}.".format(
-                                server_ip, source_path
-                            ),
-                            "INFO",
+                            "Found newly created NFS configuration for server_ip={0}, source_path={1}."
+                            .format(server_ip, source_path),
+                            "INFO"
                         )
                         break
                 if matched_config_after_create:
-                    mount_path = matched_config_after_create.get("status", {}).get(
-                        "destinationPath"
-                    )
-                    self.log(
-                        "Successfully created/verified NFS configuration. Retrieved destinationPath: {0}".format(
-                            mount_path
-                        ),
-                        "INFO",
-                    )
+                    mount_path = matched_config_after_create.get("status", {}).get("destinationPath")
+                    self.log("Successfully created/verified NFS configuration. Retrieved destinationPath: {0}".format(mount_path), "INFO")
                 else:
-                    self.msg = "Failed to find newly created NFS configuration for {0}:{1}.".format(
-                        server_ip, source_path
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.msg = "Failed to find newly created NFS configuration for {0}:{1}.".format(server_ip, source_path)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
                 self.msg = "Failed to create NFS configuration: {0}".format(e)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if not mount_path:
             self.msg = "Failed to retrieve NFS destination path even after creation/verification."
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         data_retention_period = backup_config_details.get("data_retention_period")
         if not (3 <= data_retention_period <= 60):
-            self.msg = "Data retention period must be between 3 and 60 days, found: {0}".format(
-                data_retention_period
+            self.msg = (
+                "Data retention period must be between 3 and 60 days, found: {0}".format(data_retention_period)
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         payload = {
             "type": backup_config_details["server_type"].upper(),
@@ -2642,55 +2207,34 @@ class BackupRestore(CatalystCenterBase):
             value = backup_config_details.get(field)
             if value is not None:
                 payload[key] = value
-                self.log(
-                    "Added optional field: {0} with value: {1}".format(
-                        key, payload[key]
-                    ),
-                    "DEBUG",
-                )
+                self.log("Added optional field: {0} with value: {1}".format(key, payload[key]), "DEBUG")
 
-        self.log(
-            "Generated payload for create backup configuration: {0}".format(
-                json.dumps(payload, indent=4)
-            ),
-            "DEBUG",
-        )
+        self.log("Generated payload for create backup configuration: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
                 family="backup",
                 function="create_backup_configuration",
                 op_modifies=True,
-                params={"payload": payload},
+                params={"payload": payload}
             )
-            self.log(
-                "Received API response from 'create_backup_configuration': {0}".format(
-                    response
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response from 'create_backup_configuration': {0}".format(response), "DEBUG")
             self.created_backup_config.append(source_path)
 
             if response or response is None:
-                self.msg = "Backup configuration created successfully for {0}".format(
-                    server_ip
-                )
+                self.msg = "Backup configuration created successfully for {0}".format(server_ip)
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
         except Exception as e:
-            self.msg = (
-                "An error occurred while creating backup configuration: {0}".format(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while creating backup configuration: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log(
             "Completed backup configuration creation for server_ip={0}, source_path={1}".format(
                 server_ip, source_path
             ),
-            "INFO",
+            "INFO"
         )
         return self
 
@@ -2719,24 +2263,17 @@ class BackupRestore(CatalystCenterBase):
         """
         self.log(
             "Starting NFS configuration creation for server_ip={0}, source_path={1}".format(
-                nfs_config_details.get("server_ip"),
-                nfs_config_details.get("source_path"),
+                nfs_config_details.get("server_ip"), nfs_config_details.get("source_path")
             ),
-            "INFO",
+            "INFO"
         )
 
         mandatory_fields = ["server_ip", "source_path"]
 
         for field in mandatory_fields:
             if field not in nfs_config_details:
-                self.msg = (
-                    "Mandatory field '{0}' is missing in NFS configuration.".format(
-                        field
-                    )
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Mandatory field '{0}' is missing in NFS configuration.".format(field)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         payload = {
             "server": nfs_config_details["server_ip"],
@@ -2759,31 +2296,19 @@ class BackupRestore(CatalystCenterBase):
                     else value
                 )
                 self.log(
-                    "Added optional field: {0} with value: {1}".format(
-                        key, payload[key]
-                    ),
-                    "DEBUG",
+                    "Added optional field: {0} with value: {1}".format(key, payload[key]),
+                    "DEBUG"
                 )
-        self.log(
-            "Generated payload for create NFS configuration:{0}".format(
-                json.dumps(payload, indent=4)
-            ),
-            "DEBUG",
-        )
+        self.log("Generated payload for create NFS configuration:{0}".format(json.dumps(payload, indent=4)), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
                 family="backup",
                 function="create_n_f_s_configuration",
                 op_modifies=True,
-                params={"payload": payload},
+                params={"payload": payload}
             )
-            self.log(
-                "Received API response from 'create_n_f_s_configuration': {0}".format(
-                    response
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response from 'create_n_f_s_configuration': {0}".format(response), "DEBUG")
             self.created_nfs_config.append(nfs_config_details["source_path"])
 
             if response or response is None:
@@ -2791,26 +2316,21 @@ class BackupRestore(CatalystCenterBase):
                     "NFS configuration created successfully for server {0} "
                     "with source_path {1}".format(
                         nfs_config_details["server_ip"],
-                        nfs_config_details["source_path"],
+                        nfs_config_details["source_path"]
                     )
                 )
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
         except Exception as e:
-            self.msg = "An error occurred while creating NFS configuration: {0}".format(
-                e
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while creating NFS configuration: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log(
             "Exiting NFS configuration creation for server_ip={0}, source_path={1}".format(
-                nfs_config_details.get("server_ip"),
-                nfs_config_details.get("source_path"),
+                nfs_config_details.get("server_ip"), nfs_config_details.get("source_path")
             ),
-            "INFO",
+            "INFO"
         )
 
         return self
@@ -2861,60 +2381,36 @@ class BackupRestore(CatalystCenterBase):
             ist = timezone(timedelta(hours=5, minutes=30))
             timestamp = datetime.now(ist).strftime("%Y%m%d_%H%M%S")
             final_name = "{0}_{1}".format(name, timestamp)
-            self.log(
-                "generate_new_backup enabled: Final backup name (IST) = {0}".format(
-                    final_name
-                ),
-                "DEBUG",
-            )
+            self.log("generate_new_backup enabled: Final backup name (IST) = {0}".format(final_name), "DEBUG")
 
         if not name or not scope:
-            self.msg = (
-                "Mandatory fields 'name' and 'scope' must be specified for backup."
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Mandatory fields 'name' and 'scope' must be specified for backup."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         payload = {
             "name": final_name,
             "scope": scope,
         }
 
-        self.log(
-            "Generated payload for create backup: {0}".format(
-                json.dumps(payload, indent=4)
-            ),
-            "DEBUG",
-        )
+        self.log("Generated payload for create backup: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
                 family="backup",
                 function="create_backup",
                 op_modifies=True,
-                params={"payload": payload},
+                params={"payload": payload}
             )
-            self.log(
-                "Received API response from 'create_backup': {0}".format(response),
-                "DEBUG",
-            )
+            self.log("Received API response from 'create_backup': {0}".format(response), "DEBUG")
 
             task_id = self.get_backup_task_id_from_response(response, "create_backup")
 
             backup_ops = self.want.get("backup", [])
             self.log("Backup operations from input: {0}".format(backup_ops), "DEBUG")
             if backup_ops:
-                self.backup_task_timeout = backup_ops[0].get(
-                    "backup_task_timeout", 1200
-                )
+                self.backup_task_timeout = backup_ops[0].get("backup_task_timeout", 1200)
                 self.is_backup_task_timeout_set = True
-                self.log(
-                    "Backup task timeout set to: {0} seconds".format(
-                        self.backup_task_timeout
-                    ),
-                    "DEBUG",
-                )
+                self.log("Backup task timeout set to: {0} seconds".format(self.backup_task_timeout), "DEBUG")
 
             status = self.get_backup_status_by_task_id(task_id)
 
@@ -2925,45 +2421,39 @@ class BackupRestore(CatalystCenterBase):
 
             if status == "FAILED":
                 self.msg = "Creation of backup '{0}' failed".format(name)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 self.backup_failed.append(name)
 
             if status == "CANCELLED":
                 self.msg = "Creation of backup '{0}' was cancelled.".format(name)
-                self.set_operation_result(
-                    "failed", False, self.msg, "WARNING"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "WARNING").check_return_status()
 
         except Exception as e:
             self.msg = "An error occurred while creating backup: {0}".format(e)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log(
             "Exiting backup creation for name='{0}', scope='{1}'".format(name, scope),
-            "INFO",
+            "INFO"
         )
         return self
 
     def restore_backup(self):
         """
-        Validates restore details and initiates backup restoration in Cisco Catalyst Center.
+            Validates restore details and initiates backup restoration in Cisco Catalyst Center.
 
-        Returns:
-            self: The current instance with updated operation result status.
+            Returns:
+                self: The current instance with updated operation result status.
 
-        Description:
-            This method performs the following steps:
-                - Extracts restore details ('name' and 'encryption_passphrase') from 'self.want'.
-                - Validates input fields and ensures a backup with the specified name exists.
-                - Retrieves the configured backup encryption passphrase.
-                - Validates the input passphrase against the configured one.
-                - Constructs the payload and calls the 'restore_backup' API to start the restore operation.
-                - Monitors the task status to confirm success, failure, or cancellation.
-                - Sets the operation result based on the final status of the restore task.
+            Description:
+                This method performs the following steps:
+                    - Extracts restore details ('name' and 'encryption_passphrase') from 'self.want'.
+                    - Validates input fields and ensures a backup with the specified name exists.
+                    - Retrieves the configured backup encryption passphrase.
+                    - Validates the input passphrase against the configured one.
+                    - Constructs the payload and calls the 'restore_backup' API to start the restore operation.
+                    - Monitors the task status to confirm success, failure, or cancellation.
+                    - Sets the operation result based on the final status of the restore task.
         """
         self.log("Processing restoration for existing backup...", "INFO")
         restore_operations = self.want.get("restore_operations", [])
@@ -2972,34 +2462,22 @@ class BackupRestore(CatalystCenterBase):
             name = restore.get("name")
             encryption_passphrase = restore.get("encryption_passphrase")
 
-            self.log(
-                "Validating restore details: name={0}, encryption_passphrase={1}".format(
-                    name, encryption_passphrase
-                ),
-                "DEBUG",
-            )
+            self.log("Validating restore details: name={0}, encryption_passphrase={1}".format(name, encryption_passphrase), "DEBUG")
 
             if not name or not encryption_passphrase:
                 self.msg = "Both 'name' and 'encryption_passphrase' must be specified for restore."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             backup_exists, current_backups, backup = self.get_backup()
 
             matched_backup = None
 
             for backup in current_backups:
-                self.log(
-                    "Comparing backup name: '{0}' with expected: '{1}'".format(
-                        backup.get("name"), name
-                    ),
-                    "DEBUG",
-                )
+                self.log("Comparing backup name: '{0}' with expected: '{1}'".format(backup.get("name"), name), "DEBUG")
                 if backup.get("name") == name:
                     self.log(
                         "Found matching backup for restoration: name={0}".format(name),
-                        "INFO",
+                        "INFO"
                     )
                     matched_backup = backup
                     matched_backup_id = backup.get("id")
@@ -3009,104 +2487,72 @@ class BackupRestore(CatalystCenterBase):
 
             if not matched_backup:
                 self.msg = "No backup found with the name '{0}'.".format(name)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            payload = {"encryptionPassphrase": encryption_passphrase}
+            payload = {
+                "encryptionPassphrase": encryption_passphrase
+            }
 
-            self.log(
-                "Payload for restore operation: {0}".format(
-                    json.dumps(payload, indent=4)
-                ),
-                "DEBUG",
-            )
-            self.log(
-                "Initiating restore operation for backup '{0}'".format(name), "INFO"
-            )
+            self.log("Payload for restore operation: {0}".format(json.dumps(payload, indent=4)), "DEBUG")
+            self.log("Initiating restore operation for backup '{0}'".format(name), "INFO")
 
             try:
                 response = self.catalystcenter._exec(
                     family="restore",
                     function="restore_backup",
                     op_modifies=True,
-                    params={"id": matched_backup_id, "payload": payload},
+                    params={"id": matched_backup_id, "payload": payload}
                 )
-                self.log(
-                    "Received API response from 'restore_backup': {0}".format(response),
-                    "DEBUG",
-                )
+                self.log("Received API response from 'restore_backup': {0}".format(response), "DEBUG")
                 self.restored_backup.append(name)
 
-                task_id = self.get_backup_task_id_from_response(
-                    response, "restore_backup"
-                )
+                task_id = self.get_backup_task_id_from_response(response, "restore_backup")
 
                 if restore_operations:
-                    self.restore_task_timeout = restore_operations[0].get(
-                        "restore_task_timeout", 3600
-                    )
+                    self.restore_task_timeout = restore_operations[0].get("restore_task_timeout", 3600)
                     self.is_restore_task_timeout_set = True
-                    self.log(
-                        "Restore task timeout set to: {0} seconds".format(
-                            self.restore_task_timeout
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Restore task timeout set to: {0} seconds".format(self.restore_task_timeout), "DEBUG")
 
                 status = self.get_backup_status_by_task_id(task_id)
 
                 if status not in ["FAILED", "CANCELLED", "IN_PROGRESS"]:
-                    self.msg = (
-                        "Restore operation for '{0}' completed successfully.".format(
-                            name
-                        )
-                    )
+                    self.msg = "Restore operation for '{0}' completed successfully.".format(name)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
 
                 if status == "FAILED":
                     self.msg = "Restore operation for '{0}' failed.".format(name)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if status == "CANCELLED":
                     self.msg = "Restore operation for '{0}' was cancelled.".format(name)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "WARNING"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "WARNING").check_return_status()
 
             except Exception as e:
                 self.msg = "An error occurred while restoring backup: {0}".format(e)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log("Exiting backup restoration workflow.", "INFO")
             return self
 
     def get_backup_task_id_from_response(self, response, api_name):
         """
-        Extracts the task ID from the given API response dictionary.
+            Extracts the task ID from the given API response dictionary.
 
-        This method is used to retrieve the task ID associated with a backup-related operation
-        (e.g., create or restore), which is later used to track the status of the task.
+            This method is used to retrieve the task ID associated with a backup-related operation
+            (e.g., create or restore), which is later used to track the status of the task.
 
-        Args:
-            response (dict): The response returned from the Catalyst Center API call.
-            api_name (str): The name of the API function for logging context.
+            Args:
+                response (dict): The response returned from the Catalyst Center API call.
+                api_name (str): The name of the API function for logging context.
 
-        Returns:
-            str or None: The extracted task ID if available, otherwise, None.
+            Returns:
+                str or None: The extracted task ID if available, otherwise, None.
         """
         self.log("Extracting task ID from response of '{0}'.".format(api_name), "DEBUG")
 
         if not response or not isinstance(response, dict):
-            self.log(
-                "Invalid or empty response received from '{0}'.".format(api_name),
-                "ERROR",
-            )
+            self.log("Invalid or empty response received from '{0}'.".format(api_name), "ERROR")
             return None
 
         task_info = response.get("response", {})
@@ -3116,10 +2562,7 @@ class BackupRestore(CatalystCenterBase):
             self.log("Returning None as task ID for '{0}'.".format(api_name), "DEBUG")
             return None
 
-        self.log(
-            "Extracted Task ID '{0}' from '{1}' response.".format(task_id, api_name),
-            "DEBUG",
-        )
+        self.log("Extracted Task ID '{0}' from '{1}' response.".format(task_id, api_name), "DEBUG")
         return task_id
 
     def get_backup_status_by_task_id(self, task_id):
@@ -3150,42 +2593,17 @@ class BackupRestore(CatalystCenterBase):
 
         if self.state == "merged":
             if self.is_backup_task_timeout_set:
-                self.log(
-                    "Using backup task timeout: {0} seconds".format(
-                        self.backup_task_timeout
-                    ),
-                    "DEBUG",
-                )
+                self.log("Using backup task timeout: {0} seconds".format(self.backup_task_timeout), "DEBUG")
                 self.max_timeout = self.backup_task_timeout
-                self.log(
-                    "Task timeout set to backup_task_timeout: {0} seconds".format(
-                        self.max_timeout
-                    ),
-                    "DEBUG",
-                )
+                self.log("Task timeout set to backup_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
             elif self.is_restore_task_timeout_set:
-                self.log(
-                    "Using restore task timeout: {0} seconds".format(
-                        self.restore_task_timeout
-                    ),
-                    "DEBUG",
-                )
+                self.log("Using restore task timeout: {0} seconds".format(self.restore_task_timeout), "DEBUG")
                 self.max_timeout = self.restore_task_timeout
-                self.log(
-                    "Task timeout set to restore_task_timeout: {0} seconds".format(
-                        self.max_timeout
-                    ),
-                    "DEBUG",
-                )
+                self.log("Task timeout set to restore_task_timeout: {0} seconds".format(self.max_timeout), "DEBUG")
             else:
-                self.log(
-                    "No specific task timeout provided. Using default of 1200 seconds.",
-                    "DEBUG",
-                )
+                self.log("No specific task timeout provided. Using default of 1200 seconds.", "DEBUG")
                 self.max_timeout = 1200
-                self.log(
-                    "Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG"
-                )
+                self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
         self.log("Task timeout set to: {0} seconds".format(self.max_timeout), "DEBUG")
 
@@ -3194,9 +2612,7 @@ class BackupRestore(CatalystCenterBase):
         while True:
             elapsed_time = time.time() - start_time
             if elapsed_time >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec reached while waiting for backup task ID '{1}'.".format(
-                    self.max_timeout, task_id
-                )
+                self.msg = "Max timeout of {0} sec reached while waiting for backup task ID '{1}'.".format(self.max_timeout, task_id)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 return "FAILED"
@@ -3205,15 +2621,10 @@ class BackupRestore(CatalystCenterBase):
                 response = self.catalystcenter._exec(
                     family="backup",
                     function="get_backup_and_restore_execution",
-                    params={"id": task_id},
+                    params={"id": task_id}
                 )
 
-                self.log(
-                    "Received API response from 'get_backup_and_restore_execution': {0}".format(
-                        response
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received API response from 'get_backup_and_restore_execution': {0}".format(response), "DEBUG")
 
                 if isinstance(response, list):
                     response = response[0] if response else {}
@@ -3221,29 +2632,14 @@ class BackupRestore(CatalystCenterBase):
                 execution_data = response.get("response", {})
                 status = execution_data.get("status", "UNKNOWN").upper()
 
-                self.log(
-                    "Backup execution status for task ID '{0}': '{1}'.".format(
-                        task_id, status
-                    ),
-                    "DEBUG",
-                )
+                self.log("Backup execution status for task ID '{0}': '{1}'.".format(task_id, status), "DEBUG")
 
                 if status in ["SUCCESS", "FAILED", "CANCELLED"]:
                     self.status = status.lower()
-                    self.log(
-                        "Returning backup status '{0}' for task ID '{1}'.".format(
-                            status, task_id
-                        ),
-                        "INFO",
-                    )
+                    self.log("Returning backup status '{0}' for task ID '{1}'.".format(status, task_id), "INFO")
                     return status
                 else:
-                    self.log(
-                        "Backup task ID '{0}' is still in progress. Status: '{1}'. Retrying...".format(
-                            task_id, status
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Backup task ID '{0}' is still in progress. Status: '{1}'. Retrying...".format(task_id, status), "DEBUG")
                     time.sleep(5)
 
             except Exception as e:
@@ -3257,23 +2653,19 @@ class BackupRestore(CatalystCenterBase):
                         "Unable to retrieve backup status for task ID '{0}' "
                         "even after retrying for 60 seconds."
                     ).format(task_id)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return "FAILED"
 
                 self.log(
                     "Error retrieving status for task ID '{0}'. Retrying in 10 seconds... "
-                    "(elapsed {1}/60 seconds)".format(task_id, int(elapsed)),
-                    "WARNING",
+                    "(elapsed {1}/60 seconds)"
+                    .format(task_id, int(elapsed)),
+                    "WARNING"
                 )
                 time.sleep(10)
                 continue
 
-            self.log(
-                "Backup status polling for task ID '{0}' completed.".format(task_id),
-                "DEBUG",
-            )
+            self.log("Backup status polling for task ID '{0}' completed.".format(task_id), "DEBUG")
 
     def delete_nfs_configuration(self):
         """
@@ -3292,7 +2684,7 @@ class BackupRestore(CatalystCenterBase):
             "Starting NFS configuration deletion workflow for {0} configurations".format(
                 len(self.want.get("nfs_configuration", []))
             ),
-            "INFO",
+            "INFO"
         )
 
         desired_nfs_configs = self.want.get("nfs_configuration", [])
@@ -3306,36 +2698,26 @@ class BackupRestore(CatalystCenterBase):
                 "Processing NFS deletion {0}: server_ip={1}, source_path={2}".format(
                     config_index + 1, server_ip, source_path
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if not server_ip or not source_path:
                 self.msg = "Both 'server_ip' and 'source_path' must be specified to delete an NFS configuration."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 continue
 
-            self.log(
-                "Attempting to delete NFS configuration for server: {0}, path: {1}".format(
-                    server_ip, source_path
-                ),
-                "DEBUG",
-            )
+            self.log("Attempting to delete NFS configuration for server: {0}, path: {1}".format(server_ip, source_path), "DEBUG")
 
             nfs_to_delete = None
             for existing_config in current_nfs_configs:
                 spec = existing_config.get("spec", {})
-                if (
-                    spec.get("server") == server_ip
-                    and spec.get("sourcePath") == source_path
-                ):
+                if spec.get("server") == server_ip and spec.get("sourcePath") == source_path:
                     nfs_to_delete = existing_config
                     self.log(
                         "Found existing NFS configuration for deletion: server_ip={0}, source_path={1}".format(
                             server_ip, source_path
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     break
 
@@ -3350,14 +2732,8 @@ class BackupRestore(CatalystCenterBase):
 
             nfs_config_id = nfs_to_delete.get("id")
             if not nfs_config_id:
-                self.msg = (
-                    "Unable to retrieve ID for NFS configuration '{0}:{1}'.".format(
-                        server_ip, source_path
-                    )
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Unable to retrieve ID for NFS configuration '{0}:{1}'.".format(server_ip, source_path)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 continue
 
             try:
@@ -3365,7 +2741,7 @@ class BackupRestore(CatalystCenterBase):
                     "Initiating deletion of NFS configuration via Catalyst Center API for server_ip={0}, source_path={1}".format(
                         server_ip, source_path
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 response = self.catalystcenter._exec(
                     family="backup",
@@ -3383,26 +2759,16 @@ class BackupRestore(CatalystCenterBase):
                 self.deleted_nfs_config.append(source_path)
 
                 if response or response is None:
-                    self.msg = (
-                        "NFS configuration deleted successfully for {0}:{1}".format(
-                            server_ip, source_path
-                        )
-                    )
+                    self.msg = "NFS configuration deleted successfully for {0}:{1}".format(server_ip, source_path)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
 
-                self.msg = "Failed to delete NFS configuration for {0}:{1}. API response: {2}".format(
-                    server_ip, source_path, response
-                )
+                self.msg = "Failed to delete NFS configuration for {0}:{1}. API response: {2}".format(server_ip, source_path, response)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
 
             except Exception as e:
-                self.msg = "Error occurred while deleting NFS configuration {0}:{1}: {2}".format(
-                    server_ip, source_path, e
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Error occurred while deleting NFS configuration {0}:{1}: {2}".format(server_ip, source_path, e)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log("Completed NFS configuration deletion workflow", "INFO")
             return self
@@ -3489,14 +2855,10 @@ class BackupRestore(CatalystCenterBase):
 
             for backup in all_backups:
                 backup_name = backup.get("name")
-                created_date_time = backup.get(
-                    "createdDate"
-                )  # e.g., "2025-09-11T04:19:58Z"
+                created_date_time = backup.get("createdDate")  # e.g., "2025-09-11T04:19:58Z"
 
                 if created_date_time:
-                    created_date_time = datetime.strptime(
-                        created_date_time, "%Y-%m-%dT%H:%M:%SZ"
-                    )
+                    created_date_time = datetime.strptime(created_date_time, "%Y-%m-%dT%H:%M:%SZ")
                     created_date_time = created_date_time.replace(tzinfo=timezone.utc)
                     created_date_time = created_date_time.astimezone(ist)
 
@@ -3507,9 +2869,7 @@ class BackupRestore(CatalystCenterBase):
                         "DEBUG",
                     )
 
-                    if (
-                        not name or backup_name.startswith(name)
-                    ) and created_date_time < cutoff_date_time:
+                    if (not name or backup_name.startswith(name)) and created_date_time < cutoff_date_time:
                         backups_to_delete.append(backup)
 
             self.log(
@@ -3518,12 +2878,7 @@ class BackupRestore(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            self.log(
-                "Total backups to delete based on retention policy: {0}".format(
-                    backups_to_delete
-                ),
-                "INFO",
-            )
+            self.log("Total backups to delete based on retention policy: {0}".format(backups_to_delete), "INFO")
 
             if not backups_to_delete:
                 target = "with prefix '{0}' ".format(name) if name else ""
@@ -3535,29 +2890,21 @@ class BackupRestore(CatalystCenterBase):
 
         elif name:
             if not backup.get("backup_exists"):
-                self.msg = "Backup with name '{0}' does not exist in the Cisco Catalyst Center or has already been deleted.".format(
-                    name
-                )
+                self.msg = "Backup with name '{0}' does not exist in the Cisco Catalyst Center or has already been deleted.".format(name)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             current_backup = backup.get("current_backup", {})
             if not current_backup or not current_backup.get("id"):
                 self.msg = "Unable to retrieve backup ID for '{0}'.".format(name)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             backups_to_delete = [current_backup]
             self.log("Deleting specific backup '{0}'".format(name), "INFO")
 
         else:
-            self.msg = (
-                "Either set 'delete_all_backup: true' or provide a 'name' for deletion."
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Either set 'delete_all_backup: true' or provide a 'name' for deletion."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         for backup in backups_to_delete:
             self.log("Processing deletion for backup: {0}".format(backup), "DEBUG")
@@ -3566,10 +2913,8 @@ class BackupRestore(CatalystCenterBase):
 
             try:
                 self.log(
-                    "Initiating deletion of backup '{0}' via Catalyst Center API".format(
-                        backup_name
-                    ),
-                    "INFO",
+                    "Initiating deletion of backup '{0}' via Catalyst Center API".format(backup_name),
+                    "INFO"
                 )
                 response = self.catalystcenter._exec(
                     family="backup",
@@ -3577,14 +2922,9 @@ class BackupRestore(CatalystCenterBase):
                     op_modifies=True,
                     params={"id": backup_id},
                 )
-                self.log(
-                    "Received API response from 'delete_backup': {0}".format(response),
-                    "DEBUG",
-                )
+                self.log("Received API response from 'delete_backup': {0}".format(response), "DEBUG")
 
-                task_id = self.get_backup_task_id_from_response(
-                    response, "delete_backup"
-                )
+                task_id = self.get_backup_task_id_from_response(response, "delete_backup")
                 status = self.get_backup_status_by_task_id(task_id)
 
                 if status == "SUCCESS":
@@ -3599,19 +2939,13 @@ class BackupRestore(CatalystCenterBase):
                     self.delete_backup_failed.append(backup_name)
 
                 else:
-                    self.msg = (
-                        "Unexpected deletion status '{0}' for backup '{1}'.".format(
-                            status, backup_name
-                        )
-                    )
+                    self.msg = "Unexpected deletion status '{0}' for backup '{1}'.".format(status, backup_name)
                     self.set_operation_result("failed", False, self.msg, "WARNING")
                     self.delete_backup_failed.append(backup_name)
 
             except Exception as e:
                 self.msg = "An error occurred while deleting backup: {0}".format(e)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log("Exiting backup deletion workflow", "INFO")
         return self
@@ -3630,10 +2964,7 @@ class BackupRestore(CatalystCenterBase):
             - Logs verification success if the configuration is found in the current state.
             - Logs a warning or info message if the configuration is not found, indicating a possible failure in execution.
         """
-        self.log(
-            "Starting verification of merged configuration changes in Catalyst Center",
-            "INFO",
-        )
+        self.log("Starting verification of merged configuration changes in Catalyst Center", "INFO")
 
         if self.want.get("nfs_configuration"):
             self.log("Verifying NFS configuration creation/update results", "DEBUG")
@@ -3650,9 +2981,7 @@ class BackupRestore(CatalystCenterBase):
                 self.log(
                     "The playbook input for NFS configuration with server_ip '{0}' and source_path "
                     "'{1}' does not align with the Cisco Catalyst Center, indicating that the creation "
-                    "task may not have executed successfully.".format(
-                        server_ip, source_path
-                    )
+                    "task may not have executed successfully.".format(server_ip, source_path)
                 )
             else:
                 self.log(
@@ -3732,10 +3061,7 @@ class BackupRestore(CatalystCenterBase):
             - Logs a warning if the configuration is still present, indicating the deletion may have failed.
             - Introduces a delay for backup verification to allow for asynchronous cleanup on the backend.
         """
-        self.log(
-            "Starting verification of deleted configuration changes in Catalyst Center",
-            "INFO",
-        )
+        self.log("Starting verification of deleted configuration changes in Catalyst Center", "INFO")
 
         if self.want.get("nfs_configuration"):
             self.log("Verifying NFS configuration deletion results", "DEBUG")
@@ -3751,18 +3077,14 @@ class BackupRestore(CatalystCenterBase):
             if not nfs_config_exists:
                 self.log(
                     "NFS configuration with server_ip '{0}' and source_path '{1}' "
-                    "has been successfully deleted from Cisco Catalyst Center.".format(
-                        server_ip, source_path
-                    ),
-                    "INFO",
+                    "has been successfully deleted from Cisco Catalyst Center.".format(server_ip, source_path),
+                    "INFO"
                 )
             else:
                 self.log(
                     "NFS configuration with server_ip '{0}' and source_path '{1}' still exists in Cisco Catalyst Center, "
-                    "indicating that the deletion task may not have executed successfully.".format(
-                        server_ip, source_path
-                    ),
-                    "WARNING",
+                    "indicating that the deletion task may not have executed successfully.".format(server_ip, source_path),
+                    "WARNING"
                 )
 
         if self.want.get("backup"):
@@ -3784,10 +3106,9 @@ class BackupRestore(CatalystCenterBase):
             else:
                 self.log(
                     "The playbook input for backup '{0}' does not align with Cisco Catalyst "
-                    "Center, indicating that the deletion task may not have executed successfully.".format(
-                        backup_name
-                    ),
-                    "WARNING",
+                    "Center, indicating that the deletion task may not have executed successfully."
+                    .format(backup_name),
+                    "WARNING"
                 )
 
         self.log("Completed verification of deleted configuration changes", "INFO")
@@ -3843,10 +3164,8 @@ class BackupRestore(CatalystCenterBase):
             result_msg_list.append(msg)
 
         if self.backup:
-            msg = (
-                "Backup(s) '{0}' created successfully in Cisco Catalyst Center.".format(
-                    "', '".join(self.backup)
-                )
+            msg = "Backup(s) '{0}' created successfully in Cisco Catalyst Center.".format(
+                "', '".join(self.backup)
             )
             result_msg_list.append(msg)
 
@@ -3902,34 +3221,25 @@ class BackupRestore(CatalystCenterBase):
 
 
 def main():
-    """main entry point for module execution"""
-    element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged", "deleted"]},
-    }
+    """ main entry point for module execution """
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin'},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': True},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.3.7.6'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": True},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ["merged", "deleted"]}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_backup_restore = BackupRestore(module)
@@ -3938,18 +3248,11 @@ def main():
     current_version = ccc_backup_restore.get_ccc_version()
     min_supported_version = "3.1.3.0"
 
-    if (
-        ccc_backup_restore.compare_catalystcenter_versions(
-            current_version, min_supported_version
-        )
-        < 0
-    ):
+    if ccc_backup_restore.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
         ccc_backup_restore.status = "failed"
         ccc_backup_restore.msg = (
             "The specified version '{0}' does not support the 'Backup and restore' feature. "
-            "Supported version(s) start from '{1}' onwards.".format(
-                current_version, min_supported_version
-            )
+            "Supported version(s) start from '{1}' onwards.".format(current_version, min_supported_version)
         )
         ccc_backup_restore.log(ccc_backup_restore.msg, "ERROR")
         ccc_backup_restore.check_return_status()
@@ -3976,5 +3279,5 @@ def main():
     module.exit_json(**ccc_backup_restore.result)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

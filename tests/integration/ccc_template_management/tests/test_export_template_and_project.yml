@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare dnac vars
+  - name: Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_export_template_and_project.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -34,8 +34,8 @@
 #############################################
 
   - name: Create template before test
-    cisco.dnac.template_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.template_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -46,8 +46,8 @@
 #############################################
 
   - name: Export project from export_project_details
-    cisco.dnac.template_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.template_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -73,8 +73,8 @@
 #############################################
 
   - name: Export template from export_template_details
-    cisco.dnac.template_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.template_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -104,8 +104,8 @@
   #     seconds: 10
 
   - name: Delete template after test
-    cisco.dnac.template_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.template_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"

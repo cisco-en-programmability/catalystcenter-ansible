@@ -3,12 +3,12 @@
       "generate_all_configurations": true,
       "component_specific_filters": {
           "components_list": [
-              "webhook_destinations"
+              "webhook_destination"
           ]
       }
   },
   "playbook_config_empty": {},
-  "expected_error_missing_component_specific_filters": "Validation Error: 'component_specific_filters' is mandatory when 'config' is provided. Please provide 'config.component_specific_filters' with either 'components_list' or component filter blocks.",
+  "expected_error_missing_component_specific_filters": "Validation Error: 'component_specific_filters' is mandatory when 'config' is provided. Please provide 'config.component_specific_filters' with either 'components_list' or component-specific filter keys.",
   "webhook_destinations": {
     "errorMessage": {
       
@@ -119,7 +119,7 @@
       "tenantId": "68593aeecd0f400013b8604e",
       "configId": "a71450fa-0ccc-475c-9d63-74af686f8f93",
       "name": "SNMP V3",
-      "description": "Testing DNAC for SNMPv3",
+      "description": "Testing CatalystCenter for SNMPv3",
       "ipAddress": "2.7.4.5",
       "port": 161,
       "snmpVersion": "V3",
@@ -615,8 +615,22 @@
   "playbook_component_specific_filters": {
       "component_specific_filters": {
         "components_list": [
-          "webhook_destinations",
-          "webhook_event_notifications"
+          "webhook_destination",
+          "webhook_event_notification"
+        ],
+        "webhook_destination": [
+          {
+            "name": [
+              "webhook demo 103"
+            ]
+          }
+        ],
+        "webhook_event_notification": [
+          {
+            "name": [
+              "CG-Test"
+            ]
+          }
         ]
       }
   },
@@ -817,23 +831,22 @@
       "component_specific_filters": {
         "components_list": [
           "webhook_destinatio",
-          "webhook_event_notifications"
+          "webhook_event_notification"
         ]
       }
   },
   "playbook_specific_filter": {
       "component_specific_filters": {
         "components_list": [
-          "webhook_destinations"
+          "webhook_destination"
         ],
-        "destination_filters": {
-          "destination_names": [
-            "webhook demo 103"
-          ],
-          "destination_types": [
-            "webhook"
-          ]
-        }
+        "webhook_destination": [
+          {
+            "name": [
+              "webhook demo 103"
+            ]
+          }
+        ]
       }
   },
   "webhook": {
@@ -873,16 +886,17 @@
   "playbook_itsm": {
       "component_specific_filters": {
           "components_list": [
-              "itsm_settings"
-          ]
+              "itsm_setting"
+          ],
+          "itsm_setting": []
       }
   },
   "playbook_component_with_empty_filter": {
       "component_specific_filters": {
           "components_list": [
-              "webhook_destinations"
+              "webhook_destination"
           ],
-          "destination_filters": {}
+          "webhook_destination": []
       }
   },
   "itsm_response1": {"page": 1, "pageSize": 50, "totalPages": 1, "data": [{"_id": "69ae9d36a48743007a38b7b8", "id": "04b5-cabb-488a-a224", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "Playbook itsm demo 01", "uniqueKey": "ServiceNowConnection-Playbook itsm demo 01-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051190370, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}, {"_id": "69ae9f68a48743007a38b7ba", "id": "338e-7970-47fb-9b3a", "dypId": "f4ab-5be5-42fa-9ee1", "dypName": "ServiceNowConnection", "name": "ITSM_Demo_test 02", "uniqueKey": "ServiceNowConnection-ITSM_Demo_test 02-1", "dypMajorVersion": 1, "description": "ITSM description for testing", "createdDate": 1773051752971, "createdBy": "thievo", "updatedBy": "", "softwareVersionLog": [], "schemaVersion": 0}], "totalRecords": 2},

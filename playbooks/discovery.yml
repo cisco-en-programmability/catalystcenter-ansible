@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Discovery
+  hosts: catalystcenter_servers
   vars:
     global_credential_id_list:
       - "90acbab8-03d5-4726-9c19-e1e51a40b3cd"
@@ -19,6 +19,7 @@
         startIndex: 1
         recordsToReturn: 500
       register: discovery_range_result
+
     - name: Set fact of filtered discoveries
       ansible.builtin.set_fact:
         discoveries_filtered: "{{ discovery_range_result.catalystcenter_response.response | selectattr('name', 'equalto', 'DMZ Lab 2') }}"
@@ -27,6 +28,7 @@
         - discovery_range_result.catalystcenter_response is defined
         - discovery_range_result.catalystcenter_response.response is defined
       register: discovery_filtered_results
+
     - name: Set fact of filtered discovery
       ansible.builtin.set_fact:
         discovery_filtered: "{{ discovery_filtered_results.ansible_facts.discoveries_filtered | first }}"
@@ -36,6 +38,7 @@
         - discovery_filtered_results.ansible_facts.discoveries_filtered is defined
         - discovery_filtered_results.ansible_facts.discoveries_filtered|length > 0
       register: discovery_filtered_result
+
     - name: Set fact of filtered discovery id
       ansible.builtin.set_fact:
         discovery_filtered_id: "{{ discovery_filtered_result.ansible_facts.discovery_filtered.id }}"
@@ -44,6 +47,7 @@
         - discovery_filtered_result.ansible_facts is defined
         - discovery_filtered_result.ansible_facts.discovery_filtered is defined
       register: discovery_filtered_result_id
+
     - name: Create a discovery
       cisco.catalystcenter.discovery:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -55,7 +59,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        global_credential_id_list: "{{ global_credential_id_list }}"
+        globalCredentialIdList: "{{ global_credential_id_list }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
@@ -80,6 +84,7 @@
       register: discovery_result
       when:
         - discovery_filtered_result_id is not defined
+
     - name: Update a discovery
       cisco.catalystcenter.discovery:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -91,7 +96,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        global_credential_id_list: "{{ global_credential_id_list }}"
+        globalCredentialIdList: "{{ global_credential_id_list }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
@@ -116,6 +121,7 @@
       register: discovery_result
       when:
         - discovery_filtered_result_id is defined
+
     - name: Show discovery result
       ansible.builtin.debug:
         msg: "{{ discovery_result }}"

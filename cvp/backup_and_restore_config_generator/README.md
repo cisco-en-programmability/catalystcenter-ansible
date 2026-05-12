@@ -174,7 +174,7 @@ Use `backup_and_restore_config_generator.yml` for generating YAML playbook confi
                   All existing NFS configurations and backup storage configurations will be extracted.
 
 ```yaml
-# No config at all - only DNAC connection details
+# No config at all - only Catalyst Center connection details
 # Expected: defaults to generates all configs
 backup_and_restore_config:
   - file_path: "/tmp/complete_backup_restore_config.yml"  
