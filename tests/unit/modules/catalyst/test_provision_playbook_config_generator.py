@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import provision_playbook_config_generator
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
@@ -190,17 +190,22 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
                 file_mode="overwrite",
             )
         )
-        result = self.execute_module(changed=True, failed=False)
         expected_file_path = (
             "/Users/syedkahm/ansible/catalystcenter/work/collections/ansible_collections/cisco/catalystcenter/"
             "playbooks/brownfield_provision_workflow_playbook.yml"
         )
+        with patch.object(
+            provision_playbook_config_generator.ProvisionPlaybookGenerator,
+            "write_dict_to_yaml",
+            return_value=True,
+        ):
+            result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get("response"),
             {
                 "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
                     "file_path": expected_file_path,
-                    "devices_count": 6
+                    "devices_count": 7
                 }
             }
         )
@@ -264,7 +269,7 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
             {
                 "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
                     "file_path": default_file_path,
-                    "devices_count": 6,
+                    "devices_count": 7,
                 }
             }
         )
@@ -369,3 +374,115 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
             [device.get("management_ip_address") for device in filtered_devices],
             ["204.1.2.5", "204.1.2.6"],
         )
+
+    def test_get_all_provisioned_devices_internal_uses_cached_inventory_details(self):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.log = lambda *args, **kwargs: None
+        generator._cached_provisioned_devices = None
+        generator._cached_inventory_devices = None
+        generator._cached_inventory_by_id = None
+
+        exec_mock = Mock(side_effect=[
+            {
+                "response": [
+                    {
+                        "networkDeviceId": "dev-1",
+                        "siteId": "site-1",
+                    }
+                ]
+            },
+            {
+                "response": [
+                    {
+                        "id": "dev-1",
+                        "managementIpAddress": "10.10.10.1",
+                        "family": "Switches and Hubs",
+                        "type": "Cisco Catalyst 9300 Switch",
+                        "hostname": "edge-1",
+                        "location": "Global/USA/SAN JOSE/BLD23",
+                        "siteId": "site-1",
+                    },
+                    {
+                        "id": "dev-2",
+                        "managementIpAddress": "10.10.10.2",
+                        "family": "Wireless Controller",
+                        "type": "Cisco Catalyst 9800",
+                        "hostname": "wlc-1",
+                        "location": "Global/USA/SAN JOSE/BLD23",
+                        "siteId": "site-2",
+                    },
+                ]
+            },
+            {"status": "success"},
+        ])
+        generator.catalystcenter = Mock(_exec=exec_mock)
+
+        devices = generator.get_all_provisioned_devices_internal()
+        cached_devices = generator.get_all_provisioned_devices_internal()
+
+        self.assertIs(devices, cached_devices)
+        self.assertEqual(len(devices), 2)
+        self.assertEqual(devices[0]["managementIpAddress"], "10.10.10.1")
+        self.assertEqual(devices[0]["family"], "Switches and Hubs")
+        self.assertEqual(devices[1]["deviceType"], "WirelessController")
+        self.assertEqual(devices[1]["managementIpAddress"], "10.10.10.2")
+        self.assertEqual(exec_mock.call_count, 3)
+        called_functions = [call.kwargs["function"] for call in exec_mock.call_args_list]
+        self.assertEqual(
+            called_functions,
+            ["get_provisioned_devices", "get_device_list", "get_provisioned_wired_device"],
+        )
+
+    def test_transform_device_site_hierarchy_uses_cached_location(self):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.log = lambda *args, **kwargs: None
+        generator.site_id_name_dict = {}
+        generator.catalystcenter = Mock()
+
+        site_hierarchy = generator.transform_device_site_hierarchy(
+            {
+                "networkDeviceId": "dev-1",
+                "location": "Global/USA/SAN JOSE/BLD23",
+            }
+        )
+
+        self.assertEqual(site_hierarchy, "Global/USA/SAN JOSE/BLD23")
+        generator.catalystcenter._exec.assert_not_called()
+
+    def test_transform_device_family_info_prefers_cached_family(self):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.log = lambda *args, **kwargs: None
+        generator.catalystcenter = Mock()
+
+        device_family = generator.transform_device_family_info(
+            {
+                "networkDeviceId": "dev-1",
+                "family": "Wireless Controller",
+            }
+        )
+
+        self.assertEqual(device_family, "Wireless Controller")
+        generator.catalystcenter._exec.assert_not_called()
+
+    def test_transform_device_management_ip_prefers_cached_management_ip(self):
+        generator = self.module.ProvisionPlaybookGenerator.__new__(
+            self.module.ProvisionPlaybookGenerator
+        )
+        generator.log = lambda *args, **kwargs: None
+        generator.catalystcenter = Mock()
+
+        management_ip = generator.transform_device_management_ip(
+            {
+                "networkDeviceId": "dev-1",
+                "managementIpAddress": "10.10.10.1",
+            }
+        )
+
+        self.assertEqual(management_ip, "10.10.10.1")
+        generator.catalystcenter._exec.assert_not_called()
