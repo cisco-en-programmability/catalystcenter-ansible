@@ -2578,8 +2578,13 @@ class Events(CatalystCenterBase):
                     value, webhook_dest_detail_in_ccc.get(ccc_key)
                 )
                 if update_needed:
+                    self.log(
+                        "Webhook headers differ between playbook and Catalyst Center for "
+                        "key '{0}'. Update required; stopping further field comparisons.".format(key),
+                        "DEBUG",
+                    )
                     break
-            elif webhook_dest_detail_in_ccc[ccc_key] == value or value is None:
+            elif webhook_dest_detail_in_ccc.get(ccc_key) == value or value is None:
                 continue
             else:
                 update_needed = True
