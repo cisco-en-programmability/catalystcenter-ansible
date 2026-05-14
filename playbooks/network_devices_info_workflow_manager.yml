@@ -6,19 +6,19 @@
     - vars/credentials.yml
   tasks:
     - name: Get Network Devices Info on Cisco Catalyst Center
-      cisco.dnac.network_devices_info_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      cisco.catalystcenter.network_devices_info_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: false
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: gathered
         config:
           - network_devices:
@@ -52,7 +52,7 @@
                   - device_stack_info
                   - device_link_mismatch_info
                 output_file_info:
-                  file_path: /Users/priyadharshini/Downloads/info
+                  file_path: "{{ output_dir | default(playbook_dir + '/output') }}"
                   file_format: json
                   file_mode: w
                   timestamp: true

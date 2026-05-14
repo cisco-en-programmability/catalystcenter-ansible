@@ -1,22 +1,22 @@
 ---
 - name: Configure reports on Cisco Catalyst Center
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
     - name: Create/Schedule a report configuration.
-      cisco.dnac.reports_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+      cisco.catalystcenter.reports_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log: true
         state: merged
         config_verify: true
         config:

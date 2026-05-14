@@ -9,24 +9,24 @@
     - "backup_secrets.yml"
 
   vars:
-    dnac_login: &dnac_login
-      dnac_host: "{{ dnac_host }}"
-      dnac_username: "{{ dnac_username }}"
-      dnac_password: "{{ dnac_password }}"
-      dnac_verify: "{{ dnac_verify }}"
-      dnac_port: "{{ dnac_port }}"
-      dnac_version: "{{ dnac_version }}"
-      dnac_debug: "{{ dnac_debug }}"
-      dnac_log: true
-      dnac_log_level: "DEBUG"
+    catalystcenter_login: &catalystcenter_login
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_port: "{{ catalystcenter_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
+      catalystcenter_log: true
+      catalystcenter_log_level: "DEBUG"
       config_verify: true
-      dnac_api_task_timeout: 4000
-      dnac_task_poll_interval: 1
+      catalystcenter_api_task_timeout: 4000
+      catalystcenter_task_poll_interval: 1
 
   tasks:
     - name: Configure NFS server for secure backup storage connectivity
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - nfs_configuration:
@@ -38,8 +38,8 @@
       tags: nfs_configuration
 
     - name: Configure backup target with encryption and data retention policies
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - backup_storage_configuration:
@@ -55,8 +55,8 @@
       tags: backup_configuration
 
     - name: Create backup with name and scope specifications
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - backup:
@@ -66,8 +66,8 @@
       tags: backup_creation
 
     - name: Restore backup
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - restore_operations:
@@ -77,8 +77,8 @@
       tags: restore_backup
 
     - name: Delete NFS configuration from backup infrastructure
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - nfs_configuration:
@@ -87,8 +87,8 @@
       tags: delete_nfs_configuration
 
     - name: Delete backups for backup lifecycle management
-      cisco.dnac.backup_and_restore_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.backup_and_restore_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - backup:

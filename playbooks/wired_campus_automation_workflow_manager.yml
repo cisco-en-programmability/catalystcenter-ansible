@@ -23,24 +23,24 @@
 #
 # ===================================================================================================
 
-- name: Cisco DNA Center Wired Campus Automation Examples
-  hosts: dnac_servers
+- name: Cisco Catalystcenter Wired Campus Automation Examples
+  hosts: catalystcenter_servers
   gather_facts: false
   vars_files:
     - vars/credentials.yml
   vars:
     # Common login anchor for reuse
-    dnac_login: &dnac_login
-      dnac_host: "{{ dnac_host }}"
-      dnac_username: "{{ dnac_username }}"
-      dnac_password: "{{ dnac_password }}"
-      dnac_verify: "{{ dnac_verify }}"
-      dnac_port: "{{ dnac_port }}"
-      dnac_version: "{{ dnac_version }}"
-      dnac_debug: "{{ dnac_debug }}"
-      dnac_log: true
-      dnac_log_level: INFO
-      dnac_log_append: false
+    catalystcenter_login: &catalystcenter_login
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_port: "{{ catalystcenter_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
+      catalystcenter_log: true
+      catalystcenter_log_level: INFO
+      catalystcenter_log_append: false
       config_verify: true
 
   tasks:
@@ -49,8 +49,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Create multiple VLANs with comprehensive settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -70,8 +70,8 @@
       tags: [vlans, create]
 
     - name: "EXAMPLE: Update existing VLAN settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -85,8 +85,8 @@
       tags: [vlans, update]
 
     - name: "EXAMPLE: Delete specific VLANs"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -98,8 +98,8 @@
       tags: [vlans, delete]
 
     - name: "EXAMPLE: Delete specific VLANs with full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -123,8 +123,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure CDP with all parameters"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -140,8 +140,8 @@
       tags: [cdp, configure]
 
     - name: "EXAMPLE: Update CDP timer settings only"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -154,8 +154,8 @@
       tags: [cdp, update]
 
     - name: "EXAMPLE: Reset CDP to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -166,8 +166,8 @@
       tags: [cdp, reset]
 
     - name: "EXAMPLE:  Reset CDP to default settings while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -187,8 +187,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure LLDP with comprehensive settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -203,8 +203,8 @@
       tags: [lldp, configure]
 
     - name: "EXAMPLE: Configure LLDP with boundary values"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -219,8 +219,8 @@
       tags: [lldp, boundary]
 
     - name: "EXAMPLE: Reset LLDP to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -231,8 +231,8 @@
       tags: [lldp, reset]
 
     - name: "EXAMPLE: Reset LLDP to default settings while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -251,8 +251,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure STP with global settings and instances"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -285,8 +285,8 @@
       tags: [stp, configure]
 
     - name: "EXAMPLE: Update STP mode and add new instance"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -302,8 +302,8 @@
       tags: [stp, update]
 
     - name: "EXAMPLE: Delete specific STP instances"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -316,8 +316,8 @@
       tags: [stp, delete]
 
     - name: "EXAMPLE: Reset STP to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -328,8 +328,8 @@
       tags: [stp, reset]
 
     - name: "EXAMPLE: Delete specific STP instances while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -366,8 +366,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure VTP with comprehensive settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -384,8 +384,8 @@
       tags: [vtp, configure]
 
     - name: "EXAMPLE: Update VTP to client mode"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -398,8 +398,8 @@
       tags: [vtp, update]
 
     - name: "EXAMPLE: Reset VTP to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -410,8 +410,8 @@
       tags: [vtp, reset]
 
     - name: "EXAMPLE: Reset VTP to default settings while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -432,8 +432,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure DHCP Snooping with comprehensive settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -451,8 +451,8 @@
       tags: [dhcp_snooping, configure]
 
     - name: "EXAMPLE: Update DHCP Snooping VLAN list"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -464,8 +464,8 @@
       tags: [dhcp_snooping, update]
 
     - name: "EXAMPLE: Reset DHCP Snooping to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -476,8 +476,8 @@
       tags: [dhcp_snooping, reset]
 
     - name: "EXAMPLE: Reset DHCP Snooping to default settings while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -499,8 +499,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure IGMP Snooping with global and VLAN-specific settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -529,8 +529,8 @@
       tags: [igmp_snooping, configure]
 
     - name: "EXAMPLE: Update IGMP Snooping VLAN settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -550,8 +550,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure MLD Snooping with comprehensive IPv6 settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -586,8 +586,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Enable 802.1X Authentication with new style configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -600,8 +600,8 @@
       tags: [authentication, configure]
 
     - name: "EXAMPLE: Switch to legacy authentication mode"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -613,8 +613,8 @@
       tags: [authentication, update]
 
     - name: "EXAMPLE: Reset Authentication to default settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -625,8 +625,8 @@
       tags: [authentication, reset]
 
     - name: "EXAMPLE: Reset Authentication to default settings while providing full configuration"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
@@ -643,8 +643,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure multiple port channels with different protocols"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -679,8 +679,8 @@
       tags: [logical_ports, configure]
 
     - name: "EXAMPLE: Update port channel configuration and add new member"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -700,8 +700,8 @@
       tags: [logical_ports, update]
 
     - name: "EXAMPLE: Configure static port channel (no protocol)"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -726,8 +726,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Configure access port with comprehensive settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -779,8 +779,8 @@
       tags: [port_configuration, access]
 
     - name: "EXAMPLE: Configure trunk port with VLAN settings"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -810,8 +810,8 @@
       tags: [port_configuration, trunk]
 
     - name: "EXAMPLE: Update interface description and VLAN assignment"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -830,8 +830,8 @@
     # =============================================================================
 
     - name: "EXAMPLE: Comprehensive network configuration with all features"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ip_address: "204.1.2.3"
@@ -957,8 +957,8 @@
       tags: [comprehensive, all_features]
 
     - name: "EXAMPLE: Comprehensive cleanup - Reset all features to defaults"
-      cisco.dnac.wired_campus_automation_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wired_campus_automation_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ip_address: "204.1.2.3"
