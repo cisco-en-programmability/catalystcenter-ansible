@@ -1,24 +1,24 @@
 ---
 - name: Configure multicast in the SDA Fabric
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
     - name: Add the multicast configuration to the fabric site.
-      cisco.dnac.sda_fabric_multicast_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+      cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: true
         config:
@@ -56,18 +56,18 @@
                       - "FF05::/64"
 
     - name: Update the multicast configuration to the fabric site.
-      cisco.dnac.sda_fabric_multicast_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+      cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: true
         config:
@@ -106,18 +106,18 @@
                       - "FF05::/64"
 
     - name: Delete the asm configurations of the multicast configuration.
-      cisco.dnac.sda_fabric_multicast_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+      cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: true
         config:

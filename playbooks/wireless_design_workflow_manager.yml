@@ -1,29 +1,29 @@
 ---
 - name: Sample playbook for Wireless Design Module
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   gather_facts: false
 
   vars_files:
     - vars/credentials.yml
 
   vars:
-    dnac_login: &dnac_login
-      dnac_host: "{{ dnac_host }}"
-      dnac_username: "{{ dnac_username }}"
-      dnac_password: "{{ dnac_password }}"
-      dnac_verify: "{{ dnac_verify }}"
-      dnac_port: "{{ dnac_port }}"
-      dnac_version: "{{ dnac_version }}"
-      dnac_debug: "{{ dnac_debug }}"
-      dnac_log: true
-      dnac_log_level: INFO
-      dnac_log_append: false
+    catalystcenter_login: &catalystcenter_login
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_port: "{{ catalystcenter_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
+      catalystcenter_log: true
+      catalystcenter_log_level: INFO
+      catalystcenter_log_append: false
       config_verify: true
 
   tasks:
     - name: Add SSIDs
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ssids:
@@ -190,8 +190,8 @@
                     client_rate_limit: 9000
 
     - name: Update SSIDs
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - ssids:
@@ -230,8 +230,8 @@
                     auth_key_management: ["PSK"]
 
     - name: Delete SSIDs
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - ssids:
@@ -251,8 +251,8 @@
                     remove_override_in_hierarchy: true
 
     - name: Add Interfaces
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - interfaces:
@@ -275,8 +275,8 @@
                 vlan_id: 6
 
     - name: Update Interfaces
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - interfaces:
@@ -293,8 +293,8 @@
                 vlan_id: 10
 
     - name: Delete Interfaces
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - interfaces:
@@ -306,8 +306,8 @@
               - interface_name: "corporate"
 
     - name: Add Power Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - power_profiles:
@@ -442,8 +442,8 @@
                     parameter_value: "DISABLE"
 
     - name: Update Power Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - power_profiles:
@@ -540,8 +540,8 @@
                   - interface_type: "USB"
 
     - name: Delete Power Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - power_profiles:
@@ -553,8 +553,8 @@
               - power_profile_name: "UsbState"
 
     - name: Add Access Point Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - access_point_profiles:
@@ -1020,8 +1020,8 @@
                 maximum_client_limit: 900
 
     - name: Update Access Point Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - access_point_profiles:
@@ -1070,7 +1070,7 @@
                   access_point_authentication: "EAP-PEAP"
                   dot1x_username: "admin"
                   # password changed
-                  dot1x_password: mblfhlfghjghn"
+                  dot1x_password: "mblfhlfghjghn"
                   ssh_enabled: false
                   telnet_enabled: true
                   management_username: "admin"
@@ -1123,8 +1123,8 @@
                 maximum_client_limit: 900
 
     - name: Delete Access Point Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - access_point_profiles:
@@ -1163,8 +1163,8 @@
               - access_point_profile_name: "Staging-AP"
 
     - name: Add Radio Frequency Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - radio_frequency_profiles:
@@ -1427,8 +1427,8 @@
                     srg_obss_pd_max_threshold: -62
 
     - name: Update Radio Frequency Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - radio_frequency_profiles:
@@ -1547,8 +1547,8 @@
                   mandatory_data_rates_list: [24]
 
     - name: Delete Radio Frequency Profiles
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - radio_frequency_profiles:
@@ -1571,8 +1571,8 @@
               - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
 
     - name: Add Anchor Groups
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - anchor_groups:
@@ -1634,8 +1634,8 @@
                     managed_device: false
 
     - name: Update Anchor Groups
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: merged
         config:
           - anchor_groups:
@@ -1693,8 +1693,8 @@
                     managed_device: false
 
     - name: Delete Anchor Groups
-      cisco.dnac.wireless_design_workflow_manager:
-        <<: *dnac_login
+      cisco.catalystcenter.wireless_design_workflow_manager:
+        <<: *catalystcenter_login
         state: deleted
         config:
           - anchor_groups:
