@@ -296,6 +296,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.module_schema = self.provision_workflow_manager_mapping()
         self.log("Initialized ProvisionPlaybookGenerator class instance.", "DEBUG")
         self.site_id_name_dict = self.get_site_id_name_mapping()
+        self._cached_provisioned_devices = None
+        self._cached_inventory_devices = None
+        self._cached_inventory_by_id = None
 
     def get_site_id_name_mapping(self):
         """
@@ -323,6 +326,30 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 site_id_name_mapping[site_id] = site.get("nameHierarchy")
 
         return site_id_name_mapping
+
+    def get_inventory_devices(self):
+        """
+        Retrieve inventory devices once and reuse them throughout the current run.
+
+        Returns:
+            list: Inventory device records from Catalyst Center.
+        """
+        if self._cached_inventory_devices is not None:
+            return self._cached_inventory_devices
+
+        all_devices_response = self.catalystcenter._exec(
+            family="devices",
+            function="get_device_list",
+            op_modifies=False,
+        )
+        self.log("Received API response: {0}".format(all_devices_response), "DEBUG")
+        self._cached_inventory_devices = all_devices_response.get("response", [])
+        self._cached_inventory_by_id = {
+            device.get("id"): device
+            for device in self._cached_inventory_devices
+            if device.get("id")
+        }
+        return self._cached_inventory_devices
 
     def write_dict_to_yaml(self, data_dict, file_path, dumper=OrderedDumper, file_mode="overwrite"):
         """
@@ -916,6 +943,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             list: List of all provisioned devices
         """
         self.log("Retrieving all provisioned devices from SDA API", "INFO")
+        if self._cached_provisioned_devices is not None:
+            self.log("Using cached provisioned devices list", "DEBUG")
+            return self._cached_provisioned_devices
+
         try:
             # Get all provisioned devices from SDA API
             response = self.catalystcenter._exec(
@@ -928,16 +959,26 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
 
             # WORKAROUND: Check for missing wireless controllers
-            all_devices_response = self.catalystcenter._exec(
-                family="devices",
-                function="get_device_list",
-                op_modifies=False,
-            )
-            self.log("Received API response: {0}".format(all_devices_response), "DEBUG")
-            all_devices = all_devices_response.get("response", [])
+            all_devices = self.get_inventory_devices()
+            inventory_by_id = self._cached_inventory_by_id or {}
 
             wireless_controllers_found = []
             sda_device_ids = {device.get("networkDeviceId") for device in sda_devices}
+
+            for sda_device in sda_devices:
+                inventory_device = inventory_by_id.get(sda_device.get("networkDeviceId"))
+                if inventory_device:
+                    sda_device.update(
+                        {
+                            "id": inventory_device.get("id"),
+                            "managementIpAddress": inventory_device.get("managementIpAddress"),
+                            "family": inventory_device.get("family"),
+                            "type": inventory_device.get("type"),
+                            "hostname": inventory_device.get("hostname"),
+                            "location": inventory_device.get("location"),
+                            "siteId": sda_device.get("siteId") or inventory_device.get("siteId"),
+                        }
+                    )
 
             for device in all_devices:
                 device_id = device.get("id")
@@ -946,45 +987,40 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if device_id in sda_device_ids:
                     continue
 
-                try:
-                    device_detail_response = self.catalystcenter._exec(
-                        family="devices",
-                        function="get_device_detail",
-                        op_modifies=False,
-                        params={"search_by": device_id, "identifier": "uuid"},
-                    )
-                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
-                    device_info = device_detail_response.get("response", {})
-                    device_family = device_info.get("nwDeviceFamily")
+                device_family = device.get("family") or device.get("nwDeviceFamily")
 
-                    if device_family == "Wireless Controller":
-                        try:
-                            provision_response = self.catalystcenter._exec(
-                                family="sda",
-                                function="get_provisioned_wired_device",
-                                op_modifies=False,
-                                params={"device_management_ip_address": management_ip}
-                            )
-                            self.log("Received API response: {0}".format(provision_response), "DEBUG")
-                            if provision_response.get("status") == "success":
-                                mock_device = {
-                                    "networkDeviceId": device_id,
-                                    "siteId": device.get("siteId"),
-                                    "deviceType": "WirelessController"
-                                }
-                                sda_devices.append(mock_device)
-                                wireless_controllers_found.append(management_ip)
-                        except Exception:
-                            self.log("Wireless controller with IP {0} not provisioned in SDA".format(management_ip), "WARNING")
-                            pass
-                except Exception:
-                    self.log("Could not retrieve details for device ID {0}".format(device_id), "WARNING")
-                    pass
+                if device_family == "Wireless Controller":
+                    try:
+                        provision_response = self.catalystcenter._exec(
+                            family="sda",
+                            function="get_provisioned_wired_device",
+                            op_modifies=False,
+                            params={"device_management_ip_address": management_ip}
+                        )
+                        self.log("Received API response: {0}".format(provision_response), "DEBUG")
+                        if provision_response.get("status") == "success":
+                            mock_device = {
+                                "networkDeviceId": device_id,
+                                "siteId": device.get("siteId"),
+                                "deviceType": "WirelessController",
+                                "id": device.get("id"),
+                                "managementIpAddress": management_ip,
+                                "family": device_family,
+                                "type": device.get("type"),
+                                "hostname": device.get("hostname"),
+                                "location": device.get("location"),
+                            }
+                            sda_devices.append(mock_device)
+                            wireless_controllers_found.append(management_ip)
+                    except Exception:
+                        self.log("Wireless controller with IP {0} not provisioned in SDA".format(management_ip), "WARNING")
+                        pass
 
             self.log("Found {0} additional provisioned wireless controllers".format(
                 len(wireless_controllers_found)), "INFO")
 
-            return sda_devices
+            self._cached_provisioned_devices = sda_devices
+            return self._cached_provisioned_devices
 
         except Exception as e:
             self.log("Error retrieving provisioned devices: {0}".format(str(e)), "ERROR")
@@ -1209,6 +1245,11 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             else:
                 self.log("WARNING: Site ID {0} not found in site mapping".format(site_id), "WARNING")
 
+        cached_location = device_details.get("location")
+        if cached_location and str(cached_location).strip():
+            self.log("Using cached location field for site hierarchy: {0}".format(cached_location), "DEBUG")
+            return cached_location
+
         # Fallback: If no siteId or mapping failed, get it from device detail API
         if not site_id or not site_name_hierarchy:
             self.log("Fallback: Getting site hierarchy from device detail API for device {0}".format(device_id), "DEBUG")
@@ -1285,6 +1326,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Device family type (e.g., 'Switches and Hubs', 'Wireless Controller').
         """
+        cached_family = device_details.get("nwDeviceFamily") or device_details.get("family")
+        if cached_family:
+            return cached_family
+
         device_id = device_details.get("networkDeviceId")
         self.log("Transforming device family info for device ID: {0}".format(device_id), "DEBUG")
 
@@ -1329,6 +1374,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Device management IP address.
         """
+        cached_ip = device_details.get("managementIpAddress") or device_details.get("managementIpAddr")
+        if cached_ip:
+            return cached_ip
+
         self.log("Transforming device management IP for device: {0}".format(device_details.get("networkDeviceId")), "DEBUG")
 
         device_id = device_details.get("networkDeviceId")
