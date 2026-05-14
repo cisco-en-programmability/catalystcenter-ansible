@@ -364,7 +364,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
                     )
                 else:
                     item = spec[param].get("default")
-                    valid_params_dict[param] = item
+                    if item is not None:
+                        valid_params_dict[param] = item
                 continue
             data_type = spec[param].get("type")
             switch = {
