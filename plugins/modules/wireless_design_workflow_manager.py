@@ -25288,7 +25288,7 @@ class WirelessDesign(CatalystCenterBase):
 
                 # Process spatial reuse settings
                 if ("spatial_reuse" in band_settings
-                    and band_settings["spatial_reuse"] is not None):
+                        and band_settings["spatial_reuse"] is not None):
                     self.log("Processing spatial reuse settings.", "DEBUG")
                     mapped["spatialReuseProperties"] = {}
                     for key, target_key in spatial_reuse_mapping.items():
@@ -25307,7 +25307,7 @@ class WirelessDesign(CatalystCenterBase):
 
                 # Process coverage hole detection settings
                 if ("coverage_hole_detection" in band_settings
-                    and band_settings["coverage_hole_detection"] is not None):
+                        and band_settings["coverage_hole_detection"] is not None):
                     self.log("Processing coverage hole detection settings.", "DEBUG")
                     mapped["coverageHoleDetectionProperties"] = {}
                     for key, target_key in coverage_hole_detection_mapping.items():
@@ -25328,12 +25328,12 @@ class WirelessDesign(CatalystCenterBase):
 
                 # Process multi-bssid settings
                 if ("multi_bssid" in band_settings
-                    and band_settings["multi_bssid"] is not None):
+                        and band_settings["multi_bssid"] is not None):
                     self.log("Processing multi-bssid settings.", "DEBUG")
                     mapped["multiBssidProperties"] = {}
 
                     if ("dot_11ax_parameters" in band_settings["multi_bssid"]
-                        and band_settings["multi_bssid"]["dot_11ax_parameters"] is not None):
+                            and band_settings["multi_bssid"]["dot_11ax_parameters"] is not None):
                         self.log("Processing dot 11ax parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11axParameters"] = {}
                         for key, target_key in dot_11ax_parameters_mapping.items():
@@ -25358,7 +25358,7 @@ class WirelessDesign(CatalystCenterBase):
                                 )
 
                     if ("dot_11be_parameters" in band_settings["multi_bssid"]
-                        and band_settings["multi_bssid"]["dot_11be_parameters"] is not None):
+                            and band_settings["multi_bssid"]["dot_11be_parameters"] is not None):
                         self.log("Processing dot 11be parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11beParameters"] = {}
                         for key, target_key in dot_11be_parameters_mapping.items():
