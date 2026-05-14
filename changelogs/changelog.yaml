@@ -348,3 +348,11 @@ releases:
         - Deleted site_intent module
         - Deleted swim_intent module
         - Deleted template_intent module
+  2.8.1:
+    release_date: "2026-05-14"
+    changes:
+      release_summary: Changes in workflow, config generator modules
+      minor_changes:
+        - Adding sample playbooks for workflow manager modules
+        - Changes in events_and_notifications_workflow_manager module
+        - Changes in provision_playbook_config_generator module
