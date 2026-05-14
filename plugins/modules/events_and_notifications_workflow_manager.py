@@ -2407,7 +2407,7 @@ class Events(CatalystCenterBase):
         }
 
         if webhook_details.get("headers") == []:
-            playbook_params["headers"] = []
+            playbook_params["webhook_headers"] = []
             self.log(
                 "Webhook headers explicitly set to empty list in playbook - "
                 "existing headers will be removed during update.",
@@ -2415,12 +2415,12 @@ class Events(CatalystCenterBase):
             )
         elif webhook_details.get("headers"):
             custom_header = webhook_details["headers"]
-            playbook_params["headers"] = []
+            playbook_params["webhook_headers"] = []
             for header in custom_header:
-                playbook_params["headers"].append(header)
+                playbook_params["webhook_headers"].append(header)
             self.log(
                 "Webhook headers collected from playbook: {0}".format(
-                    playbook_params["headers"]
+                    playbook_params["webhook_headers"]
                 ),
                 "DEBUG",
             )
@@ -2428,7 +2428,7 @@ class Events(CatalystCenterBase):
             # Headers not specified in playbook — set to empty list so that
             # any existing headers on the destination are detected as a change
             # and removed during update.
-            playbook_params["headers"] = []
+            playbook_params["webhook_headers"] = []
             self.log(
                 "No webhook headers specified in playbook - defaulting to empty list. "
                 "Any existing headers on the destination will be removed during update.",
@@ -2566,16 +2566,20 @@ class Events(CatalystCenterBase):
             If all parameters match or are None, it returns False, indicating that no updates are needed.
         """
 
-        update_needed = False
+        # Map playbook param keys to the corresponding keys returned by CCC.
+        # The SDK accepts "webhook_headers" but the CCC response exposes them as "headers".
+        ccc_key_map = {"webhook_headers": "headers"}
 
+        update_needed = False
         for key, value in webhook_params.items():
+            ccc_key = ccc_key_map.get(key, key)
             if isinstance(value, list):
                 update_needed = self.webhook_header_needs_update(
-                    value, webhook_dest_detail_in_ccc.get(key)
+                    value, webhook_dest_detail_in_ccc.get(ccc_key)
                 )
                 if update_needed:
                     break
-            elif webhook_dest_detail_in_ccc[key] == value or value is None:
+            elif webhook_dest_detail_in_ccc[ccc_key] == value or value is None:
                 continue
             else:
                 update_needed = True
@@ -2617,7 +2621,7 @@ class Events(CatalystCenterBase):
             ) or webhook_dest_detail_in_ccc.get("method")
             update_webhook_params["trustCert"] = webhook_params.get("trustCert")
             update_webhook_params["isProxyRoute"] = webhook_params.get("isProxyRoute")
-            update_webhook_params["headers"] = webhook_params.get("headers")
+            update_webhook_params["webhook_headers"] = webhook_params.get("webhook_headers")
             update_webhook_params["webhookId"] = webhook_dest_detail_in_ccc.get(
                 "webhookId"
             )
@@ -2634,11 +2638,11 @@ class Events(CatalystCenterBase):
                 )
 
             if (
-                update_webhook_params["headers"] != []
-                and not update_webhook_params["headers"]
+                update_webhook_params["webhook_headers"] != []
+                and not update_webhook_params["webhook_headers"]
                 and webhook_dest_detail_in_ccc.get("headers")
             ):
-                update_webhook_params["headers"] = webhook_dest_detail_in_ccc.get(
+                update_webhook_params["webhook_headers"] = webhook_dest_detail_in_ccc.get(
                     "headers"
                 )
 
