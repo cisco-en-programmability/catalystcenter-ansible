@@ -12641,7 +12641,8 @@ class WirelessDesign(CatalystCenterBase):
             design_name = attr.get("design_name")
             new_design_name = attr.get("new_design_name")
             called_station_id = attr.get("called_station_id")
-            called_station_id = called_station_id.upper()
+            if called_station_id is not None:
+                called_station_id = called_station_id.upper()
             unlocked_attributes = attr.get("unlocked_attributes", []) or []
             aaa_name_map = {"called_station_id": "calledStationId"}
             desired_unlocked = [aaa_name_map[a] for a in unlocked_attributes]
