@@ -1319,9 +1319,10 @@ options:
             description:
               - Specifies the VLAN ID in range is 1
                 to 4094.
-              - Required for create and update operations.
+              - Required for create and update operations (enforced at runtime,
+                not via schema 'required').
             type: int
-            required: true
+            required: false
       power_profiles:
         description:
           - This API allows the user to create a custom
@@ -3073,10 +3074,15 @@ options:
                 type: bool
       feature_template_config:
         description:
-          - Configuration for wireless feature templates in Cisco Catalyst Center.
+          - List of feature template configurations to create, update, or delete.
           - Enables advanced wireless features and policies for specific design requirements.
           - Each feature template can be applied to different designs and radio bands.
-          - Supports both creation and deletion of feature template configurations.
+          - For RRM-related templates, 'feature_attributes' and its 'radio_band'
+            sub-field are required when creating or updating, and optional when
+            deleting.
+          - During delete, providing only 'design_name' removes the entire
+            template; providing 'feature_attributes' resets only the specified
+            attributes while retaining the template.
         type: list
         elements: dict
         required: false
@@ -3795,7 +3801,8 @@ options:
                 description:
                   - Event-Driven RRM feature settings and threshold parameters.
                   - Controls automatic RF optimization behavior and sensitivity.
-                  - Required for create and update operations.
+                  - Required for create and update operations (enforced at runtime,
+                    not via schema 'required').
                   - Optional for delete operations.
                     When omitted during deletion, the entire template is removed.
                     When provided during deletion, only the specified optional attributes
@@ -3809,7 +3816,7 @@ options:
                       - RRM algorithms will monitor and optimize this band.
                       - Supported values are 2_4GHZ and 5GHZ only.
                       - Note - 6 GHz band is not supported for Event-Driven RRM.
-                      - Required for create and update operations.
+                      - Required for create and update operations; enforced at runtime.
                       - This is a mandatory field and is never reset to null during
                         delete operations.
                     type: str
@@ -3970,7 +3977,8 @@ options:
                 description:
                   - RRM-FRA feature settings and operational parameters.
                   - Controls flexible radio assignment behavior and sensitivity.
-                  - Required for create and update operations.
+                  - Required for create and update operations (enforced at runtime,
+                    not via schema 'required').
                   - Optional for delete operations.
                     When omitted during deletion, the entire template is removed.
                     When provided during deletion, only the specified optional attributes
@@ -3983,7 +3991,7 @@ options:
                       - Radio band combination for FRA operation.
                       - 2_4GHZ_5GHZ enables FRA between 2.4GHz and 5GHz bands.
                       - 5GHZ_6GHZ enables FRA between 5GHz and 6GHz bands.
-                      - Required for create and update operations.
+                      - Required for create and update operations; enforced at runtime.
                       - This is a mandatory field and is never reset to null during
                         delete operations.
                     type: str
@@ -4048,7 +4056,8 @@ options:
                 description:
                   - General RRM feature settings and optimization parameters.
                   - Controls channel monitoring, neighbor discovery, and performance thresholds.
-                  - Required for create and update operations.
+                  - Required for create and update operations (enforced at runtime,
+                    not via schema 'required').
                   - Optional for delete operations.
                     When omitted during deletion, the entire template is removed.
                     When provided during deletion, only the specified optional attributes
@@ -4060,7 +4069,7 @@ options:
                     description:
                       - Radio frequency band for RRM general configuration.
                       - RRM algorithms will monitor and optimize the specified band.
-                      - Required for create and update operations.
+                      - Required for create and update operations; enforced at runtime.
                       - This is a mandatory field and is never reset to null during
                         delete operations.
                     type: str
@@ -7435,6 +7444,42 @@ EXAMPLES = r"""
               - design_name: "aaa_radius_design"
                 unlocked_attributes:
                   - "called_station_id"
+
+- name: Delete RRM General configuration (template-only delete)
+  cisco.catalystcenter.wireless_design_workflow_manager:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - rrm_general_configuration:
+              - design_name: "rrm_general_2_4ghz_template"
+              # feature_attributes omitted -> entire template is removed
+
+- name: Delete Event-Driven RRM configuration (template-only delete)
+  cisco.catalystcenter.wireless_design_workflow_manager:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    state: deleted
+    config:
+      - feature_template_config:
+          - event_driven_rrm_configuration:
+              - design_name: "edrrm_5ghz_template"
+              # feature_attributes omitted -> entire template is removed
 """
 
 RETURN = r"""
@@ -8352,8 +8397,8 @@ class WirelessDesign(CatalystCenterBase):
                     if not allowed_unlock_attributes:
                         allowed_unlock_attributes = {
                             option_name for option_name in template_spec.keys()
-                            if option_name not in (
-                                "type", "elements", "required",
+                            if option_name not in self._SPEC_META_KEYS
+                            and option_name not in (
                                 "design_name",
                                 "new_design_name",
                                 "feature_attributes",
@@ -10332,7 +10377,7 @@ class WirelessDesign(CatalystCenterBase):
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            radio_band = fa.get("radio_band").upper() if fa.get("radio_band") else None
+            radio_band = fa["radio_band"].upper()
             rrm_enable = fa.get("event_driven_rrm_enable")
             rrm_level = fa.get("event_driven_rrm_threshold_level").upper() if fa.get("event_driven_rrm_threshold_level") else None
             rrm_custom = fa.get("event_driven_rrm_custom_threshold_val")
