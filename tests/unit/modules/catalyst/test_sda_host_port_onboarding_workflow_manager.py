@@ -182,6 +182,22 @@ class SDAHostPortOnboarding(TestCatalystModule):
                 self.test_data.get("response_get_wireless_ssids_4"),
             ]
 
+        # Idempotent SSIDs merge
+        if "test_merged_ssids_idempotent" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_sites"),
+                self.test_data.get("response_get_fabric_sites"),
+                self.test_data.get("response_get_wireless_ssids_2"),
+            ]
+
+        # Idempotent SSIDs delete
+        if "test_delete_ssids_idempotent" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_sites"),
+                self.test_data.get("response_get_fabric_sites"),
+                self.test_data.get("response_get_wireless_ssids_4"),
+            ]
+
         # Add SSIDs
         if "test_add_all_hosts" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -479,6 +495,54 @@ class SDAHostPortOnboarding(TestCatalystModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task Succeeded for following VLAN(s) and SSID(s)",
+            result.get('msg')
+        )
+
+    # Idempotent SSIDs merge
+    def test_merged_ssids_idempotent(self):
+        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_add_ssids")))
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="2.3.7.9",
+                config_verify=True,
+                catalystcenter_log_append=False,
+                state="merged",
+                config=self.test_data.get("playbook_config_add_ssids")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "no_update_vlans_and_ssids_mapped_to_vlans",
+            result.get('msg')
+        )
+
+    # Idempotent SSIDs delete
+    def test_delete_ssids_idempotent(self):
+        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_ssids")))
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="2.3.7.9",
+                config_verify=True,
+                catalystcenter_log_append=False,
+                state="deleted",
+                config=self.test_data.get("playbook_config_delete_ssids")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "Already deleted vlans and ssids mapped to vlans: ",
             result.get('msg')
         )
 

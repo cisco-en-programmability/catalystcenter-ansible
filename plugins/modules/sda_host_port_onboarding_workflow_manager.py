@@ -6676,7 +6676,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             input_wireless_ssids_details (list): List of wireless SSIDs details provided in the configuration.
             deleted_vlans_and_ssids_mapped_to_vlans (dict): Dictionary of VLANs and SSIDs that have already been deleted.
         Returns:
-            list: A list of VLAN names that are already deleted.
+            list: A list of VLAN or VLAN/SSID entries that are already deleted.
         """
 
         self.log(
@@ -6692,29 +6692,40 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "DEBUG"
         )
         absent_vlans_list = []
-        deleted_vlan_list = []
-
-        # Collect already deleted VLANs from deleted_vlans_and_ssids_mapped_to_vlans
-        if deleted_vlans_and_ssids_mapped_to_vlans:
-            for vlan in deleted_vlans_and_ssids_mapped_to_vlans.keys():
-                self.log("Found already deleted VLAN: {0}".format(vlan), "DEBUG")
-                deleted_vlan_list.append(vlan)
-
-        self.log(
-            "Collected {0} deleted VLANs: {1}".format(
-                len(deleted_vlan_list), deleted_vlan_list
-            ),
-            "DEBUG"
-        )
+        scheduled_delete_map = deleted_vlans_and_ssids_mapped_to_vlans or {}
 
         for ssid_detail in input_wireless_ssids_details:
             vlan_name = ssid_detail.get("vlan_name")
-            if vlan_name not in deleted_vlan_list:
-                self.log(
-                    "VLAN '{0}' is already deleted - adding to absent list".format(vlan_name),
-                    "DEBUG",
-                )
-                absent_vlans_list.append(vlan_name)
+            ssid_details = ssid_detail.get("ssid_details", [])
+            scheduled_vlan_delete = scheduled_delete_map.get(vlan_name)
+
+            if not ssid_details:
+                if not scheduled_vlan_delete:
+                    self.log(
+                        "VLAN '{0}' is already deleted - adding to absent list".format(vlan_name),
+                        "DEBUG",
+                    )
+                    absent_vlans_list.append(vlan_name)
+                continue
+
+            scheduled_ssid_names = []
+            if scheduled_vlan_delete:
+                scheduled_ssid_names = [
+                    ssid.get("name")
+                    for ssid in scheduled_vlan_delete.get("ssidDetails", [])
+                ]
+
+            for ssid in ssid_details:
+                ssid_name = ssid.get("ssid_name")
+                if ssid_name not in scheduled_ssid_names:
+                    absent_vlan_ssid = "{0}: {1}".format(vlan_name, ssid_name)
+                    self.log(
+                        "SSID '{0}' for VLAN '{1}' is already deleted - adding to absent list".format(
+                            ssid_name, vlan_name
+                        ),
+                        "DEBUG",
+                    )
+                    absent_vlans_list.append(absent_vlan_ssid)
 
         self.log(
             "Comparison completed - found {0} already deleted VLANs: {1}".format(
@@ -6823,21 +6834,21 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 ) = self.compare_vlans_and_ssids_mapped_to_vlans(
                     fabric_site_name_hierarchy, fabric_id, wireless_ssids_details
                 )
+                have["create_vlans_and_ssids_mapped_to_vlans"] = (
+                    create_vlans_and_ssids_mapped_to_vlans
+                )
+                have["update_vlans_and_ssids_mapped_to_vlans"] = (
+                    update_vlans_and_ssids_mapped_to_vlans
+                )
+                have["no_update_vlans_and_ssids_mapped_to_vlans"] = (
+                    no_update_vlans_and_ssids_mapped_to_vlans
+                )
                 if (
                     create_vlans_and_ssids_mapped_to_vlans
                     or update_vlans_and_ssids_mapped_to_vlans
                 ):
                     have["create_update_vlans_and_ssids_mapped_to_vlans"] = (
                         updated_vlans_and_ssids
-                    )
-                    have["create_vlans_and_ssids_mapped_to_vlans"] = (
-                        create_vlans_and_ssids_mapped_to_vlans
-                    )
-                    have["update_vlans_and_ssids_mapped_to_vlans"] = (
-                        update_vlans_and_ssids_mapped_to_vlans
-                    )
-                    have["no_update_vlans_and_ssids_mapped_to_vlans"] = (
-                        no_update_vlans_and_ssids_mapped_to_vlans
                     )
 
         elif state == "deleted":
@@ -7057,7 +7068,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             delete_vlans_and_ssids_mapped_to_vlans = self.have.get(
                 "delete_vlans_and_ssids_mapped_to_vlans"
             )
-            if updated_delete_vlans_ssids_mapped_to_vlans:
+            if delete_vlans_and_ssids_mapped_to_vlans:
                 want["delete_vlans_and_ssids_mapped_to_vlans_params"] = (
                     self.get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(
                         updated_delete_vlans_ssids_mapped_to_vlans
@@ -7071,23 +7082,6 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         want.get("delete_vlans_and_ssids_mapped_to_vlans_params")
                     ),
                     "DEBUG",
-                )
-            # DELETE ALL condition
-            elif (
-                config.get("wireless_ssids")
-                and not updated_delete_vlans_ssids_mapped_to_vlans
-            ) or (
-                self.have.get("delete_all_vlans_ssids_mapped_to_vlans")
-                and delete_vlans_and_ssids_mapped_to_vlans
-            ):
-                want["delete_vlans_and_ssids_mapped_to_vlans_params"] = (
-                    self.get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(
-                        updated_delete_vlans_ssids_mapped_to_vlans
-                    )
-                )
-                self.log(
-                    "State is deleted and ALL VLANs and wireless SSIDs mapped to VLANs need to be deleted in the Cisco Catalyst Center, "
-                    "therefore setting 'delete_vlans_and_ssids_mapped_to_vlans_params' - []."
                 )
 
         self.want = want
@@ -7367,7 +7361,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "DEBUG"
             )
             already_deleted_vlans_and_ssids = self.compare_vlans_and_ssids_mapped_to_vlans_already_deleted(
-                self.config[0].get('wireless_ssids'), delete_vlans_and_ssids_mapped_to_vlans_params
+                self.config[0].get('wireless_ssids'),
+                self.have.get("delete_vlans_and_ssids_mapped_to_vlans")
             )
             if already_deleted_vlans_and_ssids:
                 self.log(
