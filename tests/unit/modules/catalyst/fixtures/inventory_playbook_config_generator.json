@@ -21,6 +21,15 @@
             ]
         }
     },
+    "playbook_config_devices_by_serial_duplicate_ip": {
+        "global_filters": {
+            "devices": [
+                "FJC27102F2K",
+                "FJC27172AKE"
+            ],
+            "device_identifier": "serial_number"
+        }
+    },
     "playbook_config_devices_by_mac": {
         "global_filters": {
             "devices": [
@@ -102,6 +111,19 @@
     },
     "get_empty_device_list_response": {
         "response": [],
+        "version": "1.0"
+    },
+    "get_device_list_response_stack_switch": {
+        "response": [
+            {
+                "managementIpAddress": "10.4.213.5",
+                "hostname": "SJ-BN-1-9500.cisco.local",
+                "serialNumber": "FJC27102F2K, FJC27172AKE",
+                "macAddress": "c0:2c:17:c4:9f:00",
+                "role": "DISTRIBUTION",
+                "family": "Switches and Hubs"
+            }
+        ],
         "version": "1.0"
     }
 }
