@@ -257,6 +257,8 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
 
     values_to_nullify = ["NOT CONFIGURED"]
+    # Device identifier fields used for filtering and expansion
+    DEVICE_IDENTIFIER_FIELDS = ["ip_address", "hostname", "serial_number", "mac_address"]
 
     def __init__(self, module):
         """
@@ -360,7 +362,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 },
                 "device_identifier": {
                     "type": "str",
-                    "choices": ["ip_address", "hostname", "serial_number", "mac_address"],
+                    "choices": self.DEVICE_IDENTIFIER_FIELDS,
                     "default": "ip_address",
                     "required": False
                 }
@@ -374,6 +376,63 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         )
 
         return schema
+
+    def _get_device_identifiers_from_record(self, record):
+        """
+        Extract and split all device identifiers from a record.
+
+        Stack switches (e.g. C9500 StackWise) store multiple identifiers as
+        comma-separated values. This method returns a flat set of all individual
+        identifiers from all fields for efficient comparison.
+
+        Args:
+            record (dict): Device record.
+
+        Returns:
+            set: Unique identifiers extracted from all fields (with commas split).
+        """
+        identifiers = set()
+        for field in self.DEVICE_IDENTIFIER_FIELDS:
+            field_value = record.get(field)
+            if field_value:
+                # Split comma-separated values and add each to set
+                for identifier in str(field_value).split(","):
+                    stripped = identifier.strip()
+                    if stripped:
+                        identifiers.add(stripped)
+
+        self.log(
+            "Extracted {0} identifier(s) from record: {1}".format(
+                len(identifiers), identifiers
+            ),
+            "DEBUG",
+        )
+        return identifiers
+
+    def _record_matches_device_filter(self, record, devices_filter):
+        """
+        Check if a record matches the device filter.
+
+        Handles stack switches with comma-separated identifiers by checking
+        if any individual identifier matches the filter.
+
+        Args:
+            record (dict): Device record to check.
+            devices_filter (set): Set of device identifier values to match.
+
+        Returns:
+            bool: True if any identifier in the record matches the filter.
+        """
+        record_identifiers = self._get_device_identifiers_from_record(record)
+        matched = record_identifiers & devices_filter  # Set intersection
+
+        if matched:
+            self.log(
+                "Record matched device filter on identifier(s): {0}".format(matched),
+                "DEBUG",
+            )
+
+        return bool(matched)
 
     def device_identifiers_temp_spec(self):
         """
@@ -479,16 +538,11 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         if devices_values:
             before_count = len(filtered_data)
-            device_identifier_fields = [
-                "ip_address",
-                "hostname",
-                "serial_number",
-                "mac_address",
-            ]
+            # Use helper method for cleaner, reusable device matching logic
             filtered_data = [
                 record
                 for record in filtered_data
-                if any(record.get(field) in devices_values for field in device_identifier_fields)
+                if self._record_matches_device_filter(record, devices_values)
             ]
             self.log(
                 "Applied 'devices' global filter. Records before: {0}, after: {1}.".format(
@@ -521,6 +575,84 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         return filtered_data
 
+    def expand_stack_records(self, inventory_config_data):
+        """
+        Expand records with comma-separated device identifiers into individual records.
+
+        Stack switches (e.g. C9500 StackWise) are represented as a single device record
+        in Catalyst Center with comma-separated identifiers. This method expands such
+        records into separate entries, one per stack member identifier, to avoid
+        ambiguity when using different identifier types for output key generation.
+
+        Args:
+            inventory_config_data (list): List of device dictionaries.
+
+        Returns:
+            list: Expanded list where stack records are split by identifier values.
+        """
+
+        self.log(
+            "Starting stack record expansion for {0} record(s).".format(
+                len(inventory_config_data) if isinstance(inventory_config_data, list) else 0
+            ),
+            "DEBUG",
+        )
+
+        if not isinstance(inventory_config_data, list):
+            self.log(
+                "Expected list for expansion, got '{0}'. Skipping expansion.".format(
+                    type(inventory_config_data).__name__
+                ),
+                "WARNING",
+            )
+            return inventory_config_data
+
+        expanded_records = []
+
+        for record in inventory_config_data:
+            if not isinstance(record, dict):
+                expanded_records.append(record)
+                continue
+
+            # Find the first identifier field with comma-separated values
+            stack_field = None
+            for field in self.DEVICE_IDENTIFIER_FIELDS:
+                field_value = record.get(field)
+                if field_value and "," in str(field_value):
+                    stack_field = field
+                    break
+
+            if stack_field is None:
+                # No comma-separated identifiers, keep record as is
+                expanded_records.append(record)
+                continue
+
+            # Split the stack field and create individual records
+            comma_separated_value = record.get(stack_field)
+            member_identifiers = [member.strip() for member in str(comma_separated_value).split(",") if member.strip()]
+
+            for identifier in member_identifiers:
+                expanded_record = record.copy()
+                expanded_record[stack_field] = identifier
+                expanded_records.append(expanded_record)
+
+            self.log(
+                "Expanded stack record - field '{0}' split into {1} member(s): {2}".format(
+                    stack_field, len(member_identifiers), member_identifiers
+                ),
+                "DEBUG",
+            )
+
+        if len(expanded_records) != len(inventory_config_data):
+            self.log(
+                "Stack record expansion: {0} input record(s) -> {1} output record(s)".format(
+                    len(inventory_config_data), len(expanded_records)
+                ),
+                "INFO",
+            )
+
+        return expanded_records
+
     def transform_config_using_device_identifier(self, inventory_config_data, device_identifier):
         """
         Transform inventory records to use selected device identifier list key.
@@ -544,18 +676,12 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             return inventory_config_data
 
-        supported_device_identifiers = [
-            "ip_address",
-            "hostname",
-            "serial_number",
-            "mac_address",
-        ]
         # We don't need family in the output config, so we can remove it from the output if present.
-        removable_output_keys = set(supported_device_identifiers + ["family"])
-        if device_identifier not in supported_device_identifiers:
+        removable_output_keys = set(self.DEVICE_IDENTIFIER_FIELDS + ["family"])
+        if device_identifier not in self.DEVICE_IDENTIFIER_FIELDS:
             self.log(
                 "Unsupported device_identifier '{0}'. Supported values are: {1}. Returning unmodified config.".format(
-                    device_identifier, supported_device_identifiers
+                    device_identifier, self.DEVICE_IDENTIFIER_FIELDS
                 ),
                 "WARNING",
             )
@@ -719,6 +845,10 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DEBUG",
             )
             config_device_identifier = global_filters.get("device_identifier", "ip_address")
+
+        # Expand stack records (with comma-separated identifiers) into individual records
+        # to avoid ambiguity when using different identifier types for output key generation.
+        final_inventory_data = self.expand_stack_records(final_inventory_data)
 
         self.log(
             "Device identifier selected for YAML configuration: '{0}'".format(config_device_identifier),
