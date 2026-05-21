@@ -1390,6 +1390,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 # The device must pass ALL specified filters to be included.
                 # Evaluation order: device_ips → serial_numbers → hostnames.
                 # Within each filter type, matching is OR (any value match).
+                # Note: 'serial_numbers' additionally handles stack switches.
+                # Catalyst Center returns 'serialNumber' as a comma-separated
+                # string for stacks; the device matches if ANY member serial
+                # is in the filter set.
                 # Omitted/empty filter type → no restriction on that attribute.
                 # ----------------------------------------------------------
 
@@ -1407,13 +1411,16 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
                 if fabric_site_name_serial_number_mapping:
                     expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
-                    if expected_serials and serial_number not in expected_serials:
+                    matched, device_serials = self._device_matches_serial_filter(
+                        serial_number, expected_serials
+                    )
+                    if expected_serials and not matched:
                         self.log(
-                            f"Warning: Resolved serial number '{serial_number}' for "
-                            f"device ID '{network_device_id}' does not match expected "
-                            f"serial numbers {expected_serials} from filters for "
-                            f"fabric site '{fabric_site_name}'.",
-                            "DEBUG"
+                            f"Resolved serial number(s) {device_serials or repr(serial_number)} "
+                            f"for device ID '{network_device_id}' do not match expected "
+                            f"serial numbers {expected_serials} from filters for fabric site "
+                            f"'{fabric_site_name}'.",
+                            "DEBUG",
                         )
                         continue
 
@@ -1753,6 +1760,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 # The device must pass ALL specified filters to be included.
                 # Evaluation order: device_ips → serial_numbers → hostnames.
                 # Within each filter type, matching is OR (any value match).
+                # Note: 'serial_numbers' additionally handles stack switches.
+                # Catalyst Center returns 'serialNumber' as a comma-separated
+                # string for stacks; the device matches if ANY member serial
+                # is in the filter set.
                 # Omitted/empty filter type → no restriction on that attribute.
                 # ----------------------------------------------------------
 
@@ -1770,13 +1781,16 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
                 if fabric_site_name_serial_number_mapping:
                     expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
-                    if expected_serials and serial_number not in expected_serials:
+                    matched, device_serials = self._device_matches_serial_filter(
+                        serial_number, expected_serials
+                    )
+                    if expected_serials and not matched:
                         self.log(
-                            f"Warning: Resolved serial number '{serial_number}' for "
-                            f"device ID '{network_device_id}' does not match expected "
-                            f"serial numbers {expected_serials} from filters for "
-                            f"fabric site '{fabric_site_name}'.",
-                            "DEBUG"
+                            f"Resolved serial number(s) {device_serials or repr(serial_number)} "
+                            f"for device ID '{network_device_id}' do not match expected "
+                            f"serial numbers {expected_serials} from filters for fabric site "
+                            f"'{fabric_site_name}'.",
+                            "DEBUG",
                         )
                         continue
 
@@ -1818,6 +1832,34 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             "INFO"
         )
         return all_fabric_port_channels_details
+
+    def _device_matches_serial_filter(self, serial_number, expected_serials):
+        """
+        Check whether a device's serial number passes the expected-serials filter.
+
+        Catalyst Center returns 'serialNumber' as a comma-separated string for
+        stacked devices (e.g. 'FCW2415C14A, FCW2415C147'). The device is treated
+        as matching if ANY of its stack-member serials is in the expected set.
+
+        Args:
+            serial_number (str | None): Raw 'serialNumber' value from the device
+                response. May be None, empty, or comma-separated.
+            expected_serials (set[str]): Expected serial numbers for this device's
+                fabric site. An empty set means no restriction.
+
+        Returns:
+            tuple[bool, set[str]]: (matched, parsed_device_serials). When
+                expected_serials is empty, matched is True and parsed_device_serials
+                is the parsed set (useful for logging).
+        """
+        device_serials = {
+            s.strip() for s in (serial_number or "").split(",") if s.strip()
+        }
+
+        if not expected_serials:
+            return True, device_serials
+
+        return bool(device_serials & expected_serials), device_serials
 
     def get_wireless_ssids_configuration(self, network_element, filters):
         """
