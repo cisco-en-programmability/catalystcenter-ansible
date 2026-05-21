@@ -1404,7 +1404,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
                 if fabric_site_name_serial_number_mapping:
                     expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
-                    if expected_serials and serial_number not in expected_serials:
+                    # A device may report multiple serial numbers as a comma-separated
+                    # string (e.g. stack members: 'FCW2415C14A, FCW2415C147'). Split
+                    # and treat the device as matching if ANY of its serials is in
+                    # the expected set.
+                    device_serials = {
+                        s.strip() for s in (serial_number or "").split(",") if s.strip()
+                    }
+                    if expected_serials and not (device_serials & expected_serials):
                         self.log(
                             f"Warning: Resolved serial number '{serial_number}' for "
                             f"device ID '{network_device_id}' does not match expected "
@@ -1767,7 +1774,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
                 if fabric_site_name_serial_number_mapping:
                     expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
-                    if expected_serials and serial_number not in expected_serials:
+                    # A device may report multiple serial numbers as a comma-separated
+                    # string (e.g. stack members: 'FCW2415C14A, FCW2415C147'). Split
+                    # and treat the device as matching if ANY of its serials is in
+                    # the expected set.
+                    device_serials = {
+                        s.strip() for s in (serial_number or "").split(",") if s.strip()
+                    }
+                    if expected_serials and not (device_serials & expected_serials):
                         self.log(
                             f"Warning: Resolved serial number '{serial_number}' for "
                             f"device ID '{network_device_id}' does not match expected "
