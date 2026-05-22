@@ -21,7 +21,7 @@
             ]
         }
     },
-    "playbook_config_devices_by_serial_duplicate_ip": {
+    "playbook_config_devices_by_serial_stack_switch": {
         "global_filters": {
             "devices": [
                 "FJC27102F2K",

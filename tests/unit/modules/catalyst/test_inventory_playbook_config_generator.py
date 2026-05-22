@@ -40,7 +40,7 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     playbook_config_devices_by_ip = test_data.get("playbook_config_devices_by_ip")
     playbook_config_devices_by_hostname = test_data.get("playbook_config_devices_by_hostname")
     playbook_config_devices_by_serial = test_data.get("playbook_config_devices_by_serial")
-    playbook_config_devices_by_serial_stack_switch = test_data.get("playbook_config_devices_by_serial_duplicate_ip")
+    playbook_config_devices_by_serial_stack_switch = test_data.get("playbook_config_devices_by_serial_stack_switch")
     playbook_config_devices_by_mac = test_data.get("playbook_config_devices_by_mac")
     playbook_config_filter_by_role = test_data.get("playbook_config_filter_by_role")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
