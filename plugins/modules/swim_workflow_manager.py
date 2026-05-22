@@ -383,7 +383,7 @@ options:
               specific roles or functions. UNKNOWN -
               This role is assigned to devices whose
               roles or functions have not been identified
-              or classified within Cisco Catalsyt Center.
+              or classified within Cisco Catalyst Center.
               This could happen if the platform is unable
               to determine the device's role based on
               available information. ACCESS - This role
@@ -1399,7 +1399,7 @@ class Swim(CatalystCenterBase):
             AnsibleFailJson: If the image ID cannot be found in the response.
 
         Description:
-            This function sends a request to Cisco Catalsyt Center to retrieve a list of software images
+            This function sends a request to Cisco Catalyst Center to retrieve a list of software images
             using the 'returns_list_of_software_images' API. It then iterates through the response
             to find a match for the provided 'cco_image_name'. If a match is found, the corresponding
             image ID is returned. If no matching image is found, or if the image ID is not present

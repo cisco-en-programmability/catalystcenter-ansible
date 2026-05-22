@@ -4665,7 +4665,7 @@ class FabricMulticast(CatalystCenterBase):
                         )
                 if is_asm_empty and is_ssm_empty:
                     self.log(
-                        "Both SSM and ASM configurations are empty after comparision. "
+                        "Both SSM and ASM configurations are empty after comparison. "
                         "Deleting the entire multicast configuration for the layer 3 "
                         f"virtual network: '{layer3_virtual_network}' under fabric: '{fabric_name}'.",
                         "DEBUG",

@@ -7350,7 +7350,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             result_details.update(result)
             final_status_list.append(self.status)
 
-        # Process deletion go vlans and ssids mapped to vlans
+        # Process deletion of vlans and ssids mapped to vlans
         delete_vlans_and_ssids_mapped_to_vlans_params = self.want.get(
             "delete_vlans_and_ssids_mapped_to_vlans_params"
         )

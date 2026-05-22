@@ -4228,25 +4228,25 @@ requirements:
   - python >= 3.12
 notes:
   - SDK Methods used are - sites.Sites.get_site - site_design.SiteDesigns.get_sites
-    - wirelesss.Wireless.create_ssid - wirelesss.Wireless.update_ssid
-    - wirelesss.Wireless.update_or_overridessid - wirelesss.Wireless.delete_ssid
-    - wirelesss.Wireless.get_interfaces - wirelesss.Wireless.create_interface
-    - wirelesss.Wireless.update_interface - wirelesss.Wireless.delete_interface
-    - wirelesss.Wireless.get_power_profiles - wirelesss.Wireless.create_power_profile
-    - wirelesss.Wireless.update_power_profile_by_id
-    - wirelesss.Wireless.delete_power_profile_by_id
-    - wirelesss.Wireless.get_ap_profiles - wirelesss.Wireless.create_ap_profile
-    - wirelesss.Wireless.update_ap_profile_by_id - wirelesss.Wireless.delete_ap_profile_by_id
-    - wirelesss.Wireless.get_rf_profiles - wirelesss.Wireless.create_rf_profile
-    - wirelesss.Wireless.update_rf_profile - wirelesss.Wireless.delete_rf_profile
-    - wirelesss.Wireless.get_anchor_groups - wirelesss.Wireless.create_anchor_group
-    - wirelesss.Wireless.update_anchor_group - wirelesss.Wireless.delete_anchor_group_by_id
+    - wireless.Wireless.create_ssid - wireless.Wireless.update_ssid
+    - wireless.Wireless.update_or_overridessid - wireless.Wireless.delete_ssid
+    - wireless.Wireless.get_interfaces - wireless.Wireless.create_interface
+    - wireless.Wireless.update_interface - wireless.Wireless.delete_interface
+    - wireless.Wireless.get_power_profiles - wireless.Wireless.create_power_profile
+    - wireless.Wireless.update_power_profile_by_id
+    - wireless.Wireless.delete_power_profile_by_id
+    - wireless.Wireless.get_ap_profiles - wireless.Wireless.create_ap_profile
+    - wireless.Wireless.update_ap_profile_by_id - wireless.Wireless.delete_ap_profile_by_id
+    - wireless.Wireless.get_rf_profiles - wireless.Wireless.create_rf_profile
+    - wireless.Wireless.update_rf_profile - wireless.Wireless.delete_rf_profile
+    - wireless.Wireless.get_anchor_groups - wireless.Wireless.create_anchor_group
+    - wireless.Wireless.update_anchor_group - wireless.Wireless.delete_anchor_group_by_id
   - Paths used are
     - GET /dna/intent/api/v1/sites -
-    GET /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
-    - POST /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids
-    - PUT /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids/${id}
-    - POST /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids/${id}/update
+    GET /dna/intent/api/v1/sites/${siteId}/wirelesssettings/ssids
+    - POST /dna/intent/api/v1/sites/${siteId}/wirelesssettings/ssids
+    - PUT /dna/intent/api/v1/sites/${siteId}/wirelesssettings/ssids/${id}
+    - POST /dna/intent/api/v1/sites/${siteId}/wirelesssettings/ssids/${id}/update
     - DELETE /dna/intent/api/v1/sites/${siteId}/wirelessSettings/ssids/${id}
     - GET /dna/intent/api/v1/wirelessSettings/interfaces
     - POST /dna/intent/api/v1/wirelessSettings/interfaces

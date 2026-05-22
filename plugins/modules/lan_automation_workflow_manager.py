@@ -4551,7 +4551,7 @@ class LanAutomation(CatalystCenterBase):
             )
             return True, want_port_channel_config
 
-        # prechecks before comparision
+        # prechecks before comparison
         want_links = want_port_channel_config.get("links")
         want_source_to_destination_port_mapping = {}
         want_destination_to_source_port_mapping = {}

@@ -1166,7 +1166,7 @@ class NetworkCompliance(CatalystCenterBase):
         )
         if response:
             self.log(
-                "Sucessfully retrieved Compliance details for device: '{0}'".format(
+                "Successfully retrieved Compliance details for device: '{0}'".format(
                     device_ip
                 ),
                 "INFO",
@@ -1929,7 +1929,7 @@ class NetworkCompliance(CatalystCenterBase):
                     response, mgmt_ip_to_instance_id_map
                 )
                 self.log(
-                    "Is Sync Requied: {0} -- Message: {1}".format(
+                    "Is Sync Required: {0} -- Message: {1}".format(
                         sync_required, self.msg
                     ),
                     "DEBUG",

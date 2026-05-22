@@ -4963,7 +4963,7 @@ class Template(NetworkProfileFunctions):
                 op_modifies=True,
                 params=version_params
             )
-            self.log("Received response from API 'version_template' for 'tempate': '{0}' is {1}".format(template_name, response), "DEBUG")
+            self.log("Received response from API 'version_template' for 'template': '{0}' is {1}".format(template_name, response), "DEBUG")
             if not response or not isinstance(response, dict):
                 self.msg = "Invalid response received from 'version_template' API for template '{0}'.".format(template_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -5028,7 +5028,7 @@ class Template(NetworkProfileFunctions):
                     "un_committed": True
                 },
             )
-            self.log("Received Response from 'gets_the_templates_available' for 'tempate': '{0}' is {1}".format(name, response), "DEBUG")
+            self.log("Received Response from 'gets_the_templates_available' for 'template': '{0}' is {1}".format(name, response), "DEBUG")
             if not response or not isinstance(response, dict):
                 self.log("The response for template '{0}' is invalid or empty. Assuming it is already committed.".format(name), "INFO")
                 is_template_uncommitted = False
