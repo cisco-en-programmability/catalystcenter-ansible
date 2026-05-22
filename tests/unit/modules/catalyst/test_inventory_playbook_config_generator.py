@@ -40,6 +40,7 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     playbook_config_devices_by_ip = test_data.get("playbook_config_devices_by_ip")
     playbook_config_devices_by_hostname = test_data.get("playbook_config_devices_by_hostname")
     playbook_config_devices_by_serial = test_data.get("playbook_config_devices_by_serial")
+    playbook_config_devices_by_serial_stack_switch = test_data.get("playbook_config_devices_by_serial_stack_switch")
     playbook_config_devices_by_mac = test_data.get("playbook_config_devices_by_mac")
     playbook_config_filter_by_role = test_data.get("playbook_config_filter_by_role")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
@@ -92,6 +93,11 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
         if "file_already_up_to_date" in self._testMethodName:
             self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
             self.run_write_yaml.return_value = False
+            return
+
+        if "stack_switch_comma_separated_serial_filter" in self._testMethodName:
+            self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response_stack_switch", {}).get("response", [])
+            self.run_write_yaml.return_value = True
             return
 
         self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
@@ -160,6 +166,39 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
         ))
         result = self.execute_module(changed=True, failed=False)
         self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_stack_switch_comma_separated_serial_filter(self, mock_exists, mock_file):
+        """Verify that filtering by individual stack-member serials matches a single device record
+        where Catalyst Center returns serialNumber as a comma-separated string (e.g. a C9500 stack)."""
+        mock_exists.return_value = True
+        set_module_args(dict(
+            catalystcenter_host="1.1.1.1",
+            catalystcenter_username="dummy",
+            catalystcenter_password="dummy",
+            catalystcenter_version="2.3.7.9",
+            catalystcenter_log=True,
+            state="gathered",
+            config=self.playbook_config_devices_by_serial_stack_switch,
+        ))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+
+        # Verify result status
+        self.assertEqual(result.get("msg", {}).get("status"), "success")
+
+        # Verify configuration count - should be 2 because stack was expanded
+        self.assertEqual(result.get("msg", {}).get("configurations_count"), 2)
+
+        # Verify the written YAML config has 2 separate entries (one per stack member)
+        expected_config = {
+            "config": [
+                {"serial_number_list": ["FJC27102F2K"], "role": "DISTRIBUTION"},
+                {"serial_number_list": ["FJC27172AKE"], "role": "DISTRIBUTION"},
+            ]
+        }
+        self.assertEqual(self.run_write_yaml.call_args[0][0], expected_config)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
