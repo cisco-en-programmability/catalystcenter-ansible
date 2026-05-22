@@ -604,7 +604,7 @@ notes:
     wireless_flooding_enable, resource_guard_enable,
     flooding_address_assignment, flooding_address
     as part of fabric_vlan and anycast_gateways creation/update
-    will start supporting from Catalsyt Center
+    will start supporting from Catalyst Center
     with version 3.1.3.0 onwards.
 """
 EXAMPLES = r"""
@@ -844,7 +844,7 @@ EXAMPLES = r"""
       - virtual_networks:
           - vn_name: "vlan_test1"
 
-- name: Create the Anycast gateway(s) for SDA in Catalsyt
+- name: Create the Anycast gateway(s) for SDA in Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -929,7 +929,7 @@ EXAMPLES = r"""
             flooding_address_assignment: SHARED
             resource_guard_enable: true
 
-- name: Update the Anycast gateway(s) for SDA in Catalsyt
+- name: Update the Anycast gateway(s) for SDA in Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
