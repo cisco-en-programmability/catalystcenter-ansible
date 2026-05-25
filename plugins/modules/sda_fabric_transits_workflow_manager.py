@@ -1926,7 +1926,7 @@ class FabricTransit(CatalystCenterBase):
 
     def reset_values(self):
         """
-        Reset all neccessary attributes to default values
+        Reset all necessary attributes to default values
 
         Parameters:
             self (object): The current object details.

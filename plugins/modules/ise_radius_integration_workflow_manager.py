@@ -1738,7 +1738,7 @@ class IseRadiusIntegration(CatalystCenterBase):
                 else:
                     validation_string_set = (
                         "successfully created aaa settings",
-                        "operation sucessful",
+                        "operation successful",
                     )
 
                 self.check_auth_server_response_status(
@@ -1943,7 +1943,7 @@ class IseRadiusIntegration(CatalystCenterBase):
             else:
                 validation_string_set = (
                     "successfully updated aaa settings",
-                    "operation sucessful",
+                    "operation successful",
                 )
 
             self.check_auth_server_response_status(

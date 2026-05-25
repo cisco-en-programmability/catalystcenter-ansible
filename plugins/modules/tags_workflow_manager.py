@@ -1325,7 +1325,7 @@ class Tags(CatalystCenterBase):
             )
             return self
 
-        # Changing to Upper case for comparision
+        # Changing to Upper case for comparison
         operation = operation.upper()
         if operation not in operation_choices:
             errors.append(
