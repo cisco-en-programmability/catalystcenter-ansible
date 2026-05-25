@@ -243,12 +243,10 @@ options:
             required: true
           additional_identifiers:
             description: |
-              - A list of additional context-specific identifiers that provide customization parameters for the feature template.
+              - A dictionary of additional context-specific identifiers that provide customization parameters for the feature template.
               - These identifiers enable site-specific and WLAN-specific customization of the template during deployment.
-              - Each identifier contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
-              - Multiple identifiers can be specified to support complex deployment requirements with different WLAN profiles and site contexts.
-            type: list
-            elements: dict
+              - Contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
+            type: dict
             required: false
             suboptions:
               wlan_profile_name:
@@ -256,7 +254,6 @@ options:
                   - The WLAN profile name to be associated with the feature template during wireless controller provisioning.
                   - This profile defines wireless network parameters including SSID, security settings, VLAN assignments, and QoS policies.
                   - The WLAN profile must exist in Cisco Catalyst Center and be properly configured before template application.
-                  - Multiple WLAN profiles can be referenced by specifying multiple additional identifier entries.
                 type: str
                 required: false
               site_name_hierarchy:
