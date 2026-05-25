@@ -356,3 +356,24 @@ releases:
         - Adding sample playbooks for workflow manager modules
         - Changes in events_and_notifications_workflow_manager module
         - Changes in provision_playbook_config_generator module
+  2.9.0:
+    release_date: "2026-05-25"
+    changes:
+      release_summary: Changes in workflow, config generator modules
+      minor_changes:
+        - Adding sample playbooks for workflow manager modules
+        - Changes in discovery_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in ise_radius_integration_workflow_manager module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in network_compliance_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_multicast_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_playbook_config_generator module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Changes in tags_workflow_manager module
+        - Changes in template_workflow_manager module
+        - Changes in wireless_design_playbook_config_generator module
+        - Changes in wireless_design_workflow_manager module

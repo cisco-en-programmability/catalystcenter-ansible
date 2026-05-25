@@ -620,6 +620,14 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("task_019a05c6-1eee-7459-9ac8-d09c60c33845"),
             ]
 
+        if "aaa_radius_attribute_none_called_station_id" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("Get_AAA_RADIUS_ATTRIBUTES_CONFIGURATION"),
+            ]
+
+        if "create_ssid_invalid_ssid_type" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = []
+
         if "playbook_advanced_ssid_create" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("ADVANCED_SSID_CONFIGURATION"),
@@ -1929,3 +1937,35 @@ class TestWirelessDesign(TestCatalystModule):
                 "80211be_delete": "Successfully deleted 1 802.11be profile(s). Details: {'sample_design': 'Successfully deleted 802.11be profile.'}"
             }
         )
+
+    def test_wireless_design_workflow_manager_aaa_radius_attribute_none_called_station_id(self):
+        """Test that called_station_id=None does not crash with AttributeError."""
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.test_data.get("playbook_aaa_radius_attribute_none_called_station_id")
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("called_station_id", result.get('msg', '').lower())
+
+    def test_wireless_design_workflow_manager_create_ssid_invalid_ssid_type(self):
+        """Test that ssid_type='GUEST' (wrong case) fails validation."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_create_ssid_invalid_ssid_type")
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid choice", result.get('msg', ''))

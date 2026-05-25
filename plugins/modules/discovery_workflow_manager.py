@@ -849,7 +849,7 @@ class Discovery(CatalystCenterBase):
             if self.config[0].get("delete_all") is True:
                 self.validated_config = [{"delete_all": True}]
                 self.msg = (
-                    "Sucessfully collected input for deletion of all the discoveries"
+                    "Successfully collected input for deletion of all the discoveries"
                 )
                 self.log(self.msg, "WARNING")
                 return self
@@ -885,7 +885,7 @@ class Discovery(CatalystCenterBase):
 
     def validate_ip4_address_list(self):
         """
-        Validates each ip adress paased in the IP_address_list passed by the user before preprocessing it
+        Validates each ip address passed in the IP_address_list passed by the user before preprocessing it
         """
 
         ip_address_list = self.validated_config[0].get("ip_address_list")
