@@ -42,7 +42,7 @@ cisco.catalystcenter.inventory_playbook_config_generator module -- Generate YAML
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.8.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.9.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1043,6 +1043,16 @@ Notes
      - changed=true (status: success): Generated configuration differs (or file does not exist), and file is written.
      - changed=false (status: ok): Generated configuration matches existing content, so write is skipped.
      - failed=true (status: failed): Validation/API/file-write failure occurred.
+   - Stack device handling:
+     Stack switches (e.g. Cisco Catalyst 9500 StackWise) are returned by
+     Catalyst Center as a single device record whose identifier fields
+     (serial\_number, mac\_address) contain comma-separated values, one per
+     stack member. When generating the YAML configuration, such records are
+     expanded into one entry per stack member so that each member appears
+     as a distinct '\<device\_identifier\>\_list' entry in the output.
+     Filtering by an individual member identifier (e.g. a single member
+     serial number) matches the parent stack record.
+
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -1131,6 +1141,23 @@ Examples
             devices:
               - "10.10.20.11"
               - "FDO1234A1BC"
+
+    - name: Generate YAML Configuration for a stack switch by member serial number
+      cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        state: gathered
+        file_path: "tmp/catc_stack_inventory.yml"
+        config:
+          global_filters:
+            # Either member serial matches the parent stack record;
+            # the stack is expanded into one entry per member in the output.
+            devices:
+              - "FJC27102F2K"
+            device_identifier: "serial_number"
 
 
 
