@@ -42,7 +42,7 @@ cisco.catalystcenter.provision_workflow_manager module -- Resource module for pr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.8.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.9.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1299,7 +1299,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -1309,10 +1309,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      - A list of additional context-specific identifiers that provide customization parameters for the feature template.
+      - A dictionary of additional context-specific identifiers that provide customization parameters for the feature template.
           - These identifiers enable site-specific and WLAN-specific customization of the template during deployment.
-          - Each identifier contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
-          - Multiple identifiers can be specified to support complex deployment requirements with different WLAN profiles and site contexts.
+          - Contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
           
 
 
@@ -1389,7 +1388,6 @@ Parameters
       - The WLAN profile name to be associated with the feature template during wireless controller provisioning.
           - This profile defines wireless network parameters including SSID, security settings, VLAN assignments, and QoS policies.
           - The WLAN profile must exist in Cisco Catalyst Center and be properly configured before template application.
-          - Multiple WLAN profiles can be referenced by specifying multiple additional identifier entries.
           
 
 

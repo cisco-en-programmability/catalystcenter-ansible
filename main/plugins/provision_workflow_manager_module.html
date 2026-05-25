@@ -1228,7 +1228,7 @@
 <h1>cisco.catalystcenter.provision_workflow_manager module -- Resource module for provision related functions<a class="headerlink" href="#cisco-catalystcenter-provision-workflow-manager-module-resource-module-for-provision-related-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.8.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-provision-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1614,14 +1614,13 @@ associated configuration details.</p></li>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/feature_template/additional_identifiers"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-provision-workflow-manager-module-parameter-config-feature-template-additional-identifiers"><strong>additional_identifiers</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/feature_template/additional_identifiers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<a class="ansibleOptionLink" href="#parameter-config/feature_template/additional_identifiers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul class="simple">
 <li><dl class="simple">
-<dt>A list of additional context-specific identifiers that provide customization parameters for the feature template.</dt><dd><ul>
+<dt>A dictionary of additional context-specific identifiers that provide customization parameters for the feature template.</dt><dd><ul>
 <li><p>These identifiers enable site-specific and WLAN-specific customization of the template during deployment.</p></li>
-<li><p>Each identifier contains key-value pairs that help adapt the template for specific deployment scenarios and locations.</p></li>
-<li><p>Multiple identifiers can be specified to support complex deployment requirements with different WLAN profiles and site contexts.</p></li>
+<li><p>Contains key-value pairs that help adapt the template for specific deployment scenarios and locations.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1656,7 +1655,6 @@ associated configuration details.</p></li>
 <dt>The WLAN profile name to be associated with the feature template during wireless controller provisioning.</dt><dd><ul>
 <li><p>This profile defines wireless network parameters including SSID, security settings, VLAN assignments, and QoS policies.</p></li>
 <li><p>The WLAN profile must exist in Cisco Catalyst Center and be properly configured before template application.</p></li>
-<li><p>Multiple WLAN profiles can be referenced by specifying multiple additional identifier entries.</p></li>
 </ul>
 </dd>
 </dl>

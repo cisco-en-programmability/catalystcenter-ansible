@@ -1228,7 +1228,7 @@
 <h1>cisco.catalystcenter.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.<a class="headerlink" href="#cisco-catalystcenter-inventory-playbook-config-generator-module-generate-yaml-playbook-for-inventory-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.8.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-inventory-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1533,6 +1533,15 @@ document is considered for idempotency check.
 - changed=true (status: success): Generated configuration differs (or file does not exist), and file is written.
 - changed=false (status: ok): Generated configuration matches existing content, so write is skipped.
 - failed=true (status: failed): Validation/API/file-write failure occurred.</p></li>
+<li><p>Stack device handling:
+Stack switches (e.g. Cisco Catalyst 9500 StackWise) are returned by
+Catalyst Center as a single device record whose identifier fields
+(serial_number, mac_address) contain comma-separated values, one per
+stack member. When generating the YAML configuration, such records are
+expanded into one entry per stack member so that each member appears
+as a distinct '&lt;device_identifier&gt;_list' entry in the output.
+Filtering by an individual member identifier (e.g. a single member
+serial number) matches the parent stack record.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
 </ul>
@@ -1617,6 +1626,23 @@ document is considered for idempotency check.
 <span class="w">        </span><span class="nt">devices</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.10.20.11&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FDO1234A1BC&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Generate YAML Configuration for a stack switch by member serial number</span>
+<span class="w">  </span><span class="nt">cisco.catalystcenter.inventory_playbook_config_generator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catalystcenter_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catalystcenter_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catalystcenter_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catalystcenter_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catalystcenter_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catalystcenter_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catalystcenter_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catalystcenter_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gathered</span>
+<span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_stack_inventory.yml&quot;</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">global_filters</span><span class="p">:</span>
+<span class="w">        </span><span class="c1"># Either member serial matches the parent stack record;</span>
+<span class="w">        </span><span class="c1"># the stack is expanded into one entry per member in the output.</span>
+<span class="w">        </span><span class="nt">devices</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC27102F2K&quot;</span>
+<span class="w">        </span><span class="nt">device_identifier</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;serial_number&quot;</span>
 </pre></div>
 </div>
 </section>
