@@ -208,12 +208,12 @@ notes:
   SDK Methods used are
   sites.Sites.get_site
   site_design.SiteDesigns.get_sites
-  wirelesss.Wireless.get_ssid_by_site
-  wirelesss.Wireless.get_interfaces
-  wirelesss.Wireless.get_power_profiles
-  wirelesss.Wireless.get_ap_profiles
-  wirelesss.Wireless.get_rf_profiles
-  wirelesss.Wireless.get_anchor_groups
+  wireless.Wireless.get_ssid_by_site
+  wireless.Wireless.get_interfaces
+  wireless.Wireless.get_power_profiles
+  wireless.Wireless.get_ap_profiles
+  wireless.Wireless.get_rf_profiles
+  wireless.Wireless.get_anchor_groups
 - |-
   SDK Paths used are
   GET /dna/intent/api/v1/sites
