@@ -367,6 +367,7 @@ releases:
         - Changes in ise_radius_integration_workflow_manager module
         - Changes in lan_automation_workflow_manager module
         - Changes in network_compliance_workflow_manager module
+        - Changes in provision_workflow_manager module
         - Changes in sda_fabric_multicast_workflow_manager module
         - Changes in sda_fabric_virtual_networks_workflow_manager module
         - Changes in sda_host_port_onboarding_playbook_config_generator module
