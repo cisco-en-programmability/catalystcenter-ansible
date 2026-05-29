@@ -1,0 +1,222 @@
+---
+# Indirect Node Counting Query — cisco.catalystcenter collection
+# Applies to:  Ansible Automation Platform 2.6+
+# Path:        extensions/audit/event_query.yml
+#
+# SCOPE
+# -----
+# Cisco Catalyst Center manages network devices (switches, routers, wireless
+# controllers, access points) indirectly through its REST API.  Ansible
+# connects to localhost and talks to the Catalyst Center API, which in turn
+# manages hundreds or thousands of network devices.  Without this file AAP
+# would count only the single localhost connection, not the actual managed
+# infrastructure.
+#
+# The queries below extract per-device identity from the module return data
+# so AAP can accurately count every network device managed through the
+# Catalyst Center API as an indirect managed node.
+#
+# RETURN DATA STRUCTURE
+# ---------------------
+# The cisco.catalystcenter workflow manager modules inherit from
+# CatalystCenterBase and return:
+#
+#   {
+#     "changed": bool,
+#     "diff": [{"before": {...}, "after": {...}}, ...],
+#     "response": [<message_or_dict>, ...],
+#     "warnings": [...]
+#   }
+#
+# Device identity (management IP, hostname, serial number) is available in
+# the diff entries when devices are added, updated, provisioned, or deleted.
+# The diff[].after dict typically contains keys from the Catalyst Center
+# device API: managementIpAddress, hostname, serialNumber, id, etc.
+#
+# INCLUDED MODULES
+# ----------------
+# cisco.catalystcenter.inventory_workflow_manager
+#   — Adds, updates, deletes, resyncs, and provisions network devices.
+#     This is the primary module that manages the device lifecycle.
+#     diff[].after contains the full device record from Catalyst Center.
+#
+# cisco.catalystcenter.provision_workflow_manager
+#   — Provisions devices to sites, assigns templates, and manages
+#     wired/wireless device provisioning.
+#     diff[].after contains the provisioned device details.
+#
+# cisco.catalystcenter.pnp_device_claim_to_site
+#   — Claims a Plug and Play device to a site.
+#     Return data contains the claimed device serial and hostname.
+#
+# cisco.catalystcenter.pnp_device_claim
+#   — Claims one or more Plug and Play devices.
+#     Return data contains claimed device details.
+#
+# cisco.catalystcenter.pnp_device
+#   — Manages Plug and Play device records (add/update/delete).
+#     Return data contains the PnP device record.
+#
+# EXCLUDED MODULES
+# ----------------
+# *_info modules             — Read-only queries that do not manage devices.
+#                              Including them would inflate the count with
+#                              every status check or inventory query.
+# compliance_device          — Runs compliance checks, does not manage the
+#                              device lifecycle.
+# device_replacement         — Tracks replacement workflow state; the actual
+#                              device add/remove goes through
+#                              inventory_workflow_manager.
+# assign_device_to_site      — Site assignment only; the device already
+#                              exists and is counted via
+#                              inventory_workflow_manager.
+# swim_*                     — Software image management; operates on images,
+#                              not device identity.
+# network_device_export      — Exports device data to CSV; read-only.
+# network_device_custom_prompt — Configures CLI prompts, not device lifecycle.
+#
+# NOTE: Wildcard module matching (cisco.catalystcenter.*) is intentionally
+# NOT used. It would include info/query/compliance modules and inflate the
+# count. Only modules that perform device lifecycle operations (add, update,
+# provision, claim, delete) are listed.
+
+# -----------------------------------------------------------------
+# cisco.catalystcenter.inventory_workflow_manager
+#
+# Primary device lifecycle module. Manages add/update/delete/resync
+# of network devices in Catalyst Center inventory.
+#
+# diff[].after contains device attributes from the Catalyst Center API:
+#   managementIpAddress, hostname, serialNumber, id, type, role, etc.
+#
+# Guard: managementIpAddress must be non-null — a device without a
+# management IP was not successfully committed to inventory.
+# -----------------------------------------------------------------
+cisco.catalystcenter.inventory_workflow_manager:
+  query: >-
+    .diff[]? | .after? // empty |
+    select((.managementIpAddress // null) != null) |
+    {
+      name: (.hostname // .managementIpAddress),
+      canonical_facts: {
+        management_ip: .managementIpAddress,
+        serial_number: (.serialNumber // null),
+        catalyst_center_id: (.id // null)
+      },
+      facts: {
+        device_type: (
+          if (.family // "" | test("Unified AP"; "i"))
+          then "access_point"
+          elif (.role // "" | test("ACCESS"; "i"))
+          then "network_switch"
+          elif (.role // "" | test("CORE|DISTRIBUTION"; "i"))
+          then "network_switch"
+          elif (.role // "" | test("BORDER ROUTER"; "i"))
+          then "network_router"
+          else "network_device"
+          end
+        ),
+        platform: "cisco_catalyst_center",
+        hostname: (.hostname // null),
+        role: (.role // null),
+        family: (.family // null),
+        software_type: (.softwareType // null)
+      }
+    }
+
+# -----------------------------------------------------------------
+# cisco.catalystcenter.provision_workflow_manager
+#
+# Provisions devices to sites and applies templates.
+# diff[].after contains provisioned device data.
+# -----------------------------------------------------------------
+cisco.catalystcenter.provision_workflow_manager:
+  query: >-
+    .diff[]? | .after? // empty |
+    select((.managementIpAddress // null) != null) |
+    {
+      name: (.hostname // .managementIpAddress),
+      canonical_facts: {
+        management_ip: .managementIpAddress,
+        serial_number: (.serialNumber // null),
+        catalyst_center_id: (.id // null)
+      },
+      facts: {
+        device_type: "network_device",
+        platform: "cisco_catalyst_center",
+        hostname: (.hostname // null)
+      }
+    }
+
+# -----------------------------------------------------------------
+# cisco.catalystcenter.pnp_device_claim_to_site
+#
+# Claims a PnP device to a site. The return data contains the
+# device details in the catalystcenter_response dict.
+# -----------------------------------------------------------------
+cisco.catalystcenter.pnp_device_claim_to_site:
+  query: >-
+    .catalystcenter_response? // empty |
+    .response? // empty |
+    select(type == "object") |
+    select((.serialNumber // .deviceInfo.serialNumber // null) != null) |
+    {
+      name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
+      canonical_facts: {
+        serial_number: (.serialNumber // .deviceInfo.serialNumber),
+        management_ip: (.managementIpAddress // .deviceInfo.httpHeaders[0].value // null),
+        catalyst_center_id: (.id // ._id // null)
+      },
+      facts: {
+        device_type: "network_device",
+        platform: "cisco_catalyst_center"
+      }
+    }
+
+# -----------------------------------------------------------------
+# cisco.catalystcenter.pnp_device_claim
+#
+# Claims one or more PnP devices.
+# -----------------------------------------------------------------
+cisco.catalystcenter.pnp_device_claim:
+  query: >-
+    .catalystcenter_response? // empty |
+    .response? // empty |
+    select(type == "object") |
+    select((.serialNumber // .deviceInfo.serialNumber // null) != null) |
+    {
+      name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
+      canonical_facts: {
+        serial_number: (.serialNumber // .deviceInfo.serialNumber),
+        management_ip: (.managementIpAddress // null),
+        catalyst_center_id: (.id // ._id // null)
+      },
+      facts: {
+        device_type: "network_device",
+        platform: "cisco_catalyst_center"
+      }
+    }
+
+# -----------------------------------------------------------------
+# cisco.catalystcenter.pnp_device
+#
+# Manages PnP device records (add/update/delete).
+# -----------------------------------------------------------------
+cisco.catalystcenter.pnp_device:
+  query: >-
+    .catalystcenter_response? // empty |
+    .response? // empty |
+    select(type == "object") |
+    select((.serialNumber // .deviceInfo.serialNumber // null) != null) |
+    {
+      name: (.hostname // .deviceInfo.hostname // .serialNumber // .deviceInfo.serialNumber),
+      canonical_facts: {
+        serial_number: (.serialNumber // .deviceInfo.serialNumber),
+        management_ip: (.managementIpAddress // null),
+        catalyst_center_id: (.id // ._id // null)
+      },
+      facts: {
+        device_type: "network_device",
+        platform: "cisco_catalyst_center"
+      }
+    }
