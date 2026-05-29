@@ -2973,24 +2973,14 @@ class ApplicationPolicy(CatalystCenterBase):
 
                     total_current_app_set.append(app_set_name)
 
-                    # Determine if update is required
-                    update_not_required = False
-
-                    if not expected_set_names:
-                        update_not_required = True
+                    if app_set_name in expected_set_names:
                         self.log(
-                            "No update required (empty expected set list) for application set: {0}".format(app_set_name),
+                            "Application set '{0}' is already present under "
+                            "relevance '{1}'.".format(
+                                app_set_name, current_relevance_type
+                            ),
                             "INFO",
                         )
-                    else:
-                        for set_name in expected_set_names:
-                            if set_name == app_set_name:
-                                update_not_required = True
-                                self.log(
-                                    "No update required for application set: {0}".format(app_set_name),
-                                    "INFO",
-                                )
-                                break  # Exit loop early
 
             self.log(
                 "Total Current Application Sets: {0}".format(total_current_app_set),
@@ -3123,22 +3113,23 @@ class ApplicationPolicy(CatalystCenterBase):
                 "Final want Default (Diff): {0}".format(final_want_default), "INFO"
             )
 
+            update_not_required = (
+                not is_update_required_for_site
+                and not is_update_required_for_queuing_profile
+                and not final_business_irrelevant_set_name
+                and not final_business_relevant_set_name
+                and not final_default_set_name
+            )
+
             if update_not_required:
-                if not (
-                    final_business_irrelevant_set_name
-                    or final_business_relevant_set_name
-                    or final_default_set_name
-                    or is_update_required_for_site
-                    or is_update_required_for_queuing_profile
-                ):
-                    self.msg = (
-                        "Application policy '{0}' does not need any update. ".format(
-                            application_policy_name
-                        )
+                self.msg = (
+                    "Application policy '{0}' does not need any update. ".format(
+                        application_policy_name
                     )
-                    self.no_update_application_policy.append(application_policy_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
-                    continue
+                )
+                self.no_update_application_policy.append(application_policy_name)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                continue
 
             for application_sets in current_application_policy:
                 group_id = site_ids if is_update_required_for_site else current_site_ids
