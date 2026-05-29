@@ -104,6 +104,7 @@ options:
         description:
             - Additional keyword arguments passed to the Catalyst Center C(get_device_list) API call.
             - Use this to pre-filter devices by family, role, management IP, etc.
+            - Keys C(offset) and C(limit) are reserved for pagination and will be stripped if provided.
         type: dict
         default: {}
     api_page_size:
@@ -145,11 +146,11 @@ requirements:
 """
 
 EXAMPLES = r"""
-# Minimal configuration
+# Minimal configuration (use ansible-vault for the password in production)
 plugin: cisco.catalystcenter.catalystcenter
 host: catalyst.example.com
 username: admin
-password: secret
+password: "{{ vault_cc_password }}"
 validate_certs: false
 
 # With environment variables (CATALYSTCENTER_HOST, CATALYSTCENTER_USERNAME, etc.)
@@ -215,6 +216,7 @@ try:
 except ImportError:
     HAS_CATALYSTCENTERSDK = False
 
+_PAGINATION_RESERVED_KEYS = frozenset(("offset", "limit"))
 
 _NETWORK_OS_MAP = {
     "ios": {
@@ -255,6 +257,8 @@ _SPECIAL_CHAR_MAP = {
     ord("."): "_",
 }
 
+_EXPECTED_DATA_KEYS = frozenset(("devices", "sites", "device_site_map", "tags"))
+
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     """Cisco Catalyst Center dynamic inventory plugin."""
@@ -289,6 +293,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except KeyError:
                 cache_needs_update = True
 
+        if data is not None:
+            missing = _EXPECTED_DATA_KEYS - set(data.keys())
+            if missing:
+                self.display.warning(
+                    "Cached inventory data is missing keys {0}, refetching".format(
+                        sorted(missing)
+                    )
+                )
+                data = None
+                cache_needs_update = True
+
         if data is None:
             data = self._fetch_all_data()
 
@@ -319,7 +334,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 verify=self.get_option("validate_certs"),
                 debug=self.get_option("debug"),
             )
-        except Exception as e:
+        except (ApiError, ConnectionError, OSError) as e:
             raise AnsibleError(
                 "Failed to connect to Catalyst Center at {0}:{1}: {2}".format(
                     host, port, to_native(e)
@@ -351,32 +366,38 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         device_filters = self.get_option("device_filters")
         include_aps = self.get_option("include_aps")
 
-        try:
-            count_resp = client.devices.get_device_count()
-            device_count = count_resp.response
-        except (ApiError, Exception) as e:
-            raise AnsibleParserError(
-                "Failed to get device count: {0}".format(to_native(e))
+        safe_filters = {
+            k: v for k, v in device_filters.items()
+            if k not in _PAGINATION_RESERVED_KEYS
+        }
+        if len(safe_filters) != len(device_filters):
+            self.display.warning(
+                "device_filters contained reserved keys {0} which were "
+                "stripped to avoid breaking pagination".format(
+                    sorted(set(device_filters) & _PAGINATION_RESERVED_KEYS)
+                )
             )
 
-        pages = max(1, math.ceil(device_count / page_size))
         all_devices = []
+        offset = 1
 
-        for page in range(pages):
-            offset = page * page_size + 1
+        while True:
             try:
                 resp = client.devices.get_device_list(
                     offset=offset,
                     limit=page_size,
-                    **device_filters
+                    **safe_filters
                 )
                 page_devices = resp.response if resp.response else []
-            except (ApiError, Exception) as e:
+            except ApiError as e:
                 raise AnsibleParserError(
                     "Failed to get device list (offset={0}): {1}".format(
                         offset, to_native(e)
                     )
                 )
+
+            if not page_devices:
+                break
 
             for device in page_devices:
                 device_dict = self._device_to_dict(device)
@@ -387,6 +408,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                         continue
 
                 all_devices.append(device_dict)
+
+            if len(page_devices) < page_size:
+                break
+
+            offset += page_size
 
         return all_devices
 
@@ -402,18 +428,37 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 if not k.startswith("_")
             }
         except TypeError:
-            return dict(device)
+            self.display.warning(
+                "Unexpected device object type ({0}), "
+                "attempting dict() conversion".format(type(device).__name__)
+            )
+            try:
+                return dict(device)
+            except (TypeError, ValueError) as e:
+                raise AnsibleParserError(
+                    "Cannot convert device to dict: {0}".format(to_native(e))
+                )
 
     def _fetch_site_topology(self, client):
         try:
             resp = client.topology.get_site_topology()
             sites = resp.response.sites if resp.response and resp.response.sites else []
-        except (ApiError, Exception) as e:
+        except ApiError as e:
             raise AnsibleParserError(
                 "Failed to get site topology: {0}".format(to_native(e))
             )
 
-        return [self._site_to_dict(s) for s in sites]
+        result = []
+        for s in sites:
+            site_dict = self._site_to_dict(s)
+            if not site_dict.get("id") or not site_dict.get("name"):
+                self.display.warning(
+                    "Skipping site with missing id or name: {0}".format(site_dict)
+                )
+                continue
+            result.append(site_dict)
+
+        return result
 
     def _site_to_dict(self, site):
         if hasattr(site, "to_dict"):
@@ -434,7 +479,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             resp = client.topology.get_physical_topology()
             nodes = resp.response.nodes if resp.response and resp.response.nodes else []
-        except (ApiError, Exception) as e:
+        except ApiError as e:
             raise AnsibleParserError(
                 "Failed to get physical topology: {0}".format(to_native(e))
             )
@@ -463,11 +508,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if not device_ids:
             return tags
 
+        device_id_set = set(device_ids)
+
         try:
             resp = client.tag.get_tag()
             all_tags = resp.response if resp.response else []
-        except (ApiError, Exception):
-            self.display.warning("Failed to fetch tags, skipping tag-based grouping")
+        except ApiError as e:
+            self.display.warning(
+                "Failed to fetch tags from Catalyst Center, "
+                "skipping tag-based grouping: {0}".format(to_native(e))
+            )
             return tags
 
         for tag_obj in all_tags:
@@ -485,7 +535,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     id=tag_id, member_type="networkdevice"
                 )
                 members = members_resp.response if members_resp.response else []
-            except (ApiError, Exception):
+            except ApiError as e:
+                self.display.warning(
+                    "Failed to fetch members for tag '{0}' (id={1}), "
+                    "this tag will be missing from inventory: {2}".format(
+                        tag_name, tag_id, to_native(e)
+                    )
+                )
                 continue
 
             for member in members:
@@ -493,7 +549,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     member.to_dict() if hasattr(member, "to_dict") else vars(member)
                 )
                 member_id = member_dict.get("instanceUuid", "")
-                if member_id in device_ids:
+                if member_id in device_id_set:
                     tags.setdefault(member_id, []).append(tag_name)
 
         return tags
@@ -505,6 +561,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         tags = data.get("tags", {})
 
         strict = self.get_option("strict")
+        skipped_count = 0
 
         if self.get_option("group_by_site"):
             self._build_site_groups(sites)
@@ -512,6 +569,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for device in devices:
             hostname = self._get_hostname(device)
             if not hostname:
+                skipped_count += 1
                 continue
 
             self.inventory.add_host(hostname)
@@ -569,6 +627,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
             self._add_host_to_keyed_groups(
                 self.get_option("keyed_groups"), host_vars, hostname, strict=strict
+            )
+
+        if skipped_count:
+            self.display.warning(
+                "Skipped {0} device(s) with no usable hostname. "
+                "Consider using hostname_source: managementIpAddress "
+                "or hostname_source: id".format(skipped_count)
             )
 
     def _get_hostname(self, device):
@@ -631,8 +696,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 if parent_group and parent_group != child_group:
                     try:
                         self.inventory.add_child(parent_group, child_group)
-                    except Exception:
-                        pass
+                    except AnsibleError as e:
+                        self.display.warning(
+                            "Could not nest site group '{0}' under '{1}': "
+                            "{2}".format(child_group, parent_group, to_native(e))
+                        )
 
     def _normalize_site_name(self, site):
         name = site.get("name", "unknown")

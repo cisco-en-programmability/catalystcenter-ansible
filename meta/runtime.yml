@@ -1,6 +1,2 @@
 ---
 requires_ansible: '>=2.16.0'
-plugin_routing:
-  inventory:
-    catalystcenter:
-      redirect: cisco.catalystcenter.catalystcenter
