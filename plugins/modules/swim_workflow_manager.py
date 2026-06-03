@@ -3375,7 +3375,7 @@ class Swim(CatalystCenterBase):
             )
             self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
 
-            device_tags = tagging_details.get("device_tags")
+            device_tags = tagging_details.get("device_tags", [])
             device_tags_ids = []
             for device_tag in device_tags:
                 self.log("Device tag to be applied: {0}".format(device_tag), "DEBUG")
