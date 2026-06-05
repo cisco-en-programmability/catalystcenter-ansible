@@ -162,6 +162,18 @@ options:
           - AccessPoint
           - StackSwitch
         default: Default
+      licenseLevel:
+        description: License level to use when claiming the device.
+        type: str
+        required: false
+      topOfStackSerialNumber:
+        description: Top of stack serial number to use when claiming a stack switch.
+        type: str
+        required: false
+      cablingScheme:
+        description: Cabling scheme to use when claiming the device.
+        type: str
+        required: false
       static_ip:
         description: Management IP address of the Wireless
           Controller.
@@ -324,6 +336,9 @@ EXAMPLES = r"""
         template_name: "Ansible_PNP_Switch"
         image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
         project_name: Onboarding Configuration
+        licenseLevel: network-advantage
+        topOfStackSerialNumber: FJC271924EQ
+        cablingScheme: 1G
         template_params:
           hostname: SJC-Switch-1
           interface: TwoGigabitEthernet1/0/2
@@ -448,6 +463,9 @@ class PnP(CatalystCenterBase):
             "vlan_id": {"type": "str", "required": False},
             "ip_interface_name": {"type": "str", "required": False},
             "sensorProfile": {"type": "str", "required": False},
+            "licenseLevel": {"type": "str", "required": False},
+            "topOfStackSerialNumber": {"type": "str", "required": False},
+            "cablingScheme": {"type": "str", "required": False},
         }
 
         # Validate pnp params
@@ -780,6 +798,15 @@ class PnP(CatalystCenterBase):
             "imageInfo": imageinfo,
             "configInfo": configinfo,
         }
+        optional_stack_device_claim_fields = (
+            "licenseLevel",
+            "topOfStackSerialNumber",
+            "cablingScheme",
+        )
+        for field in optional_stack_device_claim_fields:
+            value = self.want.get(field)
+            if value is not None:
+                claim_params[field] = value
 
         if claim_params["type"] == "CatalystWLC":
             if not (self.validated_config[0].get("static_ip")):
@@ -1585,6 +1612,9 @@ class PnP(CatalystCenterBase):
             "site_name": config.get("site_name"),
             "project_name": config.get("project_name"),
             "template_name": config.get("template_name"),
+            "licenseLevel": config.get("licenseLevel"),
+            "topOfStackSerialNumber": config.get("topOfStackSerialNumber"),
+            "cablingScheme": config.get("cablingScheme"),
         }
         if len(self.want.get("pnp_params")) == 1:
             self.want["serial_number"] = self.want["pnp_params"][0]["deviceInfo"].get(

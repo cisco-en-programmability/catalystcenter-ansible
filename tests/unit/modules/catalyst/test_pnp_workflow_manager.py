@@ -357,6 +357,37 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
             result.get('msg')
         )
 
+    def test_pnp_workflow_manager_claim_payload_optional_fields(self):
+        """
+        Test optional claim payload fields from playbook config are passed to the API payload.
+        """
+        pnp = pnp_workflow_manager.PnP.__new__(pnp_workflow_manager.PnP)
+        pnp.have = {
+            "device_id": "device-1",
+            "site_id": "site-1",
+            "image_id": "image-1",
+            "template_id": "template-1",
+        }
+        pnp.want = {
+            "pnp_type": "Default",
+            "hostname": "Switch-1",
+            "licenseLevel": "network-advantage",
+            "topOfStackSerialNumber": "FOC1234X1YZ",
+            "cablingScheme": "1G",
+        }
+        pnp.validated_config = [
+            {
+                "template_params": {"hostname": "Switch-1"},
+            }
+        ]
+        pnp.log = lambda *args, **kwargs: None
+
+        claim_params = pnp.get_claim_params()
+
+        self.assertEqual(claim_params["licenseLevel"], "network-advantage")
+        self.assertEqual(claim_params["topOfStackSerialNumber"], "FOC1234X1YZ")
+        self.assertEqual(claim_params["cablingScheme"], "1G")
+
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
         """
         Test case for PNP workflow manager when add and claim switch device.
