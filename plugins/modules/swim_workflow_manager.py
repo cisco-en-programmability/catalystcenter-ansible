@@ -3376,11 +3376,39 @@ class Swim(CatalystCenterBase):
             self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
 
             device_tags = tagging_details.get("device_tags", [])
+            if not device_tags:
+                self.log(
+                    "No 'device_tags' provided in tagging_details. "
+                    "Proceeding with golden tagging without device-tag filtering.",
+                    "DEBUG",
+                )
+            else:
+                self.log(
+                    "Resolving {0} device tag(s) from tagging_details: {1}".format(
+                        len(device_tags), device_tags
+                    ),
+                    "DEBUG",
+                )
+
             device_tags_ids = []
             for device_tag in device_tags:
                 self.log("Device tag to be applied: {0}".format(device_tag), "DEBUG")
                 device_tags_id = self.get_network_device_tag_id(device_tag)
+                if not device_tags_id:
+                    self.log(
+                        "Device tag '{0}' could not be resolved to an ID in Cisco Catalyst Center "
+                        "and will be skipped.".format(device_tag),
+                        "WARNING",
+                    )
+                    continue
+
                 device_tags_ids.append(device_tags_id)
+
+            self.log(
+                "Resolved device tag IDs for payload: {0}".format(device_tags_ids),
+                "DEBUG",
+            )
+
             # -----------------------------------------------------
             # STEP 4: Build payload
             # -----------------------------------------------------
