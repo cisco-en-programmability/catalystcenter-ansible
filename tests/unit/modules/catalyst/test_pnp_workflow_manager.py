@@ -369,11 +369,11 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
             "template_id": "template-1",
         }
         pnp.want = {
-            "pnp_type": "Default",
+            "pnp_type": "StackSwitch",
             "hostname": "Switch-1",
-            "licenseLevel": "network-advantage",
-            "topOfStackSerialNumber": "FOC1234X1YZ",
-            "cablingScheme": "1G",
+            "license_level": "network-advantage",
+            "top_of_stack_serial_number": "FOC1234X1YZ",
+            "cabling_scheme": "1G",
         }
         pnp.validated_config = [
             {
@@ -387,6 +387,47 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
         self.assertEqual(claim_params["licenseLevel"], "network-advantage")
         self.assertEqual(claim_params["topOfStackSerialNumber"], "FOC1234X1YZ")
         self.assertEqual(claim_params["cablingScheme"], "1G")
+        self.assertNotIn("payload", claim_params)
+        self.assertNotIn("active_validation", claim_params)
+        self.assertNotIn("license_level", claim_params)
+        self.assertNotIn("top_of_stack_serial_number", claim_params)
+        self.assertNotIn("cabling_scheme", claim_params)
+
+    def test_pnp_workflow_manager_device_info_sudi_stack_payload(self):
+        """
+        Test device_info SUDI and stack fields are passed to the add-device payload.
+        """
+        pnp = pnp_workflow_manager.PnP.__new__(pnp_workflow_manager.PnP)
+        pnp.log = lambda *args, **kwargs: None
+
+        pnp_params = pnp.get_pnp_params(
+            {
+                "device_info": [
+                    {
+                        "hostname": "dfrwr",
+                        "serial_number": "gdgttee",
+                        "pid": "C9300-24H",
+                        "is_sudi_required": True,
+                        "user_sudi_serial_nos": ["gdgttee"],
+                        "stack": True,
+                    },
+                    {
+                        "serial_number": "ABC123",
+                        "pid": "C9300-24H",
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(
+            pnp_params[0]["deviceInfo"]["serialNumber"], "gdgttee"
+        )
+        self.assertTrue(pnp_params[0]["deviceInfo"]["sudiRequired"])
+        self.assertEqual(
+            pnp_params[0]["deviceInfo"]["userSudiSerialNos"], ["gdgttee"]
+        )
+        self.assertTrue(pnp_params[0]["deviceInfo"]["stack"])
+        self.assertFalse(pnp_params[1]["deviceInfo"]["stack"])
 
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
         """
