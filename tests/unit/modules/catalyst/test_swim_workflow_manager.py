@@ -36,6 +36,7 @@ class TestswimWorkflowManager(TestCatalystModule):
     playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
     playbook_sub_package_images = test_data.get("playbook_sub_package_images")
     playbook_sub_package_images_with_api_task_timeout = test_data.get("playbook_sub_package_images_with_api_task_timeout")
+    playbook_swim_golden_tag_without_device_tags = test_data.get("playbook_swim_golden_tag_without_device_tags")
 
     def setUp(self):
         super(TestswimWorkflowManager, self).setUp()
@@ -257,6 +258,18 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("bulk_update_images_on_network_devices_images_with_api_task_timeout"),
                 self.test_data.get("Task_Details__images_with_api_task_timeout"),
                 self.test_data.get("Task_Status___images_with_api_task_timeout"),
+            ]
+
+        elif "playbook_swim_golden_tag_without_device_tags" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("get_device_family_identifiers"),
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("get_returns_list_of_software_images_without_device_tags"),
+                self.test_data.get("get_product_name_ordinal_without_device_tags"),
+                self.test_data.get("tagging_golden_image_without_device_tags"),
+                self.test_data.get("Task_Details__sub_package_images_with_api_task_timeout"),
+                self.test_data.get("Task_Status___sub_package_images_with_api_task_timeout"),
             ]
 
     def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
@@ -575,4 +588,30 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "All eligible images activated successfully on the devices 204.1.2.1."
+        )
+
+    def test_swim_workflow_manager_playbook_swim_golden_tag_without_device_tags(self):
+        """
+        Test SWIM workflow manager's golden image tagging without device_tags field.
+
+        This test reproduces bug where device_tags field is missing in tagging_details config
+        on Catalyst Center versions > 2.3.7.9. The module should handle the missing field
+        gracefully by treating it as an empty list instead of raising TypeError.
+        """
+
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_swim_golden_tag_without_device_tags
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Tagging image cat9k_iosxe.17.12.05.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device roles ACCESS successful."
         )
