@@ -98,6 +98,45 @@ ls ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/ | wc -l
 
 ---
 
+## 🧾 Prerequisite: Inventory File
+
+Every CVP playbook declares `hosts: catalyst_center_hosts`, so an inventory
+that defines this group is **required**. Running `ansible-playbook` without
+`-i <inventory>` will result in `skipping: no hosts matched` and no tasks
+will execute. Passing `-e catalystcenter_host=...` alone is **not** enough,
+because it only sets SDK connection variables, not the Ansible host pattern.
+
+Minimal inventory (`inventory/hosts.yml`):
+
+```yaml
+---
+catalyst_center_hosts:
+  hosts:
+    catalyst_center220:
+      ansible_host: "{{ lookup('env', 'HOSTIP') }}"
+      catalystcenter_host: "{{ lookup('env', 'HOSTIP') }}"
+      catalystcenter_username: "{{ lookup('env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_password: "{{ lookup('env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_version: 3.1.5
+      catalystcenter_verify: false
+      catalystcenter_debug: false
+```
+
+Export the matching environment variables:
+
+```bash
+export HOSTIP=<catalyst-center-ip-or-fqdn>
+export CATALYST_CENTER_USERNAME=<username>
+export CATALYST_CENTER_PASSWORD='<password>'
+```
+
+> All `ansible-playbook` examples below assume this inventory exists at
+> `inventory/hosts.yml`. Per-CVP README files (e.g.
+> [cvp/swim/README.md](cvp/swim/README.md)) use the same pattern.
+
+---
+
 ## 🚀 Quick Start
 
 ### 5-Minute CVP Example
@@ -121,11 +160,11 @@ cat README.md
 # 6. Edit variables
 vi vars/site_hierarchy_design_vars.yml
 
-# 7. Run playbook
-ansible-playbook playbook/site_hierarchy_playbook.yml \
-  -e catalystcenter_host=10.1.1.1 \
-  -e catalystcenter_username=admin \
-  -e catalystcenter_password=secret \
+# 7. Run playbook (requires an inventory with the catalyst_center_hosts group;
+#    see "Prerequisite: Inventory File" above)
+ansible-playbook \
+  -i inventory/hosts.yml \
+  playbook/site_hierarchy_playbook.yml \
   -vvv
 ```
 
@@ -189,9 +228,11 @@ git init
 git add .
 git commit -m "Initial CVP setup"
 
-# Run playbooks
-ansible-playbook site_hierarchy/playbook/site_hierarchy_playbook.yml
-ansible-playbook device_discovery/playbook/device_discovery_playbook.yml
+# Run playbooks (inventory must define the catalyst_center_hosts group)
+ansible-playbook -i inventory/hosts.yml \
+  site_hierarchy/playbook/site_hierarchy_playbook.yml
+ansible-playbook -i inventory/hosts.yml \
+  device_discovery/playbook/device_discovery_playbook.yml
 ```
 
 ### Pattern 2: Direct Reference (Quick Testing)
@@ -199,41 +240,46 @@ ansible-playbook device_discovery/playbook/device_discovery_playbook.yml
 **Best for**: Testing, one-off runs, CI/CD
 
 ```bash
-# Run CVP directly from collection
+# Run CVP directly from collection (still requires an inventory file)
 ansible-playbook \
+  -i inventory/hosts.yml \
   ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
-  -e @my-custom-vars.yml \
-  -e catalystcenter_host=10.1.1.1 \
-  -e catalystcenter_username=admin \
-  -e catalystcenter_password=secret
+  -e VARS_FILE_PATH=$(pwd)/my-custom-vars.yml
 ```
 
 ### Pattern 3: Hybrid Approach
 
 **Best for**: Combining multiple CVPs
 
-```bash
-# Create master playbook
-cat > deploy-all.yml <<EOF
----
-- name: Complete Catalyst Center Deployment
-  hosts: localhost
-  gather_facts: false
-  
-  tasks:
-    # Import CVP playbooks
-    - name: Deploy Site Hierarchy
-      ansible.builtin.import_playbook: ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
-    
-    - name: Configure Network Settings
-      ansible.builtin.import_playbook: ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/network_settings/playbook/network_settings_playbook.yml
-    
-    - name: Discover Devices
-      ansible.builtin.import_playbook: ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/device_discovery/playbook/device_discovery_playbook.yml
-EOF
+`import_playbook` is a top-level directive, not a task. Each entry below is a
+separate play that inherits the imported playbook's `hosts:` (here:
+`catalyst_center_hosts`), so the inventory must define that group. Per-CVP
+inputs are passed via the `vars:` block as `VARS_FILE_PATH`, resolved
+**relative to the imported playbook's directory** (see VARS_FILE_PATH note
+in any per-CVP README, e.g. [cvp/swim/README.md](cvp/swim/README.md)).
 
-# Run master playbook
-ansible-playbook deploy-all.yml
+```yaml
+# deploy-all.yml
+---
+- name: Deploy Site Hierarchy
+  ansible.builtin.import_playbook: cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
+  vars:
+    VARS_FILE_PATH: ../vars/site_hierarchy_design_vars.yml
+
+- name: Configure Network Settings
+  ansible.builtin.import_playbook: cvp/network_settings/playbook/network_settings_playbook.yml
+  vars:
+    VARS_FILE_PATH: ../vars/network_settings_vars.yml
+
+- name: Discover Devices
+  ansible.builtin.import_playbook: cvp/device_discovery/playbook/device_discovery_playbook.yml
+  vars:
+    VARS_FILE_PATH: ../vars/device_discovery_vars.yml
+```
+
+```bash
+# Run master playbook (inventory must define the catalyst_center_hosts group)
+ansible-playbook -i inventory/hosts.yml deploy-all.yml
 ```
 
 ---
@@ -277,27 +323,25 @@ jobs:
       
       - name: Deploy Site Hierarchy
         env:
-          CATALYSTCENTER_HOST: ${{ secrets.CATALYSTCENTER_HOST }}
-          CATALYSTCENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
-          CATALYSTCENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
+          HOSTIP: ${{ secrets.CATALYSTCENTER_HOST }}
+          CATALYST_CENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
+          CATALYST_CENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
         run: |
-          ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
-            -e catalystcenter_host=$CATALYSTCENTER_HOST \
-            -e catalystcenter_username=$CATALYSTCENTER_USERNAME \
-            -e catalystcenter_password=$CATALYSTCENTER_PASSWORD \
-            -e @vars/production-sites.yml
+          ansible-playbook \
+            -i inventory/hosts.yml \
+            cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
+            -e VARS_FILE_PATH=$(pwd)/vars/production-sites.yml
       
       - name: Deploy Network Settings
         env:
-          CATALYSTCENTER_HOST: ${{ secrets.CATALYSTCENTER_HOST }}
-          CATALYSTCENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
-          CATALYSTCENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
+          HOSTIP: ${{ secrets.CATALYSTCENTER_HOST }}
+          CATALYST_CENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
+          CATALYST_CENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
         run: |
-          ansible-playbook cvp/network_settings/playbook/network_settings_playbook.yml \
-            -e catalystcenter_host=$CATALYSTCENTER_HOST \
-            -e catalystcenter_username=$CATALYSTCENTER_USERNAME \
-            -e catalystcenter_password=$CATALYSTCENTER_PASSWORD \
-            -e @vars/production-network-settings.yml
+          ansible-playbook \
+            -i inventory/hosts.yml \
+            cvp/network_settings/playbook/network_settings_playbook.yml \
+            -e VARS_FILE_PATH=$(pwd)/vars/production-network-settings.yml
 ```
 
 ### GitLab CI
@@ -336,7 +380,7 @@ validate:
     - prepare
   script:
     - *install_ansible
-    - ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --syntax-check
+    - ansible-playbook -i inventory/hosts.yml cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --syntax-check
     - ansible-lint cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml || true
 
 deploy:
@@ -346,11 +390,13 @@ deploy:
     - prepare
   script:
     - *install_ansible
-    - ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
-        -e catalystcenter_host=$CATALYSTCENTER_HOST
-        -e catalystcenter_username=$CATALYSTCENTER_USERNAME
-        -e catalystcenter_password=$CATALYSTCENTER_PASSWORD
-        -e @vars/production.yml
+    - export HOSTIP=$CATALYSTCENTER_HOST
+    - export CATALYST_CENTER_USERNAME=$CATALYSTCENTER_USERNAME
+    - export CATALYST_CENTER_PASSWORD=$CATALYSTCENTER_PASSWORD
+    - ansible-playbook
+        -i inventory/hosts.yml
+        cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
+        -e VARS_FILE_PATH=$CI_PROJECT_DIR/vars/production.yml
   only:
     - main
   when: manual
@@ -401,7 +447,8 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    ansible-playbook ${CVP_PATH}/${CVP_NAME}/playbook/*_playbook.yml --syntax-check
+                    ansible-playbook -i inventory/hosts.yml \
+                        ${CVP_PATH}/${CVP_NAME}/playbook/*_playbook.yml --syntax-check
                 '''
             }
         }
@@ -414,11 +461,13 @@ pipeline {
                 input message: 'Deploy to production?', ok: 'Deploy'
                 sh '''
                     . venv/bin/activate
-                    ansible-playbook ${CVP_PATH}/${CVP_NAME}/playbook/*_playbook.yml \
-                        -e catalystcenter_host=$CATALYSTCENTER_HOST \
-                        -e catalystcenter_username=$CATALYSTCENTER_USERNAME \
-                        -e catalystcenter_password=$CATALYSTCENTER_PASSWORD \
-                        -e @vars/${ENVIRONMENT}.yml \
+                    export HOSTIP=$CATALYSTCENTER_HOST
+                    export CATALYST_CENTER_USERNAME=$CATALYSTCENTER_USERNAME
+                    export CATALYST_CENTER_PASSWORD=$CATALYSTCENTER_PASSWORD
+                    ansible-playbook \
+                        -i inventory/hosts.yml \
+                        ${CVP_PATH}/${CVP_NAME}/playbook/*_playbook.yml \
+                        -e VARS_FILE_PATH=${WORKSPACE}/vars/${ENVIRONMENT}.yml \
                         -vv
                 '''
             }
@@ -590,7 +639,8 @@ vault_catalystcenter_username: "admin"
 vault_catalystcenter_password: "secret"
 
 # Reference in playbook
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
   -e catalystcenter_host="{{ vault_catalystcenter_host }}" \
   --ask-vault-pass
 ```
@@ -610,13 +660,16 @@ yamale -s cvp/site_hierarchy/schema/sites_schema.yml \
 
 ```bash
 # Use check mode
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --check
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --check
 
 # Use diff mode
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --diff
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --diff
 
 # Limit to specific hosts
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --limit dev-catalyst-center
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --limit dev-catalyst-center
 ```
 
 ### 5. Keep CVPs Updated
@@ -661,14 +714,23 @@ chmod -R u+rw ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cv
 
 ```bash
 # Run with verbose output
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml -vvv
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml -vvv
 
 # Check syntax
-ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --syntax-check
+ansible-playbook -i inventory/hosts.yml \
+  cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml --syntax-check
 
 # Validate variables
 cat cvp/site_hierarchy/vars/site_hierarchy_design_vars.yml
 ```
+
+### `skipping: no hosts matched`
+
+This error means the inventory does not define the `catalyst_center_hosts`
+group that every CVP playbook targets. Create the inventory shown in
+[Prerequisite: Inventory File](#-prerequisite-inventory-file) and pass it
+with `-i`. Setting `-e catalystcenter_host=...` alone will not fix this.
 
 ---
 
