@@ -316,6 +316,38 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("unable to import", result.get('msg').lower())
 
+    def test_pnp_workflow_manager_invalid_cabling_scheme(self):
+        """
+        Test validation fails when cabling_scheme is not 1A or 1B.
+        """
+        invalid_config = [
+            {
+                "device_info": [
+                    {
+                        "serial_number": "TEST123",
+                        "hostname": "test-device",
+                        "pid": "C9300-24P"
+                    }
+                ],
+                "pnp_type": "StackSwitch",
+                "cabling_scheme": "2A"
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.6",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                config=invalid_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("invalid choice", result.get('msg').lower())
+
     def test_pnp_workflow_manager_version_2_3_5_3_features(self):
         """
         Test features available in version 2.3.5.3
@@ -373,7 +405,7 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
             "hostname": "Switch-1",
             "license_level": "network-advantage",
             "top_of_stack_serial_number": "FOC1234X1YZ",
-            "cabling_scheme": "1G",
+            "cabling_scheme": "1B",
         }
         pnp.validated_config = [
             {
@@ -386,7 +418,7 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
 
         self.assertEqual(claim_params["licenseLevel"], "network-advantage")
         self.assertEqual(claim_params["topOfStackSerialNumber"], "FOC1234X1YZ")
-        self.assertEqual(claim_params["cablingScheme"], "1G")
+        self.assertEqual(claim_params["cablingScheme"], "1B")
         self.assertNotIn("payload", claim_params)
         self.assertNotIn("active_validation", claim_params)
         self.assertNotIn("license_level", claim_params)
