@@ -54,7 +54,14 @@ pnp_details:
           hostname: NY-EN-9300
           state: Unclaimed
           pid: C9300-48UXM
+          is_sudi_required: true
+          user_sudi_serial_nos:
+            - FJC271925Q1
+          is_stack_device: true
       pnp_type: StackSwitch
+      license_level: network-advantage
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
 
   claim_wireless_controllers:
     - site_name: Global/USA/SAN JOSE/SJ_BLD23
