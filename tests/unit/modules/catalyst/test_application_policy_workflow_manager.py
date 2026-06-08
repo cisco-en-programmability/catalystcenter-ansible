@@ -478,7 +478,6 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
         self.assertEqual(result, "collaboration-apps")
 
-
     def test_extract_app_set_name_missing_scope(self):
         """
         When policyScope is empty, the full application set name is returned.
