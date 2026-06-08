@@ -204,12 +204,16 @@ options:
           - Applicable only when 'pnp_type' is 'StackSwitch'.
       cabling_scheme:
         description:
-          - Describes the physical cabling topology of the Catalyst stack
-            (for example linear vs. ring). Catalyst Center uses this together
-            with 'top_of_stack_serial_number' to validate that the requested
-            stack renumbering is valid for the physical topology.
+          - Describes the physical cabling topology of the Catalyst stack.
+            Catalyst Center uses this together with 'top_of_stack_serial_number' to
+            validate that the requested stack renumbering is valid for the physical topology.
           - The accepted values are "1A" and "1B".
           - Applicable only when 'pnp_type' is 'StackSwitch'.
+        type: str
+        choices:
+          - 1A
+          - 1B
+        required: false
       static_ip:
         description: Management IP address of the Wireless
           Controller.
@@ -505,7 +509,11 @@ class PnP(CatalystCenterBase):
             "sensorProfile": {"type": "str", "required": False},
             "license_level": {"type": "str", "required": False},
             "top_of_stack_serial_number": {"type": "str", "required": False},
-            "cabling_scheme": {"type": "str", "required": False},
+            "cabling_scheme": {
+                "type": "str",
+                "required": False,
+                "choices": ["1A", "1B"],
+            },
         }
 
         # Validate pnp params
