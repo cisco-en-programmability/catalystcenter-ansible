@@ -103,10 +103,14 @@ options:
             type: list
             elements: str
             required: false
-          stack:
+          is_stack_device:
             description:
-              - Set to true if the device is a stack device.
-              - The default value is false.
+              - Set to true if the device is a stack device. Only applies when
+                C(pnp_type) is C(Default) or C(StackSwitch); ignored for
+                C(AccessPoint) and C(CatalystWLC).
+              - When C(pnp_type) is C(Default) or C(StackSwitch) and this field is
+                omitted, the module sends C(stack=false) to Catalyst Center.
+              - Sent to Catalyst Center as C(stack).
             type: bool
             required: false
             default: false
@@ -184,8 +188,7 @@ options:
       license_level:
         description:
           - License level applied when claiming a Catalyst switch / stack switch.
-          - Commonly observed values include 'network-advantage' and 'network-essentials'.
-            Refer to your Catalyst Center version's API schema (Platform > Developer Toolkit)
+          - Refer to your Catalyst Center version's API schema (Platform > Developer Toolkit)
             for the authoritative list of accepted values.
           - Optional. Most commonly used together with 'pnp_type' set to
             'Default' (switches/routers) or 'StackSwitch'.
@@ -202,6 +205,8 @@ options:
           - The value must match one of the 'serial_number' entries supplied
             under 'device_info'.
           - Applicable only when 'pnp_type' is 'StackSwitch'.
+        type: str
+        required: false
       cabling_scheme:
         description:
           - Describes the physical cabling topology of the Catalyst stack.
@@ -375,7 +380,7 @@ EXAMPLES = r"""
             is_sudi_required: true
             user_sudi_serial_nos:
               - FJC271924EQ
-            stack: true
+            is_stack_device: true
         site_name: Global/USA/San Francisco/BGL_18
         template_name: "Ansible_PNP_Switch"
         image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
@@ -566,9 +571,9 @@ class PnP(CatalystCenterBase):
                                 self.log(msg, "ERROR")
                                 invalid_params.append(msg)
 
-                        stack = device.get("stack")
-                        if stack is not None and not isinstance(stack, bool):
-                            msg = "stack must be a boolean in the Playbook config: {0}.".format(
+                        is_stack_device = device.get("is_stack_device")
+                        if is_stack_device is not None and not isinstance(is_stack_device, bool):
+                            msg = "is_stack_device must be a boolean in the Playbook config: {0}.".format(
                                 str(device)
                             )
                             self.log(msg, "ERROR")
@@ -801,8 +806,7 @@ class PnP(CatalystCenterBase):
             if "user_sudi_serial_nos" in param:
                 param["userSudiSerialNos"] = param.pop("user_sudi_serial_nos")
 
-            if "stack" not in param:
-                param["stack"] = False
+            param["stack"] = param.pop("is_stack_device", False)
 
             if "authorize" in param:
                 param["authorize"] = param.pop("authorize")

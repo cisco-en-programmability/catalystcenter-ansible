@@ -441,7 +441,7 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
                         "pid": "C9300-24H",
                         "is_sudi_required": True,
                         "user_sudi_serial_nos": ["gdgttee"],
-                        "stack": True,
+                        "is_stack_device": True,
                     },
                     {
                         "serial_number": "ABC123",
