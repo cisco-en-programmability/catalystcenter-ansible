@@ -59,7 +59,7 @@ Jumpstart your automation journey with sample input files that demonstrate prope
 ### 🎨 Jinja-Based Templates
 Enhance scalability and flexibility with Jinja-based templates support. These templates empower you to dynamically generate input configurations, adapting to various deployments with ease.
 
-### � Infrastructure as Code
+### 🏗️ Infrastructure as Code
 Embrace infrastructure as code and manage your entire Catalyst Center configuration through Git. This provides:
 - **Complete version control**: Track every change and easily revert to previous states
 - **Increased collaboration**: Simplify teamwork with a centralized platform
@@ -68,7 +68,7 @@ Embrace infrastructure as code and manage your entire Catalyst Center configurat
 
 ---
 
-## �📦 Installation
+## 📦 Installation
 
 ### Install Collection (Includes CVPs)
 
@@ -113,7 +113,7 @@ Minimal inventory (`inventory/hosts.yml`):
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      ansible_host: "{{ lookup('env', 'HOSTIP') }}"
+      ansible_connection: local
       catalystcenter_host: "{{ lookup('env', 'HOSTIP') }}"
       catalystcenter_username: "{{ lookup('env', 'CATALYST_CENTER_USERNAME') }}"
       catalystcenter_password: "{{ lookup('env', 'CATALYST_CENTER_PASSWORD') }}"
@@ -496,6 +496,7 @@ Establish foundational access control and integrate with external systems.
 |-----|-------------|--------|
 | **users_and_roles** | Role Based Access Control and Users Management | [📖 Guide](cvp/users_and_roles/README.md) |
 | **ise_radius_integration** | ISE and AAA Servers Integration | [📖 Guide](cvp/ise_radius_integration/README.md) |
+| **ansible_vault_update** | Update Ansible Vault encrypted credentials | [📖 Guide](cvp/ansible_vault_update/README.md) |
 
 ---
 
@@ -517,6 +518,7 @@ Design your network hierarchy, configure settings, and discover devices.
 | **provision** | Device Provisioning and Re-Provisioning Management | [📖 Guide](cvp/provision/README.md) |
 | **device_templates** | Design and Deploy Device Templates | [📖 Guide](cvp/device_templates/README.md) |
 | **tags_manager** | Tags Management | [📖 Guide](cvp/tags_manager/README.md) |
+| **access_point_location** | Access Point location management on floor maps | [📖 Guide](cvp/access_point_location/README.md) |
 
 ---
 
@@ -532,6 +534,7 @@ Configure underlay automation and SD-Access fabric.
 | **sda_virtual_networks_l2l3_gateways** | Virtual Networks and L3 Anycast Gateways and L2 VLANs Management | [📖 Guide](cvp/sda_virtual_networks_l2l3_gateways/README.md) |
 | **sda_fabric_device_roles** | SDA Fabric Device assignment to fabric sites and zones | [📖 Guide](cvp/sda_fabric_device_roles/README.md) |
 | **sda_hostonboarding** | SDA Fabric Devices and Host Onboarding | [📖 Guide](cvp/sda_hostonboarding/README.md) |
+| **sda_fabric_discover_and_onboard_fabric_devices** | Discover and onboard devices into the SDA fabric | [📖 Guide](cvp/sda_fabric_discover_and_onboard_fabric_devices/README.md) |
 | **sda_fabric_extranet_policy** | SDA Extranet Policies Management | [📖 Guide](cvp/sda_fabric_extranet_policy/README.md) |
 | **sda_fabric_multicast** | SDA Fabric Multicast Management | [📖 Guide](cvp/sda_fabric_multicast/README.md) |
 | **application_policy** | Application Policy Management | [📖 Guide](cvp/application_policy/README.md) |
@@ -629,19 +632,30 @@ git commit -m "Add customized CVPs"
 
 ### 2. Use Ansible Vault for Secrets
 
+The inventory at [Prerequisite: Inventory File](#-prerequisite-inventory-file)
+reads credentials from environment variables. For long-term storage, keep the
+same variable names (`catalystcenter_host`, `catalystcenter_username`,
+`catalystcenter_password`) but source them from an Ansible Vault file in
+`group_vars/`, so they are picked up automatically by the
+`catalyst_center_hosts` group without `-e` overrides.
+
 ```bash
-# Create vault file
-ansible-vault create group_vars/all/vault.yml
+# 1. Create vault file for the catalyst_center_hosts group
+mkdir -p group_vars/catalyst_center_hosts
+ansible-vault create group_vars/catalyst_center_hosts/vault.yml
+```
 
-# Add credentials
-vault_catalystcenter_host: "10.1.1.1"
-vault_catalystcenter_username: "admin"
-vault_catalystcenter_password: "secret"
+```yaml
+# group_vars/catalyst_center_hosts/vault.yml (encrypted)
+catalystcenter_host: "10.1.1.1"
+catalystcenter_username: "admin"
+catalystcenter_password: "secret"
+```
 
-# Reference in playbook
+```bash
+# 2. Run the playbook — vault vars override the env-based defaults
 ansible-playbook -i inventory/hosts.yml \
   cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
-  -e catalystcenter_host="{{ vault_catalystcenter_host }}" \
   --ask-vault-pass
 ```
 
