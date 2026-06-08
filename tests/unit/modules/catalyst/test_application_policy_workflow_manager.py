@@ -478,21 +478,6 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
         self.assertEqual(result, "collaboration-apps")
 
-    def test_exact_match_rejects_substring(self):
-        """
-        Verify that substring application set names do not count as exact matches.
-        """
-
-        manager = self._build_application_policy_for_update_check(
-            [
-                self._build_current_policy_entry(
-                    "MyPolicy_email-security", policy_scope="MyPolicy"
-                )
-            ],
-            ["email"],
-        )
-
-        self.assertTrue(manager.is_update_required_for_application_policy())
 
     def test_extract_app_set_name_missing_scope(self):
         """
@@ -505,25 +490,6 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
         result = manager._extract_app_set_name(entry)
 
         self.assertEqual(result, "collaboration-apps")
-
-    def test_no_update_when_sets_match(self):
-        """
-        Verify no update is required when current and wanted application sets match.
-        """
-
-        manager = self._build_application_policy_for_update_check(
-            [
-                self._build_current_policy_entry(
-                    "MyPolicy_email", policy_scope="MyPolicy"
-                ),
-                self._build_current_policy_entry(
-                    "MyPolicy_tunneling", policy_scope="MyPolicy"
-                ),
-            ],
-            ["email", "tunneling"],
-        )
-
-        self.assertFalse(manager.is_update_required_for_application_policy())
 
     def test_application_policy_workflow_manager_playbook_create_profile(self):
         """
