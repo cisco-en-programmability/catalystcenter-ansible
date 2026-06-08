@@ -93,6 +93,9 @@ claim_switching_device_type:
   state: enum('merged', 'deleted', required=False)
   device_info: list(include('device_info_type'), required=True)
   pnp_type: enum('Default', 'StackSwitch', required=False)
+  license_level: str(required=False)
+  top_of_stack_serial_number: str(required=False)
+  cabling_scheme: enum('1A', '1B', required=False)
 
 claim_router_device_type:
   site_name: str(required=False)
@@ -104,6 +107,7 @@ claim_router_device_type:
   state: enum('merged', 'deleted', required=False)
   device_info: list(include('device_info_type'), required=True)
   pnp_type: enum('Default', required=False)
+  license_level: str(required=False)
 
 device_info_type:
   serial_number: str(required=True)
@@ -112,6 +116,8 @@ device_info_type:
   pid: str(required=False)
   authorize: bool(required=False)
   is_sudi_required: bool(required=False)
+  user_sudi_serial_nos: list(str(), min=0, max=10000, required=False)
+  is_stack_device: bool(required=False)
 
 network_devices_type:
   device_info: list(include('device_info_type'), required=True)

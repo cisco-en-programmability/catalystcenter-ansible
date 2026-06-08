@@ -125,6 +125,9 @@ Each item in the lists above (e.g., inside `claim_switching_devices`) typically 
 | `image_name` | String | No | The name of the software image to provision. |
 | `template_params` | Dictionary | No | Variables required by the Jinja2 template (e.g., VLAN ID, IP). |
 | `device_info` | List | Yes | A list of specific devices to apply this configuration to. |
+| `license_level` | String | No | License level applied when claiming a Catalyst switch / stack switch (e.g., `network-advantage`). Most commonly used with `pnp_type: Default` or `pnp_type: StackSwitch`. |
+| `top_of_stack_serial_number` | String | No | Serial number of the switch to designate as top-of-stack (Member 1 / Active) during stack renumbering. Must match a `serial_number` under `device_info`. Applicable only when `pnp_type: StackSwitch`. |
+| `cabling_scheme` | Enum | No | Physical cabling topology of the Catalyst stack. Accepted values are `1A` and `1B`. Applicable only when `pnp_type: StackSwitch`. |
 
 #### Device Info Object
 
@@ -137,6 +140,9 @@ The `device_info` list contains the specific identity of the physical devices.
 | `hostname` | String | No | The hostname to assign or identify the device. |
 | `state` | Enum | No | Expected state (e.g., `Unclaimed`, `Claimed`, `Provisioned`). |
 | `authorize` | Boolean | No | **(v2.3.7.9+)** **Galaxy version 6.42.0+** Auto-authorize device if in `Pending Authorization` state. |
+| `is_sudi_required` | Boolean | No | SUDI authentication requirement flag (sent as `sudiRequired`). When `true`, `user_sudi_serial_nos` is required. |
+| `user_sudi_serial_nos` | List | No | List of SUDI serial numbers used for SUDI authorization. Required when `is_sudi_required` is `true`. For stack devices, include all stack member SUDI serial numbers. |
+| `is_stack_device` | Boolean | No | Set to `true` if the device is a stack device. Only applies when `pnp_type` is `Default` or `StackSwitch`; ignored for `AccessPoint` and `CatalystWLC`. Defaults to `false`. |
 
 
 ## Example Input File
@@ -207,8 +213,18 @@ pnp_details:
           hostname: NY-EN-9300
           state: Unclaimed
           pid: C9300-48UXM
+          is_sudi_required: true
+          user_sudi_serial_nos:
+            - FJC271925Q1
+          is_stack_device: true
       pnp_type: StackSwitch
+      license_level: network-advantage
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
 ```
+
+> **Stack renumbering:** When claiming a Catalyst stack, use `top_of_stack_serial_number` to designate which member becomes stack Member 1 (Active) and `cabling_scheme` (`1A`/`1B`) to describe the physical topology. Both fields apply only when `pnp_type: StackSwitch`. Use `is_stack_device: true` together with `user_sudi_serial_nos` (listing every stack member SUDI serial) when `is_sudi_required: true`.
+
 ### 4. Claim Router Device
 
 Onboard a Cisco router with appropriate template and image.
