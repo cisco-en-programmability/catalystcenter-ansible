@@ -52,7 +52,7 @@ Minimal inventory (`inventory/hosts.yml`):
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      ansible_host: "{{ lookup('env', 'HOSTIP') }}"
+      ansible_connection: local
       catalystcenter_host: "{{ lookup('env', 'HOSTIP') }}"
       catalystcenter_username: "{{ lookup('env', 'CATALYST_CENTER_USERNAME') }}"
       catalystcenter_password: "{{ lookup('env', 'CATALYST_CENTER_PASSWORD') }}"
@@ -160,7 +160,8 @@ ansible-playbook \
 | **sda_fabric_device_roles** | Assign fabric device roles (edge, border, control plane) | Role assignment |
 | **sda_fabric_transits** | Configure fabric transits and inter-site connectivity | SD-Access transits |
 | **sda_fabric_multicast** | Configure multicast settings in SDA fabric | Multicast enablement |
-| **sda_extranet_policies** | Manage extranet policies for inter-VN communication | Extranet configuration |
+| **sda_fabric_extranet_policy** | Manage extranet policies for inter-VN communication | Extranet configuration |
+| **sda_fabric_discover_and_onboard_fabric_devices** | Discover and onboard devices into the SDA fabric | Fabric onboarding |
 | **sda_device_removal_and_unprovision** | Remove devices from fabric | Cleanup workflows |
 | **sda_port_assignment_migration** | Migrate port assignments | Port migration |
 
@@ -172,6 +173,13 @@ ansible-playbook \
 | **assurance_pathtrace** | Run path trace analysis | Troubleshooting |
 | **assurance_health_score_settings** | Configure health score thresholds | Custom thresholds |
 | **assurance_intelligent_capture** | Configure intelligent packet capture (iCAP) | Packet analysis |
+
+### 📊 Inventory Information
+
+| CVP | Description | Key Features |
+|-----|-------------|--------------|
+| **fabric_devices_info** | Retrieve SDA fabric devices information and inventory | Fabric inventory |
+| **network_devices_info** | Retrieve network devices information and inventory | Network inventory |
 
 ### 🔐 Security & Integration
 
@@ -200,13 +208,18 @@ ansible-playbook \
 | **users_and_roles** | Manage users and RBAC roles | User management |
 | **accesspoints_configuration_provisioning** | Configure and provision access points | AP management |
 | **access_point_location** | Manage AP locations on floor maps | Location services |
+| **ansible_vault_update** | Update Ansible Vault encrypted credentials | Secret rotation |
 
 ### 📋 Config Generators
 
 Config generator CVPs extract current configurations for documentation or migration:
 
 - `accesspoint_config_generator`
+- `accesspoint_location_config_generator`
 - `application_policy_config_generator`
+- `assurance_device_health_score_settings_config_generator`
+- `assurance_issue_config_generator`
+- `backup_and_restore_config_generator`
 - `device_credential_config_generator`
 - `discovery_config_generator`
 - `events_and_notifications_config_generator`
