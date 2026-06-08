@@ -37,6 +37,44 @@ cvp/site_hierarchy/
 
 ---
 
+## 🧾 Prerequisite: Inventory File
+
+Every CVP playbook declares `hosts: catalyst_center_hosts`, so an inventory
+that defines this group is **required**. Running `ansible-playbook` without
+`-i <inventory>` produces `skipping: no hosts matched` and no tasks execute.
+Passing `-e catalystcenter_host=...` alone is **not** enough — it only sets
+SDK connection variables, not the Ansible host pattern.
+
+Minimal inventory (`inventory/hosts.yml`):
+
+```yaml
+---
+catalyst_center_hosts:
+  hosts:
+    catalyst_center220:
+      ansible_host: "{{ lookup('env', 'HOSTIP') }}"
+      catalystcenter_host: "{{ lookup('env', 'HOSTIP') }}"
+      catalystcenter_username: "{{ lookup('env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_password: "{{ lookup('env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_version: 3.1.5
+      catalystcenter_verify: false
+      catalystcenter_debug: false
+```
+
+Export the matching environment variables:
+
+```bash
+export HOSTIP=<catalyst-center-ip-or-fqdn>
+export CATALYST_CENTER_USERNAME=<username>
+export CATALYST_CENTER_PASSWORD='<password>'
+```
+
+> All `ansible-playbook` examples below assume this inventory exists at
+> `inventory/hosts.yml`.
+
+---
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -70,20 +108,21 @@ cat README.md
 # 6. Customize variables
 vi vars/site_hierarchy_design_vars.yml
 
-# 7. Run the playbook
-ansible-playbook playbook/site_hierarchy_playbook.yml \
-  -e catalystcenter_host=10.1.1.1 \
-  -e catalystcenter_username=admin \
-  -e catalystcenter_password=secret
+# 7. Run the playbook (requires an inventory with the catalyst_center_hosts group;
+#    see "Prerequisite: Inventory File" above)
+ansible-playbook \
+  -i inventory/hosts.yml \
+  playbook/site_hierarchy_playbook.yml
 ```
 
 ### Alternative: Run Directly from Collection
 
 ```bash
-# Run CVP directly without copying
+# Run CVP directly without copying (inventory is still required)
 ansible-playbook \
+  -i inventory/hosts.yml \
   ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
-  -e @my-custom-vars.yml
+  -e VARS_FILE_PATH=$(pwd)/my-custom-vars.yml
 ```
 
 ---
@@ -206,17 +245,19 @@ cp -r ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_h
 cd my-project/site_hierarchy
 vi vars/site_hierarchy_design_vars.yml
 
-# Run
-ansible-playbook playbook/site_hierarchy_playbook.yml
+# Run (inventory must define the catalyst_center_hosts group)
+ansible-playbook -i inventory/hosts.yml \
+  playbook/site_hierarchy_playbook.yml
 ```
 
 ### Pattern 2: Direct Reference
 
 ```bash
-# Run directly from collection
+# Run directly from collection (inventory is still required)
 ansible-playbook \
+  -i inventory/hosts.yml \
   ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml \
-  -e @my-vars.yml
+  -e VARS_FILE_PATH=$(pwd)/my-vars.yml
 ```
 
 ### Pattern 3: CI/CD Integration
@@ -230,7 +271,14 @@ ansible-playbook \
   run: cp -r ~/.ansible/collections/.../cvp/site_hierarchy cvp/
 
 - name: Run CVP
-  run: ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
+  env:
+    HOSTIP: ${{ secrets.CATALYSTCENTER_HOST }}
+    CATALYST_CENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
+    CATALYST_CENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
+  run: |
+    ansible-playbook \
+      -i inventory/hosts.yml \
+      cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
 ```
 
 ---
@@ -321,7 +369,8 @@ Some CVPs include Jinja2 templates for bulk operations:
 ```bash
 # Generate configuration from template
 cd cvp/site_hierarchy
-ansible-playbook playbook/site_hierarchy_playbook.yml \
+ansible-playbook -i inventory/hosts.yml \
+  playbook/site_hierarchy_playbook.yml \
   -e use_jinja_template=true \
   -e jinja_vars_file=vars/jinja_template_site_hierarchy_design_vars.yml
 ```
@@ -367,11 +416,13 @@ jobs:
       
       - name: Deploy Sites
         env:
-          CATALYSTCENTER_HOST: ${{ secrets.CATALYSTCENTER_HOST }}
-          CATALYSTCENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
-          CATALYSTCENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
+          HOSTIP: ${{ secrets.CATALYSTCENTER_HOST }}
+          CATALYST_CENTER_USERNAME: ${{ secrets.CATALYSTCENTER_USERNAME }}
+          CATALYST_CENTER_PASSWORD: ${{ secrets.CATALYSTCENTER_PASSWORD }}
         run: |
-          ansible-playbook cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
+          ansible-playbook \
+            -i inventory/hosts.yml \
+            cvp/site_hierarchy/playbook/site_hierarchy_playbook.yml
 ```
 
 ---
