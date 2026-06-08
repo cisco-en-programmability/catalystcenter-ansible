@@ -9,8 +9,9 @@ Resource module for managing Reports in Cisco Catalyst Center.
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- Catalyst Center SDK >= 3.1.3.0.0
+- catalystcentersdk >= 3.1.6.0.2
 - Python >= 3.9
+- Cisco Catalyst Center >= 2.3.7.9
 
 ## Role Variables
 
@@ -20,10 +21,15 @@ Resource module for managing Reports in Cisco Catalyst Center.
 - `catalystcenter_password`: Password for authentication (required)
 - `catalystcenter_verify`: SSL certificate verification (default: `false`)
 - `catalystcenter_port`: API port (default: `443`)
-- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.6`)
+- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.9`)
 - `catalystcenter_debug`: Enable debug mode (default: `false`)
 - `catalystcenter_log_level`: Logging level (default: `INFO`)
 - `catalystcenter_log`: Enable logging (default: `false`)
+- `catalystcenter_log_file_path`: Log file path (default: `catalystcenter.log`)
+- `catalystcenter_log_append`: Append to log file instead of overwriting (default: `true`)
+- `catalystcenter_api_task_timeout`: Timeout in seconds for API task polling (default: `1200`)
+- `catalystcenter_task_poll_interval`: Interval in seconds between task status polls (default: `2`)
+- `validate_response_schema`: Validate API response schema (default: `true`)
 
 ### Role-Specific Variables
 - `reports_config_verify` set to C(True) to enable configuration verification on Cisco Catalyst Center after applying the playbook config. This will ensure that the system validates the configuration state after the change is applied. Default: `false`.

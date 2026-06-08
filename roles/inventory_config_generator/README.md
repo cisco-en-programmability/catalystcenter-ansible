@@ -9,8 +9,9 @@ Generate YAML playbook input for 'inventory_workflow_manager' module.
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- Catalyst Center SDK >= 3.1.3.0.0
+- catalystcentersdk >= 3.1.6.0.2
 - Python >= 3.9
+- Cisco Catalyst Center >= 2.3.7.9
 
 ## Role Variables
 
@@ -20,7 +21,7 @@ Generate YAML playbook input for 'inventory_workflow_manager' module.
 - `catalystcenter_password`: Password for authentication (required)
 - `catalystcenter_verify`: SSL certificate verification (default: `false`)
 - `catalystcenter_port`: API port (default: `443`)
-- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.6`)
+- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.9`)
 - `catalystcenter_debug`: Enable debug mode (default: `false`)
 - `catalystcenter_log_level`: Logging level (default: `INFO`)
 - `catalystcenter_log`: Enable logging (default: `false`)
