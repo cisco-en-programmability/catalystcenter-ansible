@@ -39,7 +39,7 @@ Each item in `pnp_config` is passed directly to the `pnp_workflow_manager` modul
 - `project_name` / `template_name` / `template_params`: Onboarding template details.
 - `image_name` / `golden_image`: Software image to provision.
 - `pnp_type`: `Default`, `CatalystWLC`, `AccessPoint`, or `StackSwitch`.
-- `license_level`: License level applied when claiming a switch / stack switch (e.g., `network-advantage`).
+- `license_level`: License level applied when claiming a switch / stack switch. Valid values: `Cisco DNA Essentials`, `Cisco DNA Advantage`.
 - `top_of_stack_serial_number`: Serial number designated as top-of-stack (Member 1 / Active) for stack renumbering. Applicable only when `pnp_type: StackSwitch`.
 - `cabling_scheme`: Physical cabling topology of the stack. Accepted values: `1A`, `1B`. Applicable only when `pnp_type: StackSwitch`.
 - `device_info[].is_sudi_required`: Enable SUDI authentication. Requires `user_sudi_serial_nos`.
@@ -156,25 +156,6 @@ Stack-specific fields: `is_stack_device` (sent as `stack`),
             is_stack_device: true
 
 # Play 2: CLAIM the stack device as StackSwitch (stack renumbering)
-# Play 1: ADD the stack device to PnP (Unclaimed)
-- hosts: localhost
-  roles:
-    - role: pnp
-      vars:
-        catalystcenter_host: "{{ vault_catalystcenter_host }}"
-        catalystcenter_username: "{{ vault_catalystcenter_username }}"
-        catalystcenter_password: "{{ vault_catalystcenter_password }}"
-        pnp_state: "merged"
-        pnp_config:
-        - device_info:
-          - serial_number: FJC271925Q1
-            hostname: NY-EN-9300
-            state: Unclaimed
-            pid: C9300-48UXM
-            is_sudi_required: false
-            is_stack_device: true
-
-# Play 2: CLAIM the stack device as StackSwitch (stack renumbering)
 - hosts: localhost
   roles:
     - role: pnp
@@ -189,7 +170,7 @@ Stack-specific fields: `is_stack_device` (sent as `stack`),
           template_name: PnP-Devices-SW
           image_name: cat9k_iosxe.17.12.02.SPA.bin
           pnp_type: StackSwitch
-          license_level: dna-advantage
+          license_level: "Cisco DNA Advantage"
           top_of_stack_serial_number: FJC271925Q1
           cabling_scheme: 1B
           device_info:
@@ -199,6 +180,8 @@ Stack-specific fields: `is_stack_device` (sent as `stack`),
             pid: C9300-48UXM
             is_stack_device: true
 ```
+
+> `license_level` accepts the Catalyst Center values `Cisco DNA Essentials` and `Cisco DNA Advantage`.
 
 #### Switch Stack with SUDI Authorization
 
@@ -219,7 +202,7 @@ stack member serial number** in `user_sudi_serial_nos` (sent to the API as
         - site_name: Global/USA/New York/NY_BLD1
           project_name: Onboarding Configuration
           pnp_type: StackSwitch
-          license_level: dna-advantage
+          license_level: "Cisco DNA Advantage"
           top_of_stack_serial_number: FJC271925Q1
           cabling_scheme: 1B
           device_info:
@@ -227,37 +210,6 @@ stack member serial number** in `user_sudi_serial_nos` (sent to the API as
             hostname: NY-EN-9300
             state: Unclaimed
             pid: C9300-48UXM
-            is_stack_device: true
-```
-
-#### Switch Stack with SUDI Authorization
-
-When SUDI authorization is required, set `is_sudi_required: true` and list **every
-stack member serial number** in `user_sudi_serial_nos` (sent to the API as
-`userSudiSerialNos`).
-
-```yaml
-- hosts: localhost
-  roles:
-    - role: pnp
-      vars:
-        catalystcenter_host: "{{ vault_catalystcenter_host }}"
-        catalystcenter_username: "{{ vault_catalystcenter_username }}"
-        catalystcenter_password: "{{ vault_catalystcenter_password }}"
-        pnp_state: "merged"
-        pnp_config:
-        - site_name: Global/USA/New York/NY_BLD1
-          project_name: Onboarding Configuration
-          pnp_type: StackSwitch
-          license_level: network-advantage
-          top_of_stack_serial_number: FJC271925Q1
-          cabling_scheme: 1B
-          device_info:
-          - serial_number: FJC271925Q1
-            hostname: NY-EN-9300
-            state: Unclaimed
-            pid: C9300-48UXM
-            is_stack_device: true
             is_stack_device: true
             is_sudi_required: true
             user_sudi_serial_nos:
