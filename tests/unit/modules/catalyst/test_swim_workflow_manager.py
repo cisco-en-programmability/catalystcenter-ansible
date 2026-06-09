@@ -744,7 +744,8 @@ class TestswimWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s)"
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
         )
 
     def test_swim_workflow_manager_playbook_golden_all_to_dist_proceeds(self):
@@ -845,7 +846,8 @@ class TestswimWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s) ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s)"
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
         )
 
     def test_swim_workflow_manager_playbook_golden_all_covers_specific_roles_idempotent_tag(self):
