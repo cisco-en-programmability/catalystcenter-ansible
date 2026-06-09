@@ -222,6 +222,17 @@ pnp_details:
           is_stack_device: true
 
   # Phase 2: CLAIM the stack device as StackSwitch (stack renumbering)
+  # Phase 1: ADD the stack device to PnP (Unclaimed)
+  network_devices:
+    - device_info:
+        - serial_number: FJC271925Q1
+          hostname: NY-EN-9300
+          state: Unclaimed
+          pid: C9300-48UXM
+          is_sudi_required: false
+          is_stack_device: true
+
+  # Phase 2: CLAIM the stack device as StackSwitch (stack renumbering)
   claim_switching_devices:
     - site_name: Global/USA/New York/NY_BLD1
       project_name: Onboarding Configuration
@@ -230,6 +241,10 @@ pnp_details:
       template_params:
         PNP_VLAN_ID: 2005
         LOOPBACK_IP: 204.1.2.2
+      pnp_type: StackSwitch
+      license_level: network-advantage
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
       pnp_type: StackSwitch
       license_level: dna-advantage
       top_of_stack_serial_number: FJC271925Q1
@@ -240,6 +255,23 @@ pnp_details:
           state: Unclaimed
           pid: C9300-48UXM
           is_stack_device: true
+```
+
+> **Stack renumbering:** `top_of_stack_serial_number` and `cabling_scheme` apply only when `pnp_type: StackSwitch`. `license_level` accepts the values reported by the device's `validLicenseLevels` (e.g. `network-advantage`, `advantage`); refer to your Catalyst Center version's API schema for the authoritative list.
+
+#### Switch Stack with SUDI Authorization
+
+When SUDI authorization is required, set `is_sudi_required: true` and list **every
+stack member serial number** in `user_sudi_serial_nos` (sent to the API as
+`userSudiSerialNos`).
+
+```yaml
+---
+catalystcenter_version: 2.3.7.9
+pnp_details:
+  claim_switching_devices:
+    - site_name: Global/USA/New York/NY_BLD1
+      project_name: Onboarding Configuration
 ```
 
 > **Stack renumbering:** `top_of_stack_serial_number` and `cabling_scheme` apply only when `pnp_type: StackSwitch`. `license_level` accepts the values reported by the device's `validLicenseLevels` (e.g. `network-advantage`, `advantage`); refer to your Catalyst Center version's API schema for the authoritative list.
