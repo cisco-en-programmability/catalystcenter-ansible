@@ -1,0 +1,107 @@
+{
+  "playbook_config_one_to_one": [
+    {
+      "fabric_site": "Global/USA/San Jose/Building1",
+      "source_device_ip": "10.10.10.101",
+      "destination_device_ip": "10.10.20.201"
+    }
+  ],
+  "playbook_config_partial_remap": [
+    {
+      "fabric_site": "Global/USA/San Jose/Building1",
+      "source_device_ip": "10.10.10.101",
+      "destination_device_ip": "10.10.20.201",
+      "interface_mappings": [
+        {
+          "source_interface_name": "GigabitEthernet1/0/1",
+          "destination_interface_name": "GigabitEthernet1/0/25"
+        },
+        {
+          "source_interface_name": "GigabitEthernet1/0/99",
+          "destination_interface_name": "GigabitEthernet1/0/26"
+        }
+      ]
+    }
+  ],
+  "get_port_assignments_response": {
+    "response": [
+      {
+        "id": "port-assign-001",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-001",
+        "interfaceName": "GigabitEthernet1/0/1",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Data_VLAN_100",
+        "voiceVlanName": "Voice_VLAN_150",
+        "authenticateTemplateName": "No Authentication",
+        "securityGroupName": "SGT_Employees",
+        "interfaceDescription": "User Port 1"
+      },
+      {
+        "id": "port-assign-002",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-001",
+        "interfaceName": "GigabitEthernet1/0/2",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Data_VLAN_200",
+        "authenticateTemplateName": "Closed Authentication",
+        "interfaceDescription": "User Port 2"
+      },
+      {
+        "id": "port-assign-003",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-002",
+        "interfaceName": "GigabitEthernet1/0/3",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Data_VLAN_300",
+        "authenticateTemplateName": "No Authentication",
+        "interfaceDescription": "Other Device Port"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_device_by_id_response_device_001": {
+    "response": {
+      "hostname": "TB3-BGL-EDGE1.autoagni1.com",
+      "managementIpAddress": "10.10.10.101",
+      "serialNumber": "FJC2413E16S",
+      "id": "device-001"
+    },
+    "version": "1.0"
+  },
+  "get_device_by_id_response_device_002": {
+    "response": {
+      "hostname": "TB3-BGL-EDGE2.autoagni1.com",
+      "managementIpAddress": "10.10.10.102",
+      "serialNumber": "FJC2413E17S",
+      "id": "device-002"
+    },
+    "version": "1.0"
+  },
+  "get_fabric_sites_response": {
+    "response": [
+      {
+        "id": "fabric-001",
+        "siteId": "site-001",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": true
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_sites_response": {
+    "response": [
+      {
+        "id": "site-001",
+        "nameHierarchy": "Global/USA/San Jose/Building1",
+        "name": "Building1",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+  "empty_response": {
+    "response": [],
+    "version": "1.0"
+  }
+}
