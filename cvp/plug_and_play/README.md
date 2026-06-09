@@ -192,14 +192,36 @@ pnp_details:
           pid: C9300-48T
 ```
 
-### 3. Claim Switch Stack
+### 3. Switch Stack (Add then Claim with Stack Renumbering)
 
-Onboard a Cisco Catalyst 9K switch stack by specifying `pnp_type: StackSwitch`.
+Dedicated end-to-end example for a Cisco Catalyst 9K switch **stack**. The CVP
+playbook processes `network_devices` (ADD) before `claim_switching_devices`
+(CLAIM), so this single vars file both adds the stack to PnP and then claims it
+to a site as `pnp_type: StackSwitch`.
+
+Stack-specific fields:
+
+- `is_stack_device: true` marks the device as a stack member (sent to the API as `stack`).
+- `top_of_stack_serial_number` designates which member becomes stack Member 1 / Active (stack renumbering).
+- `cabling_scheme` (`1A` or `1B`) describes the physical stack cabling topology.
+- `license_level` sets the license applied at claim time.
+- Add `is_sudi_required: true` with `user_sudi_serial_nos` (all stack member SUDI serials) only when SUDI authorization is required.
 
 ```yaml
 ---
-catalystcenter_version: 2.3.7.6
+catalystcenter_version: 2.3.7.9
 pnp_details:
+  # Phase 1: ADD the stack device to PnP (Unclaimed)
+  network_devices:
+    - device_info:
+        - serial_number: FJC271925Q1
+          hostname: NY-EN-9300
+          state: Unclaimed
+          pid: C9300-48UXM
+          is_sudi_required: false
+          is_stack_device: true
+
+  # Phase 2: CLAIM the stack device as StackSwitch (stack renumbering)
   claim_switching_devices:
     - site_name: Global/USA/New York/NY_BLD1
       project_name: Onboarding Configuration
@@ -208,22 +230,49 @@ pnp_details:
       template_params:
         PNP_VLAN_ID: 2005
         LOOPBACK_IP: 204.1.2.2
+      pnp_type: StackSwitch
+      license_level: dna-advantage
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
       device_info:
         - serial_number: FJC271925Q1
           hostname: NY-EN-9300
           state: Unclaimed
           pid: C9300-48UXM
+          is_stack_device: true
+```
+
+> **Stack renumbering:** `top_of_stack_serial_number` and `cabling_scheme` apply only when `pnp_type: StackSwitch`. `license_level` accepts the values reported by the device's `validLicenseLevels` (e.g. `network-advantage`, `advantage`); refer to your Catalyst Center version's API schema for the authoritative list.
+
+#### Switch Stack with SUDI Authorization
+
+When SUDI authorization is required, set `is_sudi_required: true` and list **every
+stack member serial number** in `user_sudi_serial_nos` (sent to the API as
+`userSudiSerialNos`).
+
+```yaml
+---
+catalystcenter_version: 2.3.7.9
+pnp_details:
+  claim_switching_devices:
+    - site_name: Global/USA/New York/NY_BLD1
+      project_name: Onboarding Configuration
+      pnp_type: StackSwitch
+      license_level: dna-advantage
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
+      device_info:
+        - serial_number: FJC271925Q1
+          hostname: NY-EN-9300
+          state: Unclaimed
+          pid: C9300-48UXM
+          is_stack_device: true
           is_sudi_required: true
           user_sudi_serial_nos:
             - FJC271925Q1
-          is_stack_device: true
-      pnp_type: StackSwitch
-      license_level: network-advantage
-      top_of_stack_serial_number: FJC271925Q1
-      cabling_scheme: 1B
+            - FJC271925Q2
+            - FJC271925Q3
 ```
-
-> **Stack renumbering:** When claiming a Catalyst stack, use `top_of_stack_serial_number` to designate which member becomes stack Member 1 (Active) and `cabling_scheme` (`1A`/`1B`) to describe the physical topology. Both fields apply only when `pnp_type: StackSwitch`. Use `is_stack_device: true` together with `user_sudi_serial_nos` (listing every stack member SUDI serial) when `is_sudi_required: true`.
 
 ### 4. Claim Router Device
 

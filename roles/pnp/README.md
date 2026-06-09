@@ -125,9 +125,37 @@ These examples are adapted from the workflow documentation and example assets in
             pid: ASR1001-X
 ```
 
-### Example 3: Claim a Switch Stack with Stack Renumbering
+### Example 3: Switch Stack - Add then Claim with Stack Renumbering
+
+Dedicated end-to-end stack example. The first play **adds** the stack device to
+PnP (Unclaimed); the second play **claims** it as `pnp_type: StackSwitch`,
+applying the license and stack-renumbering fields.
+
+Stack-specific fields: `is_stack_device` (sent as `stack`),
+`top_of_stack_serial_number` (designates stack Member 1 / Active),
+`cabling_scheme` (`1A`/`1B`), and `license_level`. Use `is_sudi_required` with
+`user_sudi_serial_nos` only when SUDI authorization is required.
 
 ```yaml
+# Play 1: ADD the stack device to PnP (Unclaimed)
+- hosts: localhost
+  roles:
+    - role: pnp
+      vars:
+        catalystcenter_host: "{{ vault_catalystcenter_host }}"
+        catalystcenter_username: "{{ vault_catalystcenter_username }}"
+        catalystcenter_password: "{{ vault_catalystcenter_password }}"
+        pnp_state: "merged"
+        pnp_config:
+        - device_info:
+          - serial_number: FJC271925Q1
+            hostname: NY-EN-9300
+            state: Unclaimed
+            pid: C9300-48UXM
+            is_sudi_required: false
+            is_stack_device: true
+
+# Play 2: CLAIM the stack device as StackSwitch (stack renumbering)
 - hosts: localhost
   roles:
     - role: pnp
@@ -142,7 +170,7 @@ These examples are adapted from the workflow documentation and example assets in
           template_name: PnP-Devices-SW
           image_name: cat9k_iosxe.17.12.02.SPA.bin
           pnp_type: StackSwitch
-          license_level: network-advantage
+          license_level: dna-advantage
           top_of_stack_serial_number: FJC271925Q1
           cabling_scheme: 1B
           device_info:
@@ -150,10 +178,42 @@ These examples are adapted from the workflow documentation and example assets in
             hostname: NY-EN-9300
             state: Unclaimed
             pid: C9300-48UXM
+            is_stack_device: true
+```
+
+#### Switch Stack with SUDI Authorization
+
+When SUDI authorization is required, set `is_sudi_required: true` and list **every
+stack member serial number** in `user_sudi_serial_nos` (sent to the API as
+`userSudiSerialNos`).
+
+```yaml
+- hosts: localhost
+  roles:
+    - role: pnp
+      vars:
+        catalystcenter_host: "{{ vault_catalystcenter_host }}"
+        catalystcenter_username: "{{ vault_catalystcenter_username }}"
+        catalystcenter_password: "{{ vault_catalystcenter_password }}"
+        pnp_state: "merged"
+        pnp_config:
+        - site_name: Global/USA/New York/NY_BLD1
+          project_name: Onboarding Configuration
+          pnp_type: StackSwitch
+          license_level: dna-advantage
+          top_of_stack_serial_number: FJC271925Q1
+          cabling_scheme: 1B
+          device_info:
+          - serial_number: FJC271925Q1
+            hostname: NY-EN-9300
+            state: Unclaimed
+            pid: C9300-48UXM
+            is_stack_device: true
             is_sudi_required: true
             user_sudi_serial_nos:
               - FJC271925Q1
-            is_stack_device: true
+              - FJC271925Q2
+              - FJC271925Q3
 ```
 
 <!-- END WORKFLOW README ENHANCEMENTS -->
