@@ -1,0 +1,53 @@
+---
+- name: SDA Host Port Assignment Migration Playbook Generator Example
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - credentials.yml
+  tasks:
+    - name: Generate host port assignment and port channel migration configuration
+      cisco.catalystcenter.sda_host_port_assignment_migration_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_path: "host_port_assignment_migration_playbook.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["port_assignments", "port_channels"]
+            port_assignments:
+              - fabric_site_name_hierarchy: "Global/US/California/San Jose/SJC21"
+                source_device_ip: "11.0.0.2"
+                destination_device_ip: "10.0.0.2"
+                interface_mappings:
+                  - source_interface_name: "GigabitEthernet3/0/24"
+                    destination_interface_name: "TenGigabitEthernet3/0/24"
+              - fabric_site_name_hierarchy: "Global/US/California/San Jose/SJC24"
+                source_device_ip: "11.0.0.4"
+                destination_device_ip: "10.0.0.4"
+                interface_mappings:
+                  - source_interface_name: "GigabitEthernet3/0/6"
+                    destination_interface_name: "TenGigabitEthernet3/0/6"
+            port_channels:
+              - fabric_site_name_hierarchy: "Global/US/California/San Jose/SJC21"
+                source_device_ip: "11.0.0.2"
+                destination_device_ip: "10.0.0.2"
+                interface_mappings:
+                  - source_interface_name: "GigabitEthernet2/0/3"
+                    destination_interface_name: "TenGigabitEthernet2/0/3"
+                  - source_interface_name: "GigabitEthernet3/0/3"
+                    destination_interface_name: "TenGigabitEthernet3/0/3"
+              - fabric_site_name_hierarchy: "Global/US/California/San Jose/SJC4"
+                source_device_ip: "11.0.0.3"
+                destination_device_ip: "10.0.0.3"
+                interface_mappings:
+                  - source_interface_name: "GigabitEthernet1/0/1"
+                    destination_interface_name: "TenGigabitEthernet1/0/1"
+

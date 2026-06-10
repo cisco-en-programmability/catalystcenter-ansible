@@ -23,6 +23,37 @@
       ]
     }
   ],
+  "playbook_config_assignments_and_channels": {
+    "component_specific_filters": {
+      "components_list": ["port_assignments", "port_channels"],
+      "port_assignments": [
+        {
+          "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "source_device_ip": "10.10.10.101",
+          "destination_device_ip": "10.10.20.201",
+          "interface_mappings": [
+            {
+              "source_interface_name": "GigabitEthernet1/0/1",
+              "destination_interface_name": "GigabitEthernet1/0/25"
+            }
+          ]
+        }
+      ],
+      "port_channels": [
+        {
+          "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "source_device_ip": "10.10.10.101",
+          "destination_device_ip": "10.10.20.201",
+          "interface_mappings": [
+            {
+              "source_interface_name": "GigabitEthernet1/0/2",
+              "destination_interface_name": "GigabitEthernet1/0/26"
+            }
+          ]
+        }
+      ]
+    }
+  },
   "get_port_assignments_response": {
     "response": [
       {
@@ -56,6 +87,35 @@
         "dataVlanName": "Data_VLAN_300",
         "authenticateTemplateName": "No Authentication",
         "interfaceDescription": "Other Device Port"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_port_channels_response": {
+    "response": [
+      {
+        "id": "port-channel-001",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-001",
+        "interfaceNames": [
+          "GigabitEthernet1/0/2",
+          "GigabitEthernet1/0/4"
+        ],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "LACP",
+        "description": "Uplink Port Channel"
+      },
+      {
+        "id": "port-channel-002",
+        "fabricId": "fabric-001",
+        "networkDeviceId": "device-002",
+        "interfaceNames": [
+          "GigabitEthernet1/0/5",
+          "GigabitEthernet1/0/6"
+        ],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "LACP",
+        "description": "Other Device Port Channel"
       }
     ],
     "version": "1.0"

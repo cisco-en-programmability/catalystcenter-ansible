@@ -30,6 +30,9 @@ class TestSdaHostPortAssignmentMigrationPlaybookConfigGenerator(TestCatalystModu
 
     playbook_config_one_to_one = test_data.get("playbook_config_one_to_one")
     playbook_config_partial_remap = test_data.get("playbook_config_partial_remap")
+    playbook_config_assignments_and_channels = test_data.get(
+        "playbook_config_assignments_and_channels"
+    )
 
     def setUp(self):
         super(TestSdaHostPortAssignmentMigrationPlaybookConfigGenerator, self).setUp()
@@ -56,6 +59,8 @@ class TestSdaHostPortAssignmentMigrationPlaybookConfigGenerator(TestCatalystModu
         def mock_catalystcenter_exec(family, function, op_modifies=False, params=None):
             if function == "get_port_assignments":
                 return self.test_data.get("get_port_assignments_response")
+            elif function == "get_port_channels":
+                return self.test_data.get("get_port_channels_response")
             elif function == "get_device_by_id":
                 if params and params.get("id") == "device-002":
                     return self.test_data.get("get_device_by_id_response_device_002")
@@ -83,6 +88,18 @@ class TestSdaHostPortAssignmentMigrationPlaybookConfigGenerator(TestCatalystModu
             "file_mode": "overwrite",
             "state": "gathered",
             "port_assignment_migration": migration_config,
+        }
+
+    def _base_config_args(self, config):
+        return {
+            "catalystcenter_host": "1.2.3.4",
+            "catalystcenter_username": "admin",
+            "catalystcenter_password": "pass",
+            "catalystcenter_version": "2.3.7.9",
+            "file_path": "/tmp/sda_host_port_assignment_migration.yaml",
+            "file_mode": "overwrite",
+            "state": "gathered",
+            "config": config,
         }
 
     @patch("builtins.open", new_callable=mock_open)
@@ -115,4 +132,27 @@ class TestSdaHostPortAssignmentMigrationPlaybookConfigGenerator(TestCatalystModu
         self.assertEqual(
             destination_interfaces,
             ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_config_generates_merged_assignments_and_channels(self, mock_file):
+        set_module_args(
+            self._base_config_args(self.playbook_config_assignments_and_channels)
+        )
+
+        result = self.execute_module(changed=True)
+
+        self.assertEqual(result["changed"], True)
+        data = yaml.safe_load(self._get_written_yaml(mock_file))
+        self.assertEqual(len(data["config"]), 1)
+        self.assertEqual(data["config"][0]["ip_address"], "10.10.20.201")
+        self.assertIn("port_assignments", data["config"][0])
+        self.assertIn("port_channels", data["config"][0])
+        self.assertEqual(
+            [item["interface_name"] for item in data["config"][0]["port_assignments"]],
+            ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
+        )
+        self.assertEqual(
+            data["config"][0]["port_channels"][0]["interface_names"],
+            ["GigabitEthernet1/0/26", "GigabitEthernet1/0/4"],
         )
