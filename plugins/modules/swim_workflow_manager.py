@@ -337,11 +337,15 @@ options:
               To replace an existing golden tag for a specific role:
               - **Unassign** the tag from the current role (e.g., `ACCESS`).
               - **Assign** the tag to the new role (e.g., `CORE`).
-              Idempotency Note:
-              - If an image is already tagged with 'ALL', requesting tagging for specific roles
-                (e.g., 'DISTRIBUTION,ACCESS') will result in no change (changed=0), because 'ALL'
-                is a superset that inherently includes all individual roles. The module checks the
-                golden tag status per role and recognizes that the requested roles are already covered.
+              Idempotency (per-role check, Catalyst Center > 2.3.7.9):
+              - Tagging is evaluated per role. If the image is already golden for 'ACCESS' and you
+                request tagging for 'CORE', the module tags 'CORE' (changed=True). Previously this
+                was silently skipped.
+              - The module skips (changed=False) only when all requested roles are already tagged.
+              - 'ALL' is treated as a superset: an image tagged with 'ALL' skips any subsequent
+                request for one or more specific roles, since those roles are already covered.
+              - For untagging, the module skips (changed=False) only when all requested roles are
+                already untagged.
               Examples:
               - device_role: "ACCESS" tags only the `ACCESS` role as golden.
               - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
@@ -361,11 +365,10 @@ options:
               Ordinal value.
             type: int
           tagging:
-            description: Boolean value to tag/untag
-              SWIM image as golden If True then the
-              given image will be tagged as golden.
-              If False then the given image will be
-              un-tagged as golden.
+            description: Boolean value to tag/untag the
+              SWIM image as golden. If True, the given
+              image is tagged as golden. If False, the
+              given image is un-tagged as golden.
             type: bool
       image_distribution_details:
         description: |
@@ -704,6 +707,11 @@ notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url,
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image,
+    software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image,
+    software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image,
+    software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image,
+    software_image_management_swim.SoftwareImageManagementSwim.untagging_golden_image,
+    software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution,
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
     software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
@@ -711,6 +719,10 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/image/importation/source/url,
     post /dna/intent/api/v1/image/importation/golden,
+    get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
+    post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden,
+    post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden,
+    get /dna/intent/api/v1/siteWiseProductNames,
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
     delete /dna/intent/api/v1/images/{id},
@@ -2272,28 +2284,14 @@ class Swim(CatalystCenterBase):
                         ),
                         "INFO",
                     )
-                    (site_exists, site_id) = self.site_exists("Global")
-                    if site_exists:
-                        have["site_id"] = site_id
-                        self.log(
-                            "Resolved Global site UUID for golden tagging workflow: {0}".format(
-                                str(site_id)
-                            ),
-                            "INFO",
-                        )
-                    else:
-                        self.log(
-                            "Global site lookup did not return a valid site ID for Catalyst Center version {0}."
-                            " Golden tagging cannot continue without a real Global site UUID.".format(
-                                self.get_ccc_version()
-                            ),
-                            "ERROR",
-                        )
-                        self.msg = "Unable to resolve the Global site ID in Cisco Catalyst Center for golden tagging."
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        self.result["response"] = self.msg
-                        self.check_return_status()
+                    global_site_id = self.get_global_site_id()
+                    have["site_id"] = global_site_id
+                    self.log(
+                        "Resolved Global site UUID for golden tagging workflow: {0}".format(
+                            str(global_site_id)
+                        ),
+                        "INFO",
+                    )
 
             self.have.update(have)
             # check if given device family name exists, store indentifier value
@@ -3396,11 +3394,35 @@ class Swim(CatalystCenterBase):
                     api_response = response.get("response")
                     if api_response:
                         is_tagged = api_response.get("taggedGolden", False)
+                        self.log(
+                            "Golden tag status for role '{0}' is taggedGolden={1}".format(
+                                role, is_tagged
+                            ),
+                            "DEBUG",
+                        )
                         if is_tagged:
+                            self.log(
+                                "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for role '{1}'".format(
+                                    image_name, role
+                                ),
+                                "INFO",
+                            )
                             already_tagged_roles.add(role)
                         else:
+                            self.log(
+                                "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center for role '{1}'".format(
+                                    image_name, role
+                                ),
+                                "INFO",
+                            )
                             already_untagged_roles.add(role)
                     else:
+                        self.log(
+                            "No golden status response returned for role '{0}'. Assuming role is untagged.".format(
+                                role
+                            ),
+                            "DEBUG",
+                        )
                         already_untagged_roles.add(role)
                 except Exception as e:
                     self.log(
@@ -3422,12 +3444,6 @@ class Swim(CatalystCenterBase):
             if tag_image_golden:
                 # All desired roles are already tagged → idempotent skip
                 if desired_roles_set.issubset(already_tagged_roles):
-                    self.log(
-                        "All requested roles {0} are already golden-tagged. Skipping as idempotent.".format(
-                            sorted(desired_roles_set)
-                        ),
-                        "DEBUG",
-                    )
                     self.msg = (
                         "SWIM Image '{0}' is already Golden tagged for device role(s) {1}. Skipping operation."
                         .format(image_name, role_display)
@@ -3437,12 +3453,6 @@ class Swim(CatalystCenterBase):
             else:
                 # All desired roles are already untagged → idempotent skip
                 if desired_roles_set.issubset(already_untagged_roles):
-                    self.log(
-                        "All requested roles {0} are already not golden-tagged. Skipping untagging as idempotent.".format(
-                            sorted(desired_roles_set)
-                        ),
-                        "DEBUG",
-                    )
                     self.msg = (
                         "SWIM Image '{0}' is already not Golden tagged for device role(s) {1}. Skipping operation."
                         .format(image_name, role_display)
@@ -3513,7 +3523,7 @@ class Swim(CatalystCenterBase):
                     op_modifies=True,
                     params={
                         "id": image_id,
-                        "site_id" : self.have.get("site_id"),
+                        "site_id": self.have.get("site_id"),
                         "payload": payload
                     }
                 )
@@ -3536,14 +3546,10 @@ class Swim(CatalystCenterBase):
             device_family = tagging_details.get("device_image_family_name") or "Unknown"
 
             action = "Tagging" if tag_image_golden else "Un-Tagging"
+            display_roles = "ALL" if raw_roles.lower() == "all" else role_display
             success_msg = (
-                "{0} image {1} golden for site {2}, family {3}, device role(s) {4} successful."
-                .format(
-                    action,
-                    image_name,
-                    site_name,
-                    device_family,
-                    "ALL" if raw_roles.lower() == "all" else ", ".join(sorted(desired_roles_set)) if desired_roles_set else "ALL",
+                "{0} image {1} golden for site {2}, family {3}, device role(s) {4} successful.".format(
+                    action, image_name, site_name, device_family, display_roles
                 )
             )
 
@@ -5474,6 +5480,18 @@ class Swim(CatalystCenterBase):
                 self.have.get("site_id"),
             )
             if product_name_ordinal is None:
+                self.log(
+                    (
+                        "Unable to verify golden tag status for image '{0}' because "
+                        "product_name_ordinal could not be resolved for family '{1}' "
+                        "at site_id '{2}'."
+                    ).format(
+                        image_name,
+                        tagging_details.get("device_image_family_name"),
+                        self.have.get("site_id"),
+                    ),
+                    "WARNING",
+                )
                 return self
 
             image_params = dict(
@@ -5510,20 +5528,14 @@ class Swim(CatalystCenterBase):
             )
 
             if image_status == tag_image_golden:
-                if tag_image_golden:
-                    self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
-                        its status has been successfully verified for device role(s) {1}.""".format(
-                        image_name,
-                        device_role,
+                tag_action = "tagged" if tag_image_golden else "un-tagged"
+                self.msg = (
+                    "The requested image '{0}' has been {1} as golden in the Cisco Catalyst Center and "
+                    "its status has been successfully verified for device role(s) {2}.".format(
+                        image_name, tag_action, device_role
                     )
-                    self.log(self.msg, "INFO")
-                else:
-                    self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
-                        its status has been successfully verified for device role(s) {1}.""".format(
-                        image_name,
-                        device_role,
-                    )
-                    self.log(self.msg, "INFO")
+                )
+                self.log(self.msg, "INFO")
             else:
                 self.log(
                     """Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
@@ -5570,20 +5582,14 @@ class Swim(CatalystCenterBase):
                     "DEBUG",
                 )
                 if image_status == tag_image_golden:
-                    if tag_image_golden:
-                        self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
-                                its status has been successfully verified for device role(s) {1}.""".format(
-                            image_name,
-                            device_role,
+                    tag_action = "tagged" if tag_image_golden else "un-tagged"
+                    self.msg = (
+                        "The requested image '{0}' has been {1} as golden in the Cisco Catalyst Center and "
+                        "its status has been successfully verified for device role(s) {2}.".format(
+                            image_name, tag_action, device_role
                         )
-                        self.log(self.msg, "INFO")
-                    else:
-                        self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
-                                image status has been verified for device role(s) {1}.""".format(
-                            image_name,
-                            device_role,
-                        )
-                        self.log(self.msg, "INFO")
+                    )
+                    self.log(self.msg, "INFO")
             else:
                 self.log(
                     """Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that

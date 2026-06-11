@@ -1192,6 +1192,44 @@ class CatalystCenterBase:
 
         return (site_exists, site_id)
 
+    def get_global_site_id(self):
+        """
+        Retrieve the Global site ID from Cisco Catalyst Center.
+
+        Args:
+            None
+
+        Returns:
+            str: The site ID (UUID) for the Global site.
+
+        Raises:
+            Calls fail_and_exit if the Global site cannot be resolved.
+
+        Description:
+            This helper function retrieves the Global site UUID from Cisco Catalyst Center.
+            Since the Global site always exists in Catalyst Center, this function either returns
+            the site_id or fails the module with a clear error message if resolution fails.
+            The function uses the site_exists() method to validate and retrieve the Global site ID.
+        """
+        (site_exists, site_id) = self.site_exists("Global")
+        if site_exists:
+            self.log(
+                "Resolved Global site UUID for golden tagging workflow: {0}".format(
+                    str(site_id)
+                ),
+                "INFO",
+            )
+            return site_id
+
+        self.log(
+            "Global site lookup did not return a valid site ID for Catalyst Center version {0}."
+            .format(self.get_ccc_version()),
+            "ERROR",
+        )
+        self.msg = "Unable to resolve the Global site ID in Cisco Catalyst Center."
+        self.log(self.msg, "ERROR")
+        self.fail_and_exit(self.msg)
+
     def assign_device_to_site(self, device_ids, site_name, site_id):
         """
         Assign devices to the specified site.
