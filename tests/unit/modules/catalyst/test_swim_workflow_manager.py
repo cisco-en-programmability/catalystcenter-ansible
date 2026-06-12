@@ -36,6 +36,15 @@ class TestswimWorkflowManager(TestCatalystModule):
     playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
     playbook_sub_package_images = test_data.get("playbook_sub_package_images")
     playbook_sub_package_images_with_api_task_timeout = test_data.get("playbook_sub_package_images_with_api_task_timeout")
+    playbook_swim_golden_tag_without_device_tags = test_data.get("playbook_swim_golden_tag_without_device_tags")
+
+    # Golden-tag idempotence test playbooks (new API path, CC >= 3.1.3.0)
+    playbook_golden_all_idempotent_tag = test_data.get("playbook_golden_all_idempotent_tag")
+    playbook_golden_all_to_dist_proceeds = test_data.get("playbook_golden_all_to_dist_proceeds")
+    playbook_golden_distribution_idempotent_tag = test_data.get("playbook_golden_distribution_idempotent_tag")
+    playbook_golden_distribution_idempotent_untag = test_data.get("playbook_golden_distribution_idempotent_untag")
+    playbook_golden_all_idempotent_untag = test_data.get("playbook_golden_all_idempotent_untag")
+    playbook_golden_all_covers_specific_roles_idempotent_tag = test_data.get("playbook_golden_all_covers_specific_roles_idempotent_tag")
 
     def setUp(self):
         super(TestswimWorkflowManager, self).setUp()
@@ -257,6 +266,116 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("bulk_update_images_on_network_devices_images_with_api_task_timeout"),
                 self.test_data.get("Task_Details__images_with_api_task_timeout"),
                 self.test_data.get("Task_Status___images_with_api_task_timeout"),
+            ]
+
+        elif "playbook_swim_golden_tag_without_device_tags" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers"),
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("get_product_name_ordinal_without_device_tags"),
+                self.test_data.get("golden_tag_status_not_tagged_for_without_device_tags"),
+                self.test_data.get("tagging_golden_image_without_device_tags"),
+                self.test_data.get("Task_Details__sub_package_images_with_api_task_timeout"),
+                self.test_data.get("Task_Status___sub_package_images_with_api_task_timeout"),
+            ]
+
+        # -----------------------------------------------------------------
+        # Golden-tag idempotence fixtures (new API path, CC >= 3.1.3.0)
+        #
+        # _exec call order for get_have (site="Global", version > 2.3.7.9):
+        #   1. get_software_image_details  (get_image_id)
+        #   2. get_sites                   (site_exists("Global"))
+        #   3. get_device_family_identifiers
+        #
+        # Then get_diff_tagging new path:
+        #   4. get_software_image_details  (get_image_name_from_id)
+        #   5. retrieves_network_device_product_names  (product_name_ordinal)
+        #   6. get_golden_tag_status_of_an_image  x N (per desired role)
+        #   [idempotence skip returns here for skip scenarios]
+        #   7. tagging_golden_image                   (proceed scenario only)
+        #   8. get_tasks_by_id  (task poll – pending)  (proceed scenario only)
+        #   9. get_tasks_by_id  (task poll – success)  (proceed scenario only)
+        # -----------------------------------------------------------------
+
+        elif "playbook_golden_all_idempotent_tag" in self._testMethodName:
+            # Image already golden for ALL roles (5 per-role checks all return tagged=True) → skip
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_all_tagged_true"),
+                self.test_data.get("golden_tag_status_all_tagged_true"),
+                self.test_data.get("golden_tag_status_all_tagged_true"),
+                self.test_data.get("golden_tag_status_all_tagged_true"),
+                self.test_data.get("golden_tag_status_all_tagged_true"),
+            ]
+
+        elif "playbook_golden_all_to_dist_proceeds" in self._testMethodName:
+            # Request = DISTRIBUTION, per-role check returns not tagged → proceed, tag it
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_tagged_false"),
+                self.test_data.get("tagging_golden_image_golden_idempotence"),
+                self.test_data.get("task_pending_golden_idempotence"),
+                self.test_data.get("task_success_golden_idempotence"),
+            ]
+
+        elif "playbook_golden_distribution_idempotent_tag" in self._testMethodName:
+            # Per-role check for DISTRIBUTION returns tagged=True → skip (changed=False)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_tagged_true"),
+            ]
+
+        elif "playbook_golden_distribution_idempotent_untag" in self._testMethodName:
+            # Untag DISTRIBUTION, per-role check returns tagged=False → skip (changed=False)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_tagged_false"),
+            ]
+
+        elif "playbook_golden_all_idempotent_untag" in self._testMethodName:
+            # Untag ALL, per-role checks all return tagged=False → skip (changed=False)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_all_tagged_false"),
+                self.test_data.get("golden_tag_status_all_tagged_false"),
+                self.test_data.get("golden_tag_status_all_tagged_false"),
+                self.test_data.get("golden_tag_status_all_tagged_false"),
+                self.test_data.get("golden_tag_status_all_tagged_false"),
+            ]
+
+        elif "playbook_golden_all_covers_specific_roles_idempotent_tag" in self._testMethodName:
+            # Image already tagged with ALL; requesting DISTRIBUTION,ACCESS → both per-role
+            # checks return tagged=True (ALL covers them) → skip (changed=False)
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_device_family_identifiers_golden_idempotence"),
+                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get("product_name_ordinal_golden_idempotence"),
+                self.test_data.get("golden_tag_status_tagged_true"),
+                self.test_data.get("golden_tag_status_access_tagged_true"),
             ]
 
     def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
@@ -575,4 +694,185 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "All eligible images activated successfully on the devices 204.1.2.1."
+        )
+
+    def test_swim_workflow_manager_playbook_swim_golden_tag_without_device_tags(self):
+        """
+        Test SWIM workflow manager's golden image tagging without device_tags field.
+
+        This test reproduces bug where device_tags field is missing in tagging_details config
+        on Catalyst Center versions > 2.3.7.9. The module should handle the missing field
+        gracefully by treating it as an empty list instead of raising TypeError.
+        """
+
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_swim_golden_tag_without_device_tags
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Tagging image cat9k_iosxe.17.12.05.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) ACCESS successful."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_all_idempotent_tag(self):
+        """
+        Test golden tag idempotence: ALL role tag skip.
+
+        Image is already golden with ALL-wildcard state (isGoldenTagged=True,
+        goldenTaggingDetails=[]).  Requesting tag:true + role:ALL must be a no-op
+        (changed=False) and must NOT call the tagging API.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_all_idempotent_tag
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s)"
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_all_to_dist_proceeds(self):
+        """
+        Test golden tag: ALL wildcard does NOT suppress a specific-role request.
+
+        Image is currently golden with ALL-wildcard state.
+        Requesting tag:true + role:DISTRIBUTION must NOT be skipped; the tagging
+        API must be called and the operation must complete with changed=True.
+        This validates the core bug-fix: existing ALL does not block a specific role.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_all_to_dist_proceeds
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Tagging image cat9k_iosxe.17.12.01.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) DISTRIBUTION successful."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_distribution_idempotent_tag(self):
+        """
+        Test golden tag idempotence: DISTRIBUTION role tag skip.
+
+        Image is already golden specifically for DISTRIBUTION role
+        (goldenTaggingDetails contains DISTRIBUTION entry).
+        Requesting tag:true + role:DISTRIBUTION again must be a no-op (changed=False).
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_distribution_idempotent_tag
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) DISTRIBUTION. Skipping operation."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_distribution_idempotent_untag(self):
+        """
+        Test golden tag idempotence: DISTRIBUTION untag skip when role not present.
+
+        Image is golden for ACCESS only; DISTRIBUTION is not tagged.
+        Requesting tag:false + role:DISTRIBUTION must be a no-op (changed=False)
+        because there is nothing to remove for that role.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_distribution_idempotent_untag
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s) DISTRIBUTION. Skipping operation."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_all_idempotent_untag(self):
+        """
+        Test golden tag idempotence: ALL untag skip when image is not golden.
+
+        Image is not golden at all (isGoldenTagged=False, goldenTaggingDetails=[]).
+        Requesting tag:false + role:ALL must be a no-op (changed=False) because
+        there is no golden tag to remove.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_all_idempotent_untag
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s)"
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+        )
+
+    def test_swim_workflow_manager_playbook_golden_all_covers_specific_roles_idempotent_tag(self):
+        """
+        Test golden tag idempotence: ALL already tagged covers specific roles.
+
+        Image is already golden-tagged with ALL. Requesting tag:true with
+        device_role 'DISTRIBUTION,ACCESS' must be a no-op (changed=False)
+        because ALL is a superset that inherently includes all individual roles.
+        The per-role status check returns taggedGolden=True for both DISTRIBUTION
+        and ACCESS, so the module correctly skips the operation.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_golden_all_covers_specific_roles_idempotent_tag
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) ACCESS, DISTRIBUTION. Skipping operation."
         )

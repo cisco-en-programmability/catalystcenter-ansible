@@ -2295,281 +2295,6 @@ class ApplicationPolicy(CatalystCenterBase):
 
         return self
 
-    def is_update_required_for_application_policy(self):
-        """
-        Check if updates are required for the application policy and trigger necessary updates.
-
-        Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-
-        Returns:
-            bool:
-                - True if updates are required for the application policy.
-                - False if no updates are necessary.
-
-        Description:
-            This function evaluates whether updates are required for the application policy configuration in Cisco Catalyst Center
-            based on the desired state provided in the configuration. It validates the existence of the application policy,
-            identifies mismatches in queuing profiles and site mappings, and checks for missing application set names
-            categorized as BUSINESS_RELEVANT, BUSINESS_IRRELEVANT, or DEFAULT.
-
-            The function ensures the application policy aligns with the desired configuration while minimizing unnecessary updates.
-        """
-
-        application_policy = self.have
-        application_policy_name = self.want.get("application_policy", {}).get("name")
-
-        req_application_policy_details = self.config.get("application_policy")
-
-        if not req_application_policy_details:
-            self.log(
-                "No application policy details found in the configuration.", "INFO"
-            )
-            return False
-
-        application_queuing_profile_name = req_application_policy_details.get(
-            "application_queuing_profile_name"
-        )
-        site_names = req_application_policy_details.get("site_names")
-        site_ids = [self.get_site_id(site_name)[1] for site_name in site_names]
-        current_application_policy = application_policy.get(
-            "current_application_policy"
-        )
-
-        self.log("Checking if updates are required for the application policy.", "INFO")
-
-        queuing_profile_needs_update = False
-
-        for contract in current_application_policy:
-
-            if contract.get(
-                "contract"
-            ) and application_queuing_profile_name not in contract.get("name"):
-                queuing_profile_needs_update = True
-                break
-
-        # Check if update is required for site
-        site_scope_does_not_match = False
-        for application_policy in current_application_policy:
-            advanced_policy_scope = application_policy.get("advancedPolicyScope", {})
-            scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
-
-            if scope_elements:
-                group_ids = set(scope_elements[0].get("groupId", []))
-
-                if set(site_ids) != group_ids:
-                    site_scope_does_not_match = True
-                    break
-
-        is_update_required_for_queuing_profile = queuing_profile_needs_update
-        is_update_required_for_site = site_scope_does_not_match
-
-        if is_update_required_for_queuing_profile:
-            self.log(
-                "Update required for queuing profile: {0}".format(
-                    application_queuing_profile_name
-                ),
-                "INFO",
-            )
-        else:
-            self.log(
-                "No update required for queuing profile: {0}".format(
-                    application_queuing_profile_name
-                ),
-                "INFO",
-            )
-
-        if is_update_required_for_site:
-            self.log("Update required for site(s): {0}".format(site_names), "INFO")
-        else:
-            self.log("No update required for site(s): {0}".format(site_names), "INFO")
-
-        other_check_names = ["application_queuing_profile", "site_names"]
-        no_update_require = []
-
-        if not is_update_required_for_queuing_profile:
-            no_update_require.append("application_queuing_profile")
-
-        if not is_update_required_for_site:
-            no_update_require.append("site_names")
-
-        update_not_required = True
-
-        for check in other_check_names:
-
-            if check not in no_update_require:
-                update_not_required = False
-                break
-
-        if all(
-            check in no_update_require
-            for check in ["application_queuing_profile", "site_names"]
-        ):
-            self.log("No update required for application policy", "INFO")
-
-        self.log("update required for application policy", "INFO")
-        (
-            want_business_relevant_set_name,
-            want_business_irrelevant_set_name,
-            want_default_set_name,
-        ) = ([], [], [])
-        (
-            have_business_relevant_set_name,
-            have_business_irrelevant_set_name,
-            have_default_set_name,
-        ) = ([], [], [])
-
-        application_set_names = req_application_policy_details.get("clause")
-
-        for item in application_set_names:
-            for relevance in item["relevance_details"]:
-
-                if relevance["relevance"] == "BUSINESS_RELEVANT":
-                    want_business_relevant_set_name.extend(
-                        relevance["application_set_name"]
-                    )
-
-                elif relevance["relevance"] == "BUSINESS_IRRELEVANT":
-                    want_business_irrelevant_set_name.extend(
-                        relevance["application_set_name"]
-                    )
-
-                elif relevance["relevance"] == "DEFAULT":
-                    want_default_set_name.extend(relevance["application_set_name"])
-
-                self.log(
-                    "Collected application set names: {0} for relevance: {1}".format(
-                        application_set_names, relevance
-                    ),
-                    "DEBUG",
-                )
-
-        for application_sets in current_application_policy:
-            clause = application_sets.get("exclusiveContract", {}).get("clause")
-
-            if clause and clause[0].get("relevanceLevel"):
-                current_relevance_type = clause[0].get("relevanceLevel")
-                app_set_name = self._extract_app_set_name(application_sets)
-
-                if current_relevance_type == "BUSINESS_RELEVANT":
-                    have_business_relevant_set_name.append(app_set_name)
-
-                elif current_relevance_type == "BUSINESS_IRRELEVANT":
-                    have_business_irrelevant_set_name.append(app_set_name)
-
-                elif current_relevance_type == "DEFAULT":
-                    have_default_set_name.append(app_set_name)
-
-                self.log(
-                    "Existing application set: {0} categorized under {1}".format(
-                        app_set_name, current_relevance_type
-                    ),
-                    "DEBUG",
-                )
-
-        (
-            final_business_relevant_set_name,
-            final_business_irrelevant_set_name,
-            final_default_set_name,
-        ) = ([], [], [])
-        for want_item, have_item, final_item in [
-            (
-                want_business_relevant_set_name,
-                have_business_relevant_set_name,
-                final_business_relevant_set_name,
-            ),
-            (
-                want_business_irrelevant_set_name,
-                have_business_irrelevant_set_name,
-                final_business_irrelevant_set_name,
-            ),
-            (want_default_set_name, have_default_set_name, final_default_set_name),
-        ]:
-            final_item.extend(item for item in want_item if item not in have_item)
-
-        if not want_default_set_name:
-            final_default_set_name = []
-
-        if not want_business_relevant_set_name:
-            final_business_relevant_set_name = []
-
-        if not want_business_irrelevant_set_name:
-            final_business_irrelevant_set_name = []
-
-        if final_business_relevant_set_name:
-            self.log(
-                "Missing business relevant application sets: {0}".format(
-                    final_business_relevant_set_name
-                ),
-                "INFO",
-            )
-
-        if final_business_irrelevant_set_name:
-            self.log(
-                "Missing business irrelevant application sets: {0}".format(
-                    final_business_irrelevant_set_name
-                ),
-                "INFO",
-            )
-
-        if final_default_set_name:
-            self.log(
-                "Missing default application sets: {0}".format(final_default_set_name),
-                "INFO",
-            )
-
-        if update_not_required:
-            if not any(
-                [
-                    final_business_relevant_set_name,
-                    final_business_irrelevant_set_name,
-                    final_default_set_name,
-                ]
-            ):
-                self.log(
-                    "No update required for application policy: {}".format(
-                        application_policy_name
-                    ),
-                    "INFO",
-                )
-                return False
-
-            relevance_differences = {
-                "BUSINESS_RELEVANT": final_business_relevant_set_name,
-                "BUSINESS_IRRELEVANT": final_business_irrelevant_set_name,
-                "DEFAULT": final_default_set_name,
-            }
-
-            relevance_types_with_differences = []
-            for relevance_type, missing_app_sets in relevance_differences.items():
-                if missing_app_sets:
-                    relevance_types_with_differences.append(relevance_type)
-
-            if len(relevance_types_with_differences) == 0:
-                return False
-
-            if len(relevance_types_with_differences) == 1:
-                differing_type = relevance_types_with_differences[0]
-
-                if (
-                    differing_type == "BUSINESS_RELEVANT"
-                    and not want_business_relevant_set_name
-                ) or (
-                    differing_type == "BUSINESS_IRRELEVANT"
-                    and not want_business_irrelevant_set_name
-                ) or (
-                    differing_type == "DEFAULT"
-                    and not want_default_set_name
-                ):
-                    self.log(
-                        "No update required: Only '{0}' set is empty in config. Ignoring difference.".format(differing_type),
-                        "INFO"
-                    )
-                    return False
-
-        self.log("Updates are required for the application policy.", "INFO")
-        return True
-
     def get_diff_application_policy(self):
         """
         Get the differences in application policy configuration and trigger necessary updates.
@@ -2973,24 +2698,14 @@ class ApplicationPolicy(CatalystCenterBase):
 
                     total_current_app_set.append(app_set_name)
 
-                    # Determine if update is required
-                    update_not_required = False
-
-                    if not expected_set_names:
-                        update_not_required = True
+                    if app_set_name in expected_set_names:
                         self.log(
-                            "No update required (empty expected set list) for application set: {0}".format(app_set_name),
+                            "Application set '{0}' is already present under "
+                            "relevance '{1}'.".format(
+                                app_set_name, current_relevance_type
+                            ),
                             "INFO",
                         )
-                    else:
-                        for set_name in expected_set_names:
-                            if set_name == app_set_name:
-                                update_not_required = True
-                                self.log(
-                                    "No update required for application set: {0}".format(app_set_name),
-                                    "INFO",
-                                )
-                                break  # Exit loop early
 
             self.log(
                 "Total Current Application Sets: {0}".format(total_current_app_set),
@@ -3123,22 +2838,35 @@ class ApplicationPolicy(CatalystCenterBase):
                 "Final want Default (Diff): {0}".format(final_want_default), "INFO"
             )
 
+            # Idempotency decision: skip the update API call when nothing has
+            # actually changed. The three `final_*_set_name` lists hold
+            # `want - have` per relevance group, so a non-empty list means
+            # at least one requested application set is missing from that
+            # relevance group and must be added. Anything else (a strict
+            # subset of what is already deployed, or an exact match) leaves
+            # all three lists empty and is treated as a no-op, provided the
+            # site scope and queuing profile have not changed either. This
+            # prevents wireless policies from hitting NCAS10112 ("All
+            # GroupBasedPolicy objects of the same policy should have the
+            # same value for SSID name") when the playbook lists only a
+            # subset of the currently deployed application sets.
+            update_not_required = (
+                not is_update_required_for_site
+                and not is_update_required_for_queuing_profile
+                and not final_business_irrelevant_set_name
+                and not final_business_relevant_set_name
+                and not final_default_set_name
+            )
+
             if update_not_required:
-                if not (
-                    final_business_irrelevant_set_name
-                    or final_business_relevant_set_name
-                    or final_default_set_name
-                    or is_update_required_for_site
-                    or is_update_required_for_queuing_profile
-                ):
-                    self.msg = (
-                        "Application policy '{0}' does not need any update. ".format(
-                            application_policy_name
-                        )
+                self.msg = (
+                    "Application policy '{0}' does not need any update. ".format(
+                        application_policy_name
                     )
-                    self.no_update_application_policy.append(application_policy_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
-                    continue
+                )
+                self.no_update_application_policy.append(application_policy_name)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                continue
 
             for application_sets in current_application_policy:
                 group_id = site_ids if is_update_required_for_site else current_site_ids

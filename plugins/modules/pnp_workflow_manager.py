@@ -88,10 +88,32 @@ options:
             type: str
             required: true
           is_sudi_required:
-            description: Sudi Authentication requiremnet's
-              flag.
+            description:
+              - SUDI authentication requirement flag.
+              - Sent to Catalyst Center as C(sudiRequired).
             type: bool
             required: false
+          user_sudi_serial_nos:
+            description:
+              - List of Secure Unique Device Identifier (SUDI) serial numbers
+                to perform SUDI authorization.
+              - Required if C(is_sudi_required) is true.
+              - For stack devices, include all stack member SUDI serial numbers.
+              - Sent to Catalyst Center as C(userSudiSerialNos).
+            type: list
+            elements: str
+            required: false
+          is_stack_device:
+            description:
+              - Set to true if the device is a stack device. Only applies when
+                C(pnp_type) is C(Default) or C(StackSwitch); ignored for
+                C(AccessPoint) and C(CatalystWLC).
+              - When C(pnp_type) is C(Default) or C(StackSwitch) and this field is
+                omitted, the module sends C(stack=false) to Catalyst Center.
+              - Sent to Catalyst Center as C(stack).
+            type: bool
+            required: false
+            default: false
           authorize:
             description: |
               - Set the authorization flag for PnP devices to enable provisioning after claiming.
@@ -147,13 +169,14 @@ options:
         required: false
       pnp_type:
         description: |
-          Specifies the device type for the Plug and Play (PnP) device. -
-          Options include 'Default', 'CatalystWLC', 'AccessPoint', or
-          'StackSwitch'. - 'Default' is applicable to switches and routers. -
-          'CatalystWLC' should be selected for 9800 series wireless controllers.
-          - 'AccessPoint' is used when claiming an access point. - 'StackSwitch'
-          should be chosen for a group of switches that operate as a single
-          switch, typically used in the access layer.
+          - Specifies the device type for the Plug and Play (PnP) device.
+          - Options include 'Default', 'CatalystWLC', 'AccessPoint', or
+            'StackSwitch'.
+          - 'Default' is applicable to switches and routers.
+          - 'CatalystWLC' should be selected for 9800 series wireless controllers.
+          - 'AccessPoint' is used when claiming an access point.
+          - 'StackSwitch' should be chosen for a group of switches that operate as a single
+            switch, typically used in the access layer.
         type: str
         required: false
         choices:
@@ -162,6 +185,40 @@ options:
           - AccessPoint
           - StackSwitch
         default: Default
+      license_level:
+        description:
+          - License level applied when claiming a Catalyst switch / stack switch.
+          - Refer to your Catalyst Center version's API schema (Platform > Developer Toolkit)
+            for the authoritative list of accepted values.
+          - Optional. Most commonly used together with 'pnp_type' set to
+            'Default' (switches/routers) or 'StackSwitch'.
+        type: str
+        required: false
+      top_of_stack_serial_number:
+        description:
+          - Serial number of the switch that should be designated as the top-of-stack
+            (Member 1 / Active) when claiming a Catalyst stack via PnP.
+          - During Day-0 provisioning Catalyst Center uses this value to
+            renumber the physical stack members so that the switch with this
+            serial number becomes stack Member 1. This is what is commonly
+            referred to as "stack renumbering" in the PnP flow.
+          - The value must match one of the 'serial_number' entries supplied
+            under 'device_info'.
+          - Applicable only when 'pnp_type' is 'StackSwitch'.
+        type: str
+        required: false
+      cabling_scheme:
+        description:
+          - Describes the physical cabling topology of the Catalyst stack.
+            Catalyst Center uses this together with 'top_of_stack_serial_number' to
+            validate that the requested stack renumbering is valid for the physical topology.
+          - The accepted values are "1A" and "1B".
+          - Applicable only when 'pnp_type' is 'StackSwitch'.
+        type: str
+        choices:
+          - 1A
+          - 1B
+        required: false
       static_ip:
         description: Management IP address of the Wireless
           Controller.
@@ -320,10 +377,17 @@ EXAMPLES = r"""
             hostname: Switch
             state: Unclaimed
             pid: C9300-48UXM
+            is_sudi_required: true
+            user_sudi_serial_nos:
+              - FJC271924EQ
+            is_stack_device: true
         site_name: Global/USA/San Francisco/BGL_18
         template_name: "Ansible_PNP_Switch"
         image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
         project_name: Onboarding Configuration
+        license_level: network-advantage
+        top_of_stack_serial_number: FJC271924EQ
+        cabling_scheme: 1B
         template_params:
           hostname: SJC-Switch-1
           interface: TwoGigabitEthernet1/0/2
@@ -448,6 +512,13 @@ class PnP(CatalystCenterBase):
             "vlan_id": {"type": "str", "required": False},
             "ip_interface_name": {"type": "str", "required": False},
             "sensorProfile": {"type": "str", "required": False},
+            "license_level": {"type": "str", "required": False},
+            "top_of_stack_serial_number": {"type": "str", "required": False},
+            "cabling_scheme": {
+                "type": "str",
+                "required": False,
+                "choices": ["1A", "1B"],
+            },
         }
 
         # Validate pnp params
@@ -480,6 +551,40 @@ class PnP(CatalystCenterBase):
                             msg = "Product ID missing in the Playbook config: {0}.".format(
                                 str(device)
                             )
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
+                        user_sudi_serial_nos = device.get("user_sudi_serial_nos")
+                        if user_sudi_serial_nos is not None:
+                            if not isinstance(user_sudi_serial_nos, list):
+                                msg = (
+                                    "user_sudi_serial_nos must be a list of strings in "
+                                    "the Playbook config: {0}."
+                                ).format(str(device))
+                                self.log(msg, "ERROR")
+                                invalid_params.append(msg)
+                            elif not all(isinstance(item, str) for item in user_sudi_serial_nos):
+                                msg = (
+                                    "All user_sudi_serial_nos values must be strings in "
+                                    "the Playbook config: {0}."
+                                ).format(str(device))
+                                self.log(msg, "ERROR")
+                                invalid_params.append(msg)
+
+                        is_stack_device = device.get("is_stack_device")
+                        if is_stack_device is not None and not isinstance(is_stack_device, bool):
+                            msg = "is_stack_device must be a boolean in the Playbook config: {0}.".format(
+                                str(device)
+                            )
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
+                        sudi_required = device.get("is_sudi_required")
+                        if sudi_required and not user_sudi_serial_nos:
+                            msg = (
+                                "user_sudi_serial_nos is required when SUDI authorization "
+                                "is enabled in the Playbook config: {0}."
+                            ).format(str(device))
                             self.log(msg, "ERROR")
                             invalid_params.append(msg)
 
@@ -696,7 +801,12 @@ class PnP(CatalystCenterBase):
             device_dict = {}
             param["serialNumber"] = param.pop("serial_number")
             if "is_sudi_required" in param:
-                param["isSudiRequired"] = param.pop("is_sudi_required")
+                param["sudiRequired"] = param.pop("is_sudi_required")
+
+            if "user_sudi_serial_nos" in param:
+                param["userSudiSerialNos"] = param.pop("user_sudi_serial_nos")
+
+            param["stack"] = param.pop("is_stack_device", False)
 
             if "authorize" in param:
                 param["authorize"] = param.pop("authorize")
@@ -780,6 +890,25 @@ class PnP(CatalystCenterBase):
             "imageInfo": imageinfo,
             "configInfo": configinfo,
         }
+        optional_stack_device_claim_fields = {
+            "license_level": "licenseLevel",
+            "top_of_stack_serial_number": "topOfStackSerialNumber",
+            "cabling_scheme": "cablingScheme",
+        }
+        for field, claim_param in optional_stack_device_claim_fields.items():
+            value = self.want.get(field)
+            if value is not None:
+                claim_params[claim_param] = value
+
+        if claim_params["type"] != "StackSwitch" and any(
+            self.want.get(field) for field in optional_stack_device_claim_fields
+        ):
+            self.log(
+                "Stack-specific fields (license_level / top_of_stack_serial_number / "
+                "cabling_scheme) were provided but 'pnp_type' is '{0}'. They will be ignored "
+                "by the API.".format(claim_params["type"]),
+                "WARNING",
+            )
 
         if claim_params["type"] == "CatalystWLC":
             if not (self.validated_config[0].get("static_ip")):
@@ -1585,6 +1714,9 @@ class PnP(CatalystCenterBase):
             "site_name": config.get("site_name"),
             "project_name": config.get("project_name"),
             "template_name": config.get("template_name"),
+            "license_level": config.get("license_level"),
+            "top_of_stack_serial_number": config.get("top_of_stack_serial_number"),
+            "cabling_scheme": config.get("cabling_scheme"),
         }
         if len(self.want.get("pnp_params")) == 1:
             self.want["serial_number"] = self.want["pnp_params"][0]["deviceInfo"].get(
