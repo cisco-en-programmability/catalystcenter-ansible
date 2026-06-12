@@ -1,6 +1,6 @@
 ---
-catalystcenter_version: 2.3.7.6
-catalystcenter_verify: true
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 
 fabric_transits:
   - sda_fabric_transits:

@@ -1,5 +1,5 @@
 catalystcenter_version: 2.3.7.9
 # Fabric Sites and Zones design.
 jinjatemplate: true
-jinjatemplate_file: ../templates/tags_template.j2
+jinjatemplate_file: ../jinja_template/tags_template.j2
 tags_details: []
