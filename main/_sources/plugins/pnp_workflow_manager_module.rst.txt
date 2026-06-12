@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_workflow_manager module -- Resource module for Site and
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.9.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.9.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -672,6 +672,52 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/cabling_scheme"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/cabling_scheme:
+
+      .. rst-class:: ansible-option-title
+
+      **cabling_scheme**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/cabling_scheme" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Describes the physical cabling topology of the Catalyst stack. Catalyst Center uses this together with 'top\_of\_stack\_serial\_number' to validate that the requested stack renumbering is valid for the physical topology.
+
+      The accepted values are "1A" and "1B".
+
+      Applicable only when 'pnp\_type' is 'StackSwitch'.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"1A"`
+      - :ansible-option-choices-entry:`"1B"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/device_info"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/device_info:
@@ -800,6 +846,52 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/device_info/is_stack_device"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/device_info/is_stack_device:
+
+      .. rst-class:: ansible-option-title
+
+      **is_stack_device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/device_info/is_stack_device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to true if the device is a stack device. Only applies when \ :literal:`pnp\_type`\  is \ :literal:`Default`\  or \ :literal:`StackSwitch`\ ; ignored for \ :literal:`AccessPoint`\  and \ :literal:`CatalystWLC`\ .
+
+      When \ :literal:`pnp\_type`\  is \ :literal:`Default`\  or \ :literal:`StackSwitch`\  and this field is omitted, the module sends \ :literal:`stack=false`\  to Catalyst Center.
+
+      Sent to Catalyst Center as \ :literal:`stack`\ .
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/device_info/is_sudi_required"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/device_info/is_sudi_required:
@@ -824,7 +916,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sudi Authentication requiremnet's flag.
+      SUDI authentication requirement flag.
+
+      Sent to Catalyst Center as \ :literal:`sudiRequired`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -937,6 +1031,46 @@ Parameters
       Represents the onboarding state of the PnP device.
 
       Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/device_info/user_sudi_serial_nos"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/device_info/user_sudi_serial_nos:
+
+      .. rst-class:: ansible-option-title
+
+      **user_sudi_serial_nos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/device_info/user_sudi_serial_nos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of Secure Unique Device Identifier (SUDI) serial numbers to perform SUDI authorization.
+
+      Required if \ :literal:`is\_sudi\_required`\  is true.
+
+      For stack devices, include all stack member SUDI serial numbers.
+
+      Sent to Catalyst Center as \ :literal:`userSudiSerialNos`\ .
 
 
       .. raw:: html
@@ -1093,6 +1227,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/license_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/license_level:
+
+      .. rst-class:: ansible-option-title
+
+      **license_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/license_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      License level applied when claiming a Catalyst switch / stack switch.
+
+      Refer to your Catalyst Center version's API schema (Platform \> Developer Toolkit) for the authoritative list of accepted values.
+
+      Optional. Most commonly used together with 'pnp\_type' set to 'Default' (switches/routers) or 'StackSwitch'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/pnp_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/pnp_type:
@@ -1117,13 +1289,14 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the device type for the Plug and Play (PnP) device. -
-          Options include 'Default', 'CatalystWLC', 'AccessPoint', or
-          'StackSwitch'. - 'Default' is applicable to switches and routers. -
-          'CatalystWLC' should be selected for 9800 series wireless controllers.
-          - 'AccessPoint' is used when claiming an access point. - 'StackSwitch'
-          should be chosen for a group of switches that operate as a single
-          switch, typically used in the access layer.
+      - Specifies the device type for the Plug and Play (PnP) device.
+          - Options include 'Default', 'CatalystWLC', 'AccessPoint', or
+            'StackSwitch'.
+          - 'Default' is applicable to switches and routers.
+          - 'CatalystWLC' should be selected for 9800 series wireless controllers.
+          - 'AccessPoint' is used when claiming an access point.
+          - 'StackSwitch' should be chosen for a group of switches that operate as a single
+            switch, typically used in the access layer.
           
 
 
@@ -1413,6 +1586,46 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/top_of_stack_serial_number"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/top_of_stack_serial_number:
+
+      .. rst-class:: ansible-option-title
+
+      **top_of_stack_serial_number**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/top_of_stack_serial_number" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Serial number of the switch that should be designated as the top-of-stack (Member 1 / Active) when claiming a Catalyst stack via PnP.
+
+      During Day-0 provisioning Catalyst Center uses this value to renumber the physical stack members so that the switch with this serial number becomes stack Member 1. This is what is commonly referred to as "stack renumbering" in the PnP flow.
+
+      The value must match one of the 'serial\_number' entries supplied under 'device\_info'.
+
+      Applicable only when 'pnp\_type' is 'StackSwitch'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/vlan_id"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module__parameter-config/vlan_id:
@@ -1679,10 +1892,17 @@ Examples
                 hostname: Switch
                 state: Unclaimed
                 pid: C9300-48UXM
+                is_sudi_required: true
+                user_sudi_serial_nos:
+                  - FJC271924EQ
+                is_stack_device: true
             site_name: Global/USA/San Francisco/BGL_18
             template_name: "Ansible_PNP_Switch"
             image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
             project_name: Onboarding Configuration
+            license_level: network-advantage
+            top_of_stack_serial_number: FJC271924EQ
+            cabling_scheme: 1B
             template_params:
               hostname: SJC-Switch-1
               interface: TwoGigabitEthernet1/0/2
