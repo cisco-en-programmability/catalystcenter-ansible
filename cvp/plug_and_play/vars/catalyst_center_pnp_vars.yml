@@ -41,8 +41,7 @@ pnp_details:
           state: Unclaimed
           pid: C9300-48T
 
-  # DUPLICATE KEY - REMOVED: claim_switching_devices:
-    - site_name:  Global/USA/New York/NY_BLD1
+    - site_name: Global/USA/New York/NY_BLD1
       project_name: Onboarding Configuration
       template_name: PnP-Devices-SW
       image_name: cat9k_iosxe.17.12.02.SPA.bin
@@ -54,7 +53,16 @@ pnp_details:
           hostname: NY-EN-9300
           state: Unclaimed
           pid: C9300-48UXM
+          is_sudi_required: true
+          user_sudi_serial_nos:
+            - FJC271925Q1
+            - FJC271925Q2
+            - FJC271925Q3
+          is_stack_device: true
       pnp_type: StackSwitch
+      license_level: "Cisco DNA Advantage"
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
 
   claim_wireless_controllers:
     - site_name: Global/USA/SAN JOSE/SJ_BLD23

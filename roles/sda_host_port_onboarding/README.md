@@ -5,7 +5,7 @@ This role manages SDA Host Port Onboarding in Cisco Catalyst Center using the `s
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- Catalyst Center SDK >= 3.1.3.0.0
+- catalystcentersdk >= 3.1.6.0.2
 - Python >= 3.9
 
 ## Role Variables
@@ -16,10 +16,15 @@ This role manages SDA Host Port Onboarding in Cisco Catalyst Center using the `s
 - `catalystcenter_password`: Password for authentication (required)
 - `catalystcenter_verify`: SSL certificate verification (default: `false`)
 - `catalystcenter_port`: API port (default: `443`)
-- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.6`)
+- `catalystcenter_version`: Catalyst Center version (default: `2.3.7.9`)
 - `catalystcenter_debug`: Enable debug mode (default: `false`)
 - `catalystcenter_log_level`: Logging level (default: `INFO`)
 - `catalystcenter_log`: Enable logging (default: `false`)
+- `catalystcenter_log_file_path`: Log file path (default: `catalystcenter.log`)
+- `catalystcenter_log_append`: Append to log file instead of overwriting (default: `true`)
+- `catalystcenter_api_task_timeout`: Timeout in seconds for API task polling (default: `1200`)
+- `catalystcenter_task_poll_interval`: Interval in seconds between task status polls (default: `2`)
+- `validate_response_schema`: Validate API response schema (default: `true`)
 
 ### Role-Specific Variables
 - `sda_host_port_onboarding_state`: Desired state - `merged` or `deleted` (default: `merged`)
@@ -34,7 +39,7 @@ None
 ## Example Playbook
 
 ```yaml
-- hosts: catalystcenter
+- hosts: localhost
   roles:
     - role: sda_host_port_onboarding
       vars:
@@ -42,7 +47,7 @@ None
         catalystcenter_username: "{{ vault_catalystcenter_username }}"
         catalystcenter_password: "{{ vault_catalystcenter_password }}"
         sda_host_port_onboarding_config:
-          - fabric_site_name: "Global/USA/Building1"
+          - fabric_site_name_hierarchy: "Global/USA/Building1"
 ```
 
 <!-- BEGIN WORKFLOW README ENHANCEMENTS -->

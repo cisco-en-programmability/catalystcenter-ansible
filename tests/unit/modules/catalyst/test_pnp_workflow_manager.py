@@ -316,6 +316,38 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("unable to import", result.get('msg').lower())
 
+    def test_pnp_workflow_manager_invalid_cabling_scheme(self):
+        """
+        Test validation fails when cabling_scheme is not 1A or 1B.
+        """
+        invalid_config = [
+            {
+                "device_info": [
+                    {
+                        "serial_number": "TEST123",
+                        "hostname": "test-device",
+                        "pid": "C9300-24P"
+                    }
+                ],
+                "pnp_type": "StackSwitch",
+                "cabling_scheme": "2A"
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.6",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                config=invalid_config
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("invalid choice", result.get('msg').lower())
+
     def test_pnp_workflow_manager_version_2_3_5_3_features(self):
         """
         Test features available in version 2.3.5.3
@@ -356,6 +388,78 @@ class TestCatalystCenterPnpWorkflow(TestCatalystModule):
             "Unable to import below 0 device(s).",
             result.get('msg')
         )
+
+    def test_pnp_workflow_manager_claim_payload_optional_fields(self):
+        """
+        Test optional claim payload fields from playbook config are passed to the API payload.
+        """
+        pnp = pnp_workflow_manager.PnP.__new__(pnp_workflow_manager.PnP)
+        pnp.have = {
+            "device_id": "device-1",
+            "site_id": "site-1",
+            "image_id": "image-1",
+            "template_id": "template-1",
+        }
+        pnp.want = {
+            "pnp_type": "StackSwitch",
+            "hostname": "Switch-1",
+            "license_level": "network-advantage",
+            "top_of_stack_serial_number": "FOC1234X1YZ",
+            "cabling_scheme": "1B",
+        }
+        pnp.validated_config = [
+            {
+                "template_params": {"hostname": "Switch-1"},
+            }
+        ]
+        pnp.log = lambda *args, **kwargs: None
+
+        claim_params = pnp.get_claim_params()
+
+        self.assertEqual(claim_params["licenseLevel"], "network-advantage")
+        self.assertEqual(claim_params["topOfStackSerialNumber"], "FOC1234X1YZ")
+        self.assertEqual(claim_params["cablingScheme"], "1B")
+        self.assertNotIn("payload", claim_params)
+        self.assertNotIn("active_validation", claim_params)
+        self.assertNotIn("license_level", claim_params)
+        self.assertNotIn("top_of_stack_serial_number", claim_params)
+        self.assertNotIn("cabling_scheme", claim_params)
+
+    def test_pnp_workflow_manager_device_info_sudi_stack_payload(self):
+        """
+        Test device_info SUDI and stack fields are passed to the add-device payload.
+        """
+        pnp = pnp_workflow_manager.PnP.__new__(pnp_workflow_manager.PnP)
+        pnp.log = lambda *args, **kwargs: None
+
+        pnp_params = pnp.get_pnp_params(
+            {
+                "device_info": [
+                    {
+                        "hostname": "dfrwr",
+                        "serial_number": "gdgttee",
+                        "pid": "C9300-24H",
+                        "is_sudi_required": True,
+                        "user_sudi_serial_nos": ["gdgttee"],
+                        "is_stack_device": True,
+                    },
+                    {
+                        "serial_number": "ABC123",
+                        "pid": "C9300-24H",
+                    },
+                ]
+            }
+        )
+
+        self.assertEqual(
+            pnp_params[0]["deviceInfo"]["serialNumber"], "gdgttee"
+        )
+        self.assertTrue(pnp_params[0]["deviceInfo"]["sudiRequired"])
+        self.assertEqual(
+            pnp_params[0]["deviceInfo"]["userSudiSerialNos"], ["gdgttee"]
+        )
+        self.assertTrue(pnp_params[0]["deviceInfo"]["stack"])
+        self.assertFalse(pnp_params[1]["deviceInfo"]["stack"])
 
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
         """
