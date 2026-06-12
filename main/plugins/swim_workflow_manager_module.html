@@ -1228,7 +1228,7 @@
 <h1>cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1986,7 +1986,7 @@ version_added: 3.1.3.0</p>
 <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/device_role"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-tagging-details-device-role"><strong>device_role</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tagging_details/device_role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl>
 <dt>Specifies the device role(s) for tagging or untagging the image as golden.</dt><dd><p>Permissible values:
 - 'ALL': Applies the golden tag to all devices, regardless of role.
 - 'UNKNOWN': Tags devices without a specified classification.
@@ -1997,10 +1997,24 @@ version_added: 3.1.3.0</p>
 Behavior:
 - If 'device_role' is a single string (e.g., `&quot;ACCESS&quot;`), only that role is tagged as golden.
 - If 'device_role' contains multiple roles (e.g., `&quot;ACCESS,CORE&quot;`), all specified roles are tagged as golden.
+- If omitted, the module defaults to 'ALL'.
 To replace an existing golden tag for a specific role:
 - **Unassign** the tag from the current role (e.g., `ACCESS`).
 - **Assign** the tag to the new role (e.g., `CORE`).
-Examples:
+Idempotency (per-role check, Catalyst Center &gt; 2.3.7.9):
+- Tagging is evaluated per role. If the image is already golden for 'ACCESS' and you</p>
+<blockquote>
+<div><p>request tagging for 'CORE', the module tags 'CORE' (changed=True). Previously this
+was silently skipped.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>The module skips (changed=False) only when all requested roles are already tagged.</p></li>
+<li><p>'ALL' is treated as a superset: an image tagged with 'ALL' skips any subsequent
+request for one or more specific roles, since those roles are already covered.</p></li>
+<li><p>For untagging, the module skips (changed=False) only when all requested roles are
+already untagged.</p></li>
+</ul>
+<p>Examples:
 - device_role: &quot;ACCESS&quot; tags only the `ACCESS` role as golden.
 - device_role: &quot;ACCESS,CORE&quot; tags both `ACCESS` and `CORE` roles as golden.</p>
 </dd>
@@ -2032,7 +2046,7 @@ Examples:
 <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/tagging"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-parameter-config-tagging-details-tagging"><strong>tagging</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/tagging_details/tagging" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Booelan value to tag/untag SWIM image as golden If True then the given image will be tagged as golden. If False then the given image will be un-tagged as golden.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean value to tag/untag the SWIM image as golden. If True, the given image is tagged as golden. If False, the given image is un-tagged as golden.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`false`</span></a></p></li>
@@ -2084,8 +2098,8 @@ Examples:
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url, software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation, software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,</p></li>
-<li><p>Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},</p></li>
+<li><p>SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url, software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image, software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image, software_image_management_swim.SoftwareImageManagementSwim.get_golden_tag_status_of_an_image, software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image, software_image_management_swim.SoftwareImageManagementSwim.untagging_golden_image, software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution, software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation, software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,</p></li>
+<li><p>Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}, post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden, post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden, get /dna/intent/api/v1/siteWiseProductNames, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},</p></li>
 <li><p>Added the parameter 'catalystcenter_api_task_timeout', 'catalystcenter_task_poll_interval' options in v6.13.2.</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
@@ -2544,7 +2558,7 @@ Examples:
 </section>
 <section id="return-values">
 <h2><a class="toc-backref" href="#id86" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v13)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>

@@ -1228,7 +1228,7 @@
 <h1>cisco.catalystcenter.pnp_workflow_manager module -- Resource module for Site and PnP related functions<a class="headerlink" href="#cisco-catalystcenter-pnp-workflow-manager-module-resource-module-for-site-and-pnp-related-functions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1237,16 +1237,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p class="ansible-version-added">New in cisco.catalystcenter 6.28.0</p>
 <nav class="contents local" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#synopsis" id="id77">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#requirements" id="id78">Requirements</a></p></li>
-<li><p><a class="reference internal" href="#parameters" id="id79">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#notes" id="id80">Notes</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id81">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id82">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#synopsis" id="id85">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id86">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#parameters" id="id87">Parameters</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id88">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id89">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id90">Return Values</a></p></li>
 </ul>
 </nav>
 <section id="synopsis">
-<h2><a class="toc-backref" href="#id77" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id85" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Manage operations add device, claim device and unclaim device of Onboarding Configuration(PnP) resource</p></li>
 <li><p>API to add device to pnp inventory and claim it to a site.</p></li>
@@ -1255,7 +1255,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </ul>
 </section>
 <section id="requirements">
-<span id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id78" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-requirements"></span><h2><a class="toc-backref" href="#id86" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>catalystcentersdk &gt;= 3.1.6.0.2</p></li>
@@ -1263,7 +1263,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </ul>
 </section>
 <section id="parameters">
-<h2><a class="toc-backref" href="#id79" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id87" role="doc-backlink">Parameters</a><a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Parameter</p></th>
@@ -1409,6 +1409,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/cabling_scheme"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-cabling-scheme"><strong>cabling_scheme</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/cabling_scheme" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Describes the physical cabling topology of the Catalyst stack. Catalyst Center uses this together with 'top_of_stack_serial_number' to validate that the requested stack renumbering is valid for the physical topology.</p>
+<p>The accepted values are &quot;1A&quot; and &quot;1B&quot;.</p>
+<p>Applicable only when 'pnp_type' is 'StackSwitch'.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`&quot;1A&quot;`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;1B&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/device_info"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info"><strong>device_info</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/device_info" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -1427,7 +1441,7 @@ must be performed with separate tasks or configurations.</p>
 </ol>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/device_info/authorize"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info-authorize"><strong>authorize</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/device_info/authorize" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1448,12 +1462,12 @@ must be performed with separate tasks or configurations.</p>
 </ul>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/device_info/hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info-hostname"><strong>hostname</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/device_info/hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1461,15 +1475,30 @@ must be performed with separate tasks or configurations.</p>
 <p>The hostname can only be assigned or changed during the claim process, not during bulk or single device additions.</p>
 </div></td>
 </tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/device_info/is_stack_device"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info-is-stack-device"><strong>is_stack_device</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/device_info/is_stack_device" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Set to true if the device is a stack device. Only applies when <code class="docutils literal notranslate"><span class="pre">pnp_type</span></code> is <code class="docutils literal notranslate"><span class="pre">Default</span></code> or <code class="docutils literal notranslate"><span class="pre">StackSwitch</span></code>; ignored for <code class="docutils literal notranslate"><span class="pre">AccessPoint</span></code> and <code class="docutils literal notranslate"><span class="pre">CatalystWLC</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">pnp_type</span></code> is <code class="docutils literal notranslate"><span class="pre">Default</span></code> or <code class="docutils literal notranslate"><span class="pre">StackSwitch</span></code> and this field is omitted, the module sends <code class="docutils literal notranslate"><span class="pre">stack=false</span></code> to Catalyst Center.</p>
+<p>Sent to Catalyst Center as <code class="docutils literal notranslate"><span class="pre">stack</span></code>.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/device_info/is_sudi_required"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info-is-sudi-required"><strong>is_sudi_required</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/device_info/is_sudi_required" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Sudi Authentication requiremnet's flag.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>SUDI authentication requirement flag.</p>
+<p>Sent to Catalyst Center as <code class="docutils literal notranslate"><span class="pre">sudiRequired</span></code>.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1495,33 +1524,43 @@ must be performed with separate tasks or configurations.</p>
 <p>Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/device_info/user_sudi_serial_nos"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-device-info-user-sudi-serial-nos"><strong>user_sudi_serial_nos</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/device_info/user_sudi_serial_nos" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of Secure Unique Device Identifier (SUDI) serial numbers to perform SUDI authorization.</p>
+<p>Required if <code class="docutils literal notranslate"><span class="pre">is_sudi_required</span></code> is true.</p>
+<p>For stack devices, include all stack member SUDI serial numbers.</p>
+<p>Sent to Catalyst Center as <code class="docutils literal notranslate"><span class="pre">userSudiSerialNos</span></code>.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/gateway"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-gateway"><strong>gateway</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/gateway" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Gateway IP address of the Wireless Controller for connectivity.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/golden_image"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-golden-image"><strong>golden_image</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/golden_image" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies whether the configured image is tagged as a golden image.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/image_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-image-name"><strong>image_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/image_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the image to be configured on the device.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ip_interface_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-ip-interface-name"><strong>ip_interface_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ip_interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1529,25 +1568,40 @@ must be performed with separate tasks or configurations.</p>
 <p>Ensure this interface is pre-configured on the controller before device claiming.</p>
 </div></td>
 </tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/license_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-license-level"><strong>license_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/license_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>License level applied when claiming a Catalyst switch / stack switch.</p>
+<p>Refer to your Catalyst Center version's API schema (Platform &gt; Developer Toolkit) for the authoritative list of accepted values.</p>
+<p>Optional. Most commonly used together with 'pnp_type' set to 'Default' (switches/routers) or 'StackSwitch'.</p>
+</div></td>
+</tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/pnp_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-pnp-type"><strong>pnp_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/pnp_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Specifies the device type for the Plug and Play (PnP) device. -</dt><dd><p>Options include 'Default', 'CatalystWLC', 'AccessPoint', or
-'StackSwitch'. - 'Default' is applicable to switches and routers. -
-'CatalystWLC' should be selected for 9800 series wireless controllers.
-- 'AccessPoint' is used when claiming an access point. - 'StackSwitch'
-should be chosen for a group of switches that operate as a single
-switch, typically used in the access layer.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><ul class="simple">
+<li><dl class="simple">
+<dt>Specifies the device type for the Plug and Play (PnP) device.</dt><dd><ul>
+<li><p>Options include 'Default', 'CatalystWLC', 'AccessPoint', or
+'StackSwitch'.</p></li>
+<li><p>'Default' is applicable to switches and routers.</p></li>
+<li><p>'CatalystWLC' should be selected for 9800 series wireless controllers.</p></li>
+<li><p>'AccessPoint' is used when claiming an access point.</p></li>
+<li><p>'StackSwitch' should be chosen for a group of switches that operate as a single
+switch, typically used in the access layer.</p></li>
+</ul>
 </dd>
 </dl>
+</li>
+</ul>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`&quot;Default&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;CatalystWLC&quot;`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;AccessPoint&quot;`</span></a></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;StackSwitch&quot;`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry-default:`&quot;Default&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;CatalystWLC&quot;`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;AccessPoint&quot;`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;StackSwitch&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1556,7 +1610,7 @@ switch, typically used in the access layer.</p>
 <a class="ansibleOptionLink" href="#parameter-config/project_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Name of the project under which the template is present.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`&quot;Onboarding Configuration&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-option-default:`&quot;Onboarding Configuration&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1571,9 +1625,9 @@ switch, typically used in the access layer.</p>
 <p>LOW RF profile allows you to consume lesser power and has least visibility to the client.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;HIGH&quot;`</span></a></p></li>
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;LOW&quot;`</span></a></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;TYPICAL&quot;`</span></a></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;HIGH&quot;`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;LOW&quot;`</span></a></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;TYPICAL&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1619,13 +1673,23 @@ switch, typically used in the access layer.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/top_of_stack_serial_number"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-top-of-stack-serial-number"><strong>top_of_stack_serial_number</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/top_of_stack_serial_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Serial number of the switch that should be designated as the top-of-stack (Member 1 / Active) when claiming a Catalyst stack via PnP.</p>
+<p>During Day-0 provisioning Catalyst Center uses this value to renumber the physical stack members so that the switch with this serial number becomes stack Member 1. This is what is commonly referred to as &quot;stack renumbering&quot; in the PnP flow.</p>
+<p>The value must match one of the 'serial_number' entries supplied under 'device_info'.</p>
+<p>Applicable only when 'pnp_type' is 'StackSwitch'.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/vlan_id"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-vlan-id"><strong>vlan_id</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/vlan_id" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>VLAN ID allocated for claiming the Wireless Controller.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
@@ -1635,32 +1699,32 @@ switch, typically used in the access layer.</p>
 </dl>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The state of Cisco Catalyst Center after module completion.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry-default:`&quot;merged&quot;`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;deleted&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-workflow-manager-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
@@ -1668,7 +1732,7 @@ switch, typically used in the access layer.</p>
 </table>
 </section>
 <section id="notes">
-<h2><a class="toc-backref" href="#id80" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id88" role="doc-backlink">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
@@ -1680,7 +1744,7 @@ switch, typically used in the access layer.</p>
 </div>
 </section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id81" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id89" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Import multiple switches in bulk only</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.pnp_workflow_manager</span><span class="p">:</span>
@@ -1761,10 +1825,17 @@ switch, typically used in the access layer.</p>
 <span class="w">            </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Switch</span>
 <span class="w">            </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unclaimed</span>
 <span class="w">            </span><span class="nt">pid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">C9300-48UXM</span>
+<span class="w">            </span><span class="nt">is_sudi_required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">user_sudi_serial_nos</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FJC271924EQ</span>
+<span class="w">            </span><span class="nt">is_stack_device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/San Francisco/BGL_18</span>
 <span class="w">        </span><span class="nt">template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ansible_PNP_Switch&quot;</span>
 <span class="w">        </span><span class="nt">image_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat9k_iosxe_npe.17.03.07.SPA.bin</span>
 <span class="w">        </span><span class="nt">project_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Onboarding Configuration</span>
+<span class="w">        </span><span class="nt">license_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">network-advantage</span>
+<span class="w">        </span><span class="nt">top_of_stack_serial_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FJC271924EQ</span>
+<span class="w">        </span><span class="nt">cabling_scheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1B</span>
 <span class="w">        </span><span class="nt">template_params</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SJC-Switch-1</span>
 <span class="w">          </span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TwoGigabitEthernet1/0/2</span>
@@ -1791,8 +1862,8 @@ switch, typically used in the access layer.</p>
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id82" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
-<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v13)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
+<h2><a class="toc-backref" href="#id90" role="doc-backlink">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/projects/ansible/latest/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible v14)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="ansible-option-table docutils align-default" style="width: 100%">
 <thead>
 <tr class="row-odd"><th class="head"><p>Key</p></th>
@@ -1806,7 +1877,7 @@ switch, typically used in the access layer.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id71"><span class="problematic" id="id72">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n      \\&quot;response\\&quot;: String,\\n      \\&quot;version\\&quot;: String\\n    },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id79"><span class="problematic" id="id80">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n      \\&quot;response\\&quot;: String,\\n      \\&quot;version\\&quot;: String\\n    },\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1815,7 +1886,7 @@ switch, typically used in the access layer.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id73"><span class="problematic" id="id74">:ansible-rv-sample-value:`[&quot;{\\n  \\&quot;response\\&quot;: []&quot;, &quot;\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;]`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id81"><span class="problematic" id="id82">:ansible-rv-sample-value:`[&quot;{\\n  \\&quot;response\\&quot;: []&quot;, &quot;\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;]`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1824,7 +1895,7 @@ switch, typically used in the access layer.</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A string with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id75"><span class="problematic" id="id76">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: String,\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id83"><span class="problematic" id="id84">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;: String,\\n  \\&quot;msg\\&quot;: String\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 </tbody>
