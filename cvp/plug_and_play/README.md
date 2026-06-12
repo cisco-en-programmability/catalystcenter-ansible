@@ -125,6 +125,9 @@ Each item in the lists above (e.g., inside `claim_switching_devices`) typically 
 | `image_name` | String | No | The name of the software image to provision. |
 | `template_params` | Dictionary | No | Variables required by the Jinja2 template (e.g., VLAN ID, IP). |
 | `device_info` | List | Yes | A list of specific devices to apply this configuration to. |
+| `license_level` | String | No | License level applied when claiming a Catalyst switch / stack switch. Valid values: `Cisco DNA Essentials`, `Cisco DNA Advantage`. Most commonly used with `pnp_type: Default` or `pnp_type: StackSwitch`. |
+| `top_of_stack_serial_number` | String | No | Serial number of the switch to designate as top-of-stack (Member 1 / Active) during stack renumbering. Must match a `serial_number` under `device_info`. Applicable only when `pnp_type: StackSwitch`. |
+| `cabling_scheme` | Enum | No | Physical cabling topology of the Catalyst stack. Accepted values are `1A` and `1B`. Applicable only when `pnp_type: StackSwitch`. |
 
 #### Device Info Object
 
@@ -137,6 +140,9 @@ The `device_info` list contains the specific identity of the physical devices.
 | `hostname` | String | No | The hostname to assign or identify the device. |
 | `state` | Enum | No | Expected state (e.g., `Unclaimed`, `Claimed`, `Provisioned`). |
 | `authorize` | Boolean | No | **(v2.3.7.9+)** **Galaxy version 6.42.0+** Auto-authorize device if in `Pending Authorization` state. |
+| `is_sudi_required` | Boolean | No | SUDI authentication requirement flag (sent as `sudiRequired`). When `true`, `user_sudi_serial_nos` is required. |
+| `user_sudi_serial_nos` | List | No | List of SUDI serial numbers used for SUDI authorization. Required when `is_sudi_required` is `true`. For stack devices, include all stack member SUDI serial numbers. |
+| `is_stack_device` | Boolean | No | Set to `true` if the device is a stack device. Only applies when `pnp_type` is `Default` or `StackSwitch`; ignored for `AccessPoint` and `CatalystWLC`. Defaults to `false`. |
 
 
 ## Example Input File
@@ -186,14 +192,36 @@ pnp_details:
           pid: C9300-48T
 ```
 
-### 3. Claim Switch Stack
+### 3. Switch Stack (Add then Claim with Stack Renumbering)
 
-Onboard a Cisco Catalyst 9K switch stack by specifying `pnp_type: StackSwitch`.
+Dedicated end-to-end example for a Cisco Catalyst 9K switch **stack**. The CVP
+playbook processes `network_devices` (ADD) before `claim_switching_devices`
+(CLAIM), so this single vars file both adds the stack to PnP and then claims it
+to a site as `pnp_type: StackSwitch`.
+
+Stack-specific fields:
+
+- `is_stack_device: true` marks the device as a stack member (sent to the API as `stack`).
+- `top_of_stack_serial_number` designates which member becomes stack Member 1 / Active (stack renumbering).
+- `cabling_scheme` (`1A` or `1B`) describes the physical stack cabling topology.
+- `license_level` sets the license applied at claim time.
+- Add `is_sudi_required: true` with `user_sudi_serial_nos` (all stack member SUDI serials) only when SUDI authorization is required.
 
 ```yaml
 ---
-catalystcenter_version: 2.3.7.6
+catalystcenter_version: 2.3.7.9
 pnp_details:
+  # Phase 1: ADD the stack device to PnP (Unclaimed)
+  network_devices:
+    - device_info:
+        - serial_number: FJC271925Q1
+          hostname: NY-EN-9300
+          state: Unclaimed
+          pid: C9300-48UXM
+          is_sudi_required: false
+          is_stack_device: true
+
+  # Phase 2: CLAIM the stack device as StackSwitch (stack renumbering)
   claim_switching_devices:
     - site_name: Global/USA/New York/NY_BLD1
       project_name: Onboarding Configuration
@@ -202,13 +230,50 @@ pnp_details:
       template_params:
         PNP_VLAN_ID: 2005
         LOOPBACK_IP: 204.1.2.2
+      pnp_type: StackSwitch
+      license_level: "Cisco DNA Advantage"
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
       device_info:
         - serial_number: FJC271925Q1
           hostname: NY-EN-9300
           state: Unclaimed
           pid: C9300-48UXM
-      pnp_type: StackSwitch
+          is_stack_device: true
 ```
+
+> **Stack renumbering:** `top_of_stack_serial_number` and `cabling_scheme` apply only when `pnp_type: StackSwitch`. `license_level` accepts `Cisco DNA Essentials` or `Cisco DNA Advantage`.
+
+#### Switch Stack with SUDI Authorization
+
+When SUDI authorization is required, set `is_sudi_required: true` and list **every
+stack member serial number** in `user_sudi_serial_nos` (sent to the API as
+`userSudiSerialNos`).
+
+```yaml
+---
+catalystcenter_version: 2.3.7.9
+pnp_details:
+  claim_switching_devices:
+    - site_name: Global/USA/New York/NY_BLD1
+      project_name: Onboarding Configuration
+      pnp_type: StackSwitch
+      license_level: "Cisco DNA Advantage"
+      top_of_stack_serial_number: FJC271925Q1
+      cabling_scheme: 1B
+      device_info:
+        - serial_number: FJC271925Q1
+          hostname: NY-EN-9300
+          state: Unclaimed
+          pid: C9300-48UXM
+          is_stack_device: true
+          is_sudi_required: true
+          user_sudi_serial_nos:
+            - FJC271925Q1
+            - FJC271925Q2
+            - FJC271925Q3
+```
+
 ### 4. Claim Router Device
 
 Onboard a Cisco router with appropriate template and image.
@@ -869,4 +934,3 @@ Use either of these forms:
 
 - Relative to the playbook: `../vars/catalyst_center_pnp_vars.yml`
 - Fully resolved from the repo root: `${PWD}/cvp/plug_and_play/vars/catalyst_center_pnp_vars.yml`
-

@@ -12,7 +12,10 @@
                 "hostname": "Test-AP",
                 "state": "Unclaimed",
                 "pid": "C9130AXI-I",
-                "is_sudi_required": true
+                "is_sudi_required": true,
+                "user_sudi_serial_nos": [
+                    "KWC24160JLL"
+                ]
             }
         ],
         "pnp_type": "AccessPoint",
@@ -7634,7 +7637,10 @@
               "hostname": "SJ-EN-10-9300",
               "state": "Unclaimed",
               "pid": "C9300-24UXB",
-              "is_sudi_required": true
+              "is_sudi_required": true,
+              "user_sudi_serial_nos": [
+                "FOC2439LA89"
+              ]
             }
           ],
           "pnp_type": "Default",
@@ -9276,7 +9282,10 @@
               "hostname": "SJ-EN-10-9300",
               "state": "Unclaimed",
               "pid": "C9300-24UXB",
-              "is_sudi_required": true
+              "is_sudi_required": true,
+              "user_sudi_serial_nos": [
+                "FOC2439LA89"
+              ]
             }
           ],
           "pnp_type": "AccessPoint",
