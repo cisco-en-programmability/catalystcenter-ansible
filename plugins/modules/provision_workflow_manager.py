@@ -318,7 +318,7 @@ options:
             default: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Methods used are sites.Sites.get_site,
     devices.Devices.get_network_device_by_ip,
@@ -748,11 +748,11 @@ class Provision(CatalystCenterBase):
 
                 for config_item in self.config:
                     telemetry_list = config_item.get("application_telemetry", [])
-                    for index, config_item in enumerate(self.config):
+                    for index, config_item in enumerate(self.config, start=1):
                         telemetry_list = config_item.get("application_telemetry", [])
 
                         # Validate each telemetry entry
-                        for entry_index, telemetry_entry in enumerate(telemetry_list):
+                        for entry_index, telemetry_entry in enumerate(telemetry_list, start=1):
 
                             if (
                                 "device_ips" not in telemetry_entry
@@ -795,7 +795,7 @@ class Provision(CatalystCenterBase):
                     "type": "str",
                     "required": True,
                 }
-                for index, config_item in enumerate(self.config):
+                for index, config_item in enumerate(self.config, start=1):
                     if (
                         "site_name_hierarchy" not in config_item
                         or not config_item["site_name_hierarchy"]
@@ -833,6 +833,11 @@ class Provision(CatalystCenterBase):
 
                     rolling_ap_upgrade = config_item.get("rolling_ap_upgrade")
                     if rolling_ap_upgrade is not None:
+                        self.log(
+                            "Validating 'rolling_ap_upgrade' in config item at index {0}.".format(index),
+                            "DEBUG",
+                        )
+
                         ap_reboot_percentage = rolling_ap_upgrade.get("ap_reboot_percentage")
                         if ap_reboot_percentage is not None:
                             allowed_ap_reboot_percentages = frozenset({5, 15, 25})
@@ -848,6 +853,13 @@ class Provision(CatalystCenterBase):
                                     "Supported values are 5, 15, and 25.".format(ap_reboot_percentage)
                                 )
                                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                            else:
+                                self.log(
+                                    "Validated 'ap_reboot_percentage' with supported value '{0}' in config item at index {1}.".format(
+                                        ap_reboot_percentage, index
+                                    ),
+                                    "DEBUG",
+                                )
 
                 if missing_params:
                     self.msg = "Missing or invalid required parameter(s): {0}".format(
@@ -3502,6 +3514,12 @@ class Provision(CatalystCenterBase):
                 if rolling_upgrade_config.get("ap_reboot_percentage") is not None:
                     rolling_upgrade_config["ap_reboot_percentage"] = int(
                         rolling_upgrade_config["ap_reboot_percentage"]
+                    )
+                    self.log(
+                        "Normalized 'ap_reboot_percentage' to int: {0}".format(
+                            rolling_upgrade_config["ap_reboot_percentage"]
+                        ),
+                        "DEBUG",
                     )
 
                 payload["rollingApUpgrade"] = rolling_upgrade_config
