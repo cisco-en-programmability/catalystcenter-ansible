@@ -18,7 +18,7 @@ __author__ = "Vivek Raj, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
-module: sda_host_port_assignment_migration_playbook_config_generator
+module: sda_host_port_migration_playbook_config_generator
 short_description: Generate SDA host port migration YAML configurations.
 description:
 - Generates YAML configuration compatible with
@@ -56,77 +56,134 @@ options:
     type: str
     choices: [overwrite, append]
     default: overwrite
-  port_assignment_migration:
-    description:
-    - Legacy list of source to destination host port assignment migrations.
-    - This generates only C(port_assignments). Prefer O(config) with
-      C(component_specific_filters) for new playbooks.
-    type: list
-    elements: dict
-    required: false
-    suboptions:
-      fabric_site:
-        description:
-        - Fabric site hierarchy containing the source device port assignments.
-        type: str
-        required: true
-      source_device_ip:
-        description:
-        - Source device management IP address to export port assignments from.
-        type: str
-        required: true
-      destination_device_ip:
-        description:
-        - Destination device management IP address used in the generated payload.
-        type: str
-        required: true
-      interface_mappings:
-        description:
-        - Optional source-to-destination interface remap list.
-        - Mapped source interfaces are remapped when present in the source payload.
-        - Source interfaces not listed here keep their original interface name.
-        type: list
-        elements: dict
-        required: false
-        suboptions:
-          source_interface_name:
-            description:
-            - Interface name in the source device port assignment payload.
-            type: str
-            required: true
-          destination_interface_name:
-            description:
-            - Interface name to use in the destination device payload.
-            type: str
-            required: true
   config:
     description:
     - Dictionary of component filters for generating migration YAML.
     - Supports C(port_assignments), C(port_channels), or both through
-      C(component_specific_filters.components_list).
+      C(component_specific_filters).
     type: dict
-    required: false
+    required: true
+    suboptions:
+      component_specific_filters:
+        description:
+        - Component-specific migration filters.
+        - Provide C(port_assignments), C(port_channels), or both.
+        - Requested components are inferred from the component keys present in
+          this dictionary.
+        type: dict
+        required: true
+        suboptions:
+          port_assignments:
+            description:
+            - Source-to-destination migration filters for SDA host port
+              assignments.
+            - Provide this key to generate port assignment migration payloads.
+            - Each entry selects a source fabric site and source device, then
+              generates destination port assignment payload for
+              C(destination_device_ip).
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              fabric_site_name_hierarchy:
+                description:
+                - Fabric site hierarchy that contains the source device port
+                  assignments.
+                - Must match the full Catalyst Center fabric site hierarchy.
+                type: str
+                required: true
+              source_device_ip:
+                description:
+                - Source device management IP address to read port assignments
+                  from.
+                type: str
+                required: true
+              destination_device_ip:
+                description:
+                - Destination device management IP address to use as
+                  C(ip_address) in the generated onboarding payload.
+                type: str
+                required: true
+              interface_mappings:
+                description:
+                - Optional source-to-destination interface remap list.
+                - Source interfaces listed here are remapped only when they
+                  exist in the source device port assignment payload.
+                - Source interfaces not listed here keep their original
+                  interface name for 1:1 migration.
+                type: list
+                elements: dict
+                required: false
+                suboptions:
+                  source_interface_name:
+                    description:
+                    - Interface name in the source device port assignment
+                      payload.
+                    type: str
+                    required: true
+                  destination_interface_name:
+                    description:
+                    - Interface name to use in the destination device port
+                      assignment payload.
+                    type: str
+                    required: true
+          port_channels:
+            description:
+            - Source-to-destination migration filters for SDA host port channels.
+            - Provide this key to generate port channel migration payloads.
+            - Each entry selects a source fabric site and source device, then
+              generates destination port channel payload for
+              C(destination_device_ip).
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              fabric_site_name_hierarchy:
+                description:
+                - Fabric site hierarchy that contains the source device port
+                  channels.
+                - Must match the full Catalyst Center fabric site hierarchy.
+                type: str
+                required: true
+              source_device_ip:
+                description:
+                - Source device management IP address to read port channels from.
+                type: str
+                required: true
+              destination_device_ip:
+                description:
+                - Destination device management IP address to use as
+                  C(ip_address) in the generated onboarding payload.
+                type: str
+                required: true
+              interface_mappings:
+                description:
+                - Optional source-to-destination member interface remap list.
+                - Source interfaces listed here are remapped only when they
+                  exist in the source device port channel member interface list.
+                - Source interfaces not listed here keep their original
+                  interface name for 1:1 migration.
+                type: list
+                elements: dict
+                required: false
+                suboptions:
+                  source_interface_name:
+                    description:
+                    - Member interface name in the source device port channel
+                      payload.
+                    type: str
+                    required: true
+                  destination_interface_name:
+                    description:
+                    - Member interface name to use in the destination device
+                      port channel payload.
+                    type: str
+                    required: true
 """
 
 EXAMPLES = r"""
-- name: Generate 1:1 host port assignment migration configuration
-  cisco.catalystcenter.sda_host_port_assignment_migration_playbook_config_generator:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    state: gathered
-    file_path: "host_port_assignment_migration_playbook.yml"
-    file_mode: overwrite
-    port_assignment_migration:
-      - fabric_site: "Global/California/23"
-        source_device_ip: "10.0.0.1"
-        destination_device_ip: "10.0.0.2"
-
 - name: Generate host port assignment and port channel migration configuration
-  cisco.catalystcenter.sda_host_port_assignment_migration_playbook_config_generator:
+  cisco.catalystcenter.sda_host_port_migration_playbook_config_generator:
     catalystcenter_host: "{{ catalystcenter_host }}"
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
@@ -134,11 +191,10 @@ EXAMPLES = r"""
     catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     state: gathered
-    file_path: "host_port_assignment_migration_playbook.yml"
+    file_path: "host_port_migration_playbook.yml"
     file_mode: overwrite
     config:
       component_specific_filters:
-        components_list: ["port_assignments", "port_channels"]
         port_assignments:
           - fabric_site_name_hierarchy: "Global/California/23"
             source_device_ip: "10.0.0.1"
@@ -165,7 +221,7 @@ response:
         "status": "success",
         "msg": {
             "message": "YAML configuration file generated successfully",
-            "file_path": "host_port_assignment_migration_playbook.yml",
+            "file_path": "host_port_migration_playbook.yml",
             "components_processed": 1,
             "components_skipped": 0,
             "configurations_count": 1
@@ -185,7 +241,7 @@ from collections import OrderedDict
 import time
 
 
-class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Brownfield generator for SDA host port migration payloads.
 
@@ -226,7 +282,7 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
-        self.module_name = "sda_host_port_assignment_migration_workflow_manager"
+        self.module_name = "sda_host_port_migration_workflow_manager"
         self.module_schema = self.get_workflow_filters_schema()
         (
             self.fabric_site_name_to_id_mapping,
@@ -259,9 +315,9 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
                     remap selected member interfaces.
 
         Workflow Integration:
-            BrownFieldHelper.yaml_config_generator iterates components_list and
-            invokes each component's get_function_name with the component schema
-            and its component-specific filters.
+            BrownFieldHelper.yaml_config_generator iterates the supported
+            component schema and invokes each component's get_function_name with
+            the component schema and its component-specific filters.
         """
         return {
             "network_elements": {
@@ -302,11 +358,10 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
         """
         Validate module input and normalize it into BrownFieldHelper format.
 
-        The generator accepts two input shapes:
-            1. Legacy top-level port_assignment_migration for assignment-only
-               migration.
-            2. Preferred config.component_specific_filters input that can
-               include port_assignments, port_channels, or both.
+        The generator accepts config.component_specific_filters input with
+        port_assignments, port_channels, or both. Requested components are
+        inferred from the component filter keys present under
+        component_specific_filters.
 
         Returns:
             self: Current instance with operation status updated. On success,
@@ -318,34 +373,12 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
             - Ensures component_specific_filters exists for the preferred input.
             - Uses BrownFieldHelper validation helpers for top-level config
               structure and invalid key detection.
-            - Auto-populates components_list when component filters are supplied
-              without explicitly listing the component.
-            - Validates that each requested component is supported by this
-              module schema.
+            - Validates that each provided component filter key is supported by
+              this module schema.
             - Normalizes all requested migration entries into OrderedDict values
               for stable YAML output.
         """
-        legacy_migration_entries = self.params.get("port_assignment_migration")
         config = self.params.get("config") or {}
-
-        if legacy_migration_entries:
-            validation_errors, normalized_entries = self._normalize_migration_entries(
-                legacy_migration_entries, "port_assignments", legacy_input=True
-            )
-            if validation_errors:
-                self.msg = "Validation Error: {0}".format("; ".join(validation_errors))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            self.validated_config = {
-                "component_specific_filters": {
-                    "components_list": ["port_assignments"],
-                    "port_assignments": normalized_entries,
-                }
-            }
-            self.msg = "Successfully validated legacy SDA host port assignment migration input."
-            self.set_operation_result("success", False, self.msg, "INFO")
-            return self
 
         if not config:
             self.msg = (
@@ -372,23 +405,36 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        self.auto_populate_and_validate_components_list(component_specific_filters)
-        components_list = component_specific_filters.get("components_list", [])
-        valid_components = set(self.module_schema.get("network_elements", {}).keys())
+        valid_components = list(self.module_schema.get("network_elements", {}).keys())
         invalid_components = [
-            component for component in components_list if component not in valid_components
+            component
+            for component in component_specific_filters
+            if component not in valid_components
         ]
         if invalid_components:
             self.msg = (
-                "Validation Error: invalid components in components_list: {0}. "
+                "Validation Error: invalid component filter keys: {0}. "
                 "Valid components are: {1}."
             ).format(invalid_components, sorted(valid_components))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        normalized_component_filters = {"components_list": components_list}
+        requested_components = [
+            component
+            for component in valid_components
+            if component in component_specific_filters
+        ]
+        if not requested_components:
+            self.msg = (
+                "Validation Error: provide at least one component filter under "
+                "'component_specific_filters'. Valid components are: {0}."
+            ).format(sorted(valid_components))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        normalized_component_filters = {}
         validation_errors = []
-        for component_name in components_list:
+        for component_name in requested_components:
             component_entries = component_specific_filters.get(component_name, [])
             component_errors, normalized_entries = self._normalize_migration_entries(
                 component_entries, component_name
@@ -408,7 +454,7 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def _normalize_migration_entries(self, migration_entries, component_name, legacy_input=False):
+    def _normalize_migration_entries(self, migration_entries, component_name):
         """
         Validate and normalize migration entries for a single component.
 
@@ -418,9 +464,6 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
                 device IP, destination device IP, and optional interface mappings.
             component_name (str): Component being normalized. Expected values are
                 port_assignments or port_channels.
-            legacy_input (bool): When True, accepts the legacy fabric_site key
-                and normalizes it to fabric_site_name_hierarchy.
-
         Returns:
             tuple: A two-item tuple:
                 - validation_errors (list): Human-readable validation errors.
@@ -464,8 +507,6 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
                 continue
 
             fabric_site = entry.get("fabric_site_name_hierarchy")
-            if legacy_input and not fabric_site:
-                fabric_site = entry.get("fabric_site")
             source_device_ip = entry.get("source_device_ip")
             destination_device_ip = entry.get("destination_device_ip")
             interface_mappings = entry.get("interface_mappings") or []
@@ -644,8 +685,8 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
 
         Raises:
             SystemExit: Via fail_and_exit when an unsupported component is
-            requested. This should not happen when components_list has already
-            been validated against the module schema.
+            requested. This should not happen when component filter keys have
+            already been validated against the module schema.
         """
         if component_name == "port_assignments":
             return self.port_assignments_temp_spec()
@@ -1105,33 +1146,26 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
             destination_payload
         )
 
-    def _is_last_requested_component(self, component_name):
+    def _is_final_schema_component(self, component_name):
         """
-        Determine whether the current component should return merged output.
+        Determine whether the current schema component should return merged output.
 
         Args:
             component_name (str): Component currently being processed by
                 BrownFieldHelper.yaml_config_generator.
 
         Returns:
-            bool: True when component_name is the last valid component in the
-            requested components_list; otherwise False.
+            bool: True when component_name is the final component in this
+            module's schema order; otherwise False.
 
         Notes:
             BrownFieldHelper appends each component function's return value to
             the final YAML list. This generator accumulates component data across
-            component calls, so only the final requested component returns the
+            component calls, so only the final schema component returns the
             merged destination payload.
         """
-        component_specific_filters = (
-            self.want.get("yaml_config_generator", {})
-            .get("component_specific_filters", {})
-        )
-        components_list = [
-            component for component in component_specific_filters.get("components_list", [])
-            if component in self.module_schema.get("network_elements", {})
-        ]
-        return bool(components_list) and component_name == components_list[-1]
+        schema_components = list(self.module_schema.get("network_elements", {}).keys())
+        return bool(schema_components) and component_name == schema_components[-1]
 
     def _validate_merged_output_interfaces(self):
         """
@@ -1232,7 +1266,7 @@ class SdaHostPortAssignmentMigrationPlaybookConfigGenerator(CatalystCenterBase, 
                 "WARNING",
             )
 
-        if not self._is_last_requested_component(component_name):
+        if not self._is_final_schema_component(component_name):
             return []
 
         self._validate_merged_output_interfaces()
@@ -1322,9 +1356,8 @@ def main():
 
     Workflow:
         1. Build the AnsibleModule argument_spec for Catalyst Center connection
-           settings, output file controls, preferred config input, and legacy
-           port_assignment_migration input.
-        2. Initialize SdaHostPortAssignmentMigrationPlaybookConfigGenerator.
+           settings, output file controls, and config input.
+        2. Initialize SdaHostPortMigrationPlaybookConfigGenerator.
         3. Enforce the minimum supported Catalyst Center version.
         4. Validate that the requested state is supported.
         5. Validate and normalize module input.
@@ -1351,26 +1384,7 @@ def main():
         "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
-        "config": {"required": False, "type": "dict"},
-        "port_assignment_migration": {
-            "required": False,
-            "type": "list",
-            "elements": "dict",
-            "options": {
-                "fabric_site": {"type": "str", "required": True},
-                "source_device_ip": {"type": "str", "required": True},
-                "destination_device_ip": {"type": "str", "required": True},
-                "interface_mappings": {
-                    "type": "list",
-                    "elements": "dict",
-                    "required": False,
-                    "options": {
-                        "source_interface_name": {"type": "str", "required": True},
-                        "destination_interface_name": {"type": "str", "required": True},
-                    },
-                },
-            },
-        },
+        "config": {"required": True, "type": "dict"},
         "file_path": {"type": "str", "required": False},
         "file_mode": {
             "type": "str",
@@ -1381,12 +1395,12 @@ def main():
     }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
-    generator = SdaHostPortAssignmentMigrationPlaybookConfigGenerator(module)
+    generator = SdaHostPortMigrationPlaybookConfigGenerator(module)
     initialization_timestamp = time.strftime(
         "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
     generator.log(
-        "Starting Ansible module execution for SDA host port assignment migration "
+        "Starting Ansible module execution for SDA host port migration "
         "playbook config generator at timestamp {0}".format(initialization_timestamp),
         "INFO",
     )
@@ -1394,7 +1408,7 @@ def main():
     if generator.compare_catalystcenter_versions(generator.get_ccc_version(), "2.3.7.9") < 0:
         generator.msg = (
             "The specified Catalyst Center version '{0}' does not support YAML "
-            "playbook generation for SDA Host Port Assignment Migration. "
+            "playbook generation for SDA Host Port Migration. "
             "Supported versions start from '2.3.7.9' onwards.".format(
                 generator.get_ccc_version()
             )
