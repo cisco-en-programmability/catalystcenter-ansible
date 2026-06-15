@@ -271,7 +271,7 @@ options:
         required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,

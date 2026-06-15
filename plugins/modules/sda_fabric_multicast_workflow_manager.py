@@ -334,7 +334,7 @@ options:
                 elements: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_sites,

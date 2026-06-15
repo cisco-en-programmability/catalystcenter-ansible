@@ -499,7 +499,7 @@ options:
             required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - The maximum number of user-defined (custom) issue definitions
     supported by Cisco Catalyst Center is 50. Attempting to create

@@ -186,7 +186,7 @@ options:
                 elements: str
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 notes:
 - Minimum supported Catalyst Center version is 2.3.5.3 which
   introduced user and role retrieval APIs.
