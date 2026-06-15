@@ -157,7 +157,7 @@ options:
 
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 - PyYAML >= 5.1
 notes:
 - SDK Method used is devices.Devices.get_all_health_score_definitions_for_given_filters

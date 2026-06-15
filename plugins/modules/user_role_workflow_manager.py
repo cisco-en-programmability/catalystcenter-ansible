@@ -675,7 +675,7 @@ options:
                 type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9.19
+  - python >= 3.12
 notes:
   - SDK Methods used - user_and_roles.UserandRoles.get_user_api
     - user_and_roles.UserandRoles.add_user_api - user_and_roles.UserandRoles.update_user_api

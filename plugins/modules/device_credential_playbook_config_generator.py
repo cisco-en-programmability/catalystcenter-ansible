@@ -211,7 +211,7 @@ options:
             required: false
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 - PyYAML >= 5.1
 notes:
   - SDK methods utilized - discovery.get_all_global_credentials,

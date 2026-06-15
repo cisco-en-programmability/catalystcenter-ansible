@@ -1369,7 +1369,7 @@ options:
                     required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.8
+  - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center Ansible Collection Documentation
     description: Complete guide to using the Cisco Catalyst Center Ansible collection.

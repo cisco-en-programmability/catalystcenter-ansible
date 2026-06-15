@@ -198,7 +198,7 @@ options:
         default: ["ALL"]
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.5
+  - python >= 3.12
 notes:
   - SDK Methods used are sites.Sites.get_site Site_design.Site_design.get_sites
     sites.Sites.get_membership site_design.Site_design.get_site_assigned_network_devices

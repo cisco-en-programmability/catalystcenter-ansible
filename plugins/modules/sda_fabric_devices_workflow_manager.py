@@ -572,7 +572,7 @@ options:
                         type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
   - A reboot is required to remove wireless configurations from the device after disabling wireless controller capabilities.
