@@ -233,7 +233,7 @@ options:
 
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9.19
+- python >= 3.12
 
 notes:
 - This is a facts/info module that only retrieves information and does not modify any device configurations or network state.

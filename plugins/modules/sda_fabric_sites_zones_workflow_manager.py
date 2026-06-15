@@ -271,7 +271,7 @@ options:
                         type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - To ensure the module operates correctly for scaled
     sets,

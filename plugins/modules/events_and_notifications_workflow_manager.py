@@ -728,7 +728,7 @@ options:
             elements: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.5
+  - python >= 3.12
 notes:
   - To ensure the module operates correctly with scaled
     sets—such as creating or updating multiple destinations

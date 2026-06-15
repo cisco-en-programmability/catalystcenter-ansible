@@ -127,7 +127,7 @@ options:
             required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - This module utilizes the following SDK methods
     site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1

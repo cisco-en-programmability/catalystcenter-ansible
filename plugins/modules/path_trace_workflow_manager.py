@@ -146,7 +146,7 @@ options:
         required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Method used are
     path_trace.PathTraceWorkflow.retrieves_all_previous_pathtraces_summary,
