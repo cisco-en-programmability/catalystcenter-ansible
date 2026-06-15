@@ -376,7 +376,7 @@ options:
                     elements: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9.19
+  - python >= 3.12
 notes:
 - SDK Methods used are
   - application_policy.ApplicationPolicy.get_application_policy

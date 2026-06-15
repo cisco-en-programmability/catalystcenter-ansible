@@ -525,7 +525,7 @@ options:
         default: true
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Methods used are - devices.Devices.get_device_list
     - sda.SDA.get_device_info - site_design.SiteDesigns.get_sites
