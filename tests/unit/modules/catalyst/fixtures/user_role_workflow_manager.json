@@ -200,7 +200,7 @@
                 "authSource": "internal",
                 "passphraseUpdateTime": "1712759668555",
                 "roleList": [
-                    "6486ce97ff1f0d0c8be622f6"
+                    "SUPER-ADMIN-ROLE"
                 ],
                 "userId": "6486ce98ff1f0d0c8be622f7",
                 "email": "ajith.andrew@example.com",
