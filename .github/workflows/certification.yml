@@ -1,0 +1,26 @@
+---
+name: Run collection certification checks
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+concurrency:
+  group: cert-ver-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  call:
+    uses: ansible-collections/partner-certification-checker/.github/workflows/certification-reusable.yml@v2.0.0 # zizmor: ignore[unpinned-uses]
+    with:
+      ansible-core-version: '2.19.0'
+      python-versions: '["3.12"]'
+    # Uncomment if submitting to Red Hat Ansible Automation Hub and set the AH_TOKEN secret:
+    # secrets:
+    #   AH_TOKEN: ${{ secrets.AH_TOKEN }}
