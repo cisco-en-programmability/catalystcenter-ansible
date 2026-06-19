@@ -628,6 +628,29 @@ class TestWirelessDesign(TestCatalystModule):
         if "create_ssid_invalid_ssid_type" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = []
 
+        if "create_ssid_missing_ssid_type" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("respone_get_sites_success"),
+                self.test_data.get("response_get_ssid_by_site_empty_success"),
+            ]
+
+        if "update_ssid_without_ssid_type" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("respone_get_sites_success"),
+                self.test_data.get("response_get_ssid_by_site_update_without_ssid_type"),
+            ]
+
+        if "5ghz_radio_band_no_2dot4_policy" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("respone_get_sites_success"),
+                self.test_data.get("response_get_ssid_by_site_5ghz_radio_band"),
+            ]
+
+        if "power_profiles_case_insensitive_idempotent" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_power_profiles_case_insensitive"),
+            ]
+
         if "playbook_advanced_ssid_create" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("ADVANCED_SSID_CONFIGURATION"),
@@ -1969,3 +1992,67 @@ class TestWirelessDesign(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Invalid choice", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_create_ssid_missing_ssid_type(self):
+        """Test that creating a new SSID without ssid_type fails."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_create_ssid_missing_ssid_type")
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("'ssid_type' parameter is required when creating a new SSID", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_update_ssid_without_ssid_type(self):
+        """Test that updating an existing SSID without ssid_type succeeds."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_update_ssid_without_ssid_type")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_5ghz_radio_band_no_2dot4_policy(self):
+        """Test that SSID with radio_bands=[5] and no 2_dot_4_ghz_band_policy passes validation."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_5ghz_radio_band_no_2dot4_policy")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_power_profiles_case_insensitive_idempotent(self):
+        """Test that mixed-case power profile rules match uppercase API response (idempotent)."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_power_profiles_case_insensitive_idempotent")
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
