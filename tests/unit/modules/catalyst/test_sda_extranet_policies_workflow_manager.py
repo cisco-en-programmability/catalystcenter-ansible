@@ -157,6 +157,16 @@ class SDAExtranetPolicies(TestCatalystModule):
                 Exception("Simulated exception"),
             ]
 
+        if "update_extranet_policy_partial_params" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_extranet_policies_partial_existing"),
+                self.test_data.get("response_get_sites"),
+                self.test_data.get("response_get_fabric_sites"),
+                self.test_data.get("response_get_task_id"),
+                self.test_data.get("response_get_task_status_by_id"),
+                self.test_data.get("response_get_extranet_policies_partial_updated"),
+            ]
+
     # SUCCESS TESTCASES ########################################################################################
 
     def test_create_sda_extranet_policies(self):
@@ -582,3 +592,31 @@ class SDAExtranetPolicies(TestCatalystModule):
             )
         )
         self.execute_module(changed=False, failed=True)
+
+    def test_update_extranet_policy_partial_params(self):
+        """
+        Test that updating an extranet policy works when only extranet_policy_name,
+        fabric_sites, and subscriber_virtual_networks are provided (without provider_virtual_network).
+        The module should auto-fill provider_virtual_network from the existing policy in Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="2.3.7.9",
+                config_verify=True,
+                catalystcenter_log_append=False,
+                state="merged",
+                config=self.test_data.get(
+                    "playbook_config_update_extranet_policy_partial"
+                ),
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "has been updated successfully in the Cisco Catalyst Center",
+            result.get("msg"),
+        )
