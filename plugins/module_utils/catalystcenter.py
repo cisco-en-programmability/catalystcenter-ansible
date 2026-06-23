@@ -1433,10 +1433,12 @@ class CatalystCenterBase:
     def camel_to_snake_case(self, config):
         """
         Convert camel case keys to snake case keys in the config.
+        Entries with None values are excluded from the returned config.
         Args:
-            config (list) - Playbook details provided by the user.
+            config (list or dict) - Playbook details provided by the user.
         Returns:
-            new_config (list) - Updated config after eliminating the camel cases.
+            new_config (list or dict) - Updated config after converting camel case
+                keys to snake case and removing entries with None values.
         """
 
         if isinstance(config, dict):
@@ -1451,7 +1453,8 @@ class CatalystCenterBase:
                         "DEBUG",
                     )
                 new_value = self.camel_to_snake_case(value)
-                new_config[new_key] = new_value
+                if new_value is not None:
+                    new_config[new_key] = new_value
         elif isinstance(config, list):
             return [self.camel_to_snake_case(item) for item in config]
         else:
