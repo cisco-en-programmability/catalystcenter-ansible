@@ -110,10 +110,15 @@ options:
           ssid_type:
             description:
               - Specifies the type of WLAN.
-              - Required in merged state for creating
-                or updating SSIDs.
+              - Required when creating a new SSID. The
+                module will fail if ssid_type is not
+                provided for a new SSID.
+              - Optional when updating an existing SSID.
+                If omitted during an update, the existing
+                ssid_type is retained from the current
+                configuration in Catalyst Center.
             type: str
-            required: true
+            required: false
             choices: ["Enterprise", "Guest"]
           wlan_profile_name:
             description:
@@ -7523,6 +7528,9 @@ class WirelessDesign(CatalystCenterBase):
     """
     A class for managing Wireless Design operations within the Cisco Catalyst Center using the SDA API.
     """
+
+    # Keys to skip during SSID comparison (not user-provided values)
+    SSID_COMPARISON_SKIP_KEYS = frozenset({"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"})
 
     def __init__(self, module):
         """
@@ -15973,39 +15981,29 @@ class WirelessDesign(CatalystCenterBase):
             ).check_return_status()
             return self
 
-    def validate_required_ssid_params(self, ssid, state="merged"):
+    def validate_required_ssid_params(self, ssid):
         """
-        Validates the required parameters for an SSID based on the specified state.
+        Validates the required parameters for an SSID.
         Args:
             ssid (dict): The SSID configuration parameters.
-            state (str): The state of the SSID configuration, either "merged" or "deleted".
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         self.log(
-            "Starting validation for required SSID parameters with state: {0}.".format(
-                state
+            "Starting validation of required parameters for SSID: {0}".format(
+                ssid.get("ssid_name", "Unknown")
             ),
             "DEBUG",
         )
 
-        # Determine required parameters based on state
-        if state == "merged":
-            required_params = ["ssid_name", "ssid_type"]
-        elif state == "deleted":
-            required_params = ["ssid_name"]
-
-        # Check for missing required parameters
-        missing_params = [param for param in required_params if param not in ssid]
-        if missing_params:
+        ssid_name = ssid.get("ssid_name")
+        if not ssid_name:
             self.fail_and_exit(
-                "The following required parameters for SSID configuration are missing: {}. "
-                "Provided parameters: {}".format(", ".join(missing_params), ssid)
+                "The required parameter 'ssid_name' is missing for SSID configuration. "
+                "Provided parameters: {}".format(ssid)
             )
 
-        # Validate the length of ssid_name if it is present
-        ssid_name = ssid.get("ssid_name")
-        if ssid_name and len(ssid_name) > 32:
+        if len(ssid_name) > 32:
             self.fail_and_exit(
                 "The 'ssid_name' exceeds the maximum length of 32 characters. "
                 "Provided 'ssid_name': {} (length: {})".format(
@@ -16014,8 +16012,8 @@ class WirelessDesign(CatalystCenterBase):
             )
 
         self.log(
-            "Required SSID parameters validated successfully for state: {0}.".format(
-                state
+            "Completed validation of required parameters for SSID: {0}".format(
+                ssid_name
             ),
             "DEBUG",
         )
@@ -16116,7 +16114,7 @@ class WirelessDesign(CatalystCenterBase):
                 self.fail_and_exit(self.msg)
 
             # Validate 2_dot_4_ghz_band_policy
-            if "2_dot_4_ghz_band_policy" in radio_policy:
+            if radio_policy.get("2_dot_4_ghz_band_policy") is not None:
                 if 2.4 not in radio_bands_set:
                     self.msg = "For SSID: {0} 2_dot_4_ghz_band_policy is specified but 2.4 GHz is not enabled in 'radio_bands'.".format(
                         ssid_name
@@ -16147,7 +16145,7 @@ class WirelessDesign(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
 
         # Validate 2_dot_4_ghz_band_policy
-        if "2_dot_4_ghz_band_policy" in radio_policy and radio_policy[
+        if radio_policy.get("2_dot_4_ghz_band_policy") is not None and radio_policy[
             "2_dot_4_ghz_band_policy"
         ] not in ["802.11-bg", "802.11-g"]:
             self.msg = "Invalid '2_dot_4_ghz_band_policy' provided for SSID: '{0}'. Allowed values are ['802.11-bg',  '802.11-g'].".format(
@@ -17076,27 +17074,16 @@ class WirelessDesign(CatalystCenterBase):
             ssids (list): A list of dictionaries containing SSID parameters.
             state (str): The state of the operation, either "merged" or "deleted".
         """
-        # Handle 'deleted' state separately
+        if not ssids:
+            self.log("No SSIDs provided for validation. Skipping.", "DEBUG")
+            return
+
+        self.log("Validating SSID(s) parameters in '{0}' state.".format(state), "DEBUG")
+        for ssid in ssids:
+            self.validate_required_ssid_params(ssid)
+
         if state == "deleted":
-            if ssids:
-                self.log("Validating SSID(s) parameters in 'deleted' state.", "DEBUG")
-                for ssid in ssids:
-                    ssid_name = ssid.get("ssid_name")
-                    self.log(
-                        "Starting validation of required parameters for SSID: {0}".format(
-                            ssid_name
-                        ),
-                        "DEBUG",
-                    )
-                    self.validate_required_ssid_params(ssid, state="deleted")
-                    self.log(
-                        "Completed validation of required parameters for SSID: {0}".format(
-                            ssid_name
-                        ),
-                        "DEBUG",
-                    )
-                # Exit after handling the 'deleted' state
-                return
+            return
 
         # Iterate through each SSID for validation
         for ssid in ssids:
@@ -17107,37 +17094,25 @@ class WirelessDesign(CatalystCenterBase):
             ssid_name = ssid.get("ssid_name")
             ssid_type = ssid.get("ssid_type")
 
-            # Validate required parameters for the SSID
-            self.log(
-                "Starting validation of required parameters for SSID: {0}".format(
-                    ssid_name
-                ),
-                "DEBUG",
-            )
-            self.validate_required_ssid_params(ssid)
-            self.log(
-                "Completed validation of required parameters for SSID: {0}".format(
-                    ssid_name
-                ),
-                "DEBUG",
-            )
-
             # Validate SSID type parameters
             l2_security = ssid.get("l2_security")
             l3_security = ssid.get("l3_security")
-            self.log(
-                "Starting validation of SSID type parameters for SSID: {0}.".format(
-                    ssid_name
-                ),
-                "DEBUG",
-            )
-            self.validate_ssid_type_params(ssid_type, l2_security, l3_security)
-            self.log(
-                "Completed validation of SSID type parameters for SSID: {0}.".format(
-                    ssid_name
-                ),
-                "DEBUG",
-            )
+
+            # Only validate ssid_type if user provided it (not required for updates)
+            if ssid_type:
+                self.log(
+                    "Starting validation of SSID type parameters for SSID: {0}.".format(
+                        ssid_name
+                    ),
+                    "DEBUG",
+                )
+                self.validate_ssid_type_params(ssid_type, l2_security, l3_security)
+                self.log(
+                    "Completed validation of SSID type parameters for SSID: {0}.".format(
+                        ssid_name
+                    ),
+                    "DEBUG",
+                )
 
             # Validate radio policy parameters
             self.log(
@@ -19827,7 +19802,9 @@ class WirelessDesign(CatalystCenterBase):
             dict: A dictionary of the SSID parameters mapped to the required format.
         """
         # Initialize modified SSID dictionary
-        modified_ssid = {"ssid": ssid_name, "wlanType": ssid_type}
+        modified_ssid = {"ssid": ssid_name}
+        if ssid_type is not None:
+            modified_ssid["wlanType"] = ssid_type
 
         # Mapping of user-facing WLAN config keys to corresponding API payload field names
         mappings = {
@@ -19887,8 +19864,9 @@ class WirelessDesign(CatalystCenterBase):
         for key, ssid_key in mappings["basic"].items():
             if key in ssid_settings:
                 value = ssid_settings[key]
-                modified_ssid[ssid_key] = value
-                self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
+                if value is not None:
+                    modified_ssid[ssid_key] = value
+                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
 
         # Apply mappings
         for category, mapping in mappings.items():
@@ -19912,12 +19890,13 @@ class WirelessDesign(CatalystCenterBase):
                 for key, ssid_key in mapping.items():
                     if key in settings:
                         value = settings[key]
-                        if key == "passphrase_type":
-                            value = value == "HEX"
-                        modified_ssid[ssid_key] = value
-                        self.log(
-                            "Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG"
-                        )
+                        if value is not None:
+                            if key == "passphrase_type":
+                                value = value == "HEX"
+                            modified_ssid[ssid_key] = value
+                            self.log(
+                                "Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG"
+                            )
 
         # mpsk_settings keys and entry keys
         mpsk_key_mappings = [
@@ -20082,13 +20061,14 @@ class WirelessDesign(CatalystCenterBase):
 
             for key, value in l3_security.items():
                 if key in l3_security_mapping:
-                    modified_ssid[l3_security_mapping[key]] = value
-                    self.log(
-                        "Mapped '{0}' to '{1}'.".format(
-                            l3_security_mapping[key], value
-                        ),
-                        "DEBUG",
-                    )
+                    if value is not None:
+                        modified_ssid[l3_security_mapping[key]] = value
+                        self.log(
+                            "Mapped '{0}' to '{1}'.".format(
+                                l3_security_mapping[key], value
+                            ),
+                            "DEBUG",
+                        )
 
         self.log("Final modified SSID: {}".format(modified_ssid), "INFO")
         return modified_ssid
@@ -20188,6 +20168,9 @@ class WirelessDesign(CatalystCenterBase):
     def compare_global_ssids(self, existing_ssids, requested_ssid):
         """
         Compares global SSIDs to determine if they exist and whether updates are required.
+        Only compares user-provided parameters for idempotent behavior.
+        Mandatory API fields (ssid, wlanType, authType) are fetched from existing SSID
+        when an update is needed.
         Args:
             existing_ssids (list): A list of dictionaries representing existing SSIDs.
             requested_ssid (dict): A dictionary containing the requested SSID parameters.
@@ -20224,11 +20207,13 @@ class WirelessDesign(CatalystCenterBase):
                 "DEBUG",
             )
 
-            # Check if there is an SSID with the same name and type
-            if (
-                existing_ssid.get("ssid") == requested_ssid_name
-                and existing_ssid.get("wlanType") == requested_ssid_type
-            ):
+            # Match by name; also match by type if user provided it
+            name_matches = existing_ssid.get("ssid") == requested_ssid_name
+            type_matches = (
+                requested_ssid_type is None
+                or existing_ssid.get("wlanType") == requested_ssid_type
+            )
+            if name_matches and type_matches:
                 self.log(
                     "Matching SSID found: '{0}'. Proceeding with parameter comparison.".format(
                         requested_ssid_name
@@ -20238,16 +20223,11 @@ class WirelessDesign(CatalystCenterBase):
                 ssid_exists = True
                 ssid_id = existing_ssid.get("id")
 
-                # Start with a copy of the existing SSID
-                updated_ssid = existing_ssid.copy()
-
-                # Iterate over the parameters of the requested SSID
+                # Compare only user-provided parameters against existing SSID
                 for key, requested_value in requested_ssid.items():
-                    # Ignore 'sites_specific_override_settings', 'site_id', and 'id'
-                    if key in ["sites_specific_override_settings", "site_id", "id"]:
+                    if key in self.SSID_COMPARISON_SKIP_KEYS:
                         continue
 
-                    # Check if the parameter differs in the existing SSID
                     existing_value = existing_ssid.get(key)
                     self.log(
                         "Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
@@ -20263,16 +20243,21 @@ class WirelessDesign(CatalystCenterBase):
                             ),
                             "DEBUG",
                         )
-                        # Update the parameter in the updated SSID
-                        updated_ssid[key] = requested_value
                         update_required = True
 
-                # Add site_id and id if necessary
-                updated_ssid["id"] = ssid_id
-                if "site_id" in requested_ssid:
-                    updated_ssid["site_id"] = requested_ssid["site_id"]
-
+                # Build update payload only when update is actually required
                 if update_required:
+                    # Start with only user-provided fields
+                    updated_ssid = requested_ssid.copy()
+
+                    # Add mandatory API fields from existing SSID
+                    updated_ssid["id"] = ssid_id
+                    updated_ssid.setdefault("ssid", existing_ssid.get("ssid"))
+                    updated_ssid.setdefault("wlanType", existing_ssid.get("wlanType"))
+                    updated_ssid.setdefault("authType", existing_ssid.get("authType"))
+                    if "site_id" in requested_ssid:
+                        updated_ssid["site_id"] = requested_ssid["site_id"]
+
                     self.log(
                         "Update required for SSID '{0}'. Updated parameters: {1}".format(
                             requested_ssid_name, updated_ssid
@@ -20288,22 +20273,16 @@ class WirelessDesign(CatalystCenterBase):
                     self.log("Resetting encryption and authentication key management parameters.", "DEBUG")
                     self.reset_encryption_and_auth_params(auth_type, updated_ssid, requested_ssid)
                     self.log("Final updated SSID parameters: {0}".format(updated_ssid), "DEBUG")
+                else:
+                    self.log(
+                        "No update required for SSID '{0}'.".format(requested_ssid_name),
+                        "INFO",
+                    )
 
                 # Exit the loop after handling the match
                 break
 
-        if ssid_exists:
-            if update_required:
-                self.log(
-                    "Update required for SSID '{0}'.".format(requested_ssid_name),
-                    "INFO",
-                )
-            else:
-                self.log(
-                    "No update required for SSID '{0}'.".format(requested_ssid_name),
-                    "INFO",
-                )
-        else:
+        if not ssid_exists:
             self.log(
                 "No matching SSID found for '{0}'.".format(requested_ssid_name), "INFO"
             )
@@ -20321,6 +20300,7 @@ class WirelessDesign(CatalystCenterBase):
     ):
         """
         Compares site-specific SSIDs to determine if they exist and whether updates are required.
+        Only compares user-provided parameters for idempotent behavior.
         Args:
             site_id (str): The site ID where the SSID is located.
             requested_ssid_name (str): The name of the SSID being requested.
@@ -20354,29 +20334,35 @@ class WirelessDesign(CatalystCenterBase):
                 "DEBUG",
             )
 
-            # Check if there is an SSID with the same name and type
-            if (
-                existing_ssid.get("ssid") == requested_ssid_name
-                and existing_ssid.get("wlanType") == requested_ssid_type
-            ):
+            # Match by name; also match by type if provided
+            name_matches = existing_ssid.get("ssid") == requested_ssid_name
+            type_matches = (
+                requested_ssid_type is None
+                or existing_ssid.get("wlanType") == requested_ssid_type
+            )
+            if name_matches and type_matches:
                 self.log(
                     "Matching SSID found: '{0}'.".format(requested_ssid_name), "INFO"
                 )
                 ssid_exists = True
 
-                # Compare each parameter in the requested SSID with the existing SSID
+                # Compare only user-provided parameters against existing SSID
                 for key, value in requested_ssid.items():
-                    if existing_ssid.get(key) != value:
+                    if key in self.SSID_COMPARISON_SKIP_KEYS:
+                        continue
+
+                    existing_value = existing_ssid.get(key)
+                    if existing_value != value:
                         self.log(
                             "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(
-                                key, existing_ssid.get(key), value
+                                key, existing_value, value
                             ),
                             "DEBUG",
                         )
                         update_required = True
                         break  # Exit loop on first mismatch
 
-                # If an update is required, prepare the updated SSID
+                # Build update payload only when update is actually required
                 if update_required:
                     self.log(
                         "Update required for site specific SSID: '{0}'. Preparing updated SSID.".format(
@@ -20384,11 +20370,14 @@ class WirelessDesign(CatalystCenterBase):
                         ),
                         "INFO",
                     )
-                    updated_ssid = requested_ssid.copy()  # Copy the requested SSID
-                    updated_ssid["id"] = existing_ssid.get(
-                        "id"
-                    )  # Copy the ID from the existing SSID
-                    updated_ssid["site_id"] = site_id  # Add site_id
+                    # Start with only user-provided fields
+                    updated_ssid = requested_ssid.copy()
+                    # Add mandatory API fields from existing SSID
+                    updated_ssid["id"] = existing_ssid.get("id")
+                    updated_ssid["site_id"] = site_id
+                    updated_ssid.setdefault("ssid", existing_ssid.get("ssid"))
+                    updated_ssid.setdefault("wlanType", existing_ssid.get("wlanType"))
+                    updated_ssid.setdefault("authType", existing_ssid.get("authType"))
                 else:
                     self.log(
                         "No update required for SSID: '{0}'.".format(
@@ -20681,6 +20670,16 @@ class WirelessDesign(CatalystCenterBase):
                     ),
                     "INFO",
                 )
+                # ssid_type is mandatory for creation
+                if not requested_ssid_type:
+                    self.msg = (
+                        "The 'ssid_type' parameter is required when creating a new SSID. "
+                        "SSID '{0}' does not exist and cannot be created without 'ssid_type'.".format(
+                            requested_ssid_name
+                        )
+                    )
+                    self.fail_and_exit(self.msg)
+
                 create_ssid["global_ssid"]["ssid_params"] = modified_requested_ssid
 
                 # Handle site-specific overrides for creation
@@ -22424,6 +22423,11 @@ class WirelessDesign(CatalystCenterBase):
 
             # Iterate over each rule in the power profile
             for rule in rules:
+                # Normalize rule values to uppercase for case-insensitive comparison
+                for key in ("interface_type", "interface_id", "parameter_type", "parameter_value"):
+                    if rule.get(key) is not None:
+                        rule[key] = rule[key].upper()
+
                 interface_type = rule.get("interface_type")
                 self.log(
                     "Processing rule for interface type: {0}".format(interface_type),
@@ -22736,35 +22740,35 @@ class WirelessDesign(CatalystCenterBase):
 
                 for rule in profile["rules"]:
                     mapped_rule = {}
-                    if "interface_type" in rule:
-                        mapped_rule["interfaceType"] = rule["interface_type"]
+                    if "interface_type" in rule and rule["interface_type"] is not None:
+                        mapped_rule["interfaceType"] = rule["interface_type"].upper()
                         self.log(
                             "Mapped 'interface_type' to 'interfaceType': {0}".format(
-                                rule["interface_type"]
+                                mapped_rule["interfaceType"]
                             ),
                             "DEBUG",
                         )
-                    if "interface_id" in rule:
-                        mapped_rule["interfaceId"] = rule["interface_id"]
+                    if "interface_id" in rule and rule["interface_id"] is not None:
+                        mapped_rule["interfaceId"] = rule["interface_id"].upper()
                         self.log(
                             "Mapped 'interface_id' to 'interfaceId': {0}".format(
-                                rule["interface_id"]
+                                mapped_rule["interfaceId"]
                             ),
                             "DEBUG",
                         )
-                    if "parameter_type" in rule:
-                        mapped_rule["parameterType"] = rule["parameter_type"]
+                    if "parameter_type" in rule and rule["parameter_type"] is not None:
+                        mapped_rule["parameterType"] = rule["parameter_type"].upper()
                         self.log(
                             "Mapped 'parameter_type' to 'parameterType': {0}".format(
-                                rule["parameter_type"]
+                                mapped_rule["parameterType"]
                             ),
                             "DEBUG",
                         )
-                    if "parameter_value" in rule:
-                        mapped_rule["parameterValue"] = rule["parameter_value"]
+                    if "parameter_value" in rule and rule["parameter_value"] is not None:
+                        mapped_rule["parameterValue"] = rule["parameter_value"].upper()
                         self.log(
                             "Mapped 'parameter_value' to 'parameterValue': {0}".format(
-                                rule["parameter_value"]
+                                mapped_rule["parameterValue"]
                             ),
                             "DEBUG",
                         )

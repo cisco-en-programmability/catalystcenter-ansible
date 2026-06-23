@@ -114,7 +114,7 @@ The schema file (e.g., `schema/wireless_design_schema.yml`) defines the structur
 | Parameter                         | Type       | Required | Default Value | Description                                                                 |
 |-----------------------------------|------------|----------|---------------|-----------------------------------------------------------------------------|
 | `ssid_name`                       | String     | Yes      | N/A           | Unique SSID name (up to 32 characters).                                    |
-| `ssid_type`                       | Enum       | Yes      | N/A           | SSID type: "Enterprise" or "Guest".                                        |
+| `ssid_type`                       | Enum       | No       | N/A           | SSID type: "Enterprise" or "Guest". Required when creating a new SSID. Optional when updating (retained from existing config if omitted). |
 | `wlan_profile_name`               | String     | No       | Auto-generated| WLAN profile name. Auto-generated from `ssid_name` if not provided.        |
 | `radio_policy`                    | Dict       | No       | N/A           | Radio policy settings. Includes `radio_policy_type`.                       |
 | `fast_lane`                       | Bool       | No       | False         | Enable Fast Lane for performance optimization.                             |
