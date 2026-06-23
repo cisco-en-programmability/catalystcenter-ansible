@@ -7529,6 +7529,9 @@ class WirelessDesign(CatalystCenterBase):
     A class for managing Wireless Design operations within the Cisco Catalyst Center using the SDA API.
     """
 
+    # Keys to skip during SSID comparison (not user-provided values)
+    SSID_COMPARISON_SKIP_KEYS = frozenset({"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"})
+
     def __init__(self, module):
         """
         Initialize an instance of the class.
@@ -17094,6 +17097,8 @@ class WirelessDesign(CatalystCenterBase):
             # Validate SSID type parameters
             l2_security = ssid.get("l2_security")
             l3_security = ssid.get("l3_security")
+
+            # Only validate ssid_type if user provided it (not required for updates)
             if ssid_type:
                 self.log(
                     "Starting validation of SSID type parameters for SSID: {0}.".format(
@@ -20193,9 +20198,6 @@ class WirelessDesign(CatalystCenterBase):
             "INFO",
         )
 
-        # Keys to skip during comparison (not user-provided values)
-        skip_keys = frozenset({"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"})
-
         # Iterate over the list of existing SSIDs
         for existing_ssid in existing_ssids:
             self.log(
@@ -20223,7 +20225,7 @@ class WirelessDesign(CatalystCenterBase):
 
                 # Compare only user-provided parameters against existing SSID
                 for key, requested_value in requested_ssid.items():
-                    if key in skip_keys:
+                    if key in self.SSID_COMPARISON_SKIP_KEYS:
                         continue
 
                     existing_value = existing_ssid.get(key)
@@ -20316,9 +20318,6 @@ class WirelessDesign(CatalystCenterBase):
         update_required = False
         updated_ssid = None
 
-        # Keys to skip during comparison (not user-provided values)
-        skip_keys = frozenset({"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"})
-
         self.log(
             "Starting comparison for SSID: '{0}' of type '{1}'.".format(
                 requested_ssid_name, requested_ssid_type
@@ -20349,7 +20348,7 @@ class WirelessDesign(CatalystCenterBase):
 
                 # Compare only user-provided parameters against existing SSID
                 for key, value in requested_ssid.items():
-                    if key in skip_keys:
+                    if key in self.SSID_COMPARISON_SKIP_KEYS:
                         continue
 
                     existing_value = existing_ssid.get(key)
