@@ -33700,5 +33700,314 @@
         }
       ]
     }
-  ]
+  ],
+  "playbook_config_create_ssid_missing_ssid_type": [
+    {
+      "ssids": [
+        {
+          "ssid_name": "test-missing-type",
+          "l2_security": {
+            "l2_auth_type": "OPEN"
+          },
+          "l3_security": {
+            "l3_auth_type": "OPEN"
+          }
+        }
+      ]
+    }
+  ],
+  "playbook_config_update_ssid_without_ssid_type": [
+    {
+      "ssids": [
+        {
+          "ssid_name": "sample_wireless_ssid",
+          "wlan_profile_name": "sample_wireless_ssid_profile",
+          "radio_policy": {
+            "radio_bands": [
+              2.4,
+              5,
+              6
+            ],
+            "2_dot_4_ghz_band_policy": "802.11-bg",
+            "band_select": false,
+            "6_ghz_client_steering": false
+          },
+          "fast_lane": false,
+          "quality_of_service": {
+            "egress": "PLATINUM",
+            "ingress": "PLATINUM-UP"
+          },
+          "ssid_state": {
+            "admin_status": true,
+            "broadcast_ssid": true
+          },
+          "fast_transition": "ADAPTIVE",
+          "fast_transition_over_the_ds": false,
+          "wpa_encryption": [
+            "CCMP128"
+          ],
+          "auth_key_management": [
+            "802.1X-SHA1"
+          ],
+          "cckm_timestamp_tolerance": 0,
+          "l3_security": {
+            "l3_auth_type": "OPEN",
+            "auth_server": "web_authentication_external",
+            "web_auth_url": null,
+            "enable_sleeping_client": false,
+            "sleeping_client_timeout": 720
+          },
+          "aaa": {
+            "auth_servers_ip_address_list": null,
+            "accounting_servers_ip_address_list": null,
+            "aaa_override": false,
+            "mac_filtering": false,
+            "deny_rcm_clients": false,
+            "enable_posture": false,
+            "pre_auth_acl_name": null
+          },
+          "mfp_client_protection": "OPTIONAL",
+          "protected_management_frame": "REQUIRED",
+          "11k_neighbor_list": true,
+          "coverage_hole_detection": true,
+          "wlan_timeouts": {
+            "enable_session_timeout": true,
+            "session_timeout": 28800,
+            "enable_client_exclusion_timeout": null,
+            "client_exclusion_timeout": null
+          },
+          "bss_transition_support": {
+            "bss_max_idle_service": true,
+            "bss_idle_client_timeout": 300,
+            "directed_multicast_service": true
+          },
+          "client_rate_limit": 0
+        }
+      ]
+    }
+  ],
+  "response_get_ssid_by_site_update_without_ssid_type": {
+    "response": [
+      {
+        "id": "mde5yxnZ-B2nP-yxrL-x3bY-B2zPBgvFmweWCZfZmM8ZyZrPnwe2",
+        "profileName": "sample_wireless_ssid_profile",
+        "ssid": "sample_wireless_ssid",
+        "wlanType": "Enterprise",
+        "authType": "WPA2_ENTERPRISE",
+        "l3AuthType": "open",
+        "passphrase": "",
+        "externalAuthIpAddress": "",
+        "fastTransition": "ADAPTIVE",
+        "authServer": "auth_external",
+        "authServers": [],
+        "acctServers": [],
+        "ghz24Policy": "dot11-bg-only",
+        "ghz6PolicyClientSteering": false,
+        "wlanBandSelectEnable": false,
+        "webPassthrough": false,
+        "sleepingClientEnable": false,
+        "sleepingClientTimeout": 720,
+        "nasOptions": [],
+        "sessionTimeOutEnable": true,
+        "sessionTimeOut": 28800,
+        "clientExclusionEnable": true,
+        "clientExclusionTimeout": 180,
+        "basicServiceSetMaxIdleEnable": true,
+        "basicServiceSetClientIdleTimeout": 300,
+        "directedMulticastServiceEnable": true,
+        "neighborListEnable": true,
+        "managementFrameProtectionClientprotection": "OPTIONAL",
+        "fastTransitionOverTheDistributedSystemEnable": false,
+        "policyProfileName": "sample_wireless_ssid_profile",
+        "openSsid": "",
+        "aclName": "",
+        "rsnCipherSuiteCcmp256": false,
+        "rsnCipherSuiteGcmp128": false,
+        "rsnCipherSuiteGcmp256": false,
+        "rsnCipherSuiteCcmp128": true,
+        "egressQos": "PLATINUM",
+        "ingressQos": "PLATINUM-UP",
+        "cckmTsfTolerance": 0,
+        "aaaOverride": false,
+        "coverageHoleDetectionEnable": true,
+        "protectedManagementFrame": "REQUIRED",
+        "multiPSKSettings": [],
+        "clientRateLimit": 0,
+        "inheritedSiteUUID": null,
+        "inheritedSiteName": "",
+        "inheritedSiteNameHierarchy": null,
+        "randomMacFilterEnabled": false,
+        "isFastLaneEnabled": false,
+        "isMacFilteringEnabled": false,
+        "isEnabled": true,
+        "isHex": false,
+        "isBroadcastSSID": true,
+        "isRandomMacFilterEnabled": false,
+        "isRadiusProfilingEnabled": false,
+        "isAuthKey8021x": true,
+        "isAuthKey8021xPlusFT": false,
+        "isAuthKey8021x_SHA256": false,
+        "isAuthKeySae": false,
+        "isAuthKeySaePlusFT": false,
+        "isAuthKeyPSK": false,
+        "isAuthKeyPSKPlusFT": false,
+        "isAuthKeyOWE": false,
+        "isAuthKeyEasyPSK": false,
+        "isAuthKeyPSKSHA256": false,
+        "isAuthKeySaeExt": false,
+        "isAuthKeySaeExtPlusFT": false,
+        "isAuthKeySuiteB1x": false,
+        "isAuthKeySuiteB1921x": false,
+        "isApBeaconProtectionEnabled": false,
+        "isPosturingEnabled": false,
+        "isCckmEnabled": false,
+        "ssidRadioType": "Triple band operation(2.4GHz, 5GHz and 6GHz)",
+        "isCustomNasIdOptions": false
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_config_5ghz_radio_band_no_2dot4_policy": [
+    {
+      "ssids": [
+        {
+          "ssid_name": "Sunil5KBand",
+          "ssid_type": "Enterprise",
+          "radio_policy": {
+            "radio_bands": [
+              5
+            ]
+          },
+          "l2_security": {
+            "l2_auth_type": "WPA2_PERSONAL"
+          },
+          "fast_transition": "ENABLE",
+          "wpa_encryption": [
+            "CCMP128"
+          ],
+          "auth_key_management": [
+            "FT+PSK"
+          ]
+        }
+      ]
+    }
+  ],
+  "response_get_ssid_by_site_5ghz_radio_band": {
+    "response": [
+      {
+        "id": "abc123-def456-ghi789",
+        "profileName": "Sunil5KBand_profile",
+        "ssid": "Sunil5KBand",
+        "wlanType": "Enterprise",
+        "authType": "WPA2_PERSONAL",
+        "l3AuthType": "open",
+        "passphrase": "",
+        "externalAuthIpAddress": "",
+        "fastTransition": "ENABLE",
+        "authServer": "auth_internal",
+        "authServers": [],
+        "acctServers": [],
+        "ghz24Policy": "dot11-bg-only",
+        "ghz6PolicyClientSteering": false,
+        "wlanBandSelectEnable": false,
+        "webPassthrough": false,
+        "sleepingClientEnable": false,
+        "sleepingClientTimeout": 720,
+        "nasOptions": [],
+        "sessionTimeOutEnable": true,
+        "sessionTimeOut": 28800,
+        "clientExclusionEnable": true,
+        "clientExclusionTimeout": 180,
+        "basicServiceSetMaxIdleEnable": true,
+        "basicServiceSetClientIdleTimeout": 300,
+        "directedMulticastServiceEnable": true,
+        "neighborListEnable": true,
+        "managementFrameProtectionClientprotection": "OPTIONAL",
+        "fastTransitionOverTheDistributedSystemEnable": false,
+        "policyProfileName": "Sunil5KBand_profile",
+        "openSsid": "",
+        "aclName": "",
+        "rsnCipherSuiteCcmp256": false,
+        "rsnCipherSuiteGcmp128": false,
+        "rsnCipherSuiteGcmp256": false,
+        "rsnCipherSuiteCcmp128": true,
+        "egressQos": "",
+        "ingressQos": "",
+        "cckmTsfTolerance": 0,
+        "aaaOverride": false,
+        "coverageHoleDetectionEnable": true,
+        "protectedManagementFrame": "DISABLED",
+        "multiPSKSettings": [],
+        "clientRateLimit": 0,
+        "inheritedSiteUUID": null,
+        "inheritedSiteName": "",
+        "inheritedSiteNameHierarchy": null,
+        "randomMacFilterEnabled": false,
+        "isFastLaneEnabled": false,
+        "isMacFilteringEnabled": false,
+        "isEnabled": true,
+        "isHex": false,
+        "isBroadcastSSID": true,
+        "isRandomMacFilterEnabled": false,
+        "isRadiusProfilingEnabled": false,
+        "isAuthKey8021x": false,
+        "isAuthKey8021xPlusFT": false,
+        "isAuthKey8021x_SHA256": false,
+        "isAuthKeySae": false,
+        "isAuthKeySaePlusFT": false,
+        "isAuthKeyPSK": false,
+        "isAuthKeyPSKPlusFT": true,
+        "isAuthKeyOWE": false,
+        "isAuthKeyEasyPSK": false,
+        "isAuthKeyPSKSHA256": false,
+        "isAuthKeySaeExt": false,
+        "isAuthKeySaeExtPlusFT": false,
+        "isAuthKeySuiteB1x": false,
+        "isAuthKeySuiteB1921x": false,
+        "isApBeaconProtectionEnabled": false,
+        "isPosturingEnabled": false,
+        "isCckmEnabled": false,
+        "ssidRadioType": "5GHz only",
+        "isCustomNasIdOptions": false
+      }
+    ],
+    "version": "1.0"
+  },
+  "playbook_config_power_profiles_case_insensitive_idempotent": [
+    {
+      "power_profiles": [
+        {
+          "power_profile_name": "ab",
+          "power_profile_description": "sample description",
+          "rules": [
+            {
+              "interface_type": "Radio",
+              "interface_id": "5ghZ",
+              "parameter_type": "state",
+              "parameter_value": "DiSaBlE"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "response_get_power_profiles_case_insensitive": {
+    "response": [
+      {
+        "id": "mdaYywjH-mgiX-ytjI-m2e0-yJvHnMi3ytHIoweXmgiXmweXmMiX",
+        "profileName": "ab",
+        "description": "sample description",
+        "rules": [
+          {
+            "sequence": 0,
+            "interfaceType": "RADIO",
+            "interfaceId": "5GHZ",
+            "parameterType": "STATE",
+            "parameterValue": "DISABLE"
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  }
 }
