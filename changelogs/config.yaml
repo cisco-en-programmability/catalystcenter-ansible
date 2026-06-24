@@ -3,8 +3,12 @@ changelog_filename_template: CHANGELOG.rst
 changelog_filename_version_depth: 0
 changes_file: changelog.yaml
 changes_format: combined
+flatmap: true
+is_other_project: false
 keep_fragments: false
-notes_dir: fragments
+mention_ancestor: true
+new_plugins_after_name: removed_features
+notesdir: fragments
 prelude_section_name: release_summary
 prelude_section_title: Release Summary
 sanitize_changelog: true
