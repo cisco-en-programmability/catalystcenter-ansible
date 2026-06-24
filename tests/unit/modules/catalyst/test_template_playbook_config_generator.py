@@ -90,11 +90,13 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
         elif "template_by_name_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_by_name_multiple" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
-                self.test_data.get("get_all_templates")
+                self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_by_name_and_id" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -107,24 +109,29 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
         elif "templates_empty_filter" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "templates_includes_uncommitted_filter" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_by_project_name_multiple" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_by_template_name_and_project_name" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_all_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
+                self.test_data.get("get_all_projects"),
             ]
         elif "invalid_project_details" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
