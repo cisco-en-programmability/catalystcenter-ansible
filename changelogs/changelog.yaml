@@ -377,3 +377,11 @@ releases:
         - Changes in template_workflow_manager module
         - Changes in wireless_design_playbook_config_generator module
         - Changes in wireless_design_workflow_manager module
+  2.9.1:
+    release_date: "2026-06-13"
+    changes:
+      release_summary: Changes in workflow, config generator modules
+      minor_changes:
+        - Changes in application_policy_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in swim_workflow_manager module

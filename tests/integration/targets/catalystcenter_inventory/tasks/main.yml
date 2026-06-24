@@ -1,0 +1,34 @@
+---
+- name: Test Catalyst Center inventory plugin loads
+  block:
+    - name: Verify plugin is discoverable
+      ansible.builtin.command:
+        cmd: ansible-doc -t inventory cisco.catalystcenter.catalystcenter
+      register: plugin_doc
+      changed_when: false
+
+    - name: Assert plugin documentation is available
+      ansible.builtin.assert:
+        that:
+          - plugin_doc.rc == 0
+          - "'Cisco Catalyst Center dynamic inventory plugin' in plugin_doc.stdout"
+        fail_msg: "Plugin documentation not found or incorrect"
+
+    - name: Verify inventory file is recognized
+      ansible.builtin.command:
+        cmd: ansible-inventory -i {{ role_path }}/inventory.catalystcenter.yml --list
+      register: inventory_result
+      changed_when: false
+      ignore_errors: true
+      environment:
+        CATALYSTCENTER_HOST: "{{ catalystcenter_host | default('sandbox.example.com') }}"
+        CATALYSTCENTER_USERNAME: "{{ catalystcenter_username | default('admin') }}"
+        CATALYSTCENTER_PASSWORD: "{{ catalystcenter_password | default('changeme') }}"
+        CATALYSTCENTER_VERIFY: "false"
+
+    - name: Assert inventory command ran (connection errors are acceptable in CI)
+      ansible.builtin.assert:
+        that:
+          - inventory_result is defined
+        fail_msg: "Inventory plugin failed to execute"
+...

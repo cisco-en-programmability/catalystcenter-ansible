@@ -174,7 +174,7 @@ ise_radius_component_filters_type:
   components_list: list(enum('authentication_policy_server'), min=1, max=1, required=False)
 
   # Authentication policy server filters
-  authentication_policy_server: include('authentication_policy_server_filter_type', required=False)
+  authentication_policy_server: list(include('authentication_policy_server_filter_type'), min=0, max=100, required=False)
 
 # Authentication policy server filter schema
 authentication_policy_server_filter_type:
