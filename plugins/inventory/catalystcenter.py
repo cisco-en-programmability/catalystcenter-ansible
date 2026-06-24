@@ -9,7 +9,6 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 name: catalystcenter
-plugin_type: inventory
 short_description: Cisco Catalyst Center dynamic inventory plugin
 description:
     - Queries Cisco Catalyst Center for network devices and builds an Ansible inventory.
@@ -201,7 +200,6 @@ cache_timeout: 3600
 cache_connection: /tmp/catalystcenter_inventory_cache
 """
 
-import math
 import re
 
 from ansible.errors import AnsibleError, AnsibleParserError

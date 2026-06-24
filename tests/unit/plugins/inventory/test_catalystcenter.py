@@ -7,18 +7,15 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import os
 import pytest
 
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, patch
 
 from ansible.inventory.data import InventoryData
 from ansible.parsing.dataloader import DataLoader
 
 from ansible_collections.cisco.catalystcenter.plugins.inventory.catalystcenter import (
     InventoryModule,
-    _NETWORK_OS_MAP,
-    _SPECIAL_CHAR_MAP,
 )
 
 
@@ -60,7 +57,7 @@ def _set_options(plugin, **kwargs):
     }
     defaults.update(kwargs)
     plugin._options = defaults
-    plugin.get_option = lambda key: plugin._options.get(key)
+    plugin.get_option = plugin._options.get
 
 
 def _make_device(**overrides):
