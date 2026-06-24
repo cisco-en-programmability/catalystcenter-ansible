@@ -1,0 +1,6 @@
+---
+minor_changes:
+  - "Added ``cisco.catalystcenter.catalystcenter`` dynamic inventory plugin for building Ansible inventory from Catalyst Center managed devices."
+  - "Inventory plugin supports site hierarchy grouping, device role and family groups, tag-based groups, and full Constructable features (keyed_groups, compose, groups)."
+  - "Inventory plugin supports caching via the standard Ansible cache framework."
+  - "Inventory plugin auto-sets ``ansible_network_os`` and ``ansible_connection`` for IOS-XE and NX-OS devices using FQCNs."
