@@ -3943,31 +3943,53 @@ class UserandRole(CatalystCenterBase):
         else:
             update_user_params["email"] = current_email
 
-        # Compare and update role list
+        # Compare role lists by resolving desired role names to role IDs.
         desired_role_list = self.want.get("role_list")
         current_role_list = current_user.get("role_list", [])
         if desired_role_list is not None:
-            desired_role_name = desired_role_list[0].lower()
-            if desired_role_name in current_role:
-                role_id = current_role[desired_role_name]
-                if current_role_list[0] != role_id:
-                    self.log(
-                        "Updating role list with new role ID {0}.".format(role_id),
-                        "DEBUG",
-                    )
-                    update_user_params["role_list"] = [role_id]
-                    update_needed = True
+            desired_role_ids = []
+            missing_role_names = []
+
+            for role_name in desired_role_list:
+                desired_role_name = role_name.lower()
+                role_id = current_role.get(desired_role_name)
+                if role_id:
+                    desired_role_ids.append(role_id)
                 else:
-                    update_user_params["role_list"] = current_role_list
-            else:
+                    missing_role_names.append(role_name)
+
+            if missing_role_names:
                 self.log(
-                    "Role {0} not found in current_role. Setting role list to empty.".format(
-                        desired_role_name
+                    "Role(s) {0} not found in current_role. Setting role list to empty.".format(
+                        ", ".join(missing_role_names)
                     ),
                     "DEBUG",
                 )
                 update_user_params["role_list"] = []
                 update_needed = True
+            else:
+                normalized_current_role_ids = []
+                for role in current_role_list:
+                    normalized_role = role.lower()
+                    normalized_current_role_ids.append(
+                        current_role.get(normalized_role, role).lower()
+                    )
+
+                normalized_desired_role_ids = [
+                    role_id.lower() for role_id in desired_role_ids
+                ]
+
+                if set(normalized_current_role_ids) != set(normalized_desired_role_ids):
+                    self.log(
+                        "Updating role list with new role IDs {0}.".format(
+                            desired_role_ids
+                        ),
+                        "DEBUG",
+                    )
+                    update_user_params["role_list"] = desired_role_ids
+                    update_needed = True
+                else:
+                    update_user_params["role_list"] = current_role_list
         else:
             update_user_params["role_list"] = current_role_list
 
