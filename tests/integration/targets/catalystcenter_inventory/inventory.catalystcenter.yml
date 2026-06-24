@@ -1,0 +1,6 @@
+---
+plugin: cisco.catalystcenter.catalystcenter
+validate_certs: false
+group_by_site: true
+group_by_role: true
+group_by_family: true
