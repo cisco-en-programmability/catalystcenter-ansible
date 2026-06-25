@@ -2340,3 +2340,15 @@ Modules
     wireless_settings_ssids_override_at_sites_info_module
 
 
+Inventory Plugins
+~~~~~~~~~~~~~~~~~
+
+* :ref:`catalystcenter inventory <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>` -- Cisco Catalyst Center dynamic inventory plugin
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    catalystcenter_inventory
+
+
