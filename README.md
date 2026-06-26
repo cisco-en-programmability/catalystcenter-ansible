@@ -192,7 +192,7 @@ Roles reduce boilerplate by providing sensible defaults for connection parameter
 
 **Config Generator Roles**: Add `_config_generator` suffix to any of the following: `accesspoint`, `accesspoint_location`, `application_policy`, `assurance_device_health_score_settings`, `assurance_issue`, `backup_and_restore`, `device_credential`, `discovery`, `events_and_notifications`, `inventory`, `ise_radius_integration`, `network_profile_switching`, `network_profile_wireless`, `network_settings`, `pnp`, `provision`, `rma`, `sda_extranet_policies`, `sda_fabric_devices`, `sda_fabric_multicast`, `sda_fabric_sites_zones`, `sda_fabric_transits`, `sda_fabric_virtual_networks`, `sda_host_port_onboarding`, `site`, `tags`, `template`, `user_role`, `wired_campus_automation`, `wireless_design`
 
-For detailed role documentation, examples, and best practices, see [ROLES_GUIDE.md](ROLES_GUIDE.md) and the [example roles playbook](playbooks/example_roles_playbook.yml).
+For detailed role documentation, examples, and best practices, see [ROLES_GUIDE.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/ROLES_GUIDE.md) and the [example roles playbook](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/example_roles_playbook.yml).
 
 
 ## CVP - Cisco Validated Playbooks
@@ -245,7 +245,7 @@ ansible-playbook playbook/site_hierarchy_playbook.yml
 | **Playbooks** | Quick examples | `playbooks/tag.yml` |
 | **CVP** | Production deployments | `cvp/site_hierarchy/` ⭐ |
 
-For complete CVP documentation, catalog, and usage examples, see [CVP_GUIDE.md](CVP_GUIDE.md) and [cvp/README.md](cvp/README.md).
+For complete CVP documentation, catalog, and usage examples, see [CVP_GUIDE.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/CVP_GUIDE.md) and [cvp/README.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/README.md).
 
 
 ## Use Cases
@@ -319,7 +319,7 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 ## License
 
-This collection is licensed under the Cisco Sample Code License.
+This collection is licensed under the GNU General Public License v3.0 (GPL-3.0).
 
 The full license text is available in the [LICENSE](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE) file.
 
