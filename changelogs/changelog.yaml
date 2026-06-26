@@ -385,3 +385,11 @@ releases:
         - Changes in application_policy_workflow_manager module
         - Changes in pnp_workflow_manager module
         - Changes in swim_workflow_manager module
+  2.9.2:
+    release_date: "2026-06-26"
+    changes:
+      release_summary: Documentation and packaging fixes for Red Hat Automation Hub certification.
+      bugfixes:
+        - Include requirements.txt in the built collection by removing it from build_ignore in galaxy.yml, so ansible-builder picks up the catalystcentersdk dependency when building Execution Environments.
+        - Replace the relative README links (ROLES_GUIDE.md, the example roles playbook, CVP_GUIDE.md, and cvp/README.md) with absolute GitHub URLs so they resolve when rendered on Automation Hub.
+        - Align the README License section with the bundled LICENSE file by stating GPL-3.0 instead of the Cisco Sample Code License.
