@@ -623,6 +623,8 @@ class TestWirelessDesign(TestCatalystModule):
         if "aaa_radius_attribute_none_called_station_id" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("Get_AAA_RADIUS_ATTRIBUTES_CONFIGURATION"),
+                self.test_data.get("Create_AAA_Radius_Attribute"),
+                self.test_data.get("task_019a0599-07b7-7f20-a2e2-cffc4eccb372"),
             ]
 
         if "create_ssid_invalid_ssid_type" in self._testMethodName:
@@ -1962,7 +1964,7 @@ class TestWirelessDesign(TestCatalystModule):
         )
 
     def test_wireless_design_workflow_manager_aaa_radius_attribute_none_called_station_id(self):
-        """Test that called_station_id=None does not crash with AttributeError."""
+        """Test that creating aaa_radius_attribute without called_station_id succeeds."""
         set_module_args(
             dict(
                 catalystcenter_version='3.1.3.0',
@@ -1974,8 +1976,11 @@ class TestWirelessDesign(TestCatalystModule):
                 config=self.test_data.get("playbook_aaa_radius_attribute_none_called_station_id")
             )
         )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertIn("called_station_id", result.get('msg', '').lower())
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "aaa_radius_attributes_add",
+            str(result.get('msg', ''))
+        )
 
     def test_wireless_design_workflow_manager_create_ssid_invalid_ssid_type(self):
         """Test that ssid_type='GUEST' (wrong case) fails validation."""

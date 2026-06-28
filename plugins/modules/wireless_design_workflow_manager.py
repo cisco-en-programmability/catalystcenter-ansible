@@ -3115,7 +3115,7 @@ options:
                   - Commonly used for accounting and policy enforcement.
                   - Format typically includes AP MAC address and SSID name.
                 type: str
-                required: true
+                required: false
               unlocked_attributes:
                 description:
                   - List of AAA Radius attribute names to unlock for manual configuration.
@@ -12716,7 +12716,7 @@ class WirelessDesign(CatalystCenterBase):
                 "AP_LABEL_ADDRESS_SSID", "AP_LOCATION", "AP_MACADDRESS", "AP_MACADDRESS_SSID",
                 "AP_NAME", "AP_NAME_SSID", "IPADDRESS", "MACADDRESS", "VLAN_ID"
             ]
-            if called_station_id not in allowed_values:
+            if called_station_id is not None and called_station_id not in allowed_values:
                 self.msg = ("Invalid called_station_id '{0}' for design '{1}'. Must be one of: {2}".format(
                     called_station_id, design_name, allowed_values))
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -12755,7 +12755,7 @@ class WirelessDesign(CatalystCenterBase):
                     payload = {
                         "id": existing["id"],
                         "designName": new_design_name,  # Use new name
-                        "featureAttributes": {"calledStationId": called_station_id},
+                        "featureAttributes": {"calledStationId": called_station_id if called_station_id is not None else existing_called}
                     }
                     if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
@@ -12769,7 +12769,7 @@ class WirelessDesign(CatalystCenterBase):
                     payload = {
                         "id": existing["id"],
                         "designName": design_name,  # Keep original name
-                        "featureAttributes": {"calledStationId": called_station_id},
+                        "featureAttributes": {"calledStationId": called_station_id if called_station_id is not None else existing_called},
                     }
                     if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
