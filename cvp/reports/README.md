@@ -59,7 +59,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -1218,9 +1218,9 @@ reports_details:
               value:
                 - value: "AREA"
 ```
-![alt text](./images/image1.png)
-![alt text](./images/image.png)
-![alt text](./images/image2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image2.png)
 
 ##### 2. **Schedule Report for Later Execution**  
 *Example*: Schedule an Rogue aWIPs report for a specific date and time.
@@ -1283,10 +1283,10 @@ reports_details:
                 end_date_time: "2026-01-20 02:00 PM"
                 time_zone: "Asia/Calcutta"
 ```
-![alt text](./images/image3.png)
-![alt text](./images/image4.png)
-![alt text](./images/image5.png)
-![alt text](./images/image9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image9.png)
 
 ##### 3. **Create Recurring Weekly Report**  
 *Example*: Create a weekly security advisory report.
@@ -1339,10 +1339,10 @@ reports_details:
                 - value: "HIGH"
                 - value: "CRITICAL"
 ```
-![alt text](./images/image6.png)
-![alt text](./images/image7.png)
-![alt text](./images/image8.png)
-![alt text](./images/image9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image9.png)
 
 ##### 4. **Create Monthly Recurring Report**  
 *Example*: Create a Inventory (All Data) Report with monthly recursive Execution and webhook notification.
@@ -1402,10 +1402,10 @@ reports_details:
                 - value: "17.12.4"
                 - value: "17.12.5"
 ```
-![alt text](./images/image10.png)
-![alt text](./images/image11.png)
-![alt text](./images/image12.png)
-![alt text](./images/image13.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image10.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image11.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image12.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image13.png)
 
 ##### 5. **Create Monthly Recurring Report**  
 *Example*: Create a Inventory (All data version 2.0) Report with Email Notification and generating report recursively on last day of month.
@@ -1482,9 +1482,9 @@ reports_details:
                 - value: "17.12.4"
                 - value: "17.12.5"
 ```
-![alt text](./images/image14.png)
-![alt text](./images/image15.png)
-![alt text](./images/image9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image14.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image15.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image9.png)
 
 ##### 6. **Delete Reports**  
 *Example*: Delete one or more reports by specifying their names and view information.  
@@ -1505,8 +1505,8 @@ reports_details:
         view:
           view_name: "All Data Version 2.0"
 ```
-![alt text](./images/image16.png)
-![alt text](./images/image17.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image16.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/reports/images/image17.png)
 
 ---
 

@@ -64,8 +64,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![User Roles Mapping](./images/user_roles_mapping.png)
-![Customized Role Permissions1](./images/customized_role_permissions1.png)
+![User Roles Mapping](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/user_role/images/user_roles_mapping.png)
+![Customized Role Permissions1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/user_role/images/customized_role_permissions1.png)
 
 ## Adapted Examples
 

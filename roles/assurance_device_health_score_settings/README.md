@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Unified Ap Custom1](./images/Unified_AP_Custom1.png)
-![Wired Client Custom](./images/wired_client_custom.png)
+![Unified Ap Custom1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_device_health_score_settings/images/Unified_AP_Custom1.png)
+![Wired Client Custom](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_device_health_score_settings/images/wired_client_custom.png)
 
 ## Adapted Examples
 

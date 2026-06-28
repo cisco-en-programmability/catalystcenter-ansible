@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Create0](./images/create0.png)
-![Template1](./images/template1.png)
+![Create0](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/template/images/create0.png)
+![Template1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/template/images/template1.png)
 
 ## Adapted Examples
 

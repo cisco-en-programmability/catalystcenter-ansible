@@ -63,7 +63,7 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Create Path Trace](./images/create_path_trace.png)
+![Create Path Trace](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/path_trace/images/create_path_trace.png)
 
 ## Adapted Examples
 

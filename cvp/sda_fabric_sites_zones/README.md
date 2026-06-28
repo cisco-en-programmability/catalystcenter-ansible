@@ -50,7 +50,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -180,16 +180,16 @@ These examples show how to define input YAML files for Fabric Site & Zone Manage
 
 A. Create Fabric Sites and Fabric Zones (state: merged)
 Figure 1: Creating Fabric Sites and Fabric Zones
-![Alt text](./images/Fabric_sites.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/Fabric_sites.png)
 
 Figure 2 Select the Authentication profile for the fabric site
-![Alt text](./images/Fabric_site_auth_profile.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/Fabric_site_auth_profile.png)
 
 Figure 3 Select the fabric zones
-![Alt text](./images/Fabric_zones.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/Fabric_zones.png)
 
 Figure 4 Configuratin Summary
-![Alt text](./images/Fabric_site_zone_summary.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/Fabric_site_zone_summary.png)
 
 This configuration sets up a fabric site (AREA1 BLD1) and two fabric zones (FLOOR1 and FLOOR2) under it.
 All areas use No Authentication, and pub/sub is enabled for the fabric site to support real-time event sync
@@ -215,13 +215,13 @@ This can be achieved using the following input YAML configuration:
 B. Authentication Control: Apply different authentication profiles (state: merged)
 
 Figure 1: Apply Closed Authentication
-![Alt text](./images/fb_close.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/fb_close.png)
 
 Figure 2: Customize settings Closed Authentication
-![Alt text](./images/fb_close_edit.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/fb_close_edit.png)
 
 Figure 3: Customize settings Low Impact (include pre_auth_acl)
-![Alt text](./images/fb_low_edit.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/fb_low_edit.png)
 
 Updated Closed Authentication for San Jose site
 
@@ -281,7 +281,7 @@ Customize settings such as 802.1X fallback timeout, Wake-on-LAN, and Pre-Auth AC
 C. Apply Pending Events (state: merged)
 
 Figure 1: Apply Pending Events
-![Alt text](./images/apply_pending.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/apply_pending.png)
 
 The following input will update the fabric configuration after changes that have not been applied.
 
@@ -296,7 +296,7 @@ The following input will update the fabric configuration after changes that have
 D. Remove Fabric Zone (state: deleted)
 
 Figure 1: Remove Fabric Zone By Unchecking Those Fabric Zones
-![Alt text](./images/delete_fabric_zone.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/delete_fabric_zone.png)
 
 This action will delete 2 fabric zones of the RTP site, RTP_BLD10 and RTP_BLD11
 
@@ -313,7 +313,7 @@ E. Remove Fabric Site (state: deleted)
 This action will delete fabric site RTP
 
 Figure 1: Delete Fabric Site
-![Alt text](./images/delete_fb_site.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/delete_fb_site.png)
 
 ```yaml
     - fabric_sites:
@@ -350,13 +350,13 @@ If there is an error in the input or an issue with the API call during execution
 After executing the playbook, check the Catalyst Center UI to verify switch profile has been created. If debug_log is enabled, you can also review the logs for detailed information on operations performed and any updates made.
 
 Figure 1: Successfully Created Site AREA1 BLD1
-![Alt text](./images/Fabric_site_and_zones.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/Fabric_site_and_zones.png)
 
 Figure 2: Successfully Updated Authentication For San Jose Site
-![Alt text](./images/fb_close.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/fb_close.png)
 
 Figure 3: After Using apply_pending_events: true
-![Alt text](./images/aplply_pending_after.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/aplply_pending_after.png)
 
 
 4. **Creating Bulk Site Configurations using JINJA Template and Using the Playbook**
@@ -422,7 +422,7 @@ PLAY RECAP *********************************************************************
 catalyst_center220         : ok=9    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 Figure 1 Jinja created fabric sites
-![Alt text](./images/fabric_sites_with_jinja.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_sites_zones/images/fabric_sites_with_jinja.png)
 
 
 ## References

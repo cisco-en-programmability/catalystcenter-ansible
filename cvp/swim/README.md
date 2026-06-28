@@ -19,13 +19,13 @@ The SWIM protocol provides a standardized way to manage and upgrade software ima
 * **Software Image:** The desired Cisco IOS XE software image file (.bin).
 
 ## Demo Video
-[![Device Software Upgrade Demo](./images/swimdemo.png)](http://3.136.0.140/iac_demos/swim/SWIMDEMO.mp4)
+[![Device Software Upgrade Demo](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/swimdemo.png)](http://3.136.0.140/iac_demos/swim/SWIMDEMO.mp4)
 
 
 # Detailed steps to perform
 1. ## Import image:
 We have three ways to import images into Catalyst Center:
-![alt text](./images/import.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/import.png)
 
   ### a. local
   Download the image to your local machine and import directly.
@@ -89,8 +89,8 @@ We have three ways to import images into Catalyst Center:
                 is_third_party: False
   ```
   Catalyst Center will install in parallel with the two images: 'cat9k_iosxe.17.15.01prd18.SPA.bin' and 'C9800-SW-iosxe-wlc.17.15.01prd18.SPA.bin'. After the import is completed, Catalyst Center will continue to install the image 'C9800-universalk9_wlc.17.15.01prd18.SPA.bin'.
-  ![alt text](./images/import_parallel_image_1.png)
-  ![alt text](./images/import_parallel_image_2.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/import_parallel_image_1.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/import_parallel_image_2.png)
 
   ### c. cco
   Import images prepared for Catalyst Center from Cisco Connection Online.
@@ -107,12 +107,12 @@ We have three ways to import images into Catalyst Center:
   ```
 
   * Note: we can only install the CCO image to be displayed on Catalyst Center. The feature of installing images from CCO has limitations; we can only install images that have been prepared for display on Catalyst Center.
-  ![alt text](./images/cco_image_suggest.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/cco_image_suggest.png)
   For example, with the above images, we can see some CCO images that are proposed on Catalyst Center (cat9k_iosxe.17.06.08.SPA.bin, cat9k_iosxe.17.09.05.SPA.bin, cat9k_iosxe.17.09.06a.SPA.bin, ...). We can only install CCO type with those proposed images.
 
   ### d. Delete image in Cisco Catalyst Center
   After the image is imported to Catalyst Center using the above methods (local, URL, CCO), it will exist on the Cisco Catalyst Center. We can delete it through the following playbook.
-  ![alt text](./images/imported_image.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/imported_image.png)
   + Example input config (state: "deleted"):
   ```yaml
   swim_details:
@@ -129,7 +129,7 @@ We have three ways to import images into Catalyst Center:
   ```
   + The UI display:
 
-  ![alt text](./images/deleted_image.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/deleted_image.png)
 
   **NOTE:The API for deleting images is only supported from Catalyst Center version 2.3.7.9 and above.**
 
@@ -146,7 +146,7 @@ Define and manage golden images that represent standard or preferred versions fo
           site_name: Global/USA/SAN JOSE
           tagging: true
 ```
-![alt text](./images/tag_golden.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/tag_golden.png)
 
 If you tag a different image with the same device_image_family_name, then the existing image will be untagged first.
 ```yaml
@@ -159,7 +159,7 @@ If you tag a different image with the same device_image_family_name, then the ex
           site_name: Global/USA/SAN JOSE
           tagging: true
 ```
-![alt text](./images/tag_new_golden.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/tag_new_golden.png)
 
 3. ## Distribute
 Distribute the image to the device. In the playbook, we can have two types for distribution: distribute to a specific device (device_e2e) and distribute to multiple devices in parallel using device role and site filters (filter_e2e).
@@ -186,7 +186,7 @@ Distribute the image to the device. In the playbook, we can have two types for d
           device_series_name: Cisco Catalyst 9300 Series Switches
   ```
   UI action (includes distribute and activate):
-![alt text](./images/distribute-activate_filter.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/distribute-activate_filter.png)
 
   ### c. Distribute & Activate without specifying image name (new enhancement)
   Automatically uses Golden Image tagged in Catalyst Center. It will satisfy the intersection of the specifications from `image_distribution_details` and `tagging_details`.
@@ -230,8 +230,8 @@ Distribute the image to the device. In the playbook, we can have two types for d
   status: success
   ```
   + The UI display (include activation):
-  ![alt text](./images/base_and_sub_image.png)
-  ![alt text](./images/base_and_sub_image_1.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/base_and_sub_image.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/base_and_sub_image_1.png)
 
   **Note:**
   - We also can only need to provide the base image, or can choose not to provide both the base image and sub-package, and it can still upgrade the image using the image from the golden tag, include base and sub-package image (specifically for the case where `the device to be upgraded is currently running both the base and sub-package images`.)
@@ -295,7 +295,7 @@ Activate the image to the device after successful distribution. In the playbook,
     device_upgrade_mode: currentlyExists: This likely indicates that the activation process will target devices that already have the image in their inventory.
   ```
   UI action (includes distribute and activate):
-  ![alt text](./images/distribute-activate_filter.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/distribute-activate_filter.png)
 
   ### c. Distribute & Activate without specifying image name (new enhancement)
   Automatically uses Golden Image tagged in Catalyst Center. It will satisfy the intersection of the specifications from `image_activation_details` and `tagging_details`.
@@ -347,8 +347,8 @@ Activate the image to the device after successful distribution. In the playbook,
   status: success
   ```
   + The UI display:
-  ![alt text](./images/base_and_sub_image.png)
-  ![alt text](./images/base_and_sub_image_1.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/base_and_sub_image.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/base_and_sub_image_1.png)
 
   **Note:**
   - We also can only need to provide the base image, or can choose not to provide both the base image and sub-package, and it can still upgrade the image using the image from the golden tag, include base and sub-package image (specifically for the case where `the device to be upgraded is currently running both the base and sub-package images`.)
@@ -485,7 +485,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
