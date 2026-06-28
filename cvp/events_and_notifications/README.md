@@ -95,7 +95,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -146,13 +146,13 @@ To ensure that syslog destination has been created or updated in Catalyst Center
 
 #### Refrence Screenshot: Syslog Creation Success
 
-![alt text](images/Syslog_creation_successful.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_creation_successful.png)
 
 #### Refrence Screenshot: Syslog Details Updated 
 
 Note: Screenshot below indicates that the event description and hostname/IP for 'Syslog test 100' have been updated.
 
-![alt text](images/Syslog_details_updated_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_details_updated_successfully.png)
 
 ### Step 2: Verify the playbook output
  
@@ -176,12 +176,12 @@ To ensure that syslog destination has been created or updated in Catalyst Center
 
 Refrence Screenshot: Syslog Creation Success
 
-![alt text](images/Syslog_creation_successful.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_creation_successful.png)
 
 Refrence Screenshot: Syslog Details Updated 
 
 Note: Screenshot below indicates that the event description and hostname/IP for 'Syslog test 100' have been updated.
-![alt text](images/Syslog_details_updated_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_details_updated_successfully.png)
 
 ## 3. Create/Update Webhook destination in Catalyst Center
 
@@ -234,13 +234,13 @@ To ensure that webhook destination has been created or updated in Catalyst Cente
 
 #### Refrence Screenshot: Webhook Creation Success
 
-![alt text](images/Webhook_destination_created_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_destination_created_successfully.png)
 
 #### Refrence Screenshot: Webhook Details Updated
 
 Note: Screenshot below indicates that the webhook description for 'webhook demo 110' and 'webhook demo 111' have been updated.
 
-![alt text](images/Webhook_destination_updated_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_destination_updated_successfully.png)
 
 ### Step 2: Verify the playbook output
  
@@ -264,12 +264,12 @@ To ensure that webhook destination has been created or updated in Catalyst Cente
 
 Refrence Screenshot: Webhook Creation Success
 
-![alt text](images/Webhook_destination_created_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_destination_created_successfully.png)
 
 Refrence Screenshot: Webhook Details Updated
 
 Note: Screenshot below indicates that the webhook description for 'webhook demo 110' and 'webhook demo 111' have been updated.
-![alt text](images/Webhook_destination_updated_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_destination_updated_successfully.png)
 
 ## 4. Create/Update SNMP destination in Catalyst Center
 
@@ -321,7 +321,7 @@ To ensure that SNMP destination has been created or updated in Catalyst Center, 
 
 Note: Screenshot below indicates that the SNMP destination 'SNMP Testing' and 'Snmp test new' have been created.
 
-![alt text](images/SNMP_event_created_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/SNMP_event_created_successfully.png)
 
 ### Step 2: Verify the playbook output
  
@@ -346,7 +346,7 @@ To ensure that SNMP destination has been created or updated in Catalyst Center, 
 Refrence Screenshot: SNMP Creation Success
 
 Note: Screenshot below indicates that the SNMP destination 'SNMP Testing' and 'Snmp test new' have been created.
-![alt text](images/SNMP_event_created_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/SNMP_event_created_successfully.png)
 
 ## 5. Create/Update ITSM destination in Catalyst Center
 
@@ -393,13 +393,13 @@ To ensure that ITSM destination has been created or updated in Catalyst Center, 
 
 Note: Screenshot below indicates that the ITSM destination 'Playbook itsm demo 01' and 'ITSM_Demo_test 02' have been created.
 
-![alt text](images/ITSM_Created_Successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Created_Successfully.png)
 
 #### Refrence Screenshot: ITSM Details Updated
 
 Note: Screenshot below indicates that the ITSM destination description for 'Playbook itsm demo 01' and 'ITSM_Demo_test 02' have been updated.
 
-![alt text](images/ITSM_Updated_Successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Updated_Successfully.png)
 
 ### Step 2: Verify the playbook output
  
@@ -424,12 +424,12 @@ To ensure that ITSM destination has been created or updated in Catalyst Center, 
 Refrence Screenshot: ITSM Creation Success
 
 Note: Screenshot below indicates that the ITSM destination 'Playbook itsm demo 01' and 'ITSM_Demo_test 02' have been created.
-![alt text](images/ITSM_Created_Successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Created_Successfully.png)
 
 Refrence Screenshot: ITSM Details Updated
 
 Note: Screenshot below indicates that the ITSM destination description for 'Playbook itsm demo 01' and 'ITSM_Demo_test 02' have been updated.
-![alt text](images/ITSM_Updated_Successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Updated_Successfully.png)
 
 ## 6. Create/Update Email Event Subscription in Catalyst Center
 
@@ -476,7 +476,7 @@ To ensure that Event subscription notification has been created or updated in Ca
 
 #### Reference Screenshot:
 
-![alt text](images/Email_event_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Email_event_subscription_created.png)
 
 ### Step 2: Verify the playbook output
  
@@ -500,7 +500,7 @@ To ensure that Event subscription notification has been created or updated in Ca
 
 Reference Screenshot:
 
-![alt text](images/Email_event_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Email_event_subscription_created.png)
 
 ## 7. Create/Update Syslog Event Subscription in Catalyst Center
 
@@ -543,7 +543,7 @@ To ensure that Syslog subscription notification has been created or updated in C
 
 #### Reference Screenshot:
 
-![alt text](images/Syslog_even_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_even_subscription_created.png)
 
 ### Step 2: Verify the playbook output
  
@@ -567,7 +567,7 @@ To ensure that Syslog subscription notification has been created or updated in C
 
 Reference Screenshot:
 
-![alt text](images/Syslog_even_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Syslog_even_subscription_created.png)
 
 ## 8. Create/Update Webhook Event Subscription in Catalyst Center
 
@@ -607,7 +607,7 @@ To ensure that Webhook subscription notification has been created or updated in 
 
 #### Reference Screenshot:
 
-![alt text](images/Webhook_event_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_event_subscription_created.png)
 
 ### Step 2: Verify the playbook output
  
@@ -631,7 +631,7 @@ To ensure that Webhook subscription notification has been created or updated in 
 
 Reference Screenshot:
 
-![alt text](images/Webhook_event_subscription_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Webhook_event_subscription_created.png)
 
 ## 9. Delete Email Event Subscription in Catalyst Center
 
@@ -682,11 +682,11 @@ To ensure that Email subscription notification has been deleted in Catalyst Cent
 
 Note: Note: Ensure that specific Email Subscription Event Notification presents in Catalyst Centert:
 
-![alt text](images/Before_delete_email_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Before_delete_email_event.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the Email Event Subscription:
 
-![alt text](images/After_delete_email_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/After_delete_email_event.png)
 
 ### Step 2: Verify the playbook output
  
@@ -711,10 +711,10 @@ To ensure that Email subscription notification has been deleted in Catalyst Cent
 Reference Screenshot: 
 
 Note: Note: Ensure that specific Email Subscription Event Notification presents in Catalyst Centert:
-![alt text](images/Before_delete_email_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Before_delete_email_event.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the Email Event Subscription:
-![alt text](images/After_delete_email_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/After_delete_email_event.png)
 
 ## 10. Delete Syslog Event Subscription in Catalyst Center
 
@@ -761,11 +761,11 @@ To ensure that Syslog subscription notification has been deleted in Catalyst Cen
 
 Note: Note: Ensure that specific Syslog Subscription Event Notification presents in Catalyst Center
 
-![alt text](images/Before_deleting_syslog_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Before_deleting_syslog_event.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the Email Event Subscription:
 
-![alt text](images/After_deleting_syslog_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/After_deleting_syslog_event.png)
 
 
 ### Step 2: Verify the playbook output
@@ -791,10 +791,10 @@ To ensure that Syslog subscription notification has been deleted in Catalyst Cen
 Reference Screenshot: 
 
 Note: Note: Ensure that specific Syslog Subscription Event Notification presents in Catalyst Center
-![alt text](images/Before_deleting_syslog_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Before_deleting_syslog_event.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the Email Event Subscription:
-![alt text](images/After_deleting_syslog_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/After_deleting_syslog_event.png)
 
 ## 11. Delete Webhook Event Subscription in Catalyst Center
 
@@ -838,11 +838,11 @@ To ensure that Webhook subscription notification has been deleted in Catalyst Ce
 
 Note: Ensure that specific Webhook Subscription Event Notification presents in Catalyst Center
 
-![alt text](images/Before_deleting_webhook_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/Before_deleting_webhook_event.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the Webhook Event Subscription:
 
-![alt text](images/After_deleting_webhook_event.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/After_deleting_webhook_event.png)
 
 ### Step 2: Verify the playbook output
  
@@ -905,11 +905,11 @@ To ensure that ITSM event destination has been deleted in Catalyst Center, follo
 
 Note: Ensure that specific ITSM Event Destination presents in Catalyst Center
 
-![alt text](images/ITSM_Destination_Presents.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Destination_Presents.png)
 
 Note: After executing the delete_events_and_notifications playbook, verify the deletion of the ITSM Event Destination:
 
-![alt text](images/ITSM_Destination_Deleted.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/events_and_notifications/images/ITSM_Destination_Deleted.png)
 
 ### Step 2: Verify the playbook output
  

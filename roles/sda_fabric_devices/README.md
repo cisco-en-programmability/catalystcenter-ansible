@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Select-device-in-fabric](./images/Select-Device-in-Fabric.png)
-![Add-control-plane](./images/Add-Control-Plane.png)
+![Select-device-in-fabric](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_devices/images/Select-Device-in-Fabric.png)
+![Add-control-plane](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_devices/images/Add-Control-Plane.png)
 
 ## Adapted Examples
 

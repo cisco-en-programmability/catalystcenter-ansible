@@ -66,8 +66,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Site Image1](./images/site_image1.png)
-![Template Created Sites](./images/template_created_sites.png)
+![Site Image1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/site/images/site_image1.png)
+![Template Created Sites](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/site/images/template_created_sites.png)
 
 ## Adapted Examples
 

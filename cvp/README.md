@@ -404,6 +404,8 @@ yamale -s schema/sites_schema.yml vars/site_hierarchy_design_vars.yml
 
 ## 🚀 CI/CD Integration
 
+For Red Hat certified deployments, use an Ansible Execution Environment or runner image that already includes `ansible-core >= 2.16` with Python `3.12`. The example below installs only the Cisco Catalyst Center Python SDK.
+
 ### GitHub Actions
 
 ```yaml
@@ -419,9 +421,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Install Ansible
+      - name: Install Collection Dependencies
         run: |
-          pip install ansible catalystcentersdk
+          pip install catalystcentersdk
           ansible-galaxy collection install cisco.catalystcenter
       
       - name: Copy CVP
@@ -446,8 +448,9 @@ For issues or questions about CVPs:
 
 1. **Check CVP README** - Each CVP has detailed documentation
 2. **Review Examples** - Look at the vars/ directory for examples
-3. **Open an Issue** - [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
+3. **Certified Support** - Use `Create issue` from the [Cisco Catalyst Center collection page on Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/cisco/catalystcenter/)
 4. **Consult Documentation** - [Collection Documentation](https://cisco-en-programmability.github.io/catalystcenter-ansible/)
+5. **Community Issues** - [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
 
 ---
 

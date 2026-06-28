@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![User Def Issue Created](./images/User_def_issue_created.png)
-![User Def Issue Updated](./images/User_def_issue_updated.png)
+![User Def Issue Created](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_issue/images/User_def_issue_created.png)
+![User Def Issue Updated](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_issue/images/User_def_issue_updated.png)
 
 ## Adapted Examples
 

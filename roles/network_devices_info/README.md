@@ -65,7 +65,7 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Image](./images/image.png)
+![Image](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/network_devices_info/images/image.png)
 
 ## Adapted Examples
 

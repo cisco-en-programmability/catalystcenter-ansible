@@ -36,7 +36,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -115,7 +115,7 @@ This step involves preparing the input data for creating or managing network pro
         day_n_templates:
           - Ansible SW Net-Prof dayN
     ```
-    ![alt text](images/Switch_Network_Profile.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_switching/images/Switch_Network_Profile.png)
 
 2. Update Switch Network Profile in Catalyst Center
 
@@ -143,7 +143,7 @@ This step involves preparing the input data for creating or managing network pro
     network_profiles:
       - profile_name: "Switch Profile"
     ```
-    ![alt text](images/delete_switch_profile.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_switching/images/delete_switch_profile.png)
 ---
 ### Step 3: Deploy and Verify
 
@@ -174,7 +174,7 @@ This is the final step where you deploy the configuration to Cisco Catalyst Cent
 2.  **Verify Deployment:** 
 After executing the playbook, check the Catalyst Center UI to verify switch profile has been created. If *debug_log* is enabled, you can also review the logs for detailed information on operations performed and any updates made.
 
-    ![alt text](images/creation_assignment.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_switching/images/creation_assignment.png)
 
 ---
 

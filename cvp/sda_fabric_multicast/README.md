@@ -54,7 +54,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -268,7 +268,7 @@ The *SDA Fabric Multicast* feature relies on these components that must be prede
       ipv4_ssm_ranges:
         - "232.0.0.0/8"
 ```
-  ###### ![Update SDA Multicasts Example](./images/update_sda_multicast.png)  
+  ###### ![Update SDA Multicasts Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_multicast/images/update_sda_multicast.png)  
   ###### **Figure 1**: *Update SDA Multicasts Example*
 ---
 
@@ -299,7 +299,7 @@ The *SDA Fabric Multicast* feature relies on these components that must be prede
             ex_rp_ipv4_address: "204.1.2.70"
 ```
 
-  ###### ![Delete SDA Multicasts Example](./images/delete_sda_multicast.png)  
+  ###### ![Delete SDA Multicasts Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_multicast/images/delete_sda_multicast.png)  
   ###### **Figure 2**: *Delete SDA Multicasts Example*
 ---
 
@@ -311,7 +311,7 @@ Run the following command to validate your input file against the schema:
 ./tools/schemavalidation.sh -s ./cvp/sda_fabric_multicast/schema/sda_fabric_multicast_schema.yml -v ./cvp/sda_fabric_multicast/vars/sda_fabric_multicast_inputs.yml
 ```
 
-##### ![Validate parameters Multicast Configuration Example](./images/validate_parameters_multicast.png)  
+##### ![Validate parameters Multicast Configuration Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_multicast/images/validate_parameters_multicast.png)  
 ##### **Figure 3**: *Validate parameters Multicast Configuration*
 ---
 
@@ -329,7 +329,7 @@ Run the following command to validate your input file against the schema:
 2. **Verify Deployment**:  
    After execution, verify the configuration in the Cisco Catalyst Center UI under the SDA fabric multicast section. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.
 
-   ![Multicast Configuration Example](./images/mapping_parameter_multicast.png)  
+   ![Multicast Configuration Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_multicast/images/mapping_parameter_multicast.png)  
    **Figure 4**: *SDA Fabric Multicast Configuration in Cisco Catalyst Center*
 
 ---

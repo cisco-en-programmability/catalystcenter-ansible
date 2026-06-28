@@ -160,15 +160,15 @@ Validation success! 👍
 
 - The config parameter within this task corresponds to the "Design > CLI Templates > Create Template" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/create0.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/create0.png)
 - Enter the parameters of the template you want to create.
-![alt text](./images/template1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/template1.png)
 - Enter content template -> Commit.
-![alt text](./images/create2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/create2.png)
 - Enter commit note -> Commit.
-![alt text](./images/create3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/create3.png)
 - Check template created.
-![alt text](./images/create4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/create4.png)
 
 
 #### **Example Input File**
@@ -206,11 +206,11 @@ template_details:
 
 #### **Mapping config to UI Actions**
 - Choose Template want to delete -> Delete.
-![alt text](./images/delete1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/delete1.png)
 - Click "Yes" to confirm deleting the template.
-![alt text](./images/delete2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/delete2.png)
 - Check Template deleted.
-![alt text](./images/delete3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/delete3.png)
 
 #### **Example Input File**
 ```bash
@@ -247,21 +247,21 @@ template_details:
 
 #### **Mapping config to UI Actions**
 - Attach Template to Network Profile: Choose Template -> Attach.
-![alt text](./images/deploy1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy1.png)
 - Choose the Network Profile to attach -> Save.
-![alt text](./images/deploy2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy2.png)
 - Verify that the template was successfully attached.
-![alt text](./images/deploy3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy3.png)
 - Choose Template deploy -> Provision Templates.
-![alt text](./images/deploy4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy4.png)
 - Click Next.
-![alt text](./images/deploy5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy5.png)
 - Choose device need deploy template.
-![alt text](./images/deploy6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy6.png)
 - Click Next.
-![alt text](./images/deploy7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy7.png)
 - Click Apply to deploy the template.
-![alt text](./images/deploy8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_templates/images/deploy8.png)
 
 #### **Example Input File**
 
@@ -324,7 +324,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
