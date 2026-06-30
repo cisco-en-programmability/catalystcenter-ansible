@@ -89,7 +89,7 @@ source .venv/bin/activate
 # Upgrade pip tooling
 python -m pip install --upgrade pip setuptools wheel
 
-# Install Python dependencies (includes ansible and catalystcentersdk)
+# Install Cisco Catalyst Center Python SDK
 pip install catalystcentersdk
 
 # Install/upgrade Cisco Catalyst Center Ansible collection
