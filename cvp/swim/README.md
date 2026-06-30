@@ -18,9 +18,6 @@ The SWIM protocol provides a standardized way to manage and upgrade software ima
 * **Credentials:** Valid login credentials for the switch (username/password or SSH key).
 * **Software Image:** The desired Cisco IOS XE software image file (.bin).
 
-## Demo Video
-[![Device Software Upgrade Demo](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/swim/images/swimdemo.png)](http://3.136.0.140/iac_demos/swim/SWIMDEMO.mp4)
-
 
 # Detailed steps to perform
 1. ## Import image:

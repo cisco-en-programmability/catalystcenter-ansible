@@ -35,11 +35,6 @@ To initiate LAN automation, the following prerequisites in Catalyst Center must 
 4. **Device Discovery**: Ensure primary/seed device is already discovered in Catalyst Center
 5. **Network Credentials**: Configure valid credentials for device access
 
----
-
-## Demo Video
-
-[![LAN Automation Execution Demo](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Lan_Automation_demo.png)](http://3.136.0.140/iac_demos/lan_auto/LAN_Automation_Workflow_Manager_Demo.mp4)
 
 ---
 
