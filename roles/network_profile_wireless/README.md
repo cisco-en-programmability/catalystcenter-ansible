@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Feature Template With Aaa Configuration](./images/feature_template_with_AAA_configuration.png)
-![Feature Template With Aaa Configuration 2](./images/feature_template_with_AAA_configuration_2.png)
+![Feature Template With Aaa Configuration](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/network_profile_wireless/images/feature_template_with_AAA_configuration.png)
+![Feature Template With Aaa Configuration 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/network_profile_wireless/images/feature_template_with_AAA_configuration_2.png)
 
 ## Adapted Examples
 

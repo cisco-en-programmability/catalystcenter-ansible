@@ -188,7 +188,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -248,7 +248,7 @@ accesspoint_location_details:
               elevation: 30
 
 ```
-![alt text](./images/image1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image1.png)
 
 ##### 2. **Update Planned Access Point Position**  
 *Example*: Modify existing planned AP position and radio settings.  
@@ -289,7 +289,7 @@ accesspoint_location_details:
               elevation: 30
 
 ```
-![alt text](./images/image2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image2.png)
 
 ##### 3. **Create Planned Position with Dual-Band Radio**  
 *Example*: Configure an AP with a single dual-band radio.
@@ -315,7 +315,7 @@ accesspoint_location_details:
               elevation: 20
 ```
 
-![alt text](./images/image3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image3.png)
 
 ##### 3. **Assign Planned Access Point to Real Access Point**  
 *Example*: Map a planned position to an actual physical AP.  
@@ -331,7 +331,7 @@ accesspoint_location_details:
         action: "assign_planned_ap"
         mac_address: "68:7d:b4:06:b0:a0"
 ```
-![alt text](./images/image4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image4.png)
 
 ##### 4. **Create Real AP Position**  
 *Example*: Create a real AP position directly (without planned position).
@@ -365,7 +365,7 @@ accesspoint_location_details:
               elevation: 30
 ```
 
-![alt text](./images/image5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image5.png)
 
 ##### 6. **Update Real AP Position (Partial Update)**  
 *Example*: Update only position and antenna settings for a real AP.
@@ -400,7 +400,7 @@ accesspoint_location_details:
               azimuth: 20
               elevation: 30
 ```
-![alt text](./images/image6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image6.png)
 
 
 ##### 7. **Create Access Point with 6GHz Radio**  
@@ -426,7 +426,7 @@ accesspoint_location_details:
               azimuth: 90
               elevation: 0
 ```
-![alt text](./images/image7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image7.png)
 
 
 **Validate**
@@ -608,7 +608,7 @@ accesspoint_location_details:
     access_points:
       - accesspoint_name: "AP687D.B402.1614-AP-location_Test2"
 ```
-![alt text](./images/image9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image9.png)
 
 ##### 2. **Delete real AP position from Planned Position**  
 *Example*: Remove real AP from its assigned planned position.
@@ -623,7 +623,7 @@ accesspoint_location_details:
       - accesspoint_name: "AP687D.B402.1614-AP-Test6"
         action: "manage_real_ap"
 ```
-![alt text](./images/image8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/access_point_location/images/image8.png)
 ---
 ## Example Output
 1.Delete Planned AP positions

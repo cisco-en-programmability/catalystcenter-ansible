@@ -60,7 +60,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -311,8 +311,8 @@ wireless_nw_profiles_details:
   status: success
 ```
 + The UI display:
-![alt text](./images/feature_template_with_AAA_configuration.png)
-![alt text](./images/feature_template_with_AAA_configuration_2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_wireless/images/feature_template_with_AAA_configuration.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_wireless/images/feature_template_with_AAA_configuration_2.png)
 
 b. *Example*: Configure wireless profile with multiple feature template designs (update)
 
@@ -345,7 +345,7 @@ wireless_nw_profiles_details:
   status: success
 ```
 + The UI display:
-![alt text](./images/update_multiple_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_wireless/images/update_multiple_feature_template.png)
 
 c. *Example*: Update wireless profile to remove feature template designs (delete)
 
@@ -369,7 +369,7 @@ wireless_nw_profiles_details:
   status: success
 ```
 + The UI display:
-![alt text](./images/delete_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_wireless/images/delete_feature_template.png)
 
 
 ---
@@ -410,7 +410,7 @@ Run the following command to validate your input file against the schema:
 2. **Verify Deployment**:  
    After execution, verify the configuration in the *Cisco Catalyst Center* UI under the wireless design section. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.  
 
-   ![Wireless profile configuration in Cisco Catalyst Center UI](./images/wireless_profile_1.png)  
+   ![Wireless profile configuration in Cisco Catalyst Center UI](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_profile_wireless/images/wireless_profile_1.png)  
    **Figure 1**: *Wireless Profile Configuration in Cisco Catalyst Center*
 
 ---

@@ -154,7 +154,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -332,7 +332,7 @@ output_file_info:
 ## Usage Examples
 
 The UI display (example):
-![alt text](./images/image.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_devices_info/images/image.png)
 
 ### Example 1: Query All Information for Specific Devices
 

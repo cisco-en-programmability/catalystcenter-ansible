@@ -44,7 +44,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -148,11 +148,11 @@ Below are example input files for each `capture_type` supported by the ICAP work
 ```
 
 Figure 1 Choose WLC and Client MAC Address in Catalyst Center.
-![Alt text](./images/icap_onboarding_capture_page3.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_onboarding_capture_page3.png)
 
 
 Figure 2 Check ICAP setting created.
-![Alt text](./images/icap_onboarding_capture_page5.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_onboarding_capture_page5.png)
 
 ---
 
@@ -168,10 +168,10 @@ Figure 2 Check ICAP setting created.
 ```
 
 Figure 1 Choose WLC and Client MAC Address in Catalyst Center.
-![Alt text](./images/icap_full_capture_page2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_full_capture_page2.png)
 
 Figure 2 Configuration has been created.
-![Alt text](./images/icap_full_capture_page4.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_full_capture_page4.png)
 
 ---
 
@@ -191,33 +191,33 @@ Figure 2 Configuration has been created.
 ```
 Figure 1 Go to page Health in Catalyst Center to create ICAP settings.
 
-![Alt text](./images/icap_ota_capture_page1.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page1.png)
 
 Figure 2 Go to Client page and Choose Wireless Client in Catalyst Center.
 
-![Alt text](./images/icap_ota_capture_page2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page2.png)
 
 Figure 3 Go to Intelligent Capture of Wireless Client in Catalyst Center.
-![Alt text](./images/icap_ota_capture_page3.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page3.png)
 
 Figure 4 Run Packet Capture on Device in Catalyst Center.
-![Alt text](./images/icap_ota_capture_page4.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page4.png)
 
 Figure 5 Choose OTA Sniffer type and choose AP in Catalyst Center.
 
-![Alt text](./images/icap_ota_capture_page5.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page5.png)
 
 Figure 6 Enter parameters want configure and "Next" in Catalyst Center.
 
-![Alt text](./images/icap_ota_capture_page6.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page6.png)
 
 Figure 7 Enter parameters want configure and "Next" in Catalyst Center.
 
-![Alt text](./images/icap_ota_capture_page7.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page7.png)
 
 Figure 8 Apply and Deploy in Catalyst Center.
 
-![Alt text](./images/icap_ota_capture_page8.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/icap_ota_capture_page8.png)
 
 ---
 
@@ -232,7 +232,7 @@ Figure 8 Apply and Deploy in Catalyst Center.
 ```
 
 Figure 1 Choose AP device want to enable RFSTATS and then click "Enable"
-![Alt text](./images/assurance_intelligent_rfs_capture3.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/assurance_intelligent_rfs_capture3.png)
 
 ---
 **e. ANOMALY Capture (state: merged)**
@@ -244,7 +244,7 @@ Figure 1 Choose AP device want to enable RFSTATS and then click "Enable"
         wlc_name: 98:76:54:32:10:FE
 ```
 Figure 1 Go to Anomaly Capture page and then Enable AP Anomaly Capture in Catalyst Center.
-![Alt text](./images/assurance_intelligent_capture2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_intelligent_capture/images/assurance_intelligent_capture2.png)
 
 ---
 

@@ -65,8 +65,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Image](./images/image.png)
-![Image-1](./images/image-1.png)
+![Image](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/backup_and_restore/images/image.png)
+![Image-1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/backup_and_restore/images/image-1.png)
 
 ## Adapted Examples
 

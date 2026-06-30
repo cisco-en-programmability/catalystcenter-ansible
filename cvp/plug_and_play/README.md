@@ -52,7 +52,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -149,7 +149,7 @@ The `device_info` list contains the specific identity of the physical devices.
 
 The Plug and Play (PnP) workflow module automates the complete device lifecycle management in Cisco Catalyst Center, from initial device discovery to full provisioning. It supports adding devices to the PnP database, authorizing pending devices, claiming devices to sites, applying configuration templates and software images, and removing devices when needed.
 
-![Plug and Play UI Page](images/Device_added_successfully.png)
+![Plug and Play UI Page](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Device_added_successfully.png)
 
 Refer to the full workflow specification for detailed instructions on the available options and their structure: https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/pnp_workflow_manager/
 
@@ -461,7 +461,7 @@ pnp_details:
         pid: C9800-40-K9      
 ```
 
-![alt text](images/Bulk_pnp_device_addition.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Bulk_pnp_device_addition.png)
 
 
 #### b.Device Authorization for Bulk Onboarding (Optional)
@@ -523,19 +523,19 @@ pnp_details:
 ```
 
 Step 1: Ensure that the device exists in Plug and Play (PnP) before executing the playbook.
-![alt text](images/Device_is_present.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Device_is_present.png)
 
 Step 2: Execute the pnp playbook.
 
 Upon successful execution, the device will be deleted from PnP.
 
-![alt text](images/Device_is_removed.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Device_is_removed.png)
 
 Step 4: Verify that device is removed
 
 To ensure the device has been successfully removed, verify the PnP UI.
 
-![alt text](images/verify_device_deletion.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/verify_device_deletion.png)
 
 #### d.Task: Bulk Device Deletion
 
@@ -562,20 +562,20 @@ pnp_details:
 
 Step 1: Ensure that the device exists in Plug and Play (PnP) before trying to remove them.
 
-![alt text](images/All_devices_present.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/All_devices_present.png)
 
 Step 2: Execute the PnP Playbook:
 
 Upon successful execution, the device will be deleted from PnP.
 
-![alt text](images/Device_is_removed.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Device_is_removed.png)
 
 
 Step 3: Verify that all devices is removed
 
 To ensure the devices has been successfully removed, verify the PnP UI.
 
-![alt text](images/All_devices_get_removed.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/All_devices_get_removed.png)
 
 
 #### e. Claiming a Cisco Catalyst 9K Switch
@@ -619,19 +619,19 @@ Step 3: Mapping Example to UI Actions
 
 #### The screenshots below demonstrate how to manually onboard and claim a device in the Cisco Catalyst Center UI:
 
-![alt text](images/claim_switch_device_img1.png)
-![alt text](images/claim_switch_device_img2.png)
-![alt text](images/claim_switch_device_img3.png)
-![alt text](images/claim_switch_device_img4.png)
-![alt text](images/clain_switch_device_img5.png)
-![alt text](images/claim_switch_device_img6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_switch_device_img1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_switch_device_img2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_switch_device_img3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_switch_device_img4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/clain_switch_device_img5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_switch_device_img6.png)
 
 
 #### f. Claiming a Cisco Catalyst 9K Switch Stack
 
 Similar to the task for claiming a single switch, this task relies on a predefined configuration template in Cisco Catalyst Center. However, in this case, the **StackSwitch** option is selected in the UI to indicate that the device being onboarded is part of a switch stack.
 
-![alt text](images/Claim_siwtch_stack_9k.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_siwtch_stack_9k.png)
 
 **Example: Input (YAML)**
 ```bash
@@ -690,7 +690,7 @@ pnp_details:
 **Note:**
 - Ensure that the required configurations are in place before proceeding, including: Template, Image and Device ID Certificate which is compatible to router device
 
-![alt text](images/Claim_router_device_img1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_router_device_img1.png)
 
 #### h. Claiming a Cisco Embedded Wireless Controller (EWLC)
 
@@ -729,11 +729,11 @@ pnp_details:
 **Mapping Example to UI Actions**
 ##### The screenshots below demonstrate how to manually onboard and claim a device in the Cisco Catalyst Center UI:
 
-![alt text](images/Claim_ewlc_img1.png)
-![alt text](images/Claim_ewlc_img2.png)
-![alt text](images/Claim_ewlc_img3.png)
-![alt text](images/Claim_ewlc_img4.png)
-![alt text](images/Claim_ewlc_img5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_ewlc_img1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_ewlc_img2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_ewlc_img3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_ewlc_img4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/Claim_ewlc_img5.png)
 
 
 #### i. Claiming Multiple EWLC Devices for High Availability (HA)
@@ -784,20 +784,20 @@ pnp_details:
 
 **Step 1: Assign a site to each device**
 
-![alt text](images/claim_multiple_ewlc_img2.png)
-![alt text](images/claim_multiple_ewlc_img3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img3.png)
 
 **Step 2: Assign Configuration for each device, Catalyst WLC Controller Setting is mandatory**
 
-![alt text](images/claim_multiple_ewlc_img4.png)
-![alt text](images/claim_multiple_ewlc_img6.png)
-![alt text](images/claim_multiple_ewlc_img7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img7.png)
 
 **Step 3: Provision Templates, if there won't be any template configure there won't be any action required**
-![alt text](images/claim_multiple_ewlc_img8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img8.png)
 
 **Step 4: Summary, can preview the device configuration details**
-![alt text](images/claim_multiple_ewlc_img9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_multiple_ewlc_img9.png)
 
 
 #### k. Resetting an Error PnP Device (EWLC Type)
@@ -826,7 +826,7 @@ pnp_details:
 - **Reset**: The playbook ensures that the device is reset and ready for another onboarding attempt.
 
 **Mapping Config to UI Actions**
-![alt text](images/reset_error_ewlc_pnp.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/reset_error_ewlc_pnp.png)
 
 #### l. Claiming Access Points (APs)
 
@@ -850,7 +850,7 @@ pnp_details:
 
 **Mapping Config to UI Actions**
 
-![alt text](images/claim_ap_device_img1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/claim_ap_device_img1.png)
 
 ##### Key Points:
 
@@ -858,7 +858,7 @@ pnp_details:
 - **Access Point Details**: The serial number, hostname, and product ID (PID) are provided for identification.
 - **Important**: Ensure that the Wireless LAN Controller (WLC) is fully onboarded before claiming any Access Points; otherwise, you may encounter an error.
 
-![alt text](images/ap_failure_img1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/plug_and_play/images/ap_failure_img1.png)
 
 
 #### m. Add and Claim and Authorize a Device

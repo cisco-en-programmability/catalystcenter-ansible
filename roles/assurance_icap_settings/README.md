@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![ICAP Onboarding Capture Page3](./images/icap_onboarding_capture_page3.png)
-![ICAP Onboarding Capture Page5](./images/icap_onboarding_capture_page5.png)
+![ICAP Onboarding Capture Page3](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_icap_settings/images/icap_onboarding_capture_page3.png)
+![ICAP Onboarding Capture Page5](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/assurance_icap_settings/images/icap_onboarding_capture_page5.png)
 
 ## Adapted Examples
 

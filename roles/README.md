@@ -146,75 +146,75 @@ ansible-playbook example_playbook.yml --ask-vault-pass
 
 | Role | Description | README |
 |------|-------------|--------|
-| **site** | Create and manage site hierarchies (areas, buildings, floors) | [📖 Guide](site/README.md) |
-| **network_settings** | Configure network settings (DHCP, DNS, NTP, AAA, Banners, Telemetry) | [📖 Guide](network_settings/README.md) |
-| **network_profile_switching** | Manage switching network profiles and port templates | [📖 Guide](network_profile_switching/README.md) |
-| **network_profile_wireless** | Manage wireless network profiles | [📖 Guide](network_profile_wireless/README.md) |
-| **wireless_design** | Configure wireless SSIDs, anchors, and interfaces | [📖 Guide](wireless_design/README.md) |
-| **tags** | Manage device tags and groups | [📖 Guide](tags/README.md) |
-| **template** | Design and deploy device configuration templates | [📖 Guide](template/README.md) |
-| **user_role** | Manage users and RBAC roles | [📖 Guide](user_role/README.md) |
+| **site** | Create and manage site hierarchies (areas, buildings, floors) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/site/README.md) |
+| **network_settings** | Configure network settings (DHCP, DNS, NTP, AAA, Banners, Telemetry) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_settings/README.md) |
+| **network_profile_switching** | Manage switching network profiles and port templates | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_profile_switching/README.md) |
+| **network_profile_wireless** | Manage wireless network profiles | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_profile_wireless/README.md) |
+| **wireless_design** | Configure wireless SSIDs, anchors, and interfaces | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/wireless_design/README.md) |
+| **tags** | Manage device tags and groups | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/tags/README.md) |
+| **template** | Design and deploy device configuration templates | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/template/README.md) |
+| **user_role** | Manage users and RBAC roles | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/user_role/README.md) |
 
 ### 🖥️ Device Management
 
 | Role | Description | README |
 |------|-------------|--------|
-| **discovery** | Discover network devices using CDP, LLDP, or IP ranges | [📖 Guide](discovery/README.md) |
-| **device_credential** | Manage device credentials (CLI, SNMP, HTTP) | [📖 Guide](device_credential/README.md) |
-| **inventory** | Manage device inventory and assignments | [📖 Guide](inventory/README.md) |
-| **provision** | Provision devices to sites | [📖 Guide](provision/README.md) |
-| **pnp** | Plug and Play device onboarding | [📖 Guide](pnp/README.md) |
-| **swim** | Software image management and upgrades | [📖 Guide](swim/README.md) |
-| **rma** | Device replacement workflows (RMA) | [📖 Guide](rma/README.md) |
-| **device_configs_backup** | Backup managed device configurations | [📖 Guide](device_configs_backup/README.md) |
-| **network_devices_info** | Network devices information and inventory queries | [📖 Guide](network_devices_info/README.md) |
+| **discovery** | Discover network devices using CDP, LLDP, or IP ranges | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/discovery/README.md) |
+| **device_credential** | Manage device credentials (CLI, SNMP, HTTP) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/device_credential/README.md) |
+| **inventory** | Manage device inventory and assignments | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/inventory/README.md) |
+| **provision** | Provision devices to sites | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/provision/README.md) |
+| **pnp** | Plug and Play device onboarding | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/pnp/README.md) |
+| **swim** | Software image management and upgrades | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/swim/README.md) |
+| **rma** | Device replacement workflows (RMA) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/rma/README.md) |
+| **device_configs_backup** | Backup managed device configurations | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/device_configs_backup/README.md) |
+| **network_devices_info** | Network devices information and inventory queries | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_devices_info/README.md) |
 
 ### 🌐 SDA Fabric
 
 | Role | Description | README |
 |------|-------------|--------|
-| **sda_fabric_sites_zones** | Configure SDA fabric sites and zones | [📖 Guide](sda_fabric_sites_zones/README.md) |
-| **sda_fabric_transits** | Configure fabric transits and inter-site connectivity | [📖 Guide](sda_fabric_transits/README.md) |
-| **sda_fabric_virtual_networks** | Manage virtual networks and L2/L3 gateways | [📖 Guide](sda_fabric_virtual_networks/README.md) |
-| **sda_fabric_devices** | Assign fabric device roles (edge, border, control plane) | [📖 Guide](sda_fabric_devices/README.md) |
-| **sda_host_port_onboarding** | Onboard hosts to SDA fabric | [📖 Guide](sda_host_port_onboarding/README.md) |
-| **sda_fabric_multicast** | Configure multicast settings in SDA fabric | [📖 Guide](sda_fabric_multicast/README.md) |
-| **sda_extranet_policies** | Manage extranet policies for inter-VN communication | [📖 Guide](sda_extranet_policies/README.md) |
-| **fabric_devices_info** | SDA fabric devices information and inventory queries | [📖 Guide](fabric_devices_info/README.md) |
-| **wired_campus_automation** | Wired campus automation workflows | [📖 Guide](wired_campus_automation/README.md) |
-| **lan_automation** | LAN automation (underlay) workflows | [📖 Guide](lan_automation/README.md) |
+| **sda_fabric_sites_zones** | Configure SDA fabric sites and zones | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_sites_zones/README.md) |
+| **sda_fabric_transits** | Configure fabric transits and inter-site connectivity | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_transits/README.md) |
+| **sda_fabric_virtual_networks** | Manage virtual networks and L2/L3 gateways | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_virtual_networks/README.md) |
+| **sda_fabric_devices** | Assign fabric device roles (edge, border, control plane) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_devices/README.md) |
+| **sda_host_port_onboarding** | Onboard hosts to SDA fabric | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_host_port_onboarding/README.md) |
+| **sda_fabric_multicast** | Configure multicast settings in SDA fabric | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_multicast/README.md) |
+| **sda_extranet_policies** | Manage extranet policies for inter-VN communication | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_extranet_policies/README.md) |
+| **fabric_devices_info** | SDA fabric devices information and inventory queries | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/fabric_devices_info/README.md) |
+| **wired_campus_automation** | Wired campus automation workflows | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/wired_campus_automation/README.md) |
+| **lan_automation** | LAN automation (underlay) workflows | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/lan_automation/README.md) |
 
 ### 🔍 Assurance & Monitoring
 
 | Role | Description | README |
 |------|-------------|--------|
-| **assurance_issue** | Manage and remediate network assurance issues | [📖 Guide](assurance_issue/README.md) |
-| **assurance_icap_settings** | Configure intelligent packet capture (iCAP) | [📖 Guide](assurance_icap_settings/README.md) |
-| **assurance_device_health_score_settings** | Configure health score KPI thresholds | [📖 Guide](assurance_device_health_score_settings/README.md) |
-| **path_trace** | Run path trace analysis for troubleshooting | [📖 Guide](path_trace/README.md) |
+| **assurance_issue** | Manage and remediate network assurance issues | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/assurance_issue/README.md) |
+| **assurance_icap_settings** | Configure intelligent packet capture (iCAP) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/assurance_icap_settings/README.md) |
+| **assurance_device_health_score_settings** | Configure health score KPI thresholds | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/assurance_device_health_score_settings/README.md) |
+| **path_trace** | Run path trace analysis for troubleshooting | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/path_trace/README.md) |
 
 ### 🔐 Security & Integration
 
 | Role | Description | README |
 |------|-------------|--------|
-| **ise_radius_integration** | Integrate with Cisco ISE for AAA | [📖 Guide](ise_radius_integration/README.md) |
-| **application_policy** | Manage application policies and QoS | [📖 Guide](application_policy/README.md) |
+| **ise_radius_integration** | Integrate with Cisco ISE for AAA | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/ise_radius_integration/README.md) |
+| **application_policy** | Manage application policies and QoS | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/application_policy/README.md) |
 
 ### ⚙️ Operations & Maintenance
 
 | Role | Description | README |
 |------|-------------|--------|
-| **backup_and_restore** | Backup and restore Catalyst Center configurations | [📖 Guide](backup_and_restore/README.md) |
-| **network_compliance** | Check device compliance against standards | [📖 Guide](network_compliance/README.md) |
-| **events_and_notifications** | Manage notification destinations and event subscriptions | [📖 Guide](events_and_notifications/README.md) |
-| **reports** | Generate and manage reports | [📖 Guide](reports/README.md) |
+| **backup_and_restore** | Backup and restore Catalyst Center configurations | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/backup_and_restore/README.md) |
+| **network_compliance** | Check device compliance against standards | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_compliance/README.md) |
+| **events_and_notifications** | Manage notification destinations and event subscriptions | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/events_and_notifications/README.md) |
+| **reports** | Generate and manage reports | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/reports/README.md) |
 
 ### 🔧 Access Points
 
 | Role | Description | README |
 |------|-------------|--------|
-| **accesspoint** | Configure and provision access points | [📖 Guide](accesspoint/README.md) |
-| **accesspoint_location** | Manage AP locations on floor maps | [📖 Guide](accesspoint_location/README.md) |
+| **accesspoint** | Configure and provision access points | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/accesspoint/README.md) |
+| **accesspoint_location** | Manage AP locations on floor maps | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/accesspoint_location/README.md) |
 
 ---
 
@@ -224,36 +224,36 @@ Config-generator roles extract current device/controller configurations and writ
 
 | Role | Description | README |
 |------|-------------|--------|
-| **accesspoint_config_generator** | Access Point Config Generator | [📖 Guide](accesspoint_config_generator/README.md) |
-| **accesspoint_location_config_generator** | Access Point Location Config Generator | [📖 Guide](accesspoint_location_config_generator/README.md) |
-| **application_policy_config_generator** | Application Policy Config Generator | [📖 Guide](application_policy_config_generator/README.md) |
-| **assurance_device_health_score_settings_config_generator** | Assurance Device Health Score Settings Config Generator | [📖 Guide](assurance_device_health_score_settings_config_generator/README.md) |
-| **assurance_issue_config_generator** | Assurance Issue Config Generator | [📖 Guide](assurance_issue_config_generator/README.md) |
-| **backup_and_restore_config_generator** | Backup and Restore Config Generator | [📖 Guide](backup_and_restore_config_generator/README.md) |
-| **device_credential_config_generator** | Device Credential Config Generator | [📖 Guide](device_credential_config_generator/README.md) |
-| **discovery_config_generator** | Discovery Config Generator | [📖 Guide](discovery_config_generator/README.md) |
-| **events_and_notifications_config_generator** | Events and Notifications Config Generator | [📖 Guide](events_and_notifications_config_generator/README.md) |
-| **inventory_config_generator** | Inventory Config Generator | [📖 Guide](inventory_config_generator/README.md) |
-| **ise_radius_integration_config_generator** | ISE Radius Integration Config Generator | [📖 Guide](ise_radius_integration_config_generator/README.md) |
-| **network_profile_switching_config_generator** | Network Profile Switching Config Generator | [📖 Guide](network_profile_switching_config_generator/README.md) |
-| **network_profile_wireless_config_generator** | Network Profile Wireless Config Generator | [📖 Guide](network_profile_wireless_config_generator/README.md) |
-| **network_settings_config_generator** | Network Settings Config Generator | [📖 Guide](network_settings_config_generator/README.md) |
-| **pnp_config_generator** | PnP Config Generator | [📖 Guide](pnp_config_generator/README.md) |
-| **provision_config_generator** | Provision Config Generator | [📖 Guide](provision_config_generator/README.md) |
-| **rma_config_generator** | RMA Config Generator | [📖 Guide](rma_config_generator/README.md) |
-| **sda_extranet_policies_config_generator** | SDA Extranet Policies Config Generator | [📖 Guide](sda_extranet_policies_config_generator/README.md) |
-| **sda_fabric_devices_config_generator** | SDA Fabric Devices Config Generator | [📖 Guide](sda_fabric_devices_config_generator/README.md) |
-| **sda_fabric_multicast_config_generator** | SDA Fabric Multicast Config Generator | [📖 Guide](sda_fabric_multicast_config_generator/README.md) |
-| **sda_fabric_sites_zones_config_generator** | SDA Fabric Sites Zones Config Generator | [📖 Guide](sda_fabric_sites_zones_config_generator/README.md) |
-| **sda_fabric_transits_config_generator** | SDA Fabric Transits Config Generator | [📖 Guide](sda_fabric_transits_config_generator/README.md) |
-| **sda_fabric_virtual_networks_config_generator** | SDA Fabric Virtual Networks Config Generator | [📖 Guide](sda_fabric_virtual_networks_config_generator/README.md) |
-| **sda_host_port_onboarding_config_generator** | SDA Host Port Onboarding Config Generator | [📖 Guide](sda_host_port_onboarding_config_generator/README.md) |
-| **site_config_generator** | Site Config Generator | [📖 Guide](site_config_generator/README.md) |
-| **tags_config_generator** | Tags Config Generator | [📖 Guide](tags_config_generator/README.md) |
-| **template_config_generator** | Template Config Generator | [📖 Guide](template_config_generator/README.md) |
-| **user_role_config_generator** | User Role Config Generator | [📖 Guide](user_role_config_generator/README.md) |
-| **wired_campus_automation_config_generator** | Wired Campus Automation Config Generator | [📖 Guide](wired_campus_automation_config_generator/README.md) |
-| **wireless_design_config_generator** | Wireless Design Config Generator | [📖 Guide](wireless_design_config_generator/README.md) |
+| **accesspoint_config_generator** | Access Point Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/accesspoint_config_generator/README.md) |
+| **accesspoint_location_config_generator** | Access Point Location Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/accesspoint_location_config_generator/README.md) |
+| **application_policy_config_generator** | Application Policy Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/application_policy_config_generator/README.md) |
+| **assurance_device_health_score_settings_config_generator** | Assurance Device Health Score Settings Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/assurance_device_health_score_settings_config_generator/README.md) |
+| **assurance_issue_config_generator** | Assurance Issue Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/assurance_issue_config_generator/README.md) |
+| **backup_and_restore_config_generator** | Backup and Restore Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/backup_and_restore_config_generator/README.md) |
+| **device_credential_config_generator** | Device Credential Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/device_credential_config_generator/README.md) |
+| **discovery_config_generator** | Discovery Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/discovery_config_generator/README.md) |
+| **events_and_notifications_config_generator** | Events and Notifications Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/events_and_notifications_config_generator/README.md) |
+| **inventory_config_generator** | Inventory Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/inventory_config_generator/README.md) |
+| **ise_radius_integration_config_generator** | ISE Radius Integration Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/ise_radius_integration_config_generator/README.md) |
+| **network_profile_switching_config_generator** | Network Profile Switching Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_profile_switching_config_generator/README.md) |
+| **network_profile_wireless_config_generator** | Network Profile Wireless Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_profile_wireless_config_generator/README.md) |
+| **network_settings_config_generator** | Network Settings Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/network_settings_config_generator/README.md) |
+| **pnp_config_generator** | PnP Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/pnp_config_generator/README.md) |
+| **provision_config_generator** | Provision Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/provision_config_generator/README.md) |
+| **rma_config_generator** | RMA Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/rma_config_generator/README.md) |
+| **sda_extranet_policies_config_generator** | SDA Extranet Policies Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_extranet_policies_config_generator/README.md) |
+| **sda_fabric_devices_config_generator** | SDA Fabric Devices Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_devices_config_generator/README.md) |
+| **sda_fabric_multicast_config_generator** | SDA Fabric Multicast Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_multicast_config_generator/README.md) |
+| **sda_fabric_sites_zones_config_generator** | SDA Fabric Sites Zones Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_sites_zones_config_generator/README.md) |
+| **sda_fabric_transits_config_generator** | SDA Fabric Transits Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_transits_config_generator/README.md) |
+| **sda_fabric_virtual_networks_config_generator** | SDA Fabric Virtual Networks Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_fabric_virtual_networks_config_generator/README.md) |
+| **sda_host_port_onboarding_config_generator** | SDA Host Port Onboarding Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/sda_host_port_onboarding_config_generator/README.md) |
+| **site_config_generator** | Site Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/site_config_generator/README.md) |
+| **tags_config_generator** | Tags Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/tags_config_generator/README.md) |
+| **template_config_generator** | Template Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/template_config_generator/README.md) |
+| **user_role_config_generator** | User Role Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/user_role_config_generator/README.md) |
+| **wired_campus_automation_config_generator** | Wired Campus Automation Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/wired_campus_automation_config_generator/README.md) |
+| **wireless_design_config_generator** | Wireless Design Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/roles/wireless_design_config_generator/README.md) |
 
 ---
 
@@ -333,9 +333,10 @@ Config-generator roles extract current device/controller configurations and writ
 
 ## 📞 Support
 
+- **Automation Hub Support**: For certified content, use `Create issue` from the [Cisco Catalyst Center collection page on Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/cisco/catalystcenter/).
 - **Documentation**: [Collection Docs](https://cisco-en-programmability.github.io/catalystcenter-ansible/)
-- **Issues**: [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
-- **Full Guide**: [ROLES_GUIDE.md](../ROLES_GUIDE.md)
+- **Community Issues**: [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
+- **Full Guide**: [ROLES_GUIDE.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/ROLES_GUIDE.md)
 
 ---
 

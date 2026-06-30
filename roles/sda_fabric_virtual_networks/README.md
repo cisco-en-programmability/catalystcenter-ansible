@@ -64,8 +64,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Create L3 Anchor](./images/create_l3_anchor.png)
-![Update L3 Anchor](./images/update_l3_anchor.png)
+![Create L3 Anchor](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_virtual_networks/images/create_l3_anchor.png)
+![Update L3 Anchor](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_virtual_networks/images/update_l3_anchor.png)
 
 ## Adapted Examples
 

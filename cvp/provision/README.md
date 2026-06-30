@@ -33,7 +33,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -151,7 +151,7 @@ provision_details:
 
 #### Upon successful completion, the device is assigned to a site and you will see an output similar to the following:
 
-![alt text](images/site_assignment_successful.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/site_assignment_successful.png)
 
 ```bash
 "response": [
@@ -180,7 +180,7 @@ provision_details:
 
 #### Upon successful completion the device is assigned and provisioned and you will see an output similar to the following:
 
-![alt text](images/Device_provisioned.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/Device_provisioned.png)
 
 ```yml
 "msg": "Provisioning of the device 'xx.xx.xx.xx' completed successfully.",
@@ -205,7 +205,7 @@ provision_details:
 
 #### Upon successful completion the device is assigned and provisioned and you will see an output similar to the following:
 
-![alt text](images/wlc_device_provisioned.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/wlc_device_provisioned.png)
 
 ```yml
 "msg": "Provisioning of the device 'xx.xx.xx.xx' completed successfully.",
@@ -234,7 +234,7 @@ provision_details:
 
 #### Upon a successful completion, the device is reprovisioned and you will see an output similar to the following:
 
-![alt text](images/Re_provision_successful.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/Re_provision_successful.png)
 
 ```yml
 "msg": "Re-Provision for device 'xx.xx.xx.xx' done successfully",
@@ -263,7 +263,7 @@ provision_details:
 
 #### Upon a successful completion, the device is reprovisioned and you will see an output similar to the following:
 
-![alt text](images/wlc_reprovision_successful.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/wlc_reprovision_successful.png)
 
 ```yml
 "msg": "Wireless Device 'xx.xx.xx.xx' is already provisioned.",
@@ -286,7 +286,7 @@ provision_details:
 
 #### Upon a successful completion, the device will be removed from the inventory and you will see an output similar to the following:
 
-![alt text](images/Device_unprovisioned.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/Device_unprovisioned.png)
 
 ```yml
 "msg": "Deletion done Successfully for the device 'xx.xx.xx.xx' ",
@@ -318,7 +318,7 @@ provision_details:
 
 #### Upon a successful completion, application telemetry will be enabled and you will see an output similar to the following:
 
-![alt text](images/telemetry_enabled.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/telemetry_enabled.png)
 
 ```yml
 {
@@ -359,7 +359,7 @@ provision_details:
 
 #### Upon a successful completion, application telemetry will be enabled and you will see an output similar to the following:
 
-![alt text](images/telemetry_enable_successfully_wlc.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/telemetry_enable_successfully_wlc.png)
 
 ```yml
 {
@@ -401,7 +401,7 @@ provision_details:
 
 #### Upon a successful completion, app telemetry will be disabled and you will see an output similar to the following:
 
-![alt text](images/telemetry_disabled_successfully_wired.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/telemetry_disabled_successfully_wired.png)
 
 ```yml
 {
@@ -431,7 +431,7 @@ provision_details:
 
 #### Upon a successful completion, app telemetry will be disabled and you will see an output similar to the following:
 
-![alt text](images/disable_telem_wlc_successfully.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/disable_telem_wlc_successfully.png)
 
 ```yml
 {
@@ -449,8 +449,8 @@ provision_details:
 To provision a device (Wireless Controller) with a feature template, we first need to create Network Profiles with the Wireless type, assign the corresponding site to the site where we will provision the wireless device, and then attach the desired Feature Templates to apply to that network profile.
 
 For example, we will have a network profile attached with the feature template 'CleanAir Configuration'.
-![alt text](./images/nw_profile.png)
-![alt text](./images/nw_profile_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/nw_profile.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/nw_profile_feature_template.png)
 
 
 #### Input (YAML)
@@ -467,10 +467,10 @@ provision_details:
     force_provisioning: True
 ```
 + The UI workflow:
-![alt text](images/provision_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/provision_feature_template.png)
 
 #### Upon a successful completion, the configuration from the feature template is automatically pushed down to the device
-![alt text](images/verify_provision_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/verify_provision_feature_template.png)
 
 + The playbook return:
 ```yml
@@ -485,7 +485,7 @@ msg:
 ### **Notes**:
 When calling with the above input, not only is `App Name: Model Config Provisioning` provisioned successfully, but other provisioning configurations such as `App Name: Fabric Provisioning, Device Provisioning, AP Provisioning` are also successful.
 
-![alt text](images/history_provision_feature_template.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/history_provision_feature_template.png)
 
 #### If we want to skip AP provisioning during WLC provisioning, we need to provide the `skip_ap_provision` parameter with the value `True`.
 
@@ -507,10 +507,10 @@ provision_details:
 
 + The UI workflow:
 
-![alt text](images/skip_ap_provision.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/skip_ap_provision.png)
 
 #### Upon successful completion, the configuration will be pushed to the device similar to the provisioning with the previous feature template; however, there will be no provisioning action for the AP (check `Last Provisioned`).
-![alt text](images/verify_skip_ap_provision.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/verify_skip_ap_provision.png)
 
 + The playbook return:
 ```yml
@@ -526,7 +526,7 @@ msg:
 
 To configure a wireless controller with AP authorization policies while skipping immediate AP provisioning.
 
-![alt text](./images/skip_ap_provision.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/skip_ap_provision.png)
 
 #### Input (YAML)
 ```yml
@@ -566,8 +566,8 @@ To provision both the wireless controller and all associated APs with authorizat
 
 **prerequisite**: AP authorization list must exist in Catalyst Center before provisioning.This list can be created under **Design > Network Settings > Wireless > Security Settings > AP Authorization List**.
 
-![alt text](./images/Ap_authorization_list.png)
-![alt text](./images/no_skip_provision.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/Ap_authorization_list.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/no_skip_provision.png)
 
 #### Input (YAML)
 ```yml
@@ -609,7 +609,7 @@ Rolling AP upgrade allows you to upgrade Access Points in phases, minimizing net
 
 **prerequisite**: Wireless controller must be added to inventory and AP locations must be configured.
 
-![alt text](./images/rolling_ap_upgrade.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/provision/images/rolling_ap_upgrade.png)
 
 #### Input (YAML)
 ```yml

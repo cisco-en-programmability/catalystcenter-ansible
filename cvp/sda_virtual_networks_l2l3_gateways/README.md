@@ -63,7 +63,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             anchored_site_name: "Global/India"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/create_l3_anchor.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/create_l3_anchor.png)
   
   * Parameter Explanation:
     ```yaml
@@ -85,7 +85,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
               - site_name_hierarchy: "Global/Vietnam"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/update_l3_anchor.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/update_l3_anchor.png)
 
   + Example input config remove all fabric site:
     ```yaml
@@ -129,7 +129,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
                   fabric_type: "fabric_site"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/create_bulk_l3.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/create_bulk_l3.png)
 
     \* If we want create parallel layer3, we can use:
       ```yaml
@@ -160,7 +160,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
                 - site_name_hierarchy: "Global/dat2"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/update_bulk_l3.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/update_bulk_l3.png)
 
   + Example config for `delete` multiple layer3:
     ```yaml
@@ -174,7 +174,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             - vn_name: "vn_dat_non_exist"
     ```
     module return message:
-    ![alt text](./images/delete_layer3_bulk.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/delete_layer3_bulk.png)
 
 ### 2. Layer 2 Fabric VLANs
   #### a. Create layer2
@@ -192,7 +192,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             traffic_type: "DATA"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/create_l2.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/create_l2.png)
 
   * Parameter Explanation:
     ```yaml
@@ -220,7 +220,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             fabric_enabled_wireless: true
     ```
     mapping config to UI Actions:
-    ![alt text](./images/update_l2.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/update_l2.png)
 
   + If want to update the assigned fabric zones to empty, need to try deleting Layer 2 with the specified zone:
     ```yaml
@@ -362,7 +362,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             traffic_type: "DATA"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/create_anycast_gw.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/create_anycast_gw.png)
 
   + Example input config (2):
     ```yaml
@@ -377,7 +377,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
             traffic_type: "DATA"
     ```
     mapping config to UI Actions:
-    ![alt text](./images/create_anycast_gw_2.png)
+    ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/create_anycast_gw_2.png)
 
   * Parameter Explanation:
     ```yaml
@@ -639,7 +639,7 @@ This example can be reused and customized to your requirement and increase the r
   ```
 
   #### c. UI Action
-  ![alt text](./images/scale_site_and_fbsite.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/scale_site_and_fbsite.png)
 
 ### 2. Create a Scale layer3 and Scale layer2
   #### a. JINJA Template
@@ -798,7 +798,7 @@ This example can be reused and customized to your requirement and increase the r
   ```
 
   #### d. UI Action
-  ![alt text](./images/scale_l2_and_l3.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_virtual_networks_l2l3_gateways/images/scale_l2_and_l3.png)
 
 ### 3. Delete a Scale layer3 and Scale layer2
   Similar to Create, change the destination playbook to: `./cvp/network_settings/playbook/delete_network_settings_playbook.yml`
@@ -915,7 +915,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

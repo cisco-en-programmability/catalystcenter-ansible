@@ -6,7 +6,7 @@ You can configure and manage credentials for network devices such as switches, r
 These workflows help you reduce risk and enhance security while managing your network. Below are the key elements and processes in Device Credential Workflow Manager.
 
 Device Credentials Figure: It consists of two parts: Network Hierarchy and Manage Credentials.
-![Alt text](./images/credential.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/credential.png)
 
 Network Hierarchy: Specifies where the credential will be applied.
 Manage Credentials:
@@ -109,12 +109,12 @@ catalyst_center_hosts:
   **Mapping to UI action**:
   - Design -> Network Settings -> Device Credentials -> Manage Credentials
 
-  ![Alt text](./images/manage_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/manage_creden.png)
 
 
   - Enter data to create new credential
 
-  ![Alt text](./images/create_cli.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/create_cli.png)
 
   **Purpose**:
   - Create new device credentials.
@@ -188,12 +188,12 @@ device_credentials:
   **Mapping to UI action**:
   - Design -> Network Settings -> Device Credentials -> Manage Credentials
 
-  ![Alt text](./images/manage_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/manage_creden.png)
 
 
   - Enter data to update existing credentials
 
-  ![Alt text](./images/create_cli.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/create_cli.png)
 
   **Purpose**:
   - Modify existing credentials (e.g., change passwords).
@@ -240,12 +240,12 @@ device_credentials:
   **Mapping to UI action**:
   - Design -> Network Settings -> Device Credentials -> Manage Credentials -> Focus -> System
 
-  ![Alt text](./images/system_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/system_creden.png)
 
 
   - Select The Credential To Delete -> Go To The Three Dots -> Select Delete
 
-  ![Alt text](./images/delete_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/delete_creden.png)
 
   **Purpose**:
     - Remove credentials from Catalyst Center.
@@ -296,7 +296,7 @@ device_credentials:
   **Mapping to UI action**:
   - Design -> Network Settings -> Device Credentials -> Select Site -> Select Credential Type -> Save
 
-  ![Alt text](./images/assign_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/assign_creden.png)
 
   **Purpose**:
     - Assign credentials to sites.
@@ -327,12 +327,12 @@ device_credentials:
     **Mapping to UI action**:
   - Design -> Network Settings -> Device Credentials -> Manage Credentials -> Focus -> Current site
 
-  ![Alt text](./images/manage_current.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/manage_current.png)
 
 
   - Select The Credential To Apply -> Go To The Three Dots -> Select Apply
 
-  ![Alt text](./images/apply_creden.png)
+  ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_credentials/images/apply_creden.png)
 
   **Purpose**:
     - Make updates to credentials, i.e., reset passwords, etc., and apply to applicable sites and all the devices on that site.
@@ -922,7 +922,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

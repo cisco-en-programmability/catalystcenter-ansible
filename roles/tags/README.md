@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Tag UI Page](./images/tag_UI_page.png)
-![Create tag](./images/create_tag.png)
+![Tag UI Page](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/tags/images/tag_UI_page.png)
+![Create tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/tags/images/create_tag.png)
 
 ## Adapted Examples
 

@@ -68,7 +68,6 @@ build_ignore:
 
   - Pipfile
   - Pipfile.lock
-  - requirements.txt
   - test-requirements.txt
 
   - "*.tar.gz"

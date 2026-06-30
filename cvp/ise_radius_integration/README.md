@@ -67,7 +67,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         timeout: 4
   ```
   Mapping Config to UI Actions:
-  ![alt text](./images/aaa_full_config.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/aaa_full_config.png)
 
   * It also can be add with minimal config, for example (default: authentication_port: 1812, accounting_port: 1813, retries: 3, timeout: 4):
   ```yaml
@@ -89,7 +89,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         timeout: 4
   ```
   mapping config to UI Actions:
-  ![alt text](./images/edit_aaa.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/edit_aaa.png)
 
 2. ### Add/update ISE server
   Add ISE server with full config, for example input config:
@@ -120,7 +120,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         ise_integration_wait_time: 60
   ```
   mapping config to UI Actions:
-  ![alt text](./images/add_ise.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/add_ise.png)
 
   * It also can be add with minimal config, for example (default: authentication_port: 1812, accounting_port: 1813, retries: 3, timeout: 4, pxgrid_enabled: True, use_dnac_cert_for_pxgrid: False):
   ```yaml
@@ -157,10 +157,10 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
 
   ```
   mapping config to UI Actions:
-  ![alt text](./images/edit_ise.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/edit_ise.png)
 
   * If the provided credentials are invalid, ISE will return a Fail status.
-  ![alt text](./images/ise_fail.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/ise_fail.png)
   
 3. ### Add combined bulk ISE and AAA.
   Add combine the ISE and AAA server with a single input, for example input config.
@@ -208,7 +208,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         ise_integration_wait_time: 60
   ```
   mapping config to UI Actions:
-  ![alt text](./images/add_combine_bulk_ise_aaa.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/add_combine_bulk_ise_aaa.png)
 
   + Explain values:
   ```yaml
@@ -236,7 +236,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
       - server_ip_address: 172.23.241.229 # ISE
   ```
   mapping config to UI Actions:
-  ![alt text](./images/delete_bulk_ise_aaa.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/ise_radius_integration/images/delete_bulk_ise_aaa.png)
 
   * If the ISE/AAA server has already been assigned to a previous task (such as being associated with Network Settings, etc.), it will return a failure accompanied by a detailed error message in playbook; if the Authentication and Policy Server does not exist, return "x.x.x.x: Authentication and Policy Server not found"
 
@@ -346,7 +346,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Image-3](./images/image-3.png)
-![Fabric transit configuration in Cisco Catalyst Center UI](./images/image-1.png)
+![Image-3](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_transits/images/image-3.png)
+![Fabric transit configuration in Cisco Catalyst Center UI](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_transits/images/image-1.png)
 
 ## Adapted Examples
 

@@ -276,7 +276,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -517,37 +517,37 @@ response:
 
 #### **b. Mapping config to UI Actions.**
 - Select Workflows to enter the workflows page
-![alt text](./images/configuretion_ap_1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_1.png)
 - On the workflows page, search for "Configure Access Points" -> Select the task "Configure Access Points".
-![alt text](./images/configuretion_ap_2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_2.png)
 - On the Get Started page, enter Task Name -> Next.
-![alt text](./images/configuretion_ap_3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_3.png)
 - Perform some options for the Configurre Access Points section including Radio and Steps.
-![alt text](./images/configuretion_ap_4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_4.png)
 - On the Selected Access Points page, select the Access Point you want to configure.
-![alt text](./images/configuretion_ap_5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_5.png)
 - On the Selected Access Points page, select the Access Point you want to configure -> Next.
-![alt text](./images/configuretion_ap_6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_6.png)
 - On the Configure AP Parameters page, perform the options you want to configure -> Next.
-![alt text](./images/configuretion_ap_7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_7.png)
 - On the Configure 5 GHZ Radio Rarameters page, perform the options you want to configure (This page is only displayed if you select configure 5 GHz) -> Next.
-![alt text](./images/configuretion_ap_8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_8.png)
 - On the Configure 2.4 GHZ Radio Rarameters page, perform the options you want to configure (This page is only displayed if you select configure 2.4 GHz) -> Next. Note, for Access Points that cannot configure 2.4 GHZ Radio Rarameters, this page is still displayed but you cannot configure.
-![alt text](./images/configuretion_ap_9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_9.png)
 - On the Configure 6 GHZ Radio Rarameters page, perform the options you want to configure (This page is only displayed if you choose to configure 6 GHz) -> Next. Note, for Access Points that cannot configure 6 GHZ Radio Rarameters, this page is still displayed but you cannot configure.
-![alt text](./images/configuretion_ap_10.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_10.png)
 - On the Configure Dual-Band (XOR) Radio Rarameters page, perform the options you want to configure (This page is only displayed if you choose to configure Dual-Band (XOR) ) -> Next.
-![alt text](./images/configuretion_ap_11.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_11.png)
 - On the Configure Tri-Radio Rarameters page, perform the options you want to configure (This page is only displayed if you choose to configure Tri-Radio ) -> Next.
-![alt text](./images/configuretion_ap_12.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_12.png)
 - On the Save As Reusable Template page, enter Template Name -> Next to save the task name.
-![alt text](./images/configuretion_ap_13.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_13.png)
 - On the Summary page, check the selected parameters -> Next
-![alt text](./images/configuretion_ap_14.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_14.png)
 A- t the Provision Schedule, enter Task Name -> Configure.
-![alt text](./images/configuretion_ap_15.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_15.png)
 - Finally, check Preview Configuration -> Deploy.
-![alt text](./images/configuretion_ap_16.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/accesspoints_configuration_provisioning/images/configuretion_ap_16.png)
 
 ### 2. Creating Bulk Accesspoint Configuration using JINJA template and using the playbook:
 #### a. JINJA Template
