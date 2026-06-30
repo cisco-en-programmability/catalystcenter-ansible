@@ -73,7 +73,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -136,9 +136,9 @@ Validate the input file against the workflow schema before execution:
 
 ## References
 
-- [SDA Host Onboarding Workflow](../sda_hostonboarding/README.md)
-- [SDA Fabric Device Roles Workflow](../sda_fabric_device_roles/README.md)
-- [Provision Workflow](../provision/README.md)
+- [SDA Host Onboarding Workflow](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_hostonboarding/README.md)
+- [SDA Fabric Device Roles Workflow](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_device_roles/README.md)
+- [Provision Workflow](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/provision/README.md)
 ## VARS_FILE_PATH Path Resolution
 
 Ansible resolves `VARS_FILE_PATH` relative to the playbook directory, not the current working directory.

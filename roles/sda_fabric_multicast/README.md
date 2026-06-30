@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Update SDA Multicasts Example](./images/update_sda_multicast.png)
-![Delete SDA Multicasts Example](./images/delete_sda_multicast.png)
+![Update SDA Multicasts Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_multicast/images/update_sda_multicast.png)
+![Delete SDA Multicasts Example](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_fabric_multicast/images/delete_sda_multicast.png)
 
 ## Adapted Examples
 

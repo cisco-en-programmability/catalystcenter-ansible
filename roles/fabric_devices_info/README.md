@@ -65,7 +65,7 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Example Fabric Device Info](./images/example_fabric_device_info.png)
+![Example Fabric Device Info](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/fabric_devices_info/images/example_fabric_device_info.png)
 
 ## Adapted Examples
 

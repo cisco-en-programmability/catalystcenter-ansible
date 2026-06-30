@@ -64,8 +64,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Nw Profile](./images/nw_profile.png)
-![Nw Profile Feature Template](./images/nw_profile_feature_template.png)
+![Nw Profile](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/provision/images/nw_profile.png)
+![Nw Profile Feature Template](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/provision/images/nw_profile_feature_template.png)
 
 ## Adapted Examples
 

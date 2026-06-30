@@ -69,7 +69,7 @@ You can save commonly used credentials in Catalyst Center for easier access acro
 
 ## Discovery single device
 
-![Alt text](./images/discovery_2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_2.png)
 
 #### Example input config:
 
@@ -92,7 +92,7 @@ discovery_details:
 
 ## Discovery IP Address Range
 
-![Alt text](./images/discovery_3.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_3.png)
 
 #### Example input config:
 
@@ -108,7 +108,7 @@ discovery_details:
 
 ## Discovery Multiple IP Address Ranges
 
-![Alt text](./images/discovery_4.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_4.png)
 
 #### Example input config:
 
@@ -125,7 +125,7 @@ discovery_details:
 
 ## Discovery Devices from a CDP Seed
 
-![Alt text](./images/discovery_5.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_5.png)
 #### Example input config:
 
 ```yaml
@@ -142,7 +142,7 @@ discovery_details:
 ```
 
 ## Discovery Devices from LLDP
-![Alt text](./images/discovery_6.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_6.png)
 #### Example input config:
 
 ```yaml
@@ -158,7 +158,7 @@ discovery_details:
 ```
 
 ## Discovery Devices from CIDR 
-![Alt text](./images/discovery_7.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_discovery/images/discovery_7.png)
 #### Example input config:
 
 ```yaml
@@ -231,7 +231,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

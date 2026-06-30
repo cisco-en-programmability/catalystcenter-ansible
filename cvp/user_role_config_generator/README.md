@@ -191,7 +191,7 @@ Create and activate a Python virtual environment, then install dependencies:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ansible-galaxy collection install ansible.utils
 ```

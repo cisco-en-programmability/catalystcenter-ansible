@@ -37,7 +37,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -188,7 +188,7 @@ assurance_issues_settings:
 
 #### Upon successful completion, the issue will be created and you will see an output similar to the following:
 
-![alt text](./images/User_def_issue_created.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/User_def_issue_created.png)
 
 ```yaml
 "msg": {
@@ -257,7 +257,7 @@ assurance_issues_settings:
 
 #### Upon successful completion, the issue details will be updated and you will see an output similar to the following:
 
-![alt text](./images/User_def_issue_updated.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/User_def_issue_updated.png)
 
 ```yaml
 "msg": {
@@ -317,7 +317,7 @@ assurance_issues_settings:
 
 #### Upon successful completion, issue will be removed from Cisco Catalyst Center and you will see an output similar to the following:
 
-![alt text](./images/User_def_issue_deleted.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/User_def_issue_deleted.png)
 
 ```yaml
 "msg": {
@@ -358,10 +358,10 @@ assurance_issues_settings:
 #### Upon successful completion, the issue will be updated in Cisco Catalyst Center and you will see an output similar to the following:
 
 #### Before Updating
-![alt text](./images/system_def_issu_before_update.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/system_def_issu_before_update.png)
 
 #### After Updating
-![alt text](./images/System_def_issu_after_update.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/System_def_issu_after_update.png)
 
 ```yaml
 "msg": {
@@ -414,10 +414,10 @@ In this example, we are resolving the assurance issue named **"Fabric BGP sessio
 **Note**: You can view resolved issues in Cisco Catalyst Center by navigating to **Assurance > Dashboards > Issue and Events**. In the **Issues** dropdown, select the **Resolved** option to see all the resolved issues.
 
 Assurance issue Landing page:
-![alt text](./images/Resolve_issue_landing_page.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/Resolve_issue_landing_page.png)
 
 Assurance issue Resolved page for specific issue:
-![alt text](./images/Resolved_issue_listing.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/Resolved_issue_listing.png)
 
 ```yaml
 "msg": "Issue resolved successfully. '[{'successfulIssueIds': ['b357feeb-67ad-4f1b-9106-16627dd4004b']}]'.",
@@ -483,10 +483,10 @@ In this example, we are ignoring the assurance issue named **"PKI - Non authorit
 #### Upon successful completion, the issue will be ignored in Cisco Catalyst Center and you will see an output similar to the following:
 
 Assurance ignore issue Landing page:
-![alt text](./images/Ignore_issue_landing_page.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/Ignore_issue_landing_page.png)
 
 Assurance ignore issue page for specific issue:
-![alt text](./images/Ignore_issue_listing.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_issues_management/images/Ignore_issue_listing.png)
 
 ```yaml
 "msg": "Find the list of issue ids: [\n    \"2764b515-c5d5-46bb-bcbf-74d49d6b6656\",\n    \"1b4b0c4f-cc2e-4de4-aaab-f35ce4474cb9\",\n    \"dcaf06e3-64aa-4cc8-a534-11a40e9538cd\"\n]Issue ignored successfully. '[{'successfulIssueIds': ['1b4b0c4f-cc2e-4de4-aaab-f35ce4474cb9', '2764b515-c5d5-46bb-bcbf-74d49d6b6656', 'dcaf06e3-64aa-4cc8-a534-11a40e9538cd']}]'.",

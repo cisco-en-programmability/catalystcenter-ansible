@@ -65,8 +65,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Configuretion AP 1](./images/configuretion_ap_1.png)
-![Configuretion AP 2](./images/configuretion_ap_2.png)
+![Configuretion AP 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/accesspoint/images/configuretion_ap_1.png)
+![Configuretion AP 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/accesspoint/images/configuretion_ap_2.png)
 
 ## Adapted Examples
 
