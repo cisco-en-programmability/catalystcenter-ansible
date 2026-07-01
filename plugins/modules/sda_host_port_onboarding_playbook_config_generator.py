@@ -140,7 +140,8 @@ options:
                 - Fabric site hierarchical paths to extract port assignments.
                 - Site names must match exact hierarchical paths in Catalyst Center
                   (case-sensitive).
-                - Extracts port assignments for all devices within specified fabric sites.
+                - Extracts port assignments for all devices within specified fabric sites
+                  and descendant fabric zones.
                 - For example, "Global/USA/San Jose/Building1"
                 type: str
                 required: false
@@ -253,7 +254,8 @@ options:
                 - Fabric site hierarchical paths to extract port channels.
                 - Site names must match exact hierarchical paths in Catalyst Center
                   (case-sensitive).
-                - Extracts port channel configurations for all devices within specified fabric sites.
+                - Extracts port channel configurations for all devices within specified
+                  fabric sites and descendant fabric zones.
                 - For example, "Global/USA/San Jose/Building1"
                 type: str
                 required: false
@@ -337,7 +339,8 @@ options:
             - Filters for wireless SSID configuration extraction.
             - Each list entry targets one or more fabric sites for wireless SSID to VLAN
               mapping extraction.
-            - Extracts only wireless SSID to VLAN mappings for specified fabric site hierarchies.
+            - Extracts only wireless SSID to VLAN mappings for specified fabric site
+              hierarchies. Fabric zones are not supported for wireless SSID extraction.
             - Fabric site names must be full hierarchical paths (case-sensitive).
             - If not specified when component included in components_list, extracts
               all wireless SSID mappings across all fabric sites.
@@ -351,6 +354,8 @@ options:
                 - Site names must match exact hierarchical paths in Catalyst Center
                   (case-sensitive).
                 - Extracts VLAN to SSID mappings for specified fabric sites.
+                - Fabric zones are skipped because wireless SSID extraction is supported
+                  only for fabric sites.
                 - For example, ["Global/USA/San Jose/Building1", "Global/USA/RTP/Building2"]
                 type: list
                 elements: str
@@ -836,7 +841,16 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_filters_schema()
-        self.fabric_site_name_to_id_mapping, self.fabric_site_id_to_name_mapping = self.get_fabric_site_name_to_id_mapping()
+        self.fabric_site_name_to_id_mapping, self.fabric_site_id_to_name_mapping = (
+            self.get_fabric_site_name_to_id_mapping()
+        )
+        (
+            self.fabric_site_and_zone_name_to_id_mapping,
+            self.fabric_site_and_zone_id_to_name_mapping,
+        ) = self.get_fabric_site_and_zone_name_to_id_mapping(
+            self.fabric_site_name_to_id_mapping,
+            self.fabric_site_id_to_name_mapping,
+        )
         self.module_name = "sda_host_port_onboarding_workflow_manager"
 
     def validate_input(self):
@@ -998,16 +1012,172 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             }
         }
 
+    def get_fabric_site_and_zone_name_to_id_mapping(
+        self, fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping
+    ):
+        """
+        Build a bidirectional mapping for fabric sites and fabric zones.
+
+        The shared helper maps fabric sites from the sda.get_fabric_sites API.
+        Host port onboarding configurations can also be attached to fabric zones,
+        so this module augments the mapping with sda.get_fabric_zones results.
+
+        Args:
+            fabric_site_name_to_id_mapping (dict): Existing fabric-site hierarchy to
+                fabric ID mapping.
+            fabric_site_id_to_name_mapping (dict): Existing fabric-site ID to
+                hierarchy mapping.
+
+        Returns:
+            tuple: (fabric_name_to_id_mapping, fabric_id_to_name_mapping)
+        """
+        fabric_site_and_zone_name_to_id_mapping = dict(fabric_site_name_to_id_mapping)
+        fabric_site_and_zone_id_to_name_mapping = dict(fabric_site_id_to_name_mapping)
+
+        self.log(
+            "Retrieving fabric zones to include zone-level host port onboarding "
+            "configurations under fabric site filters.",
+            "DEBUG",
+        )
+
+        try:
+            fabric_zones = self.execute_get_with_pagination(
+                api_family="sda",
+                api_function="get_fabric_zones",
+                params={},
+            )
+        except Exception as e:
+            self.log(
+                "Unable to retrieve fabric zones. Continuing with fabric site "
+                "mapping only. Error: {0}".format(e),
+                "WARNING",
+            )
+            return (
+                fabric_site_and_zone_name_to_id_mapping,
+                fabric_site_and_zone_id_to_name_mapping,
+            )
+
+        if not fabric_zones:
+            self.log(
+                "No fabric zones found. Fabric site mapping will be used as-is.",
+                "INFO",
+            )
+            return (
+                fabric_site_and_zone_name_to_id_mapping,
+                fabric_site_and_zone_id_to_name_mapping,
+            )
+
+        zone_site_ids = [
+            fabric_zone.get("siteId")
+            for fabric_zone in fabric_zones
+            if fabric_zone.get("siteId")
+        ]
+        site_id_name_mapping = self.get_site_id_name_mapping(zone_site_ids)
+
+        for fabric_zone in fabric_zones:
+            fabric_zone_id = fabric_zone.get("id")
+            site_id = fabric_zone.get("siteId")
+
+            if not fabric_zone_id or not site_id:
+                self.log(
+                    "Skipping fabric zone with missing IDs - fabric_zone_id: "
+                    "{0}, site_id: {1}".format(fabric_zone_id, site_id),
+                    "WARNING",
+                )
+                continue
+
+            site_name = site_id_name_mapping.get(site_id)
+            if not site_name:
+                self.log(
+                    "Skipping fabric zone '{0}' because site hierarchy was not "
+                    "found for site ID '{1}'.".format(fabric_zone_id, site_id),
+                    "WARNING",
+                )
+                continue
+
+            existing_fabric_id = fabric_site_and_zone_name_to_id_mapping.get(site_name)
+            if existing_fabric_id and existing_fabric_id != fabric_zone_id:
+                self.log(
+                    "Fabric hierarchy '{0}' is already mapped to fabric ID '{1}'. "
+                    "Keeping existing mapping and skipping zone ID '{2}'.".format(
+                        site_name, existing_fabric_id, fabric_zone_id
+                    ),
+                    "WARNING",
+                )
+                continue
+
+            fabric_site_and_zone_name_to_id_mapping[site_name] = fabric_zone_id
+            fabric_site_and_zone_id_to_name_mapping[fabric_zone_id] = site_name
+            self.log(
+                "Mapped fabric zone hierarchy '{0}' to fabric zone ID '{1}'.".format(
+                    site_name, fabric_zone_id
+                ),
+                "DEBUG",
+            )
+
+        self.log(
+            "Fabric site and zone bidirectional mapping completed. Total fabric "
+            "hierarchies mapped: {0}".format(
+                len(fabric_site_and_zone_name_to_id_mapping)
+            ),
+            "INFO",
+        )
+        return (
+            fabric_site_and_zone_name_to_id_mapping,
+            fabric_site_and_zone_id_to_name_mapping,
+        )
+
+    def get_fabric_site_names_with_descendant_zones(self, fabric_site_name):
+        """
+        Return a fabric hierarchy and any descendant fabric zones.
+
+        Descendants are matched with '<fabric_site_name>/' so siblings with a
+        common text prefix are not included.
+        """
+        if not fabric_site_name:
+            return []
+
+        fabric_site_name = str(fabric_site_name).rstrip("/")
+        descendant_prefix = "{0}/".format(fabric_site_name)
+        matched_fabric_site_names = []
+
+        for mapped_fabric_site_name in self.fabric_site_and_zone_name_to_id_mapping:
+            if (
+                mapped_fabric_site_name == fabric_site_name
+                or mapped_fabric_site_name.startswith(descendant_prefix)
+            ):
+                matched_fabric_site_names.append(mapped_fabric_site_name)
+
+        if not matched_fabric_site_names:
+            self.log(
+                "Warning: Fabric site name '{0}' and its descendant fabric "
+                "zones were not found in cached mapping. Skipping this fabric "
+                "hierarchy.".format(fabric_site_name),
+                "WARNING",
+            )
+            return []
+
+        self.log(
+            "Expanded fabric hierarchy '{0}' to {1} fabric hierarchy value(s): "
+            "{2}".format(
+                fabric_site_name,
+                len(matched_fabric_site_names),
+                matched_fabric_site_names,
+            ),
+            "DEBUG",
+        )
+        return matched_fabric_site_names
+
     def get_fabric_site_names_and_device_details_mapping(self, component_specific_filters):
         """
         Extracts fabric site name hierarchies and per-site device detail
         mappings from component-specific filter entries.
 
         Iterates over each filter entry in the provided
-        component_specific_filters list, collecting fabric site hierarchical
-        names into an ordered list and building dictionaries that map each
-        fabric site name to sets of device management IP addresses, serial
-        numbers, and hostnames specified for that site.
+        component_specific_filters list, expands the fabric site hierarchy to
+        include descendant fabric zones, and builds dictionaries that map each
+        matched fabric hierarchy to sets of device management IP addresses,
+        serial numbers, and hostnames specified for the input site.
 
         Downstream filtering applies AND logic across filter types: when
         multiple device filter types (device_ips, serial_numbers, hostnames)
@@ -1039,8 +1209,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         Returns:
             tuple: A four-element tuple containing:
                 - fabric_site_name_hierarchies (list[str]): Ordered list of fabric site
-                  hierarchical names extracted from the filter entries, preserving the
-                  input order.
+                  and zone hierarchical names matched from the filter entries.
                 - fabric_site_name_device_ip_mapping (dict[str, set[str]]): Dictionary
                   mapping each fabric site hierarchical name to a set of device management
                   IP addresses. An empty set indicates no IP-based device filtering for
@@ -1076,10 +1245,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 f"serial_numbers={serial_numbers}, hostnames={hostnames}.",
                 "DEBUG"
             )
-            fabric_site_name_hierarchies.append(fabric_site_name)
-            fabric_site_name_device_ip_mapping[fabric_site_name] = set(device_ips)
-            fabric_site_name_serial_number_mapping[fabric_site_name] = set(serial_numbers)
-            fabric_site_name_hostname_mapping[fabric_site_name] = set(hostnames)
+            fabric_site_names = self.get_fabric_site_names_with_descendant_zones(
+                fabric_site_name
+            )
+            for matched_fabric_site_name in fabric_site_names:
+                fabric_site_name_hierarchies.append(matched_fabric_site_name)
+                fabric_site_name_device_ip_mapping[matched_fabric_site_name] = set(device_ips)
+                fabric_site_name_serial_number_mapping[matched_fabric_site_name] = set(serial_numbers)
+                fabric_site_name_hostname_mapping[matched_fabric_site_name] = set(hostnames)
 
         self.log(
             f"Completed extraction of fabric site name hierarchies and device detail mappings. "
@@ -1200,8 +1373,8 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
         if component_specific_filters:
             self.log(
-                "Building fabric name to site ID mapping from cached "
-                "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
+                "Building fabric name to site or zone ID mapping from cached "
+                "fabric_site_and_zone_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
             (
@@ -1214,10 +1387,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
-                f"{fabric_site_name_hierarchies}. Resolving to fabric site IDs.",
+                f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
                 "DEBUG"
             )
 
+            seen_fabric_ids = set()
             for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
@@ -1225,7 +1399,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"'{fabric_site_name_hierarchy}' for port assignments.",
                     "DEBUG"
                 )
-                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(fabric_site_name_hierarchy)
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -1235,6 +1409,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         "WARNING"
                     )
                     continue
+                if fabric_id in seen_fabric_ids:
+                    self.log(
+                        f"Fabric ID '{fabric_id}' already added for port assignments. "
+                        f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
+                        "DEBUG"
+                    )
+                    continue
+                seen_fabric_ids.add(fabric_id)
                 fabric_ids.append(fabric_id)
                 self.log(
                     f"Resolved fabric site name '{fabric_site_name_hierarchy}' "
@@ -1246,12 +1428,17 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         else:
             self.log(
                 "No fabric site filters provided. Using all "
-                f"{len(self.fabric_site_id_to_name_mapping)} cached fabric site IDs for "
+                f"{len(self.fabric_site_and_zone_id_to_name_mapping)} cached fabric site and zone IDs for "
                 "complete port assignment retrieval.",
                 "DEBUG"
             )
-            fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
-
+            fabric_ids = list(self.fabric_site_and_zone_id_to_name_mapping.keys())
+        self.log(
+            "fabric_site_and_zone_id_to_name_mapping: {0}".format(
+                self.fabric_site_and_zone_id_to_name_mapping
+            ),
+            "DEBUG"
+        )
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
             "INFO"
@@ -1383,7 +1570,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 management_ip = device_info.get("managementIpAddress", "")
                 serial_number = device_info.get("serialNumber", "")
                 hostname = device_info.get("hostname", "")
-                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
+                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(fabric_id)
 
                 # ----------------------------------------------------------
                 # Device filter evaluation (AND logic across filter types).
@@ -1571,8 +1758,8 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
         if component_specific_filters:
             self.log(
-                "Building fabric name to site ID mapping from cached "
-                "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
+                "Building fabric name to site or zone ID mapping from cached "
+                "fabric_site_and_zone_id_to_name_mapping for filter-based fabric ID resolution.",
                 "DEBUG"
             )
             (
@@ -1585,10 +1772,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
-                f"{fabric_site_name_hierarchies}. Resolving to fabric site IDs.",
+                f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
                 "DEBUG"
             )
 
+            seen_fabric_ids = set()
             for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
@@ -1596,7 +1784,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"'{fabric_site_name_hierarchy}' for port channels.",
                     "DEBUG"
                 )
-                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(fabric_site_name_hierarchy)
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -1606,6 +1794,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         "WARNING"
                     )
                     continue
+                if fabric_id in seen_fabric_ids:
+                    self.log(
+                        f"Fabric ID '{fabric_id}' already added for port channels. "
+                        f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
+                        "DEBUG"
+                    )
+                    continue
+                seen_fabric_ids.add(fabric_id)
                 fabric_ids.append(fabric_id)
                 self.log(
                     f"Resolved fabric site name '{fabric_site_name_hierarchy}' "
@@ -1616,11 +1812,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 )
         else:
             self.log(
-                f"No fabric site filters provided. Using all {len(self.fabric_site_id_to_name_mapping)} "
-                f"cached fabric site IDs for complete port channel retrieval.",
+                f"No fabric site filters provided. Using all {len(self.fabric_site_and_zone_id_to_name_mapping)} "
+                f"cached fabric site and zone IDs for complete port channel retrieval.",
                 "DEBUG"
             )
-            fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
+            fabric_ids = list(self.fabric_site_and_zone_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
@@ -1753,7 +1949,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 management_ip = device_info.get("managementIpAddress", "")
                 serial_number = device_info.get("serialNumber", "")
                 hostname = device_info.get("hostname", "")
-                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
+                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(fabric_id)
 
                 # ----------------------------------------------------------
                 # Device filter evaluation (AND logic across filter types).
@@ -1947,18 +2143,22 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 "DEBUG"
             )
 
-            fabric_site_name_hierarchies = [
-                site
-                for item in component_specific_filters
-                for site in item.get("fabric_site_name_hierarchy", [])
-            ]
+            fabric_site_name_hierarchies = []
+            for item in component_specific_filters:
+                fabric_site_names = item.get("fabric_site_name_hierarchy", [])
+                if isinstance(fabric_site_names, str):
+                    fabric_site_names = [fabric_site_names]
+                for fabric_site_name in fabric_site_names:
+                    if fabric_site_name:
+                        fabric_site_name_hierarchies.append(str(fabric_site_name).rstrip("/"))
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
-                f"{fabric_site_name_hierarchies}. Resolving to fabric site IDs.",
+                f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
                 "DEBUG"
             )
 
+            seen_fabric_ids = set()
             for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
@@ -1972,10 +2172,19 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
                         f"(hierarchy {hierarchy_index}/"
                         f"{len(fabric_site_name_hierarchies)}) not found in cached "
-                        "mapping. Skipping this fabric site for wireless SSIDs.",
+                        "fabric site mapping. Fabric zones are not supported for "
+                        "wireless SSID extraction. Skipping this hierarchy.",
                         "WARNING"
                     )
                     continue
+                if fabric_id in seen_fabric_ids:
+                    self.log(
+                        f"Fabric ID '{fabric_id}' already added for wireless SSIDs. "
+                        f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
+                        "DEBUG"
+                    )
+                    continue
+                seen_fabric_ids.add(fabric_id)
                 fabric_ids.append(fabric_id)
                 self.log(
                     f"Resolved fabric site name '{fabric_site_name_hierarchy}' "
