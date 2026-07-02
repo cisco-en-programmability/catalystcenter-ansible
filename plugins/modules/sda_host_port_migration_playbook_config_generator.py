@@ -454,7 +454,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         self.msg = "Successfully validated SDA host port migration input."
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
-    
+
     def get_fabric_site_and_zone_name_to_id_mapping(self):
         """
         Build a bidirectional mapping for fabric sites and fabric zones.
