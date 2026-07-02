@@ -276,22 +276,19 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             - Declares the supported state as gathered.
             - Builds the component schema used by BrownFieldHelper.
             - Retrieves fabric site name to ID mappings once for the run.
-            - Initializes migration caches for API responses and device lookups.
             - Initializes merged output storage keyed by destination device and
               fabric site.
         """
         self.supported_states = ["gathered"]
         super().__init__(module)
-        self.module_name = "sda_host_port_migration_workflow_manager"
         self.module_schema = self.get_workflow_filters_schema()
         (
             self.fabric_site_name_to_id_mapping,
             self.fabric_site_id_to_name_mapping,
-        ) = self.get_fabric_site_name_to_id_mapping()
+        ) = self.get_fabric_site_and_zone_name_to_id_mapping()
+        self.module_name = "sda_host_port_migration_workflow_manager"
         self.migration_warnings = []
         self._migration_output_by_key = OrderedDict()
-        self._migration_api_cache = {}
-        self._device_response_cache = {}
 
     def get_workflow_filters_schema(self):
         """
@@ -317,7 +314,9 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         Workflow Integration:
             BrownFieldHelper.yaml_config_generator iterates the supported
             component schema and invokes each component's get_function_name with
-            the component schema and its component-specific filters.
+            the component schema and its component-specific filters. The
+            reverse_mapping_function entries mirror the onboarding generator and
+            are reused by the migration lookup logic before interface remapping.
         """
         return {
             "network_elements": {
@@ -332,9 +331,10 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                             "required": False,
                         },
                     },
+                    "reverse_mapping_function": self.port_assignments_temp_spec,
                     "api_function": "get_port_assignments",
                     "api_family": "sda",
-                    "get_function_name": self.get_port_assignments_migration_configuration,
+                    "get_function_name": self.get_port_assignments_configuration,
                 },
                 "port_channels": {
                     "filters": {
@@ -347,9 +347,10 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                             "required": False,
                         },
                     },
+                    "reverse_mapping_function": self.port_channels_temp_spec,
                     "api_function": "get_port_channels",
                     "api_family": "sda",
-                    "get_function_name": self.get_port_channels_migration_configuration,
+                    "get_function_name": self.get_port_channels_configuration,
                 },
             }
         }
@@ -378,7 +379,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             - Normalizes all requested migration entries into OrderedDict values
               for stable YAML output.
         """
-        config = self.params.get("config") or {}
+        config = self.config or {}
 
         if not config:
             self.msg = (
@@ -453,6 +454,103 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         self.msg = "Successfully validated SDA host port migration input."
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+    
+    def get_fabric_site_and_zone_name_to_id_mapping(self):
+        """
+        Build a bidirectional mapping for fabric sites and fabric zones.
+
+        The shared helper maps fabric sites from the sda.get_fabric_sites API.
+        Host port onboarding configurations can also be attached to fabric zones,
+        so this module augments the mapping with sda.get_fabric_zones results.
+
+        Returns:
+            tuple: (fabric_name_to_id_mapping, fabric_id_to_name_mapping)
+        """
+        fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping = (
+            self.get_fabric_site_name_to_id_mapping()
+        )
+
+        self.log(
+            "Retrieving fabric zones to include zone-level host port onboarding "
+            "configurations under fabric site filters.",
+            "DEBUG",
+        )
+
+        try:
+            fabric_zones = self.execute_get_with_pagination(
+                api_family="sda",
+                api_function="get_fabric_zones",
+                params={},
+            )
+        except Exception as e:
+            self.log(
+                "Unable to retrieve fabric zones. Continuing with fabric site "
+                "mapping only. Error: {0}".format(e),
+                "WARNING",
+            )
+            return fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping
+
+        if not fabric_zones:
+            self.log(
+                "No fabric zones found. Fabric site mapping will be used as-is.",
+                "INFO",
+            )
+            return fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping
+
+        zone_site_ids = [
+            fabric_zone.get("siteId")
+            for fabric_zone in fabric_zones
+            if fabric_zone.get("siteId")
+        ]
+        site_id_name_mapping = self.get_site_id_name_mapping(zone_site_ids)
+
+        for fabric_zone in fabric_zones:
+            fabric_zone_id = fabric_zone.get("id")
+            site_id = fabric_zone.get("siteId")
+
+            if not fabric_zone_id or not site_id:
+                self.log(
+                    "Skipping fabric zone with missing IDs - fabric_zone_id: "
+                    "{0}, site_id: {1}".format(fabric_zone_id, site_id),
+                    "WARNING",
+                )
+                continue
+
+            site_name = site_id_name_mapping.get(site_id)
+            if not site_name:
+                self.log(
+                    "Skipping fabric zone '{0}' because site hierarchy was not "
+                    "found for site ID '{1}'.".format(fabric_zone_id, site_id),
+                    "WARNING",
+                )
+                continue
+
+            existing_fabric_id = fabric_site_name_to_id_mapping.get(site_name)
+            if existing_fabric_id and existing_fabric_id != fabric_zone_id:
+                self.log(
+                    "Fabric hierarchy '{0}' is already mapped to fabric ID '{1}'. "
+                    "Keeping existing mapping and skipping zone ID '{2}'.".format(
+                        site_name, existing_fabric_id, fabric_zone_id
+                    ),
+                    "WARNING",
+                )
+                continue
+
+            fabric_site_name_to_id_mapping[site_name] = fabric_zone_id
+            fabric_site_id_to_name_mapping[fabric_zone_id] = site_name
+            self.log(
+                "Mapped fabric zone hierarchy '{0}' to fabric zone ID '{1}'.".format(
+                    site_name, fabric_zone_id
+                ),
+                "DEBUG",
+            )
+
+        self.log(
+            "Fabric site and zone bidirectional mapping completed. Total fabric "
+            "hierarchies mapped: {0}".format(len(fabric_site_name_to_id_mapping)),
+            "INFO",
+        )
+        return fabric_site_name_to_id_mapping, fabric_site_id_to_name_mapping
 
     def _normalize_migration_entries(self, migration_entries, component_name):
         """
@@ -671,222 +769,62 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             }
         )
 
-    def _get_component_temp_spec(self, component_name):
+    def get_fabric_site_names_and_migration_details_mapping(self, component_specific_filters):
         """
-        Return the reverse mapping spec for a supported migration component.
+        Extract fabric site names and migration entries from component filters.
+
+        This follows the same purpose as the onboarding generator's
+        get_fabric_site_names_and_device_details_mapping() helper, but the
+        per-site data is the migration entry list instead of device IP, serial
+        number, and hostname filter sets.
 
         Args:
-            component_name (str): Component name requested by the migration flow.
-                Supported values are port_assignments and port_channels.
+            component_specific_filters (list[dict]): Migration filters for one
+                component. Each entry contains fabric_site_name_hierarchy,
+                source_device_ip, destination_device_ip, and optional
+                interface_mappings.
 
         Returns:
-            OrderedDict: Reverse mapping specification for the requested
-            component.
-
-        Raises:
-            SystemExit: Via fail_and_exit when an unsupported component is
-            requested. This should not happen when component filter keys have
-            already been validated against the module schema.
+            tuple: A two-item tuple containing:
+                - fabric_site_name_hierarchies (list): Fabric site names in the
+                  same order provided by the user.
+                - fabric_site_name_migration_mapping (dict): Mapping of fabric
+                  site name to all migration entries for that site.
         """
-        if component_name == "port_assignments":
-            return self.port_assignments_temp_spec()
-        if component_name == "port_channels":
-            return self.port_channels_temp_spec()
-
-        self.fail_and_exit(
-            "Unsupported migration component '{0}'.".format(component_name)
+        self.log(
+            "Extracting fabric site name hierarchies and migration details from "
+            "component-specific filters for targeted migration extraction.",
+            "DEBUG",
         )
+        fabric_site_name_hierarchies = []
+        fabric_site_name_migration_mapping = OrderedDict()
 
-    def _get_component_api_response(self, component_name, network_element):
-        """
-        Retrieve and cache source component API data.
-
-        Args:
-            component_name (str): Component being retrieved. Used as the cache
-                key and in log/error messages.
-            network_element (dict): Component schema entry containing api_family
-                and api_function values.
-
-        Returns:
-            list: Raw response list from the Catalyst Center API for the
-            requested component.
-
-        Raises:
-            RuntimeError: If the Catalyst Center SDK call fails.
-
-        Notes:
-            Component responses are cached per run so that multiple migration
-            entries for the same component do not repeatedly call the same API.
-        """
-        if component_name in self._migration_api_cache:
-            return self._migration_api_cache[component_name]
-
-        api_family = network_element.get("api_family")
-        api_function = network_element.get("api_function")
-        try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-            )
-        except Exception as e:
+        for filter_index, filter_item in enumerate(component_specific_filters, start=1):
+            fabric_site_name = filter_item.get("fabric_site_name_hierarchy")
             self.log(
-                "Failed to retrieve {0} using {1}.{2}: {3}".format(
-                    component_name, api_family, api_function, e
+                "Processing migration filter {0}/{1}: "
+                "fabric_site_name_hierarchy='{2}', source_device_ip='{3}', "
+                "destination_device_ip='{4}'.".format(
+                    filter_index,
+                    len(component_specific_filters),
+                    fabric_site_name,
+                    filter_item.get("source_device_ip"),
+                    filter_item.get("destination_device_ip"),
                 ),
-                "ERROR",
+                "DEBUG",
             )
-            raise RuntimeError(
-                "{0} API call failed for {1}.{2}: {3}".format(
-                    component_name, api_family, api_function, e
-                )
-            )
-
-        component_data = response.get("response", [])
-        self._migration_api_cache[component_name] = component_data
-        return component_data
-
-    def _get_device_info(self, network_device_id):
-        """
-        Resolve and cache device details by network device ID.
-
-        Args:
-            network_device_id (str): Catalyst Center network device ID found in
-                port assignment or port channel API records.
-
-        Returns:
-            dict: Device details returned by devices.get_device_by_id. The
-            managementIpAddress field is used to match source_device_ip.
-
-        Raises:
-            RuntimeError: If device lookup fails.
-
-        Notes:
-            Device details are cached because multiple component records often
-            reference the same networkDeviceId.
-        """
-        if network_device_id in self._device_response_cache:
-            return self._device_response_cache[network_device_id]
-
-        try:
-            device_response = self.catalystcenter._exec(
-                family="devices",
-                function="get_device_by_id",
-                op_modifies=False,
-                params={"id": network_device_id},
-            )
-        except Exception as e:
-            self.log(
-                "Failed to resolve device details for device ID '{0}': {1}".format(
-                    network_device_id, e
-                ),
-                "ERROR",
-            )
-            raise RuntimeError(
-                "Device lookup failed for device ID '{0}': {1}".format(
-                    network_device_id, e
-                )
+            fabric_site_name_hierarchies.append(fabric_site_name)
+            fabric_site_name_migration_mapping.setdefault(fabric_site_name, []).append(
+                filter_item
             )
 
-        device_info = device_response.get("response", {})
-        self._device_response_cache[network_device_id] = device_info
-        return device_info
-
-    def get_source_component_entry(self, component_name, network_element, migration_entry):
-        """
-        Retrieve transformed source-device component data for one migration entry.
-
-        Args:
-            component_name (str): Component to retrieve from the source device.
-                Supported values are port_assignments and port_channels.
-            network_element (dict): Component schema entry containing API
-                metadata for the requested component.
-            migration_entry (dict): Normalized migration request containing
-                fabric_site_name_hierarchy, source_device_ip, destination_device_ip,
-                and optional interface_mappings.
-
-        Returns:
-            OrderedDict or None: Source component payload with ip_address,
-            fabric_site_name_hierarchy, and the transformed component list. Returns
-            None when the fabric site, component data, or source device match is
-            not found.
-
-        Workflow:
-            1. Resolve fabric_site_name_hierarchy to fabric ID.
-            2. Retrieve cached raw API data for the component.
-            3. Filter raw data to the requested fabric site.
-            4. Group records by networkDeviceId.
-            5. Resolve each device ID and match source_device_ip.
-            6. Transform API response fields using modify_parameters.
-
-        Notes:
-            Missing source data is logged as a warning and skipped, matching the
-            generator's partial-data behavior.
-        """
-        fabric_site = migration_entry.get("fabric_site_name_hierarchy")
-        source_device_ip = migration_entry.get("source_device_ip")
-        fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site)
-
-        if not fabric_id:
-            warning = (
-                "Fabric site '{0}' was not found. Skipping source device '{1}'.".format(
-                    fabric_site, source_device_ip
-                )
-            )
-            self.log(warning, "WARNING")
-            self.migration_warnings.append(warning)
-            return None
-
-        all_component_data = self._get_component_api_response(
-            component_name, network_element
+        self.log(
+            "Completed extraction of {0} fabric site migration filter(s).".format(
+                len(fabric_site_name_hierarchies)
+            ),
+            "DEBUG",
         )
-        source_fabric_component_data = [
-            item for item in all_component_data if item.get("fabricId") == fabric_id
-        ]
-
-        if not source_fabric_component_data:
-            warning = (
-                "No {0} found in fabric site '{1}' for source device '{2}'.".format(
-                    component_name, fabric_site, source_device_ip
-                )
-            )
-            self.log(warning, "WARNING")
-            self.migration_warnings.append(warning)
-            return None
-
-        device_component_data = OrderedDict()
-        for item in source_fabric_component_data:
-            network_device_id = item.get("networkDeviceId")
-            if not network_device_id:
-                continue
-            device_component_data.setdefault(network_device_id, []).append(item)
-
-        for network_device_id, component_data in device_component_data.items():
-            device_info = self._get_device_info(network_device_id)
-            management_ip = device_info.get("managementIpAddress", "")
-            if management_ip != source_device_ip:
-                continue
-
-            modified_component_data = self.modify_parameters(
-                self._get_component_temp_spec(component_name), component_data
-            )
-            return OrderedDict(
-                [
-                    ("ip_address", management_ip),
-                    ("fabric_site_name_hierarchy", self.fabric_site_id_to_name_mapping.get(fabric_id, fabric_site)),
-                    (component_name, modified_component_data),
-                ]
-            )
-
-        warning = (
-            "No source device entry matched IP '{0}' in fabric site '{1}' for "
-            "{2}.".format(
-                source_device_ip, fabric_site, component_name
-            )
-        )
-        self.log(warning, "WARNING")
-        self.migration_warnings.append(warning)
-        return None
+        return fabric_site_name_hierarchies, fabric_site_name_migration_mapping
 
     def build_destination_port_assignments(self, migration_entry, source_entry):
         """
@@ -1052,33 +990,6 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
 
         return destination_channels
 
-    def build_destination_component_payload(self, component_name, migration_entry, source_entry):
-        """
-        Build destination payload for the requested migration component.
-
-        Args:
-            component_name (str): Component to transform. Supported values are
-                port_assignments and port_channels.
-            migration_entry (dict): Normalized migration request.
-            source_entry (dict): Transformed source component payload.
-
-        Returns:
-            list: Destination component payload generated by the component-
-            specific builder.
-
-        Raises:
-            SystemExit: Via fail_and_exit when an unsupported component is
-            requested.
-        """
-        if component_name == "port_assignments":
-            return self.build_destination_port_assignments(migration_entry, source_entry)
-        if component_name == "port_channels":
-            return self.build_destination_port_channels(migration_entry, source_entry)
-
-        self.fail_and_exit(
-            "Unsupported migration component '{0}'.".format(component_name)
-        )
-
     def _get_output_key(self, migration_entry, fabric_site_name):
         """
         Build the merged output key for destination device and fabric site.
@@ -1208,56 +1119,18 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                     )
                 )
 
-    def get_component_migration_configuration(self, component_name, network_element, filters):
+    def _return_merged_migration_output_if_final_component(self, component_name):
         """
-        Retrieve and transform migration entries into destination onboarding payloads.
+        Return merged migration output only after the final schema component.
 
         Args:
-            component_name (str): Component currently being processed. Supported
-                values are port_assignments and port_channels.
-            network_element (dict): Component schema entry from
-                get_workflow_filters_schema.
-            filters (dict): BrownFieldHelper filter wrapper containing
-                component_specific_filters for the current component.
+            component_name (str): Component currently being processed by
+                yaml_config_generator.
 
         Returns:
-            list: Empty list for intermediate components, or the complete merged
-            destination onboarding payload when processing the final requested
-            component.
-
-        Workflow:
-            1. Iterate normalized migration entries for the current component.
-            2. Retrieve and transform matching source component data.
-            3. Apply destination interface remapping.
-            4. Merge component data into the destination/fabric output block.
-            5. On the last requested component, validate cross-component
-               interface conflicts and return the merged YAML config list.
+            list: Empty list for intermediate components, or the final merged
+            destination payload after the last schema component has run.
         """
-        migration_entries = filters.get("component_specific_filters", [])
-        for migration_entry in migration_entries:
-            source_entry = self.get_source_component_entry(
-                component_name, network_element, migration_entry
-            )
-            if not source_entry:
-                continue
-
-            destination_payload = self.build_destination_component_payload(
-                component_name, migration_entry, source_entry
-            )
-            if not destination_payload:
-                warning = (
-                    "No destination {0} generated for source device '{1}'.".format(
-                        component_name, migration_entry.get("source_device_ip")
-                    )
-                )
-                self.log(warning, "WARNING")
-                self.migration_warnings.append(warning)
-                continue
-
-            self._merge_destination_component_entry(
-                component_name, migration_entry, source_entry, destination_payload
-            )
-
         if self.migration_warnings:
             self.log(
                 "Migration config generation completed with warnings: {0}".format(
@@ -1272,40 +1145,506 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         self._validate_merged_output_interfaces()
         return list(self._migration_output_by_key.values())
 
-    def get_port_assignments_migration_configuration(self, network_element, filters):
+    def get_port_assignments_configuration(self, network_element, filters):
         """
         Retrieve and transform port assignment migration entries.
 
+        The method mirrors the onboarding generator's port assignment retrieval
+        workflow: read all port assignments, resolve requested fabric sites,
+        group records by fabric and network device, transform API fields with
+        modify_parameters(), resolve device management IP addresses, and build
+        final YAML payload blocks. The migration differences are that only
+        records from source_device_ip are selected, ip_address is populated from
+        destination_device_ip, and optional interface_mappings are applied.
+
         Args:
-            network_element (dict): Schema metadata for the port_assignments
-                component.
-            filters (dict): BrownFieldHelper filter wrapper for port assignment
-                migration entries.
+            network_element (dict): Network element configuration containing
+                api_family, api_function, reverse_mapping_function, and filters.
+            filters (dict): Filter wrapper containing component_specific_filters
+                for port assignment migration entries.
 
         Returns:
-            list: Destination onboarding payload returned by
-            get_component_migration_configuration.
+            list: Empty list until the final schema component is processed, then
+            the merged destination onboarding payload.
         """
-        return self.get_component_migration_configuration(
-            "port_assignments", network_element, filters
+        self.log(
+            "Starting port assignments configuration retrieval and transformation "
+            "workflow for migration.",
+            "DEBUG",
         )
 
-    def get_port_channels_migration_configuration(self, network_element, filters):
+        component_specific_filters = filters.get("component_specific_filters")
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided for port assignments. "
+                "Skipping port assignment migration processing.",
+                "DEBUG",
+            )
+            return self._return_merged_migration_output_if_final_component(
+                "port_assignments"
+            )
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+        self.log(
+            "API configuration extracted - family: {0}, function: {1}. "
+            "Executing API call to retrieve all port assignments from Catalyst "
+            "Center.".format(api_family, api_function),
+            "DEBUG",
+        )
+
+        try:
+            response = self.catalystcenter._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+            )
+        except Exception as e:
+            self.log(
+                "Failed to retrieve port assignments using {0}.{1}: {2}".format(
+                    api_family, api_function, e
+                ),
+                "ERROR",
+            )
+            raise RuntimeError(
+                "Port assignments API call failed for {0}.{1}: {2}".format(
+                    api_family, api_function, e
+                )
+            ) from e
+
+        all_port_assignments = response.get("response", [])
+        self.log(
+            "Port assignments API call completed successfully. Retrieved {0} "
+            "port assignment(s) from Catalyst Center.".format(
+                len(all_port_assignments)
+            ),
+            "INFO",
+        )
+
+        fabric_ids = []
+        (
+            fabric_site_name_hierarchies,
+            fabric_site_name_migration_mapping,
+        ) = self.get_fabric_site_names_and_migration_details_mapping(
+            component_specific_filters
+        )
+
+        for hierarchy_index, fabric_site_name_hierarchy in enumerate(
+            fabric_site_name_hierarchies, start=1
+        ):
+            self.log(
+                "Resolving fabric site name hierarchy {0}/{1}: '{2}' for port "
+                "assignments.".format(
+                    hierarchy_index,
+                    len(fabric_site_name_hierarchies),
+                    fabric_site_name_hierarchy,
+                ),
+                "DEBUG",
+            )
+            fabric_id = self.fabric_site_name_to_id_mapping.get(
+                fabric_site_name_hierarchy
+            )
+            if not fabric_id:
+                warning = (
+                    "Fabric site name '{0}' was not found in cached mapping. "
+                    "Skipping this fabric site for port assignments.".format(
+                        fabric_site_name_hierarchy
+                    )
+                )
+                self.log(warning, "WARNING")
+                self.migration_warnings.append(warning)
+                continue
+            fabric_ids.append(fabric_id)
+
+        self.log(
+            "Fabric site ID resolution completed. Will process {0} fabric "
+            "site(s): {1}.".format(len(fabric_ids), fabric_ids),
+            "INFO",
+        )
+
+        fabric_ids_set = set(fabric_ids)
+        fabric_port_assignments_dict = {}
+        for port_assignment_index, port_assignment in enumerate(
+            all_port_assignments, start=1
+        ):
+            fabric_id = port_assignment.get("fabricId")
+            self.log(
+                "Processing port assignment {0}/{1} with fabric ID '{2}'.".format(
+                    port_assignment_index, len(all_port_assignments), fabric_id
+                ),
+                "DEBUG",
+            )
+            if fabric_id in fabric_ids_set:
+                if fabric_id not in fabric_port_assignments_dict:
+                    fabric_port_assignments_dict[fabric_id] = []
+                fabric_port_assignments_dict[fabric_id].append(port_assignment)
+
+        for fabric_index, (fabric_id, port_assignments) in enumerate(
+            fabric_port_assignments_dict.items(), start=1
+        ):
+            self.log(
+                "Processing fabric site {0}/{1} with ID '{2}'. Contains {3} "
+                "port assignment(s).".format(
+                    fabric_index,
+                    len(fabric_port_assignments_dict),
+                    fabric_id,
+                    len(port_assignments),
+                ),
+                "DEBUG",
+            )
+            port_assignments_temp_spec = self.port_assignments_temp_spec()
+            modified_port_assignments = self.modify_parameters(
+                port_assignments_temp_spec, port_assignments
+            )
+
+            device_port_assignments = {}
+            for idx, port_assignment in enumerate(port_assignments):
+                network_device_id = port_assignment.get("networkDeviceId")
+                if network_device_id not in device_port_assignments:
+                    device_port_assignments[network_device_id] = []
+                device_port_assignments[network_device_id].append(
+                    modified_port_assignments[idx]
+                )
+
+            for device_index, (network_device_id, device_ports) in enumerate(
+                device_port_assignments.items(), start=1
+            ):
+                self.log(
+                    "Processing device {0}/{1} with ID '{2}'. Fetching device "
+                    "details to resolve management IP address.".format(
+                        device_index, len(device_port_assignments), network_device_id
+                    ),
+                    "DEBUG",
+                )
+                try:
+                    device_response = self.catalystcenter._exec(
+                        family="devices",
+                        function="get_device_by_id",
+                        op_modifies=False,
+                        params={"id": network_device_id},
+                    )
+                except Exception as e:
+                    self.log(
+                        "Failed to resolve device details for device ID '{0}': "
+                        "{1}".format(network_device_id, e),
+                        "ERROR",
+                    )
+                    raise RuntimeError(
+                        "Device lookup failed for device ID '{0}': {1}".format(
+                            network_device_id, e
+                        )
+                    ) from e
+
+                device_info = device_response.get("response", {})
+                management_ip = device_info.get("managementIpAddress", "")
+                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
+                migration_entries = fabric_site_name_migration_mapping.get(
+                    fabric_site_name, []
+                )
+                matching_migration_entries = [
+                    entry
+                    for entry in migration_entries
+                    if entry.get("source_device_ip") == management_ip
+                ]
+
+                if not matching_migration_entries:
+                    self.log(
+                        "Resolved management IP '{0}' for device ID '{1}' does not "
+                        "match any source_device_ip filter for fabric site '{2}'.".format(
+                            management_ip, network_device_id, fabric_site_name
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                source_entry = OrderedDict(
+                    [
+                        ("ip_address", management_ip),
+                        ("fabric_site_name_hierarchy", fabric_site_name),
+                        ("port_assignments", device_ports),
+                    ]
+                )
+
+                for migration_entry in matching_migration_entries:
+                    destination_payload = self.build_destination_port_assignments(
+                        migration_entry, source_entry
+                    )
+                    if not destination_payload:
+                        warning = (
+                            "No destination port_assignments generated for source "
+                            "device '{0}'.".format(
+                                migration_entry.get("source_device_ip")
+                            )
+                        )
+                        self.log(warning, "WARNING")
+                        self.migration_warnings.append(warning)
+                        continue
+
+                    self._merge_destination_component_entry(
+                        "port_assignments",
+                        migration_entry,
+                        source_entry,
+                        destination_payload,
+                    )
+
+        self.log(
+            "Port assignments migration retrieval completed successfully. "
+            "Merged destination configuration count: {0}.".format(
+                len(self._migration_output_by_key)
+            ),
+            "INFO",
+        )
+        return self._return_merged_migration_output_if_final_component(
+            "port_assignments"
+        )
+
+    def get_port_channels_configuration(self, network_element, filters):
         """
         Retrieve and transform port channel migration entries.
 
+        The method mirrors the onboarding generator's port channel retrieval
+        workflow: read all port channels, resolve requested fabric sites, group
+        records by fabric and network device, transform API fields with
+        modify_parameters(), resolve device management IP addresses, and build
+        final YAML payload blocks. The migration differences are that only
+        records from source_device_ip are selected, ip_address is populated from
+        destination_device_ip, and optional member interface_mappings are applied.
+
         Args:
-            network_element (dict): Schema metadata for the port_channels
-                component.
-            filters (dict): BrownFieldHelper filter wrapper for port channel
-                migration entries.
+            network_element (dict): Network element configuration containing
+                api_family, api_function, reverse_mapping_function, and filters.
+            filters (dict): Filter wrapper containing component_specific_filters
+                for port channel migration entries.
 
         Returns:
-            list: Destination onboarding payload returned by
-            get_component_migration_configuration.
+            list: Empty list until the final schema component is processed, then
+            the merged destination onboarding payload.
         """
-        return self.get_component_migration_configuration(
-            "port_channels", network_element, filters
+        self.log(
+            "Starting port channels configuration retrieval and transformation "
+            "workflow for migration.",
+            "DEBUG",
+        )
+
+        component_specific_filters = filters.get("component_specific_filters")
+        if not component_specific_filters:
+            self.log(
+                "No component_specific_filters provided for port channels. "
+                "Skipping port channel migration processing.",
+                "DEBUG",
+            )
+            return self._return_merged_migration_output_if_final_component(
+                "port_channels"
+            )
+
+        api_family = network_element.get("api_family")
+        api_function = network_element.get("api_function")
+        self.log(
+            "API configuration extracted - family: {0}, function: {1}. "
+            "Executing API call to retrieve all port channels from Catalyst "
+            "Center.".format(api_family, api_function),
+            "DEBUG",
+        )
+
+        try:
+            response = self.catalystcenter._exec(
+                family=api_family,
+                function=api_function,
+                op_modifies=False,
+            )
+        except Exception as e:
+            self.log(
+                "Failed to retrieve port channels using {0}.{1}: {2}".format(
+                    api_family, api_function, e
+                ),
+                "ERROR",
+            )
+            raise RuntimeError(
+                "Port channels API call failed for {0}.{1}: {2}".format(
+                    api_family, api_function, e
+                )
+            ) from e
+
+        all_port_channels = response.get("response", [])
+        self.log(
+            "Port channels API call completed successfully. Retrieved {0} "
+            "port channel(s) from Catalyst Center.".format(len(all_port_channels)),
+            "INFO",
+        )
+
+        fabric_ids = []
+        (
+            fabric_site_name_hierarchies,
+            fabric_site_name_migration_mapping,
+        ) = self.get_fabric_site_names_and_migration_details_mapping(
+            component_specific_filters
+        )
+
+        for hierarchy_index, fabric_site_name_hierarchy in enumerate(
+            fabric_site_name_hierarchies, start=1
+        ):
+            self.log(
+                "Resolving fabric site name hierarchy {0}/{1}: '{2}' for port "
+                "channels.".format(
+                    hierarchy_index,
+                    len(fabric_site_name_hierarchies),
+                    fabric_site_name_hierarchy,
+                ),
+                "DEBUG",
+            )
+            fabric_id = self.fabric_site_name_to_id_mapping.get(
+                fabric_site_name_hierarchy
+            )
+            if not fabric_id:
+                warning = (
+                    "Fabric site name '{0}' was not found in cached mapping. "
+                    "Skipping this fabric site for port channels.".format(
+                        fabric_site_name_hierarchy
+                    )
+                )
+                self.log(warning, "WARNING")
+                self.migration_warnings.append(warning)
+                continue
+            fabric_ids.append(fabric_id)
+
+        self.log(
+            "Fabric site ID resolution completed. Will process {0} fabric "
+            "site(s): {1}.".format(len(fabric_ids), fabric_ids),
+            "INFO",
+        )
+
+        fabric_ids_set = set(fabric_ids)
+        fabric_port_channels_dict = {}
+        for port_channel_index, port_channel in enumerate(all_port_channels, start=1):
+            fabric_id = port_channel.get("fabricId")
+            self.log(
+                "Processing port channel {0}/{1} with fabric ID '{2}'.".format(
+                    port_channel_index, len(all_port_channels), fabric_id
+                ),
+                "DEBUG",
+            )
+            if fabric_id in fabric_ids_set:
+                if fabric_id not in fabric_port_channels_dict:
+                    fabric_port_channels_dict[fabric_id] = []
+                fabric_port_channels_dict[fabric_id].append(port_channel)
+
+        for fabric_index, (fabric_id, port_channels) in enumerate(
+            fabric_port_channels_dict.items(), start=1
+        ):
+            self.log(
+                "Processing fabric site {0}/{1} with ID '{2}'. Contains {3} "
+                "port channel(s).".format(
+                    fabric_index,
+                    len(fabric_port_channels_dict),
+                    fabric_id,
+                    len(port_channels),
+                ),
+                "DEBUG",
+            )
+            port_channels_temp_spec = self.port_channels_temp_spec()
+            modified_port_channels = self.modify_parameters(
+                port_channels_temp_spec, port_channels
+            )
+
+            device_port_channels = {}
+            for idx, port_channel in enumerate(port_channels):
+                network_device_id = port_channel.get("networkDeviceId")
+                if network_device_id not in device_port_channels:
+                    device_port_channels[network_device_id] = []
+                device_port_channels[network_device_id].append(
+                    modified_port_channels[idx]
+                )
+
+            for device_index, (network_device_id, device_port_channels_list) in enumerate(
+                device_port_channels.items(), start=1
+            ):
+                self.log(
+                    "Processing device {0}/{1} with ID '{2}'. Fetching device "
+                    "details to resolve management IP address.".format(
+                        device_index, len(device_port_channels), network_device_id
+                    ),
+                    "DEBUG",
+                )
+                try:
+                    device_response = self.catalystcenter._exec(
+                        family="devices",
+                        function="get_device_by_id",
+                        op_modifies=False,
+                        params={"id": network_device_id},
+                    )
+                except Exception as e:
+                    self.log(
+                        "Failed to resolve device details for device ID '{0}': "
+                        "{1}".format(network_device_id, e),
+                        "ERROR",
+                    )
+                    raise RuntimeError(
+                        "Device lookup failed for device ID '{0}': {1}".format(
+                            network_device_id, e
+                        )
+                    ) from e
+
+                device_info = device_response.get("response", {})
+                management_ip = device_info.get("managementIpAddress", "")
+                fabric_site_name = self.fabric_site_id_to_name_mapping.get(fabric_id)
+                migration_entries = fabric_site_name_migration_mapping.get(
+                    fabric_site_name, []
+                )
+                matching_migration_entries = [
+                    entry
+                    for entry in migration_entries
+                    if entry.get("source_device_ip") == management_ip
+                ]
+
+                if not matching_migration_entries:
+                    self.log(
+                        "Resolved management IP '{0}' for device ID '{1}' does not "
+                        "match any source_device_ip filter for fabric site '{2}'.".format(
+                            management_ip, network_device_id, fabric_site_name
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                source_entry = OrderedDict(
+                    [
+                        ("ip_address", management_ip),
+                        ("fabric_site_name_hierarchy", fabric_site_name),
+                        ("port_channels", device_port_channels_list),
+                    ]
+                )
+
+                for migration_entry in matching_migration_entries:
+                    destination_payload = self.build_destination_port_channels(
+                        migration_entry, source_entry
+                    )
+                    if not destination_payload:
+                        warning = (
+                            "No destination port_channels generated for source "
+                            "device '{0}'.".format(
+                                migration_entry.get("source_device_ip")
+                            )
+                        )
+                        self.log(warning, "WARNING")
+                        self.migration_warnings.append(warning)
+                        continue
+
+                    self._merge_destination_component_entry(
+                        "port_channels",
+                        migration_entry,
+                        source_entry,
+                        destination_payload,
+                    )
+
+        self.log(
+            "Port channels migration retrieval completed successfully. "
+            "Merged destination configuration count: {0}.".format(
+                len(self._migration_output_by_key)
+            ),
+            "INFO",
+        )
+        return self._return_merged_migration_output_if_final_component(
+            "port_channels"
         )
 
     def get_diff_gathered(self):
@@ -1321,20 +1660,72 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             self: Current instance with result status updated by
             yaml_config_generator.
 
-        Failure Behavior:
-            If no normalized yaml_config_generator parameters are present in
-            self.want, the method marks the operation as failed before returning.
+        Workflow Behavior:
+            Uses the same workflow operation loop as the onboarding generator.
+            When yaml_config_generator parameters are present, the helper writes
+            the generated YAML file. If the operation parameters are absent, the
+            operation is skipped and logged.
         """
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
 
-        params = self.want.get("yaml_config_generator")
-        if not params:
-            self.msg = "No parameters found for YAML migration config generation."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+        workflow_operations = [
+            (
+                "yaml_config_generator",
+                "YAML Config Generator",
+                self.yaml_config_generator,
+            )
+        ]
 
-        self.yaml_config_generator(params).check_return_status()
+        operations_executed = 0
+        operations_skipped = 0
+
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            workflow_operations, start=1
+        ):
+            self.log(
+                "Iteration {0}: Checking parameters for {1} operation with "
+                "param_key '{2}'.".format(index, operation_name, param_key),
+                "DEBUG",
+            )
+            params = self.want.get(param_key)
+            if params:
+                self.log(
+                    "Iteration {0}: Parameters found for {1}. Starting processing.".format(
+                        index, operation_name
+                    ),
+                    "INFO",
+                )
+
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        "{0} operation completed successfully".format(operation_name),
+                        "DEBUG",
+                    )
+                except Exception as e:
+                    self.log(
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
+                    )
+                    self.set_operation_result(
+                        "failed",
+                        True,
+                        "{0} operation failed: {1}".format(operation_name, str(e)),
+                        "ERROR",
+                    ).check_return_status()
+            else:
+                operations_skipped += 1
+                self.log(
+                    "Iteration {0}: No parameters found for {1}. Skipping operation.".format(
+                        index, operation_name
+                    ),
+                    "WARNING",
+                )
 
         end_time = time.time()
         self.log(

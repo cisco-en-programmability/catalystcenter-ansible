@@ -29,6 +29,9 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
     test_data = loadPlaybookData("sda_host_port_migration_playbook_config_generator")
 
     playbook_config_one_to_one = test_data.get("playbook_config_one_to_one")
+    playbook_config_port_channels_only = test_data.get(
+        "playbook_config_port_channels_only"
+    )
     playbook_config_partial_remap = test_data.get("playbook_config_partial_remap")
     playbook_config_assignments_and_channels = test_data.get(
         "playbook_config_assignments_and_channels"
@@ -120,6 +123,24 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
         self.assertEqual(
             destination_interfaces,
             ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_port_channels_only_migration_uses_destination_device_ip(self, mock_file):
+        set_module_args(
+            self._base_config_args(self.playbook_config_port_channels_only)
+        )
+
+        result = self.execute_module(changed=True)
+
+        self.assertEqual(result["changed"], True)
+        data = yaml.safe_load(self._get_written_yaml(mock_file))
+        self.assertEqual(len(data["config"]), 1)
+        self.assertEqual(data["config"][0]["ip_address"], "10.10.20.201")
+        self.assertNotIn("port_assignments", data["config"][0])
+        self.assertEqual(
+            data["config"][0]["port_channels"][0]["interface_names"],
+            ["GigabitEthernet1/0/26", "GigabitEthernet1/0/4"],
         )
 
     @patch("builtins.open", new_callable=mock_open)

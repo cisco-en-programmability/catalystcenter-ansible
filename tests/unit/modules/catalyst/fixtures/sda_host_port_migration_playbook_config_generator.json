@@ -10,6 +10,23 @@
       ]
     }
   },
+  "playbook_config_port_channels_only": {
+    "component_specific_filters": {
+      "port_channels": [
+        {
+          "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "source_device_ip": "10.10.10.101",
+          "destination_device_ip": "10.10.20.201",
+          "interface_mappings": [
+            {
+              "source_interface_name": "GigabitEthernet1/0/2",
+              "destination_interface_name": "GigabitEthernet1/0/26"
+            }
+          ]
+        }
+      ]
+    }
+  },
   "playbook_config_partial_remap": {
     "component_specific_filters": {
       "port_assignments": [
