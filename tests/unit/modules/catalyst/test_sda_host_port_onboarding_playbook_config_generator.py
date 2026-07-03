@@ -72,6 +72,8 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
                 return self.test_data.get("get_device_by_id_response_device_001")
             elif function == "get_fabric_sites":
                 return self.test_data.get("get_fabric_sites_response")
+            elif function == "get_fabric_zones":
+                return self.test_data.get("get_fabric_zones_response")
             elif function == "get_sites":
                 return self.test_data.get("get_sites_response")
             else:
@@ -229,6 +231,49 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertIsInstance(data.get("config"), list)
         # Verify SDK was called multiple times for all components
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
+
+    @patch('builtins.open', new_callable=mock_open)
+    def test_fabric_site_filter_includes_child_fabric_zones_for_wired_only(self, mock_file):
+        """Test that fabric site filters include child zones only for wired components."""
+        set_module_args({
+            "catalystcenter_host": "1.2.3.4",
+            "catalystcenter_username": "admin",
+            "catalystcenter_password": "pass",
+            "catalystcenter_version": "2.3.7.9",
+            "config": self.playbook_config_all_components_filtered,
+            "file_path": "/tmp/sda_host_port_onboarding.yaml",
+            "state": "gathered",
+        })
+        result = self.execute_module(changed=True)
+        self.assertEqual(result["changed"], True)
+        mock_file.assert_called()
+
+        written_yaml = self._get_written_yaml(mock_file)
+        data = yaml.safe_load(written_yaml)
+        config_blocks = data.get("config", [])
+
+        parent_hierarchy = "Global/USA/San Jose/Building1"
+        child_zone_hierarchy = "Global/USA/San Jose/Building1/Floor1"
+        unrelated_zone_hierarchy = "Global/USA/RTP/Building2/Floor1"
+
+        for component in ("port_assignments", "port_channels"):
+            component_fabric_names = {
+                block.get("fabric_site_name_hierarchy")
+                for block in config_blocks
+                if component in block
+            }
+            self.assertIn(parent_hierarchy, component_fabric_names)
+            self.assertIn(child_zone_hierarchy, component_fabric_names)
+            self.assertNotIn(unrelated_zone_hierarchy, component_fabric_names)
+
+        wireless_fabric_names = {
+            block.get("fabric_site_name_hierarchy")
+            for block in config_blocks
+            if "wireless_ssids" in block
+        }
+        self.assertIn(parent_hierarchy, wireless_fabric_names)
+        self.assertNotIn(child_zone_hierarchy, wireless_fabric_names)
+        self.assertNotIn(unrelated_zone_hierarchy, wireless_fabric_names)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_no_file_path_generates_default(self, mock_file):
