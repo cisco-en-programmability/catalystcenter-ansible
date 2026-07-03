@@ -1260,7 +1260,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>catalystcentersdk &gt;= 3.1.6.0.2</p></li>
-<li><p>python &gt;= 3.9</p></li>
+<li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
 <section id="parameters">
@@ -1439,7 +1439,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p>If a virtual network is already defined as a Provider, it cannot be assigned as a provider again.</p>
 <p>Ensure the default route is present in the Global Routing Table if INFRA_VN is defined as the Provider.</p>
 <p>For Subscriber Virtual Networks with multiple Providers having overlapping routes, traffic will be load-balanced across those Provider Virtual Networks.</p>
-<p>Required for creating or updating the policy.</p>
+<p>Required for creating the policy. Optional for updating; if not provided, the existing value from Cisco Catalyst Center is used.</p>
 <p>Updating this field is not allowed.</p>
 </div></td>
 </tr>
@@ -1449,7 +1449,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies a list of Subscriber Virtual Networks that require access to the Provider Virtual Network containing shared services resources.</p>
 <p>A Virtual Network previously defined as a Provider cannot be selected as a subscriber.</p>
-<p>Required for creating or updating the policy.</p>
+<p>Required for creating the policy. Optional for updating; if not provided, the existing value from Cisco Catalyst Center is used.</p>
 <p>Can be modified.</p>
 <p>Example - [&quot;VN_2&quot;, &quot;VN_4&quot;]</p>
 </div></td>
@@ -1540,7 +1540,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">extranet_policy_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test_extranet_policy_1&quot;</span>
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_3&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Polcies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Polcies/India&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Policies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Policies/India&quot;</span><span class="p p-Indicator">]</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update existing Extranet Policy</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.sda_extranet_policies_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1572,7 +1572,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">extranet_policy_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test_extranet_policy_1&quot;</span>
-<span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Polcies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Polcies/India&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Policies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Policies/India&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_4&quot;</span><span class="p p-Indicator">]</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete Extranet Policy</span>
@@ -1625,7 +1625,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Rugvedi Kapse (&#64;rukapse) Madhan Sankaranarayanan (&#64;madhansansel) Archit Soni (&#64;koderchit)</p></li>
+<li><p>Rugvedi Kapse (&#64;rukapse)</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Archit Soni (&#64;koderchit)</p></li>
+<li><p>Sunil Shatagopa (&#64;shatagopasunil)</p></li>
 </ul>
 </section>
 <section id="collection-links">

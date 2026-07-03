@@ -86,7 +86,7 @@ Requirements
 The below requirements are needed on the host that executes this module.
 
 - catalystcentersdk \>= 3.1.6.0.2
-- python \>= 3.9
+- python \>= 3.12
 
 
 
@@ -787,7 +787,7 @@ Parameters
 
       For Subscriber Virtual Networks with multiple Providers having overlapping routes, traffic will be load-balanced across those Provider Virtual Networks.
 
-      Required for creating or updating the policy.
+      Required for creating the policy. Optional for updating; if not provided, the existing value from Cisco Catalyst Center is used.
 
       Updating this field is not allowed.
 
@@ -827,7 +827,7 @@ Parameters
 
       A Virtual Network previously defined as a Provider cannot be selected as a subscriber.
 
-      Required for creating or updating the policy.
+      Required for creating the policy. Optional for updating; if not provided, the existing value from Cisco Catalyst Center is used.
 
       Can be modified.
 
@@ -1024,7 +1024,7 @@ Examples
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_3"]
-            fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+            fabric_sites: ["Global/Test_Extranet_Policies/USA", "Global/Test_Extranet_Policies/India"]
     - name: Update existing Extranet Policy
       cisco.catalystcenter.sda_extranet_policies_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1056,7 +1056,7 @@ Examples
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
-            fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+            fabric_sites: ["Global/Test_Extranet_Policies/USA", "Global/Test_Extranet_Policies/India"]
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
     - name: Delete Extranet Policy
@@ -1195,7 +1195,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
+- Rugvedi Kapse (@rukapse)
+- Madhan Sankaranarayanan (@madhansansel)
+- Archit Soni (@koderchit)
+- Sunil Shatagopa (@shatagopasunil)
 
 
 
