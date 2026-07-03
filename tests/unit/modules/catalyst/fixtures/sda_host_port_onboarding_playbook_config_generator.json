@@ -80,6 +80,30 @@
         "authenticateTemplateName": "Closed Authentication",
         "scalableGroupName": "SGT_Employees",
         "interfaceDescription": "Trunk Port 2"
+      },
+      {
+        "id": "port-assign-zone-001",
+        "fabricId": "fabric-zone-001",
+        "networkDeviceId": "device-001",
+        "interfaceName": "GigabitEthernet1/0/3",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Zone_Data_VLAN_100",
+        "voiceVlanName": null,
+        "authenticateTemplateName": "No Authentication",
+        "scalableGroupName": null,
+        "interfaceDescription": "Child Zone User Port"
+      },
+      {
+        "id": "port-assign-zone-002",
+        "fabricId": "fabric-zone-002",
+        "networkDeviceId": "device-002",
+        "interfaceName": "GigabitEthernet1/0/4",
+        "connectedDeviceType": "USER_DEVICE",
+        "dataVlanName": "Unrelated_Zone_Data_VLAN",
+        "voiceVlanName": null,
+        "authenticateTemplateName": "No Authentication",
+        "scalableGroupName": null,
+        "interfaceDescription": "Unrelated Child Zone User Port"
       }
     ],
     "version": "1.0"
@@ -105,6 +129,26 @@
         "connectedDeviceType": "TRUNK",
         "protocol": "LACP",
         "description": "Port Channel for Distribution"
+      },
+      {
+        "id": "port-channel-zone-001",
+        "fabricId": "fabric-zone-001",
+        "networkDeviceId": "device-001",
+        "portChannelName": "Port-channel30",
+        "interfaceNames": ["GigabitEthernet1/0/30", "GigabitEthernet1/0/31"],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "LACP",
+        "description": "Child Zone Port Channel"
+      },
+      {
+        "id": "port-channel-zone-002",
+        "fabricId": "fabric-zone-002",
+        "networkDeviceId": "device-002",
+        "portChannelName": "Port-channel40",
+        "interfaceNames": ["GigabitEthernet1/0/40", "GigabitEthernet1/0/41"],
+        "connectedDeviceType": "TRUNK",
+        "protocol": "LACP",
+        "description": "Unrelated Child Zone Port Channel"
       }
     ],
     "version": "1.0"
@@ -275,6 +319,21 @@
     ],
     "version": "1.0"
   },
+  "get_fabric_zones_response": {
+    "response": [
+      {
+        "id": "fabric-zone-001",
+        "siteId": "site-004",
+        "authenticationProfileName": "No Authentication"
+      },
+      {
+        "id": "fabric-zone-002",
+        "siteId": "site-005",
+        "authenticationProfileName": "No Authentication"
+      }
+    ],
+    "version": "1.0"
+  },
   "get_sites_response": {
     "response": [
       {
@@ -294,6 +353,18 @@
         "nameHierarchy": "Global/Europe/London/Building3",
         "name": "Building3",
         "type": "area"
+      },
+      {
+        "id": "site-004",
+        "nameHierarchy": "Global/USA/San Jose/Building1/Floor1",
+        "name": "Floor1",
+        "type": "floor"
+      },
+      {
+        "id": "site-005",
+        "nameHierarchy": "Global/USA/RTP/Building2/Floor1",
+        "name": "Floor1",
+        "type": "floor"
       }
     ],
     "version": "1.0"
