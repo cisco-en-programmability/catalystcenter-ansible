@@ -87,7 +87,7 @@ Requirements
 The below requirements are needed on the host that executes this module.
 
 - catalystcentersdk \>= 3.1.6.0.2
-- python \>= 3.9.19
+- python \>= 3.12
 
 
 

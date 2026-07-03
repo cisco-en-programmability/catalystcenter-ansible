@@ -87,7 +87,7 @@ Requirements
 The below requirements are needed on the host that executes this module.
 
 - catalystcentersdk \>= 3.1.6.0.2
-- python \>= 3.9
+- python \>= 3.12
 
 
 
@@ -810,7 +810,7 @@ Parameters
 
       Adds layer 2 handoffs in fabric devices.
 
-      This parameter cannots be updated.
+      This parameter cannot be updated.
 
       Configured while transferring a device's data traffic at Layer 2 (Data Link layer).
 
@@ -1925,7 +1925,7 @@ Parameters
 
       Device must be provisioned to the site prior to configuration.
 
-      For deleting a device, the device will be deleted if the user doesnot pass the layer3\_handoff\_ip\_transit, layer3\_handoff\_sda\_transit and layer2\_handoff with the state as deleted.
+      For deleting a device, the device will be deleted if the user does not pass the layer3\_handoff\_ip\_transit, layer3\_handoff\_sda\_transit and layer2\_handoff with the state as deleted.
 
 
       .. raw:: html
@@ -2588,7 +2588,7 @@ Examples
                       enable: true
                       ap_reboot_percentage: 25
 
-    - name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.
+    - name: Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable AP rolling upgrade.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -2610,7 +2610,7 @@ Examples
                     rolling_ap_upgrade:
                       enable: false
 
-    - name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.
+    - name: Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable wireless capabilities with reload.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -3541,7 +3541,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
+- Muthu Rakesh (@MUTHU-RAKESH-27)
+- Madhan Sankaranarayanan (@madhansansel)
+- Archit Soni (@koderchit)
+- Sunil Shatagopa (@shatagopasunil)
 
 
 

@@ -1261,7 +1261,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>catalystcentersdk &gt;= 3.1.6.0.2</p></li>
-<li><p>python &gt;= 3.9</p></li>
+<li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
 <section id="parameters">
@@ -1441,7 +1441,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/borders_settings/layer2_handoff" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Adds layer 2 handoffs in fabric devices.</p>
-<p>This parameter cannots be updated.</p>
+<p>This parameter cannot be updated.</p>
 <p>Configured while transferring a device's data traffic at Layer 2 (Data Link layer).</p>
 <p>If 'layer2_handoff' is set, the border type will be considered as Layer2.</p>
 </div></td>
@@ -1728,7 +1728,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the device to be added to the fabric site.</p>
 <p>Mandatory parameter for all operations under fabric_devices.</p>
 <p>Device must be provisioned to the site prior to configuration.</p>
-<p>For deleting a device, the device will be deleted if the user doesnot pass the layer3_handoff_ip_transit, layer3_handoff_sda_transit and layer2_handoff with the state as deleted.</p>
+<p>For deleting a device, the device will be deleted if the user does not pass the layer3_handoff_ip_transit, layer3_handoff_sda_transit and layer2_handoff with the state as deleted.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1978,7 +1978,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                  </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">                  </span><span class="nt">ap_reboot_percentage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable AP rolling upgrade.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">catalystcenter_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2000,7 +2000,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                </span><span class="nt">rolling_ap_upgrade</span><span class="p">:</span>
 <span class="w">                  </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable wireless capabilities with reload.</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">catalystcenter_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">catalystcenter_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catalystcenter_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2449,7 +2449,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Permalink to this heading"></a></h3>
 <ul class="simple">
-<li><p>Muthu Rakesh (&#64;MUTHU-RAKESH-27) Madhan Sankaranarayanan (&#64;madhansansel) Archit Soni (&#64;koderchit)</p></li>
+<li><p>Muthu Rakesh (&#64;MUTHU-RAKESH-27)</p></li>
+<li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Archit Soni (&#64;koderchit)</p></li>
+<li><p>Sunil Shatagopa (&#64;shatagopasunil)</p></li>
 </ul>
 </section>
 <section id="collection-links">
