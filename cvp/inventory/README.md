@@ -44,7 +44,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -188,7 +188,7 @@ inventory_details:
 "device(s) 'XX.XX.XX.XX', 'XX.XX.XX.XX', 'XX.XX.XX.XX' added successfully in Cisco Catalyst Center."
 * verify the devices are successfully added to the inventory and present in the Cisco Catalyst Center.
 
-![alt text](images/add_devices.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/add_devices.png)
 
 * Sample run line command to run the add devices Playbook:
 ```bash
@@ -218,7 +218,7 @@ inventory_details:
 "device(s) 'XX.XX.XX.XX', 'XX.XX.XX.XX' provisioned successfully in Cisco Catalyst Center."
 * verify the devices provision status in the Cisco Catalyst Center and it will show provision status as success. Before provision it will show Not Provisioned.
 
-![alt text](images/provision_device.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/provision_device.png)
 
 *  Sample run line command for running the Provision Playbook:
 ```bash
@@ -276,7 +276,7 @@ inventory_details:
 "msg": "Device(s) '['XX.XX.XX.XX', 'XX.XX.XX.XX']' role updated successfully to '['ACCESS', 'ACCESS']'"
 * Verify the device role in the cisco catalyst center.
 
-![alt text](images/Device_role.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/Device_role.png)
 
 
 E. To execute the Ansible playbook for deleting devices:
@@ -302,7 +302,7 @@ F. To execute the Ansible playbook for schedule the maintenance:
 
 * scheduled maintenance for device xx.xx.xx.xx at 2025-04-05 10:30:00 and ended at 2025-04-05 11:30:00 in Asia/Kolkata time zone
 
-![alt text](images/schedule_maintenance.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/schedule_maintenance.png)
 
 ```bash
 catalystcenter_version: 2.3.7.6
@@ -318,7 +318,7 @@ catalystcenter_version: 2.3.7.6
 
 * scheduled maintenance for device xx.xx.xx.xx at 2025-04-05 10:30:00, ending at 2025-04-05 11:30:00 Asia/Kolkata time zone and recurring time to re-execute is 2 days ending after scheduled maintenance at 2025-04-10 11:40:00
 
-![alt text](images/recurring.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/recurring.png)
 
 ```bash
 catalystcenter_version: 2.3.7.6
@@ -336,7 +336,7 @@ catalystcenter_version: 2.3.7.6
 
 * scheduled maintenance for multiple devices at 10:30:00 on 04/05/2025 and ending at 11:30:00 on 04/05/2025 in Asia/Kolkata time zone
 
-![alt text](images/bulk_schedule.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/inventory/images/bulk_schedule.png)
 
 ```bash
 catalystcenter_version: 2.3.7.6

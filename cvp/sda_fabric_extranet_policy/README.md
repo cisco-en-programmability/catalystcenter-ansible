@@ -124,40 +124,40 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/fabric_extranet_policy/pl
 #### **Mapping config to UI Actions.**
 - The config parameter within this task corresponds to the "Provision > Virtual Networks> Create Template" action in the Cisco Catalyst Center UI.
 - Select "Provision" -> "Virtual Networks" to access the Virtual Networks page.
-![alt text](./images/ext1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext1.png)
 
 -  Click Layer3 Virtual Network.
-![alt text](./images/ext2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext2.png)
 
 - Click "Extranet Policies" -> "Create Extranet Policy" to start creating a new policy.
-![alt text](./images/ext3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext3.png)
 
 - ext4.png: Enter the Extranet Policy name (eg: "ex_policy_infra_vn_provider") and click "Next".
-![alt text](./images/ext4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext4.png)
 
 - Select Provider Virtual Network (eg: "INFRA_VN") and click "Next".
-![alt text](./images/ext5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext5.png)
 
 - Select Subscriber Virtual Networks (eg: "DEFAULT_VN", "NY_L3_1") and click "Next".
-![alt text](./images/ext6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext6.png)
 
 - Select "New York" in Fabric Sites, click "Next" to specify the site for the Extranet Policy.
-![alt text](./images/ext7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext7.png)
 
 - Check "Summary," click "Next" to confirm the configuration.
-![alt text](./images/ext8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext8.png)
 
 - Select "Preview and Deploy," click "Deploy" to deploy the Extranet Policy.
-![alt text](./images/ext9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext9.png)
 
 - Click "Save Intent," then click "Submit" to save and submit the configuration.
-![alt text](./images/ext10.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext10.png)
 
 - Confirm "ex_policy_infra_vn_provider" in the Extranet Policies list to test the policy in action.
-![alt text](./images/ext11.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext11.png)
 
 - Check Extranet Policy created.
-![alt text](./images/ext12.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/ext12.png)
 
 #### **Example Input File.**
 
@@ -175,37 +175,37 @@ extranet_policies:
 ### 2. Update SDA Extranet Policies
 #### **Mapping config to UI Actions.**
 - Select Extranet Policy Name to update -> "More Action" -> "Edit Extranet Policy" to update Extranet Policy.
-![alt text](./images/edit_ext1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext1.png)
 
 - In Subscriber Virtual Networks section -> "Edit" to update Subscriber Virtual Networks.
-![alt text](./images/edit_ext2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext2.png)
 
 - Check all Subscriber Virtual Networks that have been added and Subscriber Virtual Networks that you want to add.
-![alt text](./images/edit_ext3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext3.png)
 
 - Select Subscriber Virtual Networks that you want to add -> "Next" to update Subscriber Virtual Networks.
-![alt text](./images/edit_ext5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext5.png)
 
 - Select Fabric Sites that you want to Update, if not updated, you can skip this step -> "Next".
-![alt text](./images/edit_ext41.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext41.png)
 
 - Check the configuration information that has changed -> "Next".
-![alt text](./images/edit_ext42.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext42.png)
 
 - Deploy Extranet Policy that has just been updated.
-![alt text](./images/edit_ext6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext6.png)
 
 - Enter "Task Name" for the update task -> Submit.
-![alt text](./images/edit_ext7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext7.png)
 
 - Execute "Save Intent".
-![alt text](./images/edit_ext8.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext8.png)
 
 - Update notification successful.
-![alt text](./images/edit_ext9.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext9.png)
 
 - Check configuration update.
-![alt text](./images/edit_ext10.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/edit_ext10.png)
 
 
 #### **Example Input File.**
@@ -225,16 +225,16 @@ extranet_policies:
 ### 2. Delete SDA Extranet Policies
 #### **Mapping config to UI Actions.**
 - Select Extranet Policy Name to update -> "More Action" -> "Delete Extranet Policy" to update Extranet Policy.
-![alt text](./images/delete_1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/delete_1.png)
 
 - Click "Apply" to delete.
-![alt text](./images/delete_2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/delete_2.png)
 
 - Click "Next" -> to continue deleting Extranet Policy.
-![alt text](./images/delete_3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/delete_3.png)
 
 - Check the deleted Extranet Policy.
-![alt text](./images/delete_5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_extranet_policy/images/delete_5.png)
  
 #### **Example Input File.**
 
@@ -282,7 +282,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

@@ -159,7 +159,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -196,8 +196,8 @@ backup_restore_details:
         nfs_version: nfs4
         nfs_portmapper_port: 111
 ```
-![alt text](./images/image.png)
-![alt text](./images/image-1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-1.png)
 
 #### Backup Storage Configuration
 
@@ -216,7 +216,7 @@ backup_restore_details:
         encryption_passphrase: "SecurePass123!"
 ```
 
-![alt text](./images/image-2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-2.png)
 
 #### Create Backup
 
@@ -232,7 +232,7 @@ backup_restore_details:
         generate_new_backup: true
 ```
 
-![alt text](./images/image-3.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-3.png)
 
 Result: `DAILY_BACKUP_20241230_143052`
 
@@ -309,7 +309,7 @@ Terminal Return
 ```
 
 
-![alt text](./images/image-4.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-4.png)
 
 2.Configure Backup Storage Settings
 
@@ -320,7 +320,7 @@ Terminal Return
       response: Backup Configuration(s) '/home/nfsshare/backups/TB23' updated successfully in Cisco Catalyst Center.
 ```
 
-![alt text](./images/image-5.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-5.png)
 
 3.Create Backup
 
@@ -332,7 +332,7 @@ Terminal Return
       status: success
 ```
 
-![alt text](./images/image-7.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-7.png)
 
 4.Restore Operation:
 
@@ -448,7 +448,7 @@ Terminal Return
       status: success
 ```
 
-![alt text](./images/image-6.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/backup_and_restore/images/image-6.png)
 
 ---
 

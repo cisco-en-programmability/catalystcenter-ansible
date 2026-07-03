@@ -45,8 +45,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Wireless Design UI Page](./images/wireless_design.png)
-![SSID add](./images/ssid_add.png)
+![Wireless Design UI Page](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/wireless_design/images/wireless_design.png)
+![SSID add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/wireless_design/images/ssid_add.png)
 
 ## Adapted Examples
 

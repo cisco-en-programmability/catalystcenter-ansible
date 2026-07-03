@@ -40,6 +40,7 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
     playbook_enable = test_data.get("playbook_enable")
     playbook_disable = test_data.get("playbook_disable")
     playbook_delete_non_provision_device = test_data.get("playbook_delete_non_provision_device")
+    playbook_invalid_ap_reboot_percentage = test_data.get("playbook_invalid_ap_reboot_percentage")
 
     def setUp(self):
         super(TestCatalystCenterProvisionWorkflow, self).setUp()
@@ -84,6 +85,11 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("Task_Details_10"),
                 self.test_data.get("Task_Details_11"),
                 self.test_data.get("re_provision_response"),
+            ]
+
+        elif "playbook_provision_device_not_found" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                Exception("No Device found with IP Address : 1.2.3.4"),
             ]
 
         elif "playbook_provision_device" in self._testMethodName:
@@ -432,4 +438,59 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "No provisioning operations were executed for these IPs: 1.1.1.1"
+        )
+
+    def test_provision_workflow_manager_playbook_invalid_ap_reboot_percentage(self):
+        """
+        Test that an invalid ap_reboot_percentage value is rejected during input validation.
+
+        Verifies that the module fails with an appropriate error message when a value
+        outside the allowed set (5, 15, 25) is provided for ap_reboot_percentage.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_invalid_ap_reboot_percentage
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Invalid 'ap_reboot_percentage' value '30'. "
+            "Supported values are 5, 15, and 25."
+        )
+
+    def test_provision_workflow_manager_playbook_provision_device_not_found(self):
+        """
+        Test provisioning behavior when the requested device IP lookup raises an exception.
+
+        Verifies that the workflow manager fails fast with an explicit device-not-found
+        error message when Catalyst Center lookup fails.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=[
+                    {
+                        "site_name_hierarchy": "Global/USA/SAN JOSE/BLD23",
+                        "management_ip_address": "1.2.3.4",
+                    }
+                ]
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get('msg'),
+            "Device with IP 1.2.3.4 not found in Cisco Catalyst Center."
         )

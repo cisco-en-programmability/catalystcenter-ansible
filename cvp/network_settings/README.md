@@ -74,8 +74,8 @@ Validation success! 👍
               server_type: AAA
     ```
     mapping config to UI Actions:
-    ![AAA Config 1](./images/aaa_1.png)
-    ![AAA Config 1.1](./images/aaa_1.1.png)
+    ![AAA Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/aaa_1.png)
+    ![AAA Config 1.1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/aaa_1.1.png)
 
   + Example input config (2):
     ```yaml
@@ -95,8 +95,8 @@ Validation success! 👍
               server_type: ISE
     ```
     mapping config to UI Actions:
-    ![AAA Config 2](./images/aaa_2.png)
-    ![AAA Config 2.1](./images/aaa_2.1.png)
+    ![AAA Config 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/aaa_2.png)
+    ![AAA Config 2.1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/aaa_2.1.png)
 
   #### b. DHCP
   Update the network server with only the DHCP field:
@@ -111,7 +111,7 @@ Validation success! 👍
               - 2004:192:3::40
     ```
     mapping config to UI Actions:
-    ![DHCP Config](./images/dhcp.png)
+    ![DHCP Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/dhcp.png)
 
   #### c. DNS
   Update the network server with only the DNS field:
@@ -127,7 +127,7 @@ Validation success! 👍
               secondary_ip_address: 2040:50:0::0
     ```
     mapping config to UI Actions:
-    ![DNS Config](./images/dns.png)
+    ![DNS Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/dns.png)
 
   + Example input config (2):
     ```yaml
@@ -141,7 +141,7 @@ Validation success! 👍
               secondary_ip_address: 2040:50:0::0
     ```
     mapping config to UI Actions:
-    ![DNS Config 1](./images/dns1.png)
+    ![DNS Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/dns1.png)
 
   #### d. NTP
   Update the network server with only the NTP field:
@@ -156,7 +156,7 @@ Validation success! 👍
               - 1.1.1.1
     ```
     mapping config to UI Actions:
-    ![NTP Config](./images/ntp.png)
+    ![NTP Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/ntp.png)
 
   #### e. Time Zone
   Update the network server with only the Time Zone field:
@@ -169,7 +169,7 @@ Validation success! 👍
             timezone: America/Los_Angeles
     ```
     mapping config to UI Actions:
-    ![Time Zone Config](./images/timezone.png)
+    ![Time Zone Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/timezone.png)
 
   #### f. Message of the Day
   Update the network server with only the Message of the Day field:
@@ -184,7 +184,7 @@ Validation success! 👍
               retain_existing_banner: false
     ```
     mapping config to UI Actions:
-    ![Banner Config 1](./images/banner1.png)
+    ![Banner Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/banner1.png)
 
   + Example input config (2):
     ```yaml
@@ -197,7 +197,7 @@ Validation success! 👍
               retain_existing_banner: false
     ```
     mapping config to UI Actions:
-    ![Banner Config 2](./images/banner2.png)
+    ![Banner Config 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/banner2.png)
 
   #### g. SNMP Traps
   Update the network server with only the SNMP Traps field:
@@ -214,7 +214,7 @@ Validation success! 👍
                 - 2.2.2.2
     ```
     mapping config to UI Actions:
-    ![SNMP Traps Config 1](./images/snmp_trap1.png)
+    ![SNMP Traps Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/snmp_trap1.png)
 
   + Example input config (2):
     ```yaml
@@ -227,7 +227,7 @@ Validation success! 👍
                 - 80.80.80.80
     ```
     mapping config to UI Actions:
-    ![SNMP Traps Config 2](./images/snmp_trap2.png)
+    ![SNMP Traps Config 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/snmp_trap2.png)
 
   #### h. Syslogs
   Update the network server with only the Syslogs field:
@@ -244,7 +244,7 @@ Validation success! 👍
                 - 3.3.3.3
     ```
     mapping config to UI Actions:
-    ![Syslogs Config 1](./images/syslogs1.png)
+    ![Syslogs Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/syslogs1.png)
 
   + Example input config (2):
     ```yaml
@@ -257,7 +257,7 @@ Validation success! 👍
                 - 90.90.90.90
     ```
     mapping config to UI Actions:
-    ![Syslogs Config 2](./images/syslogs2.png)
+    ![Syslogs Config 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/syslogs2.png)
 
   #### i. Application Visibility
   Update the network server with only the Application Visibility field:
@@ -274,7 +274,7 @@ Validation success! 👍
               enable_on_wired_access_devices: true
     ```
     mapping config to UI Actions:
-    ![Netflow Config 1](./images/netflow1.png)
+    ![Netflow Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/netflow1.png)
 
   + Example input config (2):
     ```yaml
@@ -286,7 +286,7 @@ Validation success! 👍
               collector_type: Builtin
     ```
     mapping config to UI Actions:
-    ![Netflow Config 2](./images/netflow2.png)
+    ![Netflow Config 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/netflow2.png)
 
   #### j. Wired Endpoint Data Collection
   Update the network server with only the Wired Endpoint Data Collection field:
@@ -300,7 +300,7 @@ Validation success! 👍
               enable_wired_data_collection: true
     ```
     mapping config to UI Actions:
-    ![Wired Endpoint Config](./images/wire_endpoint.png)
+    ![Wired Endpoint Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/wire_endpoint.png)
 
   #### k. Wireless Controller, Access Point, and Wireless Clients Health
   Update the network server with only the Wireless Controller, Access Point, and Wireless Clients Health field:
@@ -314,10 +314,10 @@ Validation success! 👍
               enable_wireless_telemetry: true
     ```
     mapping config to UI Actions:
-    ![Wireless Endpoint Config](./images/wireless_endpoint.png)
+    ![Wireless Endpoint Config](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/wireless_endpoint.png)
 
 *Note:* If you have updated the network server at the Global site, then at other sites under Global, if they have not yet updated the network server, they will inherit the values from the Global site.
-![Inheritance](./images/inherit.png)
+![Inheritance](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/inherit.png)
 
 ### 2. Add/Update All Network Servers in a Single Input
   + Example input config:
@@ -529,7 +529,7 @@ To run scale network settings, we need to create a scalable site first.
   ```
 
   #### 1d. UI Action
-  ![Scale Site UI](./images/scale_site.png)
+  ![Scale Site UI](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/scale_site.png)
 
 ### 2. Create Scale Network Settings
 
@@ -619,9 +619,9 @@ To run scale network settings, we need to create a scalable site first.
   ```
 
   #### 2d. UI Action
-  ![Scale Network UI 1](./images/scale_nw1.png)
-  ![Scale Network UI 2](./images/scale_nw2.png)
-  ![Scale Network UI 3](./images/scale_nw3.png)
+  ![Scale Network UI 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/scale_nw1.png)
+  ![Scale Network UI 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/scale_nw2.png)
+  ![Scale Network UI 3](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/scale_nw3.png)
 
 
 ## Understanding the Configurations for IP Pool Tasks
@@ -647,7 +647,7 @@ Manages IPv4 and IPv6 IP pools at the global level.
     ```
     mapping config to UI Actions:
 
-    ![Add Global Pool](./images/add_global_pool.png)
+    ![Add Global Pool](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/add_global_pool.png)
 
   * Parameter Explanation:
       ```yaml
@@ -662,7 +662,7 @@ Manages IPv4 and IPv6 IP pools at the global level.
 
   #### b. Edit IP Pool (Global Pool)
   We can only edit 'name', 'dhcp_server_ips', and 'dns_server_ips' in the global pool.
-  ![alt text](./images/edit_global_pool.png)
+  ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/edit_global_pool.png)
   + Example input config:
     ```yaml
     network_settings_details:
@@ -701,7 +701,7 @@ Manages IPv4 and IPv6 IP pools at the global level.
     ```
     mapping config to UI Actions:
 
-    ![Delete All Global Pool](./images/delete_all_global_pool.png)
+    ![Delete All Global Pool](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/delete_all_global_pool.png)
 
   - **Note:** If the IP pool has been reserved, it cannot be deleted.
 
@@ -805,7 +805,7 @@ This task reserves sub-pools from a global IP address pool for specific sites in
           slaac_support: false
     ```
     mapping config to UI Actions:
-    ![Add Sub Pool 1](./images/add_sub_pool_1.png)
+    ![Add Sub Pool 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/add_sub_pool_1.png)
 
   + Example input config (2):
     ```yaml
@@ -824,7 +824,7 @@ This task reserves sub-pools from a global IP address pool for specific sites in
           slaac_support: false
     ```
     mapping config to UI Actions:
-    ![Add Sub Pool 2](./images/add_sub_pool_2.png)
+    ![Add Sub Pool 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/add_sub_pool_2.png)
 
   * Parameter Explanation:
     ```yaml
@@ -879,7 +879,7 @@ This task reserves sub-pools from a global IP address pool for specific sites in
           force_delete: true
     ```
     mapping config to UI Actions:
-    ![Delete All Subpool](./images/delete_all_subpool.png)
+    ![Delete All Subpool](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_settings/images/delete_all_subpool.png)
 
   #### d. Add/Edit/Delete Bulk IP Subpool Configurations
   + Example Config Input for Adding Multiple IP Subpools (3 IP Subpools | 2 Fields: 1 IPv4, 1 Field: 1 IPv4 + 1 IPv6):
@@ -1108,7 +1108,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

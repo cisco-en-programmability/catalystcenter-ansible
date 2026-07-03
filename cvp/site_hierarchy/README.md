@@ -11,7 +11,7 @@ This playbook enables you to automate the creation, modification, and deletion o
 - Site deletion and cleanup workflows.
 
 Network Hierarchy table, displaying Global, Area, Site, Building, and Floor.
-![Alt text](./images/site_image1.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/site_hierarchy/images/site_image1.png)
 
 
 ---
@@ -40,7 +40,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -244,10 +244,10 @@ Use the input var file: jinja_template_site_hierarchy_design_vars.yml and specif
 ### Example of Sites Created Using a Jinja Template
 Figure 2: Example of a site design created using a Jinja template.
 
-![Alt text](./images/template_created_sites.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/site_hierarchy/images/template_created_sites.png)
 
 Figure 3: Example of a site created using a Jinja template, including floor image design.
-![Alt text](./images/template_created_floor_image.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/site_hierarchy/images/template_created_floor_image.png)
 
 Delete all the sites under a specified hierarchy.
 

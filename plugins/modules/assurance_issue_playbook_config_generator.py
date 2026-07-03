@@ -96,7 +96,7 @@ options:
 
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 notes:
 - SDK Methods used are
     - issues.AssuranceSettings.get_all_the_custom_issue_definitions_based_on_the_given_filters

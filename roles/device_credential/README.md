@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Credential](./images/credential.png)
-![Manage Creden](./images/manage_creden.png)
+![Credential](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/device_credential/images/credential.png)
+![Manage Creden](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/device_credential/images/manage_creden.png)
 
 ## Adapted Examples
 

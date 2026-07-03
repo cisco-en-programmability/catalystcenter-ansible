@@ -2,5 +2,5 @@
 catalystcenter_version: 2.3.7.6
 catalystcenter_verify: false
 jinjatemplate: true
-jinjatemplate_file: ../jinja_template/sda_host_onboarding_jinja_template1.yml
+jinjatemplate_file: ../jinja_template/sda_host_onboarding_jinja_template1.j2
 sda_host_onboarding_details: []

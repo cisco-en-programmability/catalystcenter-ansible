@@ -127,7 +127,7 @@ options:
                 elements: str
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 notes:
 - SDK Methods used are
     - sda.Sda.get_provisioned_devices

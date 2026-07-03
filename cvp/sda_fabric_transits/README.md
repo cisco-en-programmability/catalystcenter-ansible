@@ -58,7 +58,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -162,7 +162,7 @@ Before creating fabric transits, ensure the following are configured in *Cisco C
 
 ##### 1. **Create IP-Based Transit**  
 *Example*: Configure a new IP-based transit with BGP routing.
-![Alt text](images/image.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_transits/images/image.png)
 ```yaml
 catalystcenter_version: 3.1.3.0
 catalystcenter_verify: false
@@ -198,7 +198,7 @@ fabric_transits:
 
 ##### 3. **Create SDA LISP BGP Transit**  
 *Example*: Configure an SDA BGP transit with control plane devices.
-![Alt text](images/image-1.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_transits/images/image-1.png)
 ```yaml
 catalystcenter_version: 3.1.3.0
 catalystcenter_verify: false
@@ -243,7 +243,7 @@ fabric_transits:
 
 ##### 5. **Update Transit Configuration**  
 *Example*: Update control plane devices for an existing transit.
-![Alt text](./images/image-3.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_transits/images/image-3.png)
 > **Note**: IP-based transits cannot change ASN after creation. Only control plane devices and multicast settings can be updated for SDA transits.
 ```yaml
 catalystcenter_version: 3.1.3.0
@@ -278,7 +278,7 @@ fabric_transits:
 
 ##### 7. **Delete Fabric Transits**  
 *Example*: Delete one or more fabric transits by name.
-![Alt text](images/image-2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_transits/images/image-2.png)
 > **Warning**: Deleting transits may impact network connectivity. Verify dependencies before proceeding.
 ```yaml
 catalystcenter_version: 3.1.3.0
@@ -322,7 +322,7 @@ yamale -s cvp/sda_fabric_transits/schema/sda_fabric_transits_workflow_schema.yml
 3. **Verify Deployment**:  
    After execution, verify the configuration in the *Cisco Catalyst Center* UI under **Design > Network Settings > SDA Fabric Transits**. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.  
 
-   ![Fabric transit configuration in Cisco Catalyst Center UI](./images/image-1.png)  
+   ![Fabric transit configuration in Cisco Catalyst Center UI](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_transits/images/image-1.png)  
    **Figure 1**: *Fabric Transit Configuration in Cisco Catalyst Center*
 
 ---

@@ -318,7 +318,7 @@ options:
             default: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Methods used are sites.Sites.get_site,
     devices.Devices.get_network_device_by_ip,
@@ -688,7 +688,20 @@ class Provision(CatalystCenterBase):
                 "elements": "dict",
             },
             "skip_ap_provision": {"type": "bool", "required": False},
-            "rolling_ap_upgrade": {"type": "dict", "required": False},
+            "rolling_ap_upgrade": {
+                "type": "dict",
+                "required": False,
+                "options": {
+                    "enable_rolling_ap_upgrade": {
+                        "type": "bool",
+                        "required": False,
+                    },
+                    "ap_reboot_percentage": {
+                        "type": "int",
+                        "required": False,
+                    },
+                },
+            },
             "ap_authorization_list_name": {"type": "str", "required": False},
             "authorize_mesh_and_non_mesh_aps": {"type": "bool", "required": False, "default": False},
             "provisioning": {"type": "bool", "required": False, "default": True},
@@ -735,11 +748,11 @@ class Provision(CatalystCenterBase):
 
                 for config_item in self.config:
                     telemetry_list = config_item.get("application_telemetry", [])
-                    for index, config_item in enumerate(self.config):
+                    for index, config_item in enumerate(self.config, start=1):
                         telemetry_list = config_item.get("application_telemetry", [])
 
                         # Validate each telemetry entry
-                        for entry_index, telemetry_entry in enumerate(telemetry_list):
+                        for entry_index, telemetry_entry in enumerate(telemetry_list, start=1):
 
                             if (
                                 "device_ips" not in telemetry_entry
@@ -782,7 +795,7 @@ class Provision(CatalystCenterBase):
                     "type": "str",
                     "required": True,
                 }
-                for index, config_item in enumerate(self.config):
+                for index, config_item in enumerate(self.config, start=1):
                     if (
                         "site_name_hierarchy" not in config_item
                         or not config_item["site_name_hierarchy"]
@@ -817,6 +830,36 @@ class Provision(CatalystCenterBase):
                                 "Expected a boolean-compatible value.".format(provisioning_value)
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    rolling_ap_upgrade = config_item.get("rolling_ap_upgrade")
+                    if rolling_ap_upgrade is not None:
+                        self.log(
+                            "Validating 'rolling_ap_upgrade' in config item at index {0}.".format(index),
+                            "DEBUG",
+                        )
+
+                        ap_reboot_percentage = rolling_ap_upgrade.get("ap_reboot_percentage")
+                        if ap_reboot_percentage is not None:
+                            allowed_ap_reboot_percentages = frozenset({5, 15, 25})
+                            if not str(ap_reboot_percentage).isdigit():
+                                self.msg = (
+                                    "Invalid 'ap_reboot_percentage' value '{0}'. Must be an integer. "
+                                    "Supported values are 5, 15, and 25.".format(ap_reboot_percentage)
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                            elif int(ap_reboot_percentage) not in allowed_ap_reboot_percentages:
+                                self.msg = (
+                                    "Invalid 'ap_reboot_percentage' value '{0}'. "
+                                    "Supported values are 5, 15, and 25.".format(ap_reboot_percentage)
+                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                            else:
+                                self.log(
+                                    "Validated 'ap_reboot_percentage' with supported value '{0}' in config item at index {1}.".format(
+                                        ap_reboot_percentage, index
+                                    ),
+                                    "DEBUG",
+                                )
 
                 if missing_params:
                     self.msg = "Missing or invalid required parameter(s): {0}".format(
@@ -2612,11 +2655,12 @@ class Provision(CatalystCenterBase):
                 )
 
             except Exception as e:
-                error_message = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(
-                    device["management_ip_address"]
+                self.msg = "Device with IP {0} not found in Cisco Catalyst Center.".format(
+                    ip_address
                 )
-                self.log(error_message, "WARNING")
-                continue
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if not dev_response or "response" not in dev_response:
                 self.log(
@@ -3446,7 +3490,6 @@ class Provision(CatalystCenterBase):
                 self.log("'skip_ap_provision'  is not specified", "DEBUG")
 
             self.log("Processing rolling AP upgrade settings", "INFO")
-            allowed_ap_reboot_percentages = {5, 10, 25}
 
             if "rolling_ap_upgrade" in prov_params:
                 self.log("Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG")
@@ -3454,36 +3497,7 @@ class Provision(CatalystCenterBase):
                 rolling_upgrade_config = {}
                 rolling_upgrade_data = prov_params["rolling_ap_upgrade"]
 
-                if "ap_reboot_percentage" in rolling_upgrade_data:
-                    reboot_percentage_value = rolling_upgrade_data["ap_reboot_percentage"]
-
-                    if reboot_percentage_value is None or not str(reboot_percentage_value).isdigit():
-                        self.msg = (
-                            "Error: Invalid percentage value '{0}'. Must be an integer. "
-                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    reboot_percentage_value = int(reboot_percentage_value)
-                    if reboot_percentage_value not in allowed_ap_reboot_percentages:
-                        self.msg = (
-                            "Error: Invalid percentage value '{0}'. "
-                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    rolling_upgrade_config["ap_reboot_percentage"] = reboot_percentage_value
-                    self.log(
-                        "Processed 'ap_reboot_percentage': {0}".format(reboot_percentage_value),
-                        "DEBUG",
-                    )
-
-                # Process remaining keys in 'rolling_ap¿_upgrade'
                 for key, value in rolling_upgrade_data.items():
-                    if key == "ap_reboot_percentage":
-                        self.log("Skipping already processed key 'ap_reboot_percentage'", "DEBUG")
-                        continue
-
                     if value is not None:
                         rolling_upgrade_config[key] = value
                         self.log(
@@ -3495,6 +3509,18 @@ class Provision(CatalystCenterBase):
                             "No '{0}' found in rolling_ap_upgrade, skipping".format(key),
                             "DEBUG",
                         )
+
+                # Normalize validated percentage to int for SDK payload schema.
+                if rolling_upgrade_config.get("ap_reboot_percentage") is not None:
+                    rolling_upgrade_config["ap_reboot_percentage"] = int(
+                        rolling_upgrade_config["ap_reboot_percentage"]
+                    )
+                    self.log(
+                        "Normalized 'ap_reboot_percentage' to int: {0}".format(
+                            rolling_upgrade_config["ap_reboot_percentage"]
+                        ),
+                        "DEBUG",
+                    )
 
                 payload["rollingApUpgrade"] = rolling_upgrade_config
 

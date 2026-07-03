@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Archit Soni"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Archit Soni, Sunil Shatagopa"
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
@@ -25,8 +25,11 @@ description:
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
-  (@madhansansel) Archit Soni (@koderchit)
+author:
+  - Rugvedi Kapse (@rukapse)
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Archit Soni (@koderchit)
+  - Sunil Shatagopa (@shatagopasunil)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -70,7 +73,9 @@ options:
             Providers having overlapping routes, traffic
             will be load-balanced across those Provider
             Virtual Networks.
-          - Required for creating or updating the policy.
+          - Required for creating the policy. Optional
+            for updating; if not provided, the existing
+            value from Cisco Catalyst Center is used.
           - Updating this field is not allowed.
         type: str
       subscriber_virtual_networks:
@@ -80,7 +85,9 @@ options:
             Network containing shared services resources.
           - A Virtual Network previously defined as
             a Provider cannot be selected as a subscriber.
-          - Required for creating or updating the policy.
+          - Required for creating the policy. Optional
+            for updating; if not provided, the existing
+            value from Cisco Catalyst Center is used.
           - Can be modified.
           - Example - ["VN_2", "VN_4"]
         type: list
@@ -106,7 +113,7 @@ options:
         elements: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites
     sda.SDA.get_extranet_policies sda.SDA.add_extranet_policy
@@ -153,7 +160,7 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Policies/USA", "Global/Test_Extranet_Policies/India"]
 - name: Update existing Extranet Policy
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -185,7 +192,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - extranet_policy_name: "test_extranet_policy_1"
-        fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
+        fabric_sites: ["Global/Test_Extranet_Policies/USA", "Global/Test_Extranet_Policies/India"]
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
 - name: Delete Extranet Policy
@@ -337,7 +344,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
     def validate_merged_parameters(self, config):
         """
         Validate that the required parameters are present in the configuration for performing
-        Add or Update Extranet Policy operations.
+        Add Extranet Policy operations.
         Parameters:
             - config (dict): A dictionary containing the configuration parameters to be validated.
         Returns:
@@ -348,6 +355,9 @@ class SDAExtranetPolicies(CatalystCenterBase):
             'provider_virtual_network' and 'subscriber_virtual_networks'. If any of these parameters
             are missing, it logs an error message and raises an exception to halt execution. If all
             required parameters are present, it logs a success message indicating successful validation.
+            Note: This validation is only invoked for create operations. For update operations,
+            these parameters are optional as missing values are populated from the existing
+            policy in Cisco Catalyst Center.
         """
         # Check for provider_virtual_network
         provider_virtual_network = config.get("provider_virtual_network")
@@ -355,7 +365,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
             msg = (
                 "Missing required parameter: 'provider_virtual_network'. "
                 "(extranet_policy_name, provider_virtual_network, and subscriber_virtual_networks) - "
-                "are the required parameters for performing Add or Update Extranet Policy operations."
+                "are the required parameters for performing Add Extranet Policy operations."
             )
             self.log(msg, "ERROR")
             self.module.fail_json(msg)
@@ -366,7 +376,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
             msg = (
                 "Missing required parameter: 'subscriber_virtual_networks'. "
                 "(extranet_policy_name, provider_virtual_network, and subscriber_virtual_networks) - "
-                "are the required parameters for performing Add or Update Extranet Policy operations."
+                "are the required parameters for performing Add Extranet Policy operations."
             )
             self.log(msg, "ERROR")
             self.module.fail_json(msg)
@@ -988,7 +998,6 @@ class SDAExtranetPolicies(CatalystCenterBase):
         extranet_policy_details = self.have.get("current_extranet_policy")
 
         if state == "merged":
-            self.validate_merged_parameters(config)
             fabric_sites = config.get("fabric_sites")
             if fabric_sites:
                 self.log(
@@ -1007,6 +1016,24 @@ class SDAExtranetPolicies(CatalystCenterBase):
                 site_details = self.get_fabric_sites_ids(site_details)
 
             if extranet_policy_exists:
+                # For update operations, fill in missing parameters from the existing policy
+                if config.get("provider_virtual_network") is None:
+                    config["provider_virtual_network"] = extranet_policy_details.get("providerVirtualNetworkName")
+                    self.log(
+                        "Using existing 'provider_virtual_network': '{0}' from Cisco Catalyst Center.".format(
+                            config["provider_virtual_network"]
+                        ),
+                        "INFO",
+                    )
+                if config.get("subscriber_virtual_networks") is None:
+                    config["subscriber_virtual_networks"] = extranet_policy_details.get("subscriberVirtualNetworkNames")
+                    self.log(
+                        "Using existing 'subscriber_virtual_networks': '{0}' from Cisco Catalyst Center.".format(
+                            config["subscriber_virtual_networks"]
+                        ),
+                        "INFO",
+                    )
+
                 self.log(
                     "Extranet Policy - '{0}' exists in the Cisco Catalyst Center, "
                     "therefore setting 'update_extranet_policy_params'.".format(
@@ -1033,6 +1060,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
                     self.status = "success"
                     return self
             else:
+                self.validate_merged_parameters(config)
                 self.log(
                     "Extranet Policy - '{0}' does not exist in the Cisco Catalyst Center, "
                     "therefore setting 'add_extranet_policy_params'.".format(

@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni"]
+__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni, Sunil Shatagopa"]
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_workflow_manager
@@ -26,7 +26,11 @@ description:
 version_added: '6.21.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Archit Soni (@koderchit)
+author:
+  - Muthu Rakesh (@MUTHU-RAKESH-27)
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Archit Soni (@koderchit)
+  - Sunil Shatagopa (@shatagopasunil)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -91,7 +95,7 @@ options:
                   - Device must be provisioned to the
                     site prior to configuration.
                   - For deleting a device, the device
-                    will be deleted if the user doesnot
+                    will be deleted if the user does not
                     pass the layer3_handoff_ip_transit,
                     layer3_handoff_sda_transit and layer2_handoff
                     with the state as deleted.
@@ -520,7 +524,7 @@ options:
                     description:
                       - Adds layer 2 handoffs in fabric
                         devices.
-                      - This parameter cannots be updated.
+                      - This parameter cannot be updated.
                       - Configured while transferring
                         a device's data traffic at Layer
                         2 (Data Link layer).
@@ -572,7 +576,7 @@ options:
                         type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
   - A reboot is required to remove wireless configurations from the device after disabling wireless controller capabilities.
@@ -735,7 +739,7 @@ EXAMPLES = r"""
                   enable: true
                   ap_reboot_percentage: 25
 
-- name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable AP rolling upgrade.
+- name: Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable AP rolling upgrade.
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -757,7 +761,7 @@ EXAMPLES = r"""
                 rolling_ap_upgrade:
                   enable: false
 
-- name: Update SDA fabric device with device role containing WIRELESSS_CONTROLLER_NODE to disable wireless capabilities with reload.
+- name: Update SDA fabric device with device role containing WIRELESS_CONTROLLER_NODE to disable wireless capabilities with reload.
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -1789,7 +1793,7 @@ class FabricDevices(CatalystCenterBase):
             fabric_site_exists = fabric_site_exists.get("response")
             if not fabric_site_exists:
                 self.log(
-                    "The site hierarchy 'fabric_site' {site_name} is not a valid one or it not a 'Fabric' site.".format(
+                    "The site hierarchy 'fabric_site' {site_name} is not a valid one or it is not a 'Fabric' site.".format(
                         site_name=site_name
                     ),
                     "ERROR",
@@ -1865,7 +1869,7 @@ class FabricDevices(CatalystCenterBase):
             fabric_zone = fabric_zone.get("response")
             if not fabric_zone:
                 self.log(
-                    "The site hierarchy 'fabric_zone' {site_name} is not a valid one or it not a 'Fabric' zone.".format(
+                    "The site hierarchy 'fabric_zone' {site_name} is not a valid one or it is not a 'Fabric' zone.".format(
                         site_name=site_name
                     ),
                     "ERROR",
@@ -2102,10 +2106,10 @@ class FabricDevices(CatalystCenterBase):
         Parameters:
             fabric_id (str): The Id of the fabric site to check for existence.
             device_id (str): The Id of the provisioned device to check for existence.
-            transit_name (str): The IP address of the the provisioned device.
+            transit_name (str): The name of the transit network.
         Returns:
             sda_l3_handoff_details (dict or None): The details of the L3 Handoff with SDA transit with
-            the given transit name. None if the there is no L3 Handoff with SDA transit.
+            the given transit name. None if there is no L3 Handoff with SDA transit.
         Description:
             Call the API 'get_fabric_devices_layer3_handoffs_with_sda_transit'. If the response is
             empty return None. Else, return the details of the l3 handoff with SDA transit.
@@ -2226,13 +2230,13 @@ class FabricDevices(CatalystCenterBase):
         Parameters:
             fabric_id (str): The Id of the fabric site to check for existence.
             device_id (str): The Id of the provisioned device to check for existence.
-            transit_name (str): The IP address of the the provisioned device.
+            transit_name (str): The name of the transit network.
             virtual_network_name (str): The Layer 3 virtual network name.
             vlan_id (str): The VLAN ID associated with the L3 Handoff IP transit.
         Returns:
             ip_l3_handoff_details (dict or None): The details of the L3 Handoff with IP transit with
             the given transit name, virtual network name or VLAN ID.
-            None if the there is no L3 Handoff with Ip transit.
+            None if there is no L3 Handoff with IP transit.
         Description:
             Call the API 'get_fabric_devices_layer3_handoffs_with_ip_transit'. If the response is
             empty return None. Else, return the details of the l3 handoff with SDA transit which matches
@@ -2390,7 +2394,7 @@ class FabricDevices(CatalystCenterBase):
         Parameters:
             fabric_id (str): The Id of the fabric site to check for existence.
             device_id (str): The Id of the provisioned device to check for existence.
-            device_ip (str): The IP address of the the provisioned device.
+            device_ip (str): The IP address of the provisioned device.
         Returns:
             dict - A dictionary containing information about the
                    SDA fabric device's existence:
@@ -2398,7 +2402,7 @@ class FabricDevices(CatalystCenterBase):
                 - 'id' (str or None): The ID of the fabric device if it exists or None if it doesn't.
                 - 'device_details' (dict or None): Details of the fabric device if it exists else None.
         Description:
-            Sets the existance, details and the id of the fabric device as None.
+            Sets the existence, details and the id of the fabric device as None.
             Calls the API 'get_fabric_devices' by settings the fields 'fabric_id'
             and 'network_device_id'.
             If the response is empty return the device_info, Else, format the given
@@ -7269,7 +7273,7 @@ class FabricDevices(CatalystCenterBase):
                 "DEBUG",
             )
             self.log(
-                "The SDA L3 Handoff doesnot exist under the device {device_ip}.".format(
+                "The SDA L3 Handoff does not exist under the device {device_ip}.".format(
                     device_ip=device_ip
                 )
             )
@@ -7517,7 +7521,7 @@ class FabricDevices(CatalystCenterBase):
             else:
                 result_fabric_device_msg.update(
                     {
-                        "l3_ip_handoff": "IP L3 Handoff doesnot found in the Cisco Catalyst Center."
+                        "l3_ip_handoff": "IP L3 Handoff not found in the Cisco Catalyst Center."
                     }
                 )
             have_sda_l3_handoff = have_fabric_device.get("sda_l3_handoff_details")
@@ -7537,7 +7541,7 @@ class FabricDevices(CatalystCenterBase):
             else:
                 result_fabric_device_msg.update(
                     {
-                        "l3_sda_handoff": "SDA L3 Handoff doesnot found in the Cisco Catalyst Center."
+                        "l3_sda_handoff": "SDA L3 Handoff not found in the Cisco Catalyst Center."
                     }
                 )
 
@@ -7559,7 +7563,7 @@ class FabricDevices(CatalystCenterBase):
             else:
                 result_fabric_device_msg.update(
                     {
-                        "l2_handoff": "L2 Handoff doesnot found in the Cisco Catalyst Center."
+                        "l2_handoff": "L2 Handoff not found in the Cisco Catalyst Center."
                     }
                 )
 

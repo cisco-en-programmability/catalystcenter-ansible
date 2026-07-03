@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Ext1](./images/ext1.png)
-![Ext2](./images/ext2.png)
+![Ext1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_extranet_policies/images/ext1.png)
+![Ext2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/sda_extranet_policies/images/ext2.png)
 
 ## Adapted Examples
 
