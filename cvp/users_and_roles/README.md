@@ -249,13 +249,13 @@ Run the create Playbook
 Once the users and roles are created, they will be reflected in the Catalyst Center.
 
 Figure 1: User mapping with the default and customized roles.
-![Alt text](./images/user_roles_mapping.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/user_roles_mapping.png)
 
 Figure 2: Customized Role 1 creation with the permissions.
-![Alt text](./images/customized_role_permissions1.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/customized_role_permissions1.png)
 
 Figure 3: Customized Role 2 creation with the permissions.
-![Alt text](./images/customized_role_permissions2.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/customized_role_permissions2.png)
 
 ## Run the playbook with password in Ansible vault. 
 Create your password file in the folder: vaulted_passwords/<filename>
@@ -387,10 +387,10 @@ roles_users_details:
         - Assurance-role
 ```
 Figure 4: User associated with roles using Jinja template.
-![Alt text](./images/user_with_roles_associated_with_jina_template.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/user_with_roles_associated_with_jina_template.png)
 
 Figure 5: Role creation and assigned role to the user with Jinja template.
-![Alt text](./images/role_defined_with_jinja_template.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/role_defined_with_jinja_template.png)
 
 ### ## Deleting the users and the roles with Jinja template and Vault password
 ```bash
@@ -398,10 +398,10 @@ Figure 5: Role creation and assigned role to the user with Jinja template.
 ```
 
 Figure 6: User deleted using Jinja template.
-![Alt text](./images/Deleted_users_with_jinja_template.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/Deleted_users_with_jinja_template.png)
 
 Figure 7: Role deleted using Jinja template.
-![Alt text](./images/Deleted_roles_with_jinja_template.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/users_and_roles/images/Deleted_roles_with_jinja_template.png)
 
 
 ## References
@@ -438,7 +438,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

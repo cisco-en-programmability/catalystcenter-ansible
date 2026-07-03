@@ -26,7 +26,7 @@ This module provides a comprehensive toolkit for automating LAN network operatio
 
 To initiate LAN automation, the following prerequisites in Catalyst Center must be met:
 
-![LAN Automation Prerequisites](./images/LAN-Auto-Prereqs.png)
+![LAN Automation Prerequisites](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/LAN-Auto-Prereqs.png)
 
 **Required Prerequisites:**
 1. **Site Hierarchy**: Define site structure in Catalyst Center (Global/Area/Building/Floor)
@@ -35,11 +35,6 @@ To initiate LAN automation, the following prerequisites in Catalyst Center must 
 4. **Device Discovery**: Ensure primary/seed device is already discovered in Catalyst Center
 5. **Network Credentials**: Configure valid credentials for device access
 
----
-
-## Demo Video
-
-[![LAN Automation Execution Demo](./images/Lan_Automation_demo.png)](http://3.136.0.140/iac_demos/lan_auto/LAN_Automation_Workflow_Manager_Demo.mp4)
 
 ---
 
@@ -69,7 +64,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -213,7 +208,7 @@ Configuration parameters for creating, updating, and deleting Port Channels betw
 
 This example topology illustrates a setup with a primary (or seed) device and a peer device, both initially discovered in Catalyst Center. A LAN Automation session will be initiated to discover and onboard all specified devices within the topology, including transit, IM1, IM2, and four access devices. Devices are LAN automated up to the specified level below the primary seed device which in this case is 4. The default value for discovery depth is 2 and the maximum value is 5.
 
-![LAN Automation Topology](./images/LAN-Auto-Topology.png)
+![LAN Automation Topology](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/LAN-Auto-Topology.png)
 
 **Topology Components:**
 - **Primary Seed Device**: Starting point for LAN automation (91.1.1.6)
@@ -324,7 +319,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/lan_automation/playbook/l
 
 To verify the LAN Automation session was executed successfully, check Catalyst Center under **Provision > LAN Automation** tab.
 
-![LAN Automation Verification](./images/LAN-Auto-Verify.png)
+![LAN Automation Verification](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/LAN-Auto-Verify.png)
 
 **Verification Checklist:**
 - ✅ Session status shows "Completed" or "In Progress"
@@ -595,9 +590,9 @@ You can create Port Channels between two LAN Automated devices using different d
 To create a Port Channel, provide device identifiers for both source and destination devices along with the list of physical interface links to aggregate.
 
 ##### Example 1: Create Port Channel using Management IP Addresses
-![Alt text](./images/Create_port_channel01.png)
-![Alt text](./images/Create_port_channel02.png)
-![Alt text](./images/Create_port_channel03.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Create_port_channel01.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Create_port_channel02.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Create_port_channel03.png)
 
 ```yaml
 ---
@@ -712,9 +707,9 @@ You can add new links to or remove links from existing Port Channels. There are 
 ##### Example 1: Update Port Channel by Providing Existing Link
 
 To add new links to an existing Port Channel, provide at least one existing link to identify the Port Channel, then specify the new links to add.
-![Alt text](./images/Update_port_channel01.png)
-![Alt text](./images/Update_port_channel02.png)
-![Alt text](./images/Update_port_channel03.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Update_port_channel01.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Update_port_channel02.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Update_port_channel03.png)
 
 ```yaml
 ---
@@ -801,7 +796,7 @@ lan_automation_details:
 ##### Example 2: Delete Specific Port Channel by Number
 
 Target a specific Port Channel for deletion using its Port Channel number.
-![Alt text](./images/Delete_link02.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Delete_link02.png)
 
 ```yaml
 ---
@@ -818,7 +813,7 @@ lan_automation_details:
 ##### Example 3: Delete Specific Link from Port Channel
 
 Remove a single link from a Port Channel. If this operation would result in fewer than 2 links remaining, the entire Port Channel will be automatically deleted.
-![Alt text](./images/Delete_link01.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/lan_automation/images/Delete_link01.png)
 
 ```yaml
 ---

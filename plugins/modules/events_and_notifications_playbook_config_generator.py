@@ -198,7 +198,7 @@ options:
             elements: dict
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 notes:
 - SDK Methods used are
     - event_management.Events.get_webhook_destination

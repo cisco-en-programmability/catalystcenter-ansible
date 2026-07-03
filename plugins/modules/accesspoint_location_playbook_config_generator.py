@@ -161,7 +161,7 @@ options:
             required: false
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - This module utilizes the following SDK methods
     site_design.get_planned_access_points_positions

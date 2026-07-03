@@ -62,8 +62,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![LAN Automation Prerequisites](./images/LAN-Auto-Prereqs.png)
-![LAN Automation Execution Demo](./images/Lan_Automation_demo.png)
+![LAN Automation Prerequisites](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/lan_automation/images/LAN-Auto-Prereqs.png)
+![LAN Automation Execution Demo](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/lan_automation/images/Lan_Automation_demo.png)
 
 ## Adapted Examples
 

@@ -57,7 +57,7 @@ catalyst_center_hosts:
     From the Actions drop-down list, choose Inventory > Device Replacement > Mark Device for Replacement.
     In the Mark for Replacement window, click Mark.
     Figure1: Mark Faulty Device for replacement UI
-    ![Alt text](./images/mark_device_replacement.png)
+    ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_replacement_rma/images/mark_device_replacement.png)
 
 2. To replace the device, do the following:
     Select the device that you want to replace and choose Actions > Replace Device.
@@ -71,7 +71,7 @@ catalyst_center_hosts:
     In the Sync with Smart Account window, click Sync.
     The Automation does not support scheduling through Catalyst Center. 
     User should schedule their script run from automation.
-    ![Alt text](./images/replacement.png)
+    ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_replacement_rma/images/replacement.png)
 
 ## Inputs:
 ```yaml
@@ -122,7 +122,7 @@ ansible-playbook -i host_inventory_dnac1 cvp/device_replacement_rma/playbook/del
     A list of devices that are marked for replacement is displayed.
     If you don't want to replace the device, select the device and choose Actions > Unmark for Replacement.
     Figure3: Mark Faulty Device for replacement UI
-    ![Alt text](./images/unmark_faulty_device.png)
+    ![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_replacement_rma/images/unmark_faulty_device.png)
 
 
 # Limitations of the RMA Workflow in Catalyst Center
@@ -193,7 +193,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

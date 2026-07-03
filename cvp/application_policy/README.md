@@ -38,7 +38,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -222,11 +222,11 @@ A. Create Queuing Profile (state: merged)
 
 Image with bandwidth_settings input on UI:
 
-![alt text](images/create_queuing_profiles.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/create_queuing_profiles.png)
 
 Image with dscp_settings input on UI:
 
-![alt text](images/create_queuing_profiles_dscp.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/create_queuing_profiles_dscp.png)
 
 This example defines two queuing profiles to classify and prioritize different types of network traffic:
 
@@ -348,7 +348,7 @@ C. Create Application (state: merged):
 
 Image add Application on UI:
 
-![alt text](images/create_application.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/create_application.png)
 
 This example defines two applications for network traffic identification:
 
@@ -438,7 +438,7 @@ E. Create Application Policy (state: merged):
 
 Image add Application Policy on UI:
 
-![alt text](images/create_application_policy.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/create_application_policy.png)
 
 This example creates two application policies:
 
@@ -614,11 +614,11 @@ After executing the playbook, check the Catalyst Center UI to verify switch prof
 
  - Verify Queuing Profiles:
 
- ![alt text](images/queuing_profiles.png)
+ ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/queuing_profiles.png)
 
  - Verify Application Policy:
 
-![alt text](images/application_policy1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/application_policy/images/application_policy1.png)
 
 ## References
 

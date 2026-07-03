@@ -64,8 +64,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![Discovery 2](./images/discovery_2.png)
-![Discovery 3](./images/discovery_3.png)
+![Discovery 2](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/discovery/images/discovery_2.png)
+![Discovery 3](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/discovery/images/discovery_3.png)
 
 ## Adapted Examples
 

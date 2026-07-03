@@ -133,7 +133,7 @@ export CATALYST_CENTER_PASSWORD='<password>'
 
 > All `ansible-playbook` examples below assume this inventory exists at
 > `inventory/hosts.yml`. Per-CVP README files (e.g.
-> [cvp/swim/README.md](cvp/swim/README.md)) use the same pattern.
+> [cvp/swim/README.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/swim/README.md)) use the same pattern.
 
 ---
 
@@ -256,7 +256,7 @@ separate play that inherits the imported playbook's `hosts:` (here:
 `catalyst_center_hosts`), so the inventory must define that group. Per-CVP
 inputs are passed via the `vars:` block as `VARS_FILE_PATH`, resolved
 **relative to the imported playbook's directory** (see VARS_FILE_PATH note
-in any per-CVP README, e.g. [cvp/swim/README.md](cvp/swim/README.md)).
+in any per-CVP README, e.g. [cvp/swim/README.md](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/swim/README.md)).
 
 ```yaml
 # deploy-all.yml
@@ -286,6 +286,8 @@ ansible-playbook -i inventory/hosts.yml deploy-all.yml
 
 ## 🔄 CI/CD Integration
 
+For Red Hat certified deployments, run these examples inside an Ansible Execution Environment or runner image that already includes `ansible-core >= 2.16` with Python `3.12`. The examples below only install the Cisco Catalyst Center Python SDK with `pip`.
+
 ### GitHub Actions
 
 ```yaml
@@ -308,11 +310,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       
       - name: Install dependencies
         run: |
-          pip install ansible catalystcentersdk
+          pip install catalystcentersdk
           ansible-galaxy collection install cisco.catalystcenter
       
       - name: Copy CVPs
@@ -358,12 +360,12 @@ variables:
   CVP_VERSION: "2.7.0"
 
 .install_ansible: &install_ansible
-  - pip install ansible catalystcentersdk
+  - pip install catalystcentersdk
   - ansible-galaxy collection install cisco.catalystcenter:${CVP_VERSION}
 
 prepare:
   stage: prepare
-  image: python:3.11
+  image: python:3.12
   script:
     - *install_ansible
     - mkdir -p cvp
@@ -375,7 +377,7 @@ prepare:
 
 validate:
   stage: validate
-  image: python:3.11
+  image: python:3.12
   dependencies:
     - prepare
   script:
@@ -385,7 +387,7 @@ validate:
 
 deploy:
   stage: deploy
-  image: python:3.11
+  image: python:3.12
   dependencies:
     - prepare
   script:
@@ -427,7 +429,7 @@ pipeline {
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
-                    pip install ansible catalystcentersdk
+                    pip install catalystcentersdk
                     ansible-galaxy collection install cisco.catalystcenter
                 '''
             }
@@ -494,9 +496,9 @@ Establish foundational access control and integrate with external systems.
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **users_and_roles** | Role Based Access Control and Users Management | [📖 Guide](cvp/users_and_roles/README.md) |
-| **ise_radius_integration** | ISE and AAA Servers Integration | [📖 Guide](cvp/ise_radius_integration/README.md) |
-| **ansible_vault_update** | Update Ansible Vault encrypted credentials | [📖 Guide](cvp/ansible_vault_update/README.md) |
+| **users_and_roles** | Role Based Access Control and Users Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/users_and_roles/README.md) |
+| **ise_radius_integration** | ISE and AAA Servers Integration | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/ise_radius_integration/README.md) |
+| **ansible_vault_update** | Update Ansible Vault encrypted credentials | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/ansible_vault_update/README.md) |
 
 ---
 
@@ -506,19 +508,19 @@ Design your network hierarchy, configure settings, and discover devices.
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **site_hierarchy** | Site Hierarchy and Floor Maps design | [📖 Guide](cvp/site_hierarchy/README.md) ⭐ |
-| **device_credentials** | Device Credentials configurations and assignment | [📖 Guide](cvp/device_credentials/README.md) |
-| **network_settings** | Network Settings (Servers, Banners, TZ, SNMP, Logging, Telemetry) | [📖 Guide](cvp/network_settings/README.md) |
-| **wireless_design** | Wireless Design Management | [📖 Guide](cvp/wireless_design/README.md) |
-| **network_profile_wireless** | Wireless Network Profile Management | [📖 Guide](cvp/network_profile_wireless/README.md) |
-| **network_profile_switching** | Network Profile Switching Management | [📖 Guide](cvp/network_profile_switching/README.md) |
-| **device_discovery** | Devices Discovery | [📖 Guide](cvp/device_discovery/README.md) ⭐ |
-| **inventory** | Device Inventory and device management | [📖 Guide](cvp/inventory/README.md) |
-| **plug_and_play** | Plug and Play Device Onboarding | [📖 Guide](cvp/plug_and_play/README.md) |
-| **provision** | Device Provisioning and Re-Provisioning Management | [📖 Guide](cvp/provision/README.md) |
-| **device_templates** | Design and Deploy Device Templates | [📖 Guide](cvp/device_templates/README.md) |
-| **tags_manager** | Tags Management | [📖 Guide](cvp/tags_manager/README.md) |
-| **access_point_location** | Access Point location management on floor maps | [📖 Guide](cvp/access_point_location/README.md) |
+| **site_hierarchy** | Site Hierarchy and Floor Maps design | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/site_hierarchy/README.md) ⭐ |
+| **device_credentials** | Device Credentials configurations and assignment | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_credentials/README.md) |
+| **network_settings** | Network Settings (Servers, Banners, TZ, SNMP, Logging, Telemetry) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_settings/README.md) |
+| **wireless_design** | Wireless Design Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/wireless_design/README.md) |
+| **network_profile_wireless** | Wireless Network Profile Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_profile_wireless/README.md) |
+| **network_profile_switching** | Network Profile Switching Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_profile_switching/README.md) |
+| **device_discovery** | Devices Discovery | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_discovery/README.md) ⭐ |
+| **inventory** | Device Inventory and device management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/inventory/README.md) |
+| **plug_and_play** | Plug and Play Device Onboarding | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/plug_and_play/README.md) |
+| **provision** | Device Provisioning and Re-Provisioning Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/provision/README.md) |
+| **device_templates** | Design and Deploy Device Templates | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_templates/README.md) |
+| **tags_manager** | Tags Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/tags_manager/README.md) |
+| **access_point_location** | Access Point location management on floor maps | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/access_point_location/README.md) |
 
 ---
 
@@ -528,16 +530,16 @@ Configure underlay automation and SD-Access fabric.
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **lan_automation** | Underlay Automation (LAN Automation) Management | [📖 Guide](cvp/lan_automation/README.md) |
-| **sda_fabric_sites_zones** | SDA Fabric Site and Fabric Zones | [📖 Guide](cvp/sda_fabric_sites_zones/README.md) ⭐ |
-| **sda_fabric_transits** | SDA Fabric Transits (IP transit and SDA Transit) Management | [📖 Guide](cvp/sda_fabric_transits/README.md) |
-| **sda_virtual_networks_l2l3_gateways** | Virtual Networks and L3 Anycast Gateways and L2 VLANs Management | [📖 Guide](cvp/sda_virtual_networks_l2l3_gateways/README.md) |
-| **sda_fabric_device_roles** | SDA Fabric Device assignment to fabric sites and zones | [📖 Guide](cvp/sda_fabric_device_roles/README.md) |
-| **sda_hostonboarding** | SDA Fabric Devices and Host Onboarding | [📖 Guide](cvp/sda_hostonboarding/README.md) |
-| **sda_fabric_discover_and_onboard_fabric_devices** | Discover and onboard devices into the SDA fabric | [📖 Guide](cvp/sda_fabric_discover_and_onboard_fabric_devices/README.md) |
-| **sda_fabric_extranet_policy** | SDA Extranet Policies Management | [📖 Guide](cvp/sda_fabric_extranet_policy/README.md) |
-| **sda_fabric_multicast** | SDA Fabric Multicast Management | [📖 Guide](cvp/sda_fabric_multicast/README.md) |
-| **application_policy** | Application Policy Management | [📖 Guide](cvp/application_policy/README.md) |
+| **lan_automation** | Underlay Automation (LAN Automation) Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/lan_automation/README.md) |
+| **sda_fabric_sites_zones** | SDA Fabric Site and Fabric Zones | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_sites_zones/README.md) ⭐ |
+| **sda_fabric_transits** | SDA Fabric Transits (IP transit and SDA Transit) Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_transits/README.md) |
+| **sda_virtual_networks_l2l3_gateways** | Virtual Networks and L3 Anycast Gateways and L2 VLANs Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_virtual_networks_l2l3_gateways/README.md) |
+| **sda_fabric_device_roles** | SDA Fabric Device assignment to fabric sites and zones | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_device_roles/README.md) |
+| **sda_hostonboarding** | SDA Fabric Devices and Host Onboarding | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_hostonboarding/README.md) |
+| **sda_fabric_discover_and_onboard_fabric_devices** | Discover and onboard devices into the SDA fabric | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_discover_and_onboard_fabric_devices/README.md) |
+| **sda_fabric_extranet_policy** | SDA Extranet Policies Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_extranet_policy/README.md) |
+| **sda_fabric_multicast** | SDA Fabric Multicast Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_multicast/README.md) |
+| **application_policy** | Application Policy Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/application_policy/README.md) |
 
 ---
 
@@ -547,20 +549,20 @@ Ongoing operations including software upgrades, compliance, backups, and assuran
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **swim** | Devices Software image management (SWIM) | [📖 Guide](cvp/swim/README.md) |
-| **network_compliance** | Device compliance and remediation management | [📖 Guide](cvp/network_compliance/README.md) |
-| **events_and_notifications** | Notification Destination and Events Subscription | [📖 Guide](cvp/events_and_notifications/README.md) |
-| **device_replacement_rma** | Devices Replacement Management | [📖 Guide](cvp/device_replacement_rma/README.md) |
-| **accesspoints_configuration_provisioning** | Access Point Provisioning and Configuration Management | [📖 Guide](cvp/accesspoints_configuration_provisioning/README.md) |
-| **device_config_backup** | Managed network devices configurations backup management | [📖 Guide](cvp/device_config_backup/README.md) |
-| **assurance_health_score_settings** | Assurance Health Score KPIs settings and thresholds management | [📖 Guide](cvp/assurance_health_score_settings/README.md) |
-| **assurance_pathtrace** | Assurance Path Trace Management | [📖 Guide](cvp/assurance_pathtrace/README.md) |
-| **assurance_issues_management** | Assurance issues and events management | [📖 Guide](cvp/assurance_issues_management/README.md) |
-| **assurance_intelligent_capture** | Assurance ICAP Management | [📖 Guide](cvp/assurance_intelligent_capture/README.md) |
-| **fabric_devices_info** | SDA Fabric Devices Information and Inventory Management | [📖 Guide](cvp/fabric_devices_info/README.md) |
-| **network_devices_info** | Network Devices Information and Inventory Management | [📖 Guide](cvp/network_devices_info/README.md) |
-| **backup_and_restore** | Configuration Backup and Restore Management | [📖 Guide](cvp/backup_and_restore/README.md) |
-| **reports** | Reports Management and Scheduling | [📖 Guide](cvp/reports/README.md) |
+| **swim** | Devices Software image management (SWIM) | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/swim/README.md) |
+| **network_compliance** | Device compliance and remediation management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_compliance/README.md) |
+| **events_and_notifications** | Notification Destination and Events Subscription | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/events_and_notifications/README.md) |
+| **device_replacement_rma** | Devices Replacement Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_replacement_rma/README.md) |
+| **accesspoints_configuration_provisioning** | Access Point Provisioning and Configuration Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/accesspoints_configuration_provisioning/README.md) |
+| **device_config_backup** | Managed network devices configurations backup management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_config_backup/README.md) |
+| **assurance_health_score_settings** | Assurance Health Score KPIs settings and thresholds management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_health_score_settings/README.md) |
+| **assurance_pathtrace** | Assurance Path Trace Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_pathtrace/README.md) |
+| **assurance_issues_management** | Assurance issues and events management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_issues_management/README.md) |
+| **assurance_intelligent_capture** | Assurance ICAP Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_intelligent_capture/README.md) |
+| **fabric_devices_info** | SDA Fabric Devices Information and Inventory Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/fabric_devices_info/README.md) |
+| **network_devices_info** | Network Devices Information and Inventory Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_devices_info/README.md) |
+| **backup_and_restore** | Configuration Backup and Restore Management | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/backup_and_restore/README.md) |
+| **reports** | Reports Management and Scheduling | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/reports/README.md) |
 
 ---
 
@@ -570,8 +572,8 @@ Specialized workflows for migration scenarios.
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **sda_port_assignment_migration** | SDA Port Assignment Migration | [📖 Guide](cvp/sda_port_assignment_migration/README.md) |
-| **sda_device_removal_and_unprovision** | SDA Device Removal and Unprovision | [📖 Guide](cvp/sda_device_removal_and_unprovision/README.md) |
+| **sda_port_assignment_migration** | SDA Port Assignment Migration | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_port_assignment_migration/README.md) |
+| **sda_device_removal_and_unprovision** | SDA Device Removal and Unprovision | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_device_removal_and_unprovision/README.md) |
 
 ---
 
@@ -581,35 +583,35 @@ Extract current configurations for documentation or migration purposes.
 
 | CVP | Description | README |
 |-----|-------------|--------|
-| **accesspoint_config_generator** | Access Point Config Generator | [📖 Guide](cvp/accesspoint_config_generator/README.md) |
-| **accesspoint_location_config_generator** | Access Point Location Config Generator | [📖 Guide](cvp/accesspoint_location_config_generator/README.md) |
-| **application_policy_config_generator** | Application Policy Config Generator | [📖 Guide](cvp/application_policy_config_generator/README.md) |
-| **assurance_device_health_score_settings_config_generator** | Assurance Device Health Score Settings Config Generator | [📖 Guide](cvp/assurance_device_health_score_settings_config_generator/README.md) |
-| **assurance_issue_config_generator** | Assurance Issue Config Generator | [📖 Guide](cvp/assurance_issue_config_generator/README.md) |
-| **backup_and_restore_config_generator** | Backup and Restore Config Generator | [📖 Guide](cvp/backup_and_restore_config_generator/README.md) |
-| **device_credential_config_generator** | Device Credential Config Generator | [📖 Guide](cvp/device_credential_config_generator/README.md) |
-| **discovery_config_generator** | Discovery Config Generator | [📖 Guide](cvp/discovery_config_generator/README.md) |
-| **events_and_notifications_config_generator** | Events and Notifications Config Generator | [📖 Guide](cvp/events_and_notifications_config_generator/README.md) |
-| **inventory_config_generator** | Inventory Config Generator | [📖 Guide](cvp/inventory_config_generator/README.md) |
-| **ise_radius_integration_config_generator** | ISE Radius Integration Config Generator | [📖 Guide](cvp/ise_radius_integration_config_generator/README.md) |
-| **network_profile_switching_config_generator** | Network Profile Switching Config Generator | [📖 Guide](cvp/network_profile_switching_config_generator/README.md) |
-| **network_profile_wireless_config_generator** | Network Profile Wireless Config Generator | [📖 Guide](cvp/network_profile_wireless_config_generator/README.md) |
-| **network_settings_config_generator** | Network Settings Config Generator | [📖 Guide](cvp/network_settings_config_generator/README.md) |
-| **pnp_config_generator** | PnP Config Generator | [📖 Guide](cvp/pnp_config_generator/README.md) |
-| **provision_config_generator** | Provision Config Generator | [📖 Guide](cvp/provision_config_generator/README.md) |
-| **sda_extranet_policies_config_generator** | SDA Extranet Policies Config Generator | [📖 Guide](cvp/sda_extranet_policies_config_generator/README.md) |
-| **sda_fabric_devices_config_generator** | SDA Fabric Devices Config Generator | [📖 Guide](cvp/sda_fabric_devices_config_generator/README.md) |
-| **sda_fabric_multicast_config_generator** | SDA Fabric Multicast Config Generator | [📖 Guide](cvp/sda_fabric_multicast_config_generator/README.md) |
-| **sda_fabric_sites_zones_config_generator** | SDA Fabric Sites Zones Config Generator | [📖 Guide](cvp/sda_fabric_sites_zones_config_generator/README.md) |
-| **sda_fabric_transits_config_generator** | SDA Fabric Transits Config Generator | [📖 Guide](cvp/sda_fabric_transits_config_generator/README.md) |
-| **sda_fabric_virtual_networks_config_generator** | SDA Fabric Virtual Networks Config Generator | [📖 Guide](cvp/sda_fabric_virtual_networks_config_generator/README.md) |
-| **sda_host_port_onboarding_config_generator** | SDA Host Port Onboarding Config Generator | [📖 Guide](cvp/sda_host_port_onboarding_config_generator/README.md) |
-| **site_config_generator** | Site Config Generator | [📖 Guide](cvp/site_config_generator/README.md) |
-| **tags_config_generator** | Tags Config Generator | [📖 Guide](cvp/tags_config_generator/README.md) |
-| **template_config_generator** | Template Config Generator | [📖 Guide](cvp/template_config_generator/README.md) |
-| **user_role_config_generator** | User Role Config Generator | [📖 Guide](cvp/user_role_config_generator/README.md) |
-| **wired_campus_automation_config_generator** | Wired Campus Automation Config Generator | [📖 Guide](cvp/wired_campus_automation_config_generator/README.md) |
-| **wireless_design_config_generator** | Wireless Design Config Generator | [📖 Guide](cvp/wireless_design_config_generator/README.md) |
+| **accesspoint_config_generator** | Access Point Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/accesspoint_config_generator/README.md) |
+| **accesspoint_location_config_generator** | Access Point Location Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/accesspoint_location_config_generator/README.md) |
+| **application_policy_config_generator** | Application Policy Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/application_policy_config_generator/README.md) |
+| **assurance_device_health_score_settings_config_generator** | Assurance Device Health Score Settings Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_device_health_score_settings_config_generator/README.md) |
+| **assurance_issue_config_generator** | Assurance Issue Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/assurance_issue_config_generator/README.md) |
+| **backup_and_restore_config_generator** | Backup and Restore Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/backup_and_restore_config_generator/README.md) |
+| **device_credential_config_generator** | Device Credential Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/device_credential_config_generator/README.md) |
+| **discovery_config_generator** | Discovery Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/discovery_config_generator/README.md) |
+| **events_and_notifications_config_generator** | Events and Notifications Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/events_and_notifications_config_generator/README.md) |
+| **inventory_config_generator** | Inventory Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/inventory_config_generator/README.md) |
+| **ise_radius_integration_config_generator** | ISE Radius Integration Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/ise_radius_integration_config_generator/README.md) |
+| **network_profile_switching_config_generator** | Network Profile Switching Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_profile_switching_config_generator/README.md) |
+| **network_profile_wireless_config_generator** | Network Profile Wireless Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_profile_wireless_config_generator/README.md) |
+| **network_settings_config_generator** | Network Settings Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/network_settings_config_generator/README.md) |
+| **pnp_config_generator** | PnP Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/pnp_config_generator/README.md) |
+| **provision_config_generator** | Provision Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/provision_config_generator/README.md) |
+| **sda_extranet_policies_config_generator** | SDA Extranet Policies Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_extranet_policies_config_generator/README.md) |
+| **sda_fabric_devices_config_generator** | SDA Fabric Devices Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_devices_config_generator/README.md) |
+| **sda_fabric_multicast_config_generator** | SDA Fabric Multicast Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_multicast_config_generator/README.md) |
+| **sda_fabric_sites_zones_config_generator** | SDA Fabric Sites Zones Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_sites_zones_config_generator/README.md) |
+| **sda_fabric_transits_config_generator** | SDA Fabric Transits Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_transits_config_generator/README.md) |
+| **sda_fabric_virtual_networks_config_generator** | SDA Fabric Virtual Networks Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_fabric_virtual_networks_config_generator/README.md) |
+| **sda_host_port_onboarding_config_generator** | SDA Host Port Onboarding Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/sda_host_port_onboarding_config_generator/README.md) |
+| **site_config_generator** | Site Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/site_config_generator/README.md) |
+| **tags_config_generator** | Tags Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/tags_config_generator/README.md) |
+| **template_config_generator** | Template Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/template_config_generator/README.md) |
+| **user_role_config_generator** | User Role Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/user_role_config_generator/README.md) |
+| **wired_campus_automation_config_generator** | Wired Campus Automation Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/wired_campus_automation_config_generator/README.md) |
+| **wireless_design_config_generator** | Wireless Design Config Generator | [📖 Guide](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/cvp/wireless_design_config_generator/README.md) |
 
 > **Note**: ⭐ indicates the most commonly used CVPs for getting started.
 
@@ -750,9 +752,10 @@ with `-i`. Setting `-e catalystcenter_host=...` alone will not fix this.
 
 ## 📞 Support
 
+- **Automation Hub Support**: For certified content, use `Create issue` from the [Cisco Catalyst Center collection page on Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/cisco/catalystcenter/).
 - **Documentation**: [Collection Docs](https://cisco-en-programmability.github.io/catalystcenter-ansible/)
-- **Issues**: [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
 - **Community**: [Ansible Community](https://docs.ansible.com/ansible/latest/community/)
+- **Community Issues**: [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
 
 ---
 

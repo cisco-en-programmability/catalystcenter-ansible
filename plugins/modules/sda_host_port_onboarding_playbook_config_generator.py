@@ -358,7 +358,7 @@ options:
 
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 - PyYAML >= 5.1
 notes:
   - SDK methods utilized - sda.get_port_assignments, sda.get_port_channels,

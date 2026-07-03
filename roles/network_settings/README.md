@@ -63,8 +63,8 @@ These examples are adapted from the workflow documentation and example assets in
 ## Visual Reference
 
 The following image is copied from the workflow documentation to help map the role inputs to the Catalyst Center UI or expected output.
-![AAA Config 1](./images/aaa_1.png)
-![AAA Config 1.1](./images/aaa_1.1.png)
+![AAA Config 1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/network_settings/images/aaa_1.png)
+![AAA Config 1.1](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/roles/network_settings/images/aaa_1.1.png)
 
 ## Adapted Examples
 

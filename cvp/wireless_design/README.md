@@ -45,7 +45,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -114,7 +114,7 @@ The schema file (e.g., `schema/wireless_design_schema.yml`) defines the structur
 | Parameter                         | Type       | Required | Default Value | Description                                                                 |
 |-----------------------------------|------------|----------|---------------|-----------------------------------------------------------------------------|
 | `ssid_name`                       | String     | Yes      | N/A           | Unique SSID name (up to 32 characters).                                    |
-| `ssid_type`                       | Enum       | Yes      | N/A           | SSID type: "Enterprise" or "Guest".                                        |
+| `ssid_type`                       | Enum       | No       | N/A           | SSID type: "Enterprise" or "Guest". Required when creating a new SSID. Optional when updating (retained from existing config if omitted). |
 | `wlan_profile_name`               | String     | No       | Auto-generated| WLAN profile name. Auto-generated from `ssid_name` if not provided.        |
 | `radio_policy`                    | Dict       | No       | N/A           | Radio policy settings. Includes `radio_policy_type`.                       |
 | `fast_lane`                       | Bool       | No       | False         | Enable Fast Lane for performance optimization.                             |
@@ -195,7 +195,7 @@ The schema file (e.g., `schema/wireless_design_schema.yml`) defines the structur
 
 ## Example Input File
 The Wireless Design module allows you to configure and manage various aspects of your wireless network through Cisco Catalyst Center. The configuration is structured into several key components:
-![Wireless Design UI Page](./images/wireless_design.png)
+![Wireless Design UI Page](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/wireless_design.png)
 
 Refer to the full workflow specification for detailed instructions on the available options and their structure: https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/docs/ 
 
@@ -1181,7 +1181,7 @@ After executing the playbook with the input from `Step 2`, we will receive the o
 ```
 - Mapping in the UI:
 
-![SSID add](./images/ssid_add.png)
+![SSID add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/ssid_add.png)
 
 ##### `UPDATE/EDIT`:
 Return the exact message for create (if the SSID did not exist before) and update (if the SSID already existed).
@@ -1201,7 +1201,7 @@ Return the exact message for create (if the SSID did not exist before) and updat
 ```
 - Mapping in the UI:
 
-![SSID edit](./images/ssid_edit.png)
+![SSID edit](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/ssid_edit.png)
 
 ##### `DELETE/REMOVE`:
 Return the exact SSIDs that were actually deleted.
@@ -1247,7 +1247,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![Interface add](./images/interface_add.png)
+![Interface add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/interface_add.png)
 
 ##### `UPDATE/EDIT`:
 - Terminal return:
@@ -1262,7 +1262,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![Interface add](./images/interface_edit.png)
+![Interface add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/interface_edit.png)
 
 ##### `DELETE/REMOVE`:
 - Terminal return:
@@ -1293,7 +1293,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![Power add](./images/power_add.png)
+![Power add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/power_add.png)
 
 ##### `UPDATE/EDIT`:
 - Terminal:
@@ -1307,7 +1307,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![Power edit](./images/power_edit.png)
+![Power edit](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/power_edit.png)
 
 ##### `DELETE/REMOVE`:
 - Terminal:
@@ -1342,7 +1342,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![AP profiles add](./images/ap_add.png)
+![AP profiles add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/ap_add.png)
 
 ##### `UPDATE/EDIT`:
 - Terminal:
@@ -1393,7 +1393,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![RF profiles add](./images/rf_add.png)
+![RF profiles add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/rf_add.png)
 
 ##### `UPDATE/EDIT`:
 - Terminal:
@@ -1411,7 +1411,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![RF profiles edit](./images/rf_edit.png)
+![RF profiles edit](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/rf_edit.png)
 
 ##### `DELETE/REMOVE`:
 Return the exact SSIDs that were actually deleted.
@@ -1445,7 +1445,7 @@ Return the exact SSIDs that were actually deleted.
 ```
 - Mapping in the UI:
 
-![Anchor Group add](./images/anchor_add.png)
+![Anchor Group add](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/wireless_design/images/anchor_add.png)
 
 ##### `UPDATE/EDIT`:
 - Terminal:

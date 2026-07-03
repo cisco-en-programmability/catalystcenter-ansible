@@ -1,5 +1,5 @@
 catalystcenter_version: 2.3.7.9
 jinjatemplate: true
-jinjatemplate_file: ../jinja_template/jinja_wireless_design_inputs.yml
+jinjatemplate_file: ../jinja_template/jinja_wireless_design_inputs.j2
 
 wireless_design_details: []

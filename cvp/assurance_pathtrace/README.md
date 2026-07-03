@@ -58,7 +58,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -223,7 +223,7 @@ pathtrace_details:
 ```
 mapping config to UI Actions for Create path Trace:
 Note: There is no UI flow for retrieve and delete path trace.
-![alt text](./images/create_path_trace.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/assurance_pathtrace/images/create_path_trace.png)
 
 
 2.  **Validate Configuration:** 

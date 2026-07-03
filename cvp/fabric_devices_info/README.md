@@ -119,7 +119,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -137,7 +137,7 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/fabric_devices_info/pl
 
 ## Usage Examples
 The UI display (example):
- ![alt text](./images/example_fabric_device_info.png)
+ ![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/fabric_devices_info/images/example_fabric_device_info.png)
 
 ### Example 1: Retrieve All Information in Fabric Site
 

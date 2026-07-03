@@ -512,7 +512,7 @@ options:
 
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Methods used are
     reports.Reports.get_all_view_groups

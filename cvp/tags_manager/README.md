@@ -38,7 +38,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -162,7 +162,7 @@ The schema file (e.g., `schema/tags_manager_schema.yml`) defines the structure o
 ## Example Input File
 The Tags module allows you to create tags and use them to group devices together for easier management.
 
-![Tag UI Page](./images/tag_UI_page.png)
+![Tag UI Page](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/tag_UI_page.png)
 
 Refer to the full workflow specification for detailed instructions on the available options and their structure: https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/docs/
 
@@ -191,7 +191,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![Create tag](./images/create_tag.png)
+![Create tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/create_tag.png)
 
 #### b. Update
 Update multiple tags including the statuses: new create, new update, and no change. The module will return detailed messages about their statuses.
@@ -225,7 +225,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![Update tag](./images/update_tag.png)
+![Update tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/update_tag.png)
 
 
 #### b. Delete
@@ -259,7 +259,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![Delete tag](./images/delete_tag.png)
+![Delete tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/delete_tag.png)
 
 ***Note: If tags have been assigned to a device, a normal delete will not succeed. However, in the module, if we add the option 'force_delete: true', it will include steps to unassign the tags from the device and successfully delete the tags.***
 
@@ -301,7 +301,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![Assign tag to device](./images/assign_tag_to_device.png)
+![Assign tag to device](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/assign_tag_to_device.png)
 
 
 In addition, we can define the device scope and add a port tag rule to save a port tag rule.
@@ -331,7 +331,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![port tag rule](./images/port_tag_rule.png)
+![port tag rule](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/port_tag_rule.png)
 
 ***Note: We can unassign a tag using the same input as above, with the state set to `deleted`.***
 
@@ -367,7 +367,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![Assign device to tag](./images/assign_device_to_tag.png)
+![Assign device to tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/assign_device_to_tag.png)
 
 ***Note: We can unassign a tag using the same input as above, with the state set to `deleted`.***
 
@@ -399,7 +399,7 @@ tags_details:
 
 - Mapping in the UI:
 
-![force delete tag](./images/force_delete_tag.png)
+![force delete tag](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/tags_manager/images/force_delete_tag.png)
 
 ### Step 3: Execute the Playbook
 

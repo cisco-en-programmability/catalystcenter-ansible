@@ -32,7 +32,7 @@ Module documentation (Ansible Galaxy):
 https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/sda_host_port_onboarding_workflow_manager/
 
 Host Onboarding Figure:  
-![alt text](./images/host_onboarding.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/host_onboarding.png)
 
 ---
 
@@ -222,21 +222,21 @@ sda_host_onboarding_details:
 ```
 
 #### 4.2. Add port interfaces (UI)
-![alt text](./images/port-assign.png)
-![alt text](./images/add-port-assignment.png)
-![alt text](./images/choose_port-assign.png)
-![alt text](./images/deloy_port_assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/port-assign.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/add-port-assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/choose_port-assign.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/deloy_port_assignment.png)
 
 #### 4.3. Add port channel (UI)
-![alt text](./images/port-assign.png)
-![alt text](./images/create-port-channel.png)
-![alt text](./images/Chose-device.png)
-![alt text](./images/Chose_parameter_port_channel.png)
-![alt text](./images/Chose_interface_port_channel.png)
-![alt text](./images/Deploy_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/port-assign.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/create-port-channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/Chose-device.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/Chose_parameter_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/Chose_interface_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/Deploy_port_channel.png)
 
 #### 4.4. Result
-![alt text](./images/result-add-port.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/result-add-port.png)
 
 ---
 
@@ -326,15 +326,15 @@ sda_host_onboarding_details:
 ```
 
 #### 5.2. Update port interfaces (UI)
-![alt text](./images/edit-port-assignment.png)
-![alt text](./images/update_port_assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/edit-port-assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/update_port_assignment.png)
 
 #### 5.3. Update port channel (UI)
-![alt text](./images/edit_port_channel.png)
-![alt text](./images/update_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/edit_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/update_port_channel.png)
 
 #### 5.4. Result
-![alt text](./images/result_update_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/result_update_port_channel.png)
 
 ---
 
@@ -368,12 +368,12 @@ sda_host_onboarding_details:
 ```
 
 #### 6.2. Delete port interfaces (UI)
-![alt text](./images/clear_port_assignment.png)
-![alt text](./images/deploy_clear_port_assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/clear_port_assignment.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/deploy_clear_port_assignment.png)
 
 #### 6.3. Delete Port Channel (UI)
-![alt text](./images/delete_port_channel.png)
-![alt text](./images/apply_delete_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/delete_port_channel.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/apply_delete_port_channel.png)
 
 ---
 
@@ -407,7 +407,7 @@ sda_host_onboarding_details:
 ```
 
 #### 7.2. Result
-![alt text](./images/vlan_ssid.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_hostonboarding/images/vlan_ssid.png)
 
 ---
 
@@ -773,7 +773,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

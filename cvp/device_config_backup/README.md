@@ -106,9 +106,9 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/device_config_backup/play
 #### **Mapping config to UI Actions**
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
-![alt text](./images/hostname.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/hostname.png)
 - Enter password and click Export
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 
 #### **Example Input**
 
@@ -142,11 +142,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/ipaddress1.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/ipaddress1.png)
 
 - Enter password and click Export
 
-![alt text](./images/ipaddress2.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/ipaddress2.png)
 #### **Example Input **
 
 ```
@@ -163,11 +163,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/managed.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/managed.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -184,11 +184,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/family.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/family.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -205,11 +205,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/macaddress.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/macaddress.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -225,11 +225,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/serial.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/serial.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -245,11 +245,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/series.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/series.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -265,11 +265,11 @@ device_configs_backup_details:
 
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/site.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/site.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 #### **Example Input **
 
 ```
@@ -286,11 +286,11 @@ device_configs_backup_details:
 #### **Example Input **
 - The config parameter within this task corresponds to the Provision > Inventory > Actions > Export Inventory" action in the Cisco Catalyst Center UI.
 
-![alt text](./images/name_ip_manage.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/name_ip_manage.png)
 
 - Enter password and click Export
 
-![alt text](./images/password.png)
+![alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/device_config_backup/images/password.png)
 ```
 device_configs_backup_details:
   - ip_address_list: [204.1192.3.40]
@@ -338,7 +338,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

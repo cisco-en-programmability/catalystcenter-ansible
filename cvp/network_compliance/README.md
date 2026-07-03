@@ -6,7 +6,7 @@ This Ansible playbook streamlines the management of device compliance within you
 * Perform full compliance checks or specific category checks on reachable device(s).
 * Sync device configuration on device(s), running_configuration with Startup_config, if they are out of sync.
 
-![Alt text](./images/complian.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/network_compliance/images/complian.png)
 
 # Procedure
 1. ## Prepare your Ansible environment:
@@ -778,7 +778,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

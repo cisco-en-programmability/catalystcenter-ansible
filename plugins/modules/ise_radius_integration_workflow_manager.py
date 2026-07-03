@@ -266,7 +266,7 @@ options:
             type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - SDK Method used are
     system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration,

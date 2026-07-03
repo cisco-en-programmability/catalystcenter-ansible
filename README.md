@@ -288,7 +288,7 @@ Please read and familiarize yourself with this document.
 
 This collection is available on both Ansible Galaxy and Red Hat Automation Hub.
 
-For certified content obtained from Red Hat Automation Hub, support is provided through Red Hat Ansible Automation Platform according to your subscription agreement.
+For certified content obtained from Red Hat Automation Hub, open support requests from the collection page using `Create issue`: [Cisco Catalyst Center on Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/cisco/catalystcenter/). Support is provided through Red Hat Ansible Automation Platform according to your subscription agreement.
 
 For content obtained from Ansible Galaxy, community support may be available via:
 - [Ansible Forum](https://forum.ansible.com/)
@@ -319,7 +319,7 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 ## License
 
-This collection is licensed under the GNU General Public License v3.0 (GPL-3.0).
+This collection is licensed under the GNU General Public License v3.0 or later (GPL-3.0-or-later).
 
 The full license text is available in the [LICENSE](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE) file.
 

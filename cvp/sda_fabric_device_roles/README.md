@@ -47,11 +47,11 @@ If you update the device configuration as a part of problem resolution, ensure t
 From **Provision > Fabric Sites** in Catalyst Center, select the fabric site to add a device.
 Next, click a device from the **List** view under the **Fabric Infrastructure** tab and edit Fabric Role under **More Actions**.
 
-![Alt text](./images/Select-Device-in-Fabric.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/Select-Device-in-Fabric.png)
 
 Add Control Plane Role for the device and select LISP Pub/Sub as a route distribution protocol in Catalyst Center UI.
 
-![Alt text](./images/Add-Control-Plane.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/Add-Control-Plane.png)
 
 ##### Add Control Plane Role using Playbook
 
@@ -66,7 +66,7 @@ fabric_devices_details:
 
 ##### Enable Control Plane - Border Node - Edge Node on Catalyst Center using UI and playbook:
 
-![Alt text](./images/Fabric-CP-Border-Edge.jpeg)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/Fabric-CP-Border-Edge.jpeg)
 
 ```bash
 fabric_devices_details:
@@ -86,7 +86,7 @@ fabric_devices_details:
 
 ##### Update Border Node and add L2 Handoff using Catalyst Center UI and playbook:
 
-![Alt text](./images/Border-Node-and-L2-Handoff.jpeg)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/Border-Node-and-L2-Handoff.jpeg)
 
 ```bash
 fabric_devices_details:
@@ -110,7 +110,7 @@ fabric_devices_details:
 
 ##### Add Layer 3 Handoff with SDA Transit through Catalyst Center UI and playbook:
 
-![Alt text](./images/L3-with-SDA.jpeg)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/L3-with-SDA.jpeg)
 
 ```bash
 fabric_devices_details:
@@ -128,7 +128,7 @@ fabric_devices_details:
 
 ##### Add Layer 3 Handoff with IP Transit using Catalyst Center and sample playbook:
 
-![Alt text](./images/L3-with-IP-Transit.png)
+![Alt text](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/L3-with-IP-Transit.png)
 
 ```bash
 fabric_devices_details:
@@ -151,10 +151,10 @@ fabric_devices_details:
 To enable the ECA device, it means we will add it as at least the device roles of Control Plane and Border Node (CP, BN) and also enable the role of Embedded Wireless LAN Controller (WC).
 
 *Note: Typically, the Wireless LAN Controller (WC) role is only available on the Wireless Controller. To enable the WC role on a switch, we need to update the device with an image that includes the accompanying sub-packet. For example base image 'cat9k_iosxe.17.12.01.SPA.bin', sub-packet image 'C9800-SW-iosxe-wlc.17.12.01.SPA.bin'*
-![ECA device image](./images/eca_device_image.png)
+![ECA device image](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/eca_device_image.png)
 
 **Catalyst Center UI and playbook:**
-![ECA device](./images/eca_device.png)
+![ECA device](https://raw.githubusercontent.com/cisco-en-programmability/catalystcenter-ansible/main/cvp/sda_fabric_device_roles/images/eca_device.png)
 
 ```bash
 fabric_devices_details:
@@ -352,7 +352,7 @@ flowchart TD
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install catalystcentersdk
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

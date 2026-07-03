@@ -411,7 +411,7 @@ options:
                 required: true
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
-  - python >= 3.9
+  - python >= 3.12
 notes:
   - When waiting for the LAN automation session to complete,
     the timeout and the list of devices to be discovered

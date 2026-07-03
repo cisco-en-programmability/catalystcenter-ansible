@@ -117,7 +117,7 @@ options:
 
 requirements:
 - catalystcentersdk >= 3.1.6.0.2
-- python >= 3.9
+- python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
 - |-
@@ -456,6 +456,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
         self.module_name = "template_workflow_manager"
+        self.project_description_map = None
 
     def validate_input(self):
         """
@@ -760,6 +761,48 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         return final_containing_templates
 
+    def transform_template_params(self, template_details):
+        """
+        Transforms template parameters from camelCase API response format to snake_case
+        format compatible with the template_workflow_manager module.
+
+        Uses the base class camel_to_snake_case() for recursive conversion of all
+        fields including nested range and selection objects.
+
+        Args:
+            template_details (dict): A dictionary containing template-specific information.
+
+        Returns:
+            list: A list of dictionaries containing transformed template parameter information.
+                Each dictionary may contain keys such as parameter_name, data_type,
+                default_value, description, range, selection, etc.
+        """
+
+        self.log(
+            "Starting template params transformation for template: {0}".format(
+                template_details.get("name", "Unknown")
+            ),
+            "DEBUG"
+        )
+
+        template_params = template_details.get("templateParams", [])
+        if not template_params:
+            self.log("No template params found in template details", "DEBUG")
+            return template_params
+
+        self.log("Processing {0} template param(s)".format(len(template_params)), "DEBUG")
+
+        final_template_params = self.camel_to_snake_case(template_params)
+
+        self.log(
+            "Completed template params transformation. Transformed {0} param(s)".format(
+                len(final_template_params)
+            ),
+            "DEBUG"
+        )
+
+        return final_template_params
+
     def containing_templates_temp_spec(self):
         """
         Constructs a temporary specification for containing templates, defining the structure and types of attributes
@@ -817,6 +860,11 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "template_name": {"type": "str", "source_key": "name"},
                 "template_description": {"type": "str", "source_key": "description"},
                 "project_name": {"type": "str", "source_key": "projectName"},
+                "project_description": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_project_description,
+                },
                 "author": {"type": "str"},
                 "language": {"type": "str"},
                 "composite": {"type": "bool"},
@@ -841,6 +889,12 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     "special_handling": True,
                     "transform": self.transform_template_content,
                 },
+                "template_params": {
+                    "type": "list",
+                    "element": "dict",
+                    "special_handling": True,
+                    "transform": self.transform_template_params,
+                },
                 "template_tag": {
                     "type": "list",
                     "element": "dict",
@@ -850,6 +904,80 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             }
         )
         return template_details
+
+    def initialize_project_description_map(self, project_details=None):
+        """
+        Initializes the project_description_map by building a mapping of project names
+        to their descriptions. If project_details is not provided, fetches project
+        details from Catalyst Center using get_template_projects_details.
+
+        Args:
+            project_details (list, optional): A list of project dictionaries from the API.
+                If None, project details will be fetched from Catalyst Center.
+        """
+
+        if project_details is None:
+            self.log(
+                "Fetching project details from Catalyst Center for project_description_map",
+                "DEBUG"
+            )
+            network_element = self.module_schema["network_elements"]["projects"]
+            self.get_template_projects_details(
+                network_element, {"component_specific_filters": None}
+            )
+            return
+
+        self.project_description_map = {
+            p.get("name"): p.get("description")
+            for p in (project_details or [])
+            if p.get("description")
+        }
+        self.log(
+            "project_description_map initialized with {0} entries".format(
+                len(self.project_description_map)
+            ),
+            "DEBUG"
+        )
+
+    def transform_project_description(self, template_details):
+        """
+        Retrieves the project description for a template by looking up the project name
+        in a cached project description map. Lazily initializes the map by fetching
+        project details from Catalyst Center if not already populated.
+
+        Args:
+            template_details (dict): A dictionary containing template-specific information
+                including 'projectName'.
+
+        Returns:
+            str or None: The project description if found, otherwise None.
+        """
+
+        self.log(
+            "Starting project description lookup for template: {0}".format(
+                template_details.get("name", "Unknown")
+            ),
+            "DEBUG"
+        )
+
+        if self.project_description_map is None:
+            self.log(
+                "project_description_map not initialized, triggering lazy initialization",
+                "DEBUG"
+            )
+            self.initialize_project_description_map()
+
+        project_name = template_details.get("projectName")
+        project_description = self.project_description_map.get(project_name)
+
+        self.log(
+            "Completed project description lookup for project '{0}': {1}".format(
+                project_name, project_description if project_description else "No description found"
+            ),
+            "DEBUG"
+        )
+
+        return project_description
 
     def get_template_projects_details(self, network_element, filters):
         """
@@ -958,6 +1086,9 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
             else:
                 self.log("No projects found in Catalyst Center", "DEBUG")
+
+        # Cache project descriptions for use by transform_project_description
+        self.initialize_project_description_map(final_template_projects)
 
         # Transform using temp spec
         self.log(
