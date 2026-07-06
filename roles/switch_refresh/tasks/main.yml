@@ -3,9 +3,11 @@
   ansible.builtin.assert:
     that:
       - switch_refresh_phase in ['prepare', 'cleanup_old', 'all']
+      - switch_refresh_onboarding_method in ['discovery', 'lan_automation']
       - switch_refresh_devices | length > 0
     fail_msg: >-
-      switch_refresh_phase must be prepare, cleanup_old, or all, and
+      switch_refresh_phase must be prepare, cleanup_old, or all,
+      switch_refresh_onboarding_method must be discovery or lan_automation, and
       switch_refresh_devices must contain at least one switch refresh entry.
   tags:
     - always

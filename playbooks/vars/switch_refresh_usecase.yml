@@ -12,6 +12,7 @@ catalystcenter_log: false
 catalystcenter_log_level: INFO
 
 switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
+switch_refresh_onboarding_method: discovery
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_fabric_validation_enabled: true
 switch_refresh_sda_host_port_onboarding_config_verify: true
@@ -23,6 +24,7 @@ switch_refresh_devices:
 
     # Required topology input.
     fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+    onboarding_method: discovery
 
     # Minimal old-switch input: provide any one of management_ip, hostname,
     # serial_number, or mac_address. The role resolves management IP with
@@ -89,6 +91,7 @@ switch_refresh_devices:
 
   - name: sjc-edge-02-refresh-1-to-1
     fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+    onboarding_method: discovery
     old:
       serial_number: FOC1234ABCD
     new:
@@ -96,3 +99,45 @@ switch_refresh_devices:
 
     # Empty mapping means the generator keeps old interface names as-is.
     interface_mappings: []
+
+  # LAN Automation onboarding option.
+  # Use this instead of discovery when the replacement switch should be
+  # onboarded through Catalyst Center LAN Automation. Keep new.management_ip set
+  # to the expected management IP after LAN Automation so later steps can find
+  # the switch in inventory.
+  #
+  # - name: sjc-edge-03-refresh-lan-auto
+  #   fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+  #   onboarding_method: lan_automation
+  #   old:
+  #     hostname: SJ-EDGE-OLD-03.cisco.local
+  #   new:
+  #     management_ip: 204.1.1.13
+  #     lan_automation_config:
+  #       - lan_automation:
+  #           discovered_device_site_name_hierarchy: Global/USA/SAN JOSE
+  #           peer_device_management_ip_address: 91.1.1.2
+  #           primary_device_management_ip_address: 204.1.1.4
+  #           primary_device_interface_names:
+  #             - HundredGigE1/0/2
+  #           ip_pools:
+  #             - ip_pool_name: underlay_sub
+  #               ip_pool_role: MAIN_POOL
+  #             - ip_pool_name: underlay_sub_small
+  #               ip_pool_role: PHYSICAL_LINK_POOL
+  #           multicast_enabled: true
+  #           redistribute_isis_to_bgp: true
+  #           host_name_prefix: San-Jose
+  #           isis_domain_pwd: cisco
+  #           discovery_level: 5
+  #           discovery_timeout: 40
+  #           discovery_devices:
+  #             - device_serial_number: FXS2429Q0WE
+  #               device_host_name: SR-LAN-9400X-EDGE1
+  #               device_site_name_hierarchy: Global/USA/SAN JOSE/BLD20/BLD20_FLOOR1
+  #               device_management_ip_address: 204.1.1.13
+  #           launch_and_wait: true
+  #           pnp_authorization: false
+  #   interface_mappings:
+  #     - source_interface_name: GigabitEthernet1/0/1
+  #       destination_interface_name: TenGigabitEthernet1/0/1

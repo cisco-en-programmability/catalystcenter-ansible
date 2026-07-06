@@ -10,7 +10,34 @@
     fail_msg: >-
       Each switch_refresh_devices entry needs fabric_site_name_hierarchy, an old
       device identifier (management_ip, hostname, serial_number, or mac_address),
-      and a new management IP, discovery IP, or discovery_config.
+      and a new management IP, discovery IP, or discovery_config. For
+      LAN Automation onboarding, new.management_ip should be the expected
+      management IP after LAN Automation completes.
+
+- name: Set replacement switch onboarding method
+  ansible.builtin.set_fact:
+    switch_refresh_item_onboarding_method: "{{ refresh_item.onboarding_method | default(switch_refresh_onboarding_method) }}"
+
+- name: Validate replacement switch onboarding method
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_item_onboarding_method in ['discovery', 'lan_automation']
+    fail_msg: >-
+      onboarding_method must be discovery or lan_automation for
+      {{ refresh_item.name | default('switch refresh item') }}.
+
+- name: Validate replacement switch LAN Automation config
+  ansible.builtin.assert:
+    that:
+      - refresh_item.new.lan_automation_config is defined
+      - refresh_item.new.lan_automation_config | length > 0
+    fail_msg: >-
+      new.lan_automation_config is required when onboarding_method is
+      lan_automation. Provide the full lan_automation role config for
+      {{ refresh_item.name | default('switch refresh item') }}.
+  when:
+    - switch_refresh_item_onboarding_method == 'lan_automation'
+    - switch_refresh_lan_automation_enabled | bool
 
 - name: Seed replacement switch management IP
   ansible.builtin.set_fact:
@@ -61,7 +88,9 @@
           ]
         })
       }}
-  when: switch_refresh_discovery_enabled | bool
+  when:
+    - switch_refresh_item_onboarding_method == 'discovery'
+    - switch_refresh_discovery_enabled | bool
 
 - name: Build old switch inventory identifier
   ansible.builtin.set_fact:
@@ -139,7 +168,23 @@
     discovery_state: merged
     discovery_config_verify: "{{ switch_refresh_discovery_config_verify }}"
     discovery_config: "{{ switch_refresh_new_discovery_config }}"
-  when: switch_refresh_discovery_enabled | bool
+  when:
+    - switch_refresh_item_onboarding_method == 'discovery'
+    - switch_refresh_discovery_enabled | bool
+
+- name: Run LAN Automation for replacement switch
+  ansible.builtin.include_role:
+    name: lan_automation
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    lan_automation_state: "{{ refresh_item.new.lan_automation_state | default('merged') }}"
+    lan_automation_config_verify: "{{ refresh_item.new.lan_automation_config_verify | default(switch_refresh_lan_automation_config_verify) }}"
+    lan_automation_config: "{{ refresh_item.new.lan_automation_config }}"
+  when:
+    - switch_refresh_item_onboarding_method == 'lan_automation'
+    - switch_refresh_lan_automation_enabled | bool
 
 - name: Resolve replacement switch inventory details
   ansible.builtin.include_role:

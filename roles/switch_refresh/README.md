@@ -6,9 +6,10 @@ migrated from the old switch to the new switch.
 
 The role is intentionally split into two phases:
 
-1. `prepare`: discover the new switch, provision it, add it to fabric as an
-   edge device, generate host-port migration config from the old switch, and
-   push the generated host onboarding config to the new switch.
+1. `prepare`: onboard the new switch through either Discovery or LAN Automation,
+   provision it, add it to fabric as an edge device, generate host-port
+   migration config from the old switch, and push the generated host onboarding
+   config to the new switch.
 2. `cleanup_old`: after validation and cutover, delete the old switch port
    assignments and port channels, remove the old switch from fabric, and
    unprovision it.
@@ -24,6 +25,12 @@ The role is intentionally split into two phases:
 
 - The new switch may have a different port layout. Provide `interface_mappings`
   when source and destination interface names differ.
+- Replacement switch onboarding supports two methods:
+  - `discovery`: use the existing `discovery` role to discover a reachable
+    replacement switch. This is the default.
+  - `lan_automation`: use the existing `lan_automation` role to run Catalyst
+    Center LAN Automation, then continue with inventory lookup, provisioning,
+    fabric add, and host-port migration.
 - The host-port migration generator handles `port_assignments` and
   `port_channels` only in this role through the
   `sda_host_port_migration_config_generator` role wrapper.
@@ -55,6 +62,8 @@ Connection variables:
 Control variables:
 
 - `switch_refresh_phase`: `prepare`, `cleanup_old`, or `all`
+- `switch_refresh_onboarding_method`: replacement onboarding method,
+  `discovery` or `lan_automation`
 - `switch_refresh_cleanup_old`: must be `true` for cleanup
 - `switch_refresh_work_dir`: directory for generated migration files
 - `switch_refresh_devices`: list of switch refresh entries
@@ -74,6 +83,7 @@ Control variables:
 Stage toggles:
 
 - `switch_refresh_discovery_enabled`
+- `switch_refresh_lan_automation_enabled`
 - `switch_refresh_provision_enabled`
 - `switch_refresh_fabric_add_enabled`
 - `switch_refresh_host_onboarding_enabled`
@@ -89,6 +99,7 @@ switch_refresh_devices:
     fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
     old:
       hostname: SJ-EDGE-OLD.cisco.local
+    onboarding_method: discovery
     new:
       management_ip: 10.10.10.20
     interface_mappings:
@@ -99,6 +110,16 @@ switch_refresh_devices:
 `old` can use any one of `management_ip`, `hostname`, `serial_number`, or
 `mac_address`. The role resolves the old management IP with
 `network_devices_info`.
+
+Set `onboarding_method` per device when the replacement switch should use a
+method different from the global `switch_refresh_onboarding_method`.
+
+## Replacement Switch Onboarding Options
+
+### Option 1: Discovery
+
+Use `discovery` when the replacement switch already has a reachable management
+IP and Catalyst Center can log in to it.
 
 If `new.discovery_config` is omitted, the role builds a SINGLE discovery payload
 from `new.management_ip` using global Catalyst Center credentials:
@@ -118,6 +139,57 @@ Pass `new.discovery_config` when you need custom discovery credentials, CDP,
 LLDP, RANGE, CIDR, or any non-default discovery behavior. The role derives the
 new management IP from `new.management_ip`, `new.discovery_ip`, or the first
 `ip_address_list` entry in a `single` discovery config.
+
+```yaml
+switch_refresh_devices:
+  - name: sjc-edge-01-refresh
+    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+    onboarding_method: discovery
+    old:
+      hostname: SJ-EDGE-OLD.cisco.local
+    new:
+      management_ip: 10.10.10.20
+```
+
+### Option 2: LAN Automation
+
+Use `lan_automation` when the replacement switch should be onboarded through
+Catalyst Center LAN Automation instead of normal Discovery. This requires the
+full `lan_automation_config` expected by the `lan_automation` role. The
+replacement switch still needs `new.management_ip` so the switch refresh role can
+resolve it after LAN Automation completes and continue with provisioning, fabric
+add, and host-port migration.
+
+```yaml
+switch_refresh_devices:
+  - name: sjc-edge-01-refresh-lan-auto
+    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+    onboarding_method: lan_automation
+    old:
+      hostname: SJ-EDGE-OLD.cisco.local
+    new:
+      management_ip: 204.1.1.13
+      lan_automation_config:
+        - lan_automation:
+            discovered_device_site_name_hierarchy: Global/USA/SAN JOSE
+            peer_device_management_ip_address: 91.1.1.2
+            primary_device_management_ip_address: 204.1.1.4
+            primary_device_interface_names:
+              - HundredGigE1/0/2
+            ip_pools:
+              - ip_pool_name: underlay_sub
+                ip_pool_role: MAIN_POOL
+              - ip_pool_name: underlay_sub_small
+                ip_pool_role: PHYSICAL_LINK_POOL
+            discovery_level: 5
+            discovery_timeout: 40
+            discovery_devices:
+              - device_serial_number: FXS2429Q0WE
+                device_host_name: SR-LAN-9400X-EDGE1
+                device_site_name_hierarchy: Global/USA/SAN JOSE/BLD20/BLD20_FLOOR1
+                device_management_ip_address: 204.1.1.13
+            launch_and_wait: true
+```
 
 If `new.provision_config` is omitted, the role builds it automatically:
 
