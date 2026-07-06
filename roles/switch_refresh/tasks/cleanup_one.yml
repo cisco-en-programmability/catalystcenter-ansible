@@ -1,0 +1,227 @@
+---
+- name: Validate cleanup input for switch refresh item
+  ansible.builtin.assert:
+    that:
+      - refresh_item.fabric_site_name_hierarchy is defined
+      - refresh_item.old is defined
+      - refresh_item.old.management_ip is defined or refresh_item.old.hostname is defined or refresh_item.old.serial_number is defined or refresh_item.old.mac_address is defined
+    fail_msg: >-
+      Each switch_refresh_devices entry needs fabric_site_name_hierarchy and an
+      old device identifier (management_ip, hostname, serial_number, or
+      mac_address) for old-switch cleanup.
+
+- name: Build old switch inventory identifier
+  ansible.builtin.set_fact:
+    switch_refresh_old_device_identifier: >-
+      {{
+        {'ip_address': [refresh_item.old.management_ip]} if (refresh_item.old.management_ip is defined) else
+        {'hostname': [refresh_item.old.hostname]} if (refresh_item.old.hostname is defined) else
+        {'serial_number': [refresh_item.old.serial_number]} if (refresh_item.old.serial_number is defined) else
+        {'mac_address': [refresh_item.old.mac_address]} if (refresh_item.old.mac_address is defined) else
+        {}
+      }}
+
+- name: Resolve old switch inventory details
+  ansible.builtin.include_role:
+    name: network_devices_info
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    network_devices_info_state: gathered
+    network_devices_info_config_verify: false
+    network_devices_info_config:
+      - network_devices:
+          - device_identifier:
+              - "{{ switch_refresh_old_device_identifier }}"
+            timeout: "{{ refresh_item.device_info_lookup_timeout | default(switch_refresh_device_info_lookup_timeout) }}"
+            retries: "{{ refresh_item.device_info_lookup_retries | default(switch_refresh_device_info_lookup_retries) }}"
+            interval: "{{ refresh_item.device_info_lookup_interval | default(switch_refresh_device_info_lookup_interval) }}"
+            requested_info:
+              - device_info
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Validate old switch inventory lookup result
+  ansible.builtin.assert:
+    that:
+      - network_devices_info_result.response is defined
+      - network_devices_info_result.response | length > 1
+      - network_devices_info_result.response[1] | length > 0
+      - network_devices_info_result.response[1][0].device_info is defined
+      - network_devices_info_result.response[1][0].device_info | length == 1
+      - network_devices_info_result.response[1][0].device_info[0].device_details | length == 1
+    fail_msg: >-
+      Unable to resolve exactly one old switch from Catalyst Center inventory
+      using {{ switch_refresh_old_device_identifier }}.
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Set old switch resolved details
+  ansible.builtin.set_fact:
+    switch_refresh_old_device_details: "{{ network_devices_info_result.response[1][0].device_info[0].device_details[0] }}"
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Set old switch management IP
+  ansible.builtin.set_fact:
+    switch_refresh_old_management_ip: >-
+      {{
+        refresh_item.old.management_ip if (refresh_item.old.management_ip is defined)
+        else (switch_refresh_old_device_details.managementIpAddress | default(''))
+      }}
+
+- name: Validate old switch management IP is known
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_old_management_ip | length > 0
+    fail_msg: >-
+      Unable to determine the old switch management IP. Provide old.management_ip
+      or enable inventory lookup with hostname, serial_number, or mac_address.
+
+- name: Build switch refresh cleanup context
+  ansible.builtin.set_fact:
+    switch_refresh_item_name: "{{ refresh_item.name | default(refresh_item.old.hostname | default(switch_refresh_old_management_ip)) }}"
+    switch_refresh_item_file_safe_name: "{{ refresh_item.name | default(refresh_item.old.hostname | default(switch_refresh_old_management_ip)) | regex_replace('[^A-Za-z0-9_.-]', '_') }}"
+    switch_refresh_old_host_port_cleanup_file: "{{ refresh_item.old_host_port_cleanup_file | default(switch_refresh_work_dir ~ '/' ~ (refresh_item.name | default(refresh_item.old.hostname | default(switch_refresh_old_management_ip)) | regex_replace('[^A-Za-z0-9_.-]', '_')) ~ '_old_host_port_cleanup.yml') }}"
+
+- name: Build old host-port cleanup generator config
+  ansible.builtin.set_fact:
+    switch_refresh_old_host_port_cleanup_generator_config:
+      component_specific_filters:
+        port_assignments:
+          - fabric_site_name_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            source_device_ip: "{{ switch_refresh_old_management_ip }}"
+            destination_device_ip: "{{ switch_refresh_old_management_ip }}"
+        port_channels:
+          - fabric_site_name_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            source_device_ip: "{{ switch_refresh_old_management_ip }}"
+            destination_device_ip: "{{ switch_refresh_old_management_ip }}"
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Generate old host-port cleanup payload
+  ansible.builtin.include_role:
+    name: sda_host_port_migration_config_generator
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_host_port_migration_config_generator_state: gathered
+    sda_host_port_migration_config_generator_file_path: "{{ switch_refresh_old_host_port_cleanup_file }}"
+    sda_host_port_migration_config_generator_file_mode: "{{ switch_refresh_migration_file_mode }}"
+    sda_host_port_migration_config_generator_config: "{{ switch_refresh_old_host_port_cleanup_generator_config }}"
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Load old host-port cleanup payload
+  ansible.builtin.include_vars:
+    file: "{{ switch_refresh_old_host_port_cleanup_file }}"
+    name: switch_refresh_old_host_port_cleanup
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Validate old host-port cleanup payload
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_old_host_port_cleanup.config is defined
+      - switch_refresh_allow_empty_host_port_config | bool or (switch_refresh_old_host_port_cleanup.config | length > 0)
+    fail_msg: >-
+      Old-device host-port cleanup did not generate a delete payload for
+      {{ switch_refresh_item_name }}. Confirm the old switch still has port
+      assignments or port channels in the supplied fabric site.
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Delete host-port onboarding config from old switch
+  ansible.builtin.include_role:
+    name: sda_host_port_onboarding
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_host_port_onboarding_state: deleted
+    sda_host_port_onboarding_config_verify: "{{ switch_refresh_sda_host_port_onboarding_config_verify }}"
+    sda_host_port_onboarding_sda_fabric_port_channel_limit: "{{ switch_refresh_sda_fabric_port_channel_limit }}"
+    sda_host_port_onboarding_config: "{{ switch_refresh_old_host_port_cleanup.config }}"
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Build old switch fabric removal config
+  ansible.builtin.set_fact:
+    switch_refresh_old_fabric_devices_config:
+      - fabric_devices:
+          fabric_name: "{{ refresh_item.fabric_site_name_hierarchy }}"
+          device_config:
+            - device_ip: "{{ switch_refresh_old_management_ip }}"
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Remove old switch from fabric
+  ansible.builtin.include_role:
+    name: sda_fabric_devices
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_fabric_devices_state: deleted
+    sda_fabric_devices_config_verify: "{{ switch_refresh_sda_fabric_devices_config_verify }}"
+    sda_fabric_devices_config: "{{ switch_refresh_old_fabric_devices_config }}"
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Validate old switch is absent from fabric
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - fabric_site_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            fabric_device_role: "{{ refresh_item.fabric_validation_role | default('EDGE_NODE') }}"
+            device_identifier:
+              - ip_address:
+                  - "{{ switch_refresh_old_management_ip }}"
+            timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_fabric_validation_timeout) }}"
+            retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_fabric_validation_retries) }}"
+            interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_fabric_validation_interval) }}"
+            requested_info:
+              - fabric_info
+  when:
+    - switch_refresh_cleanup_fabric_enabled | bool
+    - switch_refresh_fabric_validation_enabled | bool
+
+- name: Fail if old switch is still visible as fabric edge device
+  ansible.builtin.assert:
+    that:
+      - fabric_devices_info_result.response is defined
+      - "'The fabric devices filtered' not in (fabric_devices_info_result.response | string)"
+      - switch_refresh_old_management_ip not in (fabric_devices_info_result.response | string)
+    fail_msg: >-
+      Old switch {{ switch_refresh_old_management_ip }} is still visible as an
+      {{ refresh_item.fabric_validation_role | default('EDGE_NODE') }} in
+      fabric {{ refresh_item.fabric_site_name_hierarchy }}.
+  when:
+    - switch_refresh_cleanup_fabric_enabled | bool
+    - switch_refresh_fabric_validation_enabled | bool
+
+- name: Unprovision old switch
+  ansible.builtin.include_role:
+    name: provision
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    provision_state: deleted
+    provision_config_verify: "{{ switch_refresh_provision_config_verify }}"
+    provision_config:
+      - management_ip_address: "{{ switch_refresh_old_management_ip }}"
+  when: switch_refresh_cleanup_unprovision_enabled | bool
+
+- name: Record old switch cleanup result
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_results: >-
+      {{
+        (switch_refresh_cleanup_results | default([])) + [
+          {
+            'name': switch_refresh_item_name,
+            'old_management_ip': switch_refresh_old_management_ip,
+            'fabric_site_name_hierarchy': refresh_item.fabric_site_name_hierarchy,
+            'old_host_port_cleanup_file': switch_refresh_old_host_port_cleanup_file
+          }
+        ]
+      }}

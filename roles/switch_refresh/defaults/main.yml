@@ -1,0 +1,42 @@
+---
+# defaults file for switch_refresh
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+catalystcenter_log_append: false
+catalystcenter_log_file_path: catalystcenter.log
+
+switch_refresh_phase: prepare
+switch_refresh_devices: []
+switch_refresh_cleanup_old: false
+switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
+
+switch_refresh_discovery_enabled: true
+switch_refresh_provision_enabled: true
+switch_refresh_fabric_add_enabled: true
+switch_refresh_fabric_validation_enabled: true
+switch_refresh_host_onboarding_enabled: true
+switch_refresh_cleanup_host_onboarding_enabled: true
+switch_refresh_cleanup_fabric_enabled: true
+switch_refresh_cleanup_unprovision_enabled: true
+
+switch_refresh_device_info_lookup_enabled: true
+switch_refresh_device_info_lookup_timeout: 120
+switch_refresh_device_info_lookup_retries: 6
+switch_refresh_device_info_lookup_interval: 10
+switch_refresh_discovery_config_verify: false
+switch_refresh_provision_config_verify: false
+switch_refresh_sda_fabric_devices_config_verify: false
+switch_refresh_sda_host_port_onboarding_config_verify: false
+switch_refresh_sda_fabric_port_channel_limit: 20
+switch_refresh_fabric_validation_timeout: 120
+switch_refresh_fabric_validation_retries: 6
+switch_refresh_fabric_validation_interval: 10
+switch_refresh_migration_file_mode: overwrite
+switch_refresh_allow_empty_host_port_config: false

@@ -1,0 +1,14 @@
+---
+- name: Clean up old switch after Catalyst Center switch refresh validation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars/switch_refresh_usecase.yml
+  vars:
+    switch_refresh_phase: cleanup_old
+    switch_refresh_cleanup_old: true
+  roles:
+    - role: switch_refresh
+      tags:
+        - switch_refresh_cleanup_old

@@ -1,0 +1,62 @@
+---
+- name: Validate switch refresh control variables
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_phase in ['prepare', 'cleanup_old', 'all']
+      - switch_refresh_devices | length > 0
+    fail_msg: >-
+      switch_refresh_phase must be prepare, cleanup_old, or all, and
+      switch_refresh_devices must contain at least one switch refresh entry.
+  tags:
+    - always
+
+- name: Ensure switch refresh work directory exists
+  ansible.builtin.file:
+    path: "{{ switch_refresh_work_dir }}"
+    state: directory
+    mode: "0750"
+  when: switch_refresh_phase in ['prepare', 'cleanup_old', 'all']
+  tags:
+    - switch_refresh_prepare
+    - switch_refresh_cleanup_old
+
+- name: Prepare replacement switches
+  ansible.builtin.include_tasks:
+    file: prepare_one.yml
+    apply:
+      tags:
+        - switch_refresh_prepare
+  loop: "{{ switch_refresh_devices }}"
+  loop_control:
+    loop_var: refresh_item
+    label: "{{ refresh_item.name | default(refresh_item.new.hostname | default(refresh_item.new.management_ip | default('switch-refresh'))) }}"
+  when: switch_refresh_phase in ['prepare', 'all']
+  tags:
+    - switch_refresh_prepare
+
+- name: Require explicit old-switch cleanup approval
+  ansible.builtin.fail:
+    msg: >-
+      Old-switch cleanup is gated. Set switch_refresh_cleanup_old=true or run
+      the dedicated switch_refresh_cleanup_old.yml playbook after validation.
+  when:
+    - switch_refresh_phase in ['cleanup_old', 'all']
+    - not (switch_refresh_cleanup_old | bool)
+  tags:
+    - switch_refresh_cleanup_old
+
+- name: Clean up old switches
+  ansible.builtin.include_tasks:
+    file: cleanup_one.yml
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  loop: "{{ switch_refresh_devices }}"
+  loop_control:
+    loop_var: refresh_item
+    label: "{{ refresh_item.name | default(refresh_item.old.hostname | default(refresh_item.old.management_ip | default('switch-refresh'))) }}"
+  when:
+    - switch_refresh_phase in ['cleanup_old', 'all']
+    - switch_refresh_cleanup_old | bool
+  tags:
+    - switch_refresh_cleanup_old

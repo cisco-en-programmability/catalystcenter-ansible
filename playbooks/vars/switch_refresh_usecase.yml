@@ -1,0 +1,98 @@
+---
+# Sample Catalyst Center connection values. Replace with vault variables or
+# inventory variables in production.
+catalystcenter_host: "<catalyst-center-ip-or-fqdn>"
+catalystcenter_port: 443
+catalystcenter_username: "<username>"
+catalystcenter_password: "<password>"
+catalystcenter_version: "2.3.7.9"
+catalystcenter_verify: false
+catalystcenter_debug: false
+catalystcenter_log: false
+catalystcenter_log_level: INFO
+
+switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
+switch_refresh_device_info_lookup_enabled: true
+switch_refresh_fabric_validation_enabled: true
+switch_refresh_sda_host_port_onboarding_config_verify: true
+switch_refresh_sda_fabric_devices_config_verify: true
+switch_refresh_provision_config_verify: true
+
+switch_refresh_devices:
+  - name: sjc-edge-01-refresh
+
+    # Required topology input.
+    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+
+    # Minimal old-switch input: provide any one of management_ip, hostname,
+    # serial_number, or mac_address. The role resolves management IP with
+    # network_devices_info.
+    old:
+      hostname: SJ-EDGE-OLD.cisco.local
+
+    # Minimal new-switch input. The role auto-builds SINGLE discovery config
+    # using Catalyst Center global credentials, then auto-builds provision_config.
+    new:
+      management_ip: 10.10.10.20
+
+      # Optional discovery overrides.
+      # discovery_name: switch-refresh-sjc-edge-01
+      # protocol_order: ssh
+      # discovery_retry: 2
+      # use_global_credentials: true
+
+      # Optional. Pass full discovery_config only when you need custom discovery
+      # credentials or a non-SINGLE discovery type.
+      # discovery_config:
+      #   single:
+      #     - discovery_name: switch-refresh-sjc-edge-01
+      #       discovery_type: SINGLE
+      #       ip_address_list:
+      #         - 10.10.10.20
+      #       protocol_order: ssh
+      #       retry: 2
+      #       discovery_specific_credentials:
+      #         cli_credentials_list:
+      #           - username: "<switch-cli-username>"
+      #             password: "<switch-cli-password>"
+      #             enable_password: "<switch-enable-password>"
+
+      # Optional. Defaults to EDGE_NODE.
+      # device_roles:
+      #   - EDGE_NODE
+
+      # Optional. Only use when you need a custom provision payload.
+      # provision_config:
+      #   - site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+      #     management_ip_address: 10.10.10.20
+
+      # Optional. Only use when you need a custom fabric device payload.
+      # fabric_devices_config:
+      #   - fabric_devices:
+      #       fabric_name: Global/USA/SAN-JOSE/BLDG23
+      #       device_config:
+      #         - device_ip: 10.10.10.20
+      #           device_roles:
+      #             - EDGE_NODE
+
+    # Provide mappings only when the new switch uses different interface names
+    # or a different port layout. Unmapped source interfaces are migrated 1:1.
+    interface_mappings:
+      - source_interface_name: GigabitEthernet1/0/1
+        destination_interface_name: TenGigabitEthernet1/0/1
+      - source_interface_name: GigabitEthernet1/0/2
+        destination_interface_name: TenGigabitEthernet1/0/2
+      - source_interface_name: GigabitEthernet1/0/47
+        destination_interface_name: TenGigabitEthernet1/1/1
+      - source_interface_name: GigabitEthernet1/0/48
+        destination_interface_name: TenGigabitEthernet1/1/2
+
+  - name: sjc-edge-02-refresh-1-to-1
+    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
+    old:
+      serial_number: FOC1234ABCD
+    new:
+      management_ip: 10.10.10.21
+
+    # Empty mapping means the generator keeps old interface names as-is.
+    interface_mappings: []
