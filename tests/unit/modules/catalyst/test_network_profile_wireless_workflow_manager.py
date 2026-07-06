@@ -32,6 +32,7 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
     profile_deletion = test_data.get("profile_deletion")
     profile_creation_config_feature_template = test_data.get("profile_creation_config_feature_template")
     site_removal_with_parent_inheritance_config = test_data.get("site_removal_with_parent_inheritance_config")
+    site_removal_child_only_config = test_data.get("site_removal_child_only_config")
 
     def setUp(self):
         super(TestCatalystCenterNetworkWirelessProfileWorkflow, self).setUp()
@@ -169,6 +170,25 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
                 # is_parent_assigned for FLOOR4 - blocked by NY_BLD1
                 self.test_data.get("get_site_ny_bld1"),
             ]
+        elif "site_removal_child_only" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                # get_have: get_network_profile (retrieves_the_list_of_network_profiles_for_sites)
+                self.test_data.get("parent_inheritance_wireless_profile_list"),
+                # get_have: get_wireless_profile (get_wireless_profiles)
+                self.test_data.get("parent_inheritance_profile_details"),
+                # check_site_template: get_site_id + get_child_sites for FLOOR3
+                self.test_data.get("get_site_ny_bld1_floor3"),
+                self.test_data.get("get_sites4"),
+                # check_site_template: get_site_id + get_child_sites for FLOOR4
+                self.test_data.get("get_site_ny_bld1_floor4"),
+                self.test_data.get("get_sites4"),
+                # get_have: get_site_lists_for_profile
+                self.test_data.get("parent_inheritance_site_list_for_profile"),
+                # _remove_site_names: is_parent_assigned for FLOOR3 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
+                # _remove_site_names: is_parent_assigned for FLOOR4 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
+            ]
 
     def test_network_profile_workflow_manager_basic_profile_creation(self):
         """
@@ -301,7 +321,48 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
 
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
+        self.assertTrue(result.get("changed"))
+        # response is a list: [{"profile_name": {"sites_removed": [...], "sites_skipped": [...]}}]
+        response = result.get("response", [])
+        self.assertIsInstance(response, list)
+        profile_data = list(response[0].values())[0] if response else {}
+        self.assertTrue(profile_data.get("sites_removed"))
+        self.assertTrue(profile_data.get("sites_skipped"))
+        self.assertIn("SJ_BLD20", result.get("msg"))
+        self.assertIn("FLOOR1", result.get("msg"))
+        self.assertIn("FLOOR3", result.get("msg"))
+        self.assertIn("FLOOR4", result.get("msg"))
+        self.assertIn("sites_skipped", result.get("msg"))
         self.assertIn(
             "Wireless profile data removed successfully",
             result.get('msg')
         )
+
+    def test_network_profile_workflow_manager_site_removal_child_only(self):
+        """
+        Test case for wireless profile workflow manager where only child sites
+        are requested for removal while the parent site remains assigned.
+
+        All requested sites should be skipped due to parent inheritance,
+        resulting in changed=False.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                catalystcenter_version="3.1.3.0",
+                config_verify=False,
+                config=self.site_removal_child_only_config
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=False)
+        self.maxDiff = None
+        self.assertFalse(result.get("changed"))
+        self.assertIn("No sites were unassigned", result.get("msg"))
+        self.assertIn("skipped due to parent inheritance", result.get("msg"))
+        self.assertIn("FLOOR3", result.get("msg"))
+        self.assertIn("FLOOR4", result.get("msg"))

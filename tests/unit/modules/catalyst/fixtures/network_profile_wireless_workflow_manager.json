@@ -8676,5 +8676,14 @@
       }
     ],
     "version": "1.0"
-  }
+  },
+  "site_removal_child_only_config": [
+    {
+      "profile_name": "Campus_Wireless_Profile",
+      "site_names": [
+        "Global/USA/New York/NY_BLD1/FLOOR3",
+        "Global/USA/New York/NY_BLD1/FLOOR4"
+      ]
+    }
+  ]
 }

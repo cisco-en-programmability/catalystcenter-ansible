@@ -8,7 +8,7 @@ in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
+__author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan, Sunil Shatagopa"]
 
 DOCUMENTATION = r"""
 ---
@@ -30,6 +30,7 @@ extends_documentation_fragment:
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Sunil Shatagopa (@shatagopasunil)
 options:
   config_verify:
     description: |
@@ -674,6 +675,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "RRM_FRA_CONFIGURATION",
             "RRM_GENERAL_CONFIGURATION",
         ]
+
+    def reset_values(self):
+        """Reset all neccessary attributes to default values"""
+        super().reset_values()
+        self.removed_sites = []
+        self.skipped_sites = []
 
     def validate_input(self):
         """
@@ -3365,7 +3372,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_response["template_status"] = msg
 
         self.created.append(profile_response)
-        self.msg = "Wireless Profile created/updated successfully for '{0}'.".format(
+        self.msg = "Wireless profile created/updated successfully for '{0}'.".format(
             str(self.created)
         )
         self.changed = True
@@ -3474,6 +3481,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "feature_template_designs_status": False,
             "day_n_templates_status": False,
             "site_remove_status": False,
+            "site_skip_status": False,
         }
 
         # Execute removal operations using helper functions
@@ -3509,7 +3517,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             unassign_sites = self._remove_site_names(
                 each_profile, each_have_profile, have_profile_name, have_profile_id
             )
-            remove_required["site_remove_status"] = len(unassign_sites) > 0 or len(self.skipped_sites) > 0
+            remove_required["site_remove_status"] = len(unassign_sites) > 0
+            remove_required["site_skip_status"] = len(self.skipped_sites) > 0
 
         # Profile update processing
         profile_update_required = (
@@ -3957,7 +3966,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             return False, None
 
         parent = site_name.rsplit("/", 1)[0]
+
+        # No "/" left (malformed path or already at top) - stop recursion safely
+        if parent == site_name:
+            self.log(
+                "No further parent to check for site '{0}' - stopping recursion.".format(
+                    site_name
+                ),
+                "DEBUG"
+            )
+            return False, None
+
         parent_exists, parent_id = self.get_site_id(parent)
+
+        if not parent_exists:
+            self.log(
+                "Parent site '{0}' does not exist in the system - stopping recursion.".format(
+                    parent
+                ),
+                "DEBUG"
+            )
+            return False, None
 
         if parent_id in assigned_site_ids and parent not in removal_list:
             self.log(
@@ -3999,10 +4028,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         sites_removed = 0
         sites_skipped = []
 
+        # Reset per-profile trackers so multi-profile playbooks don't accumulate
+        self.removed_sites = []
+        self.skipped_sites = []
+
         # Build set of currently assigned site IDs for parent check
         assigned_site_ids = set()
         for site in each_have_profile.get("previous_sites", []):
-            assigned_site_ids.add(site.get("id"))
+            site_id = site.get("id")
+            if site_id:
+                assigned_site_ids.add(site_id)
+
+        self.log(
+            "Built assigned site IDs set with {0} entries for parent check: {1}".format(
+                len(assigned_site_ids), assigned_site_ids
+            ),
+            "DEBUG"
+        )
 
         # Sort site_names by hierarchy depth (parents first)
         site_names = sorted(site_names, key=lambda x: x.count("/"))
@@ -4068,6 +4110,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     unassign_response = self.unassign_site_to_network_profile(
                         have_profile_name, have_profile_id, have_site_name, have_site_id
                     )
+
+                    if not unassign_response:
+                        self.log(
+                            "Failed to unassign site '{0}' from profile '{1}'.".format(
+                                have_site_name, have_profile_name
+                            ),
+                            "ERROR"
+                        )
+                        continue
+
                     unassign_sites.append(unassign_response)
                     self.removed_sites.append(site_name)
                     sites_removed += 1
@@ -4292,7 +4344,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
 
             self.deleted.append(profile_response)
-            self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
+            self.msg = "Wireless profile deleted successfully for '{0}'.".format(
                 str(self.deleted)
             )
 
@@ -4325,12 +4377,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "additional_interfaces_status"
             ])
 
+            if remove_status and not removal_occurred and remove_status.get("site_skip_status"):
+                self.msg = (
+                    "No sites were unassigned from wireless profile '{0}'. "
+                    "Sites '{1}' skipped due to parent inheritance."
+                ).format(have_profile_name, "', '".join(self.skipped_sites))
+                self.already_removed.append(have_profile_name)
+                self.set_operation_result(
+                    "success", False, self.msg, "INFO", remove_status
+                ).check_return_status()
+                return self
+
             if not remove_status or not removal_occurred:
                 self.msg = (
                     "Profile data already removed or not exist to remove data from "
                     "profile: '{0}'.".format(have_profile_name)
                 )
-                self.log(self.msg, "DEBUG")
                 self.already_removed.append(have_profile_name)
                 self.set_operation_result(
                     "success", False, self.msg, "INFO", have_profile_name
@@ -4338,7 +4400,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 return self
 
             # Build comprehensive removal success message
-            self.msg = "Wireless Profile data removed successfully for '{0}'.".format(
+            self.msg = "Wireless profile data removed successfully for '{0}'.".format(
                 profile_name
             )
 
