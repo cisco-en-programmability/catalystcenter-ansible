@@ -860,6 +860,14 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("task_019b454e-aae5-7d65-9316-ac49ff056b3f"),
             ]
 
+        if "allow_case_insensitive_ssid_type" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("respone_get_sites_success"),
+                self.test_data.get("response_get_ssid_by_site_update_without_ssid_type"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
     # SUCCESS TESTCASES ########################################################################################
 
     def test_create_ssid(self):
@@ -1983,7 +1991,7 @@ class TestWirelessDesign(TestCatalystModule):
         )
 
     def test_wireless_design_workflow_manager_create_ssid_invalid_ssid_type(self):
-        """Test that ssid_type='GUEST' (wrong case) fails validation."""
+        """Test that ssid_type='InvalidType' (wrong ssid type) fails validation."""
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -1997,6 +2005,22 @@ class TestWirelessDesign(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Invalid choice", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_allow_case_insensitive_ssid_type(self):
+        """Test that ssid_type='EnTeRpRiSe' (mixed case) is accepted and normalized to 'Enterprise'."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_create_ssid_mixed_case_ssid_type")
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("Update SSID(s) Task succeeded for the following SSID(s)", result.get('msg', ''))
 
     def test_wireless_design_workflow_manager_create_ssid_missing_ssid_type(self):
         """Test that creating a new SSID without ssid_type fails."""

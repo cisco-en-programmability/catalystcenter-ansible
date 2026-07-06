@@ -7575,7 +7575,7 @@ class WirelessDesign(CatalystCenterBase):
                 "ssid_name": {"type": "str"},
                 "ssid_type": {
                     "type": "str",
-                    "choices": ["Enterprise", "Guest"]
+                    "choices_ignore_case": ["Enterprise", "Guest"]
                 },
                 "wlan_profile_name": {"type": "str"},
                 "radio_policy": {
