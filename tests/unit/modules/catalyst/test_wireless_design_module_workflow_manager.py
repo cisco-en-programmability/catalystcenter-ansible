@@ -41,6 +41,9 @@ class TestWirelessDesign(TestCatalystModule):
     playbook_dot11ax_add = test_data.get("playbook_dot11ax_add")
     playbook_dot11ax_update = test_data.get("playbook_dot11ax_update")
     playbook_dot11ax_delete = test_data.get("playbook_dot11ax_delete")
+    playbook_dot11ax_add_24ghz_band_compat = test_data.get("playbook_dot11ax_add_24ghz_band_compat")
+    playbook_dot11ax_add_6ghz_band_compat = test_data.get("playbook_dot11ax_add_6ghz_band_compat")
+    playbook_multicast_delete_no_feature_attrs = test_data.get("playbook_multicast_delete_no_feature_attrs")
 
     playbook_dot11be_add = test_data.get("playbook_dot11be_add")
     playbook_dot11be_update = test_data.get("playbook_dot11be_update")
@@ -701,6 +704,27 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("DOT11AX_CONFIGURATION_get"),
                 self.test_data.get("DOT11AX_CONFIGURATION_create"),
                 self.test_data.get("task_019a0b40-98f2-7d60-b662-1fa7b0d18246"),
+            ]
+
+        if "playbook_dot11ax_add_24ghz_band_compat" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("DOT11AX_CONFIGURATION_get_empty"),
+                self.test_data.get("DOT11AX_CONFIGURATION_create_24ghz"),
+                self.test_data.get("task_019b1111-aaaa-bbbb-cccc-111111111111"),
+            ]
+
+        if "playbook_dot11ax_add_6ghz_band_compat" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("DOT11AX_CONFIGURATION_get_empty"),
+                self.test_data.get("DOT11AX_CONFIGURATION_create_6ghz"),
+                self.test_data.get("task_019b2222-aaaa-bbbb-cccc-222222222222"),
+            ]
+
+        if "playbook_multicast_delete_no_feature_attrs" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("MULTICAST_CONFIGURATION_get_delete"),
+                self.test_data.get("MULTICAST_CONFIGURATION_delete"),
+                self.test_data.get("task_019f410d-2ce0-74e2-8ae1-85909caad737"),
             ]
 
         if "playbook_dot11ax_update" in self._testMethodName:
@@ -2061,3 +2085,104 @@ class TestWirelessDesign(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_24ghz_band_compat(self):
+        """Test that band-incompatible attributes (multipleBssid) are filtered out for 2.4GHz.
+
+        BUG: multiple_bssid is only valid for 6GHZ band. When a user specifies it
+        for 2_4GHZ, the module should strip it from the API payload. Without the fix,
+        the API returns: status_code 400, errorCode NCWS70003,
+        detail: "'multipleBssid' is only supported for the 'radioBand' 6GHZ."
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_dot11ax_add_24ghz_band_compat
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+
+        # Verify the create API call did NOT include multipleBssid in the payload
+        # (it is only valid for 6GHZ band)
+        create_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+                create_call = kwargs
+                break
+
+        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
+        self.assertNotIn("multipleBssid", feature_attrs,
+                         "'multipleBssid' is only supported for the 'radioBand' 6GHZ")
+
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_6ghz_band_compat(self):
+        """Test that band-incompatible attributes (obssPd, nonSRGObssPdMaxThreshold) are filtered for 6GHz.
+
+        BUG: obss_pd and non_srg_obss_pd_max_threshold are only valid for 2_4GHZ and
+        5GHZ bands. When a user specifies them for 6GHZ, the module should strip them
+        from the API payload. Without the fix, the API returns: status_code 400,
+        errorCode NCWS70003, detail: "'obssPd'/'nonSRGObssPdMaxThreshold' is only
+        supported for the 'radioBand' 2_4GHZ/5GHZ."
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_dot11ax_add_6ghz_band_compat
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+
+        # Verify the create API call did NOT include obssPd or nonSRGObssPdMaxThreshold
+        # (they are only valid for 2_4GHZ and 5GHZ bands)
+        create_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+                create_call = kwargs
+                break
+
+        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
+        self.assertNotIn("obssPd", feature_attrs,
+                         "'obssPd' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
+        self.assertNotIn("nonSRGObssPdMaxThreshold", feature_attrs,
+                         "'nonSRGObssPdMaxThreshold' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
+
+    def test_wireless_design_workflow_manager_playbook_multicast_delete_no_feature_attrs(self):
+        """Test that multicast_configuration delete works with only design_name (no feature_attributes).
+
+        BUG: The argspec had feature_attributes as required: True, which caused
+        state: deleted to fail with 'Required parameter not found' when only
+        design_name was provided. The fix sets required: False in the argspec.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config=self.playbook_multicast_delete_no_feature_attrs
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            {
+                "multicast_delete": {
+                    "test_multicast_design": "Successfully deleted Multicast configuration."
+                }
+            }
+        )
