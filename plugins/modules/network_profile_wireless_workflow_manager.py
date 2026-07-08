@@ -8,7 +8,7 @@ in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
+__author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan, Sunil Shatagopa"]
 
 DOCUMENTATION = r"""
 ---
@@ -30,6 +30,7 @@ extends_documentation_fragment:
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Sunil Shatagopa (@shatagopasunil)
 options:
   config_verify:
     description: |
@@ -61,6 +62,11 @@ options:
       site_names:
         description: |
           List of site names assigned to the profile. For example, ["Global/USA/New York/BLDNYC"].
+          When used with state=merged, these sites will be assigned to the profile.
+          When used with state=deleted, these sites will be unassigned from the profile
+          (without deleting the profile itself). If a parent site is assigned to the profile
+          and is not included in the removal list, child sites under that parent cannot be
+          removed due to inheritance and will be skipped with a warning.
         type: list
         elements: str
         required: false
@@ -639,6 +645,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.supported_states = ["merged", "deleted"]
         self.created, self.deleted, self.not_processed = [], [], []
         self.remove_profile_data, self.already_removed = [], []
+        self.removed_sites = []
+        self.skipped_sites = []
 
         self.keymap = dict(
             profile_name="wirelessProfileName",
@@ -667,6 +675,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "RRM_FRA_CONFIGURATION",
             "RRM_GENERAL_CONFIGURATION",
         ]
+
+    def reset_values(self):
+        """Reset all neccessary attributes to default values"""
+        super().reset_values()
+        self.removed_sites = []
+        self.skipped_sites = []
 
     def validate_input(self):
         """
@@ -3358,7 +3372,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_response["template_status"] = msg
 
         self.created.append(profile_response)
-        self.msg = "Wireless Profile created/updated successfully for '{0}'.".format(
+        self.msg = "Wireless profile created/updated successfully for '{0}'.".format(
             str(self.created)
         )
         self.changed = True
@@ -3467,6 +3481,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "feature_template_designs_status": False,
             "day_n_templates_status": False,
             "site_remove_status": False,
+            "site_skip_status": False,
         }
 
         # Execute removal operations using helper functions
@@ -3503,6 +3518,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 each_profile, each_have_profile, have_profile_name, have_profile_id
             )
             remove_required["site_remove_status"] = len(unassign_sites) > 0
+            remove_required["site_skip_status"] = len(self.skipped_sites) > 0
 
         # Profile update processing
         profile_update_required = (
@@ -3930,6 +3946,60 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         return unassign_templates
 
+    def is_parent_assigned(self, site_name, assigned_site_ids, removal_list):
+        """
+        Recursively check if any ancestor site is assigned to the profile.
+
+        Parameters:
+            site_name (str): The site hierarchy path to check (e.g., "Global/USA/BLD1/FLOOR3")
+            assigned_site_ids (set): Set of site IDs currently assigned to the profile
+            removal_list (list): List of site names being removed in this operation
+
+        Returns:
+            tuple: (bool, str or None) - (True if a parent is assigned, parent site name that blocks removal)
+        """
+        if site_name == "Global":
+            self.log(
+                "Reached root site 'Global' - no parent site blocks removal.",
+                "DEBUG"
+            )
+            return False, None
+
+        parent = site_name.rsplit("/", 1)[0]
+
+        # No "/" left (malformed path or already at top) - stop recursion safely
+        if parent == site_name:
+            self.log(
+                "No further parent to check for site '{0}' - stopping recursion.".format(
+                    site_name
+                ),
+                "DEBUG"
+            )
+            return False, None
+
+        parent_exists, parent_id = self.get_site_id(parent)
+
+        if not parent_exists:
+            self.log(
+                "Parent site '{0}' does not exist in the system - stopping recursion.".format(
+                    parent
+                ),
+                "DEBUG"
+            )
+            return False, None
+
+        if parent_id in assigned_site_ids and parent not in removal_list:
+            self.log(
+                "Parent site '{0}' (ID: {1}) is assigned to the profile and not in "
+                "the removal list. Child site cannot be removed due to inheritance.".format(
+                    parent, parent_id
+                ),
+                "WARNING"
+            )
+            return True, parent
+
+        return self.is_parent_assigned(parent, assigned_site_ids, removal_list)
+
     def _remove_site_names(self, each_profile, each_have_profile, have_profile_name, have_profile_id):
         """
         Remove site name assignments from the wireless network profile.
@@ -3956,10 +4026,33 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         unassign_sites = []
         sites_removed = 0
+        sites_skipped = []
+
+        # Reset per-profile trackers so multi-profile playbooks don't accumulate
+        self.removed_sites = []
+        self.skipped_sites = []
+
+        # Build set of currently assigned site IDs for parent check
+        assigned_site_ids = set()
+        for site in each_have_profile.get("previous_sites", []):
+            site_id = site.get("id")
+            if site_id:
+                assigned_site_ids.add(site_id)
 
         self.log(
-            "Processing site removal for {0} sites from profile '{1}'".format(
-                len(site_names), have_profile_name
+            "Built assigned site IDs set with {0} entries for parent check: {1}".format(
+                len(assigned_site_ids), assigned_site_ids
+            ),
+            "DEBUG"
+        )
+
+        # Sort site_names by hierarchy depth (parents first)
+        site_names = sorted(site_names, key=lambda x: x.count("/"))
+
+        self.log(
+            "Processing site removal for {0} sites from profile '{1}'. "
+            "Sites sorted by hierarchy depth (parents first): {2}".format(
+                len(site_names), have_profile_name, site_names
             ),
             "INFO"
         )
@@ -3978,6 +4071,30 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 )
                 continue
 
+            # Check if any parent site is still assigned to the profile
+            self.log(
+                "Checking if any ancestor of site '{0}' is assigned to the profile.".format(
+                    site_name
+                ),
+                "DEBUG"
+            )
+            parent_assigned, blocking_parent = self.is_parent_assigned(
+                site_name, assigned_site_ids, site_names
+            )
+
+            if parent_assigned:
+                skip_msg = (
+                    "Site '{0}' skipped - parent site '{1}' is still assigned to the profile. "
+                    "Child site(s) will not be removed if the parent is not removed. "
+                    "In case the parent is associated to another Network profile, "
+                    "Child Site(s) will get associated to the same.".format(
+                        site_name, blocking_parent
+                    )
+                )
+                self.log(skip_msg, "WARNING")
+                sites_skipped.append(site_name)
+                continue
+
             for have_site in each_have_profile.get("site_response", {}):
                 have_site_name = have_site.get("site_names")
                 have_site_id = have_site.get("site_id")
@@ -3993,8 +4110,23 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     unassign_response = self.unassign_site_to_network_profile(
                         have_profile_name, have_profile_id, have_site_name, have_site_id
                     )
+
+                    if not unassign_response:
+                        self.log(
+                            "Failed to unassign site '{0}' from profile '{1}'.".format(
+                                have_site_name, have_profile_name
+                            ),
+                            "ERROR"
+                        )
+                        continue
+
                     unassign_sites.append(unassign_response)
+                    self.removed_sites.append(site_name)
                     sites_removed += 1
+
+                    # Remove the site ID from assigned_site_ids so children can be removed
+                    if have_site_id in assigned_site_ids:
+                        assigned_site_ids.discard(have_site_id)
 
                     self.log(
                         "Successfully unassigned site '{0}' from profile '{1}'".format(
@@ -4003,12 +4135,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         "INFO"
                     )
 
-        self.log(
-            "Site removal completed - removed {0} site assignments from profile".format(
-                sites_removed
-            ),
-            "INFO"
-        )
+        if sites_skipped:
+            self.log(
+                "Site removal completed - removed {0} site(s), skipped {1} site(s) "
+                "due to parent inheritance: {2}".format(
+                    sites_removed, len(sites_skipped), sites_skipped
+                ),
+                "WARNING"
+            )
+            self.skipped_sites = sites_skipped
+        else:
+            self.log(
+                "Site removal completed - removed {0} site assignments from profile".format(
+                    sites_removed
+                ),
+                "INFO"
+            )
 
         return unassign_sites
 
@@ -4202,7 +4344,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
 
             self.deleted.append(profile_response)
-            self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
+            self.msg = "Wireless profile deleted successfully for '{0}'.".format(
                 str(self.deleted)
             )
 
@@ -4235,12 +4377,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 "additional_interfaces_status"
             ])
 
+            if remove_status and not removal_occurred and remove_status.get("site_skip_status"):
+                self.msg = (
+                    "No sites were unassigned from wireless profile '{0}'. "
+                    "Sites '{1}' skipped due to parent inheritance."
+                ).format(have_profile_name, "', '".join(self.skipped_sites))
+                self.already_removed.append(have_profile_name)
+                self.set_operation_result(
+                    "success", False, self.msg, "INFO", remove_status
+                ).check_return_status()
+                return self
+
             if not remove_status or not removal_occurred:
                 self.msg = (
                     "Profile data already removed or not exist to remove data from "
                     "profile: '{0}'.".format(have_profile_name)
                 )
-                self.log(self.msg, "DEBUG")
                 self.already_removed.append(have_profile_name)
                 self.set_operation_result(
                     "success", False, self.msg, "INFO", have_profile_name
@@ -4248,19 +4400,33 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 return self
 
             # Build comprehensive removal success message
-            self.msg = "Wireless Profile data removed successfully for '{0}'.".format(
+            self.msg = "Wireless profile data removed successfully for '{0}'.".format(
                 profile_name
             )
 
             response_status = {}
             # Process site removal status
-            if remove_status.get("site_remove_status"):
-                sites = each_profile.get("site_names", [])
-                sites_message = "Sites '{0}' unassigned successfully.".format(
-                    "', '".join(sites)
-                )
-                self.msg += " " + sites_message
-                response_status["site_remove_status"] = sites_message
+            if remove_status.get("site_remove_status") or self.skipped_sites:
+                response_status["sites_removed"] = self.removed_sites
+                response_status["sites_skipped"] = self.skipped_sites
+                if self.skipped_sites:
+                    response_status["skip_reason"] = (
+                        "Child site(s) will not be deleted if its parent is not deleted. "
+                        "In order to remove only the child site(s), please have them "
+                        "associated to another Network profile."
+                    )
+
+                sites_message = ""
+                if self.removed_sites:
+                    sites_message = "Sites '{0}' unassigned successfully.".format(
+                        "', '".join(self.removed_sites)
+                    )
+                if self.skipped_sites:
+                    sites_message += " Sites '{0}' skipped due to parent inheritance.".format(
+                        "', '".join(self.skipped_sites)
+                    )
+                if sites_message:
+                    self.msg += " " + sites_message.strip()
 
             # Process Day N template removal status
             if remove_status.get("day_n_templates_status"):
