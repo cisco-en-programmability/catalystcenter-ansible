@@ -31,6 +31,8 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
     basic_profile_creation_config = test_data.get("basic_profile_creation_config")
     profile_deletion = test_data.get("profile_deletion")
     profile_creation_config_feature_template = test_data.get("profile_creation_config_feature_template")
+    site_removal_with_parent_inheritance_config = test_data.get("site_removal_with_parent_inheritance_config")
+    site_removal_child_only_config = test_data.get("site_removal_child_only_config")
 
     def setUp(self):
         super(TestCatalystCenterNetworkWirelessProfileWorkflow, self).setUp()
@@ -93,9 +95,15 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("assign_template1_response"),
                 self.test_data.get("get_template1_task_details"),
                 self.test_data.get("get_template1_task_progress"),
+                # is_parent_assigned: recurse up hierarchy for "Global/India/Bangalore/bld1"
+                self.test_data.get("get_site_bangalore"),
+                self.test_data.get("get_site_india"),
+                self.test_data.get("get_site_global"),
+                # unassign site
                 self.test_data.get("assign_site1_response"),
                 self.test_data.get("get_site1_task_details"),
                 self.test_data.get("get_site1_task_progress"),
+                # profile update (SSIDs, interfaces, AP zones, feature templates removed)
                 self.test_data.get("response_for_profile_creation"),
                 self.test_data.get("get_task_details_response"),
                 self.test_data.get("get_task_progress")
@@ -122,6 +130,64 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("get_enterprise_ssid"),
                 self.test_data.get("get_feature_template_summary"),
                 self.test_data.get("get_feature_template_summary1")
+            ]
+        elif "site_removal_parent_inheritance" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                # get_have: get_network_profile (retrieves_the_list_of_network_profiles_for_sites)
+                self.test_data.get("parent_inheritance_wireless_profile_list"),
+                # get_have: get_wireless_profile (get_wireless_profiles)
+                self.test_data.get("parent_inheritance_profile_details"),
+                # check_site_template: get_site_id + get_child_sites for each of 4 sites
+                self.test_data.get("get_site_sj_bld20"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_site_sj_bld20_floor1"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_site_ny_bld1_floor3"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_site_ny_bld1_floor4"),
+                self.test_data.get("get_sites4"),
+                # get_have: get_site_lists_for_profile
+                self.test_data.get("parent_inheritance_site_list_for_profile"),
+                # _remove_site_names: is_parent_assigned for SJ_BLD20 (recurse up to Global)
+                self.test_data.get("get_site_san_jose"),
+                self.test_data.get("get_site_usa"),
+                self.test_data.get("get_site_global"),
+                # unassign SJ_BLD20 (task creation + task status + task details)
+                self.test_data.get("assign_site1_response"),
+                self.test_data.get("get_site1_task_details"),
+                self.test_data.get("get_site1_task_progress"),
+                # is_parent_assigned for FLOOR1 (recurse up to Global)
+                self.test_data.get("get_site_sj_bld20"),
+                self.test_data.get("get_site_san_jose"),
+                self.test_data.get("get_site_usa"),
+                self.test_data.get("get_site_global"),
+                # unassign FLOOR1
+                self.test_data.get("assign_site1_response"),
+                self.test_data.get("get_site1_task_details"),
+                self.test_data.get("get_site1_task_progress"),
+                # is_parent_assigned for FLOOR3 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
+                # is_parent_assigned for FLOOR4 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
+            ]
+        elif "site_removal_child_only" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                # get_have: get_network_profile (retrieves_the_list_of_network_profiles_for_sites)
+                self.test_data.get("parent_inheritance_wireless_profile_list"),
+                # get_have: get_wireless_profile (get_wireless_profiles)
+                self.test_data.get("parent_inheritance_profile_details"),
+                # check_site_template: get_site_id + get_child_sites for FLOOR3
+                self.test_data.get("get_site_ny_bld1_floor3"),
+                self.test_data.get("get_sites4"),
+                # check_site_template: get_site_id + get_child_sites for FLOOR4
+                self.test_data.get("get_site_ny_bld1_floor4"),
+                self.test_data.get("get_sites4"),
+                # get_have: get_site_lists_for_profile
+                self.test_data.get("parent_inheritance_site_list_for_profile"),
+                # _remove_site_names: is_parent_assigned for FLOOR3 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
+                # _remove_site_names: is_parent_assigned for FLOOR4 - blocked by NY_BLD1
+                self.test_data.get("get_site_ny_bld1"),
             ]
 
     def test_network_profile_workflow_manager_basic_profile_creation(self):
@@ -231,3 +297,72 @@ class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
             "Invalid parameters in playbook config:",
             result.get('response')
         )
+
+    def test_network_profile_workflow_manager_site_removal_parent_inheritance(self):
+        """
+        Test case for wireless profile workflow manager site removal with parent inheritance.
+
+        This test verifies that when removing sites from a profile, child sites whose
+        parent is still assigned to the profile are skipped (not removed), while sites
+        whose parents are also being removed or are not assigned are removed successfully.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                catalystcenter_version="3.1.3.0",
+                config_verify=False,
+                config=self.site_removal_with_parent_inheritance_config
+            )
+        )
+
+        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
+        self.assertTrue(result.get("changed"))
+        # response is a list: [{"profile_name": {"sites_removed": [...], "sites_skipped": [...]}}]
+        response = result.get("response", [])
+        self.assertIsInstance(response, list)
+        profile_data = list(response[0].values())[0] if response else {}
+        self.assertTrue(profile_data.get("sites_removed"))
+        self.assertTrue(profile_data.get("sites_skipped"))
+        self.assertIn("SJ_BLD20", result.get("msg"))
+        self.assertIn("FLOOR1", result.get("msg"))
+        self.assertIn("FLOOR3", result.get("msg"))
+        self.assertIn("FLOOR4", result.get("msg"))
+        self.assertIn("sites_skipped", result.get("msg"))
+        self.assertIn(
+            "Wireless profile data removed successfully",
+            result.get('msg')
+        )
+
+    def test_network_profile_workflow_manager_site_removal_child_only(self):
+        """
+        Test case for wireless profile workflow manager where only child sites
+        are requested for removal while the parent site remains assigned.
+
+        All requested sites should be skipped due to parent inheritance,
+        resulting in changed=False.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                catalystcenter_version="3.1.3.0",
+                config_verify=False,
+                config=self.site_removal_child_only_config
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=False)
+        self.maxDiff = None
+        self.assertFalse(result.get("changed"))
+        self.assertIn("No sites were unassigned", result.get("msg"))
+        self.assertIn("skipped due to parent inheritance", result.get("msg"))
+        self.assertIn("FLOOR3", result.get("msg"))
+        self.assertIn("FLOOR4", result.get("msg"))
