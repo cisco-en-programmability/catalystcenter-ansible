@@ -3527,8 +3527,16 @@ def catalystcenter_argument_spec():
             aliases=["dnac_debug"],
             fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
         ),
-        catalystcenter_api_task_timeout=dict(type="int", default=1200),
-        catalystcenter_task_poll_interval=dict(type="int", default=2),
+        catalystcenter_api_task_timeout=dict(
+            type="int",
+            default=1200,
+            aliases=["dnac_api_task_timeout"],
+        ),
+        catalystcenter_task_poll_interval=dict(
+            type="int",
+            default=2,
+            aliases=["dnac_task_poll_interval"],
+        ),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
