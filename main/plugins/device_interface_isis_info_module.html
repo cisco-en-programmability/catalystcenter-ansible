@@ -1229,7 +1229,7 @@
 <h1>cisco.catalystcenter.device_interface_isis_info module -- Information module for Device Interface Isis<a class="headerlink" href="#cisco-catalystcenter-device-interface-isis-info-module-information-module-for-device-interface-isis" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.9.2).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1276,8 +1276,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-debug"><strong>catalystcenter_debug</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-debug"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-debug"></span><strong>catalystcenter_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_debug</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable debugging.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1288,38 +1290,50 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-host"><strong>catalystcenter_host</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-host"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-host"></span><strong>catalystcenter_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_host</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco Catalyst Center hostname.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-password"><strong>catalystcenter_password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-password"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-password"></span><strong>catalystcenter_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_password</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco Catalyst Center password to authenticate.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-port"><strong>catalystcenter_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-port"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-port"></span><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-api-port"></span><strong>catalystcenter_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_port, catalystcenter_api_port</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco Catalyst Center port.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id5"><span class="problematic" id="id6">:ansible-option-default:`443`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-username"><strong>catalystcenter_username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-user"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-username"></span><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-username"></span><strong>catalystcenter_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_username, user</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Cisco Catalyst Center username to authenticate.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-verify"><strong>catalystcenter_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-verify"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-verify"></span><strong>catalystcenter_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_verify</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
@@ -1330,8 +1344,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-version"><strong>catalystcenter_version</strong></p>
-<a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-dnac-version"><span id="ansible-collections-cisco-catalystcenter-device-interface-isis-info-module-parameter-catalystcenter-version"></span><strong>catalystcenter_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: dnac_version</span></p>
+<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco Catalyst Center to use.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id13"><span class="problematic" id="id14">:ansible-option-default:`&quot;3.1.6.0&quot;`</span></a></p>
