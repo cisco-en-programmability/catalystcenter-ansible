@@ -1,0 +1,53 @@
+
+:orphan:
+
+.. _list_of_collection_env_vars:
+
+Index of all Collection Environment Variables
+=============================================
+
+The following index documents all environment variables declared by plugins in collections.
+Environment variables used by the ansible-core configuration are documented in :ref:`ansible_configuration_settings`.
+
+.. envvar:: CATALYSTCENTER_DEBUG
+
+    Enable SDK debug logging.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_HOST
+
+    Hostname or IP address of the Catalyst Center appliance.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_PASSWORD
+
+    Password for Catalyst Center authentication.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_PORT
+
+    TCP port for the Catalyst Center API.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_USERNAME
+
+    Username for Catalyst Center authentication.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_VERIFY
+
+    Whether to validate SSL certificates.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
+.. envvar:: CATALYSTCENTER_VERSION
+
+    Catalyst Center API version string.
+
+    *Used by:*
+    :ref:`cisco.catalystcenter.catalystcenter inventory plugin <ansible_collections.cisco.catalystcenter.catalystcenter_inventory>`
