@@ -2061,28 +2061,34 @@ def main():
         # Connection Parameters
         "catalystcenter_host": {
             "required": True,
-            "type": "str"
+            "type": "str",
+            "aliases": ["dnac_host"],
         },
         "catalystcenter_port": {
             "type": "str",
-            "default": "443"
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
         },
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
+            "aliases": ["dnac_username", "user"],
         },
         "catalystcenter_password": {
             "type": "str",
-            "no_log": True  # Prevents password logging for security
+            "no_log": True,  # Prevents password logging for security
+            "aliases": ["dnac_password"],
         },
         "catalystcenter_verify": {
             "type": "bool",
-            "default": True
+            "default": True,
+            "aliases": ["dnac_verify"],
         },
         # API Configuration Parameters
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.3.7.6"
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2099,23 +2105,28 @@ def main():
         # Logging Configuration Parameters
         "catalystcenter_debug": {
             "type": "bool",
-            "default": False
+            "default": False,
+            "aliases": ["dnac_debug"],
         },
         "catalystcenter_log_level": {
             "type": "str",
-            "default": "WARNING"
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "catalystcenter.log"
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
         "catalystcenter_log_append": {
             "type": "bool",
-            "default": True
+            "default": True,
+            "aliases": ["dnac_log_append"],
         },
         "catalystcenter_log": {
             "type": "bool",
-            "default": False
+            "default": False,
+            "aliases": ["dnac_log"],
         },
         "file_path": {
             "required": False,
