@@ -4357,11 +4357,13 @@ def main():
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
-            "default": 1200
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
         },
         "catalystcenter_task_poll_interval": {
             "type": "int",
-            "default": 2
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
         },
         "validate_response_schema": {
             "type": "bool",

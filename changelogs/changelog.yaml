@@ -398,5 +398,5 @@ releases:
     changes:
       release_summary: Restore backward-compatible cisco.dnac option aliases to ease migration to cisco.catalystcenter.
       minor_changes:
-        - Restored backward-compatible ``dnac_*`` aliases (``dnac_host``, ``dnac_port``, ``dnac_username``, ``dnac_password``, ``dnac_verify``, ``dnac_version``, ``dnac_debug``, ``dnac_log``, ``dnac_log_level``, ``dnac_log_file_path``, ``dnac_log_append``) and the ``user`` alias across all module argument specs and documentation to ease migration from the deprecated cisco.dnac collection.
+        - Restored backward-compatible ``dnac_*`` aliases (``dnac_host``, ``dnac_port``, ``dnac_username``, ``dnac_password``, ``dnac_verify``, ``dnac_version``, ``dnac_debug``, ``dnac_log``, ``dnac_log_level``, ``dnac_log_file_path``, ``dnac_log_append``, ``dnac_api_task_timeout``, ``dnac_task_poll_interval``) and the ``user`` alias across all module argument specs and documentation to ease migration from the deprecated cisco.dnac collection.
         - Added ``catalystcenter_api_port`` as an alias of ``catalystcenter_port`` for backward compatibility with the previous argument name.

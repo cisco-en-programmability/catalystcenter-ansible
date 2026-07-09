@@ -6904,8 +6904,8 @@ def main():
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 604800},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 30},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 604800, "aliases": ["dnac_api_task_timeout"]},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 30, "aliases": ["dnac_task_poll_interval"]},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

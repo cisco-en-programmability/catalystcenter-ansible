@@ -117,10 +117,12 @@ options:
           are not received within this period, the process will end, and a timeout notification will be logged.
       type: int
       default: 1200
+      aliases: [ dnac_api_task_timeout ]
     catalystcenter_task_poll_interval:
       description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
       type: int
       default: 2
+      aliases: [ dnac_task_poll_interval ]
 notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK"
