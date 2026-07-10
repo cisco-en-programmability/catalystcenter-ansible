@@ -10,8 +10,8 @@ Description:
     Generates YAML playbook files compatible with pnp_workflow_manager module by
     retrieving PnP device registrations from Cisco Catalyst Center, extracting
     essential device attributes including serial numbers, hostnames, device states,
-    product IDs, and SUDI requirements, applying intelligent filtering based on
-    device state, product family, and site location, transforming API responses to
+    product IDs, and SUDI requirements, extracting claim-level site and PnP type
+    attributes, applying device state filtering, transforming API responses to
     playbook-compatible format with proper parameter mapping, and creating structured
     YAML files ready for brownfield device management and documentation workflows.
 
@@ -40,6 +40,8 @@ API Integration:
       state filtering
 
 Data Transformation:
+    - Maps deviceInfo.siteName to config-level site_name (optional)
+    - Maps deviceInfo.siteClaimType to config-level pnp_type (optional)
     - Maps deviceInfo.serialNumber to serial_number (required field)
     - Maps deviceInfo.hostname to hostname (optional field)
     - Maps deviceInfo.state to state with "Unclaimed" default value
@@ -57,16 +59,17 @@ Filtering Capabilities:
 
 Output Format:
     - YAML playbook compatible with pnp_workflow_manager module structure
-    - Single configuration group with device_info key containing device list
-    - Each device as separate OrderedDict entry with essential attributes only
-    - Clean structure without site assignments, templates, or projects
+    - One configuration group per device so claim-level fields remain device-specific
+    - Config-level site_name and pnp_type fields when present in the API response
+    - Each device_info list contains exactly one device entry
+    - Clean structure without templates, projects, images, or advanced claim parameters
     - Proper indentation and formatting for manual modification workflows
 
 Minimum Requirements:
     - Cisco Catalyst Center version 2.3.7.9 or higher for PnP APIs
     - Catalyst Center SDK 2.9.3 or higher for API compatibility
     - Python 3.9 or higher for OrderedDict and type hint support
-    - Read access to PnP and Sites APIs in Catalyst Center
+    - Read access to PnP APIs in Catalyst Center
     - Network connectivity to Catalyst Center management interface
 
 Usage Patterns:
@@ -102,8 +105,8 @@ description:
   devices when C(config) is omitted.
 - Creates structured playbook files ready for modification and redeployment
   through pnp_workflow_manager module.
-- Extracts essential device attributes without site assignments, templates,
-  projects, or advanced configuration parameters.
+- Extracts config-level site and PnP claim type attributes when available, without
+  templates, projects, images, or advanced claim parameters.
 - Supports extraction of both claimed and unclaimed devices across all PnP
   workflow states.
 version_added: 6.40.0
@@ -169,6 +172,8 @@ options:
                 extracting basic device information.
               - Device info includes serial_number, hostname, state, pid,
                 is_sudi_required, and authorize fields.
+              - Each device is emitted in a separate config entry with site_name
+                and pnp_type when those values are available from the API.
               - Order of components in list determines order in generated YAML
                 playbook structure.
             type: list
@@ -206,10 +211,12 @@ notes:
 - Minimum Catalyst Center version required is 2.3.7.9 for PnP device APIs.
 - Module performs read-only operations and does not modify Catalyst Center
   configurations.
-- Generated YAML files contain only device_info section with basic device
-  attributes.
-- Site assignments, templates, projects, and advanced parameters are not
-  included in output.
+- Generated YAML files contain one config entry per device with C(site_name) and
+  C(pnp_type) when supplied by the API, plus the basic C(device_info) attributes.
+- Templates, projects, images, and advanced claim parameters are not included in
+  output.
+- Devices without a site or PnP claim type in the API response remain in the
+  generated output, with the unavailable config-level field omitted.
 - Module supports both check mode and normal execution mode with identical
   behavior.
 - Generated playbooks are compatible with pnp_workflow_manager module
@@ -314,12 +321,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Orchestrates brownfield discovery and YAML playbook generation workflow for
         Cisco Catalyst Center PnP infrastructure by retrieving existing device
         registrations through PnP APIs, extracting essential device attributes
-        (serial number, hostname, state, PID, SUDI requirements), applying
-        intelligent filtering based on device state, family, and site location,
-        resolving site IDs to hierarchical names for readability, transforming API
-        responses to playbook-compatible format, and generating structured YAML
-        files ready for modification and redeployment through pnp_workflow_manager
-        module.
+        (serial number, hostname, state, PID, SUDI requirements) and claim attributes
+        (site name and PnP type), applying device state filtering, transforming API
+        responses to playbook-compatible format, and generating structured YAML files
+        ready for modification and redeployment through pnp_workflow_manager module.
 
     Core Capabilities:
         - Retrieves PnP device inventory with basic device information attributes
@@ -327,11 +332,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
           Planned, Onboarding, Provisioned, Error)
         - Discovers device attributes including serial numbers, hostnames, product
           IDs, and SUDI requirements
+        - Extracts device-specific site names and PnP claim types
         - Extracts authorization requirements from authOperation field
         - Supports device state filtering at API level for efficient retrieval
-        - Handles device family filtering during post-retrieval processing
-        - Enables site-based filtering with hierarchical name matching
-        - Resolves site UUIDs to full hierarchy paths using Sites API
         - Transforms camelCase API responses to snake_case playbook parameters
         - Removes devices missing required fields (serial_number, pid)
         - Generates timestamped filenames when custom path not provided
@@ -341,16 +344,17 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     Supported Operations:
         - Gathered state for device discovery and YAML generation
         - Generate all mode for complete PnP inventory documentation
-        - Selective filtering with state, family, and site criteria
+        - Selective filtering with device state criteria
         - Single component mode supporting only device_info extraction
         - Multi-device processing with individual transformation tracking
 
     API Integration:
         - device_onboarding_pnp.DeviceOnboardingPnp.get_device_list with optional
           state parameter
-        - sites.Sites.get_sites for site name resolution during filtering
 
     Data Transformation:
+        - Maps deviceInfo.siteName to config-level site_name (optional)
+        - Maps deviceInfo.siteClaimType to config-level pnp_type (optional)
         - Maps deviceInfo.serialNumber to serial_number (required)
         - Maps deviceInfo.hostname to hostname (optional)
         - Maps deviceInfo.state to state with "Unclaimed" default
@@ -377,9 +381,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     Output Format:
         - YAML playbook compatible with pnp_workflow_manager module
-        - Single configuration group with device_info key
-        - Each device as separate OrderedDict entry in device_info list
-        - Clean structure with only essential device attributes
+        - One configuration group per device
+        - Config-level site_name and pnp_type when present in the API response
+        - Each device_info list contains exactly one transformed device
+        - Clean structure with only directly available claim and device attributes
         - Proper indentation and formatting for easy manual modification
 
     Minimum Requirements:
@@ -413,7 +418,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             schema
         get_workflow_elements_schema(): Defines comprehensive schema structure
         transform_pnp_device(): Transforms device from API to playbook format
-        group_devices_by_config(): Organizes devices into unified configuration
+        group_devices_by_config(): Organizes devices into per-device configurations
         get_pnp_devices(): Retrieves and filters devices from Catalyst Center
         yaml_config_generator(): Coordinates device retrieval and file generation
         get_want(): Extracts and normalizes configuration from user input
@@ -425,7 +430,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     Returns:
         Generated YAML playbook files with statistics including:
-            - config_groups: Count of configuration groups (always 1)
+            - config_groups: Count of per-device configuration groups
             - total_devices: Total device count in generated file
             - operation_summary: Success/failure details with device serials
             - file_path: Absolute path to generated YAML playbook file
@@ -861,15 +866,14 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     def group_devices_by_config(self, devices):
         """
-        Organizes PnP devices into unified configuration structure for YAML playbook generation.
+        Organizes PnP devices into per-device configurations for YAML generation.
 
         Description:
-            Creates single configuration group containing all valid PnP devices with essential
-            device_info attributes by iterating through raw device list from API, validating
-            device structure and required fields, transforming each device to playbook format
-            using transform_pnp_device(), tracking successful transformations and failures with
-            detailed operation statistics, and returning consolidated configuration group ready
-            for YAML serialization enabling simplified device inventory management.
+            Creates one configuration group for each valid PnP device so config-level claim
+            attributes remain associated with the correct device. Extracts site_name and
+            pnp_type from the deviceInfo section when available, transforms the device to
+            playbook format using transform_pnp_device(), and tracks successful transformations
+            and failures with detailed operation statistics.
 
         Parameters:
             devices (list): Raw PnP device dictionaries from Catalyst Center API containing
@@ -877,18 +881,16 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                            configuration attributes requiring transformation to playbook format.
 
         Returns:
-            list: Single-element list containing OrderedDict configuration group with
-                 'device_info' key holding list of transformed device dictionaries, or empty
-                 list when no valid devices found enabling graceful handling of empty inventory.
+            list: OrderedDict configuration groups containing optional site_name and pnp_type
+                 keys and a device_info key holding one transformed device dictionary, or an
+                 empty list when no valid devices are found.
         """
         self.log(
             "Starting device grouping for YAML configuration structure. Processing {0} raw "
             "device(s) from API response.".format(len(devices) if devices else 0),
             "DEBUG"
         )
-        # Create a single group for all devices with just device_info
-        config_group = OrderedDict()
-        config_group["device_info"] = []
+        config_groups = []
 
         devices_processed = 0
         devices_skipped = 0
@@ -928,11 +930,22 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DEBUG"
             )
 
-            # Transform and add device info to the group
+            # Transform and add the device to its own config-level claim group
             try:
                 device_info_item = self.transform_pnp_device(device)
                 if device_info_item:
-                    config_group["device_info"].append(device_info_item)
+                    config_group = OrderedDict()
+
+                    site_name = device_info.get("siteName")
+                    if site_name:
+                        config_group["site_name"] = site_name
+
+                    pnp_type = device_info.get("siteClaimType")
+                    if pnp_type:
+                        config_group["pnp_type"] = pnp_type
+
+                    config_group["device_info"] = [device_info_item]
+                    config_groups.append(config_group)
                     devices_processed += 1
 
                     self.operation_successes.append({
@@ -943,8 +956,14 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                     self.log(
                         "Successfully transformed device {0}/{1} with serial_number: {2}. Added "
-                        "to configuration group with {3} field(s).".format(
-                            device_index, len(devices), serial_number, len(device_info_item)
+                        "to its own configuration group with site_name: {3}, pnp_type: {4}, "
+                        "and {5} device_info field(s).".format(
+                            device_index,
+                            len(devices),
+                            serial_number,
+                            site_name or "Not provided",
+                            pnp_type or "Not provided",
+                            len(device_info_item)
                         ),
                         "DEBUG"
                     )
@@ -976,23 +995,20 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "ERROR"
                 )
 
-        # Return single config group containing all devices
         self.log(
             "Device grouping completed. Total devices processed: {0}, Total devices skipped: {1}, "
-            "Valid device_info entries in configuration group: {2}".format(
-                devices_processed, devices_skipped, len(config_group["device_info"])
+            "Per-device configuration groups created: {2}".format(
+                devices_processed, devices_skipped, len(config_groups)
             ),
             "INFO"
         )
 
         self.log(
-            "Configuration group structure before return: {0}".format(config_group),
+            "Configuration group structure before return: {0}".format(config_groups),
             "DEBUG"
         )
 
-        result = [config_group] if config_group["device_info"] else []
-
-        return result
+        return config_groups
 
     def get_pnp_devices(self, network_element, config):
         """
@@ -1169,7 +1185,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             Orchestrates complete YAML playbook generation workflow by processing configuration
             parameters, determining output file path with auto-generation when not specified,
             retrieving PnP devices through get_pnp_devices() with applied filters, grouping
-            devices into unified configuration structure using group_devices_by_config(),
+            devices into per-device configuration structures using group_devices_by_config(),
             wrapping grouped configurations in pnp_workflow_manager-compatible format, writing
             structured YAML to file with proper serialization, tracking operation statistics
             including successful and failed device transformations, and returning comprehensive
@@ -1276,7 +1292,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "INFO"
         )
 
-        # Group devices by their configuration (simplified to single group)
+        # Create one configuration group per device for config-level claim fields
         grouped_configs = self.group_devices_by_config(devices_data["pnp_devices"])
 
         if not grouped_configs:
@@ -1342,7 +1358,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         components_processed = components_requested
         components_skipped = 0
 
-        configurations_count = sum(len(g["device_info"]) for g in grouped_configs)
+        configurations_count = len(grouped_configs)
 
         if file_written:
             self.msg = "YAML config generation succeeded for module '{0}'.".format(
