@@ -639,6 +639,8 @@ class Provision(CatalystCenterBase):
         self.re_provision_wireless_device = []
         self.enable_application_telemetry = []
         self.disable_application_telemetry = []
+        self.telemetry_already_enabled = []
+        self.telemetry_already_disabled = []
         self.assigned_device_to_site = []
         self.already_assigned_device_to_site = []
 
@@ -1073,6 +1075,131 @@ class Provision(CatalystCenterBase):
             self.log(self.msg, "ERROR")
 
             return None
+
+    def get_device_telemetry_status(self, device_id):
+        """
+        Retrieves the current application telemetry readiness and deployment status for a device.
+
+        Args:
+            device_id (str): The UUID of the network device.
+
+        Returns:
+            tuple: A tuple of (appTelemetryReadinessStatus, appTelemetryDeploymentStatus).
+                   Returns (None, None) if the status cannot be retrieved.
+
+        Description:
+            Calls the 'retrieve_the_list_of_network_devices_with_their_application_visibility_status'
+            SDK function to get the current telemetry state of the device.
+        """
+
+        try:
+            response = self.catalystcenter._exec(
+                family="application_policy",
+                function="retrieve_the_list_of_network_devices_with_their_application_visibility_status",
+                params={"ids": device_id}
+            )
+            self.log(
+                "Telemetry status response for device ID {0}: {1}".format(device_id, response),
+                "DEBUG"
+            )
+
+            devices = response.get("response", [])
+            if not devices:
+                self.log(
+                    "No telemetry status found for device ID {0}".format(device_id),
+                    "WARNING"
+                )
+                return None, None
+
+            device = devices[0]
+            readiness = device.get("appTelemetryReadinessStatus")
+            deployment = device.get("appTelemetryDeploymentStatus")
+            self.log(
+                "Device ID {0} telemetry status - readiness: {1}, deployment: {2}".format(
+                    device_id, readiness, deployment
+                ),
+                "INFO"
+            )
+            return readiness, deployment
+
+        except Exception as e:
+            self.log(
+                "Failed to retrieve telemetry status for device ID {0}. Error: {1}".format(
+                    device_id, str(e)
+                ),
+                "ERROR"
+            )
+            return None, None
+
+    def wait_for_telemetry_state(self, device_id, ip, desired_readiness=None, fail_on_timeout=False):
+        """
+        Polls the telemetry status until the desired state is reached or timeout occurs.
+
+        Args:
+            device_id (str): The UUID of the network device.
+            ip (str): The management IP address of the device (for logging).
+            desired_readiness (list or None): A list of acceptable readinessStatus values.
+                If None, waits only for deployment to leave IN_PROGRESS/SCHEDULED.
+                If provided, also waits for readiness to match (e.g., ["ENABLED"] or ["READY", "NOT_READY"]).
+            fail_on_timeout (bool): If True, sets operation result to failed on timeout.
+                If False, logs a warning and returns (None, None).
+
+        Returns:
+            tuple: A tuple of (appTelemetryReadinessStatus, appTelemetryDeploymentStatus)
+                   once the desired state is reached, or (None, None) on timeout.
+
+        Description:
+            Unified polling method for telemetry state changes. Handles two scenarios:
+            1. Pre-operation: Wait for an in-progress deployment to finish (desired_readiness=None).
+            2. Post-operation: Wait for readiness to propagate to the expected value after enable/disable.
+        """
+
+        start_time = time.time()
+        while True:
+            elapsed = time.time() - start_time
+            if elapsed >= self.max_timeout:
+                self.msg = (
+                    "Timeout ({0}s) waiting for telemetry state on device {1}.".format(
+                        self.max_timeout, ip
+                    )
+                )
+                self.log(self.msg, "WARNING")
+                if fail_on_timeout:
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return None, None
+
+            readiness, deployment = self.get_device_telemetry_status(device_id)
+
+            # Always wait if deployment is still in progress
+            if deployment in ("IN_PROGRESS", "SCHEDULED"):
+                self.log(
+                    "Telemetry deployment in progress for device {0}. "
+                    "Elapsed: {1}s/{2}s. Waiting...".format(ip, int(elapsed), self.max_timeout),
+                    "INFO"
+                )
+                time.sleep(3)
+                continue
+
+            # If no desired_readiness specified, we only needed deployment to finish
+            if desired_readiness is None:
+                return readiness, deployment
+
+            # Check if readiness matches desired state
+            if readiness in desired_readiness:
+                self.log(
+                    "Telemetry readiness confirmed as '{0}' for device {1}.".format(readiness, ip),
+                    "INFO"
+                )
+                return readiness, deployment
+
+            self.log(
+                "Waiting for telemetry readiness on device {0}. "
+                "Current: {1}, Expected: {2}. Elapsed: {3}s.".format(
+                    ip, readiness, desired_readiness, int(elapsed)
+                ),
+                "INFO"
+            )
+            time.sleep(3)
 
     def get_task_status(self, task_id=None):
         """
@@ -2213,6 +2340,7 @@ class Provision(CatalystCenterBase):
 
         enable_payload = []
         disable_ids = []
+        device_id_to_ip = {}
 
         telemetry_api_map = {
             "enable": "enable_application_telemetry_feature_on_multiple_network_devices",
@@ -2293,7 +2421,32 @@ class Provision(CatalystCenterBase):
                     self.msg = "Device with IP {0} is not assigned to any site. Telemetry cannot be enabled/disabled.".format(ip)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+                # Idempotency check - get current telemetry state before acting
+                readiness, deployment = self.get_device_telemetry_status(device_id)
+
+                # If an operation is in progress, wait for it to complete first
+                if deployment in ("IN_PROGRESS", "SCHEDULED"):
+                    self.log(
+                        "Telemetry operation in progress on device {0}. Waiting for completion.".format(ip),
+                        "INFO"
+                    )
+                    readiness, deployment = self.wait_for_telemetry_state(device_id, ip, fail_on_timeout=True)
+
+                # Check if device does not support telemetry
+                if readiness == "NOT_SUPPORTED":
+                    self.msg = "Device {0} does not support application telemetry.".format(ip)
+                    self.fail_and_exit(self.msg)
+
+                # Check if device is already in the desired state and build payload
+                # readinessStatus is the actual indicator: ENABLED = telemetry active, READY/NOT_READY = inactive
                 if telemetry == "enable":
+                    if readiness == "ENABLED":
+                        self.log(
+                            "Application telemetry is already enabled on device {0}. Skipping.".format(ip),
+                            "INFO"
+                        )
+                        self.telemetry_already_enabled.append(ip)
+                        continue
                     device_data = {"id": device_id}
                     if device_type != "wired":
                         if not wlan_mode:
@@ -2304,8 +2457,17 @@ class Provision(CatalystCenterBase):
                         if include_guest_ssid:
                             device_data["includeGuestSsids"] = include_guest_ssid
                     enable_payload.append(device_data)
+                    device_id_to_ip[device_id] = ip
                 else:
+                    if readiness in ("READY", "NOT_READY"):
+                        self.log(
+                            "Application telemetry is already disabled on device {0}. Skipping.".format(ip),
+                            "INFO"
+                        )
+                        self.telemetry_already_disabled.append(ip)
+                        continue
                     disable_ids.append(device_id)
+                    device_id_to_ip[device_id] = ip
 
         # Enable telemetry
         if enable_payload:
@@ -2325,6 +2487,11 @@ class Provision(CatalystCenterBase):
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
+                    # Wait for readinessStatus to confirm ENABLED on all devices
+                    for device_data in enable_payload:
+                        dev_id = device_data["id"]
+                        dev_ip = device_id_to_ip.get(dev_id, dev_id)
+                        self.wait_for_telemetry_state(dev_id, dev_ip, ["ENABLED"])
                     self.msg = "Application telemetry enabled successfully for all devices."
                     self.set_operation_result("success", True, self.msg, "INFO")
                 else:
@@ -2354,6 +2521,10 @@ class Provision(CatalystCenterBase):
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
+                    # Wait for readinessStatus to confirm READY/NOT_READY on all devices
+                    for dev_id in disable_ids:
+                        dev_ip = device_id_to_ip.get(dev_id, dev_id)
+                        self.wait_for_telemetry_state(dev_id, dev_ip, ["READY", "NOT_READY"])
                     self.msg = "Application telemetry disabled successfully for all devices."
                     self.set_operation_result("success", True, self.msg, "INFO")
                 else:
@@ -2364,6 +2535,12 @@ class Provision(CatalystCenterBase):
                 self.msg = "Exception while disabling telemetry: {0}".format(e)
                 self.result['response'] = self.msg
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        # If no devices needed enable or disable, all are already in desired state
+        if not enable_payload and not disable_ids:
+            self.msg = "Application telemetry: All devices are already in the desired state. No changes needed."
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
 
         return self
 
@@ -4346,6 +4523,18 @@ class Provision(CatalystCenterBase):
                 "', '".join(self.disable_application_telemetry)
             )
             result_msg_list_changed.append(msg)
+
+        if self.telemetry_already_enabled:
+            msg = "Application telemetry already enabled on device(s) '{0}'.".format(
+                "', '".join(self.telemetry_already_enabled)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.telemetry_already_disabled:
+            msg = "Application telemetry already disabled on device(s) '{0}'.".format(
+                "', '".join(self.telemetry_already_disabled)
+            )
+            result_msg_list_not_changed.append(msg)
 
         # Combine messages and set result flags
         if result_msg_list_not_changed and result_msg_list_changed:
