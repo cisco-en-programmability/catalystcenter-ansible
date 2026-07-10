@@ -126,6 +126,63 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
             "YAML config generation succeeded for module 'pnp_workflow_manager'."
         )
 
+    def test_brownfield_pnp_playbook_generator_generates_per_device_claim_config(self):
+        """
+        Test that each device has its own config-level site name and PnP type.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_per_device_config.yml")
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("PnPdevices"),
+            ]
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    config=self.playbook_pnp_generate_all_configurations,
+                    catalystcenter_log=False,
+                )
+            )
+            result = self.execute_module(changed=True, failed=False)
+
+            with open(file_path, "r") as yaml_file:
+                generated_yaml = yaml.safe_load(yaml_file)
+
+        config_entries = generated_yaml[0]["config"]
+        entries_by_serial = {
+            entry["device_info"][0]["serial_number"]: entry
+            for entry in config_entries
+        }
+
+        self.assertEqual(len(config_entries), len(self.test_data.get("PnPdevices")))
+        self.assertEqual(
+            result.get("response").get("configurations_count"),
+            len(config_entries)
+        )
+        self.assertTrue(
+            all(len(entry["device_info"]) == 1 for entry in config_entries)
+        )
+
+        access_point_entry = entries_by_serial["FJC243912MQ"]
+        self.assertEqual(
+            access_point_entry["site_name"],
+            "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2"
+        )
+        self.assertEqual(access_point_entry["pnp_type"], "AccessPoint")
+        self.assertNotIn("site_name", access_point_entry["device_info"][0])
+        self.assertNotIn("pnp_type", access_point_entry["device_info"][0])
+
+        switch_entry = entries_by_serial["FJC271925Q1"]
+        self.assertEqual(
+            switch_entry["site_name"],
+            "Global/USA/SAN JOSE/SJ_BLD20"
+        )
+        self.assertEqual(switch_entry["pnp_type"], "Default")
+
+        unclaimed_entry = entries_by_serial["FJC2402A0TX"]
+        self.assertNotIn("site_name", unclaimed_entry)
+        self.assertEqual(unclaimed_entry["pnp_type"], "Default")
+
     def test_brownfield_pnp_playbook_generator_playbook_component_global_specific_filter(self):
         """
         Test the PnP Playbook Generator with component and global filters.
