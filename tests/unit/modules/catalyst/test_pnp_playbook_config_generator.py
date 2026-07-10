@@ -183,6 +183,59 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         self.assertNotIn("site_name", unclaimed_entry)
         self.assertEqual(unclaimed_entry["pnp_type"], "Default")
 
+    def test_brownfield_pnp_playbook_generator_generates_stack_sudi_device_info(self):
+        """
+        Test stack and conditional SUDI fields are generated inside device_info.
+        """
+        devices = copy.deepcopy([
+            self.test_data.get("PnPdevices")[0],
+            self.test_data.get("PnPdevices")[2],
+        ])
+        stack_device_info = devices[0]["deviceInfo"]
+        stack_device_info.update({
+            "serialNumber": "FOC2437LBH3",
+            "hostname": "TestStackDevice",
+            "pid": "C9300-24UB",
+            "stack": True,
+            "sudiRequired": True,
+            "userSudiSerialNos": ["FOC2437LBH3", "FOC2438LB9W"],
+        })
+        devices[1]["deviceInfo"]["userSudiSerialNos"] = ["NOT_REQUIRED"]
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            file_path = os.path.join(temp_dir, "pnp_stack_sudi_config.yml")
+            self.run_catalystcenter_exec.side_effect = [devices]
+
+            set_module_args(
+                self._get_base_module_args(
+                    file_path=file_path,
+                    config=self.playbook_pnp_generate_all_configurations,
+                    catalystcenter_log=False,
+                )
+            )
+            self.execute_module(changed=True, failed=False)
+
+            with open(file_path, "r") as yaml_file:
+                generated_yaml = yaml.safe_load(yaml_file)
+
+        entries_by_serial = {
+            entry["device_info"][0]["serial_number"]: entry["device_info"][0]
+            for entry in generated_yaml[0]["config"]
+        }
+
+        generated_stack_info = entries_by_serial["FOC2437LBH3"]
+        self.assertTrue(generated_stack_info["is_stack_device"])
+        self.assertTrue(generated_stack_info["is_sudi_required"])
+        self.assertEqual(
+            generated_stack_info["user_sudi_serial_nos"],
+            ["FOC2437LBH3", "FOC2438LB9W"]
+        )
+
+        generated_non_sudi_info = entries_by_serial["FJC271925Q1"]
+        self.assertFalse(generated_non_sudi_info["is_stack_device"])
+        self.assertFalse(generated_non_sudi_info["is_sudi_required"])
+        self.assertNotIn("user_sudi_serial_nos", generated_non_sudi_info)
+
     def test_brownfield_pnp_playbook_generator_playbook_component_global_specific_filter(self):
         """
         Test the PnP Playbook Generator with component and global filters.

@@ -21,7 +21,7 @@ Core Capabilities:
     - Discovers devices across all workflow states (Unclaimed, Planned, Onboarding,
       Provisioned, Error)
     - Extracts core device attributes (serial_number, hostname, state, pid,
-      is_sudi_required, authorize)
+      is_stack_device, is_sudi_required, user_sudi_serial_nos, authorize)
     - Supports device state filtering at API level for efficient data retrieval
     - Transforms camelCase API responses to snake_case playbook parameters
     - Generates timestamped filenames when custom path not specified
@@ -46,7 +46,9 @@ Data Transformation:
     - Maps deviceInfo.hostname to hostname (optional field)
     - Maps deviceInfo.state to state with "Unclaimed" default value
     - Maps deviceInfo.pid to pid (required field)
+    - Maps deviceInfo.stack to is_stack_device (optional field)
     - Maps deviceInfo.sudiRequired to is_sudi_required (optional field)
+    - Maps deviceInfo.userSudiSerialNos to user_sudi_serial_nos when SUDI is required
     - Derives authorize flag from authOperation field (optional field)
     - Preserves OrderedDict structure for consistent YAML field ordering
     - Skips devices missing required fields (serial_number, pid)
@@ -171,7 +173,8 @@ options:
               - Only 'device_info' component is currently supported for
                 extracting basic device information.
               - Device info includes serial_number, hostname, state, pid,
-                is_sudi_required, and authorize fields.
+                is_stack_device, is_sudi_required, user_sudi_serial_nos, and
+                authorize fields.
               - Each device is emitted in a separate config entry with site_name
                 and pnp_type when those values are available from the API.
               - Order of components in list determines order in generated YAML
@@ -359,7 +362,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         - Maps deviceInfo.hostname to hostname (optional)
         - Maps deviceInfo.state to state with "Unclaimed" default
         - Maps deviceInfo.pid to pid (required)
+        - Maps deviceInfo.stack to is_stack_device (optional)
         - Maps deviceInfo.sudiRequired to is_sudi_required (optional)
+        - Maps deviceInfo.userSudiSerialNos to user_sudi_serial_nos when SUDI
+          authentication is required
         - Derives authorize flag from authOperation field (optional)
         - Preserves OrderedDict structure for consistent YAML field ordering
         - Skips devices without serial_number or pid fields
@@ -734,10 +740,11 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Description:
             Extracts essential device information from raw Catalyst Center PnP API response by
             retrieving deviceInfo section, validating required fields (serial_number, pid),
-            extracting optional attributes (hostname, state, sudi_required), determining
-            authorization requirements based on auth_operation field, and constructing
-            OrderedDict with snake_case parameter names ready for YAML serialization enabling
-            simplified device inventory generation for pnp_workflow_manager module.
+            extracting optional attributes (hostname, state, stack and SUDI details),
+            determining authorization requirements based on auth_operation field, and
+            constructing OrderedDict with snake_case parameter names ready for YAML
+            serialization enabling simplified device inventory generation for
+            pnp_workflow_manager module.
 
         Parameters:
             device (dict): Raw PnP device dictionary from Catalyst Center API containing
@@ -750,7 +757,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 - hostname (str): Device hostname when configured (optional)
                 - state (str): PnP state (Unclaimed/Planned/Onboarding/Provisioned/Error)
                 - pid (str): Product ID identifying device model (required field)
+                - is_stack_device (bool): Stack device flag (optional)
                 - is_sudi_required (bool): SUDI certificate requirement flag (optional)
+                - user_sudi_serial_nos (list): SUDI serial numbers when SUDI is required
                 - authorize (bool): Authorization required flag when auth_operation not
                   AUTHORIZATION_NOT_REQUIRED (optional)
             None: Returns None when required fields missing (serial_number or pid) enabling
@@ -833,6 +842,17 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG"
         )
 
+        # Stack device flag (optional)
+        is_stack_device = device_info.get("stack")
+        if is_stack_device is not None:
+            device_info_item["is_stack_device"] = is_stack_device
+            self.log(
+                "Stack device flag found for device {0}: {1}. Including in device_info.".format(
+                    serial_number, is_stack_device
+                ),
+                "DEBUG"
+            )
+
         # SUDI requirement (optional)
         sudi_required = device_info.get("sudiRequired")
         if sudi_required is not None:
@@ -843,6 +863,23 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 ),
                 "DEBUG"
             )
+
+        # User SUDI serial numbers are applicable only when SUDI is required
+        if sudi_required:
+            user_sudi_serial_nos = device_info.get("userSudiSerialNos")
+            if user_sudi_serial_nos is not None:
+                device_info_item["user_sudi_serial_nos"] = user_sudi_serial_nos
+                self.log(
+                    "SUDI serial numbers found for device {0}. Including them in "
+                    "device_info.".format(serial_number),
+                    "DEBUG"
+                )
+            else:
+                self.log(
+                    "Device {0} requires SUDI authentication, but userSudiSerialNos was not "
+                    "provided by the API response.".format(serial_number),
+                    "WARNING"
+                )
 
         # Authorization flag (optional)
         auth_operation = device_info.get("authOperation")
