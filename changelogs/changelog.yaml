@@ -400,3 +400,12 @@ releases:
       minor_changes:
         - Restored backward-compatible ``dnac_*`` aliases (``dnac_host``, ``dnac_port``, ``dnac_username``, ``dnac_password``, ``dnac_verify``, ``dnac_version``, ``dnac_debug``, ``dnac_log``, ``dnac_log_level``, ``dnac_log_file_path``, ``dnac_log_append``, ``dnac_api_task_timeout``, ``dnac_task_poll_interval``) and the ``user`` alias across all module argument specs and documentation to ease migration from the deprecated cisco.dnac collection.
         - Added ``catalystcenter_api_port`` as an alias of ``catalystcenter_port`` for backward compatibility with the previous argument name.
+  2.10.1:
+    release_date: "2026-07-14"
+    changes:
+      release_summary: Address Red Hat Automation Hub certification feedback on ansible-lint findings.
+      bugfixes:
+        - Stop excluding ``.ansible-lint`` and ``.yamllint.yml`` from the built collection artifact (``build_ignore`` in galaxy.yml), so Automation Hub certification lints against the same rules and exclusions used in development instead of an unconfigured default profile.
+        - Replace the collection-wide ``fqcn[action-core]``, ``no-changed-when``, and ``risky-file-permissions`` skip_list entries with path-based ``exclude_paths`` for ``cvp/`` and ``changelogs/``, where all reported occurrences live.
+        - Remove ``name[casing]``, ``name[template]``, and ``name[missing]`` from the ansible-lint skip_list after confirming zero occurrences outside ``cvp/`` with a full production-profile scan.
+        - Fix ``schema[meta]`` violations in all 69 roles by replacing the invalid ``Any`` platform name in each role's ``meta/main.yml`` ``galaxy_info.platforms`` entry with ``GenericLinux``.

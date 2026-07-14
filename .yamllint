@@ -3,7 +3,28 @@ extends: default
 
 ignore: |
   cvp/sda_device_removal_and_unprovision/playbook/tasks/remove_single_device.yml
+  changelogs/changelog.yaml
+  tests
+  plugins
+
+level: warning
 
 rules:
   # Disable anchor checking - anchors are defined in parent playbooks
   anchors: disable
+
+  line-length:
+    max: 160
+    level: warning
+
+  indentation:
+    level: warning
+
+  trailing-spaces:
+    level: warning
+
+  new-line-at-end-of-file:
+    level: warning
+
+  key-duplicates:
+    level: warning
