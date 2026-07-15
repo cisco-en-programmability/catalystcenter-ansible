@@ -105,6 +105,6 @@ jobs:
           fi
 
           echo "Running yamllint on:$lintable_files"
-          yamllint -c .yamllint.yml $lintable_files
+          yamllint -c .yamllint $lintable_files
           echo "Yamllint completed successfully."
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
