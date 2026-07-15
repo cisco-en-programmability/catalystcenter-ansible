@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - "Reorder tests to prevent TypeError crash in _device_to_dict() and _site_to_dict()

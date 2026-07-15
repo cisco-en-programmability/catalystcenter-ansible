@@ -415,10 +415,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return all_devices
 
     def _device_to_dict(self, device):
-        if hasattr(device, "to_dict"):
-            return device.to_dict()
         if isinstance(device, dict):
             return device
+        if hasattr(device, "to_dict"):
+            return device.to_dict()
         try:
             return {
                 k: v
@@ -459,10 +459,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return result
 
     def _site_to_dict(self, site):
-        if hasattr(site, "to_dict"):
+        if isinstance(site, dict):
+            s = site
+        elif hasattr(site, "to_dict"):
             d = site.to_dict()
-        elif isinstance(site, dict):
-            d = site
         else:
             d = {k: v for k, v in vars(site).items() if not k.startswith("_")}
 
