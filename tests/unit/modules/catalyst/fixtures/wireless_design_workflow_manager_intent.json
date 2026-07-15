@@ -33690,13 +33690,23 @@
       "ssids": [
         {
           "ssid_name": "test-invalid-type",
-          "ssid_type": "GUEST",
+          "ssid_type": "InvalidType",
           "l2_security": {
             "l2_auth_type": "OPEN"
           },
           "l3_security": {
             "l3_auth_type": "OPEN"
           }
+        }
+      ]
+    }
+  ],
+  "playbook_config_create_ssid_mixed_case_ssid_type": [
+    {
+      "ssids": [
+        {
+          "ssid_name": "sample_wireless_ssid",
+          "ssid_type": "EnTeRpRiSe"
         }
       ]
     }
