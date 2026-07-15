@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 __author__ = (
-    "Abinash Mishra, Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajith Andrew J"
+    "Abinash Mishra, Madhan Sankaranarayanan, Syed Khadeer Ahmed, Ajith Andrew J, Sunil Shatagopa"
 )
 DOCUMENTATION = r"""
 ---
@@ -22,9 +22,12 @@ description:
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
-  (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed)
-  Ajith Andrew J (@ajithandrewj)
+author:
+  - Abinash Mishra (@abimishr)
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Syed Khadeer Ahmed (@syed-khadeerahmed)
+  - Ajith Andrew J (@ajithandrewj)
+  - Sunil Shatagopa (@shatagopasunil)
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst
@@ -52,12 +55,12 @@ options:
         description: |
           - Specifies whether the user intends to perform
             site assignment only or full provisioning
-            for a wired device.
+            for a wired or wireless device.
           - Set to 'false' to carry out site assignment
             only.
           - Set to 'true' to proceed with provisioning
             to a site.
-          - only applicable for wired devices.
+          - Applicable for both wired and wireless devices.
         type: bool
         required: false
         default: true
@@ -2087,7 +2090,6 @@ class Provision(CatalystCenterBase):
                 )
                 status = self.get_device_provision_status_for_wlc()
                 if status == "success":
-
                     if not to_force_provisioning:
                         self.msg = (
                             "Wireless Device '{0}' is already provisioned.".format(
@@ -2096,6 +2098,56 @@ class Provision(CatalystCenterBase):
                         )
                         self.already_provisioned_wireless_device.append(self.device_ip)
                         return self
+
+                    if not to_provisioning:
+                        self.msg = (
+                            "Cannot assign a provisioned wireless device to the site. "
+                            "The device '{0}' is already provisioned. "
+                            "To re-provision the device, ensure that both 'provisioning' and "
+                            "'force_provisioning' are set to 'true'. "
+                            "Alternatively, unprovision the device and try again.".format(
+                                self.device_ip
+                            )
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
+
+                if not to_provisioning:
+                    self.log(
+                        "'provisioning' is set to False for wireless device '{0}'. "
+                        "Performing site assignment only.".format(self.device_ip),
+                        "INFO",
+                    )
+                    device_id = self.get_device_id()
+                    site_exist, site_id = self.get_site_id(self.site_name)
+
+                    if not site_exist:
+                        self.msg = "Site '{0}' does not exist in Cisco Catalyst Center.".format(self.site_name)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    is_device_assigned, device_site_name = self.is_device_assigned_to_site_v1(device_id)
+                    if is_device_assigned:
+                        if device_site_name == self.site_name:
+                            self.log(
+                                "Wireless device '{0}' is already assigned to site '{1}'. "
+                                "No action needed.".format(self.device_ip, self.site_name),
+                                "INFO",
+                            )
+                            self.already_assigned_device_to_site.append(self.device_ip)
+                        else:
+                            self.msg = (
+                                "Wireless device '{0}' is already assigned to site '{1}' and cannot be "
+                                "reassigned to site '{2}'. Unassign the device first and retry.".format(
+                                    self.device_ip, device_site_name, self.site_name
+                                )
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    else:
+                        self.assign_device_to_site([device_id], self.site_name, site_id)
+                        self.assigned_device_to_site.append(self.device_ip)
+
+                    return self
 
                 self.log("Starting wireless device provisioning...", "INFO")
                 self.provision_wireless_device()

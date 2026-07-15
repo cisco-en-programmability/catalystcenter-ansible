@@ -41,6 +41,8 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
     playbook_disable = test_data.get("playbook_disable")
     playbook_delete_non_provision_device = test_data.get("playbook_delete_non_provision_device")
     playbook_invalid_ap_reboot_percentage = test_data.get("playbook_invalid_ap_reboot_percentage")
+    playbook_wireless_site_assign_only = test_data.get("playbook_wireless_site_assign_only")
+    playbook_wireless_provisioned_site_assign_fail = test_data.get("playbook_wireless_provisioned_site_assign_fail")
 
     def setUp(self):
         super(TestCatalystCenterProvisionWorkflow, self).setUp()
@@ -171,6 +173,25 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("enable_2"),
                 self.test_data.get("Task_Details_enable1"),
                 self.test_data.get("get_device_detail_enable1"),
+            ]
+
+        elif "playbook_wireless_provisioned_site_assign_fail" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_provisioned_wired_device_wireless_success"),
+            ]
+
+        elif "playbook_wireless_site_assign_only" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                Exception("Device 10.0.0.50 is not provisioned"),
+                self.test_data.get("get_network_device_by_ip_wireless_site_assign"),
+                self.test_data.get("get_sites_wireless1"),
+                self.test_data.get("get_site_assigned_network_device_same_site"),
             ]
 
         elif "playbook_delete_provision" in self._testMethodName:
@@ -493,4 +514,54 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "Device with IP 1.2.3.4 not found in Cisco Catalyst Center."
+        )
+
+    def test_provision_workflow_manager_playbook_wireless_provisioned_site_assign_fail(self):
+        """
+        Test guard-rail: wireless device already provisioned with provisioning=false.
+
+        Verifies that when a wireless device is already provisioned and the user sets
+        provisioning=false with force_provisioning=true, the module returns an error
+        indicating the contradictory configuration rather than proceeding.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_wireless_provisioned_site_assign_fail
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "Cannot assign a provisioned wireless device to the site",
+            result.get('msg')
+        )
+
+    def test_provision_workflow_manager_playbook_wireless_site_assign_only(self):
+        """
+        Test wireless site assignment only when provisioning=false.
+
+        Verifies that when a wireless device is not provisioned and provisioning=false,
+        the module performs site-assignment-only (idempotent case where device is already
+        assigned to the same site).
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_wireless_site_assign_only
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "already assigned to site",
+            result.get('msg')
         )
