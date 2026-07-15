@@ -11,6 +11,45 @@ __metaclass__ = type
 from ansible.module_utils.common import validation
 
 
+def _validate_choice(item, param_spec, invalid_params):
+    """
+    This function validates the input `item` against the allowed choices defined
+    in `param_spec`. It supports both case-sensitive (`choices`) and case-insensitive
+    (`choices_ignore_case`) validation. For case-insensitive validation, the input
+    is normalized to the canonical value defined in the spec.
+
+    Args:
+        item: The input value to be validated against the choices.
+        param_spec (dict): The parameter's specification containing `choices` or
+            `choices_ignore_case`.
+        invalid_params (list): A list to collect validation error messages.
+
+    Returns:
+        The validated and normalized item.
+    """
+
+    choice = param_spec.get("choices")
+    if choice:
+        if item not in choice:
+            invalid_params.append(
+                f"{item} : Invalid choice provided. Valid choices are {', '.join(choice)}"
+            )
+        return item
+
+    choices_ci = param_spec.get("choices_ignore_case")
+    if choices_ci:
+        item_lower = str(item).lower()
+        matched = next((c for c in choices_ci if c.lower() == item_lower), None)
+        if matched is None:
+            invalid_params.append(
+                f"{item} : Invalid choice provided. Valid choices are {', '.join(choices_ci)}"
+            )
+        else:
+            item = matched
+
+    return item
+
+
 def validate_str(item, param_spec, param_name, invalid_params, module=None):
     """
     This function checks that the input `item` is a valid string and conforms to
@@ -315,11 +354,9 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                     )
 
                 choice = filtered_param_spec[param].get("choices")
-                if choice:
-                    if curr_item not in choice:
-                        invalid_params.append(
-                            f"{curr_item} : Invalid choice provided. Valid choices are {', '.join(choice)}"
-                        )
+                choices_ignore_case = filtered_param_spec[param].get("choices_ignore_case")
+                if choice or choices_ignore_case:
+                    curr_item = _validate_choice(curr_item, filtered_param_spec[param], invalid_params)
 
                 no_log = filtered_param_spec[param].get("no_log")
                 if no_log:
@@ -389,11 +426,9 @@ def validate_list_of_dicts(param_list, spec, module=None):
                 )
 
             choice = spec[param].get("choices")
-            if choice:
-                if item not in choice:
-                    invalid_params.append(
-                        f"{item} : Invalid choice provided. Valid choices are {', '.join(choice)}"
-                    )
+            choices_ignore_case = spec[param].get("choices_ignore_case")
+            if choice or choices_ignore_case:
+                item = _validate_choice(item, spec[param], invalid_params)
 
             no_log = spec[param].get("no_log")
             if no_log:
