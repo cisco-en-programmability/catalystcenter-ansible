@@ -4640,5 +4640,56 @@
         "ap_reboot_percentage": 30
       }
     }
-  ]
+  ],
+  "playbook_wireless_site_assign_only": [
+    {
+      "management_ip_address": "10.0.0.50",
+      "site_name_hierarchy": "Global/USA/SAN-FRANCISCO/BLD_SF",
+      "primary_managed_ap_locations": [
+        "Global/USA/SAN-FRANCISCO/BLD_SF"
+      ],
+      "provisioning": false,
+      "force_provisioning": false
+    }
+  ],
+  "playbook_wireless_provisioned_site_assign_fail": [
+    {
+      "management_ip_address": "10.0.0.50",
+      "site_name_hierarchy": "Global/USA/SAN-FRANCISCO/BLD_SF",
+      "primary_managed_ap_locations": [
+        "Global/USA/SAN-FRANCISCO/BLD_SF"
+      ],
+      "provisioning": false,
+      "force_provisioning": true
+    }
+  ],
+  "get_network_device_by_ip_wireless_site_assign": {
+    "response": {
+      "family": "Wireless Controller",
+      "type": "Cisco Catalyst 9800-L-F Wireless Controller",
+      "hostname": "WLC-9800.cisco.com",
+      "managementIpAddress": "10.0.0.50",
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "softwareVersion": "17.15.3",
+      "serialNumber": "FCL0000001",
+      "platformId": "C9800-L-F-K9",
+      "reachabilityStatus": "Reachable",
+      "collectionStatus": "Managed"
+    }
+  },
+  "get_provisioned_wired_device_wireless_success": {
+    "deviceManagementIpAddress": "10.0.0.50",
+    "siteNameHierarchy": "Global/USA/SAN-FRANCISCO/BLD_SF",
+    "status": "success",
+    "description": "Wired Provisioned device detail retrieved successfully."
+  },
+  "get_site_assigned_network_device_same_site": {
+    "response": {
+      "deviceId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "siteId": "de8fae3d-e616-4fc4-b88f-7361a0c44fc3",
+      "siteNameHierarchy": "Global/USA/SAN-FRANCISCO/BLD_SF",
+      "siteType": "building"
+    },
+    "version": "1.0"
+  }
 }
