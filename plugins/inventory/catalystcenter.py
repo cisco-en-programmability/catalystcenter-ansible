@@ -460,7 +460,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def _site_to_dict(self, site):
         if isinstance(site, dict):
-            s = site
+            d = site
         elif hasattr(site, "to_dict"):
             d = site.to_dict()
         else:
