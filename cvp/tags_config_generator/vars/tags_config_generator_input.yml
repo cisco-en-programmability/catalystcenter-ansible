@@ -28,13 +28,13 @@ tags_config:
   - generate_all_configurations: false
     file_path: "generated_file/tags_components_config1.yml"
     component_specific_filters:
-      components_list: ["tag"]
+      components_list: ["tags"]
 
   # Generate only tag configurations 
   - file_path: "generated_file/tag_definitions_config2.yml"
     config:
       component_specific_filters:
-        components_list: ["tag"]
+        components_list: ["tags"]
 
   # Generate only tag membership configurations  
   - file_path: "generated_file/tag_memberships_config3.yml"
@@ -46,16 +46,16 @@ tags_config:
   - file_path: "generated_file/specific_tag_filter_config4.yml"
     config:
       component_specific_filters:
-        components_list: ["tag"]
-        tag:
+        components_list: ["tags"]
+        tags:
           - tag_name: "Core-Routers"
 
   # Tag Configurations with Multiple Tag Name Filters:  
   - file_path: "generated_file/multiple_tag_filter_config5.yml"
     config:
       component_specific_filters:
-        components_list: ["tag"]
-        tag:
+        components_list: ["tags"]
+        tags:
           - tag_name: "Core-Routers"
           - tag_name: "Campus-Switches"
 
@@ -91,8 +91,8 @@ tags_config:
   - file_path: "generated_file/combined_components_filter_config9.yml"
     config:
       component_specific_filters:
-        components_list: ["tag", "tag_memberships"]
-        tag:
+        components_list: ["tags", "tag_memberships"]
+        tags:
           - tag_name: "Core-Routers"
         tag_memberships:
           - tag_name: "Core-Routers"
@@ -102,7 +102,7 @@ tags_config:
   - file_path: "generated_file/all_components_no_subfilters_config10.yml"
     config:
       component_specific_filters:
-        components_list: ["tag", "tag_memberships"]
+        components_list: ["tags", "tag_memberships"]
 
 # ============================================================================
 # Additional Configuration Examples
