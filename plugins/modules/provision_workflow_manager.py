@@ -1155,7 +1155,15 @@ class Provision(CatalystCenterBase):
         """
 
         start_time = time.time()
+        poll_iteration = 0
         while True:
+            poll_iteration += 1
+            self.log(
+                "Telemetry poll iteration {0} started for device {1}.".format(
+                    poll_iteration, ip
+                ),
+                "DEBUG"
+            )
             elapsed = time.time() - start_time
             if elapsed >= self.max_timeout:
                 self.msg = (
@@ -1174,7 +1182,9 @@ class Provision(CatalystCenterBase):
             if deployment in ("IN_PROGRESS", "SCHEDULED"):
                 self.log(
                     "Telemetry deployment in progress for device {0}. "
-                    "Elapsed: {1}s/{2}s. Waiting...".format(ip, int(elapsed), self.max_timeout),
+                    "Elapsed: {1}s/{2}s. Sleeping for 3 seconds before next poll.".format(
+                        ip, int(elapsed), self.max_timeout
+                    ),
                     "INFO"
                 )
                 time.sleep(3)
@@ -1182,6 +1192,12 @@ class Provision(CatalystCenterBase):
 
             # If no desired_readiness specified, we only needed deployment to finish
             if desired_readiness is None:
+                self.log(
+                    "Telemetry done for device {0}: readiness '{1}', deployment '{2}'.".format(
+                        ip, readiness, deployment
+                    ),
+                    "INFO"
+                )
                 return readiness, deployment
 
             # Check if readiness matches desired state
@@ -1194,7 +1210,8 @@ class Provision(CatalystCenterBase):
 
             self.log(
                 "Waiting for telemetry readiness on device {0}. "
-                "Current: {1}, Expected: {2}. Elapsed: {3}s.".format(
+                "Current: {1}, Expected: {2}. "
+                "Elapsed: {3}s. Sleeping for 3 seconds before next poll.".format(
                     ip, readiness, desired_readiness, int(elapsed)
                 ),
                 "INFO"
