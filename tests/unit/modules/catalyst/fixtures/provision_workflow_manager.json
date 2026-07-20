@@ -4698,18 +4698,6 @@
         ],
         "version": "1.0"
     },
-    "telemetry_status_ready": {
-        "response": [
-            {
-                "id": "f5ae7e9c-da55-4be5-ab39-32d4804981aa",
-                "managementAddress": "204.1.2.2",
-                "hostname": "test-device",
-                "appTelemetryDeploymentStatus": "NOT_DEPLOYED",
-                "appTelemetryReadinessStatus": "READY"
-            }
-        ],
-        "version": "1.0"
-    },
     "telemetry_status_enabled": {
         "response": [
             {
@@ -4721,5 +4709,52 @@
             }
         ],
         "version": "1.0"
+    },
+    "playbook_wireless_provisioned_site_assign_fail": [
+        {
+            "site_name_hierarchy": "Global/USA/SAN JOSE/BLD23",
+            "management_ip_address": "10.0.0.50",
+            "primary_managed_ap_locations": [
+                "Global/USA/SAN JOSE/BLD23/FLOOR1"
+            ],
+            "provisioning": false,
+            "force_provisioning": true
+        }
+    ],
+    "playbook_wireless_site_assign_only": [
+        {
+            "site_name_hierarchy": "Global/USA/SAN JOSE/BLD23",
+            "management_ip_address": "10.0.0.50",
+            "primary_managed_ap_locations": [
+                "Global/USA/SAN JOSE/BLD23/FLOOR1"
+            ],
+            "provisioning": false
+        }
+    ],
+    "get_network_device_by_ip_wireless_site_assign": {
+        "response": {
+            "family": "Wireless Controller",
+            "type": "Cisco Catalyst 9800-40 Wireless Controller",
+            "managementIpAddress": "10.0.0.50",
+            "hostname": "WLC-TEST",
+            "id": "wlc-uuid-001",
+            "instanceUuid": "wlc-uuid-001",
+            "platformId": "C9800-40-K9",
+            "reachabilityStatus": "Reachable",
+            "collectionStatus": "Managed",
+            "serialNumber": "TEST123",
+            "softwareVersion": "17.15.1"
+        },
+        "version": "1.0"
+    },
+    "get_provisioned_wired_device_wireless_success": {
+        "status": "success",
+        "description": "Device is provisioned"
+    },
+    "get_site_assigned_network_device_same_site": {
+        "response": {
+            "siteNameHierarchy": "Global/USA/SAN JOSE/BLD23",
+            "siteId": "site-uuid-001"
+        }
     }
 }
