@@ -4263,13 +4263,11 @@ class Swim(CatalystCenterBase):
 
                 distributed_images = [{"id": img_id} for img_id in image_ids.values()]
 
-                payload = [
-                    {
-                        "id": distribution_device_id,
-                        "distributedImages": distributed_images,
-                        "networkValidationIds": None  # Update after confirmation from CatalystCenter team
-                    }
-                ]
+                payload = {
+                    "id": distribution_device_id,
+                    "distributedImages": distributed_images,
+                    "networkValidationIds": None
+                }
 
                 self.log(
                     "Payload for image distribution: {0}".format(str(payload)), "DEBUG"
@@ -4280,7 +4278,6 @@ class Swim(CatalystCenterBase):
                         family="software_image_management_swim",
                         function="distribute_images_on_the_network_device",
                         op_modifies=True,
-                        id=distribution_device_id,
                         params=payload
                     )
 
