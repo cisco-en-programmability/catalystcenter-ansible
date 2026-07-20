@@ -159,7 +159,7 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("get_network_device_by_ip_enable1"),
                 self.test_data.get("get_network_device_by_ip_enable2"),
                 self.test_data.get("get_device_detail"),
-                self.test_data.get("telemetry_status_ready"),
+                self.test_data.get("telemetry_status_already_disabled"),
                 self.test_data.get("enable_1"),
                 self.test_data.get("Task_Details_enable"),
                 self.test_data.get("telemetry_status_enabled"),
