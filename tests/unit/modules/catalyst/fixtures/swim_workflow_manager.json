@@ -47908,5 +47908,30 @@
       "inheritedSiteId": null
     },
     "version": "1.0"
+  },
+  "playbook_image_activation_global_parent_device": [
+    {
+      "image_activation_details": {
+        "activate_lower_image_version": true,
+        "distribute_if_needed": true,
+        "image_name": "cat9k_iosxe.17.12.02.SPA.bin",
+        "schedule_validate": false
+      }
+    }
+  ],
+  "get_sites_empty_child_parent_device_regression": {
+    "response": [],
+    "version": "1.0"
+  },
+  "get_site_assigned_global_parent_device_regression": {
+    "response": [
+      {
+        "deviceId": "1e8ffc57-8a44-459f-b880-6b49d6b63aa4",
+        "siteId": "73273999-4fde-4376-b071-25ebee51d155",
+        "siteNameHierarchy": "Global",
+        "siteType": "area"
+      }
+    ],
+    "version": "1.0"
   }
 }

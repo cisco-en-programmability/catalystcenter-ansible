@@ -32,6 +32,9 @@ class TestswimWorkflowManager(TestCatalystModule):
     playbook_swim_image_golden_tag = test_data.get("playbook_swim_image_golden_tag")
     playbook_inheritted_tag_cannot_be_untagged = test_data.get("playbook_inheritted_tag_cannot_be_untagged")
     playbook_image_activation = test_data.get("playbook_image_activation")
+    playbook_image_activation_global_parent_device = test_data.get(
+        "playbook_image_activation_global_parent_device"
+    )
     playbook_import_image = test_data.get("playbook_import_image")
     playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
     playbook_sub_package_images = test_data.get("playbook_sub_package_images")
@@ -164,6 +167,32 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_53"),
                 self.test_data.get("get_software_image_details_54"),
                 self.test_data.get("import_image_response"),
+            ]
+
+        elif "playbook_image_activation_global_parent_device" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_65"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_sites_empty_child_parent_device_regression"),
+                self.test_data.get("get_sites_global_golden_idempotence"),
+                self.test_data.get("get_site_assigned_global_parent_device_regression"),
+                self.test_data.get("get_site_assigned_network_devices_66"),
+                self.test_data.get("get_device_list_65"),
+                self.test_data.get("get_device_list_65"),
+                self.test_data.get("device_list_response68"),
+                self.test_data.get("get_device_list_65"),
+                self.test_data.get("get_software_image_details_66"),
+                self.test_data.get("get_device_list_65"),
+                self.test_data.get("compliance_details_of_device_65"),
+                self.test_data.get("get_device_list_65"),
+                self.test_data.get("activation_api_response"),
+                self.test_data.get("Taskdetails_1"),
+                self.test_data.get("Taskdetails"),
+                self.test_data.get("get_software_image_details_67"),
+                self.test_data.get("get_sites_68"),
+                self.test_data.get("get_software_image_details_68"),
+                self.test_data.get("image_activation_response"),
             ]
 
         elif "playbook_image_activation" in self._testMethodName:
@@ -589,6 +618,28 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "Image(s) cat9k_iosxe.17.12.02.SPA.bin were skipped as they already exist in Cisco Catalyst Center."
+        )
+
+    def test_swim_workflow_manager_playbook_image_activation_global_parent_device(self):
+        """
+        Test image activation for a device assigned directly to the Global site.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='2.3.7.9',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config_verify=True,
+                state="merged",
+                config=self.playbook_image_activation_global_parent_device
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
         )
 
     def test_swim_workflow_manager_playbook_multiple_image_distribution_1(self):
