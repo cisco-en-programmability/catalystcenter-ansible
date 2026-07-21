@@ -43,6 +43,7 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
     playbook_invalid_ap_reboot_percentage = test_data.get("playbook_invalid_ap_reboot_percentage")
     playbook_wireless_site_assign_only = test_data.get("playbook_wireless_site_assign_only")
     playbook_wireless_provisioned_site_assign_fail = test_data.get("playbook_wireless_provisioned_site_assign_fail")
+    playbook_disable_idempotent = test_data.get("playbook_disable_idempotent")
 
     def setUp(self):
         super(TestCatalystCenterProvisionWorkflow, self).setUp()
@@ -158,9 +159,21 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("get_network_device_by_ip_enable1"),
                 self.test_data.get("get_network_device_by_ip_enable2"),
                 self.test_data.get("get_device_detail"),
+                self.test_data.get("telemetry_status_already_disabled"),
                 self.test_data.get("enable_1"),
                 self.test_data.get("Task_Details_enable"),
+                self.test_data.get("telemetry_status_enabled"),
                 self.test_data.get("get_device_detail_enable"),
+            ]
+
+        elif "playbook_disable_idempotent" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                None,
+                self.test_data.get("get_network_device_by_ip_disable_idem"),
+                self.test_data.get("get_network_device_by_ip_disable_idem"),
+                self.test_data.get("get_network_device_by_ip_disable_idem"),
+                self.test_data.get("get_device_detail_disable_idem"),
+                self.test_data.get("telemetry_status_already_disabled"),
             ]
 
         elif "playbook_disable" in self._testMethodName:
@@ -170,8 +183,10 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("get_network_device_by_ip_enable4"),
                 self.test_data.get("get_network_device_by_ip_enable5"),
                 self.test_data.get("get_device_detail1"),
+                self.test_data.get("telemetry_status_enabled"),
                 self.test_data.get("enable_2"),
                 self.test_data.get("Task_Details_enable1"),
+                self.test_data.get("telemetry_status_already_disabled"),
                 self.test_data.get("get_device_detail_enable1"),
             ]
 
@@ -409,6 +424,33 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "Application telemetry enabled successfully for 204.1.2.2"
+        )
+
+    def test_provision_workflow_manager_playbook_disable_idempotent(self):
+        """
+        Test idempotent behavior when disabling telemetry on a device that already has telemetry disabled.
+
+        Validates that when application telemetry is already in disabled state (readinessStatus=READY),
+        the module correctly skips the disable API call and returns changed=false with
+        'already disabled' message.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_version="3.1.6.0",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=self.playbook_disable_idempotent
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Application telemetry already disabled on device(s) '204.1.1.6'."
         )
 
     def test_provision_workflow_manager_playbook_disable(self):
