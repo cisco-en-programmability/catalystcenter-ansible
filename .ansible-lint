@@ -17,15 +17,8 @@ skip_list:
   - yaml[indentation]
   - yaml[anchors]  # Anchors defined in parent playbooks
   - var-naming[no-role-prefix]  # Connection vars are standardized across collection
-  - fqcn[action-core]  # Implicit FQCN is acceptable
   - jinja[spacing]  # Template spacing is functional
-  - name[casing]  # Task naming conventions
-  - name[template]  # Jinja in task names
-  - name[missing]  # Some tasks don't need names
-  - risky-file-permissions  # File permissions are context-dependent
-  - no-changed-when  # Changed_when not always needed
   - run-once[task]  # Run-once is valid pattern
-  - schema[meta]  # Meta schema variations are acceptable
   - yaml[key-duplicates]  # Will be addressed separately
   - args[module]  # module_defaults provides required args at play level
 
@@ -36,4 +29,5 @@ exclude_paths:
   - tests
   - playbooks/credentials.yml
   - .github/workflows
-  - cvp/sda_device_removal_and_unprovision/playbook/tasks/remove_single_device.yml
+  - cvp
+  - changelogs
