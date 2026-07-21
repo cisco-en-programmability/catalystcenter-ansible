@@ -23604,7 +23604,7 @@ class WirelessDesign(CatalystCenterBase):
                 mapped_profile["managementSetting"] = {}
 
                 for key, original_key in management_mapping.items():
-                    if key in management_settings:
+                    if management_settings.get(key) is not None:
                         mapped_profile["managementSetting"][original_key] = (
                             management_settings[key]
                         )
@@ -23613,9 +23613,19 @@ class WirelessDesign(CatalystCenterBase):
                         )
                     else:
                         self.log(
-                            "Key '{0}' not found in management_settings.".format(key),
-                            "WARNING",
+                            "Key '{0}' is not provided in management_settings. Preserving its existing value.".format(
+                                key
+                            ),
+                            "DEBUG",
                         )
+
+                if management_settings.get("access_point_authentication") == "NO-AUTH":
+                    mapped_profile["managementSetting"]["dot1xUsername"] = None
+                    mapped_profile["managementSetting"]["dot1xPassword"] = None
+                    self.log(
+                        "Cleared 802.1X credentials because access point authentication is set to 'NO-AUTH'.",
+                        "DEBUG",
+                    )
 
             # Define mappings for rogue detection settings
             rogue_detection_mapping = {
