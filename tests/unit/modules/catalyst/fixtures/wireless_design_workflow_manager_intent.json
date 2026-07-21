@@ -32816,6 +32816,19 @@
     ],
     "version": "1.0"
   },
+  "playbook_partial_update_ap_profile_management_settings": [
+    {
+      "access_point_profiles": [
+        {
+          "access_point_profile_name": "Profile-test9",
+          "management_settings": {
+            "access_point_authentication": "NO-AUTH",
+            "telnet_enabled": false
+          }
+        }
+      ]
+    }
+  ],
   "MULTICAST_CONFIGURATION_delete": {
     "response": {
       "taskId": "019a3414-6351-7b3a-84bb-c6aa30b87535",

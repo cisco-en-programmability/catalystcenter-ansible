@@ -377,6 +377,13 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("response_get_ap_profiles_2_post_update_success"),
             ]
 
+        if "partial_update_ap_profile_management_settings" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_ap_profiles_2_success"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
         if "delete_ap_profiles" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_ap_profiles_3_success"),
@@ -1147,6 +1154,52 @@ class TestWirelessDesign(TestCatalystModule):
             "Update Access Point Profile(s) Task succeeded for the following access point profile(s)",
             result.get("msg"),
         )
+
+    def test_partial_update_ap_profile_management_settings(self):
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="3.1.6.0",
+                config_verify=False,
+                catalystcenter_log_append=False,
+                state="merged",
+                config=self.test_data.get(
+                    "playbook_partial_update_ap_profile_management_settings"
+                ),
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "Update Access Point Profile(s) Task succeeded for the following access point profile(s)",
+            result.get("msg"),
+        )
+
+        update_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "update_ap_profile_by_id":
+                update_call = kwargs
+                break
+
+        self.assertIsNotNone(update_call, "update_ap_profile_by_id was not called")
+        management_settings = update_call.get("params", {}).get(
+            "managementSetting", {}
+        )
+        self.assertEqual(management_settings.get("authType"), "NO-AUTH")
+        self.assertIsNone(management_settings.get("dot1xUsername"))
+        self.assertIsNone(management_settings.get("dot1xPassword"))
+        self.assertEqual(management_settings.get("sshEnabled"), True)
+        self.assertEqual(management_settings.get("telnetEnabled"), False)
+        self.assertEqual(management_settings.get("managementUserName"), "admin")
+        self.assertEqual(management_settings.get("managementPassword"), "********")
+        self.assertEqual(
+            management_settings.get("managementEnablePassword"), "********"
+        )
+        self.assertEqual(management_settings.get("cdpState"), False)
 
     def test_delete_ap_profiles(self):
         set_module_args(
