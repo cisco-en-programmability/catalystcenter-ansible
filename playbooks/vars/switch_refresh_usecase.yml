@@ -13,6 +13,14 @@ catalystcenter_log_level: INFO
 
 switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
 switch_refresh_onboarding_method: discovery
+# Inventory addition requires device CLI credentials. Store real values in
+# Ansible Vault or inventory variables rather than in this file.
+switch_refresh_inventory_credentials:
+  username: "<switch-cli-username>"
+  password: "<switch-cli-password>"
+  enable_password: "<switch-enable-password>"
+  cli_transport: ssh
+  type: NETWORK_DEVICE
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_fabric_validation_enabled: true
 switch_refresh_sda_host_port_onboarding_config_verify: true
@@ -58,6 +66,26 @@ switch_refresh_devices:
       #           - username: "<switch-cli-username>"
       #             password: "<switch-cli-password>"
       #             enable_password: "<switch-enable-password>"
+
+      # Optional per-device inventory credential override. By default, the role
+      # uses switch_refresh_inventory_credentials and adds management_ip to the
+      # inventory payload automatically.
+      # inventory_credentials:
+      #   username: "<switch-cli-username>"
+      #   password: "<switch-cli-password>"
+      #   enable_password: "<switch-enable-password>"
+      #   cli_transport: ssh
+      #   type: NETWORK_DEVICE
+
+      # Optional complete inventory payload override.
+      # inventory_config:
+      #   - ip_address_list:
+      #       - 10.10.10.20
+      #     username: "<switch-cli-username>"
+      #     password: "<switch-cli-password>"
+      #     enable_password: "<switch-enable-password>"
+      #     cli_transport: ssh
+      #     type: NETWORK_DEVICE
 
       # Optional. Defaults to EDGE_NODE.
       # device_roles:

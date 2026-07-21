@@ -7,9 +7,10 @@ migrated from the old switch to the new switch.
 The role is intentionally split into two phases:
 
 1. `prepare`: onboard the new switch through either Discovery or LAN Automation,
-   provision it, add it to fabric as an edge device, generate host-port
-   migration config from the old switch, and push the generated host onboarding
-   config to the new switch.
+   add it to Catalyst Center inventory, verify its inventory record, provision
+   it, add it to fabric as an edge device, generate host-port migration config
+   from the old switch, and push the generated host onboarding config to the new
+   switch.
 2. `cleanup_old`: after validation and cutover, delete the old switch port
    assignments and port channels, remove the old switch from fabric, and
    unprovision it.
@@ -31,6 +32,14 @@ The role is intentionally split into two phases:
   - `lan_automation`: use the existing `lan_automation` role to run Catalyst
     Center LAN Automation, then continue with inventory lookup, provisioning,
     fabric add, and host-port migration.
+- Before provisioning, the existing `inventory` role adds or merges the
+  replacement switch and `network_devices_info` verifies that exactly one
+  inventory record exists for its management IP.
+- Adding an absent `NETWORK_DEVICE` through the inventory workflow requires a
+  device username and password. Discovery global credentials cannot be read
+  back by Ansible, so provide them through Ansible Vault using
+  `switch_refresh_inventory_credentials`, a per-device
+  `new.inventory_credentials`, or a full `new.inventory_config`.
 - The host-port migration generator handles `port_assignments` and
   `port_channels` only in this role through the
   `sda_host_port_migration_config_generator` role wrapper.
@@ -67,6 +76,10 @@ Control variables:
 - `switch_refresh_cleanup_old`: must be `true` for cleanup
 - `switch_refresh_work_dir`: directory for generated migration files
 - `switch_refresh_devices`: list of switch refresh entries
+- `switch_refresh_inventory_credentials`: default device credentials merged
+  into the generated replacement inventory payload
+- `switch_refresh_inventory_config_verify`: verify inventory configuration
+  after applying it
 - `switch_refresh_device_info_lookup_enabled`: resolve device details with
   `network_devices_info`
 - `switch_refresh_device_info_lookup_timeout`: inventory lookup timeout
@@ -84,6 +97,7 @@ Stage toggles:
 
 - `switch_refresh_discovery_enabled`
 - `switch_refresh_lan_automation_enabled`
+- `switch_refresh_inventory_enabled`
 - `switch_refresh_provision_enabled`
 - `switch_refresh_fabric_add_enabled`
 - `switch_refresh_host_onboarding_enabled`
@@ -113,6 +127,18 @@ switch_refresh_devices:
 
 Set `onboarding_method` per device when the replacement switch should use a
 method different from the global `switch_refresh_onboarding_method`.
+
+Configure inventory credentials once, preferably with Ansible Vault, to keep
+individual switch entries minimal:
+
+```yaml
+switch_refresh_inventory_credentials:
+  username: "{{ vault_switch_cli_username }}"
+  password: "{{ vault_switch_cli_password }}"
+  enable_password: "{{ vault_switch_enable_password }}"
+  cli_transport: ssh
+  type: NETWORK_DEVICE
+```
 
 ## Replacement Switch Onboarding Options
 
@@ -190,6 +216,31 @@ switch_refresh_devices:
                 device_management_ip_address: 204.1.1.13
             launch_and_wait: true
 ```
+
+## Inventory Before Provisioning
+
+After Discovery or LAN Automation, the role builds this inventory payload from
+`new.management_ip` and `switch_refresh_inventory_credentials`:
+
+```yaml
+inventory_config:
+  - ip_address_list:
+      - 10.10.10.20
+    username: "{{ vault_switch_cli_username }}"
+    password: "{{ vault_switch_cli_password }}"
+    enable_password: "{{ vault_switch_enable_password }}"
+    cli_transport: ssh
+    type: NETWORK_DEVICE
+```
+
+The payload is passed to the existing `inventory` role with `state: merged`.
+The role then calls `network_devices_info` using the replacement management IP.
+Provisioning starts only after that lookup confirms exactly one inventory
+record.
+
+Use `new.inventory_credentials` to override the global credentials for one
+replacement switch. Use `new.inventory_config` when the inventory workflow
+needs additional SNMP, NETCONF, HTTP, role, or other device-specific fields.
 
 If `new.provision_config` is omitted, the role builds it automatically:
 

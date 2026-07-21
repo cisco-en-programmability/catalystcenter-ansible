@@ -17,9 +17,11 @@ switch_refresh_devices: []
 switch_refresh_cleanup_old: false
 switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
 switch_refresh_onboarding_method: discovery
+switch_refresh_inventory_credentials: {}
 
 switch_refresh_discovery_enabled: true
 switch_refresh_lan_automation_enabled: true
+switch_refresh_inventory_enabled: true
 switch_refresh_provision_enabled: true
 switch_refresh_fabric_add_enabled: true
 switch_refresh_fabric_validation_enabled: true
@@ -34,6 +36,7 @@ switch_refresh_device_info_lookup_retries: 6
 switch_refresh_device_info_lookup_interval: 10
 switch_refresh_discovery_config_verify: false
 switch_refresh_lan_automation_config_verify: false
+switch_refresh_inventory_config_verify: false
 switch_refresh_provision_config_verify: false
 switch_refresh_sda_fabric_devices_config_verify: false
 switch_refresh_sda_host_port_onboarding_config_verify: false

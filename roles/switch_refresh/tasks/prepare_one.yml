@@ -186,6 +186,59 @@
     - switch_refresh_item_onboarding_method == 'lan_automation'
     - switch_refresh_lan_automation_enabled | bool
 
+- name: Set replacement switch inventory credentials
+  ansible.builtin.set_fact:
+    switch_refresh_new_inventory_credentials: >-
+      {{
+        refresh_item.new.inventory_credentials |
+        default(switch_refresh_inventory_credentials)
+      }}
+  when: switch_refresh_inventory_enabled | bool
+
+- name: Validate replacement switch inventory input
+  ansible.builtin.assert:
+    that:
+      - >-
+        refresh_item.new.inventory_config is defined or
+        (
+          switch_refresh_new_inventory_credentials.username is defined and
+          switch_refresh_new_inventory_credentials.password is defined
+        )
+    fail_msg: >-
+      Adding the replacement switch through the inventory role requires either
+      new.inventory_config or inventory credentials containing username and
+      password. Set switch_refresh_inventory_credentials globally or
+      new.inventory_credentials for this switch.
+  when: switch_refresh_inventory_enabled | bool
+
+- name: Build replacement switch inventory configuration
+  ansible.builtin.set_fact:
+    switch_refresh_new_inventory_config: >-
+      {{
+        refresh_item.new.inventory_config | default([
+          (
+            {
+              'ip_address_list': [switch_refresh_new_management_ip],
+              'type': 'NETWORK_DEVICE',
+              'cli_transport': 'ssh'
+            } | combine(switch_refresh_new_inventory_credentials)
+          )
+        ])
+      }}
+  when: switch_refresh_inventory_enabled | bool
+
+- name: Add replacement switch to Catalyst Center inventory
+  ansible.builtin.include_role:
+    name: inventory
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    inventory_state: merged
+    inventory_config_verify: "{{ switch_refresh_inventory_config_verify }}"
+    inventory_config: "{{ switch_refresh_new_inventory_config }}"
+  when: switch_refresh_inventory_enabled | bool
+
 - name: Resolve replacement switch inventory details
   ansible.builtin.include_role:
     name: network_devices_info
