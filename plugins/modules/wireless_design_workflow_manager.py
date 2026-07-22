@@ -3916,8 +3916,14 @@ options:
                 description:
                   - Multicast feature settings and delivery parameters.
                   - Controls global multicast behavior and protocol-specific settings.
+                  - Required for create and update operations (enforced at runtime,
+                    not via schema 'required').
+                  - Optional for delete operations.
+                    When omitted during deletion, the entire template is removed.
+                    When provided during deletion, only the specified optional attributes
+                    are reset to null while the template itself is retained.
                 type: dict
-                required: true
+                required: false
                 suboptions:
                   global_multicast_enabled:
                     description:
@@ -7575,7 +7581,7 @@ class WirelessDesign(CatalystCenterBase):
                 "ssid_name": {"type": "str"},
                 "ssid_type": {
                     "type": "str",
-                    "choices": ["Enterprise", "Guest"]
+                    "choices_ignore_case": ["Enterprise", "Guest"]
                 },
                 "wlan_profile_name": {"type": "str"},
                 "radio_policy": {
@@ -8157,7 +8163,7 @@ class WirelessDesign(CatalystCenterBase):
                     },
                     "feature_attributes": {
                         "type": "dict",
-                        "required": True,
+                        "required": False,
                         "global_multicast_enabled": {"type": "bool", "required": True},
                         "multicast_ipv4_mode": {
                             "type": "str",
@@ -9536,6 +9542,14 @@ class WirelessDesign(CatalystCenterBase):
             design_name = attr.get("design_name")
             feature_attrs = attr.get("feature_attributes") or {}
             unlocked_attributes = attr.get("unlocked_attributes", [])
+
+            # feature_attributes is mandatory for create/update
+            if not feature_attrs:
+                self.msg = (
+                    "'feature_attributes' is mandatory for Multicast configuration "
+                    "create/update in design '{0}'.".format(design_name)
+                )
+                self.fail_and_exit(self.msg)
 
             global_multicast_enabled = feature_attrs.get("global_multicast_enabled")
             ipv4_mode = feature_attrs.get("multicast_ipv4_mode")
@@ -10964,6 +10978,24 @@ class WirelessDesign(CatalystCenterBase):
                 tk = key_name_map.get(rk) or snake_to_camel(rk)
                 normalized_features[tk] = rv
 
+            # Filter out band-incompatible featureAttributes.
+            # multipleBssid -> compatible with 6GHZ only
+            # obssPd, nonSRGObssPdMaxThreshold -> compatible with 2_4GHZ, 5GHZ only
+            radio_band_value = normalized_features.get("radioBand") or ""
+            if radio_band_value:
+                if radio_band_value != "6GHZ":
+                    normalized_features.pop("multipleBssid", None)
+                if radio_band_value not in ("2_4GHZ", "5GHZ"):
+                    normalized_features.pop("obssPd", None)
+                    normalized_features.pop("nonSRGObssPdMaxThreshold", None)
+
+            self.log(
+                "Normalized featureAttributes for design '{0}': {1}".format(
+                    design_name, normalized_features
+                ),
+                "DEBUG",
+            )
+
             # Normalize & filter unlocked attributes: map to controller keys and only keep allowed first-level attributes
             requested_unlocked = unlocked_attrs or []
             normalized_unlocked = []
@@ -10990,6 +11022,20 @@ class WirelessDesign(CatalystCenterBase):
                     ),
                     "WARNING",
                 )
+
+            # Also remove band-incompatible keys from unlocked attributes
+            if radio_band_value:
+                if radio_band_value != "6GHZ":
+                    normalized_unlocked = [ua for ua in normalized_unlocked if ua != "multipleBssid"]
+                if radio_band_value not in ("2_4GHZ", "5GHZ"):
+                    normalized_unlocked = [ua for ua in normalized_unlocked if ua not in ("obssPd", "nonSRGObssPdMaxThreshold")]
+
+            self.log(
+                "Normalized unlocked attributes for design '{0}': {1}".format(
+                    design_name, normalized_unlocked
+                ),
+                "DEBUG",
+            )
 
             payload = {"designName": design_name, "featureAttributes": normalized_features}
             if normalized_unlocked:
@@ -23558,7 +23604,7 @@ class WirelessDesign(CatalystCenterBase):
                 mapped_profile["managementSetting"] = {}
 
                 for key, original_key in management_mapping.items():
-                    if key in management_settings:
+                    if management_settings.get(key) is not None:
                         mapped_profile["managementSetting"][original_key] = (
                             management_settings[key]
                         )
@@ -23567,9 +23613,19 @@ class WirelessDesign(CatalystCenterBase):
                         )
                     else:
                         self.log(
-                            "Key '{0}' not found in management_settings.".format(key),
-                            "WARNING",
+                            "Key '{0}' is not provided in management_settings. Preserving its existing value.".format(
+                                key
+                            ),
+                            "DEBUG",
                         )
+
+                if management_settings.get("access_point_authentication") == "NO-AUTH":
+                    mapped_profile["managementSetting"]["dot1xUsername"] = None
+                    mapped_profile["managementSetting"]["dot1xPassword"] = None
+                    self.log(
+                        "Cleared 802.1X credentials because access point authentication is set to 'NO-AUTH'.",
+                        "DEBUG",
+                    )
 
             # Define mappings for rogue detection settings
             rogue_detection_mapping = {

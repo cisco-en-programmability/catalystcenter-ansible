@@ -337,7 +337,7 @@ options:
               To replace an existing golden tag for a specific role:
               - **Unassign** the tag from the current role (e.g., `ACCESS`).
               - **Assign** the tag to the new role (e.g., `CORE`).
-              Idempotency (per-role check, Catalyst Center > 2.3.7.9):
+              Idempotency (per-role check, Catalyst Center >= 3.1.3.0):
               - Tagging is evaluated per role. If the image is already golden for 'ACCESS' and you
                 request tagging for 'CORE', the module tags 'CORE' (changed=True). Previously this
                 was silently skipped.
@@ -1862,7 +1862,15 @@ class Swim(CatalystCenterBase):
 
                 elif site_type in ["area", "global"]:
                     self.log(
-                        "Processing site as an area: {site_name}".format(site_name=site_name),
+                        "Processing site as an area or global site: {0}".format(site_name),
+                        "DEBUG",
+                    )
+
+                    site_info[site_name] = site_id
+                    self.log(
+                        "Added parent site '{0}' with ID '{1}' to site_info.".format(
+                            site_name, site_id
+                        ),
                         "DEBUG",
                     )
 
@@ -2266,7 +2274,7 @@ class Swim(CatalystCenterBase):
                         "DEBUG",
                     )
             else:
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
                     # Legacy golden-tagging APIs use -1 to represent the Global site.
                     have["site_id"] = "-1"
                     self.log(
@@ -3078,7 +3086,7 @@ class Swim(CatalystCenterBase):
                 self.check_return_status()
 
         # old version API call structure
-        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             self.log("Checking golden tag status for each role...", "DEBUG")
             for role in device_role.split(","):
                 image_params = {
@@ -3288,7 +3296,7 @@ class Swim(CatalystCenterBase):
             return self
         else:
             # -----------------------------------------------------
-            # New API flow for versions > 2.3.7.9
+            # New API flow for versions >= 3.1.3.0
             # -----------------------------------------------------
             self.log("Starting new version golden tagging workflow", "DEBUG")
 
@@ -4158,8 +4166,8 @@ class Swim(CatalystCenterBase):
                 return self
 
             if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-                <= 0
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+                < 0
             ):
                 success_distribution_list = []
                 failed_distribution_list = []
@@ -4247,7 +4255,7 @@ class Swim(CatalystCenterBase):
                             break
             else:
                 self.log(
-                    "Distribution device ID provided. Starting image distribution for device IP {0} (ID: {1}) with software version >= 2.3.7.9.".format(
+                    "Distribution device ID provided. Starting image distribution for device IP {0} (ID: {1}) with software version >= 3.1.3.0.".format(
                         elg_device_ip, device_id
                     ),
                     "DEBUG",
@@ -4255,13 +4263,11 @@ class Swim(CatalystCenterBase):
 
                 distributed_images = [{"id": img_id} for img_id in image_ids.values()]
 
-                payload = [
-                    {
-                        "id": distribution_device_id,
-                        "distributedImages": distributed_images,
-                        "networkValidationIds": None  # Update after confirmation from CatalystCenter team
-                    }
-                ]
+                payload = {
+                    "id": distribution_device_id,
+                    "distributedImages": distributed_images,
+                    "networkValidationIds": None
+                }
 
                 self.log(
                     "Payload for image distribution: {0}".format(str(payload)), "DEBUG"
@@ -4272,7 +4278,6 @@ class Swim(CatalystCenterBase):
                         family="software_image_management_swim",
                         function="distribute_images_on_the_network_device",
                         op_modifies=True,
-                        id=distribution_device_id,
                         params=payload
                     )
 
@@ -4361,10 +4366,10 @@ class Swim(CatalystCenterBase):
         device_ip_for_not_elg_list = []
         bulk_payload = []
 
-        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             # -------- OLD VERSION (Sequential Distribution) -------- #
             self.log(
-                "Using old version of SWIM API for image distribution (before 2.3.7.9)"
+                "Using old version of SWIM API for image distribution (before 3.1.3.0)"
             )
             for device_uuid in device_uuid_list:
                 device_ip = self.get_device_ip_from_id(device_uuid)
@@ -4803,8 +4808,8 @@ class Swim(CatalystCenterBase):
 
             activation_payload_list = []
 
-            # OLD FLOW (for CatalystCenter < 2.3.7.9)
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            # OLD FLOW (for CatalystCenter < 3.1.3.0)
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
                 for image_name, image_id in image_ids.items():
                     payload = [
                         {
@@ -4866,9 +4871,9 @@ class Swim(CatalystCenterBase):
                             self.log(failed_msg, "ERROR")
                             break
 
-            # NEW FLOW (for Catalyst Center > 2.3.7.9)
+            # NEW FLOW (for Catalyst Center >= 3.1.3.0)
             else:
-                self.log("Using new SWIM API for image activation (after 2.3.7.9)", "INFO")
+                self.log("Using new SWIM API for image activation (>= 3.1.3.0)", "INFO")
 
                 activation_device_id = self.have.get("activation_device_id")
 
@@ -4967,10 +4972,10 @@ class Swim(CatalystCenterBase):
         elg_device_list = []
         device_ip_for_not_elg_list = []
 
-        # OLD FLOW (for CatalystCenter <= 2.3.7.9)
-        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        # OLD FLOW (for CatalystCenter < 3.1.3.0)
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             self.log(
-                "Using old version of SWIM API for image activation (<= 2.3.7.9)",
+                "Using old version of SWIM API for image activation (< 3.1.3.0)",
                 "INFO",
             )
             for device_uuid in device_uuid_list:
@@ -5079,7 +5084,7 @@ class Swim(CatalystCenterBase):
                 "{} to {}".format(img, ", ".join(devices)) for img, devices in failed_image_map.items()
             ]
 
-        # NEW FLOW (for CatalystCenter > 2.3.7.9)
+        # NEW FLOW (for CatalystCenter >= 3.1.3.0)
         else:
             image_id_base = self.have.get("activation_image_id")
             # Resolve sub-package ids (if any)
@@ -5474,7 +5479,7 @@ class Swim(CatalystCenterBase):
         image_name = self.get_image_name_from_id(image_id)
         device_role = tagging_details.get("device_role", "ALL")
 
-        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") > 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
                 tagging_details.get("device_image_family_name"),
                 self.have.get("site_id"),

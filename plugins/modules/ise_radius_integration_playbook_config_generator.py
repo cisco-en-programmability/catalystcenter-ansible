@@ -334,6 +334,8 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         validate_input(): Validates input configuration parameters.
         transform_cisco_ise_dtos(): Transforms cisco_ise_dtos from API to YAML.
         transform_server_type(): Extracts server type from API response.
+        transform_shared_secret(): Masks sharedSecret with a placeholder.
+        transform_trusted_server(): Derives trusted_server from ciscoIseDtos trustState.
         ise_radius_integration_reverse_mapping_temp_spec_function(): Builds
             reverse mapping specification.
         filter_ise_radius_integration_details(): Filters servers by type and IP.
@@ -611,6 +613,137 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
             )
         return server_type
 
+    def transform_shared_secret(self, ise_radius_integration_details):
+        """
+        Transforms shared_secret from ISE RADIUS integration details to YAML structure.
+
+        Catalyst Center returns sharedSecret in the API response. Always keep
+        the shared_secret field in generated YAML with a user-fillable
+        placeholder instead of copying the API response value.
+
+        Args:
+            ise_radius_integration_details (dict): API response containing sharedSecret.
+
+        Returns:
+            str: Shared_secret placeholder.
+        """
+        self.log(
+            "Starting transformation of shared_secret from ISE RADIUS integration details.",
+            "DEBUG",
+        )
+        if not isinstance(ise_radius_integration_details, dict):
+            self.log(
+                "Invalid details payload type; expected dict but received {0}".format(
+                    type(ise_radius_integration_details).__name__
+                ),
+                "ERROR",
+            )
+            return None
+
+        placeholder = self.generate_custom_variable_name(
+            self.transform_server_type(ise_radius_integration_details),
+            "shared_secret",
+        )
+        self.log(
+            "Generated shared_secret placeholder instead of copying sharedSecret response value: {0}".format(
+                placeholder
+            ),
+            "DEBUG",
+        )
+        return placeholder
+
+    def transform_trusted_server(self, cisco_ise_dtos):
+        """
+        Transforms trustState from ciscoIseDtos into trusted_server.
+
+        Args:
+            cisco_ise_dtos (list): Cisco ISE DTO entries from the API response.
+
+        Returns:
+            bool or None: False when any trustState is UNTRUSTED, True when
+                every ciscoIseDtos item has trustState TRUSTED, or None when
+                trustState is not present.
+        """
+        self.log(
+            "Starting transformation of trusted_server from ciscoIseDtos trustState.",
+            "DEBUG",
+        )
+        if not isinstance(cisco_ise_dtos, list):
+            self.log(
+                "Invalid ciscoIseDtos payload type for trusted_server; expected list but received {0}".format(
+                    type(cisco_ise_dtos).__name__
+                ),
+                "ERROR",
+            )
+            return None
+
+        all_trusted = True
+        trust_state_present = False
+
+        for idx, cisco_ise_dto in enumerate(cisco_ise_dtos, start=1):
+            if not isinstance(cisco_ise_dto, dict):
+                self.log(
+                    "Skipping ciscoIseDtos entry for trusted_server due to invalid type; index={0}, type={1}".format(
+                        idx, type(cisco_ise_dto).__name__
+                    ),
+                    "WARNING",
+                )
+                all_trusted = False
+                continue
+
+            if "trustState" not in cisco_ise_dto:
+                self.log(
+                    "trustState not present in ciscoIseDtos entry; index={0}".format(idx),
+                    "DEBUG",
+                )
+                all_trusted = False
+                continue
+
+            trust_state = cisco_ise_dto.get("trustState")
+            if trust_state is None:
+                self.log(
+                    "trustState is null in ciscoIseDtos entry; index={0}".format(idx),
+                    "DEBUG",
+                )
+                all_trusted = False
+                continue
+
+            trust_state_present = True
+            trust_state = str(trust_state).upper()
+            if trust_state == "UNTRUSTED":
+                self.log(
+                    "Mapped trusted_server=false because at least one trustState is UNTRUSTED.",
+                    "DEBUG",
+                )
+                return False
+            if trust_state == "TRUSTED":
+                self.log(
+                    "trustState TRUSTED found in ciscoIseDtos entry; index={0}".format(idx),
+                    "DEBUG",
+                )
+                continue
+
+            all_trusted = False
+            self.log(
+                "Unsupported trustState value '{0}' in ciscoIseDtos entry; index={1}".format(
+                    trust_state, idx
+                ),
+                "WARNING",
+            )
+
+        if trust_state_present and all_trusted:
+            self.log(
+                "Mapped trusted_server=true because all ciscoIseDtos trustState values are TRUSTED.",
+                "DEBUG",
+            )
+            return True
+
+        self.log(
+            "No trusted_server value generated because not all ciscoIseDtos entries had supported trustState values.",
+            "DEBUG",
+        )
+        return None
+
     def ise_radius_integration_reverse_mapping_temp_spec_function(self):
         """
         Constructs a temporary specification for authentication server, defining the structure and types of attributes
@@ -633,7 +766,12 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
                     "transform": self.transform_server_type,
                 },
                 "server_ip_address": {"type": "str", "source_key": "ipAddress"},
-                "shared_secret": {"type": "str", "source_key": "sharedSecret"},
+                "shared_secret": {
+                    "type": "str",
+                    "source_key": "sharedSecret",
+                    "special_handling": True,
+                    "transform": self.transform_shared_secret,
+                },
                 "protocol": {"type": "str", "source_key": "protocol"},
                 "encryption_scheme": {"type": "str", "source_key": "encryptionScheme"},
                 "encryption_key": {"type": "str", "source_key": "encryptionKey"},
@@ -668,7 +806,11 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
                         "description": {"type": "str"},
                     },
                 },
-                "trusted_server": {"type": "str", "source_key": "trustedServer"},
+                "trusted_server": {
+                    "type": "bool",
+                    "source_key": "ciscoIseDtos",
+                    "transform": self.transform_trusted_server,
+                },
                 "ise_integration_wait_time": {
                     "type": "str",
                     "source_key": "iseIntegrationWaitTime",
