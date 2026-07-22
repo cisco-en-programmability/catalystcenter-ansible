@@ -995,7 +995,11 @@ class NetworkProfileFunctions(CatalystCenterBase):
                     if task_status == "FAILURE":
                         self.result["changed"] = False
                         self.result["response"] = self.get_task_details_by_id(task_id)
-                        return self.result["response"]
+                        self.log(
+                            "Task {0} failed: {1}".format(task_id, self.result["response"]),
+                            "ERROR"
+                        )
+                        return None
 
                 self.log(
                     "Pauses execution for {0} seconds.".format(resync_retry_interval),

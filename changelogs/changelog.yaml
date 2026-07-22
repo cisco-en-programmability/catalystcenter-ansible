@@ -409,3 +409,16 @@ releases:
         - Replace the collection-wide ``fqcn[action-core]``, ``no-changed-when``, and ``risky-file-permissions`` skip_list entries with path-based ``exclude_paths`` for ``cvp/`` and ``changelogs/``, where all reported occurrences live.
         - Remove ``name[casing]``, ``name[template]``, and ``name[missing]`` from the ansible-lint skip_list after confirming zero occurrences outside ``cvp/`` with a full production-profile scan.
         - Fix ``schema[meta]`` violations in all 69 roles by replacing the invalid ``Any`` platform name in each role's ``meta/main.yml`` ``galaxy_info.platforms`` entry with ``GenericLinux``.
+  2.10.2:
+    release_date: "2026-07-22"
+    changes:
+      release_summary: Changes in workflow, config generator modules
+      bugfixes:
+        - Changes in assurance_issue_playbook_config_generator modules
+        - Changes in ise_radius_integration_playbook_config_generator module
+        - Changes in network_profile_wireless_playbook_config_generator module
+        - Changes in pnp_playbook_config_generator module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_host_port_onboarding_playbook_config_generator module
+        - Changes in swim_workflow_manager module
+        - Changes in wireless_design_workflow_manager module

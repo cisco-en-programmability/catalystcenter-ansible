@@ -32816,6 +32816,19 @@
     ],
     "version": "1.0"
   },
+  "playbook_partial_update_ap_profile_management_settings": [
+    {
+      "access_point_profiles": [
+        {
+          "access_point_profile_name": "Profile-test9",
+          "management_settings": {
+            "access_point_authentication": "NO-AUTH",
+            "telnet_enabled": false
+          }
+        }
+      ]
+    }
+  ],
   "MULTICAST_CONFIGURATION_delete": {
     "response": {
       "taskId": "019a3414-6351-7b3a-84bb-c6aa30b87535",
@@ -33690,13 +33703,23 @@
       "ssids": [
         {
           "ssid_name": "test-invalid-type",
-          "ssid_type": "GUEST",
+          "ssid_type": "InvalidType",
           "l2_security": {
             "l2_auth_type": "OPEN"
           },
           "l3_security": {
             "l3_auth_type": "OPEN"
           }
+        }
+      ]
+    }
+  ],
+  "playbook_config_create_ssid_mixed_case_ssid_type": [
+    {
+      "ssids": [
+        {
+          "ssid_name": "sample_wireless_ssid",
+          "ssid_type": "EnTeRpRiSe"
         }
       ]
     }
@@ -34008,6 +34031,157 @@
         ]
       }
     ],
+    "version": "1.0"
+  },
+  "playbook_dot11ax_add_24ghz_band_compat": [
+    {
+      "feature_template_config": [
+        {
+          "dot11ax_configuration": [
+            {
+              "design_name": "dot11ax_24ghz_no_bssid",
+              "feature_attributes": {
+                "radio_band": "2_4GHZ",
+                "bss_color": true,
+                "target_wakeup_time_11ax": true,
+                "obss_pd": true,
+                "multiple_bssid": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "playbook_dot11ax_add_6ghz_band_compat": [
+    {
+      "feature_template_config": [
+        {
+          "dot11ax_configuration": [
+            {
+              "design_name": "dot11ax_6ghz_no_obss",
+              "feature_attributes": {
+                "radio_band": "6GHZ",
+                "bss_color": true,
+                "multiple_bssid": true,
+                "obss_pd": true,
+                "non_srg_obss_pd_max_threshold": -62
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "DOT11AX_CONFIGURATION_get_empty": {
+    "response": [
+      {
+        "type": "DOT11AX_CONFIGURATION",
+        "count": 3,
+        "instances": [
+          {
+            "designName": "Default Dot11ax 802.11b Design",
+            "id": "7d2615c1-dac4-4e1b-b554-9c322c677398",
+            "systemTemplate": true
+          },
+          {
+            "designName": "Default Dot11ax 802.11a Design",
+            "id": "68db7360-fdd7-4e89-9f6b-f3f6f4e3a6ae",
+            "systemTemplate": true
+          },
+          {
+            "designName": "Default Dot11ax 6-GHz Design",
+            "id": "aa159efb-a624-4105-920a-4f084dbb2e25",
+            "systemTemplate": true
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "DOT11AX_CONFIGURATION_create_24ghz": {
+    "response": {
+      "taskId": "019b1111-aaaa-bbbb-cccc-111111111111",
+      "url": "/api/v1/task/019b1111-aaaa-bbbb-cccc-111111111111"
+    },
+    "version": "1.0"
+  },
+  "task_019b1111-aaaa-bbbb-cccc-111111111111": {
+    "response": {
+      "endTime": 1761125374197,
+      "status": "SUCCESS",
+      "startTime": 1761125374194,
+      "resultLocation": "/dna/intent/api/v1/tasks/019b1111-aaaa-bbbb-cccc-111111111111/detail",
+      "id": "019b1111-aaaa-bbbb-cccc-111111111111"
+    },
+    "version": "1.0"
+  },
+  "DOT11AX_CONFIGURATION_create_6ghz": {
+    "response": {
+      "taskId": "019b2222-aaaa-bbbb-cccc-222222222222",
+      "url": "/api/v1/task/019b2222-aaaa-bbbb-cccc-222222222222"
+    },
+    "version": "1.0"
+  },
+  "task_019b2222-aaaa-bbbb-cccc-222222222222": {
+    "response": {
+      "endTime": 1761125374197,
+      "status": "SUCCESS",
+      "startTime": 1761125374194,
+      "resultLocation": "/dna/intent/api/v1/tasks/019b2222-aaaa-bbbb-cccc-222222222222/detail",
+      "id": "019b2222-aaaa-bbbb-cccc-222222222222"
+    },
+    "version": "1.0"
+  },
+  "playbook_multicast_delete_no_feature_attrs": [
+    {
+      "feature_template_config": [
+        {
+          "multicast_configuration": [
+            {
+              "design_name": "test_multicast_design"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "MULTICAST_CONFIGURATION_get_delete": {
+    "response": [
+      {
+        "type": "MULTICAST_CONFIGURATION",
+        "count": 2,
+        "instances": [
+          {
+            "designName": "test_multicast_design",
+            "id": "84c76115-9bf6-43c8-9035-124e624e46c2",
+            "systemTemplate": false
+          },
+          {
+            "designName": "Default Multicast Design",
+            "id": "f232e80d-522d-4200-86e5-45433c6b6138",
+            "systemTemplate": true
+          }
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "MULTICAST_CONFIGURATION_delete": {
+    "response": {
+      "taskId": "019f410d-2ce0-74e2-8ae1-85909caad737",
+      "url": "/api/v1/task/019f410d-2ce0-74e2-8ae1-85909caad737"
+    },
+    "version": "1.0"
+  },
+  "task_019f410d-2ce0-74e2-8ae1-85909caad737": {
+    "response": {
+      "endTime": 1783502810341,
+      "status": "SUCCESS",
+      "startTime": 1783502810336,
+      "resultLocation": "/dna/intent/api/v1/tasks/019f410d-2ce0-74e2-8ae1-85909caad737/detail",
+      "id": "019f410d-2ce0-74e2-8ae1-85909caad737"
+    },
     "version": "1.0"
   }
 }

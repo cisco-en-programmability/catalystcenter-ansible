@@ -41,6 +41,9 @@ class TestWirelessDesign(TestCatalystModule):
     playbook_dot11ax_add = test_data.get("playbook_dot11ax_add")
     playbook_dot11ax_update = test_data.get("playbook_dot11ax_update")
     playbook_dot11ax_delete = test_data.get("playbook_dot11ax_delete")
+    playbook_dot11ax_add_24ghz_band_compat = test_data.get("playbook_dot11ax_add_24ghz_band_compat")
+    playbook_dot11ax_add_6ghz_band_compat = test_data.get("playbook_dot11ax_add_6ghz_band_compat")
+    playbook_multicast_delete_no_feature_attrs = test_data.get("playbook_multicast_delete_no_feature_attrs")
 
     playbook_dot11be_add = test_data.get("playbook_dot11be_add")
     playbook_dot11be_update = test_data.get("playbook_dot11be_update")
@@ -374,6 +377,13 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("response_get_ap_profiles_2_post_update_success"),
             ]
 
+        if "partial_update_ap_profile_management_settings" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("response_get_ap_profiles_2_success"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
         if "delete_ap_profiles" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_ap_profiles_3_success"),
@@ -703,6 +713,27 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("task_019a0b40-98f2-7d60-b662-1fa7b0d18246"),
             ]
 
+        if "playbook_dot11ax_add_24ghz_band_compat" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("DOT11AX_CONFIGURATION_get_empty"),
+                self.test_data.get("DOT11AX_CONFIGURATION_create_24ghz"),
+                self.test_data.get("task_019b1111-aaaa-bbbb-cccc-111111111111"),
+            ]
+
+        if "playbook_dot11ax_add_6ghz_band_compat" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("DOT11AX_CONFIGURATION_get_empty"),
+                self.test_data.get("DOT11AX_CONFIGURATION_create_6ghz"),
+                self.test_data.get("task_019b2222-aaaa-bbbb-cccc-222222222222"),
+            ]
+
+        if "playbook_multicast_delete_no_feature_attrs" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("MULTICAST_CONFIGURATION_get_delete"),
+                self.test_data.get("MULTICAST_CONFIGURATION_delete"),
+                self.test_data.get("task_019f410d-2ce0-74e2-8ae1-85909caad737"),
+            ]
+
         if "playbook_dot11ax_update" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("DOT11AX_CONFIGURATION_get_update"),
@@ -858,6 +889,14 @@ class TestWirelessDesign(TestCatalystModule):
                 self.test_data.get("802_11_BE_PROFILES_get_delete"),
                 self.test_data.get("802_11_BE_PROFILES_delete"),
                 self.test_data.get("task_019b454e-aae5-7d65-9316-ac49ff056b3f"),
+            ]
+
+        if "allow_case_insensitive_ssid_type" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("respone_get_sites_success"),
+                self.test_data.get("response_get_ssid_by_site_update_without_ssid_type"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
             ]
 
     # SUCCESS TESTCASES ########################################################################################
@@ -1115,6 +1154,52 @@ class TestWirelessDesign(TestCatalystModule):
             "Update Access Point Profile(s) Task succeeded for the following access point profile(s)",
             result.get("msg"),
         )
+
+    def test_partial_update_ap_profile_management_settings(self):
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="3.1.6.0",
+                config_verify=False,
+                catalystcenter_log_append=False,
+                state="merged",
+                config=self.test_data.get(
+                    "playbook_partial_update_ap_profile_management_settings"
+                ),
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "Update Access Point Profile(s) Task succeeded for the following access point profile(s)",
+            result.get("msg"),
+        )
+
+        update_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "update_ap_profile_by_id":
+                update_call = kwargs
+                break
+
+        self.assertIsNotNone(update_call, "update_ap_profile_by_id was not called")
+        management_settings = update_call.get("params", {}).get(
+            "managementSetting", {}
+        )
+        self.assertEqual(management_settings.get("authType"), "NO-AUTH")
+        self.assertIsNone(management_settings.get("dot1xUsername"))
+        self.assertIsNone(management_settings.get("dot1xPassword"))
+        self.assertEqual(management_settings.get("sshEnabled"), True)
+        self.assertEqual(management_settings.get("telnetEnabled"), False)
+        self.assertEqual(management_settings.get("managementUserName"), "admin")
+        self.assertEqual(management_settings.get("managementPassword"), "********")
+        self.assertEqual(
+            management_settings.get("managementEnablePassword"), "********"
+        )
+        self.assertEqual(management_settings.get("cdpState"), False)
 
     def test_delete_ap_profiles(self):
         set_module_args(
@@ -1983,7 +2068,7 @@ class TestWirelessDesign(TestCatalystModule):
         )
 
     def test_wireless_design_workflow_manager_create_ssid_invalid_ssid_type(self):
-        """Test that ssid_type='GUEST' (wrong case) fails validation."""
+        """Test that ssid_type='InvalidType' (wrong ssid type) fails validation."""
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -1997,6 +2082,22 @@ class TestWirelessDesign(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Invalid choice", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_allow_case_insensitive_ssid_type(self):
+        """Test that ssid_type='EnTeRpRiSe' (mixed case) is accepted and normalized to 'Enterprise'."""
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.9",
+                state="merged",
+                config=self.test_data.get("playbook_config_create_ssid_mixed_case_ssid_type")
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn("Update SSID(s) Task succeeded for the following SSID(s)", result.get('msg', ''))
 
     def test_wireless_design_workflow_manager_create_ssid_missing_ssid_type(self):
         """Test that creating a new SSID without ssid_type fails."""
@@ -2061,3 +2162,104 @@ class TestWirelessDesign(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_24ghz_band_compat(self):
+        """Test that band-incompatible attributes (multipleBssid) are filtered out for 2.4GHz.
+
+        BUG: multiple_bssid is only valid for 6GHZ band. When a user specifies it
+        for 2_4GHZ, the module should strip it from the API payload. Without the fix,
+        the API returns: status_code 400, errorCode NCWS70003,
+        detail: "'multipleBssid' is only supported for the 'radioBand' 6GHZ."
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_dot11ax_add_24ghz_band_compat
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+
+        # Verify the create API call did NOT include multipleBssid in the payload
+        # (it is only valid for 6GHZ band)
+        create_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+                create_call = kwargs
+                break
+
+        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
+        self.assertNotIn("multipleBssid", feature_attrs,
+                         "'multipleBssid' is only supported for the 'radioBand' 6GHZ")
+
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_6ghz_band_compat(self):
+        """Test that band-incompatible attributes (obssPd, nonSRGObssPdMaxThreshold) are filtered for 6GHz.
+
+        BUG: obss_pd and non_srg_obss_pd_max_threshold are only valid for 2_4GHZ and
+        5GHZ bands. When a user specifies them for 6GHZ, the module should strip them
+        from the API payload. Without the fix, the API returns: status_code 400,
+        errorCode NCWS70003, detail: "'obssPd'/'nonSRGObssPdMaxThreshold' is only
+        supported for the 'radioBand' 2_4GHZ/5GHZ."
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_dot11ax_add_6ghz_band_compat
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+
+        # Verify the create API call did NOT include obssPd or nonSRGObssPdMaxThreshold
+        # (they are only valid for 2_4GHZ and 5GHZ bands)
+        create_call = None
+        for call in self.run_catalystcenter_exec.call_args_list:
+            kwargs = call[1] if call[1] else {}
+            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+                create_call = kwargs
+                break
+
+        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
+        self.assertNotIn("obssPd", feature_attrs,
+                         "'obssPd' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
+        self.assertNotIn("nonSRGObssPdMaxThreshold", feature_attrs,
+                         "'nonSRGObssPdMaxThreshold' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
+
+    def test_wireless_design_workflow_manager_playbook_multicast_delete_no_feature_attrs(self):
+        """Test that multicast_configuration delete works with only design_name (no feature_attributes).
+
+        BUG: The argspec had feature_attributes as required: True, which caused
+        state: deleted to fail with 'Required parameter not found' when only
+        design_name was provided. The fix sets required: False in the argspec.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config=self.playbook_multicast_delete_no_feature_attrs
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            {
+                "multicast_delete": {
+                    "test_multicast_design": "Successfully deleted Multicast configuration."
+                }
+            }
+        )
