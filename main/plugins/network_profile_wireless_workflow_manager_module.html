@@ -1229,7 +1229,7 @@
 <h1>cisco.catalystcenter.network_profile_wireless_workflow_manager module -- Resource module for managing network wireless profile in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-network-profile-wireless-workflow-manager-module-resource-module-for-managing-network-wireless-profile-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-network-profile-wireless-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1578,7 +1578,14 @@ For support values:
 <div class="ansibleOptionAnchor" id="parameter-config/site_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-network-profile-wireless-workflow-manager-module-parameter-config-site-names"><strong>site_names</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of site names assigned to the profile. For example, [&quot;Global/USA/New York/BLDNYC&quot;].</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>List of site names assigned to the profile. For example, [&quot;Global/USA/New York/BLDNYC&quot;].</dt><dd><p>When used with state=merged, these sites will be assigned to the profile.
+When used with state=deleted, these sites will be unassigned from the profile
+(without deleting the profile itself). If a parent site is assigned to the profile
+and is not included in the removal list, child sites under that parent cannot be
+removed due to inheritance and will be skipped with a warning.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2067,6 +2074,7 @@ ones. If &quot;deleted&quot;, it will remove the specified settings.</p>
 <ul class="simple">
 <li><p>A Mohamed Rafeek (&#64;mabdulk2)</p></li>
 <li><p>Madhan Sankaranarayanan (&#64;madhansansel)</p></li>
+<li><p>Sunil Shatagopa (&#64;shatagopasunil)</p></li>
 </ul>
 </section>
 <section id="collection-links">

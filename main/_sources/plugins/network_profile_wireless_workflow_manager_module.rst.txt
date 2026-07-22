@@ -42,7 +42,7 @@ cisco.catalystcenter.network_profile_wireless_workflow_manager module -- Resourc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1264,6 +1264,11 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       List of site names assigned to the profile. For example, ["Global/USA/New York/BLDNYC"].
+          When used with state=merged, these sites will be assigned to the profile.
+          When used with state=deleted, these sites will be unassigned from the profile
+          (without deleting the profile itself). If a parent site is assigned to the profile
+          and is not included in the removal list, child sites under that parent cannot be
+          removed due to inheritance and will be skipped with a warning.
           
 
 
@@ -2300,6 +2305,7 @@ Authors
 
 - A Mohamed Rafeek (@mabdulk2)
 - Madhan Sankaranarayanan (@madhansansel)
+- Sunil Shatagopa (@shatagopasunil)
 
 
 

@@ -1229,7 +1229,7 @@
 <h1>cisco.catalystcenter.pnp_playbook_config_generator module -- Generate YAML playbook for PnP workflow with device information<a class="headerlink" href="#cisco-catalystcenter-pnp-playbook-config-generator-module-generate-yaml-playbook-for-pnp-workflow-with-device-information" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-pnp-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1255,7 +1255,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>Supports device state filtering for targeted device discovery.</p></li>
 <li><p>Enables automated brownfield discovery by retrieving all registered PnP devices when <code class="docutils literal notranslate"><span class="pre">config</span></code> is omitted.</p></li>
 <li><p>Creates structured playbook files ready for modification and redeployment through pnp_workflow_manager module.</p></li>
-<li><p>Extracts essential device attributes without site assignments, templates, projects, or advanced configuration parameters.</p></li>
+<li><p>Extracts config-level site and PnP claim type attributes when available, without templates, projects, images, or advanced claim parameters.</p></li>
 <li><p>Supports extraction of both claimed and unclaimed devices across all PnP workflow states.</p></li>
 </ul>
 </section>
@@ -1458,7 +1458,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of component types to include in generated YAML playbook file.</p>
 <p>Only 'device_info' component is currently supported for extracting basic device information.</p>
-<p>Device info includes serial_number, hostname, state, pid, is_sudi_required, and authorize fields.</p>
+<p>Device info includes serial_number, hostname, state, pid, is_stack_device, is_sudi_required, user_sudi_serial_nos, and authorize fields.</p>
+<p>Each device is emitted in a separate config entry with site_name and pnp_type when those values are available from the API.</p>
 <p>Order of components in list determines order in generated YAML playbook structure.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
@@ -1548,8 +1549,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>Paths used are - GET /dna/intent/api/v1/onboarding/pnp-device</p></li>
 <li><p>Minimum Catalyst Center version required is 2.3.7.9 for PnP device APIs.</p></li>
 <li><p>Module performs read-only operations and does not modify Catalyst Center configurations.</p></li>
-<li><p>Generated YAML files contain only device_info section with basic device attributes.</p></li>
-<li><p>Site assignments, templates, projects, and advanced parameters are not included in output.</p></li>
+<li><p>Generated YAML files contain one config entry per device with <code class="docutils literal notranslate"><span class="pre">site_name</span></code> and <code class="docutils literal notranslate"><span class="pre">pnp_type</span></code> when supplied by the API, plus the basic <code class="docutils literal notranslate"><span class="pre">device_info</span></code> attributes.</p></li>
+<li><p>Templates, projects, images, and advanced claim parameters are not included in output.</p></li>
+<li><p>Devices without a site or PnP claim type in the API response remain in the generated output, with the unavailable config-level field omitted.</p></li>
 <li><p>Module supports both check mode and normal execution mode with identical behavior.</p></li>
 <li><p>Generated playbooks are compatible with pnp_workflow_manager module v6.40.0+.</p></li>
 <li><p>Device transformation skips devices missing required fields (serial_number, pid).</p></li>
