@@ -42,7 +42,7 @@ cisco.catalystcenter.provision_workflow_manager module -- Resource module for pr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1775,12 +1775,12 @@ Parameters
 
       - Specifies whether the user intends to perform
             site assignment only or full provisioning
-            for a wired device.
+            for a wired or wireless device.
           - Set to 'false' to carry out site assignment
             only.
           - Set to 'true' to proceed with provisioning
             to a site.
-          - only applicable for wired devices.
+          - Applicable for both wired and wireless devices.
           
 
 
@@ -2600,7 +2600,11 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed) Ajith Andrew J (@ajithandrewj)
+- Abinash Mishra (@abimishr)
+- Madhan Sankaranarayanan (@madhansansel)
+- Syed Khadeer Ahmed (@syed-khadeerahmed)
+- Ajith Andrew J (@ajithandrewj)
+- Sunil Shatagopa (@shatagopasunil)
 
 
 

@@ -1229,7 +1229,7 @@
 <h1>cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-swim-workflow-manager-module-module-to-manage-swim-software-image-management-operations-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.10.2).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-swim-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2030,7 +2030,7 @@ Behavior:
 To replace an existing golden tag for a specific role:
 - **Unassign** the tag from the current role (e.g., `ACCESS`).
 - **Assign** the tag to the new role (e.g., `CORE`).
-Idempotency (per-role check, Catalyst Center &gt; 2.3.7.9):
+Idempotency (per-role check, Catalyst Center &gt;= 3.1.3.0):
 - Tagging is evaluated per role. If the image is already golden for 'ACCESS' and you</p>
 <blockquote>
 <div><p>request tagging for 'CORE', the module tags 'CORE' (changed=True). Previously this
