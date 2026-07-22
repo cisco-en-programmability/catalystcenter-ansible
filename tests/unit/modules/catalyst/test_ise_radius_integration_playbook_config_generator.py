@@ -24,6 +24,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
+import yaml
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     ise_radius_integration_playbook_config_generator,
@@ -72,6 +73,11 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
+    def _get_written_yaml(self, mock_file):
+        handle = mock_file()
+        writes = [call.args[0] for call in handle.write.call_args_list]
+        return "".join(writes)
+
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for ISE RADIUS integration generator tests.
@@ -96,6 +102,18 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get(
                     "get_authentication_and_policy_servers_with_invalid_server_type"
+                ),
+            ]
+        if "shared_secret_placeholder" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get(
+                    "get_authentication_and_policy_servers_with_empty_shared_secret"
+                ),
+            ]
+        if "trusted_server_from_trust_state" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get(
+                    "get_authentication_and_policy_servers_with_trust_state"
                 ),
             ]
 
@@ -124,11 +142,85 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
+        written_yaml = self._get_written_yaml(mock_file)
+
         self.assertEqual(str(result.get("response").get("status")), "success")
         self.assertIn(
             "YAML configuration file generated successfully for module",
             str(result.get("response").get("message")),
         )
+        self.assertEqual(
+            written_yaml.count("shared_secret: '{{ shared_secret }}'"),
+            2,
+        )
+        self.assertEqual(written_yaml.count("trusted_server:"), 1)
+        self.assertIn("trusted_server: false", written_yaml)
+        self.assertNotIn("trusted_server: true", written_yaml)
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_ise_radius_integration_playbook_config_generator_shared_secret_placeholder(
+        self, mock_exists, mock_file
+    ):
+        """
+        Test that empty sharedSecret values are generated as shared_secret placeholders.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                file_path="/tmp/ise_radius_empty_shared_secret.yaml",
+                config=self.playbook_config_no_filters,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        written_yaml = self._get_written_yaml(mock_file)
+
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertIn("server_ip_address: 10.197.156.30", written_yaml)
+        self.assertIn("shared_secret: '{{ shared_secret }}'", written_yaml)
+
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_ise_radius_integration_playbook_config_generator_trusted_server_from_trust_state(
+        self, mock_exists, mock_file
+    ):
+        """
+        Test that trusted_server is derived from ciscoIseDtos trustState.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                file_path="/tmp/ise_radius_trust_state.yaml",
+                config=self.playbook_config_no_filters,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        written_yaml = self._get_written_yaml(mock_file)
+        generated_config = yaml.safe_load(written_yaml)
+        auth_servers = generated_config["config"][0]["authentication_policy_server"]
+        servers_by_ip = {
+            server["server_ip_address"]: server for server in auth_servers
+        }
+
+        self.assertEqual(str(result.get("response").get("status")), "success")
+        self.assertFalse(servers_by_ip["10.197.156.40"]["trusted_server"])
+        self.assertTrue(servers_by_ip["10.197.156.41"]["trusted_server"])
+        self.assertNotIn("trusted_server", servers_by_ip["10.197.156.42"])
+        self.assertFalse(servers_by_ip["10.197.156.43"]["trusted_server"])
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")

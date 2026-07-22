@@ -280,6 +280,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import os
+import time
 try:
     import yaml
     HAS_YAML = True
@@ -342,6 +343,13 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Config not provided. Internal auto-discovery mode enabled.",
                 "INFO"
             )
+            self.validated_config = {"generate_all_configurations": True}
+            self.msg = (
+                "Configuration is not provided or empty - treating as "
+                "generate_all_configurations mode"
+            )
+            self.set_operation_result("success", False, self.msg, "INFO")
+            return self
 
         # Expected schema for configuration parameters
         temp_spec = {
@@ -548,26 +556,27 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: A dictionary containing issue elements and global filters configuration with validation rules.
         """
-        return {
-            "issue_elements": {
-                "assurance_user_defined_issue_settings": {
-                    "filters": {
-                        "name": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "is_enabled": {
-                            "type": "bool",
-                            "required": False
-                        }
+        issue_elements = {
+            "assurance_user_defined_issue_settings": {
+                "filters": {
+                    "name": {
+                        "type": "str",
+                        "required": False
                     },
-                    "reverse_mapping_function": self.user_defined_issue_reverse_mapping_function,
-                    "api_function": "get_all_the_custom_issue_definitions_based_on_the_given_filters",
-                    "api_family": "issues",
-                    "get_function_name": self.get_user_defined_issues,
+                    "is_enabled": {
+                        "type": "bool",
+                        "required": False
+                    }
                 },
-
+                "reverse_mapping_function": self.user_defined_issue_reverse_mapping_function,
+                "api_function": "get_all_the_custom_issue_definitions_based_on_the_given_filters",
+                "api_family": "issues",
+                "get_function_name": self.get_user_defined_issues,
             },
+        }
+        return {
+            "issue_elements": issue_elements,
+            "network_elements": issue_elements,
             "global_filters": {
                 "issue_name_list": {
                     "type": "list",
@@ -1123,11 +1132,13 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             api_family, api_function), "INFO")
 
         params = {}
-        component_specific_filters = filters.get("component_specific_filters", {})
-        if component_specific_filters:
+        component_specific_filters = filters.get("component_specific_filters", [])
+        if isinstance(component_specific_filters, dict):
             component_specific_filters = component_specific_filters.get("assurance_user_defined_issue_settings", [])
-        else:
+        elif component_specific_filters is None:
             component_specific_filters = []
+        elif not isinstance(component_specific_filters, list):
+            component_specific_filters = [component_specific_filters]
 
         # Normalize duplicate component filter blocks to avoid repeated API calls.
         if isinstance(component_specific_filters, list):
@@ -1294,6 +1305,13 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DEBUG"
             )
 
+            if not issue_details:
+                self.log(
+                    "No user-defined issue details found after applying filters.",
+                    "INFO"
+                )
+                return {}
+
             # Post-process to ensure severity values are integers, not strings
             if issue_details and isinstance(issue_details, list):
                 for issue in issue_details:
@@ -1306,10 +1324,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 except (ValueError, TypeError):
                                     self.log("Warning: Could not convert severity to int: {0}".format(rule["severity"]), "WARNING")
 
-            return {
-                "assurance_user_defined_issue_settings": issue_details,
-                "operation_summary": self.get_operation_summary()
-            }
+            return {"assurance_user_defined_issue_settings": issue_details}
 
         except Exception as e:
             self.log("Error retrieving user-defined issues: {0}".format(str(e)), "ERROR")
@@ -1317,10 +1332,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "error_type": "api_error",
                 "error_message": str(e)
             })
-            return {
-                "assurance_user_defined_issue_settings": [],
-                "operation_summary": self.get_operation_summary()
-            }
+            return {}
 
     def _fetch_all_priority_enabled_combinations(self, api_family, api_function):
         """
@@ -1480,247 +1492,73 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     def get_diff_gathered(self):
         """
-        Gathers assurance issue configurations from Cisco Catalyst Center and generates YAML playbook.
+        Executes YAML configuration file generation for template workflow.
 
-            Orchestrates the brownfield discovery process by:
-            1. Determining file path (user-provided or auto-generated)
-            2. Identifying components to process (all or filtered)
-            3. Retrieving configurations for each component via API calls
-            4. Building YAML structure with proper formatting
-            5. Writing YAML file with header comments and operation summary
-        Returns:
-            self: Current instance with updated attributes:
-                - self.status: "success" or "failed"
-                - self.msg: Operation result message
-                - self.result: Dictionary containing response details, file_path,
-                configurations count, and operation_summary
-
+        Processes the desired state parameters prepared by get_want() and generates a
+        YAML configuration file containing assurance issue details from Catalyst Center.
+        This method orchestrates the yaml_config_generator operation and tracks execution
+        time for performance monitoring.
         """
-        self.log("Gathering assurance issue configurations from Cisco Catalyst Center "
-                 "to generate YAML playbook", "INFO")
 
-        # Reset operation tracking
-        self.reset_operation_tracking()
-
-        # Get validated configuration
-        config = self.validated_config if self.validated_config else {}
-        auto_discovery_mode = self.params.get("config") is None
-        self.log(
-            "Processing configuration with auto_discovery_mode={0}, components_filter={1}".format(
-                auto_discovery_mode,
-                "specified" if config.get("component_specific_filters") else "none"
-            ),
-            "DEBUG"
-        )
-
-        # Determine file path
-        file_path = self.params.get("file_path")
-        if not file_path:
-            file_path = self.generate_filename()
-            self.log("No file_path provided, using auto-generated filename: {0}".format(file_path), "INFO")
-
-        # Get file_mode
-        file_mode = self.params.get("file_mode", "overwrite")
-
-        # Ensure directory exists
-        self.ensure_directory_exists(file_path)
-
-        # Build configuration data structure
-        all_configs = []
-
-        # Get component filters with safe access
-        component_filters = config.get("component_specific_filters", {}) or {}
-        components_list = component_filters.get("components_list", [])
-
-        # Safety normalization to avoid duplicate processing in gathered flow.
-        if isinstance(components_list, list):
-            components_list = list(dict.fromkeys(components_list))
-
-        # Validate components_list to check for unexpected components
-        if components_list:
-            expected_components = ["assurance_user_defined_issue_settings"]
-            unexpected_components = [comp for comp in components_list if comp not in expected_components]
-            if unexpected_components:
-                self.msg = (
-                    "Invalid components found in components_list: {0}. "
-                    "Only the following components are supported: {1}. "
-                    "Please remove the invalid components and try again.".format(
-                        unexpected_components, expected_components
-                    )
-                )
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        # In auto-discovery mode or when no components specified, process all
-        if auto_discovery_mode or not components_list:
-            self.log(
-                "No components specified or auto-discovery enabled, "
-                "processing all available components",
-                "INFO"
+        start_time = time.time()
+        self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
+        # Define workflow operations
+        workflow_operations = [
+            (
+                "yaml_config_generator",
+                "YAML Config Generator",
+                self.yaml_config_generator,
             )
-            # Ensure module_schema is available
-            if not hasattr(self, 'module_schema') or not self.module_schema:
-                self.module_schema = self.get_workflow_elements_schema()
-            # Get all component names from issue_elements in schema
-            issue_elements = self.module_schema.get("issue_elements", {})
-            components_list = list(issue_elements.keys())
+        ]
+        operations_executed = 0
+        operations_skipped = 0
 
-        self.log(
-            "Processing {0} component(s): {1}".format(
-                len(components_list), components_list
-            ),
-            "INFO"
-        )
-
-        for index, component_name in enumerate(components_list, start=1):
+        # Iterate over operations and process them
+        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        for index, (param_key, operation_name, operation_func) in enumerate(
+            workflow_operations, start=1
+        ):
             self.log(
-                "Processing component {0}/{1}: {2}".format(
-                    index, len(components_list), component_name
-                ),
-                "INFO"
+                f"Iteration {index}: Checking parameters for {operation_name} operation with param_key '{param_key}'.",
+                "DEBUG",
             )
-            self.total_components_processed += 1
-            self.log("Processing component: {0}".format(component_name), "INFO")
-
-            # Ensure module_schema is available and valid
-            if not hasattr(self, 'module_schema') or not self.module_schema:
-                self.module_schema = self.get_workflow_elements_schema()
-
-            # Add debugging for schema structure
-            self.log("Current module_schema structure: {0}".format(self.module_schema.keys()), "DEBUG")
-            issue_elements = self.module_schema.get("issue_elements", {})
-            self.log("Available issue_elements keys: {0}".format(list(issue_elements.keys())), "DEBUG")
-
-            issue_element = issue_elements.get(component_name)
-            if not issue_element:
-                self.log("Component {0} not found in schema. Available components: {1}".format(
-                    component_name, list(issue_elements.keys())), "ERROR")
-                continue
-
-            get_function = issue_element.get("get_function_name")
-            if not get_function:
-                self.log("No get function found for component {0}".format(component_name), "WARNING")
-                continue
-
-            self.log("About to call get function {0} for component {1}".format(
-                get_function.__name__ if hasattr(get_function, '__name__') else str(get_function), component_name), "DEBUG")
-
-            # Call the appropriate get function with proper filter structure
-            filters_structure = {
-                "component_specific_filters": config.get("component_specific_filters", {})
-            }
-
-            try:
-                result = get_function(issue_element, filters_structure)
-                self.log("Get function completed for component {0}, result type: {1}".format(component_name, type(result)), "DEBUG")
-            except Exception as e:
-                self.log("Error calling get function for component {0}: {1}".format(component_name, str(e)), "ERROR")
-                continue
-
-            # Check if result is valid before accessing
-            if not result:
-                self.log("Get function for component {0} returned None or empty result".format(component_name), "WARNING")
-                continue
-
-            # Extract the component data
-            component_data = result.get(component_name, [])
-            if component_data:
+            params = self.want.get(param_key)
+            if params:
                 self.log(
-                    "Building YAML structure with {0} component configuration(s)".format(
-                        len(all_configs)
-                    ),
-                    "INFO"
+                    f"Iteration {index}: Parameters found for {operation_name}. Starting processing.",
+                    "INFO",
                 )
-                all_configs.append({component_name: component_data})
 
-        # If nothing matched, do not generate/write any output file.
-        if not all_configs:
-            self.msg = (
-                "No configurations found for module '{0}' with the provided filters. "
-                "No output file was generated."
-            ).format(self.module_name)
-            self.result["changed"] = False
-            self.result["response"] = {
-                "message": self.msg,
-                "configurations_generated": 0
-            }
-            self.result["msg"] = self.msg
-            self.status = "success"
-            return self
+                try:
+                    operation_func(params).check_return_status()
+                    operations_executed += 1
+                    self.log(
+                        f"{operation_name} operation completed successfully",
+                        "DEBUG"
+                    )
+                except Exception as e:
+                    self.log(
+                        f"{operation_name} operation failed with error: {str(e)}",
+                        "ERROR"
+                    )
+                    self.set_operation_result(
+                        "failed", True,
+                        f"{operation_name} operation failed: {str(e)}",
+                        "ERROR"
+                    ).check_return_status()
 
-        # Generate final YAML structure
-        yaml_config = {}
-
-        # Always generate template structure when auto-discovery mode is enabled
-        if auto_discovery_mode:
-            self.log("Building comprehensive YAML structure with all components using brownfield pattern", "DEBUG")
-            # Create list of component configurations following brownfield pattern
-            final_list = []
-            issue_elements = self.module_schema.get("issue_elements", {})
-
-            for component_name in issue_elements.keys():
-                self.log("Processing component: {0}".format(component_name), "DEBUG")
-                # Check if we have data for this component
-                component_data = None
-                for config_item in all_configs:
-                    if component_name in config_item:
-                        component_data = config_item[component_name]
-                        break
-
-                # Create component dictionary with proper structure
-                component_dict = {}
-                if component_data:
-                    component_dict[component_name] = component_data
-                else:
-                    component_dict[component_name] = []
-
-                final_list.append(component_dict)
-
-            yaml_config = {"config": final_list}
-        elif all_configs:
-            # Create individual component dictionaries for non-generate_all mode
-            final_list = []
-            for config_item in all_configs:
-                final_list.append(config_item)
-
-            yaml_config = {"config": final_list}
-
-        # Write to YAML file with header comments
-        if yaml_config:
-            operation_summary = self.get_operation_summary()
-            self.log(
-                "Writing YAML configuration to file: {0}".format(file_path),
-                "INFO"
-            )
-            success = self.write_dict_to_yaml(yaml_config, file_path, file_mode)
-            if success:
-                self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
-                self.result["changed"] = True
-                self.result["response"] = {
-                    "message": self.msg,
-                    "file_path": file_path,
-                    "configurations_generated": len(all_configs),
-                    "operation_summary": operation_summary
-                }
-                self.result["msg"] = self.msg
-                self.status = "success"
             else:
-                self.msg = "Failed to write YAML configuration to file: {0}".format(file_path)
-                self.result["changed"] = False
-                self.result["response"] = {"message": self.msg}
-                self.result["msg"] = self.msg
-                self.status = "failed"
-        else:
-            operation_summary = self.get_operation_summary()
-            self.msg = "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(
-                self.module_name)
-            self.result["changed"] = False
-            self.result["response"] = {
-                "message": self.msg,
-                "operation_summary": operation_summary
-            }
-            self.result["msg"] = self.msg
-            self.status = "success"
+                operations_skipped += 1
+                self.log(
+                    f"Iteration {index}: No parameters found for {operation_name}. Skipping operation.",
+                    "WARNING",
+                )
+
+        end_time = time.time()
+        self.log(
+            f"Completed 'get_diff_gathered' operation in {end_time - start_time:.2f} seconds.",
+            "DEBUG",
+        )
 
         return self
 

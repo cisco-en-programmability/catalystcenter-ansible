@@ -34,20 +34,20 @@ tags_details:
             value: TenGigabitEthernet1/0/1
             operation: ILIKE
   - tag_memberships:
-      tags:
-        - High_Speed_Interfaces
-      device_details:
-        - serial_numbers:
-            - FJC2330E0HZ
-          port_names:
-            - TwentyFiveGigE3/0/1
-            - TwentyFiveGigE3/0/2
+      - tags:
+          - High_Speed_Interfaces
+        device_details:
+          - serial_numbers:
+              - FJC2330E0HZ
+            port_names:
+              - TwentyFiveGigE3/0/1
+              - TwentyFiveGigE3/0/2
   - tag_memberships:
-      tags:
-        - High_Speed_Interfaces
-      site_details:
-        - site_names:
-            - Global/USA/SAN-FRANCISCO/BLD_SF
-          port_names:
-            - TwentyFiveGigE1/1/1
-            - TwentyFiveGigE1/1/2
+      - tags:
+          - High_Speed_Interfaces
+        site_details:
+          - site_names:
+              - Global/USA/SAN-FRANCISCO/BLD_SF
+            port_names:
+              - TwentyFiveGigE1/1/1
+              - TwentyFiveGigE1/1/2
