@@ -104,6 +104,8 @@ cisco.catalystcenter.inventory_workflow_manager:
         catalyst_center_id: (.id // null)
       },
       facts: {
+        infra_type: "private_cloud",
+        infra_bucket: "networking",
         device_type: (
           if (.family // "" | test("Unified AP"; "i"))
           then "access_point"
@@ -142,6 +144,8 @@ cisco.catalystcenter.provision_workflow_manager:
         catalyst_center_id: (.id // null)
       },
       facts: {
+        infra_type: "private_cloud",
+        infra_bucket: "networking",
         device_type: "network_device",
         platform: "cisco_catalyst_center",
         hostname: (.hostname // null)
@@ -168,6 +172,8 @@ cisco.catalystcenter.pnp_device_claim_to_site:
         catalyst_center_id: (.id // ._id // null)
       },
       facts: {
+        infra_type: "private_cloud",
+        infra_bucket: "networking",
         device_type: "network_device",
         platform: "cisco_catalyst_center"
       }
@@ -192,6 +198,8 @@ cisco.catalystcenter.pnp_device_claim:
         catalyst_center_id: (.id // ._id // null)
       },
       facts: {
+        infra_type: "private_cloud",
+        infra_bucket: "networking",
         device_type: "network_device",
         platform: "cisco_catalyst_center"
       }
@@ -216,6 +224,8 @@ cisco.catalystcenter.pnp_device:
         catalyst_center_id: (.id // ._id // null)
       },
       facts: {
+        infra_type: "private_cloud",
+        infra_bucket: "networking",
         device_type: "network_device",
         platform: "cisco_catalyst_center"
       }
