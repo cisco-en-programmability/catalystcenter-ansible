@@ -2,9 +2,6 @@
 warn_list: []
 skip_list:
   - var-naming[no-role-prefix]  # Connection vars are standardized across collection
-  - jinja[spacing]  # Template spacing is functional
-  - run-once[task]  # Run-once is valid pattern
-  - yaml[key-duplicates]  # Will be addressed separately
   - args[module]  # module_defaults provides required args at play level
 
 exclude_paths:
