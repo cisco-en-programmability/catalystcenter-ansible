@@ -12,7 +12,8 @@ exclude_paths:
   - playbooks/vars/image_details.yml
   - playbooks/vars/input_events_and_notification.yml
   - playbooks/sda_fabric.yml
-  - tests
+  - tests/integration
+  - tests/unit
   - playbooks/credentials.yml
   - .github/workflows
   - cvp
