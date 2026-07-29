@@ -316,6 +316,28 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("Task_Status___images_with_api_task_timeout"),
             ]
 
+        elif "bulk_distribution_failure_task_id" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_10"),
+                self.test_data.get("get_software_image_details_10"),
+                self.test_data.get("get_software_image_details_11"),
+                self.test_data.get("task_10"),
+                Exception("Task polling failed"),
+                self.test_data.get("bulk_update_images_on_network_devices"),
+                self.test_data.get("Task_Status__"),
+            ]
+
+        elif "bulk_activation_failure_task_id" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_software_image_details_without_device_tags"),
+                self.test_data.get("bulk_update_images_on_network_devices"),
+                Exception("Task polling failed"),
+                self.test_data.get("task_10"),
+                self.test_data.get("task_details_11"),
+            ]
+
         elif "bulk_distribution_batches" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_10"),
@@ -333,6 +355,7 @@ class TestswimWorkflowManager(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_without_device_tags"),
                 self.test_data.get("get_sites2"),
+                self.test_data.get("get_software_image_details_without_device_tags"),
                 self.test_data.get("bulk_update_images_on_network_devices"),
                 self.test_data.get("Task_Details_"),
                 self.test_data.get("Task_Status__"),
@@ -801,7 +824,8 @@ class TestswimWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "All eligible images activated successfully on the devices 204.1.2.1."
+            "All eligible images activated successfully on the devices 204.1.2.1. "
+            "Successful task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca."
         )
 
     def test_swim_workflow_manager_playbook_sub_package_images_with_api_task_timeout(self):
@@ -827,7 +851,8 @@ class TestswimWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "All eligible images activated successfully on the devices 204.1.2.1."
+            "All eligible images activated successfully on the devices 204.1.2.1. "
+            "Successful task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca."
         )
 
     def test_swim_workflow_manager_bulk_distribution_batches(self):
@@ -837,7 +862,9 @@ class TestswimWorkflowManager(TestCatalystModule):
         This test verifies that 501 device payloads are sent in two sequential
         API requests containing 500 and 1 devices.
         """
-        device_uuids = ["device-{0}".format(index) for index in range(501)]
+        device_uuids = [
+            "device-{0}".format(index) for index in range(501)
+        ]
         config = [
             {
                 "image_distribution_details": {
@@ -870,15 +897,91 @@ class TestswimWorkflowManager(TestCatalystModule):
             "get_device_ip_from_id",
             return_value="204.1.1.2",
         ):
-            self.execute_module(changed=True, failed=False)
+            result = self.execute_module(changed=True, failed=False)
 
         bulk_calls = [
             api_call for api_call in self.run_catalystcenter_exec.call_args_list
-            if api_call.kwargs.get("function") == "bulk_distribute_images_on_network_devices"
+            if (
+                api_call.kwargs.get("function")
+                == "bulk_distribute_images_on_network_devices"
+            )
         ]
         self.assertEqual(len(bulk_calls), 2)
         self.assertEqual(
-            [len(api_call.kwargs.get("params").get("payload")) for api_call in bulk_calls],
+            [
+                len(api_call.kwargs.get("params").get("payload"))
+                for api_call in bulk_calls
+            ],
+            [500, 1],
+        )
+        self.assertIn(
+            "Successful task IDs: "
+            "0195ccbf-d3bb-777e-831e-4549ffb7e578, "
+            "0195ccbf-d3bb-777e-831e-4549ffb7e578.",
+            result.get("msg"),
+        )
+
+    def test_swim_workflow_manager_bulk_distribution_failure_task_id(self):
+        """
+        Test that distribution continues and reports successful and failed task IDs.
+        """
+        device_uuids = [
+            "device-{0}".format(index) for index in range(501)
+        ]
+        config = [
+            {
+                "image_distribution_details": {
+                    "convert_to_wlc": True,
+                    "device_family_name": "Switches and Hubs",
+                    "device_role": "ALL",
+                    "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+                    "site_name": "Global/Chennai/LTTS/FLOOR11",
+                }
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=config
+            )
+        )
+
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+            return_value=device_uuids,
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.1.2",
+        ):
+            result = self.execute_module(changed=False, failed=True)
+
+        self.assertEqual(
+            result.get("msg"),
+            "Image distribution completed with batch failures. "
+            "Successful task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca. "
+            "Failed task IDs: 0195ccbf-d3bb-777e-831e-4549ffb7e578. "
+            "Check the failed tasks in Catalyst Center before retrying.",
+        )
+        bulk_calls = [
+            api_call for api_call in self.run_catalystcenter_exec.call_args_list
+            if (
+                api_call.kwargs.get("function")
+                == "bulk_distribute_images_on_network_devices"
+            )
+        ]
+        self.assertEqual(len(bulk_calls), 2)
+        self.assertEqual(
+            [
+                len(api_call.kwargs.get("params").get("payload"))
+                for api_call in bulk_calls
+            ],
             [500, 1],
         )
 
@@ -889,7 +992,9 @@ class TestswimWorkflowManager(TestCatalystModule):
         This test verifies that 501 device payloads are sent in two sequential
         API requests containing 500 and 1 devices.
         """
-        device_uuids = ["device-{0}".format(index) for index in range(501)]
+        device_uuids = [
+            "device-{0}".format(index) for index in range(501)
+        ]
         config = [
             {
                 "image_activation_details": {
@@ -922,15 +1027,91 @@ class TestswimWorkflowManager(TestCatalystModule):
             "get_device_ip_from_id",
             return_value="204.1.2.1",
         ):
-            self.execute_module(changed=True, failed=False)
+            result = self.execute_module(changed=True, failed=False)
 
         bulk_calls = [
             api_call for api_call in self.run_catalystcenter_exec.call_args_list
-            if api_call.kwargs.get("function") == "bulk_update_images_on_network_devices"
+            if (
+                api_call.kwargs.get("function")
+                == "bulk_update_images_on_network_devices"
+            )
         ]
         self.assertEqual(len(bulk_calls), 2)
         self.assertEqual(
-            [len(api_call.kwargs.get("params").get("payload")) for api_call in bulk_calls],
+            [
+                len(api_call.kwargs.get("params").get("payload"))
+                for api_call in bulk_calls
+            ],
+            [500, 1],
+        )
+        self.assertIn(
+            "Successful task IDs: "
+            "01997ad6-f6f4-75a7-8227-508d56a067ca, "
+            "01997ad6-f6f4-75a7-8227-508d56a067ca.",
+            result.get("msg"),
+        )
+
+    def test_swim_workflow_manager_bulk_activation_failure_task_id(self):
+        """
+        Test that activation continues and reports successful and failed task IDs.
+        """
+        device_uuids = [
+            "device-{0}".format(index) for index in range(501)
+        ]
+        config = [
+            {
+                "image_activation_details": {
+                    "activate_lower_image_version": True,
+                    "convert_to_wlc": True,
+                    "distribute_if_needed": True,
+                    "image_name": "cat9k_iosxe.17.12.05.SPA.bin",
+                    "site_name": "Global/test_delete_device/delete_device_clean_config",
+                }
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=config
+            )
+        )
+
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+            return_value=device_uuids,
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.2.1",
+        ):
+            result = self.execute_module(changed=False, failed=True)
+
+        self.assertEqual(
+            result.get("msg"),
+            "Image activation completed with batch failures. "
+            "Successful task IDs: 0195ccbf-d3bb-777e-831e-4549ffb7e578. "
+            "Failed task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca. "
+            "Check the failed tasks in Catalyst Center before retrying.",
+        )
+        bulk_calls = [
+            api_call for api_call in self.run_catalystcenter_exec.call_args_list
+            if (
+                api_call.kwargs.get("function")
+                == "bulk_update_images_on_network_devices"
+            )
+        ]
+        self.assertEqual(len(bulk_calls), 2)
+        self.assertEqual(
+            [
+                len(api_call.kwargs.get("params").get("payload"))
+                for api_call in bulk_calls
+            ],
             [500, 1],
         )
 
