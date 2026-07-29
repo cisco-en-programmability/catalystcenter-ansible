@@ -4506,37 +4506,46 @@ class Swim(CatalystCenterBase):
                 return self
 
             # -------- Bulk API Call --------
-            self.log("Bulk Payload for Distribution: {0}".format(str(bulk_payload)), "DEBUG")
-            try:
-                response = self.catalystcenter._exec(
-                    family="software_image_management_swim",
-                    function="bulk_distribute_images_on_network_devices",
-                    op_modifies=True,
-                    params={"payload": bulk_payload},
-                )
+            req_limit = 500
+            failed_batches = []
+            self.log("API request batch size set to '{0}' for bulk image distribution.".format(req_limit), "DEBUG")
 
-                self.log("API response from 'bulk_distribute_images_on_network_devices': {0}".format(str(response)), "DEBUG")
+            for i in range(0, len(bulk_payload), req_limit):
+                batch_number = (i // req_limit) + 1
+                batch_payload = bulk_payload[i:i + req_limit]
+                self.log("Processing distribution batch {0}: {1}".format(batch_number, str(batch_payload)), "DEBUG")
 
-                self.check_swim_tasks_response_status(
-                    response, "bulk_distribute_images_on_network_devices"
-                )
+                try:
+                    self.status = "success"
+                    response = self.catalystcenter._exec(
+                        family="software_image_management_swim",
+                        function="bulk_distribute_images_on_network_devices",
+                        op_modifies=True,
+                        params={"payload": batch_payload},
+                    )
+                    self.log("API response for distribution batch {0}: {1}".format(batch_number, str(response)), "DEBUG")
+                    self.check_swim_tasks_response_status(
+                        response, "bulk_distribute_images_on_network_devices"
+                    )
 
-                if response and self.status not in ["failed", "exited"]:
-                    device_ip = ", ".join(elg_device_list)
-                    self.bulk_distribution_success_ips = device_ip
-                    self.msg = "Bulk image distribution completed successfully - {0}.".format(device_ip)
-                    self.bulk_distribution_success = True
-                    success_distribution_list.extend([(ip, None) for ip in elg_device_list])
-                    self.set_operation_result("success", True, self.msg, "INFO")
-                    return self
-                else:
-                    self.msg = "Bulk image distribution failed."
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    if not response or self.status in ["failed", "exited"]:
+                        failed_batches.append(batch_number)
 
-            except Exception as e:
-                self.msg = "Exception occurred during bulk image distribution: {0}".format(str(e))
+                except Exception as e:
+                    failed_batches.append(batch_number)
+                    self.log("Exception occurred during distribution batch {0}: {1}".format(batch_number, str(e)), "ERROR")
+
+            if failed_batches:
+                self.msg = "Bulk image distribution failed."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                self.log(self.msg, "ERROR")
+
+            device_ip = ", ".join(elg_device_list)
+            self.bulk_distribution_success_ips = device_ip
+            self.msg = "Bulk image distribution completed successfully - {0}.".format(device_ip)
+            self.bulk_distribution_success = True
+            success_distribution_list.extend([(ip, None) for ip in elg_device_list])
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
 
         # -------- Final Summary Logging --------
         success_image_map = {}
@@ -5163,31 +5172,42 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
 
-            try:
-                response = self.catalystcenter._exec(
-                    family="software_image_management_swim",
-                    function="bulk_update_images_on_network_devices",
-                    op_modifies=True,
-                    params={"payload": activation_payload_list},
-                )
-                self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
-                self.check_swim_tasks_response_status(response, "bulk_update_images_on_network_devices")
+            req_limit = 500
+            failed_batches = []
+            self.log("API request batch size set to '{0}' for bulk image activation.".format(req_limit), "DEBUG")
 
-                if response and self.status not in ["failed", "exited"]:
-                    self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
-                    self.set_operation_result("success", True, self.msg, "INFO")
-                    return self
-                else:
-                    self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
-                    failed_activation_list = device_ips
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            except Exception as e:
-                self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
-                failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
-                failed_activation_list = device_ips
-                self.msg = "Exception during bulk activation: {0}".format(str(e))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            for i in range(0, len(activation_payload_list), req_limit):
+                batch_number = (i // req_limit) + 1
+                batch_payload = activation_payload_list[i:i + req_limit]
+                self.log("Processing activation batch {0}: {1}".format(batch_number, str(batch_payload)), "DEBUG")
+
+                try:
+                    self.status = "success"
+                    response = self.catalystcenter._exec(
+                        family="software_image_management_swim",
+                        function="bulk_update_images_on_network_devices",
+                        op_modifies=True,
+                        params={"payload": batch_payload},
+                    )
+                    self.log("API response for activation batch {0}: {1}".format(batch_number, str(response)), "DEBUG")
+                    self.check_swim_tasks_response_status(
+                        response, "bulk_update_images_on_network_devices"
+                    )
+
+                    if not response or self.status in ["failed", "exited"]:
+                        failed_batches.append(batch_number)
+
+                except Exception as e:
+                    failed_batches.append(batch_number)
+                    self.log("Exception occurred during activation batch {0}: {1}".format(batch_number, str(e)), "ERROR")
+
+            if failed_batches:
+                self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
 
         # Final single-line message formation
         final_msg = ""
