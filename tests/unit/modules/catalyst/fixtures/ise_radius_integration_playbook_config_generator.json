@@ -73,6 +73,46 @@
       }
     ]
   },
+  "get_authentication_and_policy_servers_with_empty_keywrap_keys": {
+    "response": [
+      {
+        "ipAddress": "10.197.156.50",
+        "sharedSecret": "",
+        "protocol": "RADIUS_TACACS",
+        "encryptionScheme": "KEYWRAP",
+        "encryptionKey": "",
+        "messageKey": "",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "PRIMARY_SERVER",
+        "pxgridEnabled": false,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [],
+        "trustedServer": false,
+        "iseIntegrationWaitTime": 20
+      },
+      {
+        "ipAddress": "10.197.156.51",
+        "sharedSecret": "",
+        "protocol": "RADIUS",
+        "encryptionScheme": "RADSEC",
+        "encryptionKey": "",
+        "messageKey": "",
+        "authenticationPort": 1812,
+        "accountingPort": 1813,
+        "retries": 3,
+        "timeoutSeconds": 4,
+        "role": "SECONDARY_SERVER",
+        "pxgridEnabled": false,
+        "useDnacCertForPxgrid": false,
+        "ciscoIseDtos": [],
+        "trustedServer": false,
+        "iseIntegrationWaitTime": 20
+      }
+    ]
+  },
   "get_authentication_and_policy_servers_with_trust_state": {
     "response": [
       {

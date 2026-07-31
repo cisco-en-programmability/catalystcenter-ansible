@@ -335,6 +335,8 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         transform_cisco_ise_dtos(): Transforms cisco_ise_dtos from API to YAML.
         transform_server_type(): Extracts server type from API response.
         transform_shared_secret(): Masks sharedSecret with a placeholder.
+        transform_encryption_key(): Masks encryptionKey for KEYWRAP servers.
+        transform_message_authenticator_code_key(): Masks messageKey for KEYWRAP servers.
         transform_trusted_server(): Derives trusted_server from ciscoIseDtos trustState.
         ise_radius_integration_reverse_mapping_temp_spec_function(): Builds
             reverse mapping specification.
@@ -652,6 +654,76 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         )
         return placeholder
 
+    def transform_keywrap_secret(
+        self, ise_radius_integration_details, source_key, parameter_string
+    ):
+        """
+        Transforms a KEYWRAP secret into a user-fillable placeholder.
+
+        Catalyst Center does not return KEYWRAP secret values. When the server
+        uses KEYWRAP, keep the corresponding field in generated YAML as a
+        placeholder. For other encryption schemes, preserve the existing
+        direct-mapping behavior.
+
+        Args:
+            ise_radius_integration_details (dict): Authentication server response.
+            source_key (str): API response key containing the secret.
+            parameter_string (str): Generated YAML parameter name.
+
+        Returns:
+            str or None: Placeholder, original API value, or None.
+        """
+        if not isinstance(ise_radius_integration_details, dict):
+            self.log(
+                "Invalid details payload type for KEYWRAP secret transformation; "
+                "expected dict but received {0}".format(
+                    type(ise_radius_integration_details).__name__
+                ),
+                "ERROR",
+            )
+            return None
+
+        encryption_scheme = ise_radius_integration_details.get("encryptionScheme")
+        if (
+            isinstance(encryption_scheme, str)
+            and encryption_scheme.strip().upper() == "KEYWRAP"
+        ):
+            placeholder = self.generate_custom_variable_name(
+                self.transform_server_type(ise_radius_integration_details),
+                parameter_string,
+            )
+            self.log(
+                "Generated placeholder for KEYWRAP parameter '{0}'.".format(
+                    parameter_string
+                ),
+                "DEBUG",
+            )
+            return placeholder
+
+        return ise_radius_integration_details.get(source_key)
+
+    def transform_encryption_key(self, ise_radius_integration_details):
+        """
+        Transforms encryptionKey, masking it with a placeholder for KEYWRAP.
+        """
+        return self.transform_keywrap_secret(
+            ise_radius_integration_details,
+            "encryptionKey",
+            "encryption_key",
+        )
+
+    def transform_message_authenticator_code_key(
+        self, ise_radius_integration_details
+    ):
+        """
+        Transforms messageKey, masking it with a placeholder for KEYWRAP.
+        """
+        return self.transform_keywrap_secret(
+            ise_radius_integration_details,
+            "messageKey",
+            "message_authenticator_code_key",
+        )
+
     def transform_trusted_server(self, cisco_ise_dtos):
         """
         Transforms trustState from ciscoIseDtos into trusted_server.
@@ -774,10 +846,17 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
                 },
                 "protocol": {"type": "str", "source_key": "protocol"},
                 "encryption_scheme": {"type": "str", "source_key": "encryptionScheme"},
-                "encryption_key": {"type": "str", "source_key": "encryptionKey"},
+                "encryption_key": {
+                    "type": "str",
+                    "source_key": "encryptionKey",
+                    "special_handling": True,
+                    "transform": self.transform_encryption_key,
+                },
                 "message_authenticator_code_key": {
                     "type": "str",
                     "source_key": "messageKey",
+                    "special_handling": True,
+                    "transform": self.transform_message_authenticator_code_key,
                 },
                 "authentication_port": {
                     "type": "int",
