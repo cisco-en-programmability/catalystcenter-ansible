@@ -212,6 +212,21 @@
       - management_ip_address: "{{ switch_refresh_old_management_ip }}"
   when: switch_refresh_cleanup_unprovision_enabled | bool
 
+- name: Remove old switch from inventory
+  ansible.builtin.include_role:
+    name: inventory
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    inventory_state: deleted
+    inventory_config_verify: "{{ switch_refresh_inventory_config_verify }}"
+    inventory_config:
+      - ip_address_list:
+          - "{{ switch_refresh_old_management_ip }}"
+        clean_config: false
+  when: switch_refresh_cleanup_inventory_enabled | bool
+
 - name: Record old switch cleanup result
   ansible.builtin.set_fact:
     switch_refresh_cleanup_results: >-

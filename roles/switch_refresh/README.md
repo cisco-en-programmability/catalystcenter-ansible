@@ -13,7 +13,7 @@ The role is intentionally split into two phases:
    switch.
 2. `cleanup_old`: after validation and cutover, delete the old switch port
    assignments and port channels, remove the old switch from fabric, and
-   unprovision it.
+   unprovision it, then remove it from Catalyst Center inventory.
 
 ## Requirements
 
@@ -64,6 +64,8 @@ The role is intentionally split into two phases:
   MAC address, or management IP for the old switch.
 - Old-switch cleanup is gated by `switch_refresh_cleanup_old: true` and is
   normally run through the separate cleanup playbook.
+- After the old switch is unprovisioned, the existing `inventory` role removes
+  it from Catalyst Center inventory using its resolved management IP.
 - The replacement switch can later take over the old switch identity after
   cutover, but this role uses the current management IPs for Catalyst Center
   operations.
@@ -122,6 +124,7 @@ Stage toggles:
 - `switch_refresh_cleanup_host_onboarding_enabled`
 - `switch_refresh_cleanup_fabric_enabled`
 - `switch_refresh_cleanup_unprovision_enabled`
+- `switch_refresh_cleanup_inventory_enabled`
 
 ## Input Model
 

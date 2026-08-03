@@ -29,6 +29,7 @@ switch_refresh_host_onboarding_enabled: true
 switch_refresh_cleanup_host_onboarding_enabled: true
 switch_refresh_cleanup_fabric_enabled: true
 switch_refresh_cleanup_unprovision_enabled: true
+switch_refresh_cleanup_inventory_enabled: true
 
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_device_info_lookup_timeout: 120
