@@ -19,6 +19,8 @@ The role is intentionally split into two phases:
 
 - `cisco.catalystcenter` collection installed
 - Catalyst Center SDK compatible with this collection
+- LAN Automation onboarding additionally requires `ansible.utils`, Catalyst
+  Center SDK >= 3.1.6.0.2, and Python >= 3.12 on the Ansible controller
 - Old switch must still be present in Catalyst Center during prepare and cleanup
 - New switch discovery/provisioning inputs must be supplied by the user
 
@@ -32,6 +34,18 @@ The role is intentionally split into two phases:
   - `lan_automation`: use the existing `lan_automation` role to run Catalyst
     Center LAN Automation, then continue with inventory lookup, provisioning,
     fabric add, and host-port migration.
+- LAN Automation onboarding is blocking in this role. Exactly one
+  launch-only `lan_automation` entry with an explicit boolean
+  `launch_and_wait: true` is required when the role launches LAN Automation.
+  Device-update and port-channel entries are rejected because the manager would
+  execute them before the external completion barrier. After the manager
+  returns, the role waits for Catalyst Center to report zero active LAN
+  Automation sessions in two consecutive polls before any inventory,
+  provisioning, or fabric workflow is called. This conservative barrier also
+  waits for unrelated LAN Automation sessions active on the same controller.
+- `switch_refresh_lan_automation_enabled` must remain `true` when
+  `onboarding_method` is `lan_automation`; disabling it would bypass the launch
+  that the completion barrier is intended to protect.
 - Before provisioning, the existing `inventory` role adds or merges the
   replacement switch and `network_devices_info` verifies that exactly one
   inventory record exists for its management IP.
@@ -85,6 +99,10 @@ Control variables:
 - `switch_refresh_device_info_lookup_timeout`: inventory lookup timeout
 - `switch_refresh_device_info_lookup_retries`: inventory lookup retry count
 - `switch_refresh_device_info_lookup_interval`: inventory lookup retry interval
+- `switch_refresh_lan_automation_completion_timeout`: maximum manager task/PnP
+  wait and polling window for each no-active-session check, in seconds
+- `switch_refresh_lan_automation_completion_poll_interval`: delay between
+  manager task and LAN Automation active-session polls, in seconds
 - `switch_refresh_fabric_validation_enabled`: validate fabric presence/absence
   with `fabric_devices_info`
 - `switch_refresh_fabric_validation_timeout`: validation timeout in seconds
@@ -185,6 +203,16 @@ full `lan_automation_config` expected by the `lan_automation` role. The
 replacement switch still needs `new.management_ip` so the switch refresh role can
 resolve it after LAN Automation completes and continue with provisioning, fabric
 add, and host-port migration.
+
+`lan_automation_state: merged` and `launch_and_wait: true` are mandatory for
+switch refresh; `launch_and_wait` must be nested directly under
+`lan_automation`, aligned with `discovery_devices`. The
+`discovery_timeout` value is a Catalyst Center server-side timeout in minutes;
+it is not the Ansible completion timeout. Configure the latter with
+`switch_refresh_lan_automation_completion_timeout` (seconds). The existing LAN
+Automation manager continues to handle its normal task and optional PnP flow;
+the switch-refresh role then independently waits for the active-session endpoint
+to remain empty.
 
 ```yaml
 switch_refresh_devices:

@@ -26,15 +26,57 @@
       onboarding_method must be discovery or lan_automation for
       {{ refresh_item.name | default('switch refresh item') }}.
 
+- name: Prevent LAN Automation completion barrier bypass
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_lan_automation_enabled | bool
+    fail_msg: >-
+      switch_refresh_lan_automation_enabled must be true when
+      onboarding_method=lan_automation. Otherwise the prepare flow could reach
+      inventory and provisioning without launching and waiting for LAN
+      Automation.
+  when: switch_refresh_item_onboarding_method == 'lan_automation'
+
 - name: Validate replacement switch LAN Automation config
   ansible.builtin.assert:
     that:
       - refresh_item.new.lan_automation_config is defined
-      - refresh_item.new.lan_automation_config | length > 0
+      - (refresh_item.new.lan_automation_config | type_debug) == 'list'
+      - refresh_item.new.lan_automation_config | length == 1
+      - refresh_item.new.lan_automation_config[0] is mapping
+      - >-
+        (refresh_item.new.lan_automation_config[0].keys() | list | sort)
+        == ['lan_automation']
+      - refresh_item.new.lan_automation_config[0].lan_automation is mapping
     fail_msg: >-
-      new.lan_automation_config is required when onboarding_method is
-      lan_automation. Provide the full lan_automation role config for
+      new.lan_automation_config must be a launch-only list containing exactly
+      one mapping whose only key is lan_automation. Device updates and port
+      channels must run after the completion barrier for
       {{ refresh_item.name | default('switch refresh item') }}.
+  when:
+    - switch_refresh_item_onboarding_method == 'lan_automation'
+    - switch_refresh_lan_automation_enabled | bool
+
+- name: Store replacement switch LAN Automation session
+  ansible.builtin.set_fact:
+    switch_refresh_item_lan_automation_session: >-
+      {{ refresh_item.new.lan_automation_config[0].lan_automation }}
+  when:
+    - switch_refresh_item_onboarding_method == 'lan_automation'
+    - switch_refresh_lan_automation_enabled | bool
+
+- name: Require LAN Automation manager to wait for its start task
+  ansible.builtin.assert:
+    that:
+      - (refresh_item.new.lan_automation_state | default('merged')) == 'merged'
+      - switch_refresh_item_lan_automation_session.launch_and_wait is defined
+      - (switch_refresh_item_lan_automation_session.launch_and_wait | default(false) | type_debug) == 'bool'
+      - switch_refresh_item_lan_automation_session.launch_and_wait | default(false)
+    fail_msg: >-
+      Switch refresh requires lan_automation_state: merged and an explicit
+      boolean launch_and_wait: true inside the single lan_automation entry.
+      The role adds a separate active-session completion barrier before any
+      downstream workflow.
   when:
     - switch_refresh_item_onboarding_method == 'lan_automation'
     - switch_refresh_lan_automation_enabled | bool
@@ -181,10 +223,16 @@
   vars:
     lan_automation_state: "{{ refresh_item.new.lan_automation_state | default('merged') }}"
     lan_automation_config_verify: "{{ refresh_item.new.lan_automation_config_verify | default(switch_refresh_lan_automation_config_verify) }}"
+    lan_automation_catalystcenter_api_task_timeout: "{{ switch_refresh_lan_automation_completion_timeout }}"
+    lan_automation_catalystcenter_task_poll_interval: "{{ switch_refresh_lan_automation_completion_poll_interval }}"
     lan_automation_config: "{{ refresh_item.new.lan_automation_config }}"
   when:
     - switch_refresh_item_onboarding_method == 'lan_automation'
     - switch_refresh_lan_automation_enabled | bool
+
+- name: Wait until LAN Automation is fully inactive
+  ansible.builtin.include_tasks: wait_for_lan_automation.yml
+  when: switch_refresh_item_onboarding_method == 'lan_automation'
 
 - name: Set replacement switch inventory credentials
   ansible.builtin.set_fact:

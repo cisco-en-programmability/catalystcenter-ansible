@@ -23,6 +23,8 @@ switch_refresh_inventory_credentials:
   type: NETWORK_DEVICE
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_fabric_validation_enabled: true
+switch_refresh_lan_automation_completion_timeout: 604800
+switch_refresh_lan_automation_completion_poll_interval: 30
 switch_refresh_sda_host_port_onboarding_config_verify: true
 switch_refresh_sda_fabric_devices_config_verify: true
 switch_refresh_provision_config_verify: true
@@ -132,7 +134,9 @@ switch_refresh_devices:
   # Use this instead of discovery when the replacement switch should be
   # onboarded through Catalyst Center LAN Automation. Keep new.management_ip set
   # to the expected management IP after LAN Automation so later steps can find
-  # the switch in inventory.
+  # the switch in inventory. launch_and_wait must be the boolean true. The
+  # discovery_timeout below is in minutes; the completion timeout above is in
+  # seconds.
   #
   # - name: sjc-edge-03-refresh-lan-auto
   #   fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23

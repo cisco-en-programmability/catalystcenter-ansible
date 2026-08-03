@@ -5286,18 +5286,6 @@ class LanAutomation(CatalystCenterBase):
                 self.set_operation_result("failed", True, self.msg, "INFO")
                 break
 
-            if "complete" in task_details.get("progress", "").lower():
-                self.msg = "LAN automation has completed successfully: {}".format(
-                    task_details.get("progress")
-                )
-                self.log(self.msg, "INFO")
-                self.completed_lan_automation.append(
-                    lan_automation.get("primaryDeviceManagmentIPAddress")
-                )
-                self.status = "success"
-                self.set_operation_result("success", True, self.msg, "INFO")
-                break
-
             self.log(
                 "Current progress for task ID {}: {}".format(
                     task_id, task_details.get("progress")
@@ -5360,6 +5348,42 @@ class LanAutomation(CatalystCenterBase):
                         "discovery. Please authorize devices manually in the PnP page in Catalyst Center."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+            if "complete" in task_details.get("progress", "").lower():
+                if pnp_authorization and pending_authorization:
+                    self.log(
+                        "LAN Automation start task is complete, but requested "
+                        "PnP authorization is still pending.",
+                        "INFO",
+                    )
+                elif self.status != "failed":
+                    self.msg = "LAN automation has completed successfully: {}".format(
+                        task_details.get("progress")
+                    )
+                    self.log(self.msg, "INFO")
+                    self.completed_lan_automation.append(
+                        lan_automation.get("primaryDeviceManagmentIPAddress")
+                    )
+                    self.status = "success"
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
+
+            elapsed_time = time.time() - start_time
+            if elapsed_time >= self.params.get(
+                "catalystcenter_api_task_timeout", 604800
+            ):
+                self.msg = (
+                    "LAN Automation did not complete within the configured API "
+                    "task timeout of {} seconds. Devices still pending PnP "
+                    "authorization: {}."
+                ).format(
+                    self.params.get("catalystcenter_api_task_timeout", 604800),
+                    remaining_auth_devices,
+                )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result("failed", True, self.msg, "ERROR")
+                return self
 
             self.log("Waiting for 30 seconds before the next status check...", "DEBUG")
             time.sleep(self.params.get("catalystcenter_task_poll_interval", 30))
