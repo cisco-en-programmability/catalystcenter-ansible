@@ -343,6 +343,8 @@ notes:
     delete /dna/intent/api/v1/networkDevices/deleteWithoutCleanup
     post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry
     post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
+  - When C(state=deleted) targets a device that is not present in Cisco Catalyst Center,
+    the operation succeeds without changes because the device is already un-provisioned.
   - Added 'provisioning' option in v6.16.0
   - Added provisioning and reprovisioning of wireless
     devices in v6.16.0
@@ -631,6 +633,7 @@ class Provision(CatalystCenterBase):
         super().__init__(module)
         self.device_type = None
         self.device_deleted = []
+        self.already_unprovisioned_device = []
         self.already_provisioned_wired_device = []
         self.already_provisioned_wireless_device = []
         self.provisioned_wired_device = []
@@ -4100,6 +4103,7 @@ class Provision(CatalystCenterBase):
         device_ip = self.validated_config["management_ip_address"]
         device_type = self.want.get("device_type")
         if device_type is None:
+            self.already_unprovisioned_device.append(device_ip)
             self.msg = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(
                 self.validated_config.get("management_ip_address")
             )
@@ -4529,6 +4533,13 @@ class Provision(CatalystCenterBase):
             )
             result_msg_list_changed.append(msg)
 
+        if self.already_unprovisioned_device:
+            msg = (
+                "No un-provisioning action is required for device(s) '{0}' because "
+                "they are not present in Cisco Catalyst Center."
+            ).format("', '".join(self.already_unprovisioned_device))
+            result_msg_list_not_changed.append(msg)
+
         if self.enable_application_telemetry:
             msg = "Application telemetry enabled successfully for {0}".format(
                 "', '".join(self.enable_application_telemetry)
@@ -4640,7 +4651,7 @@ def main():
         >= 0
     )
 
-    if is_version_valid:
+    if is_version_valid and state == "merged":
         ccc_provision.log("Fetching device types from Cisco Catalyst Center.", "INFO")
         device_dict = ccc_provision.get_device_type()
         ccc_provision.log(

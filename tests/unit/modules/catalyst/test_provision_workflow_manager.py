@@ -209,9 +209,13 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("get_site_assigned_network_device_same_site"),
             ]
 
+        elif "playbook_delete_non_provision_device" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                Exception("No Device found with IP Address : 1.1.1.1"),
+            ]
+
         elif "playbook_delete_provision" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("204.192.3.40"),
                 self.test_data.get("get_network_device_by_ip_delete"),
                 self.test_data.get("site_design_delete"),
                 self.test_data.get("get_network_device_by_ip_delete1"),
@@ -500,8 +504,10 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "No provisioning operations were executed for these IPs: 1.1.1.1"
+            "No un-provisioning action is required for device(s) '1.1.1.1' "
+            "because they are not present in Cisco Catalyst Center."
         )
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 1)
 
     def test_provision_workflow_manager_playbook_invalid_ap_reboot_percentage(self):
         """
