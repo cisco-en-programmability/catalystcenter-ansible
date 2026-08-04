@@ -1,32 +1,16 @@
 ---
 warn_list: []
 skip_list:
-  # Skip non-critical formatting and style rules for v2.7.0 release
-  # These can be addressed in future releases
-  - yaml[trailing-spaces]
-  - yaml[line-length]
-  - yaml[comments]
-  - yaml[comments-indentation]
-  - yaml[document-start]
-  - yaml[new-line-at-end-of-file]
-  - yaml[truthy]
-  - yaml[colons]
-  - yaml[commas]
-  - yaml[empty-lines]
-  - yaml[hyphens]
-  - yaml[indentation]
-  - yaml[anchors]  # Anchors defined in parent playbooks
   - var-naming[no-role-prefix]  # Connection vars are standardized across collection
-  - jinja[spacing]  # Template spacing is functional
-  - run-once[task]  # Run-once is valid pattern
-  - yaml[key-duplicates]  # Will be addressed separately
   - args[module]  # module_defaults provides required args at play level
 
 exclude_paths:
-  - playbooks/image_details.yml
-  - playbooks/input_events_and_notification.yml
+  - .ansible
+  - playbooks/vars/image_details.yml
+  - playbooks/vars/input_events_and_notification.yml
   - playbooks/sda_fabric.yml
-  - tests
+  - tests/integration
+  - tests/unit
   - playbooks/credentials.yml
   - .github/workflows
   - cvp

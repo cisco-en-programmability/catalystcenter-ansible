@@ -68,6 +68,7 @@ build_ignore:
   - test-requirements.txt
 
   - "*.tar.gz"
+  - catalystcenter.log
 
   - cvp/*/tmp/
   - cvp/*/*.log

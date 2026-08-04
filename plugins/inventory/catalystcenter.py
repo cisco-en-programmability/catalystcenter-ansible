@@ -151,11 +151,11 @@ host: catalyst.example.com
 username: admin
 password: "{{ vault_cc_password }}"
 validate_certs: false
-
+---
 # With environment variables (CATALYSTCENTER_HOST, CATALYSTCENTER_USERNAME, etc.)
 plugin: cisco.catalystcenter.catalystcenter
 validate_certs: false
-
+---
 # Full-featured configuration
 plugin: cisco.catalystcenter.catalystcenter
 host: catalyst.example.com
