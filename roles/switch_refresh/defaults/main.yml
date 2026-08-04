@@ -22,6 +22,7 @@ switch_refresh_inventory_credentials: {}
 switch_refresh_discovery_enabled: true
 switch_refresh_lan_automation_enabled: true
 switch_refresh_inventory_enabled: true
+switch_refresh_inventory_role_update_enabled: true
 switch_refresh_provision_enabled: true
 switch_refresh_fabric_add_enabled: true
 switch_refresh_fabric_validation_enabled: true

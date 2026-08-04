@@ -7,10 +7,10 @@ migrated from the old switch to the new switch.
 The role is intentionally split into two phases:
 
 1. `prepare`: onboard the new switch through either Discovery or LAN Automation,
-   add it to Catalyst Center inventory, verify its inventory record, provision
-   it, add it to fabric as an edge device, generate host-port migration config
-   from the old switch, and push the generated host onboarding config to the new
-   switch.
+   add it to Catalyst Center inventory, set and verify its inventory device role,
+   provision it, add it to fabric as an edge device, generate host-port migration
+   config from the old switch, and push the generated host onboarding config to
+   the new switch.
 2. `cleanup_old`: after validation and cutover, delete the old switch port
    assignments and port channels, remove the old switch from fabric, and
    unprovision it, then remove it from Catalyst Center inventory.
@@ -47,8 +47,12 @@ The role is intentionally split into two phases:
   `onboarding_method` is `lan_automation`; disabling it would bypass the launch
   that the completion barrier is intended to protect.
 - Before provisioning, the existing `inventory` role adds or merges the
-  replacement switch and `network_devices_info` verifies that exactly one
-  inventory record exists for its management IP.
+  replacement switch, then explicitly sets its inventory device role to
+  `ACCESS` by default. `network_devices_info` verifies that exactly one record
+  exists with the expected management IP and inventory role before provisioning
+  or fabric onboarding begins. The inventory role update uses Catalyst Center's
+  manual role source, so LAN Automation's initial `DISTRIBUTION` classification
+  does not block adding the switch as an SDA edge node.
 - Adding an absent `NETWORK_DEVICE` through the inventory workflow requires a
   device username and password. Discovery global credentials cannot be read
   back by Ansible, so provide them through Ansible Vault using
@@ -118,6 +122,7 @@ Stage toggles:
 - `switch_refresh_discovery_enabled`
 - `switch_refresh_lan_automation_enabled`
 - `switch_refresh_inventory_enabled`
+- `switch_refresh_inventory_role_update_enabled`
 - `switch_refresh_provision_enabled`
 - `switch_refresh_fabric_add_enabled`
 - `switch_refresh_host_onboarding_enabled`
@@ -265,13 +270,16 @@ inventory_config:
 ```
 
 The payload is passed to the existing `inventory` role with `state: merged`.
-The role then calls `network_devices_info` using the replacement management IP.
-Provisioning starts only after that lookup confirms exactly one inventory
-record.
+The role then performs a separate idempotent inventory update that sets the
+device role to `ACCESS`. This role is fixed because switch refresh replacements
+are SDA edge devices. Finally, `network_devices_info` waits for exactly one
+record matching both the replacement management IP and the `ACCESS` inventory
+role. Provisioning starts only after that lookup and assertion succeed.
 
 Use `new.inventory_credentials` to override the global credentials for one
 replacement switch. Use `new.inventory_config` when the inventory workflow
-needs additional SNMP, NETCONF, HTTP, role, or other device-specific fields.
+needs additional SNMP, NETCONF, HTTP, or other device-specific fields. The
+prepare flow always enforces the inventory device role as `ACCESS` afterward.
 
 If `new.provision_config` is omitted, the role builds it automatically:
 

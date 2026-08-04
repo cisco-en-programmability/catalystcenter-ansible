@@ -287,6 +287,21 @@
     inventory_config: "{{ switch_refresh_new_inventory_config }}"
   when: switch_refresh_inventory_enabled | bool
 
+- name: Set replacement switch inventory role
+  ansible.builtin.include_role:
+    name: inventory
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    inventory_state: merged
+    inventory_config_verify: "{{ switch_refresh_inventory_config_verify }}"
+    inventory_config:
+      - ip_address_list:
+          - "{{ switch_refresh_new_management_ip }}"
+        role: ACCESS
+  when: switch_refresh_inventory_role_update_enabled | bool
+
 - name: Resolve replacement switch inventory details
   ansible.builtin.include_role:
     name: network_devices_info
@@ -298,7 +313,8 @@
     network_devices_info_config_verify: false
     network_devices_info_config:
       - network_devices:
-          - device_identifier:
+          - device_role: ACCESS
+            device_identifier:
               - ip_address:
                   - "{{ switch_refresh_new_management_ip }}"
             timeout: "{{ refresh_item.device_info_lookup_timeout | default(switch_refresh_device_info_lookup_timeout) }}"
@@ -317,9 +333,13 @@
       - network_devices_info_result.response[1][0].device_info is defined
       - network_devices_info_result.response[1][0].device_info | length == 1
       - network_devices_info_result.response[1][0].device_info[0].device_details | length == 1
+      - >-
+        (network_devices_info_result.response[1][0].device_info[0].device_details[0].role |
+        default('') | upper) == 'ACCESS'
     fail_msg: >-
       Unable to resolve exactly one replacement switch from Catalyst Center
-      inventory using {{ switch_refresh_new_management_ip }}.
+      inventory with management IP {{ switch_refresh_new_management_ip }} and
+      inventory role ACCESS.
   when: switch_refresh_device_info_lookup_enabled | bool
 
 - name: Set replacement switch resolved details
