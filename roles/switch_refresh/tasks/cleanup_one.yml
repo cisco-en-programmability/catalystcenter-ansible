@@ -86,27 +86,30 @@
   ansible.builtin.set_fact:
     switch_refresh_old_host_port_cleanup_generator_config:
       component_specific_filters:
+        components_list:
+          - port_assignments
+          - port_channels
         port_assignments:
           - fabric_site_name_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
-            source_device_ip: "{{ switch_refresh_old_management_ip }}"
-            destination_device_ip: "{{ switch_refresh_old_management_ip }}"
+            device_ips:
+              - "{{ switch_refresh_old_management_ip }}"
         port_channels:
           - fabric_site_name_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
-            source_device_ip: "{{ switch_refresh_old_management_ip }}"
-            destination_device_ip: "{{ switch_refresh_old_management_ip }}"
+            device_ips:
+              - "{{ switch_refresh_old_management_ip }}"
   when: switch_refresh_cleanup_host_onboarding_enabled | bool
 
 - name: Generate old host-port cleanup payload
   ansible.builtin.include_role:
-    name: sda_host_port_migration_config_generator
+    name: sda_host_port_onboarding_config_generator
     apply:
       tags:
         - switch_refresh_cleanup_old
   vars:
-    sda_host_port_migration_config_generator_state: gathered
-    sda_host_port_migration_config_generator_file_path: "{{ switch_refresh_old_host_port_cleanup_file }}"
-    sda_host_port_migration_config_generator_file_mode: "{{ switch_refresh_migration_file_mode }}"
-    sda_host_port_migration_config_generator_config: "{{ switch_refresh_old_host_port_cleanup_generator_config }}"
+    sda_host_port_onboarding_config_generator_state: gathered
+    sda_host_port_onboarding_config_generator_file_path: "{{ switch_refresh_old_host_port_cleanup_file }}"
+    sda_host_port_onboarding_config_generator_file_mode: "{{ switch_refresh_migration_file_mode }}"
+    sda_host_port_onboarding_config_generator_config: "{{ switch_refresh_old_host_port_cleanup_generator_config }}"
   when: switch_refresh_cleanup_host_onboarding_enabled | bool
 
 - name: Load old host-port cleanup payload

@@ -58,9 +58,13 @@ The role is intentionally split into two phases:
   back by Ansible, so provide them through Ansible Vault using
   `switch_refresh_inventory_credentials`, a per-device
   `new.inventory_credentials`, or a full `new.inventory_config`.
-- The host-port migration generator handles `port_assignments` and
-  `port_channels` only in this role through the
-  `sda_host_port_migration_config_generator` role wrapper.
+- During prepare, the host-port migration generator handles `port_assignments`
+  and `port_channels` through the `sda_host_port_migration_config_generator`
+  role wrapper.
+- During cleanup, the `sda_host_port_onboarding_config_generator` role wrapper
+  snapshots only the old switch's `port_assignments` and `port_channels`; the
+  generated payload is then used for scoped deletion without affecting wireless
+  SSID mappings in the fabric site.
 - Fabric membership is validated with the `fabric_devices_info` role after
   adding the replacement switch and after removing the old switch.
 - Old and replacement switch inventory details are resolved with the
