@@ -170,6 +170,17 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("import_image_response"),
             ]
 
+        elif "playbook_import_local_image_with_directory_path" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_52"),
+                self.test_data.get("import_software_image_via_url"),
+                self.test_data.get("task_details_50"),
+                self.test_data.get("task_details_51"),
+                self.test_data.get("get_software_image_details_53"),
+                self.test_data.get("get_software_image_details_54"),
+                self.test_data.get("import_image_response"),
+            ]
+
         elif "playbook_image_activation_global_parent_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_65"),
@@ -636,6 +647,62 @@ class TestswimWorkflowManager(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            result.get('msg'),
+            "Image(s) cat9k_iosxe.17.07.01.SPA.bin have been imported successfully into Cisco Catalyst Center."
+        )
+
+    def test_swim_workflow_manager_playbook_import_local_image_with_directory_path(self):
+        """
+        Test local image import using a file path containing directories.
+
+        This test verifies that the complete configured path is used to open
+        the image while only the image name is sent in the multipart payload.
+        """
+        file_path = "/tmp/swim/images/cat9k_iosxe.17.07.01.SPA.bin"
+        config = [
+            {
+                "import_image_details": {
+                    "type": "local",
+                    "local_image_details": {
+                        "file_path": file_path,
+                        "is_third_party": False,
+                    }
+                }
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.6.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                config=config
+            )
+        )
+
+        with patch("builtins.open") as mock_open:
+            result = self.execute_module(changed=True, failed=False)
+
+        image_file_open_calls = [
+            call
+            for call in mock_open.call_args_list
+            if call.args == (file_path, "rb")
+        ]
+        self.assertEqual(len(image_file_open_calls), 1)
+        import_calls = [
+            call
+            for call in self.run_catalystcenter_exec.call_args_list
+            if call.kwargs.get("function") == "import_local_software_image"
+        ]
+        self.assertEqual(len(import_calls), 1)
+        self.assertEqual(
+            import_calls[0].kwargs.get("params").get("multipart_fields").get("file")[0],
+            "cat9k_iosxe.17.07.01.SPA.bin"
+        )
         self.assertEqual(
             result.get('msg'),
             "Image(s) cat9k_iosxe.17.07.01.SPA.bin have been imported successfully into Cisco Catalyst Center."

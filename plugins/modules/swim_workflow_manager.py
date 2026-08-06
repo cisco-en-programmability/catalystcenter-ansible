@@ -2772,7 +2772,9 @@ class Swim(CatalystCenterBase):
                     import_function = "import_software_image_via_url"
 
                 elif import_type == "local":
-                    file_path = images_to_import[0]
+                    file_path = self.want.get("local_import_details", {}).get(
+                        "file_path"
+                    )
                     import_params = dict(
                         is_third_party=self.want.get("local_import_details").get(
                             "is_third_party"
