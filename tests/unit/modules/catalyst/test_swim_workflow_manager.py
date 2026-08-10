@@ -1027,7 +1027,7 @@ class TestswimWorkflowManager(TestCatalystModule):
             "get_device_ip_from_id",
             return_value="204.1.1.2",
         ):
-            result = self.execute_module(changed=False, failed=True)
+            result = self.execute_module(changed=True, failed=True)
 
         self.assertEqual(
             result.get("msg"),
@@ -1036,6 +1036,7 @@ class TestswimWorkflowManager(TestCatalystModule):
             "Failed task IDs: 0195ccbf-d3bb-777e-831e-4549ffb7e578. "
             "Check the failed tasks in Catalyst Center before retrying.",
         )
+        self.assertTrue(result.get("changed"))
         bulk_calls = [
             api_call for api_call in self.run_catalystcenter_exec.call_args_list
             if (
@@ -1157,7 +1158,7 @@ class TestswimWorkflowManager(TestCatalystModule):
             "get_device_ip_from_id",
             return_value="204.1.2.1",
         ):
-            result = self.execute_module(changed=False, failed=True)
+            result = self.execute_module(changed=True, failed=True)
 
         self.assertEqual(
             result.get("msg"),
@@ -1166,6 +1167,7 @@ class TestswimWorkflowManager(TestCatalystModule):
             "Failed task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca. "
             "Check the failed tasks in Catalyst Center before retrying.",
         )
+        self.assertTrue(result.get("changed"))
         bulk_calls = [
             api_call for api_call in self.run_catalystcenter_exec.call_args_list
             if (

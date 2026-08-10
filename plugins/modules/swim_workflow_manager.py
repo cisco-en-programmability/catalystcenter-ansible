@@ -2772,22 +2772,13 @@ class Swim(CatalystCenterBase):
                     import_function = "import_software_image_via_url"
 
                 elif import_type == "local":
-                    file_path = self.want.get("local_import_details", {}).get(
-                        "file_path"
-                    )
+                    local_import_details = self.want.get("local_import_details") or {}
+                    file_path = local_import_details.get("file_path")
                     import_params = dict(
-                        is_third_party=self.want.get("local_import_details").get(
-                            "is_third_party"
-                        ),
-                        third_party_vendor=self.want.get("local_import_details").get(
-                            "third_party_vendor"
-                        ),
-                        third_party_image_family=self.want.get(
-                            "local_import_details"
-                        ).get("third_party_image_family"),
-                        third_party_application_type=self.want.get(
-                            "local_import_details"
-                        ).get("third_party_application_type"),
+                        is_third_party=local_import_details.get("is_third_party"),
+                        third_party_vendor=local_import_details.get("third_party_vendor"),
+                        third_party_image_family=local_import_details.get("third_party_image_family"),
+                        third_party_application_type=local_import_details.get("third_party_application_type"),
                         multipart_fields={
                             "file": (
                                 os.path.basename(file_path),
@@ -4510,21 +4501,21 @@ class Swim(CatalystCenterBase):
                 return self
 
             # -------- Bulk API Call --------
-            req_limit = self.BULK_REQUEST_LIMIT
+            bulk_request_limit = self.BULK_REQUEST_LIMIT
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
 
             self.log(
                 "API request batch size set to '{0}' for bulk image distribution.".format(
-                    req_limit
+                    bulk_request_limit
                 ),
                 "DEBUG",
             )
 
-            for i in range(0, len(bulk_payload), req_limit):
-                batch_number = (i // req_limit) + 1
-                batch_payload = bulk_payload[i:i + req_limit]
+            for i in range(0, len(bulk_payload), bulk_request_limit):
+                batch_number = (i // bulk_request_limit) + 1
+                batch_payload = bulk_payload[i:i + bulk_request_limit]
                 self.log(
                     "Processing distribution batch {0}: {1}".format(
                         batch_number, str(batch_payload)
@@ -4590,15 +4581,20 @@ class Swim(CatalystCenterBase):
                     ", ".join(failed_task_ids) or "Unavailable",
                 )
                 self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                )
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
+                )
 
-            device_ip = ", ".join(elg_device_list)
-            self.bulk_distribution_success_ips = device_ip
+            eligible_device_ips = ", ".join(elg_device_list)
+            self.bulk_distribution_success_ips = eligible_device_ips
             self.msg = (
                 "Bulk image distribution completed successfully - {0}. "
                 "Successful task IDs: {1}."
-            ).format(device_ip, ", ".join(successful_task_ids))
+            ).format(eligible_device_ips, ", ".join(successful_task_ids))
             self.bulk_distribution_success = True
             success_distribution_list.extend([(ip, None) for ip in elg_device_list])
             self.set_operation_result("success", True, self.msg, "INFO")
@@ -5155,7 +5151,7 @@ class Swim(CatalystCenterBase):
             image_id_base = self.have.get("activation_image_id")
             # Resolve sub-package ids (if any)
             sub_image_ids = [self.get_image_id_v1(pkg) for pkg in sub_package_images] if sub_package_images else []
-            device_ips = []
+            eligible_device_ips = []
             activation_payload_list = []
             device_ip_for_not_elg_list = []
 
@@ -5201,7 +5197,7 @@ class Swim(CatalystCenterBase):
                     device_ip_for_not_elg_list.append(device_ip)
                     continue
 
-                device_ips.append(elg_device_ip)
+                eligible_device_ips.append(elg_device_ip)
 
                 activation_payload = {}
                 if device_id:
@@ -5229,21 +5225,21 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
 
-            req_limit = self.BULK_REQUEST_LIMIT
+            bulk_request_limit = self.BULK_REQUEST_LIMIT
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
 
             self.log(
                 "API request batch size set to '{0}' for bulk image activation.".format(
-                    req_limit
+                    bulk_request_limit
                 ),
                 "DEBUG",
             )
 
-            for i in range(0, len(activation_payload_list), req_limit):
-                batch_number = (i // req_limit) + 1
-                batch_payload = activation_payload_list[i:i + req_limit]
+            for i in range(0, len(activation_payload_list), bulk_request_limit):
+                batch_number = (i // bulk_request_limit) + 1
+                batch_payload = activation_payload_list[i:i + bulk_request_limit]
                 self.log(
                     "Processing activation batch {0}: {1}".format(
                         batch_number, str(batch_payload)
@@ -5309,13 +5305,18 @@ class Swim(CatalystCenterBase):
                     ", ".join(failed_task_ids) or "Unavailable",
                 )
                 self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                )
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
+                )
 
             self.msg = (
                 "All eligible images activated successfully on the devices {0}. "
                 "Successful task IDs: {1}."
-            ).format(", ".join(device_ips), ", ".join(successful_task_ids))
+            ).format(", ".join(eligible_device_ips), ", ".join(successful_task_ids))
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
 
