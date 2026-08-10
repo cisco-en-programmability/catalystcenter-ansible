@@ -504,7 +504,7 @@ class TestLanAutomationPnpCompletionOrder(TestCase):
         self.assertEqual(workflow.status, "success")
         self.assertEqual(workflow.completed_lan_automation, ["204.1.2.4"])
 
-    def test_pending_pnp_authorization_honors_api_task_timeout(self):
+    def test_complete_task_does_not_wait_for_unresolved_pnp_authorization(self):
         workflow = self.build_workflow()
         workflow.params["catalystcenter_api_task_timeout"] = 1
         workflow.authorize_devices = MagicMock(return_value=[])
@@ -519,8 +519,44 @@ class TestLanAutomationPnpCompletionOrder(TestCase):
             )
 
         sleep.assert_not_called()
+        workflow.authorize_devices.assert_called_once_with(["FVH2947LA9K"])
+        self.assertEqual(workflow.status, "success")
+        self.assertEqual(workflow.completed_lan_automation, ["204.1.2.4"])
+
+    def test_incomplete_task_honors_api_task_timeout(self):
+        workflow = self.build_workflow()
+        workflow.params["catalystcenter_api_task_timeout"] = 1
+        workflow.get_task_details = MagicMock(
+            return_value={
+                "isError": False,
+                "progress": "LAN Automation in progress",
+            }
+        )
+        workflow.authorize_devices = MagicMock(return_value=[])
+
+        with patch.object(
+            lan_automation_workflow_manager.time,
+            "time",
+            side_effect=[0, 0, 2],
+        ), patch.object(lan_automation_workflow_manager.time, "sleep") as sleep:
+            workflow.get_lan_auto_task_status(
+                {"response": {"taskId": "lan-automation-task"}}
+            )
+
+        sleep.assert_not_called()
         self.assertEqual(workflow.status, "failed")
         self.assertIn("configured API task timeout", workflow.msg)
+
+    def test_authorization_accepts_string_success_status_code(self):
+        workflow = self.build_workflow()
+        workflow.catalystcenter = MagicMock()
+        workflow.catalystcenter._exec.return_value = {"statusCode": "200"}
+
+        authorized_devices = workflow.authorize_pnp_devices(
+            ["pnp-device-id"], {"FVH2947LA9K": "pnp-device-id"}
+        )
+
+        self.assertEqual(authorized_devices, ["pnp-device-id"])
 
     def test_pnp_authorization_without_serials_fails_immediately(self):
         workflow = self.build_workflow()

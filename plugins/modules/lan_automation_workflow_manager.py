@@ -5350,24 +5350,20 @@ class LanAutomation(CatalystCenterBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-            if "complete" in task_details.get("progress", "").lower():
-                if pnp_authorization and pending_authorization:
-                    self.log(
-                        "LAN Automation start task is complete, but requested "
-                        "PnP authorization is still pending.",
-                        "INFO",
-                    )
-                elif self.status != "failed":
-                    self.msg = "LAN automation has completed successfully: {}".format(
-                        task_details.get("progress")
-                    )
-                    self.log(self.msg, "INFO")
-                    self.completed_lan_automation.append(
-                        lan_automation.get("primaryDeviceManagmentIPAddress")
-                    )
-                    self.status = "success"
-                    self.set_operation_result("success", True, self.msg, "INFO")
-                    break
+            if (
+                "complete" in task_details.get("progress", "").lower()
+                and self.status != "failed"
+            ):
+                self.msg = "LAN automation has completed successfully: {}".format(
+                    task_details.get("progress")
+                )
+                self.log(self.msg, "INFO")
+                self.completed_lan_automation.append(
+                    lan_automation.get("primaryDeviceManagmentIPAddress")
+                )
+                self.status = "success"
+                self.set_operation_result("success", True, self.msg, "INFO")
+                break
 
             elapsed_time = time.time() - start_time
             if elapsed_time >= self.params.get(
@@ -5767,7 +5763,7 @@ class LanAutomation(CatalystCenterBase):
         if response:
             status_code = response.get("statusCode")
             if status_code is not None:
-                if status_code == 200:
+                if str(status_code).strip() == "200":
                     self.log(
                         "Authorization API call was successful as following: {}".format(
                             response
