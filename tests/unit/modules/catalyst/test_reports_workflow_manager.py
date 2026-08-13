@@ -26,6 +26,7 @@ except ImportError:
     HAS_PYTZ = False
     pytz = None
 import unittest
+from copy import deepcopy
 from unittest.mock import MagicMock, patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     reports_workflow_manager,
@@ -113,7 +114,9 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
                 self.test_data.get(
                     "create_get_view_details_for_a_given_view_group_and_view"
                 ),
+                self.test_data.get("create_n_schedule_reports"),
                 self.test_data.get("download_get_execution_id_for_report"),
+                Exception(),
             ]
 
         if "missing_schedule_type " in self._testMethodName:
@@ -197,15 +200,39 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
             ]
 
         if "parallel_report_creation" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("create_get_all_view_groups"),
-                self.test_data.get("create_get_views_for_a_given_view_group"),
-                self.test_data.get("create_get_list_of_scheduled_reports"),
-                self.test_data.get(
-                    "create_get_view_details_for_a_given_view_group_and_view"
-                ),
-                self.test_data.get("create_first_report_response"),
-            ]
+            first_response = self.test_data.get("create_first_report_response")
+            inventory_view = first_response.get("view")
+            inventory_views = {
+                "viewGroupId": first_response.get("viewGroupId"),
+                "views": [
+                    {
+                        "viewId": inventory_view.get("viewId"),
+                        "viewName": inventory_view.get("name"),
+                    }
+                ],
+            }
+
+            def parallel_report_response(*args, **kwargs):
+                function = kwargs.get("function")
+                params = kwargs.get("params", {})
+
+                if function == "get_all_view_groups":
+                    return self.test_data.get("create_get_all_view_groups")
+                if function == "get_views_for_a_given_view_group":
+                    return inventory_views
+                if function == "get_list_of_scheduled_reports":
+                    return []
+                if function == "get_view_details_for_a_given_view_group_and_view":
+                    return inventory_view
+                if function == "create_or_schedule_a_report":
+                    response = deepcopy(first_response)
+                    response["name"] = params.get("name")
+                    response["reportId"] = "report-id-{0}".format(params.get("name"))
+                    return response
+
+                raise AssertionError("Unexpected SDK function: {0}".format(function))
+
+            self.run_catalystcenter_exec.side_effect = parallel_report_response
 
     def _new_reports_helper(self):
         report_manager = reports_workflow_manager.Reports.__new__(
@@ -457,9 +484,18 @@ class TestCatalystCenterreportsWorkflow(TestCatalystModule):
                 config=self.playbook_parallel_report_creation,
             )
         )
-        result = self.execute_module(changed=True, failed=True)
-        print(result["response"])
-        self.assertEqual([], result["response"])
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(2, len(result["response"]))
+        self.assertIn(
+            "Successfully created or scheduled report "
+            "'Port_Reclaim_Email_CSV_27100_first'.",
+            result["response"][0]["create_report"]["msg"],
+        )
+        self.assertIn(
+            "Successfully created or scheduled report "
+            "'Port_Reclaim_Email_CSV_27100_second'.",
+            result["response"][1]["create_report"]["msg"],
+        )
 
     def test_location_filter_resolves_hierarchy_to_leaf_uuid(self):
         report_manager = self._new_reports_helper()
