@@ -3,7 +3,7 @@
 - name: Catalyst Center Configuration Management
   hosts: localhost
   gather_facts: false
-  
+
   vars:
     # Connection parameters - use Ansible Vault for sensitive data
     catalystcenter_host: "{{ vault_catalystcenter_host }}"

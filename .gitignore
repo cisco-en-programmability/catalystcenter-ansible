@@ -24,3 +24,4 @@ test.yml
 test.yaml
 .yamlfmt
 .github/copilot-instructions.md
+.ansible/

@@ -145,59 +145,60 @@ requirements:
 """
 
 EXAMPLES = r"""
+---
 # Minimal configuration (use ansible-vault for the password in production)
-plugin: cisco.catalystcenter.catalystcenter
-host: catalyst.example.com
-username: admin
-password: "{{ vault_cc_password }}"
-validate_certs: false
+- plugin: cisco.catalystcenter.catalystcenter
+  host: catalyst.example.com
+  username: admin
+  password: "{{ vault_cc_password }}"
+  validate_certs: false
 
 # With environment variables (CATALYSTCENTER_HOST, CATALYSTCENTER_USERNAME, etc.)
-plugin: cisco.catalystcenter.catalystcenter
-validate_certs: false
+- plugin: cisco.catalystcenter.catalystcenter
+  validate_certs: false
 
 # Full-featured configuration
-plugin: cisco.catalystcenter.catalystcenter
-host: catalyst.example.com
-username: admin
-password: "{{ vault_cc_password }}"
-validate_certs: false
-api_version: "3.1.6.0"
+- plugin: cisco.catalystcenter.catalystcenter
+  host: catalyst.example.com
+  username: admin
+  password: "{{ vault_cc_password }}"
+  validate_certs: false
+  api_version: "3.1.6.0"
 
-# Grouping options
-group_by_site: true
-group_by_role: true
-group_by_family: true
-group_by_tag: true
-tag_prefix: "cctag_"
+  # Grouping options
+  group_by_site: true
+  group_by_role: true
+  group_by_family: true
+  group_by_tag: true
+  tag_prefix: "cctag_"
 
-# Include access points
-include_aps: true
+  # Include access points
+  include_aps: true
 
-# Pre-filter devices by family
-device_filters:
-  family: "Switches and Hubs"
+  # Pre-filter devices by family
+  device_filters:
+    family: "Switches and Hubs"
 
-# Constructable features
-keyed_groups:
-  - key: cc_software_type
-    prefix: os
-    separator: "_"
-  - key: cc_series
-    prefix: hw
-    separator: "_"
-compose:
-  ansible_host: cc_management_ip
-  site_role: cc_role | lower
-groups:
-  reachable: cc_reachability_status == "Reachable"
-  unreachable: cc_reachability_status == "Unreachable"
+  # Constructable features
+  keyed_groups:
+    - key: cc_software_type
+      prefix: os
+      separator: "_"
+    - key: cc_series
+      prefix: hw
+      separator: "_"
+  compose:
+    ansible_host: cc_management_ip
+    site_role: cc_role | lower
+  groups:
+    reachable: cc_reachability_status == "Reachable"
+    unreachable: cc_reachability_status == "Unreachable"
 
-# Caching (reduces API calls)
-cache: true
-cache_plugin: ansible.builtin.jsonfile
-cache_timeout: 3600
-cache_connection: /tmp/catalystcenter_inventory_cache
+  # Caching (reduces API calls)
+  cache: true
+  cache_plugin: ansible.builtin.jsonfile
+  cache_timeout: 3600
+  cache_connection: /tmp/catalystcenter_inventory_cache
 """
 
 import re
@@ -415,10 +416,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return all_devices
 
     def _device_to_dict(self, device):
-        if hasattr(device, "to_dict"):
-            return device.to_dict()
         if isinstance(device, dict):
             return device
+        if hasattr(device, "to_dict"):
+            return device.to_dict()
         try:
             return {
                 k: v
@@ -459,10 +460,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return result
 
     def _site_to_dict(self, site):
-        if hasattr(site, "to_dict"):
-            d = site.to_dict()
-        elif isinstance(site, dict):
+        if isinstance(site, dict):
             d = site
+        elif hasattr(site, "to_dict"):
+            d = site.to_dict()
         else:
             d = {k: v for k, v in vars(site).items() if not k.startswith("_")}
 
