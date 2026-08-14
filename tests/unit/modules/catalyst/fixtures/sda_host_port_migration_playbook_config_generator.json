@@ -38,10 +38,48 @@
             {
               "source_interface_name": "GigabitEthernet1/0/1",
               "destination_interface_name": "GigabitEthernet1/0/25"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "playbook_config_missing_port_assignment_interface": {
+    "component_specific_filters": {
+      "port_assignments": [
+        {
+          "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "source_device_ip": "10.10.10.101",
+          "destination_device_ip": "10.10.20.201",
+          "interface_mappings": [
+            {
+              "source_interface_name": "GigabitEthernet1/0/1",
+              "destination_interface_name": "GigabitEthernet1/0/25"
             },
             {
               "source_interface_name": "GigabitEthernet1/0/99",
               "destination_interface_name": "GigabitEthernet1/0/26"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "playbook_config_missing_port_channel_interface": {
+    "component_specific_filters": {
+      "port_channels": [
+        {
+          "fabric_site_name_hierarchy": "Global/USA/San Jose/Building1",
+          "source_device_ip": "10.10.10.101",
+          "destination_device_ip": "10.10.20.201",
+          "interface_mappings": [
+            {
+              "source_interface_name": "GigabitEthernet1/0/2",
+              "destination_interface_name": "GigabitEthernet1/0/26"
+            },
+            {
+              "source_interface_name": "GigabitEthernet1/0/99",
+              "destination_interface_name": "GigabitEthernet1/0/27"
             }
           ]
         }

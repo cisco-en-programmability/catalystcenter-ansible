@@ -33,6 +33,12 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
         "playbook_config_port_channels_only"
     )
     playbook_config_partial_remap = test_data.get("playbook_config_partial_remap")
+    playbook_config_missing_port_assignment_interface = test_data.get(
+        "playbook_config_missing_port_assignment_interface"
+    )
+    playbook_config_missing_port_channel_interface = test_data.get(
+        "playbook_config_missing_port_channel_interface"
+    )
     playbook_config_assignments_and_channels = test_data.get(
         "playbook_config_assignments_and_channels"
     )
@@ -50,6 +56,7 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
+        self.api_response_overrides = {}
 
         self.load_fixtures()
 
@@ -60,6 +67,8 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
 
     def load_fixtures(self, response=None, device=""):
         def mock_catalystcenter_exec(family, function, op_modifies=False, params=None):
+            if function in self.api_response_overrides:
+                return self.api_response_overrides[function]
             if function == "get_port_assignments":
                 return self.test_data.get("get_port_assignments_response")
             elif function == "get_port_channels":
@@ -124,6 +133,92 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
             destination_interfaces,
             ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
         )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_missing_port_assignment_source_interface_fails(self, mock_file):
+        set_module_args(
+            self._base_config_args(
+                self.playbook_config_missing_port_assignment_interface
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+
+        expected_message = (
+            "Validation Error: source interface 'GigabitEthernet1/0/99' "
+            "specified in interface_mappings was not found in port assignments "
+            "returned for source device '10.10.10.101'. Cannot map it to "
+            "destination interface 'GigabitEthernet1/0/26'. Verify "
+            "source_interface_name and the selected source device."
+        )
+        self.assertIn(expected_message, str(result.get("msg", "")))
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_missing_port_channel_source_interface_fails(self, mock_file):
+        set_module_args(
+            self._base_config_args(
+                self.playbook_config_missing_port_channel_interface
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+
+        expected_message = (
+            "Validation Error: source interface 'GigabitEthernet1/0/99' "
+            "specified in interface_mappings was not found in port channel member "
+            "interfaces returned for source device '10.10.10.101'. Cannot map it "
+            "to destination interface 'GigabitEthernet1/0/27'. Verify "
+            "source_interface_name and the selected source device."
+        )
+        self.assertIn(expected_message, str(result.get("msg", "")))
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_empty_port_assignment_response_fails_mapped_interface(self, mock_file):
+        self.api_response_overrides["get_port_assignments"] = self.test_data.get(
+            "empty_response"
+        )
+        set_module_args(
+            self._base_config_args(
+                self.playbook_config_missing_port_assignment_interface
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+
+        expected_message = (
+            "Validation Error: source interface 'GigabitEthernet1/0/1' "
+            "specified in interface_mappings was not found in port assignments "
+            "returned for source device '10.10.10.101'. Cannot map it to "
+            "destination interface 'GigabitEthernet1/0/25'. Verify "
+            "source_interface_name and the selected source device."
+        )
+        self.assertIn(expected_message, str(result.get("msg", "")))
+        mock_file.assert_not_called()
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_empty_port_channel_response_fails_mapped_interface(self, mock_file):
+        self.api_response_overrides["get_port_channels"] = self.test_data.get(
+            "empty_response"
+        )
+        set_module_args(
+            self._base_config_args(
+                self.playbook_config_missing_port_channel_interface
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+
+        expected_message = (
+            "Validation Error: source interface 'GigabitEthernet1/0/2' "
+            "specified in interface_mappings was not found in port channel member "
+            "interfaces returned for source device '10.10.10.101'. Cannot map it "
+            "to destination interface 'GigabitEthernet1/0/26'. Verify "
+            "source_interface_name and the selected source device."
+        )
+        self.assertIn(expected_message, str(result.get("msg", "")))
+        mock_file.assert_not_called()
 
     @patch("builtins.open", new_callable=mock_open)
     def test_port_channels_only_migration_uses_destination_device_ip(self, mock_file):

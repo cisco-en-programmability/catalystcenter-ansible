@@ -109,6 +109,8 @@ options:
                 - Optional source-to-destination interface remap list.
                 - Source interfaces listed here are remapped only when they
                   exist in the source device port assignment payload.
+                - The module fails when a mapped source interface is not present
+                  in the source device port assignment payload.
                 - Source interfaces not listed here keep their original
                   interface name for 1:1 migration.
                 type: list
@@ -161,6 +163,8 @@ options:
                 - Optional source-to-destination member interface remap list.
                 - Source interfaces listed here are remapped only when they
                   exist in the source device port channel member interface list.
+                - The module fails when a mapped source interface is not present
+                  in the source device port channel member interface list.
                 - Source interfaces not listed here keep their original
                   interface name for 1:1 migration.
                 type: list
@@ -826,6 +830,71 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         )
         return fabric_site_name_hierarchies, fabric_site_name_migration_mapping
 
+    def _fail_for_missing_source_interface_mapping(
+        self, component_name, migration_entry, mapping
+    ):
+        """
+        Fail when a requested source interface is absent from retrieved data.
+
+        Args:
+            component_name (str): Migration component being processed.
+            migration_entry (dict): Normalized source-to-destination migration
+                request containing the source device IP.
+            mapping (dict): Requested source-to-destination interface mapping.
+
+        Returns:
+            None. The method exits the module through fail_and_exit.
+        """
+        component_labels = {
+            "port_assignments": "port assignments",
+            "port_channels": "port channel member interfaces",
+        }
+        source_interface_name = mapping.get("source_interface_name")
+        destination_interface_name = mapping.get("destination_interface_name")
+        component_label = component_labels.get(component_name, component_name)
+
+        self.msg = (
+            "Validation Error: source interface '{0}' specified in "
+            "interface_mappings was not found in {1} returned for source device "
+            "'{2}'. Cannot map it to destination interface '{3}'. Verify "
+            "source_interface_name and the selected source device.".format(
+                source_interface_name,
+                component_label,
+                migration_entry.get("source_device_ip"),
+                destination_interface_name,
+            )
+        )
+        self.fail_and_exit(self.msg)
+
+    def _validate_mapped_migration_entries_were_retrieved(
+        self,
+        component_name,
+        component_specific_filters,
+        matched_migration_entry_ids,
+    ):
+        """
+        Fail mapped migration entries whose source device returned no records.
+
+        Entries with an unresolved fabric site retain the existing fabric-site
+        warning behavior. Entries without interface mappings require no source
+        interface existence validation.
+        """
+        for migration_entry in component_specific_filters:
+            interface_mappings = migration_entry.get("interface_mappings", [])
+            if not interface_mappings:
+                continue
+
+            fabric_site_name = migration_entry.get("fabric_site_name_hierarchy")
+            if not self.fabric_site_name_to_id_mapping.get(fabric_site_name):
+                continue
+
+            if id(migration_entry) not in matched_migration_entry_ids:
+                self._fail_for_missing_source_interface_mapping(
+                    component_name,
+                    migration_entry,
+                    interface_mappings[0],
+                )
+
     def build_destination_port_assignments(self, migration_entry, source_entry):
         """
         Build destination port assignments by applying optional interface remaps.
@@ -843,12 +912,12 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             their original source name for 1:1 migration.
 
         Raises:
-            SystemExit: Via fail_and_exit when remapping produces duplicate
-            destination assignment interfaces.
+            SystemExit: Via fail_and_exit when a mapped source interface does
+            not exist in the retrieved port assignments or when remapping
+            produces duplicate destination assignment interfaces.
 
         Notes:
-            Mappings that reference interfaces not present on the source device
-            are ignored and logged as warnings.
+            Source interface matching is exact and case-sensitive.
         """
         source_assignments = source_entry.get("port_assignments", [])
         source_interface_names = [
@@ -865,14 +934,9 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             if source_interface_name in source_interface_name_set:
                 mapping_lookup[source_interface_name] = destination_interface_name
             else:
-                warning = (
-                    "Mapping for source interface '{0}' was skipped because it does not "
-                    "exist in source device '{1}' port assignments.".format(
-                        source_interface_name, migration_entry.get("source_device_ip")
-                    )
+                self._fail_for_missing_source_interface_mapping(
+                    "port_assignments", migration_entry, mapping
                 )
-                self.log(warning, "WARNING")
-                self.migration_warnings.append(warning)
 
         destination_assignments = []
         for assignment in source_assignments:
@@ -922,13 +986,15 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             keep their original source name for 1:1 migration.
 
         Raises:
-            SystemExit: Via fail_and_exit when remapping produces duplicate
-            destination port channel member interfaces.
+            SystemExit: Via fail_and_exit when a mapped source interface does
+            not exist in the retrieved port channel members or when remapping
+            produces duplicate destination port channel member interfaces.
 
         Notes:
             This method remaps the interface_names list only. Other port channel
             attributes, such as protocol and connected device type, are preserved
-            from the source payload.
+            from the source payload. Source interface matching is exact and
+            case-sensitive.
         """
         source_channels = source_entry.get("port_channels", [])
         source_interface_names = [
@@ -946,15 +1012,9 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             if source_interface_name in source_interface_name_set:
                 mapping_lookup[source_interface_name] = destination_interface_name
             else:
-                warning = (
-                    "Mapping for source interface '{0}' was skipped because it does "
-                    "not exist in source device '{1}' port channel member "
-                    "interfaces.".format(
-                        source_interface_name, migration_entry.get("source_device_ip")
-                    )
+                self._fail_for_missing_source_interface_mapping(
+                    "port_channels", migration_entry, mapping
                 )
-                self.log(warning, "WARNING")
-                self.migration_warnings.append(warning)
 
         destination_channels = []
         for channel in source_channels:
@@ -1188,16 +1248,16 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         api_function = network_element.get("api_function")
         self.log(
             "API configuration extracted - family: {0}, function: {1}. "
-            "Executing API call to retrieve all port assignments from Catalyst "
+            "Executing paginated API calls to retrieve all port assignments from Catalyst "
             "Center.".format(api_family, api_function),
             "DEBUG",
         )
 
         try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
+            all_port_assignments = self.execute_get_with_pagination(
+                api_family=api_family,
+                api_function=api_function,
+                params={},
             )
         except Exception as e:
             self.log(
@@ -1212,9 +1272,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 )
             ) from e
 
-        all_port_assignments = response.get("response", [])
         self.log(
-            "Port assignments API call completed successfully. Retrieved {0} "
+            "Port assignments API calls completed successfully. Retrieved {0} "
             "port assignment(s) from Catalyst Center.".format(
                 len(all_port_assignments)
             ),
@@ -1264,6 +1323,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
 
         fabric_ids_set = set(fabric_ids)
         fabric_port_assignments_dict = {}
+        matched_migration_entry_ids = set()
         for port_assignment_index, port_assignment in enumerate(
             all_port_assignments, start=1
         ):
@@ -1366,6 +1426,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 )
 
                 for migration_entry in matching_migration_entries:
+                    matched_migration_entry_ids.add(id(migration_entry))
                     destination_payload = self.build_destination_port_assignments(
                         migration_entry, source_entry
                     )
@@ -1386,6 +1447,12 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         source_entry,
                         destination_payload,
                     )
+
+        self._validate_mapped_migration_entries_were_retrieved(
+            "port_assignments",
+            component_specific_filters,
+            matched_migration_entry_ids,
+        )
 
         self.log(
             "Port assignments migration retrieval completed successfully. "
@@ -1441,16 +1508,16 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         api_function = network_element.get("api_function")
         self.log(
             "API configuration extracted - family: {0}, function: {1}. "
-            "Executing API call to retrieve all port channels from Catalyst "
+            "Executing paginated API calls to retrieve all port channels from Catalyst "
             "Center.".format(api_family, api_function),
             "DEBUG",
         )
 
         try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
+            all_port_channels = self.execute_get_with_pagination(
+                api_family=api_family,
+                api_function=api_function,
+                params={},
             )
         except Exception as e:
             self.log(
@@ -1465,9 +1532,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 )
             ) from e
 
-        all_port_channels = response.get("response", [])
         self.log(
-            "Port channels API call completed successfully. Retrieved {0} "
+            "Port channels API calls completed successfully. Retrieved {0} "
             "port channel(s) from Catalyst Center.".format(len(all_port_channels)),
             "INFO",
         )
@@ -1515,6 +1581,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
 
         fabric_ids_set = set(fabric_ids)
         fabric_port_channels_dict = {}
+        matched_migration_entry_ids = set()
         for port_channel_index, port_channel in enumerate(all_port_channels, start=1):
             fabric_id = port_channel.get("fabricId")
             self.log(
@@ -1615,6 +1682,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 )
 
                 for migration_entry in matching_migration_entries:
+                    matched_migration_entry_ids.add(id(migration_entry))
                     destination_payload = self.build_destination_port_channels(
                         migration_entry, source_entry
                     )
@@ -1635,6 +1703,12 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         source_entry,
                         destination_payload,
                     )
+
+        self._validate_mapped_migration_entries_were_retrieved(
+            "port_channels",
+            component_specific_filters,
+            matched_migration_entry_ids,
+        )
 
         self.log(
             "Port channels migration retrieval completed successfully. "
