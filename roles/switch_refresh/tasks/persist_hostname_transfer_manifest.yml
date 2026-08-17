@@ -1,0 +1,109 @@
+---
+- name: Validate hostname transfer plan before persistence
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_transfer_plan is mapping
+      - >-
+        switch_refresh_hostname_transfer_plan.hostname_transfer_enabled |
+        default(false) |
+        bool
+      - switch_refresh_hostname_transfer_plan.name is defined
+      - >-
+        switch_refresh_hostname_transfer_plan.fabric_site_name_hierarchy
+        is defined
+      - >-
+        (switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file |
+        default('') | type_debug) == 'str'
+      - >-
+        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file |
+        default('') |
+        regex_search('^/') is not none
+      - >-
+        (switch_refresh_hostname_transfer_plan.hostname_transfer_entries |
+        default([]) | type_debug) == 'list'
+      - >-
+        switch_refresh_hostname_transfer_plan.hostname_transfer_entries |
+        default([]) |
+        length > 0
+      - >-
+        (switch_refresh_hostname_transfer_plan.hostname_transfer_input_fingerprint |
+        default('') | type_debug) == 'str'
+      - >-
+        switch_refresh_hostname_transfer_plan.hostname_transfer_input_fingerprint |
+        default('') |
+        regex_search('^[0-9a-f]{64}$') is not none
+    fail_msg: >-
+      A validated hostname-enabled cleanup plan with an absolute manifest path,
+      site, and non-empty transfer entries is required before persistence.
+
+- name: Preflight hostname transfer manifest parent
+  ansible.builtin.include_tasks: preflight_output_parent.yml
+  vars:
+    switch_refresh_output_path: >-
+      {{
+        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
+      }}
+    switch_refresh_output_label: hostname transfer manifest
+
+- name: Inspect hostname transfer manifest path
+  ansible.builtin.stat:
+    path: >-
+      {{
+        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
+      }}
+    follow: false
+  register: switch_refresh_hostname_transfer_manifest_stat
+
+- name: Validate hostname transfer manifest path type
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_hostname_transfer_manifest_stat.stat.exists | bool)
+        or (
+          switch_refresh_hostname_transfer_manifest_stat.stat.isreg |
+          default(false)
+        )
+      - >-
+        not (
+          switch_refresh_hostname_transfer_manifest_stat.stat.islnk |
+          default(false)
+        )
+    fail_msg: >-
+      The hostname transfer manifest must be absent or an existing regular
+      file, never a directory, symlink, or special file:
+      {{
+        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
+      }}.
+
+- name: Build durable hostname transfer manifest
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_manifest: >-
+      {{
+        {
+          'schema_version': 1,
+          'controller': catalystcenter_host | string,
+          'batch_name': switch_refresh_hostname_transfer_plan.name | string,
+          'fabric_site_name_hierarchy':
+            switch_refresh_hostname_transfer_plan.fabric_site_name_hierarchy |
+            string,
+          'input_fingerprint':
+            switch_refresh_hostname_transfer_plan.hostname_transfer_input_fingerprint,
+          'status': 'captured',
+          'devices':
+            switch_refresh_hostname_transfer_plan.hostname_transfer_entries
+        }
+      }}
+
+# ansible.builtin.copy uses a temporary file and atomic replacement by default.
+- name: Persist durable hostname transfer manifest
+  ansible.builtin.copy:
+    dest: >-
+      {{
+        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
+      }}
+    content: >-
+      {{
+        switch_refresh_hostname_transfer_manifest |
+        to_nice_yaml(indent=2, width=4096)
+      }}
+    mode: "0600"

@@ -1,0 +1,42 @@
+---
+# Fail closed unless every hostname-transfer target is still the expected
+# EDGE_NODE in the requested fabric. This helper is used both before old-device
+# deletion and immediately around hostname finalization.
+- name: Validate replacement hostname fabric lookup inputs
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_hostname_fabric_site | type_debug) == 'str'
+      - switch_refresh_hostname_fabric_site | trim | length > 0
+      - (switch_refresh_hostname_fabric_expected_ips | type_debug) == 'list'
+      - switch_refresh_hostname_fabric_expected_ips | length > 0
+      - >-
+        switch_refresh_hostname_fabric_expected_ips | unique | length ==
+        switch_refresh_hostname_fabric_expected_ips | length
+    fail_msg: >-
+      Hostname transfer fabric validation requires one non-empty site and a
+      non-empty, unique replacement management-IP list.
+
+- name: Resolve replacement EDGE_NODE fabric membership for hostname transfer
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - fabric_site_hierarchy: "{{ switch_refresh_hostname_fabric_site }}"
+            fabric_device_role: EDGE_NODE
+            device_identifier:
+              - ip_address: "{{ switch_refresh_hostname_fabric_expected_ips }}"
+            timeout: "{{ switch_refresh_fabric_validation_timeout }}"
+            retries: "{{ switch_refresh_fabric_validation_retries }}"
+            interval: "{{ switch_refresh_fabric_validation_interval }}"
+            requested_info:
+              - fabric_info
+
+- name: Validate replacement hostname fabric response
+  ansible.builtin.include_tasks: >-
+    validate_hostname_transfer_fabric_result.yml

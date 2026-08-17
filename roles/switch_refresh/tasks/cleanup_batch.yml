@@ -1,0 +1,404 @@
+---
+- name: Find immutable old-switch cleanup batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_plan_matches: >-
+      {{
+        switch_refresh_cleanup_batch_plans |
+        selectattr('name', 'equalto', refresh_item.name | string) |
+        list
+      }}
+
+- name: Validate immutable old-switch cleanup batch plan match
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_cleanup_plan_matches | length == 1
+    fail_msg: >-
+      Expected exactly one immutable cleanup plan for batch
+      {{ refresh_item.name }}; no old-switch cleanup changes were made.
+
+- name: Load immutable old-switch cleanup batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_batch_name: "{{ switch_refresh_cleanup_plan_matches[0].name }}"
+    switch_refresh_cleanup_batch_name: >-
+      {{ switch_refresh_cleanup_plan_matches[0].name }}
+    switch_refresh_cleanup_batch_file_safe_name: >-
+      {{ switch_refresh_cleanup_plan_matches[0].file_safe_name }}
+    switch_refresh_batch_device_ips: >-
+      {{ switch_refresh_cleanup_plan_matches[0].device_ips }}
+    switch_refresh_batch_device_mappings: >-
+      {{ switch_refresh_cleanup_plan_matches[0].device_mappings }}
+    switch_refresh_batch_resolved_mappings: >-
+      {{ switch_refresh_cleanup_plan_matches[0].resolved_mappings }}
+    switch_refresh_cleanup_batch_old_management_ips: >-
+      {{ switch_refresh_cleanup_plan_matches[0].old_management_ips }}
+    switch_refresh_cleanup_batch_host_port_file: >-
+      {{ switch_refresh_cleanup_plan_matches[0].host_port_file }}
+    switch_refresh_cleanup_batch_hostname_transfer_manifest_file: >-
+      {{
+        switch_refresh_cleanup_plan_matches[0].hostname_transfer_manifest_file |
+        default('')
+      }}
+    switch_refresh_cleanup_batch_hostname_transfer_enabled: >-
+      {{
+        switch_refresh_cleanup_plan_matches[0].hostname_transfer_enabled |
+        default(false) |
+        bool
+      }}
+
+- name: Revalidate immutable old-switch cleanup identities
+  ansible.builtin.include_tasks: revalidate_batch_old_devices.yml
+
+- name: Revalidate old switches in the expected fabric before cleanup
+  ansible.builtin.include_tasks: validate_old_batch_fabric_presence.yml
+  vars:
+    switch_refresh_old_fabric_expected_ips: >-
+      {{ switch_refresh_cleanup_batch_old_management_ips }}
+    switch_refresh_old_fabric_validation_context: Cleanup
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Revalidate old switches are absent before resumed cleanup
+  ansible.builtin.include_tasks: validate_old_batch_fabric_absence.yml
+  vars:
+    switch_refresh_old_fabric_expected_ips: >-
+      {{ switch_refresh_cleanup_batch_old_management_ips }}
+  when:
+    - not (switch_refresh_cleanup_fabric_enabled | bool)
+    - switch_refresh_fabric_validation_enabled | bool
+
+- name: Initialize aggregate cleanup workflow entries
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_fabric_device_entries: []
+    switch_refresh_cleanup_batch_provision_config: []
+
+- name: Build aggregate cleanup workflow entries
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_fabric_device_entries: >-
+      {{
+        switch_refresh_cleanup_batch_fabric_device_entries + [
+          {'device_ip': switch_refresh_cleanup_plan_old_ip}
+        ]
+      }}
+    switch_refresh_cleanup_batch_provision_config: >-
+      {{
+        switch_refresh_cleanup_batch_provision_config + [
+          {'management_ip_address': switch_refresh_cleanup_plan_old_ip}
+        ]
+      }}
+  loop: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+  loop_control:
+    loop_var: switch_refresh_cleanup_plan_old_ip
+    label: "{{ switch_refresh_cleanup_plan_old_ip }}"
+
+- name: Build aggregate old switch cleanup plan
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_host_port_generator_config:
+      component_specific_filters:
+        components_list:
+          - port_assignments
+          - port_channels
+        port_assignments:
+          - fabric_site_name_hierarchy: >-
+              {{ refresh_item.fabric_site_name_hierarchy }}
+            device_ips: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+        port_channels:
+          - fabric_site_name_hierarchy: >-
+              {{ refresh_item.fabric_site_name_hierarchy }}
+            device_ips: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+    switch_refresh_cleanup_batch_fabric_config:
+      - fabric_devices:
+          fabric_name: "{{ refresh_item.fabric_site_name_hierarchy }}"
+          device_config: "{{ switch_refresh_cleanup_batch_fabric_device_entries }}"
+    switch_refresh_cleanup_batch_inventory_config:
+      - ip_address_list: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+        clean_config: false
+
+- name: Validate aggregate cleanup workflow targets
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_cleanup_batch_fabric_config[0].fabric_devices.device_config |
+        map(attribute='device_ip') |
+        list == switch_refresh_cleanup_batch_old_management_ips
+      - >-
+        switch_refresh_cleanup_batch_provision_config |
+        map(attribute='management_ip_address') |
+        list == switch_refresh_cleanup_batch_old_management_ips
+      - >-
+        switch_refresh_cleanup_batch_inventory_config[0].ip_address_list ==
+        switch_refresh_cleanup_batch_old_management_ips
+    fail_msg: >-
+      Internal cleanup workflow payloads do not exactly match the resolved old
+      switch set; no cleanup changes were made.
+
+- name: Inspect aggregate host-port cleanup payload before overwrite
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_cleanup_batch_host_port_file }}"
+    follow: false
+  register: switch_refresh_cleanup_batch_predelete_stat
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Validate aggregate host-port cleanup payload before overwrite
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_cleanup_batch_predelete_stat.stat.exists | bool) or
+        (switch_refresh_cleanup_batch_predelete_stat.stat.isreg | default(false))
+    fail_msg: >-
+      Refusing to overwrite a cleanup output path that is not a regular file:
+      {{ switch_refresh_cleanup_batch_host_port_file }}.
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Remove stale aggregate host-port cleanup payload
+  ansible.builtin.file:
+    path: "{{ switch_refresh_cleanup_batch_host_port_file }}"
+    state: absent
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Generate aggregate old host-port cleanup payload
+  ansible.builtin.include_role:
+    name: sda_host_port_onboarding_config_generator
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_host_port_onboarding_config_generator_state: gathered
+    sda_host_port_onboarding_config_generator_file_path: >-
+      {{ switch_refresh_cleanup_batch_host_port_file }}
+    sda_host_port_onboarding_config_generator_file_mode: overwrite
+    sda_host_port_onboarding_config_generator_config: >-
+      {{ switch_refresh_cleanup_batch_host_port_generator_config }}
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Check aggregate old host-port cleanup payload
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_cleanup_batch_host_port_file }}"
+  register: switch_refresh_cleanup_batch_host_port_stat
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Validate aggregate old host-port cleanup file
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_allow_empty_host_port_config | bool or
+        (
+          switch_refresh_cleanup_batch_host_port_stat.stat.exists and
+          (switch_refresh_cleanup_batch_host_port_stat.stat.isreg | default(false))
+        )
+    fail_msg: >-
+      Host-port discovery did not generate a fresh cleanup file for batch
+      {{ switch_refresh_cleanup_batch_name }}; no old-switch configuration was
+      deleted.
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Load aggregate old host-port cleanup payload
+  ansible.builtin.include_vars:
+    file: "{{ switch_refresh_cleanup_batch_host_port_file }}"
+    name: switch_refresh_cleanup_batch_host_port_payload
+  when:
+    - switch_refresh_cleanup_host_onboarding_enabled | bool
+    - switch_refresh_cleanup_batch_host_port_stat.stat.exists
+
+- name: Set empty aggregate old host-port cleanup payload
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_host_port_payload:
+      config: []
+  when:
+    - switch_refresh_cleanup_host_onboarding_enabled | bool
+    - not (switch_refresh_cleanup_batch_host_port_stat.stat.exists | bool)
+    - switch_refresh_allow_empty_host_port_config | bool
+
+- name: Validate aggregate old host-port cleanup payload
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_cleanup_batch_host_port_payload.config is defined
+      - >-
+        (switch_refresh_cleanup_batch_host_port_payload.config | type_debug) ==
+        'list'
+      - >-
+        switch_refresh_allow_empty_host_port_config | bool or
+        (switch_refresh_cleanup_batch_host_port_payload.config | length > 0)
+      - >-
+        switch_refresh_cleanup_batch_host_port_payload.config |
+        map(attribute='ip_address') |
+        map('string') |
+        list |
+        unique |
+        length == switch_refresh_cleanup_batch_host_port_payload.config | length
+      - >-
+        switch_refresh_cleanup_batch_host_port_payload.config | length == 0 or
+        (
+          switch_refresh_cleanup_batch_host_port_payload.config |
+          map(attribute='ip_address') |
+          map('string') |
+          unique |
+          list |
+          sort == switch_refresh_cleanup_batch_old_management_ips | sort
+        )
+    fail_msg: >-
+      A non-empty generated cleanup payload must exactly cover every resolved
+      old management IP; partial cleanup batches are not allowed.
+  when: switch_refresh_cleanup_host_onboarding_enabled | bool
+
+- name: Delete host-port configuration from old switch batch
+  ansible.builtin.include_role:
+    name: sda_host_port_onboarding
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_host_port_onboarding_state: deleted
+    sda_host_port_onboarding_config_verify: >-
+      {{ switch_refresh_sda_host_port_onboarding_config_verify }}
+    sda_host_port_onboarding_sda_fabric_port_channel_limit: >-
+      {{ switch_refresh_sda_fabric_port_channel_limit }}
+    sda_host_port_onboarding_config: >-
+      {{ switch_refresh_cleanup_batch_host_port_payload.config }}
+  when:
+    - switch_refresh_cleanup_host_onboarding_enabled | bool
+    - switch_refresh_cleanup_batch_host_port_payload.config | length > 0
+
+- name: Remove old switch batch from fabric
+  ansible.builtin.include_role:
+    name: sda_fabric_devices
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    sda_fabric_devices_state: deleted
+    sda_fabric_devices_config_verify: >-
+      {{ switch_refresh_sda_fabric_devices_config_verify }}
+    sda_fabric_devices_config: "{{ switch_refresh_cleanup_batch_fabric_config }}"
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Validate old switch batch is absent from fabric
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - fabric_site_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            device_identifier:
+              - ip_address: >-
+                  {{ switch_refresh_cleanup_batch_old_management_ips }}
+            timeout: >-
+              {{
+                refresh_item.fabric_validation_timeout |
+                default(switch_refresh_fabric_validation_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.fabric_validation_retries |
+                default(switch_refresh_fabric_validation_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.fabric_validation_interval |
+                default(switch_refresh_fabric_validation_interval)
+              }}
+            requested_info:
+              - fabric_info
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Validate old switch batch fabric absence response
+  ansible.builtin.include_tasks: validate_cleanup_batch_fabric_absence.yml
+  when: switch_refresh_cleanup_fabric_enabled | bool
+
+- name: Unprovision old switch batch
+  ansible.builtin.include_role:
+    name: provision
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    provision_state: deleted
+    provision_config_verify: "{{ switch_refresh_provision_config_verify }}"
+    provision_config: "{{ switch_refresh_cleanup_batch_provision_config }}"
+  when: switch_refresh_cleanup_unprovision_enabled | bool
+
+- name: Remove old switch batch from inventory
+  ansible.builtin.include_role:
+    name: inventory
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    inventory_state: deleted
+    inventory_config_verify: "{{ switch_refresh_inventory_config_verify }}"
+    inventory_config: "{{ switch_refresh_cleanup_batch_inventory_config }}"
+  when: switch_refresh_cleanup_inventory_enabled | bool
+
+- name: Finalize replacement hostnames from captured old-device names
+  ansible.builtin.include_tasks: finalize_hostname_batch.yml
+  vars:
+    switch_refresh_hostname_finalize_plan: >-
+      {{ switch_refresh_cleanup_plan_matches[0] }}
+  when:
+    - switch_refresh_cleanup_batch_hostname_transfer_enabled | bool
+
+- name: Initialize old switch batch cleanup device results
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_device_results: []
+
+- name: Build old switch batch cleanup device results
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_device_results: >-
+      {{
+        switch_refresh_cleanup_batch_device_results + [
+          {
+            'new_management_ip':
+              switch_refresh_cleanup_result_mapping.new_device_management_ip,
+            'old_management_ip':
+              switch_refresh_cleanup_result_mapping.old_management_ip,
+            'hostname_status': (
+              'verified'
+              if (switch_refresh_cleanup_batch_hostname_transfer_enabled | bool)
+              else 'not_requested'
+            ),
+            'status': 'cleaned'
+          }
+        ]
+      }}
+  loop: "{{ switch_refresh_batch_resolved_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_cleanup_result_mapping
+    label: "{{ switch_refresh_cleanup_result_mapping.old_management_ip }}"
+
+- name: Record old switch batch cleanup result
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_results: >-
+      {{
+        (switch_refresh_cleanup_results | default([])) + [
+          {
+            'name': switch_refresh_cleanup_batch_name,
+            'device_ips': switch_refresh_batch_device_ips,
+            'old_management_ips': switch_refresh_cleanup_batch_old_management_ips,
+            'devices': switch_refresh_cleanup_batch_device_results,
+            'fabric_site_name_hierarchy': refresh_item.fabric_site_name_hierarchy,
+            'old_host_port_cleanup_file': (
+              switch_refresh_cleanup_batch_host_port_file
+              if (switch_refresh_cleanup_host_onboarding_enabled | bool)
+              else ''
+            ),
+            'hostname_transfer_manifest_file': (
+              switch_refresh_cleanup_batch_hostname_transfer_manifest_file
+              if (switch_refresh_cleanup_batch_hostname_transfer_enabled | bool)
+              else ''
+            ),
+            'hostname_status': (
+              'verified'
+              if (switch_refresh_cleanup_batch_hostname_transfer_enabled | bool)
+              else 'not_requested'
+            ),
+            'status': (
+              'cleaned_and_hostname_verified'
+              if (switch_refresh_cleanup_batch_hostname_transfer_enabled | bool)
+              else 'cleaned'
+            )
+          }
+        ]
+      }}

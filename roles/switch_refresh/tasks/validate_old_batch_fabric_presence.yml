@@ -1,0 +1,100 @@
+---
+- name: Resolve old EDGE_NODE fabric membership
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_prepare
+        - switch_refresh_cleanup_old
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - fabric_site_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            fabric_device_role: EDGE_NODE
+            device_identifier:
+              - ip_address: "{{ switch_refresh_old_fabric_expected_ips }}"
+            timeout: >-
+              {{
+                refresh_item.fabric_validation_timeout |
+                default(switch_refresh_fabric_validation_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.fabric_validation_retries |
+                default(switch_refresh_fabric_validation_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.fabric_validation_interval |
+                default(switch_refresh_fabric_validation_interval)
+              }}
+            requested_info:
+              - fabric_info
+
+- name: Initialize old switch fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_old_fabric_info_entries: []
+
+- name: Extract old switch fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_old_fabric_info_entries: >-
+      {{
+        switch_refresh_old_fabric_info_entries +
+        switch_refresh_old_fabric_response_item[0].fabric_info
+      }}
+  loop: "{{ fabric_devices_info_result.response | default([]) }}"
+  loop_control:
+    loop_var: switch_refresh_old_fabric_response_item
+    label: old-fabric-presence-response
+  when:
+    - (switch_refresh_old_fabric_response_item | type_debug) == 'list'
+    - switch_refresh_old_fabric_response_item | length > 0
+    - switch_refresh_old_fabric_response_item[0] is mapping
+    - switch_refresh_old_fabric_response_item[0].fabric_info is defined
+    - >-
+      (switch_refresh_old_fabric_response_item[0].fabric_info | type_debug)
+      == 'list'
+
+- name: Validate exact old EDGE_NODE fabric coverage
+  ansible.builtin.assert:
+    that:
+      - fabric_devices_info_result.response is defined
+      - >-
+        switch_refresh_old_fabric_info_entries | length ==
+        switch_refresh_old_fabric_expected_ips | length
+      - >-
+        switch_refresh_old_fabric_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        unique |
+        list |
+        length == switch_refresh_old_fabric_expected_ips | length
+      - >-
+        switch_refresh_old_fabric_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        list |
+        sort == switch_refresh_old_fabric_expected_ips | sort
+    fail_msg: >-
+      {{ switch_refresh_old_fabric_validation_context }} preflight did not find
+      every old switch as an EDGE_NODE in fabric
+      {{ refresh_item.fabric_site_name_hierarchy }}. No workflow changes were
+      made; verify the batch fabric site and old-device mappings.
+
+- name: Validate old EDGE_NODE fabric records
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_old_fabric_info_item.fabric_details | type_debug) == 'list'
+      - switch_refresh_old_fabric_info_item.fabric_details | length > 0
+    fail_msg: >-
+      {{ switch_refresh_old_fabric_validation_context }} preflight received an
+      invalid EDGE_NODE fabric record for
+      {{ switch_refresh_old_fabric_info_item.device_ip | default('unknown') }}.
+      No workflow changes were made.
+  loop: "{{ switch_refresh_old_fabric_info_entries }}"
+  loop_control:
+    loop_var: switch_refresh_old_fabric_info_item
+    label: >-
+      {{ switch_refresh_old_fabric_info_item.device_ip | default('old-device') }}

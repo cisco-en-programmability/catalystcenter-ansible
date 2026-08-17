@@ -1,0 +1,158 @@
+---
+- name: Initialize old switch batch lookup context
+  ansible.builtin.set_fact:
+    switch_refresh_batch_old_device_identifiers: []
+    switch_refresh_batch_old_device_info_entries: []
+    switch_refresh_batch_resolved_mappings: []
+
+- name: Build old switch batch lookup identifiers
+  ansible.builtin.set_fact:
+    switch_refresh_batch_old_device_identifiers: >-
+      {{
+        switch_refresh_batch_old_device_identifiers + [
+          {'ip_address': [switch_refresh_old_mapping_item.old.management_ip]}
+          if (switch_refresh_old_mapping_item.old.management_ip is defined)
+          else {'hostname': [switch_refresh_old_mapping_item.old.hostname]}
+          if (switch_refresh_old_mapping_item.old.hostname is defined)
+          else {'serial_number': [switch_refresh_old_mapping_item.old.serial_number]}
+          if (switch_refresh_old_mapping_item.old.serial_number is defined)
+          else {'mac_address': [switch_refresh_old_mapping_item.old.mac_address]}
+        ]
+      }}
+  loop: "{{ switch_refresh_batch_device_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_old_mapping_item
+    label: "{{ switch_refresh_old_mapping_item.new_device_management_ip }}"
+
+- name: Require old management IP when batch lookup is disabled
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_old_mapping_item.old.management_ip is defined
+    fail_msg: >-
+      device_mapping for {{ switch_refresh_old_mapping_item.new_device_management_ip }}
+      must provide old.management_ip when device information lookup is disabled.
+  loop: "{{ switch_refresh_batch_device_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_old_mapping_item
+    label: "{{ switch_refresh_old_mapping_item.new_device_management_ip }}"
+  when: not (switch_refresh_device_info_lookup_enabled | bool)
+
+- name: Resolve old switch batch inventory details
+  ansible.builtin.include_role:
+    name: network_devices_info
+    apply:
+      tags:
+        - switch_refresh_prepare
+        - switch_refresh_cleanup_old
+  vars:
+    network_devices_info_state: gathered
+    network_devices_info_config_verify: false
+    network_devices_info_config:
+      - network_devices:
+          - device_identifier: "{{ switch_refresh_batch_old_device_identifiers }}"
+            timeout: >-
+              {{
+                refresh_item.device_info_lookup_timeout |
+                default(switch_refresh_device_info_lookup_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.device_info_lookup_retries |
+                default(switch_refresh_device_info_lookup_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.device_info_lookup_interval |
+                default(switch_refresh_device_info_lookup_interval)
+              }}
+            requested_info:
+              - device_info
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Extract old switch batch inventory details
+  ansible.builtin.set_fact:
+    switch_refresh_batch_old_device_info_entries: >-
+      {{
+        switch_refresh_batch_old_device_info_entries +
+        switch_refresh_old_lookup_response_item[0].device_info
+      }}
+  loop: >-
+    {{ (network_devices_info_result | default({})).response | default([]) }}
+  loop_control:
+    loop_var: switch_refresh_old_lookup_response_item
+    label: old-device-info-response
+  when:
+    - switch_refresh_device_info_lookup_enabled | bool
+    - (switch_refresh_old_lookup_response_item | type_debug) == 'list'
+    - switch_refresh_old_lookup_response_item | length > 0
+    - switch_refresh_old_lookup_response_item[0] is mapping
+    - switch_refresh_old_lookup_response_item[0].device_info is defined
+    - (switch_refresh_old_lookup_response_item[0].device_info | type_debug) == 'list'
+
+- name: Validate old switch batch inventory response
+  ansible.builtin.assert:
+    that:
+      - network_devices_info_result.response is defined
+      - switch_refresh_batch_old_device_info_entries | length > 0
+    fail_msg: >-
+      Catalyst Center did not return inventory details for any old switch in
+      batch {{ switch_refresh_batch_name }}.
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Validate old switch batch inventory records
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_old_info_item.device_details | type_debug) == 'list'
+      - switch_refresh_old_info_item.device_details | length == 1
+    fail_msg: >-
+      Old switch {{ switch_refresh_old_info_item.device_ip | default('unknown') }}
+      did not resolve to exactly one inventory record.
+  loop: "{{ switch_refresh_batch_old_device_info_entries }}"
+  loop_control:
+    loop_var: switch_refresh_old_info_item
+    label: "{{ switch_refresh_old_info_item.device_ip | default('old-device') }}"
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Resolve management IP for every old-to-new batch mapping
+  ansible.builtin.include_tasks: resolve_batch_mapping.yml
+  vars:
+    switch_refresh_resolve_mapping: "{{ switch_refresh_batch_mapping_to_resolve }}"
+  loop: "{{ switch_refresh_batch_device_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_batch_mapping_to_resolve
+    label: >-
+      {{ switch_refresh_batch_mapping_to_resolve.new_device_management_ip }}
+
+- name: Validate resolved old switch batch coverage and uniqueness
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_batch_resolved_mappings | length ==
+        switch_refresh_batch_device_mappings | length
+      - >-
+        switch_refresh_batch_resolved_mappings |
+        map(attribute='new_device_management_ip') |
+        map('string') |
+        list |
+        sort == switch_refresh_batch_device_ips | sort
+      - >-
+        switch_refresh_batch_resolved_mappings |
+        map(attribute='old_management_ip') |
+        unique |
+        list |
+        length == switch_refresh_batch_resolved_mappings | length
+      - >-
+        switch_refresh_batch_resolved_mappings |
+        map(attribute='old_management_ip') |
+        map('string') |
+        list |
+        intersect(
+          switch_refresh_all_batch_device_ips |
+          default(switch_refresh_batch_device_ips)
+        ) |
+        length == 0
+    fail_msg: >-
+      Every replacement must resolve to one unique old management IP before
+      host-port migration can start for batch {{ switch_refresh_batch_name }}.
+      An old device cannot be any replacement device in the complete switch
+      refresh plan.

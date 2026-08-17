@@ -13,7 +13,7 @@ catalystcenter_log_append: false
 catalystcenter_log_file_path: catalystcenter.log
 
 switch_refresh_phase: prepare
-switch_refresh_devices: []
+switch_refresh_batches: []
 switch_refresh_cleanup_old: false
 switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
 switch_refresh_onboarding_method: discovery
@@ -32,6 +32,22 @@ switch_refresh_cleanup_fabric_enabled: true
 switch_refresh_cleanup_unprovision_enabled: true
 switch_refresh_cleanup_inventory_enabled: true
 
+# Capture each old switch hostname during cleanup preflight and transfer it to
+# the mapped replacement after the old inventory record has been removed.
+# This is independent of whether the replacement was onboarded by Discovery or
+# LAN Automation.
+switch_refresh_hostname_transfer_enabled: false
+switch_refresh_hostname_transfer_resume_from_manifest: false
+# This must be set explicitly to a persistent controller-local directory when
+# hostname transfer is enabled. The captured name is the only recovery source
+# after the old inventory record is deleted, so an ephemeral /tmp default is
+# deliberately unsafe.
+switch_refresh_hostname_transfer_manifest_dir: ""
+switch_refresh_hostname_transfer_timeout: 1200
+switch_refresh_hostname_transfer_poll_interval: 10
+switch_refresh_hostname_validation_retries: 12
+switch_refresh_hostname_validation_interval: 10
+
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_device_info_lookup_timeout: 120
 switch_refresh_device_info_lookup_retries: 6
@@ -48,5 +64,4 @@ switch_refresh_sda_fabric_port_channel_limit: 20
 switch_refresh_fabric_validation_timeout: 120
 switch_refresh_fabric_validation_retries: 6
 switch_refresh_fabric_validation_interval: 10
-switch_refresh_migration_file_mode: overwrite
 switch_refresh_allow_empty_host_port_config: false

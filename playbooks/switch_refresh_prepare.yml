@@ -1,5 +1,5 @@
 ---
-- name: Prepare replacement switch for Catalyst Center switch refresh
+- name: Prepare replacement switch batches in Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: false
@@ -7,6 +7,7 @@
     - vars/switch_refresh_usecase.yml
   vars:
     switch_refresh_phase: prepare
+    # Cleanup is intentionally a separate, explicitly approved run.
     switch_refresh_cleanup_old: false
   roles:
     - role: switch_refresh

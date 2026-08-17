@@ -1,0 +1,41 @@
+---
+- name: Initialize old switch post-cleanup fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_remaining_fabric_entries: []
+
+- name: Extract old switch post-cleanup fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_cleanup_batch_remaining_fabric_entries: >-
+      {{
+        switch_refresh_cleanup_batch_remaining_fabric_entries +
+        switch_refresh_cleanup_fabric_response_item[0].fabric_info
+      }}
+  loop: "{{ fabric_devices_info_result.response | default([]) }}"
+  loop_control:
+    loop_var: switch_refresh_cleanup_fabric_response_item
+    label: cleanup-fabric-postcheck-response
+  when:
+    - (switch_refresh_cleanup_fabric_response_item | type_debug) == 'list'
+    - switch_refresh_cleanup_fabric_response_item | length > 0
+    - switch_refresh_cleanup_fabric_response_item[0] is mapping
+    - switch_refresh_cleanup_fabric_response_item[0].fabric_info is defined
+    - >-
+      (switch_refresh_cleanup_fabric_response_item[0].fabric_info | type_debug)
+      == 'list'
+
+- name: Confirm every old switch is absent from the expected fabric
+  ansible.builtin.assert:
+    that:
+      - fabric_devices_info_result.response is defined
+      - (fabric_devices_info_result.response | type_debug) == 'list'
+      - switch_refresh_cleanup_batch_remaining_fabric_entries | length == 0
+      - >-
+        fabric_devices_info_result.response ==
+        ['No fabric devices found for the given filters.']
+    fail_msg: >-
+      One or more old switches are still present in fabric
+      {{ refresh_item.fabric_site_name_hierarchy }}:
+      {{ switch_refresh_cleanup_batch_remaining_fabric_entries }}. The batch
+      was not unprovisioned or removed from inventory. Absence validation also
+      requires the explicit "No fabric devices found for the given filters."
+      controller response and rejects unexpected or error responses.

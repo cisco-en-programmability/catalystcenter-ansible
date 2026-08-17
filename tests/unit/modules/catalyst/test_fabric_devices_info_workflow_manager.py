@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import fabric_devices_info_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
@@ -68,6 +68,74 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
         super(TestCatalystCenterFabricDeviceInfoWorkflowManager, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
+
+    def test_filter_fabric_devices_retries_until_all_explicit_devices_visible(self):
+        """Wait for every explicitly requested fabric device, not just one."""
+        manager = fabric_devices_info_workflow_manager.FabricDevicesInfo.__new__(
+            fabric_devices_info_workflow_manager.FabricDevicesInfo
+        )
+        manager.want = {
+            "fabric_devices": [
+                {
+                    "fabric_site_hierarchy": "Global/Test/Fabric",
+                    "fabric_device_role": "EDGE_NODE",
+                }
+            ]
+        }
+        manager.is_fabric_site = Mock(return_value=(True, "fabric-id"))
+        manager.get_device_id = Mock(
+            return_value={
+                "192.0.2.10": "device-uuid-1",
+                "192.0.2.11": "device-uuid-2",
+            }
+        )
+        manager.log = Mock()
+        manager.catalystcenter = Mock()
+        manager.catalystcenter._exec.side_effect = [
+            {
+                "response": [
+                    {
+                        "fabricId": "fabric-id",
+                        "networkDeviceId": "device-uuid-1",
+                    }
+                ]
+            },
+            {
+                "response": [
+                    {
+                        "fabricId": "fabric-id",
+                        "networkDeviceId": "device-uuid-1",
+                    },
+                    {
+                        "fabricId": "fabric-id",
+                        "networkDeviceId": "device-uuid-2",
+                    },
+                ]
+            },
+        ]
+        filtered_config = {
+            "device_identifier": [
+                {"ip_address": ["192.0.2.10", "192.0.2.11"]}
+            ],
+            "timeout": 60,
+            "retries": 3,
+            "interval": 0,
+        }
+
+        with patch.object(
+            fabric_devices_info_workflow_manager.time, "sleep"
+        ) as sleep_mock:
+            result = manager.filter_fabric_devices(filtered_config)
+
+        self.assertEqual(
+            result,
+            {
+                "192.0.2.10": "fabric-id",
+                "192.0.2.11": "fabric-id",
+            },
+        )
+        self.assertEqual(manager.catalystcenter._exec.call_count, 2)
+        sleep_mock.assert_called_once_with(0)
 
     def load_fixtures(self, response=None, device=""):
         """

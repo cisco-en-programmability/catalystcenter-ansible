@@ -2342,13 +2342,18 @@ class FabricDevicesInfo(CatalystCenterBase):
                                             ),
                                             "DEBUG"
                                         )
-                    if filtered_devices:
+                    all_requested_devices_found = (
+                        not device_ids
+                        or len(filtered_devices) == len(device_ids)
+                    )
+                    if filtered_devices and all_requested_devices_found:
                         self.log("Fabric devices successfully filtered on attempt {0}".format(attempt + 1), "INFO")
                         break
 
                     if attempt < retries and (time.time() - start_time) < timeout:
                         self.log(
-                            "No matching fabric devices found in attempt {0}. Retrying in {1} seconds...".format(
+                            "Not all matching fabric devices were found in attempt {0}. "
+                            "Retrying in {1} seconds...".format(
                                 attempt + 1, interval
                             ),
                             "WARNING"

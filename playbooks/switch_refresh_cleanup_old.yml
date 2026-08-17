@@ -1,5 +1,5 @@
 ---
-- name: Clean up old switch after Catalyst Center switch refresh validation
+- name: Clean up old switch batches after validation and cutover
   hosts: localhost
   connection: local
   gather_facts: false
@@ -7,7 +7,17 @@
     - vars/switch_refresh_usecase.yml
   vars:
     switch_refresh_phase: cleanup_old
-    switch_refresh_cleanup_old: true
+    # Normal mode explicitly authorizes destructive cleanup. Setting
+    # switch_refresh_hostname_transfer_resume_from_manifest=true switches this
+    # playbook to non-destructive, manifest-based hostname recovery.
+    switch_refresh_cleanup_old: >-
+      {{
+        not (
+          switch_refresh_hostname_transfer_resume_from_manifest |
+          default(false) |
+          bool
+        )
+      }}
   roles:
     - role: switch_refresh
       tags:

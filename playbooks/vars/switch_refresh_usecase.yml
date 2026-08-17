@@ -1,175 +1,151 @@
 ---
-# Sample Catalyst Center connection values. Replace with vault variables or
-# inventory variables in production.
-catalystcenter_host: "<catalyst-center-ip-or-fqdn>"
+# Define these vault_* variables in an encrypted Ansible Vault file or another
+# inventory-backed secret store. Do not place real credentials in this file.
+catalystcenter_host: "{{ vault_catalystcenter_host }}"
 catalystcenter_port: 443
-catalystcenter_username: "<username>"
-catalystcenter_password: "<password>"
+catalystcenter_username: "{{ vault_catalystcenter_username }}"
+catalystcenter_password: "{{ vault_catalystcenter_password }}"
 catalystcenter_version: "2.3.7.9"
-catalystcenter_verify: false
+catalystcenter_verify: true
 catalystcenter_debug: false
 catalystcenter_log: false
 catalystcenter_log_level: INFO
 
 switch_refresh_work_dir: /tmp/catalystcenter_switch_refresh
 switch_refresh_onboarding_method: discovery
-# Inventory addition requires device CLI credentials. Store real values in
-# Ansible Vault or inventory variables rather than in this file.
+
+# The desired replacement hostnames are captured from the live old-device
+# inventory records during cleanup preflight. This works for both Discovery and
+# LAN Automation onboarding and does not require hostname input for new devices.
+switch_refresh_hostname_transfer_enabled: true
+switch_refresh_hostname_transfer_resume_from_manifest: false
+# Create this persistent directory with write access for the Ansible controller
+# account before running cleanup (or choose another durable writable path).
+switch_refresh_hostname_transfer_manifest_dir: >-
+  /var/lib/catalystcenter_switch_refresh/hostname_transfer
+switch_refresh_hostname_transfer_timeout: 1200
+switch_refresh_hostname_transfer_poll_interval: 10
+switch_refresh_hostname_validation_retries: 12
+switch_refresh_hostname_validation_interval: 10
+
 switch_refresh_inventory_credentials:
-  username: "<switch-cli-username>"
-  password: "<switch-cli-password>"
-  enable_password: "<switch-enable-password>"
+  username: "{{ vault_switch_cli_username }}"
+  password: "{{ vault_switch_cli_password }}"
+  enable_password: "{{ vault_switch_enable_password }}"
   cli_transport: ssh
   type: NETWORK_DEVICE
+
 switch_refresh_device_info_lookup_enabled: true
 switch_refresh_fabric_validation_enabled: true
 switch_refresh_lan_automation_completion_timeout: 604800
 switch_refresh_lan_automation_completion_poll_interval: 30
-switch_refresh_sda_host_port_onboarding_config_verify: true
-switch_refresh_sda_fabric_devices_config_verify: true
+switch_refresh_inventory_config_verify: true
 switch_refresh_provision_config_verify: true
+switch_refresh_sda_fabric_devices_config_verify: true
+switch_refresh_sda_host_port_onboarding_config_verify: true
 
-switch_refresh_devices:
-  - name: sjc-edge-01-refresh
+switch_refresh_batches:
+  - name: sjc-bldg23-edge-refresh
+    fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+    onboarding_method: lan_automation
 
-    # Required topology input.
-    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
-    onboarding_method: discovery
+    # This is the authoritative replacement-device set. All supplied workflow
+    # configurations and device mappings must cover exactly these IPs.
+    new_devices:
+      device_ips:
+        - "192.0.2.20"
+        - "192.0.2.21"
 
-    # Minimal old-switch input: provide any one of management_ip, hostname,
-    # serial_number, or mac_address. The role resolves management IP with
-    # network_devices_info.
-    old:
-      hostname: SJ-EDGE-OLD.cisco.local
+      lan_automation_config:
+        - lan_automation:
+            discovered_device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+            primary_device_management_ip_address: "198.51.100.10"
+            primary_device_interface_names:
+              - GigabitEthernet2/0/7
+            ip_pools:
+              - ip_pool_name: LAN_AUTO_MAIN
+                ip_pool_role: MAIN_POOL
+              - ip_pool_name: LAN_AUTO_P2P
+                ip_pool_role: PHYSICAL_LINK_POOL
+            multicast_enabled: true
+            redistribute_isis_to_bgp: false
+            discovery_level: 5
+            discovery_timeout: 40
+            discovery_devices:
+              - device_serial_number: NEW-SERIAL-0001
+                device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+                device_management_ip_address: "192.0.2.20"
+              - device_serial_number: NEW-SERIAL-0002
+                device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+                device_management_ip_address: "192.0.2.21"
+            launch_and_wait: true
+            pnp_authorization: true
 
-    # Minimal new-switch input. The role auto-builds SINGLE discovery config
-    # using Catalyst Center global credentials, then auto-builds provision_config.
-    new:
-      management_ip: 10.10.10.20
-
-      # Optional discovery overrides.
-      # discovery_name: switch-refresh-sjc-edge-01
-      # protocol_order: ssh
-      # discovery_retry: 2
-      # use_global_credentials: true
-
-      # Optional. Pass full discovery_config only when you need custom discovery
-      # credentials or a non-SINGLE discovery type.
+      # For Discovery onboarding, set onboarding_method: discovery, remove
+      # lan_automation_config, and rely on device_ips for generated input. A
+      # complete custom Discovery replacement would look like this:
       # discovery_config:
-      #   single:
-      #     - discovery_name: switch-refresh-sjc-edge-01
-      #       discovery_type: SINGLE
-      #       ip_address_list:
-      #         - 10.10.10.20
-      #       protocol_order: ssh
-      #       retry: 2
-      #       discovery_specific_credentials:
-      #         cli_credentials_list:
-      #           - username: "<switch-cli-username>"
-      #             password: "<switch-cli-password>"
-      #             enable_password: "<switch-enable-password>"
+      #   - discovery_name: sjc-bldg23-replacements
+      #     discovery_type: MULTI RANGE
+      #     ip_address_list:
+      #       - "192.0.2.20"
+      #       - "192.0.2.21"
+      #     protocol_order: ssh
+      #     retry: 2
+      #     use_global_credentials: true
 
-      # Optional per-device inventory credential override. By default, the role
-      # uses switch_refresh_inventory_credentials and adds management_ip to the
-      # inventory payload automatically.
-      # inventory_credentials:
-      #   username: "<switch-cli-username>"
-      #   password: "<switch-cli-password>"
-      #   enable_password: "<switch-enable-password>"
-      #   cli_transport: ssh
-      #   type: NETWORK_DEVICE
-
-      # Optional complete inventory payload override.
+      # Optional complete inventory replacement. Its combined IP set must
+      # exactly match device_ips. The role still enforces inventory role ACCESS.
       # inventory_config:
       #   - ip_address_list:
-      #       - 10.10.10.20
-      #     username: "<switch-cli-username>"
-      #     password: "<switch-cli-password>"
-      #     enable_password: "<switch-enable-password>"
+      #       - "192.0.2.20"
+      #       - "192.0.2.21"
+      #     username: "{{ vault_switch_cli_username }}"
+      #     password: "{{ vault_switch_cli_password }}"
+      #     enable_password: "{{ vault_switch_enable_password }}"
       #     cli_transport: ssh
       #     type: NETWORK_DEVICE
 
-      # Optional. Defaults to EDGE_NODE.
-      # device_roles:
-      #   - EDGE_NODE
-
-      # Optional. Only use when you need a custom provision payload.
+      # Optional complete provisioning replacement.
       # provision_config:
-      #   - site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
-      #     management_ip_address: 10.10.10.20
+      #   - site_name_hierarchy: Global/USA/San Jose/BLDG23
+      #     management_ip_address: "192.0.2.20"
+      #   - site_name_hierarchy: Global/USA/San Jose/BLDG23
+      #     management_ip_address: "192.0.2.21"
 
-      # Optional. Only use when you need a custom fabric device payload.
+      # Optional complete fabric-device replacement. The fabric site and IP set
+      # must match the batch, and every replacement remains an EDGE_NODE.
       # fabric_devices_config:
       #   - fabric_devices:
-      #       fabric_name: Global/USA/SAN-JOSE/BLDG23
+      #       fabric_name: Global/USA/San Jose/BLDG23
       #       device_config:
-      #         - device_ip: 10.10.10.20
+      #         - device_ip: "192.0.2.20"
+      #           device_roles:
+      #             - EDGE_NODE
+      #         - device_ip: "192.0.2.21"
       #           device_roles:
       #             - EDGE_NODE
 
-    # Provide mappings only when the new switch uses different interface names
-    # or a different port layout. Unmapped source interfaces are migrated 1:1.
-    interface_mappings:
-      - source_interface_name: GigabitEthernet1/0/1
-        destination_interface_name: TenGigabitEthernet1/0/1
-      - source_interface_name: GigabitEthernet1/0/2
-        destination_interface_name: TenGigabitEthernet1/0/2
-      - source_interface_name: GigabitEthernet1/0/47
-        destination_interface_name: TenGigabitEthernet1/1/1
-      - source_interface_name: GigabitEthernet1/0/48
-        destination_interface_name: TenGigabitEthernet1/1/2
+    # Old-device identifiers are needed for host migration and cleanup, not for
+    # the new-device onboarding stages. Each old mapping must use exactly one
+    # supported identifier.
+    device_mapping:
+      - old:
+          hostname: old-edge-01.example.test
+        new_device_management_ip: "192.0.2.20"
+        port_assignment_interface_mappings:
+          - source_interface_name: GigabitEthernet1/0/5
+            destination_interface_name: GigabitEthernet1/0/4
+        port_channel_interface_mappings:
+          - source_interface_name: GigabitEthernet1/0/47
+            destination_interface_name: TenGigabitEthernet1/1/1
+          - source_interface_name: GigabitEthernet1/0/48
+            destination_interface_name: TenGigabitEthernet1/1/2
 
-  - name: sjc-edge-02-refresh-1-to-1
-    fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
-    onboarding_method: discovery
-    old:
-      serial_number: FOC1234ABCD
-    new:
-      management_ip: 10.10.10.21
-
-    # Empty mapping means the generator keeps old interface names as-is.
-    interface_mappings: []
-
-  # LAN Automation onboarding option.
-  # Use this instead of discovery when the replacement switch should be
-  # onboarded through Catalyst Center LAN Automation. Keep new.management_ip set
-  # to the expected management IP after LAN Automation so later steps can find
-  # the switch in inventory. launch_and_wait must be the boolean true. The
-  # discovery_timeout below is in minutes; the completion timeout above is in
-  # seconds.
-  #
-  # - name: sjc-edge-03-refresh-lan-auto
-  #   fabric_site_name_hierarchy: Global/USA/SAN-JOSE/BLDG23
-  #   onboarding_method: lan_automation
-  #   old:
-  #     hostname: SJ-EDGE-OLD-03.cisco.local
-  #   new:
-  #     management_ip: 204.1.1.13
-  #     lan_automation_config:
-  #       - lan_automation:
-  #           discovered_device_site_name_hierarchy: Global/USA/SAN JOSE
-  #           peer_device_management_ip_address: 91.1.1.2
-  #           primary_device_management_ip_address: 204.1.1.4
-  #           primary_device_interface_names:
-  #             - HundredGigE1/0/2
-  #           ip_pools:
-  #             - ip_pool_name: underlay_sub
-  #               ip_pool_role: MAIN_POOL
-  #             - ip_pool_name: underlay_sub_small
-  #               ip_pool_role: PHYSICAL_LINK_POOL
-  #           multicast_enabled: true
-  #           redistribute_isis_to_bgp: true
-  #           host_name_prefix: San-Jose
-  #           isis_domain_pwd: cisco
-  #           discovery_level: 5
-  #           discovery_timeout: 40
-  #           discovery_devices:
-  #             - device_serial_number: FXS2429Q0WE
-  #               device_host_name: SR-LAN-9400X-EDGE1
-  #               device_site_name_hierarchy: Global/USA/SAN JOSE/BLD20/BLD20_FLOOR1
-  #               device_management_ip_address: 204.1.1.13
-  #           launch_and_wait: true
-  #           pnp_authorization: false
-  #   interface_mappings:
-  #     - source_interface_name: GigabitEthernet1/0/1
-  #       destination_interface_name: TenGigabitEthernet1/0/1
+      - old:
+          serial_number: OLD-SERIAL-0002
+        new_device_management_ip: "192.0.2.21"
+        port_assignment_interface_mappings:
+          - source_interface_name: GigabitEthernet2/0/6
+            destination_interface_name: GigabitEthernet2/0/5
+        port_channel_interface_mappings: []

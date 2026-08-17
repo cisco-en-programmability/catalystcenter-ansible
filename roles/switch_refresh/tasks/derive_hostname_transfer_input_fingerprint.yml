@@ -1,0 +1,21 @@
+---
+# The finalizer includes this same helper before loading a manifest. Keep the
+# fingerprint limited to user input so it remains reproducible after cleanup.
+- name: Build canonical hostname transfer input fingerprint
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_input_fingerprint: >-
+      {{
+        {
+          'batch_name': refresh_item.name | string,
+          'site': refresh_item.fabric_site_name_hierarchy | string,
+          'new_management_ips':
+            refresh_item.new_devices.device_ips |
+            map('string') |
+            sort,
+          'device_mapping':
+            refresh_item.device_mapping |
+            sort(attribute='new_device_management_ip')
+        } |
+        to_json(sort_keys=true) |
+        hash('sha256')
+      }}

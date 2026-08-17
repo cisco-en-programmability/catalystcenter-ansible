@@ -1,0 +1,351 @@
+---
+- name: Find immutable replacement switch batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_prepare_plan_matches: >-
+      {{
+        switch_refresh_prepare_preflight_plans |
+        selectattr('name', 'equalto', refresh_item.name | string) |
+        list
+      }}
+  no_log: true
+
+- name: Validate immutable replacement switch batch plan match
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_prepare_plan_matches | length == 1
+    fail_msg: >-
+      Expected exactly one immutable prepare plan for batch
+      {{ refresh_item.name }}; no replacement workflow changes were made.
+
+- name: Load immutable replacement switch batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_batch_name: "{{ switch_refresh_prepare_plan_matches[0].name }}"
+    switch_refresh_batch_file_safe_name: >-
+      {{ switch_refresh_prepare_plan_matches[0].file_safe_name }}
+    switch_refresh_batch_onboarding_method: >-
+      {{ switch_refresh_prepare_plan_matches[0].onboarding_method }}
+    switch_refresh_batch_new_devices: >-
+      {{ switch_refresh_prepare_plan_matches[0].new_devices }}
+    switch_refresh_batch_device_ips: >-
+      {{ switch_refresh_prepare_plan_matches[0].new_management_ips }}
+    switch_refresh_batch_device_mappings: >-
+      {{ switch_refresh_prepare_plan_matches[0].device_mappings }}
+    switch_refresh_batch_resolved_mappings: >-
+      {{ switch_refresh_prepare_plan_matches[0].resolved_mappings }}
+    switch_refresh_batch_discovery_config: >-
+      {{ switch_refresh_prepare_plan_matches[0].discovery_config }}
+    switch_refresh_batch_inventory_execution_config: >-
+      {{ switch_refresh_prepare_plan_matches[0].inventory_execution_config }}
+    switch_refresh_batch_provision_config: >-
+      {{ switch_refresh_prepare_plan_matches[0].provision_config }}
+    switch_refresh_batch_fabric_devices_config: >-
+      {{ switch_refresh_prepare_plan_matches[0].fabric_devices_config }}
+    switch_refresh_batch_migration_output_file: >-
+      {{ switch_refresh_prepare_plan_matches[0].migration_output_file }}
+  no_log: true
+
+- name: Discover replacement switch batch
+  ansible.builtin.include_role:
+    name: discovery
+    apply:
+      tags:
+        - switch_refresh_prepare
+      no_log: true
+  vars:
+    # Discovery custom input can contain nested device credentials. Keep the
+    # manager's raw config/result out of both Ansible output and controller logs.
+    catalystcenter_debug: false
+    catalystcenter_log: false
+    discovery_state: merged
+    discovery_config_verify: "{{ switch_refresh_discovery_config_verify }}"
+    discovery_config: "{{ switch_refresh_batch_discovery_config }}"
+  when:
+    - switch_refresh_batch_onboarding_method == 'discovery'
+    - switch_refresh_discovery_enabled | bool
+  no_log: true
+
+- name: Run LAN Automation for replacement switch batch
+  ansible.builtin.include_role:
+    name: lan_automation
+    apply:
+      tags:
+        - switch_refresh_prepare
+      no_log: true
+  vars:
+    # LAN Automation payloads can contain IS-IS and device secrets.
+    catalystcenter_debug: false
+    catalystcenter_log: false
+    lan_automation_state: >-
+      {{ switch_refresh_batch_new_devices.lan_automation_state | default('merged') }}
+    lan_automation_config_verify: >-
+      {{
+        switch_refresh_batch_new_devices.lan_automation_config_verify |
+        default(switch_refresh_lan_automation_config_verify)
+      }}
+    lan_automation_catalystcenter_api_task_timeout: >-
+      {{ switch_refresh_lan_automation_completion_timeout }}
+    lan_automation_catalystcenter_task_poll_interval: >-
+      {{ switch_refresh_lan_automation_completion_poll_interval }}
+    lan_automation_config: >-
+      {{ switch_refresh_batch_new_devices.lan_automation_config }}
+  when:
+    - switch_refresh_batch_onboarding_method == 'lan_automation'
+    - switch_refresh_lan_automation_enabled | bool
+  no_log: true
+
+- name: Wait until batch LAN Automation is fully inactive
+  ansible.builtin.include_tasks: wait_for_lan_automation.yml
+  when: switch_refresh_batch_onboarding_method == 'lan_automation'
+
+- name: Add replacement switch batch to Catalyst Center inventory
+  ansible.builtin.include_role:
+    name: inventory
+    apply:
+      tags:
+        - switch_refresh_prepare
+      no_log: true
+  vars:
+    # Inventory input carries nested CLI/HTTP/SNMP credentials.
+    catalystcenter_debug: false
+    catalystcenter_log: false
+    inventory_state: merged
+    inventory_config_verify: "{{ switch_refresh_inventory_config_verify }}"
+    inventory_config: "{{ switch_refresh_batch_inventory_execution_config }}"
+  when: switch_refresh_batch_inventory_execution_config | length > 0
+  no_log: true
+
+- name: Resolve replacement switch batch inventory details
+  ansible.builtin.include_role:
+    name: network_devices_info
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    network_devices_info_state: gathered
+    network_devices_info_config_verify: false
+    network_devices_info_config:
+      - network_devices:
+          - device_role: ACCESS
+            device_identifier:
+              - ip_address: "{{ switch_refresh_batch_device_ips }}"
+            timeout: >-
+              {{
+                refresh_item.device_info_lookup_timeout |
+                default(switch_refresh_device_info_lookup_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.device_info_lookup_retries |
+                default(switch_refresh_device_info_lookup_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.device_info_lookup_interval |
+                default(switch_refresh_device_info_lookup_interval)
+              }}
+            requested_info:
+              - device_info
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Initialize replacement switch batch inventory details
+  ansible.builtin.set_fact:
+    switch_refresh_batch_new_device_info_entries: []
+
+- name: Extract replacement switch batch inventory details
+  ansible.builtin.set_fact:
+    switch_refresh_batch_new_device_info_entries: >-
+      {{
+        switch_refresh_batch_new_device_info_entries +
+        switch_refresh_new_lookup_response_item[0].device_info
+      }}
+  loop: >-
+    {{ (network_devices_info_result | default({})).response | default([]) }}
+  loop_control:
+    loop_var: switch_refresh_new_lookup_response_item
+    label: new-device-info-response
+  when:
+    - switch_refresh_device_info_lookup_enabled | bool
+    - (switch_refresh_new_lookup_response_item | type_debug) == 'list'
+    - switch_refresh_new_lookup_response_item | length > 0
+    - switch_refresh_new_lookup_response_item[0] is mapping
+    - switch_refresh_new_lookup_response_item[0].device_info is defined
+    - (switch_refresh_new_lookup_response_item[0].device_info | type_debug) == 'list'
+
+- name: Validate replacement switch batch inventory lookup result
+  ansible.builtin.assert:
+    that:
+      - network_devices_info_result.response is defined
+      - >-
+        switch_refresh_batch_new_device_info_entries | length ==
+        switch_refresh_batch_device_ips | length
+      - >-
+        switch_refresh_batch_new_device_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        unique |
+        list |
+        length == switch_refresh_batch_device_ips | length
+      - >-
+        switch_refresh_batch_new_device_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        list |
+        sort == switch_refresh_batch_device_ips | sort
+    fail_msg: >-
+      Unable to resolve every replacement switch with inventory role ACCESS.
+      Expected exactly {{ switch_refresh_batch_device_ips }}.
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Validate replacement switch batch device details
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_new_info_item.device_details | type_debug) == 'list'
+      - switch_refresh_new_info_item.device_details | length == 1
+      - >-
+        switch_refresh_new_info_item.device_details[0].role |
+        default('') |
+        upper == 'ACCESS'
+    fail_msg: >-
+      Replacement switch {{ switch_refresh_new_info_item.device_ip }} did not
+      resolve to exactly one ACCESS inventory record.
+  loop: "{{ switch_refresh_batch_new_device_info_entries }}"
+  loop_control:
+    loop_var: switch_refresh_new_info_item
+    label: "{{ switch_refresh_new_info_item.device_ip | default('new-device') }}"
+  when: switch_refresh_device_info_lookup_enabled | bool
+
+- name: Provision replacement switch batch
+  ansible.builtin.include_role:
+    name: provision
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    provision_state: merged
+    provision_config_verify: "{{ switch_refresh_provision_config_verify }}"
+    provision_config: "{{ switch_refresh_batch_provision_config }}"
+  when: switch_refresh_provision_enabled | bool
+
+- name: Add replacement switch batch to fabric
+  ansible.builtin.include_role:
+    name: sda_fabric_devices
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    sda_fabric_devices_state: merged
+    sda_fabric_devices_config_verify: >-
+      {{ switch_refresh_sda_fabric_devices_config_verify }}
+    sda_fabric_devices_config: >-
+      {{ switch_refresh_batch_fabric_devices_config }}
+  when: switch_refresh_fabric_add_enabled | bool
+
+- name: Validate replacement switch batch is present in fabric
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_prepare
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - fabric_site_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
+            fabric_device_role: EDGE_NODE
+            device_identifier:
+              - ip_address: "{{ switch_refresh_batch_device_ips }}"
+            timeout: >-
+              {{
+                refresh_item.fabric_validation_timeout |
+                default(switch_refresh_fabric_validation_timeout)
+              }}
+            retries: >-
+              {{
+                refresh_item.fabric_validation_retries |
+                default(switch_refresh_fabric_validation_retries)
+              }}
+            interval: >-
+              {{
+                refresh_item.fabric_validation_interval |
+                default(switch_refresh_fabric_validation_interval)
+              }}
+            requested_info:
+              - fabric_info
+  when: switch_refresh_fabric_validation_enabled | bool
+
+- name: Validate replacement switch batch fabric response
+  ansible.builtin.include_tasks: validate_batch_fabric_result.yml
+  when: switch_refresh_fabric_validation_enabled | bool
+
+- name: Run batch host-port migration and onboarding
+  ansible.builtin.include_tasks: revalidate_batch_old_devices.yml
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Revalidate old migration sources in the expected fabric
+  ansible.builtin.include_tasks: validate_old_batch_fabric_presence.yml
+  vars:
+    switch_refresh_old_fabric_expected_ips: >-
+      {{
+        switch_refresh_batch_resolved_mappings |
+        map(attribute='old_management_ip') |
+        map('string') |
+        list
+      }}
+    switch_refresh_old_fabric_validation_context: Prepare execution
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Run batch host-port migration and onboarding
+  ansible.builtin.include_tasks: prepare_batch_host_onboarding.yml
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Initialize switch refresh batch device results
+  ansible.builtin.set_fact:
+    switch_refresh_batch_device_results: []
+
+- name: Build switch refresh batch device results
+  ansible.builtin.set_fact:
+    switch_refresh_batch_device_results: >-
+      {{
+        switch_refresh_batch_device_results + [
+          {
+            'new_management_ip': switch_refresh_batch_result_ip,
+            'old_management_ip': (
+              switch_refresh_batch_resolved_mappings |
+              selectattr(
+                'new_device_management_ip',
+                'equalto',
+                switch_refresh_batch_result_ip
+              ) |
+              map(attribute='old_management_ip') |
+              first |
+              default('')
+            ),
+            'status': 'prepared'
+          }
+        ]
+      }}
+  loop: "{{ switch_refresh_batch_device_ips }}"
+  loop_control:
+    loop_var: switch_refresh_batch_result_ip
+    label: "{{ switch_refresh_batch_result_ip }}"
+
+- name: Record replacement switch batch prepare result
+  ansible.builtin.set_fact:
+    switch_refresh_prepare_results: >-
+      {{
+        (switch_refresh_prepare_results | default([])) + [
+          {
+            'name': switch_refresh_batch_name,
+            'onboarding_method': switch_refresh_batch_onboarding_method,
+            'device_ips': switch_refresh_batch_device_ips,
+            'devices': switch_refresh_batch_device_results,
+            'fabric_site_name_hierarchy': refresh_item.fabric_site_name_hierarchy,
+            'migration_output_file':
+              switch_refresh_batch_migration_output_file
+              if (switch_refresh_host_onboarding_enabled | bool)
+              else '',
+            'status': 'prepared'
+          }
+        ]
+      }}

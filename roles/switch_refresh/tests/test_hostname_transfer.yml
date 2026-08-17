@@ -1,0 +1,1275 @@
+---
+- name: Validate switch refresh hostname transfer planning offline
+  hosts: plan_test
+  gather_facts: false
+  vars:
+    catalystcenter_host: test-controller.example.test
+    switch_refresh_hostname_test_dir: >-
+      /tmp/catalystcenter_switch_refresh-hostname-transfer-test
+    switch_refresh_hostname_test_manifest: >-
+      {{
+        switch_refresh_hostname_test_dir ~
+        '/discovery-hostname-transfer_hostname_transfer.yml'
+      }}
+    switch_refresh_cleanup_inventory_enabled: true
+    switch_refresh_hostname_transfer_timeout: 300
+    switch_refresh_hostname_transfer_poll_interval: 5
+    switch_refresh_hostname_validation_retries: 3
+    switch_refresh_hostname_validation_interval: 1
+    switch_refresh_hostname_test_mappings:
+      - old_management_ip: "198.51.100.20"
+        new_device_management_ip: "192.0.2.20"
+      - old_management_ip: "198.51.100.21"
+        new_device_management_ip: "192.0.2.21"
+    switch_refresh_hostname_test_inventory:
+      - device_ip: "198.51.100.20"
+        device_details:
+          - managementIpAddress: "198.51.100.20"
+            hostname: OLD-EDGE-01.example.test
+            instanceUuid: old-uuid-01
+            serialNumber: OLD-SERIAL-01
+      - device_ip: "192.0.2.20"
+        device_details:
+          - managementIpAddress: "192.0.2.20"
+            hostname: temporary-edge-01
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+      - device_ip: "198.51.100.21"
+        device_details:
+          - managementIpAddress: "198.51.100.21"
+            hostname: old-edge-02.example.test
+            instanceUuid: old-uuid-02
+            serialNumber: OLD-SERIAL-02
+      - device_ip: "192.0.2.21"
+        device_details:
+          - managementIpAddress: "192.0.2.21"
+            hostname: temporary-edge-02
+            instanceUuid: new-uuid-02
+            serialNumber: NEW-SERIAL-02
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+    switch_refresh_hostname_test_control_batches:
+      - name: hostname-control-test
+        fabric_site_name_hierarchy: Global/Test/Fabric
+        new_devices:
+          device_ips:
+            - "192.0.2.20"
+        device_mapping:
+          - old:
+              management_ip: "198.51.100.20"
+            new_device_management_ip: "192.0.2.20"
+
+  tasks:
+    - name: Remove stale hostname transfer test directory
+      ansible.builtin.file:
+        path: "{{ switch_refresh_hostname_test_dir }}"
+        state: absent
+
+    - name: Load inlined hostname capture validation contract
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_capture_contract_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/capture_hostname_transfer_batch.yml'
+            )
+          }}
+        switch_refresh_hostname_capture_contract_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/capture_hostname_transfer_batch.yml'
+            ) |
+            from_yaml
+          }}
+
+    - name: Verify hostname capture validations are inlined
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_capture_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Validate hostname transfer mapping coverage and uniqueness'
+            ) |
+            list |
+            length == 1
+          - >-
+            switch_refresh_hostname_capture_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Prove old hostnames belong only to mapped old devices'
+            ) |
+            list |
+            length == 1
+          - >-
+            'validate_hostname_transfer_capture.yml' not in
+            switch_refresh_hostname_capture_contract_source
+          - >-
+            'validate_hostname_transfer_ownership.yml' not in
+            switch_refresh_hostname_capture_contract_source
+
+    - name: Initialize Discovery hostname capture facts
+      ansible.builtin.set_fact:
+        switch_refresh_cleanup_batch_name: discovery-hostname-transfer
+        switch_refresh_batch_resolved_mappings: >-
+          {{ switch_refresh_hostname_test_mappings }}
+        switch_refresh_hostname_transfer_inventory_entries: >-
+          {{ switch_refresh_hostname_test_inventory }}
+        switch_refresh_hostname_transfer_enriched_mappings: []
+        switch_refresh_hostname_transfer_entries: []
+
+    - name: Capture live names for a Discovery-onboarded batch
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_transfer_mapping.yml
+      loop: "{{ switch_refresh_batch_resolved_mappings }}"
+      loop_control:
+        loop_var: switch_refresh_hostname_mapping_to_build
+
+    - name: Validate Discovery hostname capture
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_transfer_enriched_mappings | length ==
+            switch_refresh_batch_resolved_mappings | length
+          - >-
+            switch_refresh_hostname_transfer_entries | length ==
+            switch_refresh_batch_resolved_mappings | length
+          - switch_refresh_hostname_transfer_entries | length <= 100
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_hostname') |
+            map('lower') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_device_uuid') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='new_device_uuid') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+
+    - name: Save enriched Discovery hostname mappings
+      ansible.builtin.set_fact:
+        switch_refresh_batch_resolved_mappings: >-
+          {{ switch_refresh_hostname_transfer_enriched_mappings }}
+
+    - name: Save valid Discovery hostname transfer entries
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_test_discovery_entries: >-
+          {{ switch_refresh_hostname_transfer_entries }}
+
+    - name: Initialize captured hostname ownership fixtures
+      ansible.builtin.set_fact:
+        network_devices_info_result:
+          response:
+            - hostname-ownership-fixture
+        switch_refresh_hostname_transfer_owner_entries:
+          - device_ip: "198.51.100.20"
+            device_details:
+              - hostname: OLD-EDGE-01.example.test
+                instanceUuid: old-uuid-01
+          - device_ip: "198.51.100.21"
+            device_details:
+              - hostname: old-edge-02.example.test
+                instanceUuid: old-uuid-02
+        switch_refresh_hostname_transfer_owner_uuids:
+          - old-uuid-01
+          - old-uuid-02
+        switch_refresh_hostname_transfer_owner_hostnames:
+          - old-edge-01.example.test
+          - old-edge-02.example.test
+
+    - name: Validate captured hostname ownership fixture structure
+      ansible.builtin.assert:
+        that:
+          - network_devices_info_result.response is defined
+          - switch_refresh_hostname_owner_item is mapping
+          - switch_refresh_hostname_owner_item.device_ip is defined
+          - switch_refresh_hostname_owner_item.device_details is defined
+          - >-
+            (switch_refresh_hostname_owner_item.device_details | type_debug) ==
+            'list'
+          - switch_refresh_hostname_owner_item.device_details | length == 1
+          - switch_refresh_hostname_owner_item.device_details[0] is mapping
+      loop: "{{ switch_refresh_hostname_transfer_owner_entries }}"
+      loop_control:
+        loop_var: switch_refresh_hostname_owner_item
+        label: "{{ switch_refresh_hostname_owner_item.device_ip }}"
+
+    - name: Prove captured hostnames belong to mapped old devices offline
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_transfer_owner_entries | length ==
+            switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_owner_uuids |
+            reject('equalto', '') |
+            list |
+            length == switch_refresh_hostname_transfer_owner_uuids | length
+          - >-
+            switch_refresh_hostname_transfer_owner_uuids |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_owner_uuids | sort ==
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_device_uuid') |
+            list |
+            sort
+          - >-
+            switch_refresh_hostname_transfer_owner_hostnames | sort ==
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_hostname') |
+            map('lower') |
+            list |
+            sort
+
+    - name: Reject third-party ownership during hostname capture
+      block:
+        - name: Set a third-party captured hostname owner
+          ansible.builtin.set_fact:
+            switch_refresh_hostname_transfer_owner_uuids:
+              - unrelated-owner-uuid
+              - old-uuid-02
+
+        - name: Prove old hostnames belong only to mapped old devices offline
+          ansible.builtin.assert:
+            that:
+              - >-
+                switch_refresh_hostname_transfer_owner_entries | length ==
+                switch_refresh_hostname_transfer_entries | length
+              - >-
+                switch_refresh_hostname_transfer_owner_uuids |
+                reject('equalto', '') |
+                list |
+                length == switch_refresh_hostname_transfer_owner_uuids | length
+              - >-
+                switch_refresh_hostname_transfer_owner_uuids |
+                unique |
+                length == switch_refresh_hostname_transfer_entries | length
+              - >-
+                switch_refresh_hostname_transfer_owner_uuids | sort ==
+                switch_refresh_hostname_transfer_entries |
+                map(attribute='old_device_uuid') |
+                list |
+                sort
+              - >-
+                switch_refresh_hostname_transfer_owner_hostnames | sort ==
+                switch_refresh_hostname_transfer_entries |
+                map(attribute='old_hostname') |
+                map('lower') |
+                list |
+                sort
+
+        - name: Fail when third-party captured ownership was accepted
+          ansible.builtin.fail:
+            msg: Third-party captured hostname ownership unexpectedly passed.
+      rescue:
+        - name: Verify third-party captured ownership failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Prove old hostnames belong only to mapped old devices offline'
+              - >-
+                'switch_refresh_hostname_transfer_owner_uuids | sort' in
+                (ansible_failed_result.assertion | string)
+
+    - name: Verify desired names came only from live old-device records
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_transfer_entries | length == 2
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_hostname') |
+            list ==
+            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='new_management_ip') |
+            list == ['192.0.2.20', '192.0.2.21']
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='status') |
+            unique |
+            list == ['captured']
+          - >-
+            switch_refresh_hostname_test_mappings |
+            selectattr('new_host_name', 'defined') |
+            list |
+            length == 0
+
+    - name: Initialize LAN Automation hostname capture facts
+      ansible.builtin.set_fact:
+        switch_refresh_cleanup_batch_name: lan-automation-hostname-transfer
+        switch_refresh_batch_resolved_mappings:
+          - old_management_ip: "198.51.100.20"
+            new_device_management_ip: "192.0.2.20"
+        switch_refresh_hostname_transfer_inventory_entries: >-
+          {{ switch_refresh_hostname_test_inventory }}
+        switch_refresh_hostname_transfer_enriched_mappings: []
+        switch_refresh_hostname_transfer_entries: []
+
+    - name: Capture live name for a LAN Automation-onboarded batch
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_transfer_mapping.yml
+      loop: "{{ switch_refresh_batch_resolved_mappings }}"
+      loop_control:
+        loop_var: switch_refresh_hostname_mapping_to_build
+
+    - name: Validate LAN Automation hostname capture
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_transfer_enriched_mappings | length ==
+            switch_refresh_batch_resolved_mappings | length
+          - >-
+            switch_refresh_hostname_transfer_entries | length ==
+            switch_refresh_batch_resolved_mappings | length
+          - switch_refresh_hostname_transfer_entries | length <= 100
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_hostname') |
+            map('lower') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='old_device_uuid') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+          - >-
+            switch_refresh_hostname_transfer_entries |
+            map(attribute='new_device_uuid') |
+            unique |
+            length == switch_refresh_hostname_transfer_entries | length
+
+    - name: Save enriched LAN Automation hostname mappings
+      ansible.builtin.set_fact:
+        switch_refresh_batch_resolved_mappings: >-
+          {{ switch_refresh_hostname_transfer_enriched_mappings }}
+
+    - name: Verify onboarding method does not affect hostname capture
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_transfer_entries | length == 1
+          - >-
+            switch_refresh_hostname_transfer_entries[0].old_hostname ==
+            'OLD-EDGE-01.example.test'
+          - >-
+            switch_refresh_hostname_transfer_entries[0].new_management_ip ==
+            '192.0.2.20'
+
+    - name: Set original Discovery input for durable resume fingerprint
+      ansible.builtin.set_fact:
+        refresh_item:
+          name: discovery-hostname-transfer
+          fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+          onboarding_method: discovery
+          new_devices:
+            device_ips:
+              - "192.0.2.20"
+              - "192.0.2.21"
+          device_mapping:
+            - old:
+                serial_number: OLD-SERIAL-01
+              new_device_management_ip: "192.0.2.20"
+            - old:
+                management_ip: "198.51.100.21"
+              new_device_management_ip: "192.0.2.21"
+
+    - name: Derive durable hostname transfer input fingerprint
+      ansible.builtin.include_tasks: >-
+        ../tasks/derive_hostname_transfer_input_fingerprint.yml
+
+    - name: Persist pre-delete Discovery hostname transfer manifest
+      ansible.builtin.include_tasks: >-
+        ../tasks/persist_hostname_transfer_manifest.yml
+      vars:
+        switch_refresh_hostname_transfer_plan:
+          name: discovery-hostname-transfer
+          fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+          hostname_transfer_enabled: true
+          hostname_transfer_manifest_file: >-
+            {{ switch_refresh_hostname_test_manifest }}
+          hostname_transfer_input_fingerprint: >-
+            {{ switch_refresh_hostname_transfer_input_fingerprint }}
+          hostname_transfer_entries: >-
+            {{ switch_refresh_hostname_test_discovery_entries }}
+
+    - name: Inspect persisted hostname transfer manifest
+      ansible.builtin.stat:
+        path: "{{ switch_refresh_hostname_test_manifest }}"
+      register: switch_refresh_hostname_test_manifest_stat
+
+    - name: Read persisted hostname transfer manifest
+      ansible.builtin.slurp:
+        path: "{{ switch_refresh_hostname_test_manifest }}"
+      register: switch_refresh_hostname_test_manifest_content
+
+    - name: Decode persisted hostname transfer manifest
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_test_loaded_manifest: >-
+          {{
+            switch_refresh_hostname_test_manifest_content.content |
+            b64decode |
+            from_yaml
+          }}
+
+    - name: Verify durable pre-delete hostname capture
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_test_manifest_stat.stat.isreg
+          - switch_refresh_hostname_test_manifest_stat.stat.mode == '0600'
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.schema_version == 1
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.controller ==
+            catalystcenter_host
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.status == 'captured'
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.devices | length == 2
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.devices[0].old_hostname
+            == 'OLD-EDGE-01.example.test'
+          - >-
+            switch_refresh_hostname_test_loaded_manifest.input_fingerprint |
+            length == 64
+
+    - name: Initialize manifest-resume hostname finalization plans
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalize_plans: []
+        switch_refresh_hostname_transfer_manifest_dir: >-
+          {{ switch_refresh_hostname_test_dir }}
+
+    - name: Load durable hostname manifest without the deleted old devices
+      ansible.builtin.include_tasks: >-
+        ../tasks/load_hostname_transfer_manifest.yml
+
+    - name: Verify durable cleanup resume plan
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_finalize_plans | length == 1
+          - >-
+            switch_refresh_hostname_finalize_plans[0].name ==
+            'discovery-hostname-transfer'
+          - >-
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_entries
+            | length == 2
+          - >-
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_entries
+            | map(attribute='old_hostname') | list ==
+            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+          - >-
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_input_fingerprint
+            == switch_refresh_hostname_transfer_input_fingerprint
+          - >-
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_manifest_file
+            == switch_refresh_hostname_test_manifest
+
+    - name: Plan a durable-resume batch with one already-correct device
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_update_batch.yml
+      vars:
+        switch_refresh_hostname_finalize_entries: >-
+          {{
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_entries
+          }}
+        switch_refresh_hostname_new_inventory_records:
+          - managementIpAddress: "192.0.2.20"
+            hostname: OLD-EDGE-01.example.test
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+          - managementIpAddress: "192.0.2.21"
+            hostname: temporary-edge-02
+            instanceUuid: new-uuid-02
+            serialNumber: NEW-SERIAL-02
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+        switch_refresh_hostname_claim_inventory_records:
+          - managementIpAddress: "192.0.2.20"
+            hostname: OLD-EDGE-01.example.test
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+        switch_refresh_hostname_builder_strict: true
+        switch_refresh_hostname_builder_build_payload: true
+
+    - name: Verify resume skips correct devices and retains pending work
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_runtime_entries | length == 2
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            selectattr('status', 'equalto', 'verified') |
+            map(attribute='new_management_ip') |
+            list == ['192.0.2.20']
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            selectattr('status', 'equalto', 'rename_pending') |
+            map(attribute='new_management_ip') |
+            list == ['192.0.2.21']
+          - switch_refresh_hostname_update_devices | length == 1
+          - >-
+            switch_refresh_hostname_update_devices[0] ==
+            {
+              'device_management_ip_address': '192.0.2.21',
+              'new_host_name': 'old-edge-02.example.test'
+            }
+
+    - name: Plan one aggregate update for two pending replacements
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_update_batch.yml
+      vars:
+        switch_refresh_hostname_finalize_entries: >-
+          {{
+            switch_refresh_hostname_finalize_plans[0].hostname_transfer_entries
+          }}
+        switch_refresh_hostname_new_inventory_records:
+          - managementIpAddress: "192.0.2.20"
+            hostname: temporary-edge-01
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+          - managementIpAddress: "192.0.2.21"
+            hostname: temporary-edge-02
+            instanceUuid: new-uuid-02
+            serialNumber: NEW-SERIAL-02
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+        switch_refresh_hostname_claim_inventory_records: []
+        switch_refresh_hostname_builder_strict: true
+        switch_refresh_hostname_builder_build_payload: true
+
+    - name: Verify batched LAN Automation hostname update payload
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_update_devices | length == 2
+          - >-
+            switch_refresh_hostname_update_devices |
+            map(attribute='device_management_ip_address') |
+            list == ['192.0.2.20', '192.0.2.21']
+          - >-
+            switch_refresh_hostname_update_devices |
+            map(attribute='new_host_name') |
+            list ==
+            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            map(attribute='status') |
+            unique |
+            list == ['rename_pending']
+
+    - name: Reject a desired hostname owned by a third device
+      block:
+        - name: Plan update with a third-party hostname owner
+          ansible.builtin.include_tasks: >-
+            ../tasks/build_hostname_update_batch.yml
+          vars:
+            switch_refresh_hostname_finalize_entries: >-
+              {{ switch_refresh_hostname_test_loaded_manifest.devices[1:2] }}
+            switch_refresh_hostname_new_inventory_records:
+              - managementIpAddress: "192.0.2.21"
+                hostname: temporary-edge-02
+                instanceUuid: new-uuid-02
+                serialNumber: NEW-SERIAL-02
+                managementState: Managed
+                reachabilityStatus: Reachable
+                role: ACCESS
+            switch_refresh_hostname_claim_inventory_records:
+              - managementIpAddress: "192.0.2.99"
+                hostname: old-edge-02.example.test
+                instanceUuid: unrelated-uuid-99
+                serialNumber: UNRELATED-SERIAL-99
+                managementState: Managed
+                reachabilityStatus: Reachable
+                role: ACCESS
+            switch_refresh_hostname_builder_strict: true
+            switch_refresh_hostname_builder_build_payload: true
+
+        - name: Fail when third-party hostname ownership was accepted
+          ansible.builtin.fail:
+            msg: Third-party hostname ownership unexpectedly passed.
+      rescue:
+        - name: Verify third-party hostname ownership failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Enforce replacement hostname transfer safety'
+              - >-
+                'owned by a different inventory device' in
+                (ansible_failed_result | string | lower)
+
+    - name: Reject a replacement whose live inventory role is not ACCESS
+      block:
+        - name: Plan update for a non-ACCESS replacement
+          ansible.builtin.include_tasks: >-
+            ../tasks/build_hostname_update_batch.yml
+          vars:
+            switch_refresh_hostname_finalize_entries: >-
+              {{
+                switch_refresh_hostname_finalize_plans[0].hostname_transfer_entries[0:1]
+              }}
+            switch_refresh_hostname_new_inventory_records:
+              - managementIpAddress: "192.0.2.20"
+                hostname: temporary-edge-01
+                instanceUuid: new-uuid-01
+                serialNumber: NEW-SERIAL-01
+                managementState: Managed
+                reachabilityStatus: Reachable
+                role: CORE
+            switch_refresh_hostname_claim_inventory_records: []
+            switch_refresh_hostname_builder_strict: true
+            switch_refresh_hostname_builder_build_payload: true
+
+        - name: Fail when a non-ACCESS replacement was accepted
+          ansible.builtin.fail:
+            msg: Non-ACCESS replacement unexpectedly passed.
+      rescue:
+        - name: Verify non-ACCESS replacement failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Enforce replacement hostname transfer safety'
+              - >-
+                ansible_failed_result.assertion ==
+                'switch_refresh_hostname_entry_is_access | bool'
+              - switch_refresh_hostname_update_devices | length == 0
+
+    - name: Load inlined old UUID absence validation contract
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalize_contract_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/finalize_hostname_batch.yml'
+            )
+          }}
+
+    - name: Verify old UUID absence validation is inlined
+      ansible.builtin.assert:
+        that:
+          - >-
+            'Validate every old UUID lookup proves absence' in
+            switch_refresh_hostname_finalize_contract_source
+          - >-
+            'validate_hostname_old_uuid_absence_result.yml' not in
+            switch_refresh_hostname_finalize_contract_source
+          - >-
+            'response other than HTTP 404' in
+            switch_refresh_hostname_finalize_contract_source
+
+    - name: Validate old UUID absence predicate cases
+      ansible.builtin.assert:
+        that:
+          - >-
+            (
+              (
+                switch_refresh_hostname_old_uuid_result.failed |
+                default(false) |
+                bool and
+                switch_refresh_hostname_old_uuid_result.status |
+                default(0) |
+                int == 404
+              ) or
+              (
+                not (
+                  switch_refresh_hostname_old_uuid_result.failed |
+                  default(true) |
+                  bool
+                ) and
+                (
+                  (
+                    (
+                      switch_refresh_hostname_old_uuid_result.catalystcenter_response |
+                      default({})
+                    ).response |
+                    default(none, true)
+                  ) is none or
+                  (
+                    (
+                      switch_refresh_hostname_old_uuid_result.catalystcenter_response |
+                      default({})
+                    ).response is mapping and
+                    (
+                      switch_refresh_hostname_old_uuid_result.catalystcenter_response |
+                      default({})
+                    ).response | length == 0
+                  ) or
+                  (
+                    (
+                      switch_refresh_hostname_old_uuid_result.catalystcenter_response |
+                      default({})
+                    ).response | type_debug == 'list' and
+                    (
+                      switch_refresh_hostname_old_uuid_result.catalystcenter_response |
+                      default({})
+                    ).response |
+                    reject('equalto', none) |
+                    list |
+                    length == 0
+                  )
+                )
+              )
+            ) == (switch_refresh_hostname_old_uuid_case.expected | bool)
+      loop:
+        - name: explicit HTTP 404
+          expected: true
+          result:
+            item: deleted-old-uuid
+            failed: true
+            status: 404
+        - name: HTTP 500
+          expected: false
+          result:
+            item: unresolved-old-uuid
+            failed: true
+            status: 500
+        - name: HTTP 401
+          expected: false
+          result:
+            item: unresolved-old-uuid
+            failed: true
+            status: 401
+      loop_control:
+        loop_var: switch_refresh_hostname_old_uuid_case
+        label: "{{ switch_refresh_hostname_old_uuid_case.name }}"
+      vars:
+        switch_refresh_hostname_old_uuid_result: >-
+          {{ switch_refresh_hostname_old_uuid_case.result }}
+
+    - name: Validate exact replacement EDGE_NODE fixture coverage
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_hostname_transfer_fabric_result.yml
+      vars:
+        switch_refresh_hostname_fabric_site: Global/Test/Fabric
+        switch_refresh_hostname_fabric_validation_context: offline-test
+        switch_refresh_hostname_fabric_expected_ips:
+          - "192.0.2.20"
+          - "192.0.2.21"
+        fabric_devices_info_result:
+          response:
+            - - fabric_info:
+                  - device_ip: "192.0.2.20"
+                    fabric_details:
+                      - deviceRoles:
+                          - EDGE_NODE
+                  - device_ip: "192.0.2.21"
+                    fabric_details:
+                      - deviceRoles:
+                          - EDGE_NODE
+
+    - name: Reject partial replacement EDGE_NODE fixture coverage
+      block:
+        - name: Validate partial replacement EDGE_NODE coverage
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_hostname_transfer_fabric_result.yml
+          vars:
+            switch_refresh_hostname_fabric_site: Global/Test/Fabric
+            switch_refresh_hostname_fabric_validation_context: offline-test
+            switch_refresh_hostname_fabric_expected_ips:
+              - "192.0.2.20"
+              - "192.0.2.21"
+            fabric_devices_info_result:
+              response:
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+
+        - name: Fail when partial fabric coverage was accepted
+          ansible.builtin.fail:
+            msg: Partial EDGE_NODE coverage unexpectedly passed.
+      rescue:
+        - name: Verify partial fabric coverage failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate exact replacement EDGE_NODE fabric coverage'
+              - >-
+                'did not find every replacement as an EDGE_NODE' in
+                (ansible_failed_result | string)
+
+    - name: Build entries with a case-insensitive hostname collision
+      block:
+        - name: Initialize colliding hostname capture facts
+          ansible.builtin.set_fact:
+            switch_refresh_cleanup_batch_name: colliding-hostnames
+            switch_refresh_batch_resolved_mappings: >-
+              {{ switch_refresh_hostname_test_mappings }}
+            switch_refresh_hostname_transfer_inventory_entries:
+              - device_ip: "198.51.100.20"
+                device_details:
+                  - managementIpAddress: "198.51.100.20"
+                    hostname: duplicate-edge.example.test
+                    instanceUuid: collision-old-uuid-01
+                    serialNumber: COLLISION-OLD-SERIAL-01
+              - device_ip: "192.0.2.20"
+                device_details:
+                  - managementIpAddress: "192.0.2.20"
+                    hostname: temporary-edge-01
+                    instanceUuid: collision-new-uuid-01
+                    serialNumber: COLLISION-NEW-SERIAL-01
+                    managementState: Managed
+                    reachabilityStatus: Reachable
+                    role: ACCESS
+              - device_ip: "198.51.100.21"
+                device_details:
+                  - managementIpAddress: "198.51.100.21"
+                    hostname: DUPLICATE-EDGE.example.test
+                    instanceUuid: collision-old-uuid-02
+                    serialNumber: COLLISION-OLD-SERIAL-02
+              - device_ip: "192.0.2.21"
+                device_details:
+                  - managementIpAddress: "192.0.2.21"
+                    hostname: temporary-edge-02
+                    instanceUuid: collision-new-uuid-02
+                    serialNumber: COLLISION-NEW-SERIAL-02
+                    managementState: Managed
+                    reachabilityStatus: Reachable
+                    role: ACCESS
+            switch_refresh_hostname_transfer_enriched_mappings: []
+            switch_refresh_hostname_transfer_entries: []
+
+        - name: Build colliding hostname entries
+          ansible.builtin.include_tasks: >-
+            ../tasks/build_hostname_transfer_mapping.yml
+          loop: "{{ switch_refresh_batch_resolved_mappings }}"
+          loop_control:
+            loop_var: switch_refresh_hostname_mapping_to_build
+
+        - name: Validate colliding hostname entries
+          ansible.builtin.assert:
+            that:
+              - >-
+                switch_refresh_hostname_transfer_enriched_mappings | length ==
+                switch_refresh_batch_resolved_mappings | length
+              - >-
+                switch_refresh_hostname_transfer_entries | length ==
+                switch_refresh_batch_resolved_mappings | length
+              - switch_refresh_hostname_transfer_entries | length <= 100
+              - >-
+                switch_refresh_hostname_transfer_entries |
+                map(attribute='old_hostname') |
+                map('lower') |
+                unique |
+                length == switch_refresh_hostname_transfer_entries | length
+              - >-
+                switch_refresh_hostname_transfer_entries |
+                map(attribute='old_device_uuid') |
+                unique |
+                length == switch_refresh_hostname_transfer_entries | length
+              - >-
+                switch_refresh_hostname_transfer_entries |
+                map(attribute='new_device_uuid') |
+                unique |
+                length == switch_refresh_hostname_transfer_entries | length
+            fail_msg: >-
+              Hostname transfer requires no more than 100 complete mappings with
+              unique old hostnames, old identities, and replacement identities.
+
+        - name: Fail when a hostname collision was accepted
+          ansible.builtin.fail:
+            msg: Case-insensitive hostname collision unexpectedly passed.
+      rescue:
+        - name: Verify hostname collision failed before cleanup
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate colliding hostname entries'
+              - >-
+                'unique old hostnames' in
+                (ansible_failed_result | string | lower)
+
+    - name: Load hostname finalizer task wiring offline
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalizer_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/finalize_hostname_batch.yml'
+            )
+          }}
+
+    - name: Parse hostname finalizer task wiring
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalizer_tasks: >-
+          {{ switch_refresh_hostname_finalizer_source | from_yaml }}
+
+    - name: Select hostname finalizer execution block
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalizer_block: >-
+          {{
+            switch_refresh_hostname_finalizer_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Finalize replacement switch hostnames'
+            ) |
+            first
+          }}
+
+    - name: Derive hostname finalizer integration tasks
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_finalizer_inner_tasks: >-
+          {{ switch_refresh_hostname_finalizer_block.block }}
+        switch_refresh_hostname_manager_calls: >-
+          {{
+            switch_refresh_hostname_finalizer_block.block |
+            selectattr(
+              'name',
+              'equalto',
+              'Submit aggregate LAN Automation hostname update'
+            ) |
+            list
+          }}
+        switch_refresh_hostname_async_status_calls: >-
+          {{
+            switch_refresh_hostname_finalizer_block.block |
+            selectattr(
+              'name',
+              'equalto',
+              'Wait for bounded hostname update job completion'
+            ) |
+            list
+          }}
+        switch_refresh_hostname_wait_tasks: >-
+          {{
+            switch_refresh_hostname_finalizer_block.block |
+            selectattr(
+              'name',
+              'equalto',
+              'Wait until LAN Automation is inactive before hostname update'
+            ) |
+            list
+          }}
+
+    - name: Verify bounded update-only LAN Automation integration
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_manager_calls | length == 1
+          - switch_refresh_hostname_async_status_calls | length == 1
+          - switch_refresh_hostname_wait_tasks | length == 1
+          - >-
+            switch_refresh_hostname_manager_calls[0][
+              'cisco.catalystcenter.lan_automation_workflow_manager'
+            ] is defined
+          - >-
+            switch_refresh_hostname_async_status_calls[0][
+              'ansible.builtin.async_status'
+            ] is defined
+          - >-
+            switch_refresh_hostname_wait_tasks[0][
+              'ansible.builtin.include_tasks'
+            ] == 'wait_for_lan_automation.yml'
+          - >-
+            'switch_refresh_hostname_transfer_timeout' in
+            (switch_refresh_hostname_manager_calls[0]['async'] | string)
+          - switch_refresh_hostname_manager_calls[0].poll | int == 0
+          - >-
+            switch_refresh_hostname_manager_calls[0][
+              'cisco.catalystcenter.lan_automation_workflow_manager'
+            ].config | length == 1
+          - >-
+            switch_refresh_hostname_manager_calls[0][
+              'cisco.catalystcenter.lan_automation_workflow_manager'
+            ].config[0].lan_automated_device_update.hostname_update_devices
+            is defined
+          - >-
+            'switch_refresh_hostname_submitted_update_devices' in
+            (
+              switch_refresh_hostname_manager_calls[0][
+                'cisco.catalystcenter.lan_automation_workflow_manager'
+              ].config[0].lan_automated_device_update.hostname_update_devices |
+              string
+            )
+          - >-
+            (
+              switch_refresh_hostname_finalizer_inner_tasks |
+              map(attribute='name') |
+              list
+            ).index(
+              'Wait until LAN Automation is inactive before hostname update'
+            ) <
+            (
+              switch_refresh_hostname_finalizer_inner_tasks |
+              map(attribute='name') |
+              list
+            ).index('Submit aggregate LAN Automation hostname update')
+          - >-
+            'plugins/modules/lan_automation_workflow_manager.py' not in
+            switch_refresh_hostname_finalizer_source
+
+    - name: Load public hostname-transfer phase contract offline
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_defaults_contract: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../defaults/main.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_hostname_main_contract_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/main.yml'
+            )
+          }}
+        switch_refresh_hostname_main_contract_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/main.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_hostname_cleanup_contract_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/cleanup_batch.yml'
+            )
+          }}
+        switch_refresh_hostname_cleanup_contract_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/cleanup_batch.yml'
+            ) |
+            from_yaml
+          }}
+
+    - name: Select two-phase hostname-transfer control tasks
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_normal_cleanup_task: >-
+          {{
+            switch_refresh_hostname_main_contract_tasks |
+            selectattr('name', 'equalto', 'Clean up old switch batches') |
+            first
+          }}
+        switch_refresh_hostname_cleanup_preflight_task: >-
+          {{
+            switch_refresh_hostname_main_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Preflight every old-switch cleanup batch'
+            ) |
+            first
+          }}
+        switch_refresh_hostname_manifest_persist_task: >-
+          {{
+            switch_refresh_hostname_main_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Persist every validated hostname transfer manifest'
+            ) |
+            first
+          }}
+        switch_refresh_hostname_resume_load_task: >-
+          {{
+            switch_refresh_hostname_main_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Load every hostname transfer manifest before cleanup resume'
+            ) |
+            first
+          }}
+        switch_refresh_hostname_resume_execute_task: >-
+          {{
+            switch_refresh_hostname_main_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Resume replacement hostname batches from manifests'
+            ) |
+            first
+          }}
+        switch_refresh_hostname_normal_finalize_task: >-
+          {{
+            switch_refresh_hostname_cleanup_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Finalize replacement hostnames from captured old-device names'
+            ) |
+            first
+          }}
+
+    - name: Verify two-phase cleanup resume contract
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_defaults_contract.switch_refresh_phase ==
+            'prepare'
+          - >-
+            switch_refresh_hostname_defaults_contract.switch_refresh_hostname_transfer_resume_from_manifest
+            is defined
+          - >-
+            not (
+              switch_refresh_hostname_defaults_contract.switch_refresh_hostname_transfer_resume_from_manifest |
+              bool
+            )
+          - >-
+            switch_refresh_hostname_main_contract_tasks[0][
+              'ansible.builtin.assert'
+            ].that[0] ==
+            "switch_refresh_phase in ['prepare', 'cleanup_old']"
+          - >-
+            'switch_refresh_hostname_transfer_resume_from_manifest' in
+            switch_refresh_hostname_main_contract_source
+          - >-
+            'finalize_hostname_batch.yml' in
+            switch_refresh_hostname_cleanup_contract_source
+          - >-
+            'switch_refresh_hostname_transfer_auto_finalize' not in
+            switch_refresh_hostname_defaults_contract | string
+          - >-
+            'switch_refresh_hostname_transfer_auto_finalize' not in
+            switch_refresh_hostname_main_contract_source
+          - >-
+            'switch_refresh_hostname_transfer_auto_finalize' not in
+            switch_refresh_hostname_cleanup_contract_source
+          - >-
+            'finalize_hostnames' not in
+            switch_refresh_hostname_main_contract_source
+          - >-
+            switch_refresh_hostname_normal_cleanup_task.when ==
+            ['switch_refresh_normal_cleanup_mode | bool']
+          - >-
+            switch_refresh_hostname_cleanup_preflight_task.when ==
+            ['switch_refresh_normal_cleanup_mode | bool']
+          - >-
+            switch_refresh_hostname_manifest_persist_task.when ==
+            [
+              'switch_refresh_normal_cleanup_mode | bool',
+              'switch_refresh_hostname_transfer_enabled | bool'
+            ]
+          - >-
+            switch_refresh_hostname_resume_load_task.when ==
+            ['switch_refresh_manifest_resume_mode | bool']
+          - >-
+            switch_refresh_hostname_resume_execute_task.when ==
+            ['switch_refresh_manifest_resume_mode | bool']
+          - >-
+            switch_refresh_hostname_main_contract_tasks.index(
+              switch_refresh_hostname_resume_load_task
+            ) <
+            switch_refresh_hostname_main_contract_tasks.index(
+              switch_refresh_hostname_resume_execute_task
+            )
+          - >-
+            switch_refresh_hostname_normal_finalize_task.when ==
+            ['switch_refresh_cleanup_batch_hostname_transfer_enabled | bool']
+
+    - name: Reject the removed finalize_hostnames phase
+      block:
+        - name: Run removed hostname finalization phase
+          ansible.builtin.include_tasks: ../tasks/main.yml
+          vars:
+            switch_refresh_phase: finalize_hostnames
+            switch_refresh_cleanup_old: false
+            switch_refresh_hostname_transfer_enabled: true
+            switch_refresh_hostname_transfer_resume_from_manifest: false
+            switch_refresh_hostname_transfer_manifest_dir: >-
+              {{ switch_refresh_hostname_test_dir }}
+            switch_refresh_batches: >-
+              {{ switch_refresh_hostname_test_control_batches }}
+
+        - name: Fail when removed hostname phase was accepted
+          ansible.builtin.fail:
+            msg: Removed finalize_hostnames phase unexpectedly passed.
+      rescue:
+        - name: Verify removed hostname phase failed validation
+          ansible.builtin.assert:
+            that:
+              - ansible_failed_task.name == 'Validate switch refresh control variables'
+              - >-
+                'must be prepare or cleanup_old' in
+                (ansible_failed_result | string)
+
+    - name: Reject destructive approval during manifest resume
+      block:
+        - name: Run conflicting cleanup and manifest resume controls
+          ansible.builtin.include_tasks: ../tasks/main.yml
+          vars:
+            switch_refresh_phase: cleanup_old
+            switch_refresh_cleanup_old: true
+            switch_refresh_hostname_transfer_enabled: true
+            switch_refresh_hostname_transfer_resume_from_manifest: true
+            switch_refresh_hostname_transfer_manifest_dir: >-
+              {{ switch_refresh_hostname_test_dir }}
+            switch_refresh_batches: >-
+              {{ switch_refresh_hostname_test_control_batches }}
+
+        - name: Fail when destructive manifest resume was accepted
+          ansible.builtin.fail:
+            msg: Destructive approval unexpectedly passed manifest resume.
+      rescue:
+        - name: Verify destructive manifest resume failed validation
+          ansible.builtin.assert:
+            that:
+              - ansible_failed_task.name == 'Validate cleanup execution controls'
+              - >-
+                'manifest resume requires cleanup_old phase' in
+                (ansible_failed_result | string | lower)
+
+    - name: Reject manifest resume when hostname transfer is disabled
+      block:
+        - name: Run disabled hostname transfer resume controls
+          ansible.builtin.include_tasks: ../tasks/main.yml
+          vars:
+            switch_refresh_phase: cleanup_old
+            switch_refresh_cleanup_old: false
+            switch_refresh_hostname_transfer_enabled: false
+            switch_refresh_hostname_transfer_resume_from_manifest: true
+            switch_refresh_batches: >-
+              {{ switch_refresh_hostname_test_control_batches }}
+
+        - name: Fail when disabled hostname transfer resume was accepted
+          ansible.builtin.fail:
+            msg: Disabled hostname transfer unexpectedly passed resume.
+      rescue:
+        - name: Verify disabled hostname transfer resume failed validation
+          ansible.builtin.assert:
+            that:
+              - ansible_failed_task.name == 'Validate hostname transfer controls'
+              - >-
+                'requires hostname transfer to be enabled' in
+                (ansible_failed_result | string | lower)
+
+    - name: Remove hostname transfer test directory
+      ansible.builtin.file:
+        path: "{{ switch_refresh_hostname_test_dir }}"
+        state: absent

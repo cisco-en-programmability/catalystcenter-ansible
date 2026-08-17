@@ -1,0 +1,80 @@
+---
+- name: Build read-only switch refresh prepare batch plan
+  ansible.builtin.include_tasks: build_batch_plan.yml
+
+- name: Resolve all old switches during prepare preflight
+  ansible.builtin.include_tasks: resolve_batch_old_devices.yml
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Validate old migration sources in the expected fabric
+  ansible.builtin.include_tasks: validate_old_batch_fabric_presence.yml
+  vars:
+    switch_refresh_old_fabric_expected_ips: >-
+      {{
+        switch_refresh_batch_resolved_mappings |
+        map(attribute='old_management_ip') |
+        map('string') |
+        list
+      }}
+    switch_refresh_old_fabric_validation_context: Prepare
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Preflight prepare migration output parent
+  ansible.builtin.include_tasks: preflight_output_parent.yml
+  vars:
+    switch_refresh_output_path: "{{ switch_refresh_batch_migration_output_file }}"
+    switch_refresh_output_label: migration_output_file
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Inspect prepare migration output path
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_batch_migration_output_file }}"
+    follow: false
+  register: switch_refresh_prepare_output_preflight_stat
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Validate prepare migration output path type
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_prepare_output_preflight_stat.stat.exists | bool) or
+        (switch_refresh_prepare_output_preflight_stat.stat.isreg | default(false))
+    fail_msg: >-
+      migration_output_file must be absent or an existing regular file. The role
+      will not remove a directory, symlink, or special file:
+      {{ switch_refresh_batch_migration_output_file }}.
+  when: switch_refresh_host_onboarding_enabled | bool
+
+- name: Save validated switch refresh prepare batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_prepare_preflight_plans: >-
+      {{
+        switch_refresh_prepare_preflight_plans + [
+          {
+            'name': switch_refresh_batch_name,
+            'file_safe_name': switch_refresh_batch_file_safe_name,
+            'onboarding_method': switch_refresh_batch_onboarding_method,
+            'new_devices': switch_refresh_batch_new_devices,
+            'new_management_ips': switch_refresh_batch_device_ips,
+            'device_mappings': switch_refresh_batch_device_mappings,
+            'resolved_mappings': switch_refresh_batch_resolved_mappings,
+            'discovery_config': switch_refresh_batch_discovery_config,
+            'lan_automation_serial_numbers':
+              switch_refresh_batch_lan_automation_serial_numbers,
+            'inventory_execution_config':
+              switch_refresh_batch_inventory_execution_config,
+            'provision_config': switch_refresh_batch_provision_config,
+            'fabric_devices_config':
+              switch_refresh_batch_fabric_devices_config,
+            'migration_output_file':
+              switch_refresh_batch_migration_output_file,
+            'old_management_ips': (
+              switch_refresh_batch_resolved_mappings |
+              map(attribute='old_management_ip') |
+              map('string') |
+              list
+            ) if (switch_refresh_host_onboarding_enabled | bool) else []
+          }
+        ]
+      }}
+  no_log: true

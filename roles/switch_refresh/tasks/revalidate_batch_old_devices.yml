@@ -1,0 +1,60 @@
+---
+- name: Save immutable old switch resolution for revalidation
+  ansible.builtin.set_fact:
+    switch_refresh_expected_resolved_mappings: >-
+      {{ switch_refresh_batch_resolved_mappings }}
+
+- name: Re-resolve every old switch identifier
+  ansible.builtin.include_tasks: resolve_batch_old_devices.yml
+
+- name: Initialize expected and current old switch resolution keys
+  ansible.builtin.set_fact:
+    switch_refresh_expected_resolution_keys: []
+    switch_refresh_current_resolution_keys: []
+
+- name: Build expected old switch resolution keys
+  ansible.builtin.set_fact:
+    switch_refresh_expected_resolution_keys: >-
+      {{
+        switch_refresh_expected_resolution_keys +
+        [
+          switch_refresh_expected_resolution_mapping.new_device_management_ip ~
+          ':' ~
+          switch_refresh_expected_resolution_mapping.old_management_ip
+        ]
+      }}
+  loop: "{{ switch_refresh_expected_resolved_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_expected_resolution_mapping
+    label: >-
+      {{ switch_refresh_expected_resolution_mapping.new_device_management_ip }}
+
+- name: Build current old switch resolution keys
+  ansible.builtin.set_fact:
+    switch_refresh_current_resolution_keys: >-
+      {{
+        switch_refresh_current_resolution_keys +
+        [
+          switch_refresh_current_resolution_mapping.new_device_management_ip ~
+          ':' ~
+          switch_refresh_current_resolution_mapping.old_management_ip
+        ]
+      }}
+  loop: "{{ switch_refresh_batch_resolved_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_current_resolution_mapping
+    label: >-
+      {{ switch_refresh_current_resolution_mapping.new_device_management_ip }}
+
+- name: Validate old switch identities did not change after preflight
+  ansible.builtin.assert:
+    that:
+      - >-
+        (switch_refresh_current_resolution_keys | sort) ==
+        (switch_refresh_expected_resolution_keys | sort)
+    fail_msg: >-
+      One or more old-device identifiers now resolve differently from the
+      immutable global preflight plan for batch {{ switch_refresh_batch_name }}.
+      No operation will use the changed targets. Expected
+      {{ switch_refresh_expected_resolution_keys }}, received
+      {{ switch_refresh_current_resolution_keys }}.

@@ -1,0 +1,155 @@
+---
+# Pure hostname update planner. This helper can be exercised without a live
+# Catalyst Center by supplying captured entries and inventory record fixtures.
+- name: Validate hostname update planner inputs
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_hostname_finalize_entries | type_debug) == 'list'
+      - switch_refresh_hostname_finalize_entries | length > 0
+      - (switch_refresh_hostname_new_inventory_records | type_debug) == 'list'
+      - (switch_refresh_hostname_claim_inventory_records | type_debug) == 'list'
+      - >-
+        (switch_refresh_hostname_builder_strict | default(true) | type_debug)
+        == 'bool'
+      - >-
+        (
+          switch_refresh_hostname_builder_build_payload |
+          default(true) |
+          type_debug
+        ) == 'bool'
+    fail_msg: >-
+      Hostname update planning requires non-empty captured entries, replacement
+      and hostname-claim inventory record lists, and boolean planner controls.
+
+- name: Initialize hostname update batch planner
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_update_devices: []
+    switch_refresh_hostname_runtime_entries: []
+    switch_refresh_hostname_builder_strict: >-
+      {{ switch_refresh_hostname_builder_strict | default(true) | bool }}
+    switch_refresh_hostname_builder_build_payload: >-
+      {{
+        switch_refresh_hostname_builder_build_payload |
+        default(true) |
+        bool
+      }}
+
+- name: Validate captured hostname transfer entries
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_finalize_entry is mapping
+      - >-
+        switch_refresh_hostname_finalize_entry.old_management_ip is defined
+      - switch_refresh_hostname_finalize_entry.old_hostname is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.old_hostname |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_hostname_finalize_entry.old_device_uuid is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.old_device_uuid |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_hostname_finalize_entry.old_serial_number is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.old_serial_number |
+        string |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_hostname_finalize_entry.new_management_ip is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.new_management_ip |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_hostname_finalize_entry.new_device_uuid is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.new_device_uuid |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_hostname_finalize_entry.new_serial_number is defined
+      - >-
+        switch_refresh_hostname_finalize_entry.new_serial_number |
+        string |
+        trim |
+        length > 0
+    fail_msg: >-
+      Each captured hostname transfer entry requires non-empty old hostname,
+      old/new management IP, UUID, and serial-number values.
+  loop: "{{ switch_refresh_hostname_finalize_entries }}"
+  loop_control:
+    loop_var: switch_refresh_hostname_finalize_entry
+    label: >-
+      {{
+        switch_refresh_hostname_finalize_entry.new_management_ip |
+        default('invalid-hostname-transfer-entry')
+        if (switch_refresh_hostname_finalize_entry is mapping)
+        else 'invalid-hostname-transfer-entry'
+      }}
+
+- name: Validate hostname transfer inventory record types
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_inventory_record is mapping
+    fail_msg: Hostname transfer inventory responses must contain mappings only.
+  loop: >-
+    {{
+      switch_refresh_hostname_new_inventory_records +
+      switch_refresh_hostname_claim_inventory_records
+    }}
+  loop_control:
+    loop_var: switch_refresh_hostname_inventory_record
+    label: >-
+      {{
+        switch_refresh_hostname_inventory_record.managementIpAddress |
+        default('inventory-record')
+        if (switch_refresh_hostname_inventory_record is mapping)
+        else 'invalid-inventory-record'
+      }}
+
+- name: Validate hostname update batch uniqueness
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_hostname_finalize_entries |
+        map(attribute='new_management_ip') |
+        map('string') |
+        unique |
+        length == switch_refresh_hostname_finalize_entries | length
+      - >-
+        switch_refresh_hostname_finalize_entries |
+        map(attribute='old_hostname') |
+        map('string') |
+        map('lower') |
+        unique |
+        length == switch_refresh_hostname_finalize_entries | length
+    fail_msg: >-
+      A hostname update batch requires unique replacement management IPs and
+      case-insensitively unique captured hostnames.
+
+- name: Classify captured hostname transfer entries
+  ansible.builtin.include_tasks: classify_hostname_transfer_entry.yml
+  loop: "{{ switch_refresh_hostname_finalize_entries }}"
+  loop_control:
+    loop_var: switch_refresh_hostname_finalize_entry
+    label: "{{ switch_refresh_hostname_finalize_entry.new_management_ip }}"
+
+- name: Validate hostname update planner coverage
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_hostname_runtime_entries | length ==
+        switch_refresh_hostname_finalize_entries | length
+      - >-
+        switch_refresh_hostname_update_devices |
+        map(attribute='device_management_ip_address') |
+        map('string') |
+        unique |
+        length == switch_refresh_hostname_update_devices | length
+    fail_msg: >-
+      Hostname update planning did not produce exact captured-entry coverage or
+      produced duplicate update targets.

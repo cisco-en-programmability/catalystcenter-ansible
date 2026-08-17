@@ -1,0 +1,61 @@
+---
+- name: Initialize replacement switch batch fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_batch_fabric_info_entries: []
+
+- name: Extract replacement switch batch fabric details
+  ansible.builtin.set_fact:
+    switch_refresh_batch_fabric_info_entries: >-
+      {{
+        switch_refresh_batch_fabric_info_entries +
+        switch_refresh_fabric_response_item[0].fabric_info
+      }}
+  loop: "{{ fabric_devices_info_result.response | default([]) }}"
+  loop_control:
+    loop_var: switch_refresh_fabric_response_item
+    label: fabric-info-response
+  when:
+    - (switch_refresh_fabric_response_item | type_debug) == 'list'
+    - switch_refresh_fabric_response_item | length > 0
+    - switch_refresh_fabric_response_item[0] is mapping
+    - switch_refresh_fabric_response_item[0].fabric_info is defined
+    - (switch_refresh_fabric_response_item[0].fabric_info | type_debug) == 'list'
+
+- name: Validate replacement switch batch fabric coverage
+  ansible.builtin.assert:
+    that:
+      - fabric_devices_info_result.response is defined
+      - >-
+        switch_refresh_batch_fabric_info_entries | length ==
+        switch_refresh_batch_device_ips | length
+      - >-
+        switch_refresh_batch_fabric_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        unique |
+        list |
+        length == switch_refresh_batch_device_ips | length
+      - >-
+        switch_refresh_batch_fabric_info_entries |
+        map(attribute='device_ip') |
+        map('string') |
+        list |
+        sort == switch_refresh_batch_device_ips | sort
+    fail_msg: >-
+      Not every replacement switch was found as EDGE_NODE in fabric
+      {{ refresh_item.fabric_site_name_hierarchy }}. Expected exactly
+      {{ switch_refresh_batch_device_ips }}.
+
+- name: Validate replacement switch batch fabric records
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_fabric_info_item.fabric_details | type_debug) == 'list'
+      - switch_refresh_fabric_info_item.fabric_details | length > 0
+    fail_msg: >-
+      Fabric details for replacement switch
+      {{ switch_refresh_fabric_info_item.device_ip | default('unknown') }} are
+      missing or invalid.
+  loop: "{{ switch_refresh_batch_fabric_info_entries }}"
+  loop_control:
+    loop_var: switch_refresh_fabric_info_item
+    label: "{{ switch_refresh_fabric_info_item.device_ip | default('fabric-device') }}"
