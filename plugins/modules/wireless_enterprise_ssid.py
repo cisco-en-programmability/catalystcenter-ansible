@@ -13,10 +13,10 @@ description:
   - Creates enterprise SSID.
   - Deletes given enterprise SSID.
   - Update enterprise SSID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aaaOverride:
     description: Aaa Override.

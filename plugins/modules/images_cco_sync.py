@@ -13,10 +13,10 @@ description:
     Cisco.com. The latest and suggested images will be retrieved, along with the corresponding product name and PIDs for imported
     and retrieved images from Cisco.com. Once the task is completed, the API `/intent/api/v1/images?imported=false` will display
     all the images fetched from Cisco.com.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options: {}
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

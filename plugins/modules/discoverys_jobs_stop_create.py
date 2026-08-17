@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Discoverys Jobs Stop Create. - > This API is to be used to stop an ongoing discovery
     job. After initiating discovery with the POST /dna/intent/api/v1/discoverys/{id}/jobs API, the response will contain a
     jobId that can be used to stop that particular discovery job.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   discoveryId:
     description: DiscoveryId path parameter. The id of the discovery.

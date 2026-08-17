@@ -13,10 +13,10 @@ description:
   - This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID.
   - The payload should always be a complete list.
   - The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description:

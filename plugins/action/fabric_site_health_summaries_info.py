@@ -112,7 +112,9 @@ class ActionModule(ActionBase):
                 function="read_fabric_sites_with_health_summary_from_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -121,6 +123,8 @@ class ActionModule(ActionBase):
                 function="read_list_of_fabric_sites_with_their_health_summary",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

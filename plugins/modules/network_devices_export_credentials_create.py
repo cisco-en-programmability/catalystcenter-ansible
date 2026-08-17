@@ -17,10 +17,10 @@ description:
     devices cannot be exported. The response contains a task ID. Use the /dna/intent/api/v1/tasks/{taskId} API to check the
     status of the task. The task will be completed when the file is ready for download. The download URL will be available
     in the resultLocation attribute of the task API response.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   exportSshKey:
     description: Flag to export the SSH key. If not provided, the SSH key will not be exported.

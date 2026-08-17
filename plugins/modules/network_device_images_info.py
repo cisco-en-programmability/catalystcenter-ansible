@@ -17,10 +17,10 @@ description:
     about running images and golden image bundle, if they are available for network devices. It also provides network device
     update status and image update status related to the golden image bundle and the compatible features supported by the
     network devices.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

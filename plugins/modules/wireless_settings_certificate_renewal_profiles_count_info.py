@@ -11,10 +11,10 @@ short_description: Information module for Wireless Settings Certificate Renewal 
 description:
   - Get all Wireless Settings Certificate Renewal Profiles Count. - > Retrieves the count of access point certificate renewal
     profiles that are created in the catalyst centre network design for wireless.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

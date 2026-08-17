@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Event Drive
 description:
   - Get Feature Templates Wireless Event Driven Rrm Configurations by id.
   - This API allows users to retrieve a specific Event Driven RRM configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

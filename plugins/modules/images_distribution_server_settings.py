@@ -13,10 +13,10 @@ description:
   - Add remote server for distributing software images. Upto two such distribution servers are supported.
   - Delete remote image distribution server.
   - Update remote image distribution server details.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Remote server identifier.

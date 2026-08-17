@@ -15,10 +15,10 @@ description:
   - At the end of this process, only the images which are part of `installedImages` will be running on the device.
   - To monitor the progress and completion of the update task, call the GET API
     `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   compatibleFeatures:
     description: Network Device Images Id Activate's compatibleFeatures.

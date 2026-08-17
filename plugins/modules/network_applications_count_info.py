@@ -13,10 +13,10 @@ description:
     and endTime are not provided, the API defaults to the last 24 hours. `siteId` is mandatory. `siteId` must be a site UUID
     of a building. For detailed information about the usage of the API, please refer to the Open API specification document
     - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-NetworkApplications-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

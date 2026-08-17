@@ -13,10 +13,10 @@ description:
   - Get Lan Automation Status by id.
   - Invoke this API to get the LAN Automation session status based on the given Lan Automation session id.
   - Invoke this API to get the LAN Automation session status.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Sites Device Credentials. - > Updates device credential settings for a site; `null`
     values indicate that the setting will be inherited from the parent site; empty objects `{}` indicate that the credential
     is unset, and that no credential of that type will be used for the site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cliCredentialsId:
     description: Sites Device Credentials's cliCredentialsId.

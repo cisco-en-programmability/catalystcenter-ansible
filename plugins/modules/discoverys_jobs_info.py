@@ -13,10 +13,10 @@ description:
   - Get Discoverys Jobs by id. - > API to get all the discovery job details by discovery id. A discovery can have multiple
     discovery jobs, created against the same discovery id.
   - This API retrieves the details of a specific discovery job using the given job id and discovery id.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

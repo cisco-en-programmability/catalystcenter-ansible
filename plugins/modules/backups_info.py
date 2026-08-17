@@ -13,10 +13,10 @@ description:
   - Get Backups by id.
   - This api is used to get a specific backup based on the provided `backup id`.
   - This api is used to get all the backup available in the configured storage.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

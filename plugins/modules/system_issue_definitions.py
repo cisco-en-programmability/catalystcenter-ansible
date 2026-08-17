@@ -11,10 +11,10 @@ short_description: Resource module for System Issue Definitions
 description:
   - Manage operation update of the resource System Issue Definitions.
   - Update issue trigger threshold, priority for the given id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

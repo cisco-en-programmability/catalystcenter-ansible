@@ -11,10 +11,10 @@ short_description: Information module for Network Device Inventory Insight Link 
 description:
   - Get all Network Device Inventory Insight Link Mismatch.
   - Find all devices with link mismatch speed / vlan .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

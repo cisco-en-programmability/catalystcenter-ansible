@@ -11,10 +11,10 @@ short_description: Information module for Sites Site Id Wireless Settings Flex C
 description:
   - Get all Sites Site Id Wireless Settings Flex Connect Aaa Override.
   - This API allows the user to get all Flex Connect AAA Override VLAN settings at the given site.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

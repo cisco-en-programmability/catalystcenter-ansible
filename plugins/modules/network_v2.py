@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Network V2. - > API to create network settings for DHCP, Syslog, SNMP,
     NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings. - > API to update network settings for DHCP,
     Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   settings:
     description: Network V2's settings.

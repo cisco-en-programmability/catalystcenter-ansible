@@ -11,10 +11,10 @@ short_description: Resource module for Flexible Report Executions
 description:
   - Manage operation create of the resource Flexible Report Executions.
   - This API is used for executing the report.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   reportId:
     description: ReportId path parameter. Id of the Report.

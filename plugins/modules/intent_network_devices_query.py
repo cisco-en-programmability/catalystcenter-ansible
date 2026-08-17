@@ -11,10 +11,10 @@ short_description: Resource module for Intent Network Devices Query
 description:
   - Manage operation create of the resource Intent Network Devices Query.
   - Returns the list of network devices, determined by the filters.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   filter:
     description: Intent Network Devices Query's filter.

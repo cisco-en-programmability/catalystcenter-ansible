@@ -15,10 +15,10 @@ description:
     specified.
   - Releases an IP address subpool.
   - Updates an IP address subpool, which reserves address space from a global pool or global pools for a particular site.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The `id` of the IP address subpool to delete.

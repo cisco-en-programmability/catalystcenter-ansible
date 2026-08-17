@@ -11,10 +11,10 @@ short_description: Information module for Security Advisories Trials
 description:
   - Get all Security Advisories Trials.
   - Get trial details for security advisories detection on network devices.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

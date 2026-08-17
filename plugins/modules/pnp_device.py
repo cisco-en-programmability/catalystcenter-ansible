@@ -13,10 +13,10 @@ description:
   - Adds a device to the PnP database.
   - Deletes specified device from PnP database.
   - Updates device details specified by device id in PnP database.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceInfo:
     description: Pnp Device's deviceInfo.

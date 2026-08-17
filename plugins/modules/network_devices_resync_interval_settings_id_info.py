@@ -11,10 +11,10 @@ short_description: Information module for Network Devices Resync Interval Settin
 description:
   - Get all Network Devices Resync Interval Settings Id.
   - Fetch the reysnc interval for the given network device id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

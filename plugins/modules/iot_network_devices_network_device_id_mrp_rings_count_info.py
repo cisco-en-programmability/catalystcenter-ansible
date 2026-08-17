@@ -12,10 +12,10 @@ description:
   - Get all Iot Network Devices  Network Device Id Mrp Rings Count. - > This API returns the count of MRP rings for the given
     fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid attribute in
     the response of API - /dna/intent/api/v1/networkDevices .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

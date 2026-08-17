@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Controllers Certificate Renewal 
 description:
   - Manage operation create of the resource Wireless Controllers Certificate Renewal Create.
   - This API allows user to renew LSC certificates of access points.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   accessPointMacs:
     description: MAC address of access points on which certificate renewal has to be performed.

@@ -13,10 +13,10 @@ description:
     their energy data for a specified time range, based on the filters provided in the request body. For detailed information
     about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
     specs/blob/main/Assurance/CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Energy Sites Query's aggregateAttributes.

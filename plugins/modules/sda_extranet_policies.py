@@ -14,10 +14,10 @@ description:
   - Deletes an extranet policy based on id.
   - Deletes extranet policies based on user input.
   - Updates an extranet policy based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   extranetPolicyName:
     description: ExtranetPolicyName query parameter. Name of the extranet policy.

@@ -14,10 +14,10 @@ description:
   - Deletes a fabric device based on id.
   - Deletes fabric devices based on user input.
   - Updates fabric devices based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceRoles:
     description: DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE, EDGE_NODE,

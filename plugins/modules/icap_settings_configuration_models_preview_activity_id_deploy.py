@@ -13,10 +13,10 @@ description:
     ICAP configuration intent by activity ID, which was returned in property "taskId" of the TaskResponse of the POST. POST'ing
     the intent prior to generating the intent CLI for preview-approve has the same effect as direct-deploy'ing the intent
     to the device.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   previewActivityId:
     description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.

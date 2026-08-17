@@ -11,10 +11,10 @@ short_description: Information module for Security Advisories Results Network De
 description:
   - Get all Security Advisories Results Network Devices Count.
   - Get count of security advisory network devices.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

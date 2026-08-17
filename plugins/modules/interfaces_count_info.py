@@ -12,10 +12,10 @@ description:
   - Get all Interfaces Count. - > Gets the total Network device interface counts. For detailed information about the usage
     of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

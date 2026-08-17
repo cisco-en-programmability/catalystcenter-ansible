@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Controllers Provision
 description:
   - Manage operation create of the resource Wireless Controllers Provision.
   - This API is used to provision wireless controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apAuthorizationListName:
     description:

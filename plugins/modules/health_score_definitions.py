@@ -11,10 +11,10 @@ short_description: Resource module for Health Score Definitions
 description:
   - Manage operation update of the resource Health Score Definitions.
   - Update health threshold, include status of overall health status.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

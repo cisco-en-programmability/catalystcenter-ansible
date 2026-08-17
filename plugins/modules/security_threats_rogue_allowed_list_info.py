@@ -11,10 +11,10 @@ short_description: Information module for Security Threats Rogue Allowed-List
 description:
   - Get all Security Threats Rogue Allowed-List.
   - Intent API to fetch all the allowed mac addresses in the system.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

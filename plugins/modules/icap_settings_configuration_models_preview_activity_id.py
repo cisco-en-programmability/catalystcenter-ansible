@@ -12,10 +12,10 @@ description:
   - Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id. - > Discard the ICAP configuration
     intent by activity ID, which was returned in TaskResponse's property "taskId" at the beginning of the preview-approve
     workflow. Discarding the intent can only be applied to intent activities that have not been deployed.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   previewActivityId:
     description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.

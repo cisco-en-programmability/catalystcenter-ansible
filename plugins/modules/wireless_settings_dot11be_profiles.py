@@ -14,10 +14,10 @@ description:
     note , 802.11be Profile is supported only on IOS-XE controllers since device version 17.15. - > This API allows the user
     to delete a 802.11be Profile,if the 802.11be Profile is not mapped to any Wireless Network Profile.
   - This API allows the user to update a 802.11be Profile.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   default:
     description: Specifies whether this 802.11be profile's properties should be set to system default profile on device(default-dot11be-profile)

@@ -13,10 +13,10 @@ description:
     various tests and assessments defined by system and custom validations related to network device images. These results
     are essential for identifying potential issues, verifying configurations, and ensuring that the network meets the requirement
     for image update.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -88,6 +88,8 @@ class ActionModule(ActionBase):
             function="get_application_policy_queuing_profile_count",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -11,10 +11,10 @@ short_description: Information module for Security Threats Level
 description:
   - Get all Security Threats Level.
   - Intent API to fetch all threat levels defined.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for App Policy Queuing Profile
 description:
   - Get all App Policy Queuing Profile.
   - Get all or by name, existing application policy queuing profiles.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

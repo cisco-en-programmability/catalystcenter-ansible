@@ -26,10 +26,10 @@ description:
     configuration are pushed when the device is provisioned or when the update Telemetry Settings action is performed. Catalyst
     Center identifies and automatically corrects the following telemetry configuration issues on the device. - SWIM certificate
     issue. - IOS WLC NA certificate issue. - PKCS12 certificate issue. - IOS telemetry configuration issu.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

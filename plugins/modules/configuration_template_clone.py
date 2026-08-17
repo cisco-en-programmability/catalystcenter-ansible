@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Clone
 description:
   - Manage operation create of the resource Configuration Template Clone.
   - API to clone template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   name:
     description: Name path parameter. Template name to clone template(Name should be different than existing template name

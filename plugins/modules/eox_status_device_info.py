@@ -13,10 +13,10 @@ description:
   - Get Eox Status Device by id.
   - Retrieves EoX details for a device.
   - Retrieves EoX status for all devices in the network.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

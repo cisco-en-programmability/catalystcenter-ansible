@@ -11,10 +11,10 @@ short_description: Resource module for Trusted Certificates Import
 description:
   - Manage operation create of the resource Trusted Certificates Import.
   - Imports trusted certificate into a truststore. Accepts .pem or .der file as input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options: {}
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Control Plane Device.
   - Add control plane device in SDA Fabric.
   - Delete control plane device in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.

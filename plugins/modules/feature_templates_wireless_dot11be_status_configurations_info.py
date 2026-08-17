@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Dot11be Sta
 description:
   - Get Feature Templates Wireless Dot11be Status Configurations by id.
   - This API allows users to retrieve a specific Dot11be status configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

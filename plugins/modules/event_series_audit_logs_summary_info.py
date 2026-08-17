@@ -11,10 +11,10 @@ short_description: Information module for Event Series Audit Logs Summary
 description:
   - Get all Event Series Audit Logs Summary.
   - Get Audit Log Summary from the Event-Hub.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

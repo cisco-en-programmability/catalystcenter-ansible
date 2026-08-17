@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for Events and Notifications Configuration in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -29,7 +30,7 @@ description:
   for human-readable playbook generation.
 - Creates structured playbook files ready for modification and redeployment
   through events_and_notifications_workflow_manager module.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -410,16 +411,18 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -629,7 +632,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting validation of input configuration parameters for events and notifications "
             "playbook generation. Validation includes schema compliance, allowed keys checking, "
             "nested filter validation, and minimum requirements enforcement.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if configuration is available
@@ -647,7 +650,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
@@ -670,7 +677,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Validating top-level configuration keys against allowed keys: {0}".format(
                 list(allowed_keys)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Step 1: Validate invalid params using BrownFieldHelper
@@ -708,7 +715,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "'component_specific_filters' key is present but value is null/empty under "
                 "'config'. Normalizing to empty dict to enforce standard minimum requirement "
                 "validation for components_list/component-specific filters.",
-                "DEBUG"
+                "DEBUG",
             )
             component_filters = {}
             validated_config["component_specific_filters"] = component_filters
@@ -717,7 +724,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Schema validation completed successfully. Validated configuration: {0}".format(
                 str(validated_config)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Step 4: Validate minimum requirements using BrownFieldHelper
@@ -725,7 +732,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Validating minimum requirements against provided config: {0}".format(
                 validated_config
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate nested component_specific_filters structure
@@ -734,27 +741,35 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Validating nested component_specific_filters keys: {0}".format(
                     list(component_filters.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Define allowed nested keys for component_specific_filters
             allowed_components = {
-                "webhook_destination", "email_destination", "syslog_destination",
-                "snmp_destination", "itsm_setting", "webhook_event_notification",
-                "email_event_notification", "syslog_event_notification"
+                "webhook_destination",
+                "email_destination",
+                "syslog_destination",
+                "snmp_destination",
+                "itsm_setting",
+                "webhook_event_notification",
+                "email_event_notification",
+                "syslog_event_notification",
             }
             allowed_component_filter_keys = {"components_list"} | allowed_components
 
             # Check for invalid keys in component_specific_filters
             component_filter_keys = set(component_filters.keys())
-            invalid_component_keys = component_filter_keys - allowed_component_filter_keys
+            invalid_component_keys = (
+                component_filter_keys - allowed_component_filter_keys
+            )
 
             if invalid_component_keys:
                 self.msg = (
                     "Invalid parameters found in 'component_specific_filters': {0}. "
                     "Only the following parameters are allowed: {1}. "
                     "Please remove the invalid parameters and try again.".format(
-                        list(invalid_component_keys), list(allowed_component_filter_keys)
+                        list(invalid_component_keys),
+                        list(allowed_component_filter_keys),
                     )
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -762,7 +777,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
             components_list = component_filters.get("components_list")
             if components_list and isinstance(components_list, list):
-                invalid_components = [c for c in components_list if c not in allowed_components]
+                invalid_components = [
+                    c for c in components_list if c not in allowed_components
+                ]
                 if invalid_components:
                     self.msg = (
                         "Invalid component(s) in 'components_list': {0}. "
@@ -804,12 +821,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    invalid_filter_keys = set(filter_entry.keys()) - expected_filter_keys
+                    invalid_filter_keys = (
+                        set(filter_entry.keys()) - expected_filter_keys
+                    )
                     if invalid_filter_keys:
                         self.msg = (
                             "Validation Error: Invalid filter key(s) in "
                             "'component_specific_filters.{0}': {1}. Allowed keys are: {2}.".format(
-                                component_name, sorted(invalid_filter_keys), sorted(expected_filter_keys)
+                                component_name,
+                                sorted(invalid_filter_keys),
+                                sorted(expected_filter_keys),
                             )
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -820,10 +841,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.msg = (
                                 "Validation Error: 'component_specific_filters.{0}.{1}' "
                                 "must be a list of strings. Received type: {2}.".format(
-                                    component_name, filter_key, type(filter_values).__name__
+                                    component_name,
+                                    filter_key,
+                                    type(filter_values).__name__,
                                 )
                             )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            self.set_operation_result(
+                                "failed", False, self.msg, "ERROR"
+                            )
                             return self
                         invalid_filter_values = [
                             item for item in filter_values if not isinstance(item, str)
@@ -835,7 +860,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                     component_name, filter_key, invalid_filter_values
                                 )
                             )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            self.set_operation_result(
+                                "failed", False, self.msg, "ERROR"
+                            )
                             return self
 
             self.auto_populate_and_validate_components_list(component_filters)
@@ -849,7 +876,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Input validation completed successfully. Returning self instance with validated_config "
             "ready for processing in generation workflow.",
-            "INFO"
+            "INFO",
         )
         return self
 
@@ -886,7 +913,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting mapping configuration for events and notifications workflow manager. "
             "Defining component metadata, API associations, filter schemas, and function "
             "references for supported component types.",
-            "DEBUG"
+            "DEBUG",
         )
         network_elements_mapping = {
             "webhook_destination": {
@@ -900,8 +927,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             },
             "email_destination": {
                 "filters": {
-                    "sender_email": {"type": "list", "elements": "str", "required": False},
-                    "recipient_email": {"type": "list", "elements": "str", "required": False},
+                    "sender_email": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
+                    "recipient_email": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
                 },
                 "reverse_mapping_function": self.email_destination_reverse_mapping_function,
                 "api_function": "get_email_destination",
@@ -928,7 +963,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             },
             "itsm_setting": {
                 "filters": {
-                    "instance_name": {"type": "list", "elements": "str", "required": False},
+                    "instance_name": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
                 },
                 "reverse_mapping_function": self.itsm_setting_reverse_mapping_function,
                 "api_function": "get_all_itsm_integration_settings",
@@ -967,7 +1006,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Defining global filters configuration for cross-component filtering. Currently "
             "empty as component-specific filters provide sufficient granularity for all "
             "filtering requirements in events and notifications workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         global_filters_config = {}
@@ -982,7 +1021,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Mapping includes {len(network_elements_mapping)} network elements with "
             f"complete API associations, filter schemas, and processing functions ready "
             f"for YAML generation workflow orchestration.",
-            "INFO"
+            "INFO",
         )
 
         return mapping_result
@@ -990,42 +1029,66 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
     # Reverse mapping functions for temp specs
     def webhook_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook destination details."""
-        self.log("Generating reverse mapping specification for webhook destination details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for webhook destination details",
+            "DEBUG",
+        )
         return self.webhook_destination_temp_spec()
 
     def email_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email destination details."""
-        self.log("Generating reverse mapping specification for email destination details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for email destination details",
+            "DEBUG",
+        )
         return self.email_destination_temp_spec()
 
     def syslog_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog destination details."""
-        self.log("Generating reverse mapping specification for syslog destination details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for syslog destination details",
+            "DEBUG",
+        )
         return self.syslog_destination_temp_spec()
 
     def snmp_destination_reverse_mapping_function(self):
         """Returns the reverse mapping specification for SNMP destination details."""
-        self.log("Generating reverse mapping specification for SNMP destination details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for SNMP destination details",
+            "DEBUG",
+        )
         return self.snmp_destination_temp_spec()
 
     def itsm_setting_reverse_mapping_function(self):
         """Returns the reverse mapping specification for ITSM settings details."""
-        self.log("Generating reverse mapping specification for ITSM settings details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for ITSM settings details",
+            "DEBUG",
+        )
         return self.itsm_setting_temp_spec()
 
     def webhook_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for webhook event notification details."""
-        self.log("Generating reverse mapping specification for webhook event notification details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for webhook event notification details",
+            "DEBUG",
+        )
         return self.webhook_event_notification_temp_spec()
 
     def email_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for email event notification details."""
-        self.log("Generating reverse mapping specification for email event notification details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for email event notification details",
+            "DEBUG",
+        )
         return self.email_event_notification_temp_spec()
 
     def syslog_event_notification_reverse_mapping_function(self):
         """Returns the reverse mapping specification for syslog event notification details."""
-        self.log("Generating reverse mapping specification for syslog event notification details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for syslog event notification details",
+            "DEBUG",
+        )
         return self.syslog_event_notification_temp_spec()
 
     def _extract_component_filter_values(self, component_filters, allowed_keys):
@@ -1047,10 +1110,15 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             if not isinstance(filter_entry, dict):
                 continue
             for filter_key, filter_values in filter_entry.items():
-                if filter_key not in allowed_keys or not isinstance(filter_values, list):
+                if filter_key not in allowed_keys or not isinstance(
+                    filter_values, list
+                ):
                     continue
                 for filter_value in filter_values:
-                    if isinstance(filter_value, str) and filter_value not in normalized_filters[filter_key]:
+                    if (
+                        isinstance(filter_value, str)
+                        and filter_value not in normalized_filters[filter_key]
+                    ):
                         normalized_filters[filter_key].append(filter_value)
 
         return normalized_filters
@@ -1072,25 +1140,35 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             and nested structure definitions for webhook destination configurations.
         """
-        self.log("Generating temporary specification for webhook destination details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "url": {"type": "str", "source_key": "url"},
-            "method": {"type": "str", "source_key": "method"},
-            "trust_cert": {"type": "bool", "source_key": "trustCert"},
-            "is_proxy_route": {"type": "bool", "source_key": "isProxyRoute"},
-            "headers": {
-                "type": "list",
-                "source_key": "headers",
-                "options": OrderedDict({
-                    "name": {"type": "str", "source_key": "name"},
-                    "value": {"type": "str", "source_key": "value"},
-                    "default_value": {"type": "str", "source_key": "defaultValue"},
-                    "encrypt": {"type": "bool", "source_key": "encrypt"},
-                })
-            },
-        })
+        self.log(
+            "Generating temporary specification for webhook destination details.",
+            "DEBUG",
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "url": {"type": "str", "source_key": "url"},
+                "method": {"type": "str", "source_key": "method"},
+                "trust_cert": {"type": "bool", "source_key": "trustCert"},
+                "is_proxy_route": {"type": "bool", "source_key": "isProxyRoute"},
+                "headers": {
+                    "type": "list",
+                    "source_key": "headers",
+                    "options": OrderedDict(
+                        {
+                            "name": {"type": "str", "source_key": "name"},
+                            "value": {"type": "str", "source_key": "value"},
+                            "default_value": {
+                                "type": "str",
+                                "source_key": "defaultValue",
+                            },
+                            "encrypt": {"type": "bool", "source_key": "encrypt"},
+                        }
+                    ),
+                },
+            }
+        )
 
     def email_destination_temp_spec(self):
         """
@@ -1109,34 +1187,50 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             and nested SMTP configuration structures for email destination configurations.
         """
-        self.log("Generating temporary specification for email destination details.", "DEBUG")
-        return OrderedDict({
-            "sender_email": {"type": "str", "source_key": "fromEmail"},
-            "recipient_email": {"type": "str", "source_key": "toEmail"},
-            "subject": {"type": "str", "source_key": "subject"},
-            "primary_smtp_config": {
-                "type": "dict",
-                "source_key": "primarySMTPConfig",
-                "options": OrderedDict({
-                    "server_address": {"type": "str", "source_key": "hostName"},
-                    "smtp_type": {"type": "str", "source_key": "smtpType"},
-                    "port": {"type": "str", "source_key": "port"},
-                    "username": {"type": "str", "source_key": "userName"},
-                    "password": {"type": "str", "source_key": "password", "transform": self.redact_password},
-                })
-            },
-            "secondary_smtp_config": {
-                "type": "dict",
-                "source_key": "secondarySMTPConfig",
-                "options": OrderedDict({
-                    "server_address": {"type": "str", "source_key": "hostName"},
-                    "smtp_type": {"type": "str", "source_key": "smtpType"},
-                    "port": {"type": "str", "source_key": "port"},
-                    "username": {"type": "str", "source_key": "userName"},
-                    "password": {"type": "str", "source_key": "password", "transform": self.redact_password},
-                })
-            },
-        })
+        self.log(
+            "Generating temporary specification for email destination details.", "DEBUG"
+        )
+        return OrderedDict(
+            {
+                "sender_email": {"type": "str", "source_key": "fromEmail"},
+                "recipient_email": {"type": "str", "source_key": "toEmail"},
+                "subject": {"type": "str", "source_key": "subject"},
+                "primary_smtp_config": {
+                    "type": "dict",
+                    "source_key": "primarySMTPConfig",
+                    "options": OrderedDict(
+                        {
+                            "server_address": {"type": "str", "source_key": "hostName"},
+                            "smtp_type": {"type": "str", "source_key": "smtpType"},
+                            "port": {"type": "str", "source_key": "port"},
+                            "username": {"type": "str", "source_key": "userName"},
+                            "password": {
+                                "type": "str",
+                                "source_key": "password",
+                                "transform": self.redact_password,
+                            },
+                        }
+                    ),
+                },
+                "secondary_smtp_config": {
+                    "type": "dict",
+                    "source_key": "secondarySMTPConfig",
+                    "options": OrderedDict(
+                        {
+                            "server_address": {"type": "str", "source_key": "hostName"},
+                            "smtp_type": {"type": "str", "source_key": "smtpType"},
+                            "port": {"type": "str", "source_key": "port"},
+                            "username": {"type": "str", "source_key": "userName"},
+                            "password": {
+                                "type": "str",
+                                "source_key": "password",
+                                "transform": self.redact_password,
+                            },
+                        }
+                    ),
+                },
+            }
+        )
 
     def syslog_destination_temp_spec(self):
         """
@@ -1155,14 +1249,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             and protocol configuration structures for syslog destination configurations.
         """
-        self.log("Generating temporary specification for syslog destination details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "server_address": {"type": "str", "source_key": "host"},
-            "protocol": {"type": "str", "source_key": "protocol"},
-            "port": {"type": "int", "source_key": "port"},
-        })
+        self.log(
+            "Generating temporary specification for syslog destination details.",
+            "DEBUG",
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "server_address": {"type": "str", "source_key": "host"},
+                "protocol": {"type": "str", "source_key": "protocol"},
+                "port": {"type": "int", "source_key": "port"},
+            }
+        )
 
     def snmp_destination_temp_spec(self):
         """
@@ -1181,21 +1280,33 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             and SNMP configuration structures for SNMP destination configurations.
         """
-        self.log("Generating temporary specification for SNMP destination details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "server_address": {"type": "str", "source_key": "ipAddress"},
-            "port": {"type": "str", "source_key": "port"},
-            "snmp_version": {"type": "str", "source_key": "snmpVersion"},
-            "community": {"type": "str", "source_key": "community"},
-            "username": {"type": "str", "source_key": "userName"},
-            "mode": {"type": "str", "source_key": "snmpMode"},
-            "auth_type": {"type": "str", "source_key": "snmpAuthType"},
-            "auth_password": {"type": "str", "source_key": "authPassword", "transform": self.redact_password},
-            "privacy_type": {"type": "str", "source_key": "snmpPrivacyType"},
-            "privacy_password": {"type": "str", "source_key": "privacyPassword", "transform": self.redact_password},
-        })
+        self.log(
+            "Generating temporary specification for SNMP destination details.", "DEBUG"
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "server_address": {"type": "str", "source_key": "ipAddress"},
+                "port": {"type": "str", "source_key": "port"},
+                "snmp_version": {"type": "str", "source_key": "snmpVersion"},
+                "community": {"type": "str", "source_key": "community"},
+                "username": {"type": "str", "source_key": "userName"},
+                "mode": {"type": "str", "source_key": "snmpMode"},
+                "auth_type": {"type": "str", "source_key": "snmpAuthType"},
+                "auth_password": {
+                    "type": "str",
+                    "source_key": "authPassword",
+                    "transform": self.redact_password,
+                },
+                "privacy_type": {"type": "str", "source_key": "snmpPrivacyType"},
+                "privacy_password": {
+                    "type": "str",
+                    "source_key": "privacyPassword",
+                    "transform": self.redact_password,
+                },
+            }
+        )
 
     def itsm_setting_temp_spec(self):
         """
@@ -1214,20 +1325,30 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             and connection configuration structures for ITSM settings configurations.
         """
-        self.log("Generating temporary specification for ITSM settings details.", "DEBUG")
-        return OrderedDict({
-            "instance_name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "connection_settings": {
-                "type": "dict",
-                "source_key": "connectionSettings",
-                "options": OrderedDict({
-                    "url": {"type": "str", "source_key": "url"},
-                    "username": {"type": "str", "source_key": "username"},
-                    "password": {"type": "str", "source_key": "password", "transform": self.redact_password},
-                })
-            },
-        })
+        self.log(
+            "Generating temporary specification for ITSM settings details.", "DEBUG"
+        )
+        return OrderedDict(
+            {
+                "instance_name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "connection_settings": {
+                    "type": "dict",
+                    "source_key": "connectionSettings",
+                    "options": OrderedDict(
+                        {
+                            "url": {"type": "str", "source_key": "url"},
+                            "username": {"type": "str", "source_key": "username"},
+                            "password": {
+                                "type": "str",
+                                "source_key": "password",
+                                "transform": self.redact_password,
+                            },
+                        }
+                    ),
+                },
+            }
+        )
 
     def webhook_event_notification_temp_spec(self):
         """
@@ -1246,14 +1367,27 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             transformation functions, and source key references for webhook event notifications.
         """
-        self.log("Generating temporary specification for webhook event notification details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
-            "events": {"type": "list", "source_key": "subscriptionEventTypes", "transform": self.extract_event_names},
-            "destination": {"type": "str", "source_key": "webhookEndpointIds", "transform": self.extract_webhook_destination_name},
-        })
+        self.log(
+            "Generating temporary specification for webhook event notification details.",
+            "DEBUG",
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "sites": {"type": "list", "transform": self.extract_sites_from_filter},
+                "events": {
+                    "type": "list",
+                    "source_key": "subscriptionEventTypes",
+                    "transform": self.extract_event_names,
+                },
+                "destination": {
+                    "type": "str",
+                    "source_key": "webhookEndpointIds",
+                    "transform": self.extract_webhook_destination_name,
+                },
+            }
+        )
 
     def email_event_notification_temp_spec(self):
         """
@@ -1272,18 +1406,47 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             transformation functions, and source key references for email event notifications.
         """
-        self.log("Generating temporary specification for email event notification details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
-            "events": {"type": "list", "source_key": "filter", "transform": self.extract_event_names},
-            "sender_email": {"type": "str", "source_key": "subscriptionEndpoints", "transform": self.extract_sender_email},
-            "recipient_emails": {"type": "list", "source_key": "subscriptionEndpoints", "transform": self.extract_recipient_emails},
-            "subject": {"type": "str", "source_key": "subscriptionEndpoints", "transform": self.extract_subject},
-            "instance": {"type": "str", "source_key": "name", "transform": self.create_instance_name},
-            "instance_description": {"type": "str", "source_key": "description", "transform": self.create_instance_description},
-        })
+        self.log(
+            "Generating temporary specification for email event notification details.",
+            "DEBUG",
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "sites": {"type": "list", "transform": self.extract_sites_from_filter},
+                "events": {
+                    "type": "list",
+                    "source_key": "filter",
+                    "transform": self.extract_event_names,
+                },
+                "sender_email": {
+                    "type": "str",
+                    "source_key": "subscriptionEndpoints",
+                    "transform": self.extract_sender_email,
+                },
+                "recipient_emails": {
+                    "type": "list",
+                    "source_key": "subscriptionEndpoints",
+                    "transform": self.extract_recipient_emails,
+                },
+                "subject": {
+                    "type": "str",
+                    "source_key": "subscriptionEndpoints",
+                    "transform": self.extract_subject,
+                },
+                "instance": {
+                    "type": "str",
+                    "source_key": "name",
+                    "transform": self.create_instance_name,
+                },
+                "instance_description": {
+                    "type": "str",
+                    "source_key": "description",
+                    "transform": self.create_instance_description,
+                },
+            }
+        )
 
     def syslog_event_notification_temp_spec(self):
         """
@@ -1302,14 +1465,27 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             OrderedDict: A detailed specification containing field mappings, data types,
             transformation functions, and source key references for syslog event notifications.
         """
-        self.log("Generating temporary specification for syslog event notification details.", "DEBUG")
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "sites": {"type": "list", "transform": self.extract_sites_from_filter},
-            "events": {"type": "list", "source_key": "subscriptionEventTypes", "transform": self.extract_event_names},
-            "destination": {"type": "str", "source_key": "syslogConfigId", "transform": self.extract_syslog_destination_name},
-        })
+        self.log(
+            "Generating temporary specification for syslog event notification details.",
+            "DEBUG",
+        )
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "sites": {"type": "list", "transform": self.extract_sites_from_filter},
+                "events": {
+                    "type": "list",
+                    "source_key": "subscriptionEventTypes",
+                    "transform": self.extract_event_names,
+                },
+                "destination": {
+                    "type": "str",
+                    "source_key": "syslogConfigId",
+                    "transform": self.extract_syslog_destination_name,
+                },
+            }
+        )
 
     def redact_password(self, password):
         """
@@ -1334,7 +1510,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Redacting password field for security. Password exists: {0}. "
             "Replacing actual value with redaction placeholder to prevent credential "
             "exposure in YAML configuration output.".format(bool(password)),
-            "DEBUG"
+            "DEBUG",
         )
 
         redacted_value = "***REDACTED***" if password else None
@@ -1344,7 +1520,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "password masked for security compliance in configuration generation.".format(
                 redacted_value
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return redacted_value
@@ -1373,8 +1549,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         if not notification or not isinstance(notification, dict):
             self.log(
                 "Event name extraction skipped. Notification invalid or missing - type: {0}. "
-                "Returning empty list for graceful handling.".format(type(notification).__name__),
-                "WARNING"
+                "Returning empty list for graceful handling.".format(
+                    type(notification).__name__
+                ),
+                "WARNING",
             )
             return []
 
@@ -1385,7 +1563,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No event IDs found in notification filter. Filter object: {0}. Returning "
                 "empty list as no events require resolution.".format(filter_obj),
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -1399,7 +1577,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "to resolve event ID to human-readable name.".format(
                     event_index, len(event_ids), event_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             try:
                 event_name = self.get_event_name_from_api(event_id)
@@ -1410,9 +1588,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "Event {0}/{1} resolved successfully. ID: {2} -> Name: {3}. "
                         "Total resolved: {4}".format(
-                            event_index, len(event_ids), event_id, event_name, events_resolved
+                            event_index,
+                            len(event_ids),
+                            event_id,
+                            event_name,
+                            events_resolved,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     event_names.append(event_id)
@@ -1423,20 +1605,27 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "fallback value. Total failed: {3}".format(
                             event_index, len(event_ids), event_id, events_failed
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
-                self.log("Error resolving event ID {0}: {1}".format(event_id, str(e)), "ERROR")
+                self.log(
+                    "Error resolving event ID {0}: {1}".format(event_id, str(e)),
+                    "ERROR",
+                )
                 event_names.append(event_id)
                 events_failed += 1
 
                 self.log(
                     "Event {0}/{1} resolution failed with exception. ID: {2}, Exception: {3}, "
                     "Type: {4}. Using event ID as fallback. Total failed: {5}".format(
-                        event_index, len(event_ids), event_id, str(e), type(e).__name__,
-                        events_failed
+                        event_index,
+                        len(event_ids),
+                        event_id,
+                        str(e),
+                        type(e).__name__,
+                        events_failed,
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
 
         self.log("Resolved event names: {0}".format(event_names), "DEBUG")
@@ -1445,7 +1634,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "{2} failed with fallback to IDs. Final event names: {3}".format(
                 len(event_ids), events_resolved, events_failed, event_names
             ),
-            "INFO"
+            "INFO",
         )
 
         return event_names
@@ -1470,13 +1659,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting event ID resolution to human-readable name. Event ID: {0}. "
             "Calling Event Artifacts API to retrieve event details.".format(event_id),
-            "DEBUG"
+            "DEBUG",
         )
         if not event_id:
             self.log(
                 "Event ID resolution skipped - invalid event_id parameter (None or empty). "
                 "Returning None for graceful handling.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1485,23 +1674,26 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 family="event_management",
                 function="get_event_artifacts",
                 op_modifies=False,
-                params={"event_ids": event_id}
+                params={"event_ids": event_id},
             )
-            self.log("Received API response for get_event_artifacts {0}".format(response), "DEBUG")
+            self.log(
+                "Received API response for get_event_artifacts {0}".format(response),
+                "DEBUG",
+            )
 
             self.log(
                 "Event Artifacts API response received for event ID {0}. Response type: "
                 "{1}. Processing response to extract event name.".format(
                     event_id, type(response).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if isinstance(response, list) and len(response) > 0:
                 self.log(
                     "API response is list format with {0} item(s). Extracting event "
                     "information from first list item.".format(len(response)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 event_info = response[0]
                 event_name = event_info.get("name")
@@ -1509,7 +1701,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "Event name successfully resolved from list response. Event ID: "
                         "{0} -> Event Name: {1}".format(event_id, event_name),
-                        "INFO"
+                        "INFO",
                     )
                     return event_name
 
@@ -1517,7 +1709,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "API response is dictionary format. Checking for response/events keys "
                     "to extract event data.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 events = response.get("response") or response.get("events") or []
                 if events and len(events) > 0:
@@ -1527,7 +1719,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             "Event name successfully resolved from dict response. Event ID: "
                             "{0} -> Event Name: {1}".format(event_id, event_name),
-                            "INFO"
+                            "INFO",
                         )
                         return event_name
 
@@ -1535,7 +1727,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Event name field not found in API response for event ID {0}. Response "
                 "structure may be incomplete. Using event ID as fallback value for "
                 "graceful degradation.".format(event_id),
-                "WARNING"
+                "WARNING",
             )
             return event_id
 
@@ -1543,8 +1735,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "Exception occurred during Event Artifacts API call for event ID {0}. "
                 "Exception type: {1}, Exception message: {2}. Using event ID as fallback "
-                "value for graceful handling.".format(event_id, type(e).__name__, str(e)),
-                "ERROR"
+                "value for graceful handling.".format(
+                    event_id, type(e).__name__, str(e)
+                ),
+                "ERROR",
             )
             return event_id
 
@@ -1570,7 +1764,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting site name extraction from notification filter and resource domain. "
             "Processing multiple site sources including direct names, site IDs, and resource "
             "groups for comprehensive site discovery.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification or not isinstance(notification, dict):
@@ -1579,7 +1773,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}. Returning empty list for graceful handling.".format(
                     type(notification).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -1597,7 +1791,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Processing filter data for direct site names and site IDs. Filter keys: "
                     "{0}".format(list(filter_data.keys())),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 direct_sites = filter_data.get("sites", [])
                 if direct_sites:
@@ -1609,7 +1803,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Extracted {0} direct site name(s) from filter.sites: {1}".format(
                         sites_from_direct, direct_sites
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Site IDs in filter - need to resolve to names
@@ -1618,8 +1812,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     has_explicit_filter_sites = True
                     self.log(
                         "Found {0} site ID(s) requiring resolution: {1}. Calling site API "
-                        "to resolve IDs to hierarchical names.".format(len(site_ids), site_ids),
-                        "DEBUG"
+                        "to resolve IDs to hierarchical names.".format(
+                            len(site_ids), site_ids
+                        ),
+                        "DEBUG",
                     )
 
                     for site_index, site_id in enumerate(site_ids, start=1):
@@ -1628,7 +1824,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "for hierarchical path retrieval.".format(
                                 site_index, len(site_ids), site_id
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         site_name = self.get_site_name_by_id(site_id)
@@ -1640,10 +1836,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 "Site ID {0}/{1} resolved successfully: {2} -> {3}. Total "
                                 "resolved from IDs: {4}".format(
-                                    site_index, len(site_ids), site_id, site_name,
-                                    sites_from_ids
+                                    site_index,
+                                    len(site_ids),
+                                    site_id,
+                                    site_name,
+                                    sites_from_ids,
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                         else:
                             sites.append(site_id)
@@ -1653,7 +1852,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "fallback value in site list.".format(
                                     site_index, len(site_ids), site_id
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
 
             self.log(
@@ -1661,7 +1860,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Proceeding with resource domain processing.".format(
                     sites_from_direct, sites_from_ids
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Check resourceDomain for site information
@@ -1673,14 +1872,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "site-type groups for name and srcResourceId fields.".format(
                         len(resource_groups)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 for group_index, group in enumerate(resource_groups, start=1):
                     if group.get("type") == "site":
                         self.log(
                             "Processing site-type resource group {0}/{1}. Extracting name "
-                            "and srcResourceId fields.".format(group_index, len(resource_groups)),
-                            "DEBUG"
+                            "and srcResourceId fields.".format(
+                                group_index, len(resource_groups)
+                            ),
+                            "DEBUG",
                         )
 
                         site_name = group.get("name")
@@ -1693,7 +1894,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "resource domain: {2}".format(
                                     group_index, site_name, sites_from_resource
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                         src_resource_id = group.get("srcResourceId")
@@ -1703,7 +1904,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "get_site_name_by_id() for resolution.".format(
                                     group_index, src_resource_id
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             resolved_site = self.get_site_name_by_id(src_resource_id)
@@ -1717,21 +1918,21 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                     "Added to site list.".format(
                                         src_resource_id, resolved_site, group_index
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
             elif resource_domain and has_explicit_filter_sites:
                 self.log(
                     "Skipping resource domain site extraction because explicit filter sites "
                     "(sites/siteIds) are already provided in notification filter.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
                 "Resource domain processing completed. Sites from resource groups: {0}".format(
                     sites_from_resource
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Remove duplicates while preserving order
@@ -1746,10 +1947,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Site extraction completed successfully. Total sites found: {0} (direct: {1}, "
                 "from IDs: {2}, from resource domain: {3}). Removed {4} duplicate(s). "
                 "Final unique sites: {5}".format(
-                    len(sites), sites_from_direct, sites_from_ids, sites_from_resource,
-                    duplicates_removed, unique_sites
+                    len(sites),
+                    sites_from_direct,
+                    sites_from_ids,
+                    sites_from_resource,
+                    duplicates_removed,
+                    unique_sites,
                 ),
-                "INFO"
+                "INFO",
             )
 
             return unique_sites
@@ -1760,9 +1965,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
-            self.set_operation_result("failed", True, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", True, self.msg, "ERROR"
+            ).check_return_status()
 
     def get_site_name_by_id(self, site_id):
         """
@@ -1787,14 +1994,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting site UUID resolution to hierarchical name. Site ID: {0}. "
             "Calling Sites API to retrieve site hierarchy information.".format(site_id),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_id or site_id == "*":
             self.log(
                 "Site resolution skipped - invalid site_id (None, empty, or wildcard '*'). "
                 "Returning None for graceful handling.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1806,7 +2013,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 family="sites",
                 function="get_site",
                 op_modifies=False,
-                params={"site_id": site_id}
+                params={"site_id": site_id},
             )
 
             self.log(
@@ -1814,7 +2021,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Processing response to extract hierarchical site name.".format(
                     site_id, type(response).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if isinstance(response, dict):
@@ -1823,7 +2030,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "Site information found in response. Extracting siteNameHierarchy "
                         "field for hierarchical path.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     site_name_hierarchy = site_info.get("siteNameHierarchy")
                     if site_name_hierarchy:
@@ -1832,13 +2039,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Returning site name for notification configuration.".format(
                                 site_id, site_name_hierarchy
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         return site_name_hierarchy
                     self.log(
                         "siteNameHierarchy field not found in site info. Checking "
                         "additionalInfo for fallback site name extraction.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Fallback to additionalInfo if available
@@ -1856,14 +2063,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                     "attributes: {1}. Using fallback site name extraction.".format(
                                         site_id, site_hierarchy
                                     ),
-                                    "INFO"
+                                    "INFO",
                                 )
                                 return site_hierarchy
 
             self.log(
                 "Site name resolution failed for site ID {0}. Response structure incomplete "
-                "or site name unavailable in API response. Returning None.".format(site_id),
-                "WARNING"
+                "or site name unavailable in API response. Returning None.".format(
+                    site_id
+                ),
+                "WARNING",
             )
             return None
 
@@ -1872,7 +2081,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during site name resolution for site ID {0}. "
                 "Exception type: {1}, Exception message: {2}. Returning None for "
                 "graceful handling.".format(site_id, type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -1897,14 +2106,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting webhook destination name extraction from notification subscription "
             "endpoints. Searching through endpoints to locate REST connector type for "
             "destination name resolution.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification:
             self.log(
                 "Webhook destination extraction skipped - notification parameter invalid "
                 "or None. Returning None for graceful handling in notification processing.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1913,14 +2122,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints "
                 "list is empty. Returning None as no webhook destinations available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Found {0} subscription endpoint(s) in notification. Iterating through "
-            "endpoints to locate REST connector type.".format(len(subscription_endpoints)),
-            "DEBUG"
+            "endpoints to locate REST connector type.".format(
+                len(subscription_endpoints)
+            ),
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -1929,7 +2140,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -1940,7 +2151,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "webhook destination.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "REST":
@@ -1951,7 +2162,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "name: {2}. Returning destination name for notification configuration.".format(
                         endpoint_index, len(subscription_endpoints), destination_name
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return destination_name
@@ -1960,7 +2171,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "destination available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -1990,14 +2201,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting syslog destination name extraction from notification subscription "
             "endpoints. Searching through endpoints to locate SYSLOG connector type for "
             "destination name resolution.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification:
             self.log(
                 "Syslog destination extraction skipped - notification parameter invalid "
                 "or None. Returning None for graceful handling in notification processing.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2006,14 +2217,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints "
                 "list is empty. Returning None as no syslog destinations available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Found {0} subscription endpoint(s) in notification. Iterating through "
-            "endpoints to locate SYSLOG connector type.".format(len(subscription_endpoints)),
-            "DEBUG"
+            "endpoints to locate SYSLOG connector type.".format(
+                len(subscription_endpoints)
+            ),
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -2022,7 +2235,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2033,7 +2246,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "destination.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "SYSLOG":
@@ -2044,7 +2257,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "name: {2}. Returning destination name for notification configuration.".format(
                         endpoint_index, len(subscription_endpoints), destination_name
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return destination_name
@@ -2054,7 +2267,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "destination available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2080,14 +2293,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting sender email extraction from notification subscription endpoints. "
             "Searching through endpoints to locate EMAIL connector type for fromEmailAddress "
             "field extraction.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification:
             self.log(
                 "Sender email extraction skipped - notification parameter invalid or None. "
                 "Returning None for graceful handling in notification processing.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2096,14 +2309,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints "
                 "list is empty. Returning None as no email configuration available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Found {0} subscription endpoint(s) in notification. Iterating through "
-            "endpoints to locate EMAIL connector type.".format(len(subscription_endpoints)),
-            "DEBUG"
+            "endpoints to locate EMAIL connector type.".format(
+                len(subscription_endpoints)
+            ),
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -2112,7 +2327,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2123,7 +2338,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "sender address extraction.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "EMAIL":
@@ -2134,7 +2349,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "address: {2}. Returning sender email for notification configuration.".format(
                         endpoint_index, len(subscription_endpoints), sender_email
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return sender_email
@@ -2144,7 +2359,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "email available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2170,14 +2385,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting recipient email extraction from notification subscription endpoints. "
             "Searching through endpoints to locate EMAIL connector type for toEmailAddresses "
             "field extraction.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification:
             self.log(
                 "Recipient email extraction skipped - notification parameter invalid or None. "
                 "Returning empty list for graceful handling in notification processing.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2186,14 +2401,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints "
                 "list is empty. Returning empty list as no email configuration available.",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
         self.log(
             "Found {0} subscription endpoint(s) in notification. Iterating through "
-            "endpoints to locate EMAIL connector type.".format(len(subscription_endpoints)),
-            "DEBUG"
+            "endpoints to locate EMAIL connector type.".format(
+                len(subscription_endpoints)
+            ),
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -2202,7 +2419,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2213,7 +2430,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "recipient address extraction.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "EMAIL":
@@ -2223,9 +2440,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Found email (EMAIL) configuration at endpoint {0}/{1}. Recipient "
                     "email addresses: {2} recipient(s). Returning recipient list for "
                     "notification configuration.".format(
-                        endpoint_index, len(subscription_endpoints), len(recipient_emails)
+                        endpoint_index,
+                        len(subscription_endpoints),
+                        len(recipient_emails),
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return recipient_emails
@@ -2235,7 +2454,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "emails available in this notification. Returning empty list.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return []
@@ -2261,14 +2480,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting email subject extraction from notification subscription endpoints. "
             "Searching through endpoints to locate EMAIL connector type for subject field "
             "extraction.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification:
             self.log(
                 "Email subject extraction skipped - notification parameter invalid or None. "
                 "Returning None for graceful handling in notification processing.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2277,14 +2496,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints "
                 "list is empty. Returning None as no email configuration available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Found {0} subscription endpoint(s) in notification. Iterating through "
-            "endpoints to locate EMAIL connector type.".format(len(subscription_endpoints)),
-            "DEBUG"
+            "endpoints to locate EMAIL connector type.".format(
+                len(subscription_endpoints)
+            ),
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -2293,7 +2514,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2304,7 +2525,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "subject extraction.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "EMAIL":
@@ -2315,7 +2536,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "{2}. Returning subject for notification configuration.".format(
                         endpoint_index, len(subscription_endpoints), subject
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return subject
@@ -2325,7 +2546,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "subject available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2350,7 +2571,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Extracting instance name from email subscription endpoint. Searching through "
             "notification endpoints to locate EMAIL connector type.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification or not isinstance(notification, dict):
@@ -2358,7 +2579,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Instance name extraction skipped - notification parameter invalid or not "
                 "dictionary type. Notification type: {0}. Returning None for graceful "
                 "handling.".format(type(notification).__name__),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2367,7 +2588,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints list "
                 "is empty. Returning None as no email instance available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -2376,7 +2597,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "to locate EMAIL connector type for instance name extraction.".format(
                 len(subscription_endpoints)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
@@ -2385,7 +2606,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2396,7 +2617,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "instance name extraction.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "EMAIL":
@@ -2407,7 +2628,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "{2}. Returning instance name for notification configuration.".format(
                         endpoint_index, len(subscription_endpoints), instance_name
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return instance_name
@@ -2417,7 +2638,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "instance name available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2442,7 +2663,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Extracting instance description from email subscription endpoint. Searching "
             "through notification endpoints to locate EMAIL connector type.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not notification or not isinstance(notification, dict):
@@ -2450,7 +2671,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Instance description extraction skipped - notification parameter invalid or "
                 "not dictionary type. Notification type: {0}. Returning None for graceful "
                 "handling.".format(type(notification).__name__),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2459,7 +2680,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "No subscription endpoints found in notification. subscriptionEndpoints list "
                 "is empty. Returning None as no email instance description available.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -2468,7 +2689,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "to locate EMAIL connector type for instance description extraction.".format(
                 len(subscription_endpoints)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         for endpoint_index, endpoint in enumerate(subscription_endpoints, start=1):
             self.log(
@@ -2476,7 +2697,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for connector type validation.".format(
                     endpoint_index, len(subscription_endpoints)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             subscription_details = endpoint.get("subscriptionDetails", {})
@@ -2487,7 +2708,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "instance description extraction.".format(
                     endpoint_index, len(subscription_endpoints), connector_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if connector_type == "EMAIL":
@@ -2496,9 +2717,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Found email (EMAIL) configuration at endpoint {0}/{1}. Instance "
                     "description: {2}. Returning description for notification configuration.".format(
-                        endpoint_index, len(subscription_endpoints), instance_description
+                        endpoint_index,
+                        len(subscription_endpoints),
+                        instance_description,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 return instance_description
@@ -2508,7 +2731,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "instance description available in this notification. Returning None.".format(
                 len(subscription_endpoints)
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2535,7 +2758,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting webhook destination retrieval. Extracting component filters and "
             "destination names for filtering webhook configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -2546,9 +2769,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(destination_names),
-                "name-based filtering" if destination_names else "retrieve all"
+                "name-based filtering" if destination_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -2556,27 +2779,36 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "webhook destinations.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             webhook_configs = self.get_all_webhook_destination(
-                api_family, api_function,
-                target_destination_names=destination_names if destination_names else None
+                api_family,
+                api_function,
+                target_destination_names=(
+                    destination_names if destination_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} webhook destination(s) from Catalyst Center. Processing "
-                "filtering logic based on destination_names.".format(len(webhook_configs)),
-                "INFO"
+                "filtering logic based on destination_names.".format(
+                    len(webhook_configs)
+                ),
+                "INFO",
             )
 
             if destination_names:
                 self.log(
                     "Applying destination name filter: {0}. Searching for matching "
                     "webhooks in retrieved configurations.".format(destination_names),
-                    "DEBUG"
+                    "DEBUG",
                 )
-                matching_configs = [config for config in webhook_configs if config.get("name") in destination_names]
+                matching_configs = [
+                    config
+                    for config in webhook_configs
+                    if config.get("name") in destination_names
+                ]
                 if matching_configs:
                     final_webhook_configs = matching_configs
                     self.log(
@@ -2584,21 +2816,21 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_webhook_configs = []
                     self.log(
                         "No matching webhook destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 final_webhook_configs = webhook_configs
                 self.log(
                     "No destination name filters provided. Including all {0} webhook "
                     "destination(s) for YAML generation.".format(len(webhook_configs)),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         except Exception as e:
@@ -2607,14 +2839,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
-            self.set_operation_result("failed", True, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", True, self.msg, "ERROR"
+            ).check_return_status()
 
         self.log(
             "Retrieving webhook destination specification for parameter transformation. "
             "Calling webhook_destination_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         webhook_destination_temp_spec = self.webhook_destination_temp_spec()
@@ -2624,9 +2858,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_webhook_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_webhook_configs = self.modify_parameters(webhook_destination_temp_spec, final_webhook_configs)
+        modified_webhook_configs = self.modify_parameters(
+            webhook_destination_temp_spec, final_webhook_configs
+        )
 
         result = {"webhook_destination": modified_webhook_configs}
         self.log(
@@ -2634,7 +2870,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_webhook_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
@@ -2659,7 +2895,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting email destination retrieval. Extracting component filters and "
             "destination names for filtering email configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -2674,9 +2910,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Filter mode: {2}".format(
                 len(sender_emails),
                 len(recipient_emails),
-                "field-based filtering" if sender_emails or recipient_emails else "retrieve all"
+                (
+                    "field-based filtering"
+                    if sender_emails or recipient_emails
+                    else "retrieve all"
+                ),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -2685,22 +2925,24 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "email destinations.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             email_configs = self.get_all_email_destination(api_family, api_function)
             self.log(
                 "Retrieved {0} email destination(s) from Catalyst Center. Processing "
-                "filtering logic based on sender_email and recipient_email.".format(len(email_configs)),
-                "INFO"
+                "filtering logic based on sender_email and recipient_email.".format(
+                    len(email_configs)
+                ),
+                "INFO",
             )
 
             if sender_emails or recipient_emails:
                 self.log(
                     "Applying email destination filters. sender_email={0}, "
                     "recipient_email={1}.".format(sender_emails, recipient_emails),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 matching_configs = []
                 for config in email_configs:
@@ -2708,7 +2950,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         not sender_emails or config.get("fromEmail") in sender_emails
                     )
                     recipient_match = (
-                        not recipient_emails or config.get("toEmail") in recipient_emails
+                        not recipient_emails
+                        or config.get("toEmail") in recipient_emails
                     )
                     if sender_match and recipient_match:
                         matching_configs.append(config)
@@ -2719,7 +2962,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_email_configs = []
@@ -2728,13 +2971,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "recipient_email={1}. Returning empty list.".format(
                             sender_emails, recipient_emails
                         ),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 self.log(
                     "No email destination filters provided. Including all {0} email "
                     "destination(s) for YAML generation.".format(len(email_configs)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 final_email_configs = email_configs
 
@@ -2744,14 +2987,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             final_email_configs = []
 
         self.log(
             "Retrieving email destination specification for parameter transformation. "
             "Calling email_destination_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         email_destination_temp_spec = self.email_destination_temp_spec()
@@ -2761,10 +3004,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_email_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        modified_email_configs = self.modify_parameters(email_destination_temp_spec, final_email_configs)
+        modified_email_configs = self.modify_parameters(
+            email_destination_temp_spec, final_email_configs
+        )
 
         result = {"email_destination": modified_email_configs}
         self.log(
@@ -2772,7 +3017,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_email_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
@@ -2797,7 +3042,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting syslog destination retrieval. Extracting component filters and "
             "destination names for filtering syslog configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -2808,9 +3053,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(destination_names),
-                "name-based filtering" if destination_names else "retrieve all"
+                "name-based filtering" if destination_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -2818,27 +3063,36 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "syslog destinations.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             syslog_configs = self.get_all_syslog_destination(
-                api_family, api_function,
-                target_destination_names=destination_names if destination_names else None
+                api_family,
+                api_function,
+                target_destination_names=(
+                    destination_names if destination_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} syslog destination(s) from Catalyst Center. Processing "
-                "filtering logic based on destination_names.".format(len(syslog_configs)),
-                "INFO"
+                "filtering logic based on destination_names.".format(
+                    len(syslog_configs)
+                ),
+                "INFO",
             )
 
             if destination_names:
                 self.log(
                     "Applying destination name filter: {0}. Searching for matching "
                     "syslogs in retrieved configurations.".format(destination_names),
-                    "DEBUG"
+                    "DEBUG",
                 )
-                matching_configs = [config for config in syslog_configs if config.get("name") in destination_names]
+                matching_configs = [
+                    config
+                    for config in syslog_configs
+                    if config.get("name") in destination_names
+                ]
                 if matching_configs:
                     final_syslog_configs = matching_configs
                     self.log(
@@ -2846,20 +3100,20 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_syslog_configs = []
                     self.log(
                         "No matching syslog destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 self.log(
                     "No destination name filters provided. Including all {0} syslog "
                     "destination(s) for YAML generation.".format(len(syslog_configs)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 final_syslog_configs = syslog_configs
 
@@ -2869,14 +3123,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             final_syslog_configs = []
 
         self.log(
             "Retrieving syslog destination specification for parameter transformation. "
             "Calling syslog_destination_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         syslog_destination_temp_spec = self.syslog_destination_temp_spec()
@@ -2886,9 +3140,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_syslog_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_syslog_configs = self.modify_parameters(syslog_destination_temp_spec, final_syslog_configs)
+        modified_syslog_configs = self.modify_parameters(
+            syslog_destination_temp_spec, final_syslog_configs
+        )
 
         result = {"syslog_destination": modified_syslog_configs}
         self.log(
@@ -2896,7 +3152,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_syslog_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
@@ -2921,7 +3177,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting SNMP destination retrieval. Extracting component filters and "
             "destination names for filtering SNMP configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -2932,9 +3188,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(destination_names),
-                "name-based filtering" if destination_names else "retrieve all"
+                "name-based filtering" if destination_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -2942,28 +3198,39 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
-            "SNMP destinations with pagination support.".format(api_family, api_function),
-            "DEBUG"
+            "SNMP destinations with pagination support.".format(
+                api_family, api_function
+            ),
+            "DEBUG",
         )
 
         try:
             snmp_configs = self.get_all_snmp_destination(
-                api_family, api_function,
-                target_destination_names=destination_names if destination_names else None
+                api_family,
+                api_function,
+                target_destination_names=(
+                    destination_names if destination_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} SNMP destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(snmp_configs)),
-                "INFO"
+                "INFO",
             )
 
             if destination_names:
                 self.log(
                     "Applying destination name filter: {0}. Searching for matching "
-                    "SNMP configurations in retrieved destinations.".format(destination_names),
-                    "DEBUG"
+                    "SNMP configurations in retrieved destinations.".format(
+                        destination_names
+                    ),
+                    "DEBUG",
                 )
-                matching_configs = [config for config in snmp_configs if config.get("name") in destination_names]
+                matching_configs = [
+                    config
+                    for config in snmp_configs
+                    if config.get("name") in destination_names
+                ]
                 if matching_configs:
                     final_snmp_configs = matching_configs
                     self.log(
@@ -2971,20 +3238,20 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_snmp_configs = []
                     self.log(
                         "No matching SNMP destinations found for destination_names "
                         "filter: {0}. Returning empty list.".format(destination_names),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 self.log(
                     "No destination name filters provided. Including all {0} SNMP "
                     "destination(s) for YAML generation.".format(len(snmp_configs)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 final_snmp_configs = snmp_configs
 
@@ -2994,14 +3261,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             final_snmp_configs = []
 
         self.log(
             "Retrieving SNMP destination specification for parameter transformation. "
             "Calling snmp_destination_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         snmp_destination_temp_spec = self.snmp_destination_temp_spec()
@@ -3011,9 +3278,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_snmp_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_snmp_configs = self.modify_parameters(snmp_destination_temp_spec, final_snmp_configs)
+        modified_snmp_configs = self.modify_parameters(
+            snmp_destination_temp_spec, final_snmp_configs
+        )
 
         result = {"snmp_destination": modified_snmp_configs}
         self.log(
@@ -3021,11 +3290,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_snmp_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
-    def get_all_webhook_destination(self, api_family, api_function, target_destination_names=None):
+    def get_all_webhook_destination(
+        self, api_family, api_function, target_destination_names=None
+    ):
         """
         Retrieves all webhook destinations using pagination from the API.
 
@@ -3049,7 +3320,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -3065,7 +3336,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve webhook configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 response = self.catalystcenter._exec(
                     family=api_family,
@@ -3078,7 +3349,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "type: {1}. Processing statusMessage field for webhook data.".format(
                         page_count, type(response).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 webhooks = response.get("statusMessage", [])
@@ -3088,7 +3359,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "field empty or missing. Terminating pagination loop.".format(
                             page_count
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3098,7 +3369,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "{2}. Checking if more pages available.".format(
                         len(webhooks), page_count, len(all_webhooks)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Early-stop: if all target names found, skip remaining pages
@@ -3110,7 +3381,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Stopping pagination early.".format(
                                 len(target_destination_names), page_count
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         break
 
@@ -3120,7 +3391,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "{2}. No more pages available. Terminating pagination.".format(
                             len(webhooks), page_count, limit
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3129,7 +3400,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Webhook destination retrieval completed successfully. Total pages "
                     "fetched: {0}, Total webhooks retrieved: {1}. Returning complete "
                     "webhook list.".format(page_count, len(all_webhooks)),
-                    "INFO"
+                    "INFO",
                 )
 
             return all_webhooks
@@ -3139,7 +3410,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during webhook destination retrieval. Exception "
                 "type: {0}, Exception message: {1}. Returning empty list for graceful "
                 "handling.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -3165,7 +3436,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Calling API to fetch email configurations.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             response = self.catalystcenter._exec(
@@ -3178,14 +3449,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Processing response structure to extract email configuration data.".format(
                     type(response).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if isinstance(response, list):
                 self.log(
                     "API response is list format with {0} email destination(s). Returning "
                     "email list directly for processing.".format(len(response)),
-                    "INFO"
+                    "INFO",
                 )
                 return response
             elif isinstance(response, dict):
@@ -3195,7 +3466,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "from response field. Returning email configurations.".format(
                         len(email_configs)
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 return email_configs
             else:
@@ -3207,11 +3478,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
-    def get_all_syslog_destination(self, api_family, api_function, target_destination_names=None):
+    def get_all_syslog_destination(
+        self, api_family, api_function, target_destination_names=None
+    ):
         """
         Retrieves all syslog destinations using pagination from the API.
 
@@ -3235,7 +3508,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -3251,7 +3524,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve syslog configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 response = self.catalystcenter._exec(
@@ -3265,7 +3538,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "type: {1}. Processing statusMessage field for syslog data.".format(
                         page_count, type(response).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 syslog_configs = response.get("statusMessage", [])
@@ -3275,7 +3548,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "got: {1}. Terminating pagination.".format(
                             page_count, type(syslog_configs).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     break
 
@@ -3285,7 +3558,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "field empty or missing. Terminating pagination loop.".format(
                             page_count
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3295,7 +3568,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "{2}. Checking if more pages available.".format(
                         len(syslog_configs), page_count, len(all_syslogs)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Early-stop: if all target names found, skip remaining pages
@@ -3307,7 +3580,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Stopping pagination early.".format(
                                 len(target_destination_names), page_count
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         break
 
@@ -3317,7 +3590,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "than limit {2}. No more pages available. Terminating pagination.".format(
                             len(syslog_configs), page_count, limit
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3328,7 +3601,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Total syslog destinations retrieved: {1}. Returning complete syslog list.".format(
                     page_count, len(all_syslogs)
                 ),
-                "INFO"
+                "INFO",
             )
             return all_syslogs
 
@@ -3338,11 +3611,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
-    def get_all_snmp_destination(self, api_family, api_function, target_destination_names=None):
+    def get_all_snmp_destination(
+        self, api_family, api_function, target_destination_names=None
+    ):
         """
         Retrieves all SNMP destinations using pagination from the API.
 
@@ -3366,7 +3641,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -3382,7 +3657,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve SNMP configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 try:
                     response = self.catalystcenter._exec(
@@ -3396,7 +3671,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "type: {1}. Processing response structure for SNMP data.".format(
                             page_count, type(response).__name__
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     snmp_configs = response if isinstance(response, list) else []
@@ -3406,7 +3681,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "empty or invalid format. Terminating pagination loop.".format(
                                 page_count
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
@@ -3416,7 +3691,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "{2}. Checking if more pages available.".format(
                             len(snmp_configs), page_count, len(all_snmp)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Early-stop: if all target names found, skip remaining pages
@@ -3428,7 +3703,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "Stopping pagination early.".format(
                                     len(target_destination_names), page_count
                                 ),
-                                "INFO"
+                                "INFO",
                             )
                             break
 
@@ -3437,7 +3712,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Received {0} SNMP destination(s) in page {1}, which is less "
                             "than limit {2}. No more pages available. Terminating "
                             "pagination.".format(len(snmp_configs), page_count, limit),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
@@ -3450,7 +3725,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "loop and returning accumulated results.".format(
                             page_count, type(e).__name__, str(e)
                         ),
-                        "ERROR"
+                        "ERROR",
                     )
                     break
 
@@ -3458,7 +3733,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "SNMP destination retrieval completed successfully. Total pages fetched: "
                 "{0}, Total SNMP destinations retrieved: {1}. Returning complete SNMP "
                 "list.".format(page_count, len(all_snmp)),
-                "INFO"
+                "INFO",
             )
 
             return all_snmp
@@ -3468,7 +3743,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during SNMP destination retrieval. Exception type: "
                 "{0}, Exception message: {1}. Returning empty list for graceful "
                 "handling.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -3493,7 +3768,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting ITSM settings retrieval. Extracting component filters and instance "
             "names for filtering ITSM configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -3504,9 +3779,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Instance name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(instance_names),
-                "name-based filtering" if instance_names else "retrieve all"
+                "name-based filtering" if instance_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -3514,38 +3789,43 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "ITSM settings.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             itsm_configs = self.get_all_itsm_setting(
-                api_family, api_function,
-                target_instance_names=instance_names if instance_names else None
+                api_family,
+                api_function,
+                target_instance_names=instance_names if instance_names else None,
             )
             self.log(
                 "Retrieved {0} ITSM setting(s) from Catalyst Center. Processing filtering "
                 "logic based on instance_names.".format(len(itsm_configs)),
-                "INFO"
+                "INFO",
             )
 
             if instance_names:
                 self.log(
                     "Applying instance name filter: {0}. Searching for matching ITSM "
                     "settings in retrieved configurations.".format(instance_names),
-                    "DEBUG"
+                    "DEBUG",
                 )
-                final_itsm_configs = [config for config in itsm_configs if config.get("name") in instance_names]
+                final_itsm_configs = [
+                    config
+                    for config in itsm_configs
+                    if config.get("name") in instance_names
+                ]
                 self.log(
                     "Found {0} matching ITSM setting(s) for filter criteria. Using filtered "
                     "subset for YAML generation.".format(len(final_itsm_configs)),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 final_itsm_configs = itsm_configs
                 self.log(
                     "No instance name filters provided. Including all {0} ITSM setting(s) "
                     "for YAML generation.".format(len(itsm_configs)),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         except Exception as e:
@@ -3554,14 +3834,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             final_itsm_configs = []
 
         self.log(
             "Retrieving ITSM settings specification for parameter transformation. Calling "
             "itsm_setting_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         itsm_setting_temp_spec = self.itsm_setting_temp_spec()
@@ -3571,9 +3851,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_itsm_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_itsm_configs = self.modify_parameters(itsm_setting_temp_spec, final_itsm_configs)
+        modified_itsm_configs = self.modify_parameters(
+            itsm_setting_temp_spec, final_itsm_configs
+        )
 
         result = {"itsm_setting": modified_itsm_configs}
         self.log(
@@ -3581,12 +3863,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "configuration(s) ready for YAML serialization.".format(
                 len(modified_itsm_configs)
             ),
-            "INFO"
+            "INFO",
         )
 
         return result
 
-    def get_all_itsm_setting(self, api_family, api_function, target_instance_names=None):
+    def get_all_itsm_setting(
+        self, api_family, api_function, target_instance_names=None
+    ):
         """
         Retrieves all ITSM integration settings from the API with full connection details.
 
@@ -3614,7 +3898,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "function: {1}. Starting pagination with page_size=50.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             page = 1
@@ -3627,7 +3911,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Fetching ITSM instances page {0} with page={1}, page_size={2}, "
                     "sortBy=name, order=asc.".format(page_count, page, page_size),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 response = self.catalystcenter._exec(
                     family=api_family,
@@ -3653,7 +3937,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "got: {1}. Terminating pagination.".format(
                             page_count, type(itsm_setting).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     break
 
@@ -3662,7 +3946,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "No ITSM instances returned in page {0}. Terminating pagination loop.".format(
                             page_count
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3671,7 +3955,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Added {0} ITSM instance(s) from page {1}. Total accumulated: {2}.".format(
                         len(itsm_setting), page_count, len(all_itsm_setting)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Early-stop: if all target names already found in listing, skip remaining pages
@@ -3688,7 +3972,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Stopping pagination early.".format(
                                 len(target_instance_names), page_count
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         break
 
@@ -3698,7 +3982,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "No more pages available.".format(
                             len(itsm_setting), page_count, page_size
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -3709,32 +3993,39 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "details for each instance using get_itsm_integration_setting_by_id.".format(
                     len(all_itsm_setting)
                 ),
-                "INFO"
+                "INFO",
             )
 
             # When target names provided, filter listing before expensive get-by-id calls
             if target_instance_names:
                 target_names_lower = {n.lower() for n in target_instance_names}
                 filtered_itsm = [
-                    item for item in all_itsm_setting
-                    if isinstance(item, dict) and item.get("name", "").lower() in target_names_lower
+                    item
+                    for item in all_itsm_setting
+                    if isinstance(item, dict)
+                    and item.get("name", "").lower() in target_names_lower
                 ]
                 self.log(
                     "Target instance filter active: {0} target(s). Matched {1} of {2} "
                     "listing entries. Only matched entries will have details fetched.".format(
-                        len(target_instance_names), len(filtered_itsm), len(all_itsm_setting)
+                        len(target_instance_names),
+                        len(filtered_itsm),
+                        len(all_itsm_setting),
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 if not filtered_itsm:
                     available_names = [
-                        item.get("name", "unknown") for item in all_itsm_setting
+                        item.get("name", "unknown")
+                        for item in all_itsm_setting
                         if isinstance(item, dict)
                     ]
                     self.log(
                         "No ITSM instances matched target names {0}. Available ITSM "
-                        "instance names: {1}".format(target_instance_names, available_names),
-                        "WARNING"
+                        "instance names: {1}".format(
+                            target_instance_names, available_names
+                        ),
+                        "WARNING",
                     )
                 all_itsm_setting = filtered_itsm
 
@@ -3745,7 +4036,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Skipping ITSM entry {0}/{1} - not a valid dictionary.".format(
                             idx, len(all_itsm_setting)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -3755,8 +4046,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 if not instance_id:
                     self.log(
                         "Skipping ITSM instance {0}/{1} '{2}' - no 'id' field found in "
-                        "listing response.".format(idx, len(all_itsm_setting), instance_name),
-                        "WARNING"
+                        "listing response.".format(
+                            idx, len(all_itsm_setting), instance_name
+                        ),
+                        "WARNING",
                     )
                     continue
 
@@ -3765,7 +4058,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Fetching full details.".format(
                         idx, len(all_itsm_setting), instance_name, instance_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 detail = self.get_itsm_setting_detail_by_id(instance_id, instance_name)
@@ -3775,7 +4068,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "(ID: {3}). Falling back to listing data.".format(
                             idx, len(all_itsm_setting), instance_name, instance_id
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     detailed_settings.append(item)
                     continue
@@ -3784,13 +4077,15 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Successfully retrieved full details for ITSM instance {0}/{1} "
                     "'{2}'.".format(idx, len(all_itsm_setting), instance_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
                 "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
-                "connection details.".format(len(detailed_settings), len(all_itsm_setting)),
-                "INFO"
+                "connection details.".format(
+                    len(detailed_settings), len(all_itsm_setting)
+                ),
+                "INFO",
             )
             return detailed_settings
 
@@ -3800,7 +4095,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             self.set_operation_result("failed", True, self.msg, "ERROR")
             return []
@@ -3827,7 +4122,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Fetching full details for ITSM instance '{0}' (ID: {1}) using "
             "get_itsm_integration_setting_by_id.".format(instance_name, instance_id),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -3840,7 +4135,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "Received API response for ITSM instance '{0}'. Response: "
                 "{1}.".format(instance_name, detail_response),
-                "DEBUG"
+                "DEBUG",
             )
 
             detail = detail_response
@@ -3857,14 +4152,15 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Expected dict, got: {1}.".format(
                         instance_name, type(detail).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             conn_data = detail.get("data", {})
             conn_settings = (
                 conn_data.get("ConnectionSettings", {})
-                if isinstance(conn_data, dict) else {}
+                if isinstance(conn_data, dict)
+                else {}
             )
 
             detail["connectionSettings"] = {
@@ -3879,9 +4175,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "URL: {1}, Username: {2}.".format(
                     instance_name,
                     conn_settings.get("Url", "N/A"),
-                    conn_settings.get("Auth_UserName", "N/A")
+                    conn_settings.get("Auth_UserName", "N/A"),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return detail
 
@@ -3889,7 +4185,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "Failed to retrieve details for ITSM instance '{0}' (ID: {1}). "
                 "Error: {2}.".format(instance_name, instance_id, str(detail_err)),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -3914,7 +4210,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting webhook event notification retrieval. Extracting component filters "
             "and subscription names for filtering webhook event configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -3925,9 +4221,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(subscription_names),
-                "name-based filtering" if subscription_names else "retrieve all"
+                "name-based filtering" if subscription_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -3935,20 +4231,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "webhook event notifications.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             notification_configs = self.get_all_webhook_event_notification(
-                api_family, api_function,
-                target_subscription_names=subscription_names if subscription_names else None
+                api_family,
+                api_function,
+                target_subscription_names=(
+                    subscription_names if subscription_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} webhook event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
                     len(notification_configs)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if subscription_names:
@@ -3957,11 +4256,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "webhook event notifications in retrieved configurations.".format(
                         subscription_names
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 matching_configs = [
-                    config for config in notification_configs
+                    config
+                    for config in notification_configs
                     if config.get("name") in subscription_names
                 ]
 
@@ -3972,7 +4272,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "criteria. Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_notification_configs = []
@@ -3981,7 +4281,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 final_notification_configs = notification_configs
@@ -3990,7 +4290,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "event notification(s) for YAML generation.".format(
                         len(notification_configs)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         except Exception as e:
@@ -3998,7 +4298,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during webhook event notification retrieval. Exception "
                 "type: {0}, Exception message: {1}. Returning empty list for graceful "
                 "handling.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             final_notification_configs = []
 
@@ -4006,19 +4306,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Retrieving webhook event notification specification for parameter "
             "transformation. Calling webhook_event_notification_temp_spec() for mapping "
             "rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        webhook_event_notification_temp_spec = self.webhook_event_notification_temp_spec()
+        webhook_event_notification_temp_spec = (
+            self.webhook_event_notification_temp_spec()
+        )
 
         self.log(
             "Transforming {0} webhook event notification(s) using specification. Converting "
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_notification_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_notification_configs = self.modify_parameters(webhook_event_notification_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(
+            webhook_event_notification_temp_spec, final_notification_configs
+        )
 
         result = {"webhook_event_notification": modified_notification_configs}
         self.log(
@@ -4026,11 +4330,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_notification_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
-    def get_all_webhook_event_notification(self, api_family, api_function, target_subscription_names=None):
+    def get_all_webhook_event_notification(
+        self, api_family, api_function, target_subscription_names=None
+    ):
         """
         Retrieves all webhook event notifications using pagination from the API.
 
@@ -4054,7 +4360,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -4070,7 +4376,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve webhook subscription configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 try:
                     response = self.catalystcenter._exec(
@@ -4084,7 +4390,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Response type: {1}. Processing response structure for subscription data.".format(
                             page_count, type(response).__name__
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if isinstance(response, list):
@@ -4092,14 +4398,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "API response is list format with {0} webhook event notification(s). ".format(
                                 len(response)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         notifications = response
                     elif isinstance(response, dict):
                         self.log(
                             "API response is dictionary format. Extracting webhook event "
                             "notification(s) from response field.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         notifications = response.get("response", [])
                     else:
@@ -4107,15 +4413,17 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "API response has unexpected format. Response type: {0}. Expected list or dictionary.".format(
                                 type(response).__name__
                             ),
-                            "ERROR"
+                            "ERROR",
                         )
                         notifications = []
 
                     if not notifications:
                         self.log(
                             "No webhook event notifications found in page {0} response. Response "
-                            "empty or invalid format. Terminating pagination loop.".format(page_count),
-                            "DEBUG"
+                            "empty or invalid format. Terminating pagination loop.".format(
+                                page_count
+                            ),
+                            "DEBUG",
                         )
                         break
 
@@ -4125,7 +4433,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "accumulated: {2}. Checking if more pages available.".format(
                             len(notifications), page_count, len(all_notifications)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Early-stop: if all target subscription names found, skip remaining pages
@@ -4137,7 +4445,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "Stopping pagination early.".format(
                                     len(target_subscription_names), page_count
                                 ),
-                                "INFO"
+                                "INFO",
                             )
                             break
 
@@ -4147,7 +4455,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "less than limit {2}. No more pages available. Terminating pagination.".format(
                                 len(notifications), page_count, limit
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
@@ -4160,15 +4468,17 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "and returning accumulated results.".format(
                             page_count, type(e).__name__, str(e)
                         ),
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result("failed", True, self.msg, "ERROR")
 
             self.log(
                 "Webhook event notification retrieval completed successfully. Total pages "
                 "fetched: {0}, Total webhook event notifications retrieved: {1}. Returning "
-                "complete notification list.".format(page_count, len(all_notifications)),
-                "INFO"
+                "complete notification list.".format(
+                    page_count, len(all_notifications)
+                ),
+                "INFO",
             )
 
             return all_notifications
@@ -4179,7 +4489,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "type: {0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -4204,7 +4514,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting email event notification retrieval. Extracting component filters "
             "and subscription names for filtering email event configurations.",
-            "DEBUG"
+            "DEBUG",
         )
         component_filters = filters.get("component_specific_filters") or []
         subscription_names = self._extract_component_filter_values(
@@ -4214,9 +4524,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(subscription_names),
-                "name-based filtering" if subscription_names else "retrieve all"
+                "name-based filtering" if subscription_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -4225,20 +4535,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "email event notifications.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             notification_configs = self.get_all_email_event_notification(
-                api_family, api_function,
-                target_subscription_names=subscription_names if subscription_names else None
+                api_family,
+                api_function,
+                target_subscription_names=(
+                    subscription_names if subscription_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} email event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
                     len(notification_configs)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if subscription_names:
@@ -4247,11 +4560,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "email event notifications in retrieved configurations.".format(
                         subscription_names
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 matching_configs = [
-                    config for config in notification_configs
+                    config
+                    for config in notification_configs
                     if config.get("name") in subscription_names
                 ]
 
@@ -4262,7 +4576,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "criteria. Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_notification_configs = []
@@ -4271,7 +4585,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4280,7 +4594,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "event notification(s) for YAML generation.".format(
                         len(notification_configs)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         except Exception as e:
@@ -4288,14 +4602,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during email event notification retrieval. Exception "
                 "type: {0}, Exception message: {1}. Returning empty list for graceful "
                 "handling.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             final_notification_configs = []
 
         self.log(
             "Retrieving email event notification specification for parameter transformation. "
             "Calling email_event_notification_temp_spec() for mapping rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         email_event_notification_temp_spec = self.email_event_notification_temp_spec()
@@ -4305,9 +4619,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_notification_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_notification_configs = self.modify_parameters(email_event_notification_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(
+            email_event_notification_temp_spec, final_notification_configs
+        )
 
         result = {"email_event_notification": modified_notification_configs}
         self.log(
@@ -4315,11 +4631,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_notification_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return result
 
-    def get_all_email_event_notification(self, api_family, api_function, target_subscription_names=None):
+    def get_all_email_event_notification(
+        self, api_family, api_function, target_subscription_names=None
+    ):
         """
         Retrieves all email event notifications using pagination from the API.
 
@@ -4344,7 +4662,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -4359,21 +4677,21 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve email subscription configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
-                    params={"offset": offset, "limit": limit}
+                    params={"offset": offset, "limit": limit},
                 )
                 self.log(
                     "Received API response for email event notifications page {0}. "
                     "Response type: {1}. Processing response structure for subscription data.".format(
                         page_count, type(response).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if isinstance(response, list):
@@ -4384,8 +4702,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     notifications = []
                     self.log(
                         "API response has unexpected format in page {0}. Response type: {1}. "
-                        "Terminating pagination.".format(page_count, type(response).__name__),
-                        "WARNING"
+                        "Terminating pagination.".format(
+                            page_count, type(response).__name__
+                        ),
+                        "WARNING",
                     )
                     break
 
@@ -4393,7 +4713,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "No email event notifications found in page {0} response. "
                         "Terminating pagination loop.".format(page_count),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -4402,7 +4722,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Added {0} email event notification(s) from page {1}. Total accumulated: {2}.".format(
                         len(notifications), page_count, len(all_notifications)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Early-stop: if all target subscription names found, skip remaining pages
@@ -4414,7 +4734,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Stopping pagination early.".format(
                                 len(target_subscription_names), page_count
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         break
 
@@ -4424,7 +4744,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "than limit {2}. No more pages available. Terminating pagination.".format(
                             len(notifications), page_count, limit
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     break
 
@@ -4435,7 +4755,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Total email event notifications retrieved: {1}. Returning complete notification list.".format(
                     page_count, len(all_notifications)
                 ),
-                "INFO"
+                "INFO",
             )
             return all_notifications
 
@@ -4445,7 +4765,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "{0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -4470,7 +4790,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting syslog event notification retrieval. Extracting component filters "
             "and subscription names for filtering syslog event configurations.",
-            "DEBUG"
+            "DEBUG",
         )
 
         component_filters = filters.get("component_specific_filters") or []
@@ -4481,9 +4801,9 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(subscription_names),
-                "name-based filtering" if subscription_names else "retrieve all"
+                "name-based filtering" if subscription_names else "retrieve all",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         api_family = network_element.get("api_family")
@@ -4492,20 +4812,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
             "syslog event notifications.".format(api_family, api_function),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             notification_configs = self.get_all_syslog_event_notification(
-                api_family, api_function,
-                target_subscription_names=subscription_names if subscription_names else None
+                api_family,
+                api_function,
+                target_subscription_names=(
+                    subscription_names if subscription_names else None
+                ),
             )
             self.log(
                 "Retrieved {0} syslog event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
                     len(notification_configs)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if subscription_names:
@@ -4514,11 +4837,12 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "syslog event notifications in retrieved configurations.".format(
                         subscription_names
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 matching_configs = [
-                    config for config in notification_configs
+                    config
+                    for config in notification_configs
                     if config.get("name") in subscription_names
                 ]
 
@@ -4529,7 +4853,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "criteria. Using filtered subset for YAML generation.".format(
                             len(matching_configs)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     final_notification_configs = []
@@ -4538,7 +4862,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "subscription_names filter: {0}. Returning empty list.".format(
                             subscription_names
                         ),
-                        "INFO"
+                        "INFO",
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4547,7 +4871,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "event notification(s) for YAML generation.".format(
                         len(notification_configs)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         except Exception as e:
@@ -4555,7 +4879,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Exception occurred during syslog event notification retrieval. Exception "
                 "type: {0}, Exception message: {1}. Returning empty list for graceful "
                 "handling.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
             final_notification_configs = []
 
@@ -4563,7 +4887,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Retrieving syslog event notification specification for parameter "
             "transformation. Calling syslog_event_notification_temp_spec() for mapping "
             "rules.",
-            "DEBUG"
+            "DEBUG",
         )
 
         syslog_event_notification_temp_spec = self.syslog_event_notification_temp_spec()
@@ -4573,9 +4897,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "camelCase API responses to snake_case YAML format with modify_parameters().".format(
                 len(final_notification_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        modified_notification_configs = self.modify_parameters(syslog_event_notification_temp_spec, final_notification_configs)
+        modified_notification_configs = self.modify_parameters(
+            syslog_event_notification_temp_spec, final_notification_configs
+        )
 
         result = {"syslog_event_notification": modified_notification_configs}
         self.log(
@@ -4583,12 +4909,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "transformed configuration(s) ready for YAML serialization.".format(
                 len(modified_notification_configs)
             ),
-            "INFO"
+            "INFO",
         )
 
         return result
 
-    def get_all_syslog_event_notification(self, api_family, api_function, target_subscription_names=None):
+    def get_all_syslog_event_notification(
+        self, api_family, api_function, target_subscription_names=None
+    ):
         """
         Retrieves all syslog event notifications using pagination from the API.
 
@@ -4612,7 +4940,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
             offset = 0
@@ -4628,7 +4956,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Calling API to retrieve syslog subscription configurations.".format(
                         page_count, offset, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 try:
                     response = self.catalystcenter._exec(
@@ -4642,7 +4970,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Response type: {1}. Processing response structure for subscription data.".format(
                             page_count, type(response).__name__
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if isinstance(response, list):
@@ -4650,27 +4978,29 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "API response is list format with {0} syslog event notification(s). ".format(
                                 len(response)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         notifications = response
                     elif isinstance(response, dict):
                         self.log(
                             "API response is dictionary format. Extracting syslog event notifications.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         notifications = response.get("response", [])
                     else:
                         self.log(
                             "API response is unrecognized format. No syslog event notifications extracted.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         notifications = []
 
                     if not notifications:
                         self.log(
                             "No syslog event notifications found in page {0} response. Response "
-                            "empty or invalid format. Terminating pagination loop.".format(page_count),
-                            "DEBUG"
+                            "empty or invalid format. Terminating pagination loop.".format(
+                                page_count
+                            ),
+                            "DEBUG",
                         )
                         break
 
@@ -4680,7 +5010,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "accumulated: {2}. Checking if more pages available.".format(
                             len(notifications), page_count, len(all_notifications)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Early-stop: if all target subscription names found, skip remaining pages
@@ -4692,7 +5022,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                 "Stopping pagination early.".format(
                                     len(target_subscription_names), page_count
                                 ),
-                                "INFO"
+                                "INFO",
                             )
                             break
 
@@ -4702,7 +5032,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "less than limit {2}. No more pages available. Terminating pagination.".format(
                                 len(notifications), page_count, limit
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
@@ -4715,15 +5045,17 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "and returning accumulated results.".format(
                             page_count, type(e).__name__, str(e)
                         ),
-                        "ERROR"
+                        "ERROR",
                     )
                     break
 
             self.log(
                 "Syslog event notification retrieval completed successfully. Total pages "
                 "fetched: {0}, Total syslog event notifications retrieved: {1}. Returning "
-                "complete notification list.".format(page_count, len(all_notifications)),
-                "INFO"
+                "complete notification list.".format(
+                    page_count, len(all_notifications)
+                ),
+                "INFO",
             )
 
             return all_notifications
@@ -4734,7 +5066,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "type: {0}, Exception message: {1}. Returning empty list for graceful handling.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -4764,11 +5096,14 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "provided specification. Details list contains: {1}".format(
                 len(details_list) if details_list else 0, details_list
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not details_list:
-            self.log("No configuration details provided for transformation. Returning empty list.", "DEBUG")
+            self.log(
+                "No configuration details provided for transformation. Returning empty list.",
+                "DEBUG",
+            )
             return []
 
         modified_configs = []
@@ -4780,7 +5115,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Processing configuration item {0}/{1}. Validating item type and structure.".format(
                     detail_index, len(details_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if not isinstance(detail, dict):
                 items_skipped += 1
@@ -4788,7 +5123,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Skipping configuration item {0}/{1} - invalid type: {2}. Expected dictionary.".format(
                         detail_index, len(details_list), type(detail).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -4801,24 +5136,32 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Mapping field '{0}' from source key '{1}' in item {2}/{3}. "
                     "Value type: {4}, Has nested options: {5}".format(
-                        spec_key, source_key, detail_index, len(details_list),
-                        type(value).__name__, bool(spec_def.get("options"))
+                        spec_key,
+                        source_key,
+                        detail_index,
+                        len(details_list),
+                        type(value).__name__,
+                        bool(spec_def.get("options")),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if spec_def.get("options") and isinstance(value, list):
                     self.log(
                         "Processing nested list for field '{0}' with {1} item(s). "
-                        "Applying nested specification mapping.".format(spec_key, len(value)),
-                        "DEBUG"
+                        "Applying nested specification mapping.".format(
+                            spec_key, len(value)
+                        ),
+                        "DEBUG",
                     )
                     nested_list = []
                     for nested_index, item in enumerate(value, start=1):
                         if isinstance(item, dict):
                             nested_mapped = OrderedDict()
                             for nested_key, nested_spec in spec_def["options"].items():
-                                nested_source_key = nested_spec.get("source_key", nested_key)
+                                nested_source_key = nested_spec.get(
+                                    "source_key", nested_key
+                                )
                                 nested_value = item.get(nested_source_key)
 
                                 transform = nested_spec.get("transform")
@@ -4828,7 +5171,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                         "in item {1}/{2}.".format(
                                             nested_key, nested_index, len(value)
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     nested_value = transform(nested_value)
 
@@ -4845,14 +5188,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Successfully mapped nested list field '{0}' with {1} valid item(s).".format(
                                 spec_key, len(nested_list)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 elif spec_def.get("options") and isinstance(value, dict):
                     self.log(
                         "Processing nested dictionary for field '{0}'. Applying nested "
-                        "specification mapping to configuration structure.".format(spec_key),
-                        "DEBUG"
+                        "specification mapping to configuration structure.".format(
+                            spec_key
+                        ),
+                        "DEBUG",
                     )
                     nested_mapped = OrderedDict()
                     has_non_null_values = False
@@ -4866,7 +5211,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 "Applying transformation function to nested field '{0}' "
                                 "in dict structure.".format(nested_key),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             nested_value = transform(nested_value)
 
@@ -4881,7 +5226,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Successfully mapped nested dict field '{0}' with {1} non-null field(s).".format(
                                 spec_key, len(nested_mapped)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 elif spec_def.get("options") and value is None:
@@ -4890,12 +5235,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         if any(detail.get(smtp_key) for smtp_key in smtp_keys):
                             self.log(
                                 "Creating placeholder SMTP config structure for field '{0}' "
-                                "due to presence of related email fields.".format(spec_key),
-                                "DEBUG"
+                                "due to presence of related email fields.".format(
+                                    spec_key
+                                ),
+                                "DEBUG",
                             )
                             nested_mapped = OrderedDict()
                             for nested_key, nested_spec in spec_def["options"].items():
-                                if nested_key in ["server_address", "smtp_type", "port"]:
+                                if nested_key in [
+                                    "server_address",
+                                    "smtp_type",
+                                    "port",
+                                ]:
                                     nested_mapped[nested_key] = None
                             if nested_mapped:
                                 mapped_config[spec_key] = nested_mapped
@@ -4908,7 +5259,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 "Applying transformation function to field '{0}' with "
                                 "entire detail object as context.".format(spec_key),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             transformed_value = transform(detail)
                             if transformed_value is not None:
@@ -4923,8 +5274,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         if transform and callable(transform):
                             self.log(
                                 "Applying transformation function to field '{0}' with "
-                                "null source value using detail context.".format(spec_key),
-                                "DEBUG"
+                                "null source value using detail context.".format(
+                                    spec_key
+                                ),
+                                "DEBUG",
                             )
                             transformed_value = transform(detail)
                             if transformed_value is not None:
@@ -4939,14 +5292,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "mapped. Added to final configuration list.".format(
                         detail_index, len(details_list), fields_mapped
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 items_skipped += 1
                 self.log(
                     "Skipped configuration item {0}/{1} - no valid fields mapped after "
-                    "transformation and null filtering.".format(detail_index, len(details_list)),
-                    "WARNING"
+                    "transformation and null filtering.".format(
+                        detail_index, len(details_list)
+                    ),
+                    "WARNING",
                 )
 
         self.log(
@@ -4955,7 +5310,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "configuration(s) ready for YAML serialization.".format(
                 items_processed, items_skipped, len(modified_configs)
             ),
-            "INFO"
+            "INFO",
         )
         return modified_configs
 
@@ -4983,7 +5338,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "configuration type(s) into unified playbook format.".format(
                 file_path, len(configurations)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         config_list = []
@@ -4992,65 +5347,55 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         if configurations.get("webhook_destination"):
             webhooks = configurations["webhook_destination"]
             for webhook in webhooks:
-                config_list.append(OrderedDict([
-                    ("webhook_destination", webhook)
-                ]))
+                config_list.append(OrderedDict([("webhook_destination", webhook)]))
 
         # Add ALL email destinations to the same config block
         if configurations.get("email_destination"):
             emails = configurations["email_destination"]
             for email in emails:
-                config_list.append(OrderedDict([
-                    ("email_destination", email)
-                ]))
+                config_list.append(OrderedDict([("email_destination", email)]))
 
         # Add ALL syslog destinations to the same config block
         if configurations.get("syslog_destination"):
             syslogs = configurations["syslog_destination"]
             for syslog in syslogs:
-                config_list.append(OrderedDict([
-                    ("syslog_destination", syslog)
-                ]))
+                config_list.append(OrderedDict([("syslog_destination", syslog)]))
 
         # Add ALL SNMP destinations to the same config block
         if configurations.get("snmp_destination"):
             snmps = configurations["snmp_destination"]
             for snmp in snmps:
-                config_list.append(OrderedDict([
-                    ("snmp_destination", snmp)
-                ]))
+                config_list.append(OrderedDict([("snmp_destination", snmp)]))
 
         # Add ALL ITSM settings to the same config block
         if configurations.get("itsm_setting"):
             itsms = configurations["itsm_setting"]
             for itsm in itsms:
-                config_list.append(OrderedDict([
-                    ("itsm_setting", itsm)
-                ]))
+                config_list.append(OrderedDict([("itsm_setting", itsm)]))
 
         # Add ALL webhook event notifications to the same config block
         if configurations.get("webhook_event_notification"):
             webhook_notifs = configurations["webhook_event_notification"]
             for webhook_notif in webhook_notifs:
-                config_list.append(OrderedDict([
-                    ("webhook_event_notification", webhook_notif)
-                ]))
+                config_list.append(
+                    OrderedDict([("webhook_event_notification", webhook_notif)])
+                )
 
         # Add ALL email event notifications to the same config block
         if configurations.get("email_event_notification"):
             email_notifs = configurations["email_event_notification"]
             for email_notif in email_notifs:
-                config_list.append(OrderedDict([
-                    ("email_event_notification", email_notif)
-                ]))
+                config_list.append(
+                    OrderedDict([("email_event_notification", email_notif)])
+                )
 
         # Add ALL syslog event notifications to the same config block
         if configurations.get("syslog_event_notification"):
             syslog_notifs = configurations["syslog_event_notification"]
             for syslog_notif in syslog_notifs:
-                config_list.append(OrderedDict([
-                    ("syslog_event_notification", syslog_notif)
-                ]))
+                config_list.append(
+                    OrderedDict([("syslog_event_notification", syslog_notif)])
+                )
 
         return {"config": config_list}
 
@@ -5073,7 +5418,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting configuration gathering workflow for YAML playbook generation. Preparing "
             "to process workflow operations for Events and Notifications components.",
-            "DEBUG"
+            "DEBUG",
         )
         # Define workflow operations
         workflow_operations = [
@@ -5092,7 +5437,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "iteration to check parameter availability and execute operations.".format(
                 len(workflow_operations)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for index, (param_key, operation_name, operation_func) in enumerate(
@@ -5103,7 +5448,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "for param_key '{3}' in want structure.".format(
                     index, len(workflow_operations), operation_name, param_key
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
@@ -5114,11 +5459,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         operation_name,
                         params.get("file_path", "not specified"),
                         params.get("generate_all_configurations", False),
-                        len((params.get("component_specific_filters") or {}).get(
-                            "components_list", []
-                        ))
+                        len(
+                            (params.get("component_specific_filters") or {}).get(
+                                "components_list", []
+                            )
+                        ),
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 try:
@@ -5129,7 +5476,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "without errors and configurations generated.".format(
                             operation_name, index, len(workflow_operations)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
@@ -5138,12 +5485,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "checking return status.".format(
                             operation_name, type(e).__name__, str(e)
                         ),
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -5153,7 +5501,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "operation {1}/{2} and continuing to next operation.".format(
                         operation_name, index, len(workflow_operations)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -5165,7 +5513,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "YAML playbook generation workflow finished.".format(
                 execution_duration, operations_executed, operations_skipped
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -5289,7 +5637,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -5308,11 +5655,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -5341,7 +5684,6 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
@@ -5359,35 +5701,30 @@ def main():
             "required": False,
             "type": "dict",
         },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the EventsNotificationsPlaybookGenerator object
     # This creates the main orchestrator for brownfield events and notifications extraction
-    ccc_events_and_notifications_playbook_generator = EventsNotificationsPlaybookGenerator(module)
+    ccc_events_and_notifications_playbook_generator = (
+        EventsNotificationsPlaybookGenerator(module)
+    )
 
     # Log module initialization after object creation (now logging is available)
     ccc_events_and_notifications_playbook_generator.log(
         "Starting Ansible module execution for brownfield events and notifications playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_events_and_notifications_playbook_generator.log(
@@ -5404,9 +5741,9 @@ def main():
                 len(module.params.get("config"))
                 if isinstance(module.params.get("config"), dict)
                 else 0
-            )
+            ),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -5417,11 +5754,15 @@ def main():
         "meets minimum requirement of 2.3.5.3 for events and notifications APIs".format(
             ccc_events_and_notifications_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_events_and_notifications_playbook_generator.compare_catalystcenter_versions(
-            ccc_events_and_notifications_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
+    if (
+        ccc_events_and_notifications_playbook_generator.compare_catalystcenter_versions(
+            ccc_events_and_notifications_playbook_generator.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -5437,13 +5778,15 @@ def main():
         )
 
         ccc_events_and_notifications_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_events_and_notifications_playbook_generator.msg = error_msg
         ccc_events_and_notifications_playbook_generator.set_operation_result(
-            "failed", False, ccc_events_and_notifications_playbook_generator.msg, "ERROR"
+            "failed",
+            False,
+            ccc_events_and_notifications_playbook_generator.msg,
+            "ERROR",
         ).check_return_status()
 
     ccc_events_and_notifications_playbook_generator.log(
@@ -5451,7 +5794,7 @@ def main():
         "all required events and notifications APIs".format(
             ccc_events_and_notifications_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -5463,7 +5806,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_events_and_notifications_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_events_and_notifications_playbook_generator.supported_states:
@@ -5475,8 +5818,7 @@ def main():
         )
 
         ccc_events_and_notifications_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_events_and_notifications_playbook_generator.status = "invalid"
@@ -5487,7 +5829,7 @@ def main():
         "State validation passed - using state '{0}' for events and notifications workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -5495,7 +5837,7 @@ def main():
     # ============================================
     ccc_events_and_notifications_playbook_generator.log(
         "Starting comprehensive input parameter validation for events and notifications playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_events_and_notifications_playbook_generator.validate_input().check_return_status()
@@ -5503,7 +5845,7 @@ def main():
     ccc_events_and_notifications_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet events and notifications module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -5523,11 +5865,14 @@ def main():
             "'components_list' or component-specific filter keys."
         )
         ccc_events_and_notifications_playbook_generator.set_operation_result(
-            "failed", False, ccc_events_and_notifications_playbook_generator.msg, "ERROR"
+            "failed",
+            False,
+            ccc_events_and_notifications_playbook_generator.msg,
+            "ERROR",
         ).check_return_status()
     ccc_events_and_notifications_playbook_generator.log(
         "Starting configuration processing and default handling for single config dict.",
-        "INFO"
+        "INFO",
     )
 
     # Keep file_path and file_mode as top-level module args and inject into
@@ -5542,20 +5887,26 @@ def main():
 
     ccc_events_and_notifications_playbook_generator.log(
         "Configuration preprocessing completed. Updated validated_config with top-level file args.",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
     # Execute State-Specific Operations
     # ============================================
-    components_list = (config_item.get("component_specific_filters") or {}).get("components_list", "all")
+    components_list = (config_item.get("component_specific_filters") or {}).get(
+        "components_list", "all"
+    )
 
     ccc_events_and_notifications_playbook_generator.log(
         "Processing configuration for state '{0}' with components: {1}".format(
             state,
-            len(components_list) if isinstance(components_list, list) else components_list
+            (
+                len(components_list)
+                if isinstance(components_list, list)
+                else components_list
+            ),
         ),
-        "INFO"
+        "INFO",
     )
 
     # Reset values for clean state
@@ -5570,14 +5921,16 @@ def main():
     ccc_events_and_notifications_playbook_generator.log(
         "Executing state-specific operation for '{0}' workflow - will retrieve destinations, "
         "ITSM settings, and event subscriptions from Catalyst Center".format(state),
-        "INFO"
+        "INFO",
     )
-    ccc_events_and_notifications_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_events_and_notifications_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     ccc_events_and_notifications_playbook_generator.log(
         "Successfully completed processing - events and notifications data extraction "
         "and YAML generation completed.",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -5587,8 +5940,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_events_and_notifications_playbook_generator.log(
@@ -5596,25 +5948,29 @@ def main():
         "at timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_events_and_notifications_playbook_generator.status
+            ccc_events_and_notifications_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_events_and_notifications_playbook_generator.log(
         "Final module result summary: changed={0}, msg_type={1}, response_available={2}".format(
-            ccc_events_and_notifications_playbook_generator.result.get("changed", False),
-            type(ccc_events_and_notifications_playbook_generator.result.get("msg")).__name__,
-            "response" in ccc_events_and_notifications_playbook_generator.result
+            ccc_events_and_notifications_playbook_generator.result.get(
+                "changed", False
+            ),
+            type(
+                ccc_events_and_notifications_playbook_generator.result.get("msg")
+            ).__name__,
+            "response" in ccc_events_and_notifications_playbook_generator.result,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     ccc_events_and_notifications_playbook_generator.log(
         "Exiting Ansible module with result containing events and notifications extraction results",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_events_and_notifications_playbook_generator.result)

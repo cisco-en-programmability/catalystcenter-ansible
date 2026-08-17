@@ -11,10 +11,10 @@ short_description: Information module for Endpoint Analytics Anc Policies
 description:
   - Get all Endpoint Analytics Anc Policies.
   - Fetches the list of ANC policies available in ISE.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

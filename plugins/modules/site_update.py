@@ -11,10 +11,10 @@ short_description: Resource module for Site Update
 description:
   - Manage operation update of the resource Site Update.
   - Update site area/building/floor with specified hierarchy and new values.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

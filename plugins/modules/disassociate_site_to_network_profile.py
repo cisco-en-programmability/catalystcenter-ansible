@@ -11,10 +11,10 @@ short_description: Resource module for Disassociate Site To Network Profile
 description:
   - Manage operation delete of the resource Disassociate Site To Network Profile.
   - Disassociate a Site from a Network Profile.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkProfileId:
     description: NetworkProfileId path parameter. Network-Profile Id to be associated.

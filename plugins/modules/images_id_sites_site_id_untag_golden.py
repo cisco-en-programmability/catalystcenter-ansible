@@ -11,10 +11,10 @@ short_description: Resource module for Images Id Sites Site Id Untag Golden
 description:
   - Manage operation create of the resource Images Id Sites Site Id Untag Golden.
   - Untag the golden images specifically designed for a particular device type or supervisor engine module.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceRoles:
     description: Device Roles. Available value will be CORE, DISTRIBUTION, UNKNOWN, ACCESS, BORDER ROUTER.

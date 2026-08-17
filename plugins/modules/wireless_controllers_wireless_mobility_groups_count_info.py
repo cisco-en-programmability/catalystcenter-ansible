@@ -11,10 +11,10 @@ short_description: Information module for Wireless Controllers Wireless Mobility
 description:
   - Get all Wireless Controllers Wireless Mobility Groups Count.
   - Retrieves count of mobility groups configured.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Network Device Config
 description:
   - Get all Network Device Config . - > Returns the historical device configurations running configuration , startup configuration
     , vlan if applicable by specified criteria.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

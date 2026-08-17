@@ -14,10 +14,10 @@ description:
     is provided in the response, which you can use to check the status via the Get Task by ID API GET /dna/intent/api/v1/tasks/${id}.
     If the task fails, use the Get Tasks API GET /dna/intent/api/v1/tasks with the parentId filter to check the status of
     individual sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sites Bulk's payload.

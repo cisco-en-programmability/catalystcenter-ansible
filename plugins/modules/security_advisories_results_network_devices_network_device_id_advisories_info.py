@@ -13,10 +13,10 @@ description:
   - Get Security Advisories Results Network Devices Network Device Id Advisories by id.
   - Get security advisories affecting the network device.
   - Get security advisory affecting the network device by device Id and advisory id.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

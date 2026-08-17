@@ -11,10 +11,10 @@ short_description: Resource module for Lan Automation Create
 description:
   - Manage operation create of the resource Lan Automation Create.
   - Invoke this API to start LAN Automation for the given site.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Lan Automation Create's payload.

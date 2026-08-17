@@ -15,10 +15,10 @@ description:
     URL as the management address. If a different managementIpAddress is provided, the device will be updated with the new
     managementIpAddress. This API does not support partial updates. If you want to perform a partial update, use the POST
     /dna/intent/api/v1/networkDevices/{id}/update API.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   category:
     description: Category of the device. Used to determine the type of the device being added.

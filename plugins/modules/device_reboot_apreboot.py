@@ -11,10 +11,10 @@ short_description: Resource module for Device Reboot Apreboot
 description:
   - Manage operation create of the resource Device Reboot Apreboot.
   - Users can reboot multiple access points up-to 200 at a time using this API.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apMacAddresses:
     description: The ethernet MAC address of the access point.

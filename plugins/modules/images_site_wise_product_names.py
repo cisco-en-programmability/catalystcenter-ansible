@@ -14,10 +14,10 @@ description:
   - This API unassigns the network device product name from all the sites for the given software image. - > Update the list
     of sites for the network device product name assigned to the software image. Refer to `/dna/intent/api/v1/images` and
     `/dna/intent/api/v1/images/{imageId}/siteWiseProductNames` GET APIs for obtaining `imageId` and `productNameOrdinal` respectively.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   imageId:
     description: ImageId path parameter. Software image identifier. Refer `/dna/intent/api/v1/images` API for obtaining `imageId`.

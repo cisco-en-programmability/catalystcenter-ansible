@@ -96,7 +96,9 @@ class ActionModule(ActionBase):
                 function="get_functional_capability_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -105,6 +107,8 @@ class ActionModule(ActionBase):
                 function="get_functional_capability_for_devices",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

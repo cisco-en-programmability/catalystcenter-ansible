@@ -15,10 +15,10 @@ description:
     using the API /intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy, they are applied on top of the existing
     configurations on the device. Any existing configurations on the device which are not included in the intended features,
     are retained on the device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Network device ID of the wired device to configure.

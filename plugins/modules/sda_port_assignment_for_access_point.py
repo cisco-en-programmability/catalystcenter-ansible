@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Port Assignment For Access Point.
   - Add Port assignment for access point in SDA Fabric.
   - Delete Port assignment for access point in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authenticateTemplateName:
     description: Authenticate TemplateName associated to Fabric Site.

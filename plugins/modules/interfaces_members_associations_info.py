@@ -12,10 +12,10 @@ description:
   - Get all Interfaces Members Associations. - > Fetches the tags associated with the interfaces. Interfaces that don't have
     any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to group
     resources. When an interface is tagged, it is called a member of the tag.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

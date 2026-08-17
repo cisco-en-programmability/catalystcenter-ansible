@@ -12,10 +12,10 @@ description:
   - Manage operation delete of the resource Network Profiles For Sites Site Assignments Bulk Delete. - > Unassigns a given
     network profile for sites from multiple sites. The profile must be removed from the containing building first if this
     site is a floor.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.

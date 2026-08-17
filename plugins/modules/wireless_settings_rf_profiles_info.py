@@ -13,10 +13,10 @@ description:
   - Get Wireless Settings Rf Profiles by id.
   - This API allows the user to get a RF Profile by RF Profile ID.
   - This API allows the user to get all RF Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

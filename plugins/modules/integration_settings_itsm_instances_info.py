@@ -11,10 +11,10 @@ short_description: Information module for Integration Settings Itsm Instances
 description:
   - Get all Integration Settings Itsm Instances.
   - Fetches all ITSM Integration settings.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

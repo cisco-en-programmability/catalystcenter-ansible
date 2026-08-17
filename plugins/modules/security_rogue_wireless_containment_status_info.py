@@ -12,10 +12,10 @@ description:
   - Get Security Rogue Wireless-Containment Status by id. - > Intent API to check the wireless rogue access point containment
     status. The response includes all the details like containment status, contained by WLC, containment status of each BSSID
     etc. This API also includes the information of strongest detecting WLC for this rogue access point.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

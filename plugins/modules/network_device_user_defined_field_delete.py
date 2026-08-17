@@ -11,10 +11,10 @@ short_description: Resource module for Network Device User Defined Field Delete
 description:
   - Manage operation delete of the resource Network Device User Defined Field Delete. - > Remove a User-Defined-Field from
     device. Name of UDF has to be passed as the query parameter. Please note that Global UDF will not be deleted by this operation.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: DeviceId path parameter. UUID of device from which UDF has to be removed.

@@ -13,10 +13,10 @@ description:
   - Get Compliance Policys by id.
   - Retrieves the details of a specific compliance policy.
   - Retrieves the list of compliance policies.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

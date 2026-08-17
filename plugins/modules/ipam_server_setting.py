@@ -15,10 +15,10 @@ description:
     before using this API. Trusted certificates can be uploaded using 'Import Trusted Certificate' intent API.
   - Deletes configuration details of the external IPAM server.
   - Updates configuration details of the external IPAM server.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   password:
     description: The password for the external IPAM server login username.

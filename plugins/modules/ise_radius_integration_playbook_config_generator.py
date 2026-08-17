@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for ISE Radius Integration Workflow Manager Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   - Retrieves existing server configurations from Cisco Catalyst Center and
     transforms them into a YAML format compatible with the
     C(ise_radius_integration_workflow_manager) module.
-version_added: '6.45.0'
+version_added: '2.6.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -505,16 +506,21 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
             )
 
             # Build entry: skip null values, include empty string values
-            transformed_entry = self._build_entry_skip_none([
-                ("user_name", user_name),
-                ("password", self.generate_custom_variable_name(
-                    self.transform_server_type(ise_radius_integration_details),
-                    "policy_server_password",
-                )),
-                ("fqdn", fqdn),
-                ("ip_address", ip_address),
-                ("description", description),
-            ])
+            transformed_entry = self._build_entry_skip_none(
+                [
+                    ("user_name", user_name),
+                    (
+                        "password",
+                        self.generate_custom_variable_name(
+                            self.transform_server_type(ise_radius_integration_details),
+                            "policy_server_password",
+                        ),
+                    ),
+                    ("fqdn", fqdn),
+                    ("ip_address", ip_address),
+                    ("description", description),
+                ]
+            )
 
             cisco_ise_dtos_list.append(transformed_entry)
             self.log(
@@ -693,7 +699,9 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
 
             if "trustState" not in cisco_ise_dto:
                 self.log(
-                    "trustState not present in ciscoIseDtos entry; index={0}".format(idx),
+                    "trustState not present in ciscoIseDtos entry; index={0}".format(
+                        idx
+                    ),
                     "DEBUG",
                 )
                 all_trusted = False
@@ -718,7 +726,9 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
                 return False
             if trust_state == "TRUSTED":
                 self.log(
-                    "trustState TRUSTED found in ciscoIseDtos entry; index={0}".format(idx),
+                    "trustState TRUSTED found in ciscoIseDtos entry; index={0}".format(
+                        idx
+                    ),
                     "DEBUG",
                 )
                 continue
@@ -1115,7 +1125,10 @@ class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper
         # component_specific_filters is already the authentication_policy_server filter
         # list provided by brownfield_helper (e.g. [{server_type: "ISE"}, ...]).
         # Normalise: treat an empty list the same as no filter (return all servers).
-        if isinstance(component_specific_filters, list) and not component_specific_filters:
+        if (
+            isinstance(component_specific_filters, list)
+            and not component_specific_filters
+        ):
             component_specific_filters = None
 
         auth_server_details = []
@@ -1349,32 +1362,87 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"type": "dict", "required": False},
         "file_path": {"type": "str", "required": False},
-        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    config_generator = (
-        IseRadiusIntegrationPlaybookGenerator(module)
-    )
+    config_generator = IseRadiusIntegrationPlaybookGenerator(module)
     if (
         config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(),
@@ -1398,14 +1466,9 @@ def main():
     # Get the state parameter from the provided parameters
     state = config_generator.params.get("state")
     # Check if the state is valid
-    if (
-        state
-        not in config_generator.supported_states
-    ):
+    if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = (
-            "State {0} is invalid".format(state)
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return status
@@ -1415,12 +1478,8 @@ def main():
     config = config_generator.validated_config
 
     config_generator.reset_values()
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

@@ -12,10 +12,10 @@ description:
   - Manage operations update and delete of the resource Sites Site Id Wireless Settings Flex Connect Aaa Override.
   - This API allows the user to delete AAA Override VLAN settings at the given site level.
   - This API allows the user to update an existing AAA Override VLAN setting at the given site level.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sites Site Id Wireless Settings Flex Connect Aaa Override's payload.

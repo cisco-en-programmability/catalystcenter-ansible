@@ -126,4 +126,7 @@ options:
 notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK"
+    - "Requires Python >= 3.10, matching the controller Python versions supported by the
+       collection's minimum ansible-core version (see the collection README for the current
+       ansible-core / Python compatibility range)"
 """

@@ -11,10 +11,10 @@ short_description: Information module for Event Api Status
 description:
   - Get Event Api Status by id.
   - Get the Status of events API calls with provided executionId as mandatory path parameter.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

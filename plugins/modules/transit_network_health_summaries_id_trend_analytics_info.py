@@ -11,10 +11,10 @@ short_description: Information module for Transit Network Health Summaries Id Tr
 description:
   - Get all Transit Network Health Summaries Id Trend Analytics.
   - Get health time series for a specific Transit Network by providing the unique Transit Network id in the url path.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Controllers Wireless Mobility Gr
 description:
   - Manage operation create of the resource Wireless Controllers Wireless Mobility Groups Mobility Provision.
   - This API is used to provision/deploy wireless mobility into Cisco wireless controllers.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataLinkEncryption:
     description: A secure link in which data is encrypted using CAPWAP DTLS protocol can be established between two controllers.

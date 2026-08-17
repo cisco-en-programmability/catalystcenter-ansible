@@ -7,6 +7,7 @@
 Ansible module for generating backup and restore configuration playbooks
 from Cisco Catalyst Center.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -27,7 +28,7 @@ description:
   - Generated YAML format is directly usable with
     backup_and_restore_workflow_manager module for infrastructure as code.
 
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -472,16 +473,18 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -597,7 +600,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "playbook generation. This operation validates parameter structure, types, allowed "
             "keys, and minimum requirements to ensure configuration conforms to expected schema "
             "before proceeding with YAML generation workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Two cases only:
@@ -619,7 +622,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "trigger validation failure with detailed error message showing allowed vs invalid keys.".format(
                 list(allowed_keys)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate that config is a dict (not a list)
@@ -636,7 +639,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Config type validation passed - config is a dictionary. Proceeding with "
             "invalid params validation using validate_invalid_params().",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Step 1: Validate invalid parameters using validate_invalid_params from BrownFieldHelper
@@ -645,7 +648,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Invalid params validation completed successfully. No unknown parameters detected. "
             "Proceeding with file_mode validation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Step 2: Validate file_mode if provided (top-level arg)
@@ -662,7 +665,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "file_mode validation passed: '{0}'. Proceeding with validate_config_dict().".format(
                 file_mode if file_mode else "overwrite (default)"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Step 3: Validate config dict types using validate_config_dict from BrownFieldHelper
@@ -696,10 +699,8 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Type validation via validate_config_dict() completed successfully. "
-            "Validated config: {0}.".format(
-                validated_config
-            ),
-            "INFO"
+            "Validated config: {0}.".format(validated_config),
+            "INFO",
         )
 
         # Enforce conditional requirement for components_list and component filters:
@@ -743,16 +744,19 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 for component_name in component_keys:
                     if component_name not in normalized_components_list:
                         normalized_components_list.append(component_name)
-                component_specific_filters["components_list"] = normalized_components_list
-                validated_config["component_specific_filters"] = component_specific_filters
+                component_specific_filters["components_list"] = (
+                    normalized_components_list
+                )
+                validated_config["component_specific_filters"] = (
+                    component_specific_filters
+                )
 
         # Step 5: Validate component_specific_filters if provided
         component_specific_filters = validated_config.get("component_specific_filters")
         if component_specific_filters:
             self.validate_component_specific_filters(component_specific_filters)
             self.log(
-                "component_specific_filters validation completed successfully.",
-                "DEBUG"
+                "component_specific_filters validation completed successfully.", "DEBUG"
             )
 
         # Set the validated configuration and update the result with success status
@@ -760,7 +764,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.msg = (
             "Successfully validated playbook configuration parameters. "
             "Configuration structure conforms to expected schema with correct parameter "
-            "types and allowed keys. Validated configuration: {0}".format(str(validated_config))
+            "types and allowed keys. Validated configuration: {0}".format(
+                str(validated_config)
+            )
         )
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
@@ -790,7 +796,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "NFS configuration and backup storage configuration. Each component specifies "
             "its filter schema, API endpoints, transformation specifications, and processing "
             "functions for orchestrated data retrieval and YAML generation workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         mapping_config = {
@@ -825,9 +831,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "processing function references for comprehensive backup and restore workflow "
             "orchestration.".format(
                 len(mapping_config["network_elements"]),
-                list(mapping_config["network_elements"].keys())
+                list(mapping_config["network_elements"].keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return mapping_config
@@ -854,25 +860,29 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "response format (camelCase) to user-friendly YAML playbook format (snake_case). "
             "Includes field mappings for server IP, source path, NFS ports, and protocol "
             "version with their corresponding API source paths and data types.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        nfs_configuration_details = OrderedDict({
-            "server_ip": {"type": "str", "source_key": "spec.server"},
-            "source_path": {"type": "str", "source_key": "spec.sourcePath"},
-            "nfs_port": {"type": "int", "source_key": "spec.nfsPort"},
-            "nfs_version": {"type": "str", "source_key": "spec.nfsVersion"},
-            "nfs_portmapper_port": {"type": "int", "source_key": "spec.portMapperPort"},
-        })
+        nfs_configuration_details = OrderedDict(
+            {
+                "server_ip": {"type": "str", "source_key": "spec.server"},
+                "source_path": {"type": "str", "source_key": "spec.sourcePath"},
+                "nfs_port": {"type": "int", "source_key": "spec.nfsPort"},
+                "nfs_version": {"type": "str", "source_key": "spec.nfsVersion"},
+                "nfs_portmapper_port": {
+                    "type": "int",
+                    "source_key": "spec.portMapperPort",
+                },
+            }
+        )
         self.log(
             "NFS configuration specification generated successfully with {0} field mappings. "
             "Fields defined: {1}. Specification provides complete transformation rules for "
             "converting API response data (spec.server, spec.sourcePath, etc.) to playbook "
             "parameters (server_ip, source_path, etc.) for YAML generation workflow.".format(
-                len(nfs_configuration_details),
-                list(nfs_configuration_details.keys())
+                len(nfs_configuration_details), list(nfs_configuration_details.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return nfs_configuration_details
@@ -902,16 +912,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "type errors will result in None return value with appropriate logging.".format(
                 key_path
             ),
-            "DEBUG"
+            "DEBUG",
         )
         try:
-            keys = key_path.split('.')
+            keys = key_path.split(".")
             self.log(
                 "Key path '{0}' parsed into {1} component(s): {2}. Beginning sequential "
                 "traversal through nested dictionary structure starting from root level.".format(
                     key_path, len(keys), keys
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             result = data
 
@@ -922,7 +932,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Current data type: {3}.".format(
                         key_index, len(keys), key, type(result).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 result = result.get(key)
                 if result is None:
@@ -930,10 +940,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Traversal terminated at step {0}/{1}. Key '{2}' not found in the "
                         "current data level or returned None value. Remaining path: {3}. "
                         "Returning None as extraction result.".format(
-                            key_index, len(keys), key,
-                            '.'.join(keys[key_index:]) if key_index < len(keys) else "N/A"
+                            key_index,
+                            len(keys),
+                            key,
+                            (
+                                ".".join(keys[key_index:])
+                                if key_index < len(keys)
+                                else "N/A"
+                            ),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     return None
 
@@ -942,7 +958,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Traversed {1} level(s) successfully. Extracted value type: {2}.".format(
                     key_path, len(keys), type(result).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return result
@@ -953,7 +969,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "traversal through nested dictionary structure starting from root level.".format(
                     key_path, len(keys), keys
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -999,7 +1015,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "details from the API, apply component-specific filtering if provided, and transform "
             "API response format (camelCase) to user-friendly YAML format (snake_case) for "
             "playbook generation.".format(network_element, filters),
-            "DEBUG"
+            "DEBUG",
         )
 
         component_specific_filters = filters.get("component_specific_filters", {})
@@ -1011,7 +1027,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "be present together in each filter for validation to pass.".format(
                 len(nfs_filters), nfs_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if nfs_filters:
@@ -1019,7 +1035,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Validating NFS configuration filters for required parameters. Each filter must "
                 "include both 'server_ip' and 'source_path' together. Checking {0} filter(s) for "
                 "compliance with validation requirements.".format(len(nfs_filters)),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_index, filter_param in enumerate(nfs_filters, start=1):
@@ -1028,7 +1044,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "and 'source_path' keys in filter dictionary.".format(
                         filter_index, len(nfs_filters), filter_param
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Check if both required keys are present in the filter
@@ -1040,7 +1056,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Both must be True for validation to pass.".format(
                         filter_index, has_server_ip, has_source_path
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if not (has_server_ip and has_source_path):
@@ -1052,12 +1068,18 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Missing parameters: {2}.".format(
                             filter_index,
                             filter_param,
-                            [k for k in ["server_ip", "source_path"] if k not in filter_param]
+                            [
+                                k
+                                for k in ["server_ip", "source_path"]
+                                if k not in filter_param
+                            ],
                         )
                     )
                     self.log(error_msg, "ERROR")
 
-                    result = self.set_operation_result("failed", False, error_msg, "ERROR")
+                    result = self.set_operation_result(
+                        "failed", False, error_msg, "ERROR"
+                    )
 
                     self.msg = error_msg
                     self.result["msg"] = error_msg
@@ -1065,7 +1087,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Filter validation failed, returning operation result with error details. "
                         "Operation status: failed. No API call will be made due to invalid filter "
                         "configuration.",
-                        "ERROR"
+                        "ERROR",
                     )
 
                     return result
@@ -1073,7 +1095,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "All {0} NFS configuration filter(s) passed validation successfully. Each filter "
             "contains both required parameters (server_ip and source_path). Proceeding with "
             "API retrieval and filtering operations.".format(len(nfs_filters)),
-            "INFO"
+            "INFO",
         )
 
         final_nfs_configs = []
@@ -1099,7 +1121,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Parsing response to extract NFS configurations list.".format(
                     type(response).__name__, response
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if isinstance(response, dict):
@@ -1108,9 +1130,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is dictionary format. Extracted 'response' key containing {0} "
                     "NFS configuration(s). Response key exists: {1}.".format(
                         len(nfs_configs) if isinstance(nfs_configs, list) else 0,
-                        "response" in response
+                        "response" in response,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             else:
@@ -1119,9 +1141,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is direct list format (not wrapped in dictionary). Total "
                     "configurations: {0}. Response type: {1}.".format(
                         len(nfs_configs) if isinstance(nfs_configs, list) else 0,
-                        type(response).__name__
+                        type(response).__name__,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
@@ -1129,22 +1151,24 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Configurations will be processed for filtering and transformation to YAML format.".format(
                     len(nfs_configs)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if nfs_configs:
                 self.log(
                     "Sample NFS configuration structure (first item): {0}. This structure shows "
                     "the API response format with nested 'spec' and 'status' sections that will "
-                    "be transformed to user-friendly YAML format.".format(nfs_configs[0]),
-                    "DEBUG"
+                    "be transformed to user-friendly YAML format.".format(
+                        nfs_configs[0]
+                    ),
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "No NFS configurations found in API response. Retrieved configuration list is "
                     "empty. This may indicate no NFS servers are configured in Catalyst Center for "
                     "backup and restore operations.",
-                    "WARNING"
+                    "WARNING",
                 )
 
             if nfs_filters:
@@ -1154,7 +1178,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "source_path. Only configurations matching all criteria will be included in final results.".format(
                         len(nfs_filters)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 filtered_configs = []
 
@@ -1162,9 +1186,12 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Processing filter {0}/{1}: {2}. Checking all {3} retrieved configuration(s) "
                         "for matches against this filter's server_ip and source_path criteria.".format(
-                            filter_index, len(nfs_filters), filter_param, len(nfs_configs)
+                            filter_index,
+                            len(nfs_filters),
+                            filter_param,
+                            len(nfs_configs),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     # Check each configuration against current filter
                     for config_index, config in enumerate(nfs_configs, start=1):
@@ -1179,11 +1206,15 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "filter.source_path for exact match validation.".format(
                                 config_index, len(nfs_configs), filter_index, spec
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
-                        server_ip_match = spec.get("server") == filter_param.get("server_ip")
-                        source_path_match = spec.get("sourcePath") == filter_param.get("source_path")
+                        server_ip_match = spec.get("server") == filter_param.get(
+                            "server_ip"
+                        )
+                        source_path_match = spec.get("sourcePath") == filter_param.get(
+                            "source_path"
+                        )
 
                         if not (server_ip_match and source_path_match):
                             match = False
@@ -1199,9 +1230,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 spec.get("sourcePath"),
                                 filter_param.get("source_path"),
                                 source_path_match,
-                                match
+                                match,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         if match and config not in filtered_configs:
@@ -1211,7 +1242,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "filtered configurations list. Total filtered configurations: {2}.".format(
                                     config_index, filter_index, len(filtered_configs)
                                 ),
-                                "INFO"
+                                "INFO",
                             )
 
                 final_nfs_configs = filtered_configs
@@ -1220,7 +1251,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "retrieved. Filtered configurations will proceed to transformation phase.".format(
                         len(final_nfs_configs), len(nfs_configs)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 final_nfs_configs = nfs_configs
@@ -1229,7 +1260,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "for transformation to YAML format. All configurations will be included in final output.".format(
                         len(final_nfs_configs)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         except Exception as e:
@@ -1239,13 +1270,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "unavailability, or authentication problems with Catalyst Center.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
 
             self.log(
                 "API call failed, returning empty NFS configuration list to allow workflow to continue. "
                 "No NFS configurations will be included in YAML output due to retrieval failure.",
-                "WARNING"
+                "WARNING",
             )
             final_nfs_configs = []
 
@@ -1255,7 +1286,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "snake_case parameter names and restructure nested data for playbook compatibility.".format(
                 len(final_nfs_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Retrieve transformation specification for NFS configurations
@@ -1266,9 +1297,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Specification defines source_key paths and data types for each YAML parameter. "
             "Fields to be transformed: {1}.".format(
                 len(nfs_configuration_temp_spec),
-                list(nfs_configuration_temp_spec.keys())
+                list(nfs_configuration_temp_spec.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         modified_nfs_configs = []
@@ -1277,15 +1308,20 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Transforming NFS configuration {0}/{1} using specification-based field mapping. "
                 "Original configuration: {2}. Processing {3} field mappings from specification.".format(
-                    config_index, len(final_nfs_configs), config, len(nfs_configuration_temp_spec)
+                    config_index,
+                    len(final_nfs_configs),
+                    config,
+                    len(nfs_configuration_temp_spec),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             mapped_config = OrderedDict()
 
             # Process each field mapping from specification
-            for field_index, (key, spec_def) in enumerate(nfs_configuration_temp_spec.items(), start=1):
+            for field_index, (key, spec_def) in enumerate(
+                nfs_configuration_temp_spec.items(), start=1
+            ):
                 source_key = spec_def.get("source_key", key)
 
                 self.log(
@@ -1293,7 +1329,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Extracting nested value using dot notation path.".format(
                         field_index, len(nfs_configuration_temp_spec), key, source_key
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Extract value using nested path traversal
                 value = self.extract_nested_value(config, source_key)
@@ -1302,25 +1338,43 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if value is None:
                     self.log(
                         "Nested value extraction returned None for field '{0}'. Attempting direct "
-                        "field extraction from config.spec as fallback method.".format(key),
-                        "DEBUG"
+                        "field extraction from config.spec as fallback method.".format(
+                            key
+                        ),
+                        "DEBUG",
                     )
 
                     if key == "server_ip":
                         value = config.get("spec", {}).get("server")
-                        self.log("Direct extraction for server_ip: {0}".format(value), "DEBUG")
+                        self.log(
+                            "Direct extraction for server_ip: {0}".format(value),
+                            "DEBUG",
+                        )
                     elif key == "source_path":
                         value = config.get("spec", {}).get("sourcePath")
-                        self.log("Direct extraction for source_path: {0}".format(value), "DEBUG")
+                        self.log(
+                            "Direct extraction for source_path: {0}".format(value),
+                            "DEBUG",
+                        )
                     elif key == "nfs_port":
                         value = config.get("spec", {}).get("nfsPort")
-                        self.log("Direct extraction for nfs_port: {0}".format(value), "DEBUG")
+                        self.log(
+                            "Direct extraction for nfs_port: {0}".format(value), "DEBUG"
+                        )
                     elif key == "nfs_version":
                         value = config.get("spec", {}).get("nfsVersion")
-                        self.log("Direct extraction for nfs_version: {0}".format(value), "DEBUG")
+                        self.log(
+                            "Direct extraction for nfs_version: {0}".format(value),
+                            "DEBUG",
+                        )
                     elif key == "nfs_portmapper_port":
                         value = config.get("spec", {}).get("portMapperPort")
-                        self.log("Direct extraction for nfs_portmapper_port: {0}".format(value), "DEBUG")
+                        self.log(
+                            "Direct extraction for nfs_portmapper_port: {0}".format(
+                                value
+                            ),
+                            "DEBUG",
+                        )
 
                 # Apply transformation function and add to mapped configuration
                 if value is not None:
@@ -1330,16 +1384,22 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Field '{0}' successfully mapped with value: {1} (type: {2}). Transformation "
                         "applied: {3}.".format(
-                            key, value, type(value).__name__,
-                            "custom function" if "transform" in spec_def else "identity"
+                            key,
+                            value,
+                            type(value).__name__,
+                            (
+                                "custom function"
+                                if "transform" in spec_def
+                                else "identity"
+                            ),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Field '{0}' extraction resulted in None value. Skipping field in YAML output "
                         "as no valid data available from API response.".format(key),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # Add mapped configuration to results if not empty
@@ -1350,13 +1410,15 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "YAML format. Transformed configuration: {2}.".format(
                         config_index, len(mapped_config), mapped_config
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Configuration {0} transformation resulted in empty mapped configuration. "
-                    "Skipping configuration as no valid fields could be extracted.".format(config_index),
-                    "WARNING"
+                    "Skipping configuration as no valid fields could be extracted.".format(
+                        config_index
+                    ),
+                    "WARNING",
                 )
 
         modified_nfs_configuration_details = {"nfs_configuration": modified_nfs_configs}
@@ -1366,7 +1428,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "ready for YAML generation. Modified configuration details: {1}.".format(
                 len(modified_nfs_configs), modified_nfs_configuration_details
             ),
-            "INFO"
+            "INFO",
         )
 
         return modified_nfs_configuration_details
@@ -1401,29 +1463,25 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "API source paths, data types, and transformation functions. Special "
             "handling configured for nested NFS details correlation and security "
             "flags for sensitive encryption data.",
-            "DEBUG"
+            "DEBUG",
         )
         # Create ordered specification dictionary with field mappings and transformations
-        backup_storage_config_details = OrderedDict({
-            "server_type": {
-                "type": "str",
-                "source_key": "type"
-            },
-            "nfs_details": {
-                "type": "dict",
-                "special_handling": True,
-                "transform": self.transform_nfs_details
-            },
-            "data_retention_period": {
-                "type": "int",
-                "source_key": "dataRetention"
-            },
-            "encryption_passphrase": {
-                "type": "str",
-                "source_key": "encryptionPassphrase",
-                "no_log": True
-            },
-        })
+        backup_storage_config_details = OrderedDict(
+            {
+                "server_type": {"type": "str", "source_key": "type"},
+                "nfs_details": {
+                    "type": "dict",
+                    "special_handling": True,
+                    "transform": self.transform_nfs_details,
+                },
+                "data_retention_period": {"type": "int", "source_key": "dataRetention"},
+                "encryption_passphrase": {
+                    "type": "str",
+                    "source_key": "encryptionPassphrase",
+                    "no_log": True,
+                },
+            }
+        )
 
         self.log(
             "Backup storage configuration specification generated successfully with "
@@ -1435,9 +1493,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "converting API response data to playbook parameters for YAML generation "
             "workflow with proper security and transformation handling.".format(
                 len(backup_storage_config_details),
-                list(backup_storage_config_details.keys())
+                list(backup_storage_config_details.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return backup_storage_config_details
 
@@ -1468,7 +1526,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "NFS servers, compares their destination mount paths with the backup storage mount "
             "path, and extracts complete server connection details when a match is found. Input "
             "backup configuration: {0}".format(config),
-            "DEBUG"
+            "DEBUG",
         )
         self.log("Input backup config: {0}".format(config), "DEBUG")
 
@@ -1477,14 +1535,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Retrieved {0} NFS configuration(s) from Catalyst Center for mount path correlation. "
             "Each configuration will be checked for matching destination path with backup mount "
             "path to extract server details.".format(len(current_nfs_configs)),
-            "DEBUG"
+            "DEBUG",
         )
         mount_path = config.get("mountPath")
         self.log(
             "Extracted mount path from backup configuration: '{0}'. This path will be compared "
             "against NFS destination paths (status.destinationPath) to identify matching NFS "
             "server configuration.".format(mount_path),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log("Mount path from backup config: {0}".format(mount_path), "DEBUG")
@@ -1495,7 +1553,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "source_path": None,
             "nfs_port": 2049,
             "nfs_version": "nfs4",
-            "nfs_portmapper_port": 111
+            "nfs_portmapper_port": 111,
         }
 
         match_found = False
@@ -1505,7 +1563,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "path '{1}' and NFS status.destinationPath field.".format(
                 len(current_nfs_configs), mount_path
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for nfs_index, nfs_config in enumerate(current_nfs_configs, start=1):
@@ -1518,11 +1576,15 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "exact match (case-sensitive).".format(
                     nfs_index, len(current_nfs_configs), nfs_mount_path, mount_path
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             nfs_mount_path = nfs_config.get("status", {}).get("destinationPath")
-            self.log("Checking NFS config mount path: {0} against backup mount path: {1}".format(
-                nfs_mount_path, mount_path), "DEBUG")
+            self.log(
+                "Checking NFS config mount path: {0} against backup mount path: {1}".format(
+                    nfs_mount_path, mount_path
+                ),
+                "DEBUG",
+            )
 
             if nfs_mount_path == mount_path:
                 self.log(
@@ -1531,7 +1593,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "configuration spec section.".format(
                         nfs_index, len(current_nfs_configs), nfs_mount_path, mount_path
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 spec = nfs_config.get("spec", {})
                 self.log(
@@ -1542,17 +1604,19 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         spec.get("sourcePath"),
                         spec.get("nfsPort"),
                         spec.get("nfsVersion"),
-                        spec.get("portMapperPort")
+                        spec.get("portMapperPort"),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
-                nfs_details.update({
-                    "server_ip": spec.get("server"),
-                    "source_path": spec.get("sourcePath"),
-                    "nfs_port": spec.get("nfsPort", 2049),
-                    "nfs_version": spec.get("nfsVersion", "nfs4"),
-                    "nfs_portmapper_port": spec.get("portMapperPort", 111)
-                })
+                nfs_details.update(
+                    {
+                        "server_ip": spec.get("server"),
+                        "source_path": spec.get("sourcePath"),
+                        "nfs_port": spec.get("nfsPort", 2049),
+                        "nfs_version": spec.get("nfsVersion", "nfs4"),
+                        "nfs_portmapper_port": spec.get("portMapperPort", 111),
+                    }
+                )
                 match_found = True
                 self.log(
                     "NFS details successfully extracted from matched configuration. Updated "
@@ -1562,9 +1626,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         nfs_details["source_path"],
                         nfs_details["nfs_port"],
                         nfs_details["nfs_version"],
-                        nfs_details["nfs_portmapper_port"]
+                        nfs_details["nfs_portmapper_port"],
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 break
             else:
@@ -1573,7 +1637,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "not match backup mount path '{3}'. Continuing to next NFS configuration.".format(
                         nfs_index, len(current_nfs_configs), nfs_mount_path, mount_path
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         if not match_found:
@@ -1583,7 +1647,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "retrieved configuration(s). Returning default nfs_details with None values for "
                 "server_ip and source_path. This may indicate NFS configuration mismatch or "
                 "cleanup required.".format(mount_path, len(current_nfs_configs)),
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
@@ -1593,9 +1657,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "success" if match_found else "no match",
                 nfs_details,
                 nfs_details.get("server_ip"),
-                nfs_details.get("source_path")
+                nfs_details.get("source_path"),
             ),
-            "INFO"
+            "INFO",
         )
 
         return nfs_details
@@ -1628,11 +1692,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "filtering by server type if provided, and transform API response format to "
             "user-friendly YAML format for playbook generation with special handling for "
             "NFS details correlation.".format(network_element, filters),
-            "DEBUG"
+            "DEBUG",
         )
 
         component_specific_filters = filters.get("component_specific_filters", {})
-        backup_filters = component_specific_filters.get("backup_storage_configuration", [])
+        backup_filters = component_specific_filters.get(
+            "backup_storage_configuration", []
+        )
 
         self.log(
             "Extracted component-specific filters for backup storage configuration. Total "
@@ -1641,7 +1707,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "etc.) are not allowed and will trigger validation failure.".format(
                 len(backup_filters), backup_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate filter requirements: only server_type filter is supported
@@ -1649,8 +1715,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Validating backup storage configuration filters for supported parameters. "
                 "Checking {0} filter(s) for compliance. Only 'server_type' filter is allowed. "
-                "Any other filter keys will cause validation failure.".format(len(backup_filters)),
-                "DEBUG"
+                "Any other filter keys will cause validation failure.".format(
+                    len(backup_filters)
+                ),
+                "DEBUG",
             )
 
             for filter_index, filter_param in enumerate(backup_filters, start=1):
@@ -1659,7 +1727,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Allowed keys: ['server_type']. Any other keys will be flagged as unsupported.".format(
                         filter_index, len(backup_filters), filter_param
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Check for unsupported filter keys
@@ -1678,26 +1746,31 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Backup storage configuration filter validation failed. Invalid server_type value "
                             "detected: '{0}'. Only the following server_type values are supported: {1}. "
                             "Invalid filter at position {2}: {3}.".format(
-                                server_type_value, allowed_server_types, filter_index, filter_param
+                                server_type_value,
+                                allowed_server_types,
+                                filter_index,
+                                filter_param,
                             )
                         )
                         self.log(error_msg, "ERROR")
 
-                        result = self.set_operation_result("failed", False, error_msg, "ERROR")
+                        result = self.set_operation_result(
+                            "failed", False, error_msg, "ERROR"
+                        )
                         self.msg = error_msg
                         self.result["msg"] = error_msg
 
                         self.log(
                             "Server type validation failed, returning operation result with error details. "
                             "Operation status: failed. No API call will be made due to invalid server_type value.",
-                            "ERROR"
+                            "ERROR",
                         )
                         return result
 
                 self.log(
                     "Filter {0} validation check: unsupported_filters={1}. If non-empty, "
                     "validation will fail.".format(filter_index, unsupported_filters),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if unsupported_filters:
@@ -1714,7 +1787,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(error_msg, "ERROR")
 
                     # Set operation result to failed and return early
-                    result = self.set_operation_result("failed", False, error_msg, "ERROR")
+                    result = self.set_operation_result(
+                        "failed", False, error_msg, "ERROR"
+                    )
 
                     self.msg = error_msg
                     self.result["msg"] = error_msg
@@ -1723,7 +1798,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Filter validation failed, returning operation result with error details. "
                         "Operation status: failed. No API call will be made due to invalid filter "
                         "configuration.",
-                        "ERROR"
+                        "ERROR",
                     )
 
                     return result
@@ -1732,7 +1807,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "All {0} backup storage configuration filter(s) passed validation successfully. "
                 "All filters contain only supported 'server_type' parameter. Proceeding with API "
                 "retrieval and filtering operations.".format(len(backup_filters)),
-                "INFO"
+                "INFO",
             )
 
         final_backup_configs = []
@@ -1745,7 +1820,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "retrieving backup storage configuration from Catalyst Center.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -1760,7 +1835,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Parsing response to extract backup storage configuration.".format(
                     type(response).__name__, response
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Parse API response to extract backup storage configuration
@@ -1769,7 +1844,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is None {0}. No backup storage configuration available in Catalyst "
                     "Center. This may indicate backup storage has not been configured yet or "
                     "configuration has been removed.".format(response),
-                    "WARNING"
+                    "WARNING",
                 )
                 backup_config = {}
             elif isinstance(response, dict):
@@ -1779,21 +1854,23 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "configuration. Response key exists: {0}. Configuration: {1}.".format(
                         "response" in response, backup_config
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 backup_config = response if isinstance(response, dict) else {}
                 self.log(
                     "API response is unexpected format (not dict or None). Response type: {0}. "
-                    "Defaulting to empty configuration.".format(type(response).__name__),
-                    "WARNING"
+                    "Defaulting to empty configuration.".format(
+                        type(response).__name__
+                    ),
+                    "WARNING",
                 )
 
             self.log(
                 "Successfully parsed backup storage configuration from Catalyst Center API. "
                 "Configuration available: {0}. Configuration will be processed for filtering "
                 "and transformation to YAML format.".format(bool(backup_config)),
-                "INFO"
+                "INFO",
             )
 
             # Process configuration if available
@@ -1805,17 +1882,19 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Filter count: {0}. Configuration will be checked against all filters for "
                         "matching server_type. Only configurations matching filter criteria will be "
                         "included in final results.".format(len(backup_filters)),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Iterate through each filter parameter
-                    for filter_index, filter_param in enumerate(backup_filters, start=1):
+                    for filter_index, filter_param in enumerate(
+                        backup_filters, start=1
+                    ):
                         self.log(
                             "Processing filter {0}/{1}: {2}. Checking backup configuration against "
                             "this filter's server_type criteria.".format(
                                 filter_index, len(backup_filters), filter_param
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         match = True
@@ -1829,7 +1908,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     "Server type filter comparison: filter expects '{0}', configuration "
                                     "has '{1}'. Comparing values for exact match (case-sensitive string "
                                     "comparison).".format(value, config_value),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
                                 if str(config_value) != str(value):
@@ -1837,8 +1916,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     self.log(
                                         "Server type mismatch detected. Filter {0} expects server_type='{1}' "
                                         "but configuration has type='{2}'. Configuration will be excluded "
-                                        "from results.".format(filter_index, value, config_value),
-                                        "DEBUG"
+                                        "from results.".format(
+                                            filter_index, value, config_value
+                                        ),
+                                        "DEBUG",
                                     )
                                     break
 
@@ -1848,8 +1929,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             self.log(
                                 "Backup storage configuration matched filter {0} criteria successfully. "
                                 "Server type matches expected value. Configuration will be included in "
-                                "final results and proceed to transformation phase.".format(filter_index),
-                                "INFO"
+                                "final results and proceed to transformation phase.".format(
+                                    filter_index
+                                ),
+                                "INFO",
                             )
                             break
                     if not final_backup_configs:
@@ -1857,7 +1940,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Filter application completed without matches. Backup storage configuration "
                             "did not match any of {0} provided filter(s). No configurations will be "
                             "included in final results.".format(len(backup_filters)),
-                            "INFO"
+                            "INFO",
                         )
                 else:
                     final_backup_configs = [backup_config] if backup_config else []
@@ -1865,13 +1948,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "No component-specific filters provided. Using retrieved backup storage "
                         "configuration without filtering. Configuration will proceed directly to "
                         "transformation phase for YAML generation.",
-                        "INFO"
+                        "INFO",
                     )
             else:
                 self.log(
                     "No backup storage configuration found in API response. Configuration object is "
                     "empty or None. No configurations will be included in final results.",
-                    "INFO"
+                    "INFO",
                 )
                 final_backup_configs = []
 
@@ -1881,14 +1964,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "type: {0}, Error message: {1}. This may indicate network connectivity issues, API "
                 "endpoint unavailability, authentication problems, or API version incompatibility "
                 "with Catalyst Center.".format(type(e).__name__, str(e)),
-                "ERROR"
+                "ERROR",
             )
 
             self.log(
                 "API call failed, returning empty backup storage configuration list to allow "
                 "workflow to continue. No backup storage configurations will be included in YAML "
                 "output due to retrieval failure.",
-                "WARNING"
+                "WARNING",
             )
 
             final_backup_configs = []
@@ -1897,8 +1980,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting transformation of {0} backup storage configuration(s) from API response "
             "format to user-friendly YAML format. Transformation will convert camelCase API field "
             "names to snake_case parameter names, apply special handling for NFS details correlation, "
-            "and structure data for playbook compatibility.".format(len(final_backup_configs)),
-            "DEBUG"
+            "and structure data for playbook compatibility.".format(
+                len(final_backup_configs)
+            ),
+            "DEBUG",
         )
 
         backup_storage_config_temp_spec = self.backup_storage_configuration_temp_spec()
@@ -1908,9 +1993,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "mapping(s). Specification defines source_key paths, data types, special handling "
             "directives, and security flags for each YAML parameter. Fields to be transformed: {1}.".format(
                 len(backup_storage_config_temp_spec),
-                list(backup_storage_config_temp_spec.keys())
+                list(backup_storage_config_temp_spec.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         modified_backup_configs = []
 
@@ -1921,23 +2006,29 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "mapping. Original configuration: {2}. Processing {3} field mappings from "
                 "specification including special handling for NFS details and security directives "
                 "for encryption passphrase.".format(
-                    config_index, len(final_backup_configs), config,
-                    len(backup_storage_config_temp_spec)
+                    config_index,
+                    len(final_backup_configs),
+                    config,
+                    len(backup_storage_config_temp_spec),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             mapped_config = OrderedDict()
 
             # Process each field mapping from specification
-            for field_index, (key, spec_def) in enumerate(backup_storage_config_temp_spec.items(), start=1):
+            for field_index, (key, spec_def) in enumerate(
+                backup_storage_config_temp_spec.items(), start=1
+            ):
                 self.log(
                     "Processing field mapping {0}/{1}: YAML parameter '{2}'. Checking for special "
                     "handling requirements. Special handling flag: {3}.".format(
-                        field_index, len(backup_storage_config_temp_spec), key,
-                        spec_def.get("special_handling", False)
+                        field_index,
+                        len(backup_storage_config_temp_spec),
+                        key,
+                        spec_def.get("special_handling", False),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Check for special handling requirement (e.g., nfs_details)
@@ -1945,8 +2036,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Field '{0}' requires special handling via transformation function. Extracting "
                         "transform function from specification and calling with complete configuration "
-                        "for custom processing (e.g., NFS mount path correlation).".format(key),
-                        "DEBUG"
+                        "for custom processing (e.g., NFS mount path correlation).".format(
+                            key
+                        ),
+                        "DEBUG",
                     )
 
                     transform = spec_def.get("transform", lambda x: x)
@@ -1955,8 +2048,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Special handling transformation completed for field '{0}'. Transformed value "
                         "type: {1}. Value contains correlated data from external sources (e.g., NFS "
-                        "configurations matched by mount path).".format(key, type(value).__name__),
-                        "DEBUG"
+                        "configurations matched by mount path).".format(
+                            key, type(value).__name__
+                        ),
+                        "DEBUG",
                     )
                 else:
                     # Standard field extraction using source_key
@@ -1964,8 +2059,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                     self.log(
                         "Field '{0}' uses standard extraction from API source key '{1}'. Retrieving "
-                        "value using config.get() for safe extraction.".format(key, source_key),
-                        "DEBUG"
+                        "value using config.get() for safe extraction.".format(
+                            key, source_key
+                        ),
+                        "DEBUG",
                     )
 
                     value = config.get(source_key)
@@ -1978,10 +2075,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Standard field '{0}' extracted and transformed. Source key: '{1}', "
                             "Extracted value type: {2}, Transformation applied: {3}.".format(
-                                key, source_key, type(value).__name__,
-                                "custom function" if "transform" in spec_def else "identity"
+                                key,
+                                source_key,
+                                type(value).__name__,
+                                (
+                                    "custom function"
+                                    if "transform" in spec_def
+                                    else "identity"
+                                ),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 # Add non-None values to mapped configuration
@@ -1992,8 +2095,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     if not spec_def.get("no_log", False):
                         self.log(
                             "Field '{0}' successfully mapped with value: {1} (type: {2}). Added to "
-                            "YAML output configuration.".format(key, value, type(value).__name__),
-                            "DEBUG"
+                            "YAML output configuration.".format(
+                                key, value, type(value).__name__
+                            ),
+                            "DEBUG",
                         )
                     else:
                         self.log(
@@ -2002,14 +2107,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Actual value will be included in YAML output but hidden from logs.".format(
                                 key, type(value).__name__
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     self.log(
                         "Field '{0}' extraction resulted in None value. Skipping field in YAML output "
                         "as no valid data available from API response. This may be expected for optional "
                         "fields or missing configuration data.".format(key),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # Add mapped configuration to results if not empty
@@ -2027,10 +2132,8 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "with server_ip and source_path both null. This "
                         "indicates no backup storage has been configured "
                         "yet on Catalyst Center. Skipping this "
-                        "configuration from YAML output.".format(
-                            config_index
-                        ),
-                        "WARNING"
+                        "configuration from YAML output.".format(config_index),
+                        "WARNING",
                     )
                     self._backup_storage_not_configured = True
                     continue
@@ -2042,14 +2145,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "final results list.".format(
                         config_index, len(mapped_config), list(mapped_config.keys())
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Configuration {0} transformation resulted in empty mapped configuration. "
                     "Skipping configuration as no valid fields could be extracted. This may indicate "
-                    "incomplete or invalid backup storage configuration data from API.".format(config_index),
-                    "WARNING"
+                    "incomplete or invalid backup storage configuration data from API.".format(
+                        config_index
+                    ),
+                    "WARNING",
                 )
 
         result = {"backup_storage_configuration": modified_backup_configs}
@@ -2060,7 +2165,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "server_type, nfs_details (if applicable), retention policy, and encryption settings.".format(
                 len(modified_backup_configs)
             ),
-            "INFO"
+            "INFO",
         )
 
         return result
@@ -2101,14 +2206,11 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "configurations including server IPs, source paths, mount destinations, ports, "
             "and protocol versions. Retrieved data will be used to correlate backup mount "
             "paths with NFS destination paths during backup storage configuration transformation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
-            api_functions = [
-                "get_nfs_configurations",
-                "get_all_n_f_s_configurations"
-            ]
+            api_functions = ["get_nfs_configurations", "get_all_n_f_s_configurations"]
 
             response = None
 
@@ -2120,7 +2222,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "configurations. Waiting for API response from Catalyst Center.".format(
                             function_index, len(api_functions), api_function
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     self.log("Trying API function: {0}".format(api_function), "DEBUG")
                     # Execute API call with current function name
@@ -2134,10 +2236,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Received API response {0}/{1} using function '{2}' completed successfully. Received "
                         "response type: {3}. Response data: {4}. Breaking function iteration loop "
                         "as successful response obtained.".format(
-                            function_index, len(api_functions), api_function,
-                            type(response).__name__, response
+                            function_index,
+                            len(api_functions),
+                            api_function,
+                            type(response).__name__,
+                            response,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     successful_function = api_function
@@ -2148,40 +2253,46 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "API call {0}/{1} using function '{2}' failed with error: {3}. Error type: {4}. "
                         "Continuing to next API function in list if available. Remaining functions to "
                         "try: {5}.".format(
-                            function_index, len(api_functions), api_function, str(e),
-                            type(e).__name__, len(api_functions) - function_index
+                            function_index,
+                            len(api_functions),
+                            api_function,
+                            str(e),
+                            type(e).__name__,
+                            len(api_functions) - function_index,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
             if response is None:
                 self.log(
                     "All {0} API function attempts failed. No successful response received from any "
                     "function: {1}. Unable to retrieve NFS configurations for backup storage mapping. "
-                    "Returning empty configuration list.".format(len(api_functions), api_functions),
-                    "WARNING"
+                    "Returning empty configuration list.".format(
+                        len(api_functions), api_functions
+                    ),
+                    "WARNING",
                 )
                 return []
 
             self.log(
                 "Successfully retrieved API response using function '{0}'. Proceeding with response "
                 "parsing to extract NFS configuration list. Response will be checked for dict or list "
-                "format to handle different API response structures.".format(successful_function),
-                "DEBUG"
+                "format to handle different API response structures.".format(
+                    successful_function
+                ),
+                "DEBUG",
             )
 
             if isinstance(response, dict):
-                nfs_configs = (
-                    response.get("response", [])
-                )
+                nfs_configs = response.get("response", [])
                 self.log(
                     "API response is dictionary format. Extracted 'response' key containing {0} NFS "
                     "configuration(s). Response structure indicates standard API response format with "
                     "nested 'response' key. Response key exists: {1}.".format(
                         len(nfs_configs) if isinstance(nfs_configs, list) else 0,
-                        "response" in response
+                        "response" in response,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             else:
@@ -2190,9 +2301,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "configurations: {0}. Response type: {1}. Using response directly as NFS "
                     "configurations list without key extraction.".format(
                         len(nfs_configs) if isinstance(nfs_configs, list) else 0,
-                        type(response).__name__
+                        type(response).__name__,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 nfs_configs = response if isinstance(response, list) else []
 
@@ -2202,7 +2313,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "with NFS destination paths during transform_nfs_details() processing.".format(
                     len(nfs_configs)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if nfs_configs and len(nfs_configs) > 0:
@@ -2212,7 +2323,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "that will be used for mount path correlation and NFS details extraction.".format(
                         nfs_configs[0]
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
@@ -2220,7 +2331,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "empty. This may indicate no NFS servers are configured in Catalyst Center or "
                     "all configurations have been removed. Backup storage configuration correlation "
                     "may use default NFS details values.",
-                    "WARNING"
+                    "WARNING",
                 )
 
             return nfs_configs
@@ -2267,7 +2378,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "retrieve configurations from Catalyst Center APIs, transform data to user-friendly "
             "format, and generate structured YAML file compatible with backup_and_restore_workflow_manager "
             "module.".format(yaml_config_generator),
-            "DEBUG"
+            "DEBUG",
         )
 
         file_path = yaml_config_generator.get("file_path")
@@ -2276,35 +2387,36 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No custom file path provided in parameters. Generating default file path using "
                 "generate_filename() method. Default path will include module name and timestamp "
                 "for uniqueness.",
-                "DEBUG"
+                "DEBUG",
             )
 
             file_path = self.generate_filename()
 
             self.log(
                 "Generated default file path for YAML output: '{0}'. File will be created at this "
-                "location with timestamp-based naming convention to avoid overwrites.".format(file_path),
-                "DEBUG"
+                "location with timestamp-based naming convention to avoid overwrites.".format(
+                    file_path
+                ),
+                "DEBUG",
             )
         else:
             self.log(
                 "Using custom file path provided in parameters: '{0}'. YAML configuration will be "
-                "written to this specified location. Ensure path is valid and writable.".format(file_path),
-                "DEBUG"
+                "written to this specified location. Ensure path is valid and writable.".format(
+                    file_path
+                ),
+                "DEBUG",
             )
 
         self.log(
             "Final determined file path for YAML generation: '{0}'. All component configurations "
             "will be aggregated and written to this single file.".format(file_path),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract file_mode with default of 'overwrite'
         file_mode = yaml_config_generator.get("file_mode", "overwrite")
-        self.log(
-            "File mode for YAML generation: '{0}'.".format(file_mode),
-            "DEBUG"
-        )
+        self.log("File mode for YAML generation: '{0}'.".format(file_mode), "DEBUG")
 
         component_specific_filters = (
             yaml_config_generator.get("component_specific_filters") or {}
@@ -2313,16 +2425,20 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted component-specific filters from generation parameters. Filter configuration: {0}. "
             "These filters will be passed to component retrieval functions for data filtering during "
             "API calls and transformation.".format(component_specific_filters),
-            "DEBUG"
+            "DEBUG",
         )
 
-        generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
+        generate_all_configurations = yaml_config_generator.get(
+            "generate_all_configurations", False
+        )
 
         self.log(
             "Generate all configurations flag: {0}. When True, this flag overrides component list "
             "selection and includes all available components defined in module schema. When False, "
-            "uses component_specific_filters.components_list.".format(generate_all_configurations),
-            "DEBUG"
+            "uses component_specific_filters.components_list.".format(
+                generate_all_configurations
+            ),
+            "DEBUG",
         )
 
         self.log(
@@ -2334,16 +2450,18 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
 
         self.log(
             "Retrieved module schema network elements configuration. Total supported components: {0}. "
             "Supported components: {1}. This schema defines all available components for backup and "
             "restore operations including API functions, filters, and processing functions.".format(
                 len(module_supported_network_elements),
-                list(module_supported_network_elements.keys())
+                list(module_supported_network_elements.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if generate_all_configurations:
@@ -2351,8 +2469,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Using all available components due to generate_all_configurations=True flag. Components "
                 "selected for processing: {0}. This includes all components defined in module schema "
-                "regardless of component_specific_filters.components_list setting.".format(components_list),
-                "INFO"
+                "regardless of component_specific_filters.components_list setting.".format(
+                    components_list
+                ),
+                "INFO",
             )
         else:
             components_list = component_specific_filters.get(
@@ -2364,7 +2484,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "processing: {0}. Total components to process: {1}.".format(
                     components_list, len(components_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -2372,7 +2492,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "processed sequentially with its specific API function, filters, and transformation logic.".format(
                 components_list
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         config_list = []
@@ -2384,7 +2504,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting component processing loop. Will iterate through {0} component(s): {1}. Each component "
             "will be validated, retrieved, filtered, transformed, and added to config_list for final YAML "
             "generation.".format(len(components_list), components_list),
-            "DEBUG"
+            "DEBUG",
         )
 
         for component_index, component in enumerate(components_list, start=1):
@@ -2394,7 +2514,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "call component-specific get function.".format(
                     component_index, len(components_list), component
                 ),
-                "INFO"
+                "INFO",
             )
 
             network_element = module_supported_network_elements.get(component)
@@ -2406,7 +2526,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "and continuing to next component. Available components: {1}.".format(
                         component, list(module_supported_network_elements.keys())
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 components_skipped += 1
                 continue
@@ -2415,12 +2535,12 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "retrieved: {1}. Proceeding with data retrieval and transformation workflow.".format(
                     component, network_element
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             filters = {
                 "global_filters": yaml_config_generator.get("global_filters", {}),
-                "component_specific_filters": component_specific_filters
+                "component_specific_filters": component_specific_filters,
             }
 
             operation_func = network_element.get("get_function_name")
@@ -2428,7 +2548,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Extracted operation function for component '{0}': {1}. This function will be called with "
                 "network_element and filters parameters to retrieve and transform component configurations "
                 "from Catalyst Center APIs.".format(component, operation_func),
-                "DEBUG"
+                "DEBUG",
             )
 
             if callable(operation_func):
@@ -2439,7 +2559,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "from Catalyst Center, apply filters, and transform data to YAML format.".format(
                             component, operation_func.__name__
                         ),
-                        "INFO"
+                        "INFO",
                     )
                     result = operation_func(network_element, filters)
                     self.log(
@@ -2447,7 +2567,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Checking result structure for component data. Expected key: '{1}'.".format(
                             type(result).__name__, component
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if component in result and result[component]:
@@ -2459,9 +2579,12 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully added {0} configuration(s) for component '{1}' to config_list. "
                             "Updated statistics: components_processed={2}, total_configurations={3}. "
                             "Component data will be included in final YAML output.".format(
-                                config_count, component, components_processed, total_configurations
+                                config_count,
+                                component,
+                                components_processed,
+                                total_configurations,
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         components_skipped += 1
@@ -2471,7 +2594,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "indicate no data available in Catalyst Center or all data filtered out.".format(
                                 component, result
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         if generate_all_configurations:
                             config_list.append({component: []})
@@ -2481,8 +2604,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Exception occurred during retrieval for component '{0}'. Error type: {1}, Error "
                         "message: {2}. This may indicate API communication issues, authentication problems, "
                         "or data transformation errors. Incrementing components_skipped counter and "
-                        "continuing to next component.".format(component, type(e).__name__, str(e)),
-                        "ERROR"
+                        "continuing to next component.".format(
+                            component, type(e).__name__, str(e)
+                        ),
+                        "ERROR",
                     )
                     components_skipped += 1
                     if generate_all_configurations:
@@ -2491,14 +2616,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Added empty list for component '{0}' to config_list due to "
                             "generate_all_configurations=True. This ensures component presence in YAML "
                             "output even without data.".format(component),
-                            "DEBUG"
+                            "DEBUG",
                         )
             else:
                 self.log(
                     "Invalid operation function for component '{0}'. Function is not callable: {1}. This "
                     "indicates configuration error in module schema. Incrementing components_skipped counter "
-                    "and continuing to next component.".format(component, operation_func),
-                    "ERROR"
+                    "and continuing to next component.".format(
+                        component, operation_func
+                    ),
+                    "ERROR",
                 )
                 components_skipped += 1
 
@@ -2507,16 +2634,19 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Added empty list for component '{0}' to config_list despite invalid function due "
                         "to generate_all_configurations=True flag.".format(component),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
         self.log(
             "Component processing loop completed. Final statistics: {0} component(s) processed successfully "
             "with data, {1} component(s) skipped (errors or no data). Total configurations retrieved across "
             "all components: {2}. config_list contains {3} component item(s).".format(
-                components_processed, components_skipped, total_configurations, len(config_list)
+                components_processed,
+                components_skipped,
+                total_configurations,
+                len(config_list),
             ),
-            "INFO"
+            "INFO",
         )
 
         for config_item in config_list:
@@ -2526,14 +2656,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "will be included in YAML output with {1} configuration item(s).".format(
                         component, len(data)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         if not config_list:
             self.log(
                 "config_list is empty after processing all components. No configurations were retrieved or "
                 "all components skipped. Checking operation status before setting result.",
-                "WARNING"
+                "WARNING",
             )
             if self.status != "failed":
                 if self._backup_storage_not_configured:
@@ -2548,7 +2678,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Verify that NFS servers or backup configurations are set up in "
                         "Catalyst Center. Components attempted: {1}. Components processed: {2}, "
                         "Components skipped: {3}.".format(
-                            self.module_name, components_list, components_processed, components_skipped
+                            self.module_name,
+                            components_list,
+                            components_processed,
+                            components_skipped,
                         )
                     )
                 response_data = {
@@ -2556,7 +2689,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "components_skipped": components_skipped,
                     "configurations_count": 0,
                     "message": no_config_message,
-                    "status": "success"
+                    "status": "success",
                 }
                 self.set_operation_result("success", False, no_config_message, "INFO")
 
@@ -2567,7 +2700,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Returning early from yaml_config_generator (no YAML file will be created).".format(
                         response_data
                     ),
-                    "INFO"
+                    "INFO",
                 )
             return self
 
@@ -2576,21 +2709,26 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Prepared final dictionary for YAML serialization. Dictionary contains {0} component item(s) "
             "with total {1} configuration(s). Structure: {2}. This data will be written to YAML file at "
             "path: '{3}'.".format(
-                len(config_list), total_configurations,
+                len(config_list),
+                total_configurations,
                 {k: len(v) for item in config_list for k, v in item.items()},
-                file_path
+                file_path,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if self.write_dict_to_yaml(final_dict, file_path, file_mode):
             self.log(
                 "write_dict_to_yaml() returned True indicating successful YAML file creation. File written "
-                "to: '{0}'. Checking operation status before setting success result.".format(file_path),
-                "DEBUG"
+                "to: '{0}'. Checking operation status before setting success result.".format(
+                    file_path
+                ),
+                "DEBUG",
             )
             if self.status != "failed":
-                success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
+                success_message = "YAML configuration file generated successfully for module '{0}'".format(
+                    self.module_name
+                )
 
                 response_data = {
                     "components_processed": components_processed,
@@ -2598,7 +2736,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "configurations_count": total_configurations,
                     "file_path": file_path,
                     "message": success_message,
-                    "status": "success"
+                    "status": "success",
                 }
 
                 self.set_operation_result("success", True, success_message, "INFO")
@@ -2608,14 +2746,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Set operation result to success with changed=True. YAML file generation completed "
                     "successfully. Final response data: {0}.".format(response_data),
-                    "INFO"
+                    "INFO",
                 )
         else:
             self.log(
                 "write_dict_to_yaml() returned False, indicating idempotent no-change behavior "
                 "(existing YAML content already matches intended content). File path: '{0}'. "
-                "Checking operation status before setting unchanged success result.".format(file_path),
-                "INFO"
+                "Checking operation status before setting unchanged success result.".format(
+                    file_path
+                ),
+                "INFO",
             )
             if self.status != "failed":
                 unchanged_message = (
@@ -2623,16 +2763,16 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No changes written to '{1}'. Total configurations evaluated: {2} "
                     "across {3} component(s).".format(
                         self.module_name,
-                        file_path, total_configurations, components_processed
+                        file_path,
+                        total_configurations,
+                        components_processed,
                     )
                 )
 
                 self.log(
                     "Constructing unchanged success response for idempotent execution. "
-                    "Message: {0}.".format(
-                        unchanged_message
-                    ),
-                    "INFO"
+                    "Message: {0}.".format(unchanged_message),
+                    "INFO",
                 )
 
                 response_data = {
@@ -2641,7 +2781,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "configurations_count": total_configurations,
                     "file_path": file_path,
                     "message": unchanged_message,
-                    "status": "success"
+                    "status": "success",
                 }
 
                 self.set_operation_result("success", False, unchanged_message, "INFO")
@@ -2649,8 +2789,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.result["response"] = response_data
                 self.log(
                     "Set operation result to success with changed=False (idempotent no-op). "
-                    "YAML content already up-to-date. Response data: {0}.".format(response_data),
-                    "INFO"
+                    "YAML content already up-to-date. Response data: {0}.".format(
+                        response_data
+                    ),
+                    "INFO",
                 )
 
         self.log(
@@ -2658,7 +2800,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "results, and response data. Operation status: {0}, Changed: {1}.".format(
                 self.status, self.result.get("changed", False)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2687,8 +2829,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "This operation prepares configuration parameters by validating input structure, "
             "transforming playbook config into internal 'want' format, and establishing desired "
             "state for YAML configuration file generation from Catalyst Center backup and restore "
-            "settings. State indicates operation mode for downstream processing.".format(state),
-            "INFO"
+            "settings. State indicates operation mode for downstream processing.".format(
+                state
+            ),
+            "INFO",
         )
 
         self.validate_params(config)
@@ -2696,7 +2840,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Parameter validation completed successfully. Configuration conforms to module schema "
             "requirements and is ready for processing. Proceeding with 'want' structure creation "
             "for downstream YAML generation workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         want = {}
@@ -2710,9 +2854,9 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 config.get("file_mode", "overwrite"),
                 config.get("generate_all_configurations", False),
                 config.get("component_specific_filters", {}),
-                config.get("global_filters", {})
+                config.get("global_filters", {}),
             ),
-            "INFO"
+            "INFO",
         )
 
         self.want = want
@@ -2722,7 +2866,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "'{0}'. Returning self instance for method chaining with check_return_status(). Instance "
             "ready for YAML configuration file generation from Catalyst Center backup and restore "
             "components.".format(state),
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2753,8 +2897,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "This operation orchestrates the complete brownfield playbook generation process by executing "
             "defined workflow operations, processing desired state parameters from get_want(), calling "
             "component retrieval and transformation functions, generating YAML files, and tracking execution "
-            "statistics. Operation start time recorded: {0} for performance monitoring.".format(start_time),
-            "DEBUG"
+            "statistics. Operation start time recorded: {0} for performance monitoring.".format(
+                start_time
+            ),
+            "DEBUG",
         )
         # Define workflow operations
         workflow_operations = [
@@ -2775,7 +2921,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "and provides detailed progress visibility throughout workflow execution.".format(
                 len(workflow_operations)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for index, (param_key, operation_name, operation_func) in enumerate(
@@ -2786,10 +2932,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "operation name='{3}', operation function={4}. Checking self.want for parameter availability "
                 "using key '{2}'. If parameters exist, operation will be executed; otherwise, operation will "
                 "be skipped with warning log.".format(
-                    index, len(workflow_operations), param_key, operation_name,
-                    operation_func.__name__
+                    index,
+                    len(workflow_operations),
+                    param_key,
+                    operation_name,
+                    operation_func.__name__,
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             self.log(
@@ -2799,7 +2948,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "operations_skipped counter incremented.".format(
                     operation_name, param_key, params is not None
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if params:
                 self.log(
@@ -2807,10 +2956,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{4}. Starting operation processing with comprehensive error handling. Operation function "
                     "{5} will be called with retrieved parameters. Success will increment operations_executed "
                     "counter; exceptions will set failed status and exit workflow.".format(
-                        index, len(workflow_operations), operation_name, param_key, params,
-                        operation_func.__name__
+                        index,
+                        len(workflow_operations),
+                        operation_name,
+                        param_key,
+                        params,
+                        operation_func.__name__,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 try:
@@ -2821,7 +2974,7 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "in try-except to catch and handle any exceptions gracefully.".format(
                             operation_func.__name__, operation_name, param_key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     operation_func(params)
                     operations_executed += 1
@@ -2829,10 +2982,12 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Operation '{0}' completed successfully. Operation function {1}() executed without errors. "
                         "Incremented operations_executed counter to {2}. Total operations processed successfully: "
                         "{2}/{3}. Continuing to next operation in workflow sequence.".format(
-                            operation_name, operation_func.__name__, operations_executed,
-                            len(workflow_operations)
+                            operation_name,
+                            operation_func.__name__,
+                            operations_executed,
+                            len(workflow_operations),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     error_message = (
@@ -2840,7 +2995,10 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Exception type: {2}, Exception message: {3}. This error indicates failure in YAML "
                         "generation workflow. Setting operation result to 'failed' status and calling "
                         "check_return_status() to exit module with error details.".format(
-                            operation_name, operation_func.__name__, type(e).__name__, str(e)
+                            operation_name,
+                            operation_func.__name__,
+                            type(e).__name__,
+                            str(e),
                         )
                     )
 
@@ -2853,12 +3011,13 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "provide detailed error information to Ansible controller.".format(
                             operation_name, str(e)
                         ),
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -2869,10 +3028,14 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "operations_skipped counter to {4}. Total operations skipped: {4}/{5}. This may indicate "
                     "operation not configured in playbook or parameters not provided. Continuing to next operation "
                     "without failure.".format(
-                        index, len(workflow_operations), operation_name, param_key,
-                        operations_skipped, len(workflow_operations)
+                        index,
+                        len(workflow_operations),
+                        operation_name,
+                        param_key,
+                        operations_skipped,
+                        len(workflow_operations),
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -2884,19 +3047,26 @@ class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "skipped due to missing parameters. Operation start time: {3}, end time: {4}, total execution duration: "
             "{5:.2f} seconds. Performance metrics indicate workflow efficiency. Returning self instance for method "
             "chaining and final result processing.".format(
-                len(workflow_operations), operations_executed, operations_skipped,
-                start_time, end_time, execution_duration
+                len(workflow_operations),
+                operations_executed,
+                operations_skipped,
+                start_time,
+                end_time,
+                execution_duration,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Workflow execution summary: Total operations={0}, Executed={1}, Skipped={2}, Duration={3:.2f}s. "
             "Returning self instance with updated status, results, and execution statistics. Instance ready for "
             "final check_return_status() validation and module exit with comprehensive execution details.".format(
-                len(workflow_operations), operations_executed, operations_skipped, execution_duration
+                len(workflow_operations),
+                operations_executed,
+                operations_skipped,
+                execution_duration,
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -3017,7 +3187,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -3036,11 +3205,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -3069,7 +3234,6 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
@@ -3087,24 +3251,17 @@ def main():
             "required": False,
             "type": "dict",
         },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the BackupRestorePlaybookGenerator object
@@ -3115,7 +3272,7 @@ def main():
     ccc_backup_restore_playbook_generator.log(
         "Starting Ansible module execution for brownfield backup and restore playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_backup_restore_playbook_generator.log(
@@ -3128,7 +3285,7 @@ def main():
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -3139,7 +3296,7 @@ def main():
         "meets minimum requirement of 3.1.3.0 for backup and restore APIs".format(
             ccc_backup_restore_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     if (
@@ -3160,8 +3317,7 @@ def main():
         error_msg = ccc_backup_restore_playbook_generator.msg
 
         ccc_backup_restore_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_backup_restore_playbook_generator.set_operation_result(
@@ -3173,7 +3329,7 @@ def main():
         "all required backup and restore APIs".format(
             ccc_backup_restore_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3185,7 +3341,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_backup_restore_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_backup_restore_playbook_generator.supported_states:
@@ -3197,8 +3353,7 @@ def main():
         )
 
         ccc_backup_restore_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_backup_restore_playbook_generator.status = "invalid"
@@ -3209,7 +3364,7 @@ def main():
         "State validation passed - using state '{0}' for backup and restore workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3217,7 +3372,7 @@ def main():
     # ============================================
     ccc_backup_restore_playbook_generator.log(
         "Starting comprehensive input parameter validation for backup and restore playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_backup_restore_playbook_generator.validate_input().check_return_status()
@@ -3225,7 +3380,7 @@ def main():
     ccc_backup_restore_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet backup and restore module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3235,7 +3390,7 @@ def main():
 
     ccc_backup_restore_playbook_generator.log(
         "Starting configuration processing and default handling for single config dict.",
-        "INFO"
+        "INFO",
     )
 
     # Inject top-level file controls into validated config
@@ -3269,7 +3424,7 @@ def main():
 
     ccc_backup_restore_playbook_generator.log(
         "Configuration preprocessing completed. Final config: {0}".format(config_item),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3284,7 +3439,7 @@ def main():
         "Processing configuration for state '{0}' with components: {1}".format(
             state, components_list
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_backup_restore_playbook_generator.reset_values()
@@ -3293,7 +3448,9 @@ def main():
         config_item, state
     ).check_return_status()
 
-    ccc_backup_restore_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_backup_restore_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -3302,8 +3459,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_backup_restore_playbook_generator.log(
@@ -3312,25 +3468,25 @@ def main():
         "Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_backup_restore_playbook_generator.status
+            ccc_backup_restore_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_backup_restore_playbook_generator.log(
         "Final module result summary: changed={0}, msg_type={1}, response_available={2}".format(
             ccc_backup_restore_playbook_generator.result.get("changed", False),
             type(ccc_backup_restore_playbook_generator.result.get("msg")).__name__,
-            "response" in ccc_backup_restore_playbook_generator.result
+            "response" in ccc_backup_restore_playbook_generator.result,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     ccc_backup_restore_playbook_generator.log(
         "Exiting Ansible module with result containing backup and restore extraction results",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_backup_restore_playbook_generator.result)

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Backup Nfs Configurations.
   - This api is used to create NFS configuration.
   - This api is used to delete the NFS configuration.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The `id` of the NFS configuration to be deleted.Obtain the `id` from the id attribute

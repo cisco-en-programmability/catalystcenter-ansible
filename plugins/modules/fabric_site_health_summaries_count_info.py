@@ -11,10 +11,10 @@ short_description: Information module for Fabric Site Health Summaries Count
 description:
   - Get all Fabric Site Health Summaries Count.
   - Get a count of Fabric sites. Use available query parameters to get the count of a subset of fabric sites.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -14,10 +14,10 @@ description:
     based on the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid
     attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring. The id of the configured
     MRP Ring can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

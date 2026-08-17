@@ -11,10 +11,10 @@ short_description: Information module for Network Device Images Count
 description:
   - Get all Network Device Images Count.
   - Returns the count of network devices based on the given filters.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

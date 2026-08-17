@@ -11,10 +11,10 @@ short_description: Information module for Fabrics Fabric Id Switch Wireless Sett
 description:
   - Get all Fabrics Fabric Id Switch Wireless Setting. - > Get the SDA Wireless details from the switches on the fabric site
     that have wireless capability enabled. A maximum of two switches can have a wireless role in a fabric site.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -4,10 +4,11 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Network Profile Switching Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
+__author__ = "A Mohamed Rafeek, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: network_profile_switching_playbook_config_generator
@@ -25,7 +26,7 @@ description:
     Day-N templates, or site hierarchies).
   - Auto-generates timestamped YAML filenames when file path not
     specified.
-version_added: 6.45.0
+version_added: 2.6.0
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -317,6 +318,7 @@ from collections import OrderedDict
 
 try:
     import yaml
+
     HAS_YAML = True
 
     # Only define OrderedDumper if yaml is available
@@ -331,7 +333,9 @@ except ImportError:
     OrderedDumper = None
 
 
-class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFieldHelper):
+class NetworkProfileSwitchingPlaybookGenerator(
+    NetworkProfileFunctions, BrownFieldHelper
+):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -353,7 +357,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         super().__init__(module)
         self.module_name = "network_profile_switching"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized NetworkProfileSwitchingPlaybookGenerator class instance.", "DEBUG")
+        self.log(
+            "Initialized NetworkProfileSwitchingPlaybookGenerator class instance.",
+            "DEBUG",
+        )
         self.log(self.pprint(self.module_schema), "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
@@ -380,7 +387,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         self.log(
             "Starting validation of input configuration parameters for network profile "
             "switching playbook generation.",
-            "INFO"
+            "INFO",
         )
 
         config_provided = self.params.get("config") is not None
@@ -398,10 +405,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         # Expected schema for configuration parameters
         # Define expected schema for configuration parameters
         temp_spec = {
-            "global_filters": {
-                "type": "dict",
-                "required": False
-            },
+            "global_filters": {"type": "dict", "required": False},
         }
 
         # Validate the config dict using helper
@@ -417,10 +421,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             return self
 
         # Validate global_filters structure if provided
-        self.log(
-            "Validating global_filters structure for configuration dict.",
-            "DEBUG"
-        )
+        self.log("Validating global_filters structure for configuration dict.", "DEBUG")
         global_filters = valid_temp.get("global_filters")
         if global_filters:
             if not isinstance(global_filters, dict):
@@ -434,7 +435,11 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            valid_filter_keys = ["profile_name_list", "day_n_template_list", "site_list"]
+            valid_filter_keys = [
+                "profile_name_list",
+                "day_n_template_list",
+                "site_list",
+            ]
             provided_filters = {
                 key: global_filters.get(key)
                 for key in valid_filter_keys
@@ -463,7 +468,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                valid_temp["global_filters"][filter_key] = list(dict.fromkeys(filter_value))
+                valid_temp["global_filters"][filter_key] = list(
+                    dict.fromkeys(filter_value)
+                )
 
         # Set validated configuration and return success
         self.validated_config = valid_temp
@@ -477,7 +484,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Input validation completed successfully. "
             f"has_global_filters: {bool(valid_temp.get('global_filters'))}, "
             f"file_mode: {self.params.get('file_mode', 'overwrite')}",
-            "INFO"
+            "INFO",
         )
 
         self.set_operation_result("success", False, self.msg, "INFO")
@@ -503,7 +510,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Defining validation schema for network profile switching workflow manager. "
             "Schema includes global_filters structure with three filter types: profile_name_list, "
             "day_n_template_list, and site_list.",
-            "DEBUG"
+            "DEBUG",
         )
 
         schema = {
@@ -511,18 +518,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "profile_name_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "day_n_template_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
-                "site_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                }
+                "site_list": {"type": "list", "required": False, "elements": "str"},
             }
         }
 
@@ -558,16 +561,18 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "API calls to build complete profile catalog for downstream processing.".format(
                 profile_names if profile_names else "None (retrieve all)",
                 len(profile_names) if profile_names else 0,
-                "filtered" if profile_names else "unfiltered"
+                "filtered" if profile_names else "unfiltered",
             ),
-            "INFO"
+            "INFO",
         )
         self.have["switch_profile_names"], self.have["switch_profile_list"] = [], []
         offset = 1
         limit = 500
 
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+        resync_retry_interval = int(
+            self.payload.get("catalystcenter_task_poll_interval")
+        )
         self.log(
             "Starting pagination loop for switch profile retrieval from Catalyst Center "
             "API. Loop will continue until all profiles retrieved or timeout exhausted "
@@ -575,7 +580,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "{2} seconds to prevent API throttling.".format(
                 resync_retry_count, limit, resync_retry_interval
             ),
-            "INFO"
+            "INFO",
         )
 
         page_number = 1
@@ -590,7 +595,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "for playbook config generation.".format(
                     page_number, offset, limit, resync_retry_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             profiles = self.get_network_profile("Switching", offset, limit)
             if not profiles:
@@ -601,7 +606,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "pagination loop to prevent unnecessary API calls.".format(
                         page_number, offset
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -616,7 +621,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "and metadata required for filtering and configuration generation.".format(
                     page_profile_count, page_number, offset, total_profiles_collected
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             self.have["switch_profile_list"].extend(profiles)
             self.log(
@@ -626,7 +631,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "by template and site collection functions.".format(
                     page_profile_count, len(self.have["switch_profile_list"])
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Check for last page by comparing received count to limit
@@ -638,7 +643,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Exiting pagination loop to complete collection operation.".format(
                         page_profile_count, limit
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -651,7 +656,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "sequential collection of switch profile catalog from Catalyst Center.".format(
                     offset, page_number
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Rate limiting sleep to prevent API throttling
@@ -660,7 +665,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "API rate limiting and throttling by Catalyst Center. This delay ensures "
                 "stable API performance and prevents HTTP 429 (Too Many Requests) errors "
                 "during large profile catalog retrieval.".format(resync_retry_interval),
-                "INFO"
+                "INFO",
             )
             time.sleep(resync_retry_interval)
             resync_retry_count = resync_retry_count - resync_retry_interval
@@ -670,7 +675,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "loop will exit if timeout exhausted before all profiles retrieved.".format(
                     resync_retry_count, resync_retry_interval
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         if not self.have["switch_profile_list"]:
@@ -681,14 +686,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Catalyst Center, or API permissions may be insufficient to retrieve "
                 "profiles. Verify switching profiles exist in Catalyst Center before "
                 "running playbook generation.",
-                "WARNING"
+                "WARNING",
             )
             self.log(
                 "Completed switch profile collection operation with empty results. "
                 "Final statistics - Profile names count: 0, Full profile list count: 0, "
                 "Mode: {0}. No profiles available for filtering or configuration "
                 "generation.".format("filtered" if profile_names else "unfiltered"),
-                "INFO"
+                "INFO",
             )
             return self
 
@@ -699,14 +704,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "sites) for all switching network profiles configured in Catalyst Center.".format(
                 len(self.have["switch_profile_list"]), page_number
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Complete switch profile list structure retrieved from API: {0}".format(
                 self.pprint(self.have["switch_profile_list"])
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not profile_names:
@@ -721,9 +726,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "processing. Profile names extracted from complete profile catalog: {1}. "
                 "All profiles will be processed for template and site detail collection.".format(
                     len(self.have["switch_profile_names"]),
-                    self.have["switch_profile_names"]
+                    self.have["switch_profile_names"],
                 ),
-                "INFO"
+                "INFO",
             )
             return self
 
@@ -733,7 +738,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "provided profile_names parameter. Filter contains {0} profile name(s): "
             "{1}. Validation will check that all requested profiles exist in "
             "Catalyst Center profile catalog (exact case-sensitive match required).".format(
-                len(profile_names), profile_names), "INFO")
+                len(profile_names), profile_names
+            ),
+            "INFO",
+        )
 
         filtered_profiles = []
         non_existing_profiles = []
@@ -743,10 +751,12 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Validating requested profile {0}/{1}: '{2}'. Checking existence in "
                 "retrieved profile catalog from Catalyst Center (total {3} profiles "
                 "available). Using exact case-sensitive name matching for validation.".format(
-                    profile_index, len(profile_names), profile,
-                    len(self.have["switch_profile_list"])
+                    profile_index,
+                    len(profile_names),
+                    profile,
+                    len(self.have["switch_profile_list"]),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if self.value_exists(self.have["switch_profile_list"], "name", profile):
@@ -755,10 +765,13 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Requested profile {0}/{1} '{2}' found in Catalyst Center profile "
                     "catalog. Added to filtered profile list for downstream processing. "
                     "Filtered profile count: {3}/{4} requested profiles validated.".format(
-                        profile_index, len(profile_names), profile,
-                        len(filtered_profiles), len(profile_names)
+                        profile_index,
+                        len(profile_names),
+                        profile,
+                        len(filtered_profiles),
+                        len(profile_names),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 non_existing_profiles.append(profile)
@@ -769,7 +782,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "missing profile list for error reporting.".format(
                         profile_index, len(profile_names), profile
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         if non_existing_profiles:
@@ -779,10 +792,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "profiles must exist for operation to proceed. Please verify profile "
                 "names are spelled correctly (case-sensitive) and profiles are "
                 "properly configured in Catalyst Center before retrying playbook "
-                "generation.".format(
-                    len(non_existing_profiles), non_existing_profiles
-                ),
-                "ERROR"
+                "generation.".format(len(non_existing_profiles), non_existing_profiles),
+                "ERROR",
             )
             not_exist_profile = ", ".join(non_existing_profiles)
             self.msg = (
@@ -791,9 +802,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "names are spelled correctly (case-sensitive exact match required) "
                 "and profiles are properly configured in Catalyst Center Network "
                 "Profiles section before retrying playbook generation.".format(
-                    not_exist_profile,
-                    len(non_existing_profiles),
-                    len(profile_names)
+                    not_exist_profile, len(non_existing_profiles), len(profile_names)
                 )
             )
 
@@ -810,9 +819,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "validated and confirmed to exist in Catalyst Center catalog.".format(
                     len(filtered_profiles),
                     len(self.have["switch_profile_list"]),
-                    filtered_profiles
+                    filtered_profiles,
                 ),
-                "INFO"
+                "INFO",
             )
 
         self.log(
@@ -822,9 +831,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "collection operations.".format(
                 len(self.have.get("switch_profile_names", [])),
                 len(self.have.get("switch_profile_list", [])),
-                "filtered" if profile_names else "unfiltered"
+                "filtered" if profile_names else "unfiltered",
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -857,14 +866,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "profile to populate complete configuration metadata for YAML generation.".format(
                 profile_names, len(profile_names) if profile_names else 0
             ),
-            "INFO"
+            "INFO",
         )
 
         if not profile_names or not isinstance(profile_names, list):
             self.log(
                 "No valid profile names provided for template and site collection. "
                 "profile_names is None or not a list. Skipping collection operation.",
-                "WARNING"
+                "WARNING",
             )
             return self
 
@@ -882,7 +891,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "template and site API queries.".format(
                     profile_index, len(profile_names), each_profile
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             profile_id = self.get_value_by_key(
                 self.have["switch_profile_list"],
@@ -899,7 +908,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "detail collection for this profile.".format(
                         profile_index, len(profile_names), each_profile
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 profiles_skipped += 1
                 continue
@@ -909,7 +918,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Proceeding with template and site metadata collection.".format(
                     profile_id, profile_index, len(profile_names), each_profile
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Retrieve Day-N CLI templates for the profile
@@ -919,25 +928,34 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "to this network profile for Day-N configuration automation.".format(
                     profile_index, len(profile_names), each_profile, profile_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             templates = self.get_templates_for_profile(profile_id)
             if templates and isinstance(templates, list):
-                template_names = [template.get("name") for template in templates if template.get("name")]
+                template_names = [
+                    template.get("name")
+                    for template in templates
+                    if template.get("name")
+                ]
 
                 if template_names:
-                    self.have.setdefault("switch_profile_templates", {})[profile_id] = template_names
+                    self.have.setdefault("switch_profile_templates", {})[
+                        profile_id
+                    ] = template_names
                     total_templates_collected += len(template_names)
 
                     self.log(
                         "Successfully retrieved {0} Day-N CLI template(s) for switch profile "
                         "{1}/{2}: '{3}'. Template names: {4}. Templates stored in "
                         "switch_profile_templates mapping for YAML generation.".format(
-                            len(template_names), profile_index, len(profile_names),
-                            each_profile, template_names
+                            len(template_names),
+                            profile_index,
+                            len(profile_names),
+                            each_profile,
+                            template_names,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
@@ -946,7 +964,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "missing 'name' field. No templates stored for this profile.".format(
                             profile_index, len(profile_names), each_profile
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
@@ -956,7 +974,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "are valid and will be processed without template assignments.".format(
                         profile_index, len(profile_names), each_profile
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
             # Retrieve assigned site list for the profile
@@ -966,10 +984,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "profile is currently assigned for device provisioning.".format(
                     profile_index, len(profile_names), each_profile, profile_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
-            site_list = self.get_site_lists_for_profile(
-                each_profile, profile_id)
+            site_list = self.get_site_lists_for_profile(each_profile, profile_id)
             # Process site data if available
             if site_list and isinstance(site_list, list):
                 self.log(
@@ -978,7 +995,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "site names (Global/Region/Building format) for human-readable YAML.".format(
                         len(site_list), profile_index, len(profile_names), each_profile
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Extract site IDs from site dictionaries
@@ -989,17 +1006,22 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     site_id_name_mapping = self.get_site_id_name_mapping(site_id_list)
 
                     if site_id_name_mapping and isinstance(site_id_name_mapping, dict):
-                        self.have.setdefault("switch_profile_sites", {})[profile_id] = site_id_name_mapping
+                        self.have.setdefault("switch_profile_sites", {})[
+                            profile_id
+                        ] = site_id_name_mapping
                         total_sites_collected += len(site_id_name_mapping)
 
                         self.log(
                             "Successfully converted {0} site UUID(s) to hierarchical site names "
                             "for switch profile {1}/{2}: '{3}'. Site name mapping: {4}. Site "
                             "data stored in switch_profile_sites for YAML generation.".format(
-                                len(site_id_name_mapping), profile_index, len(profile_names),
-                                each_profile, site_id_name_mapping
+                                len(site_id_name_mapping),
+                                profile_index,
+                                len(profile_names),
+                                each_profile,
+                                site_id_name_mapping,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
@@ -1008,7 +1030,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                             "invalid data. No site names stored for this profile.".format(
                                 profile_index, len(profile_names), each_profile
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                 else:
                     self.log(
@@ -1017,7 +1039,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "No sites stored for this profile.".format(
                             profile_index, len(profile_names), each_profile
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
@@ -1027,7 +1049,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "assignments and will be processed without site associations.".format(
                         profile_index, len(profile_names), each_profile
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
             # Increment processed counter
@@ -1039,10 +1061,13 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "processed successfully: {1}, Profiles skipped (no UUID): {2}, Total templates "
             "collected: {3}, Total sites collected: {4}. Metadata populated in self.have "
             "for downstream YAML generation and filtering operations.".format(
-                len(profile_names), profiles_processed, profiles_skipped,
-                total_templates_collected, total_sites_collected
+                len(profile_names),
+                profiles_processed,
+                profiles_skipped,
+                total_templates_collected,
+                total_sites_collected,
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -1080,7 +1105,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Only one filter type will be processed based on priority order.".format(
                 global_filters
             ),
-            "INFO"
+            "INFO",
         )
 
         if not global_filters or not isinstance(global_filters, dict):
@@ -1089,7 +1114,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "None or not a dictionary. Cannot process profiles without filter criteria. "
                 "Please provide at least one filter type (profile_name_list, day_n_template_list, "
                 "or site_list) to extract profile configurations.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1102,11 +1127,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Extracted filter parameters from global_filters. profile_name_list: {0} "
             "(type: {1}), day_n_template_list: {2} (type: {3}), site_list: {4} (type: {5}). "
             "Validating filter types and determining processing priority.".format(
-                profile_names, type(profile_names).__name__,
-                day_n_templates, type(day_n_templates).__name__,
-                site_list, type(site_list).__name__
+                profile_names,
+                type(profile_names).__name__,
+                day_n_templates,
+                type(day_n_templates).__name__,
+                site_list,
+                type(site_list).__name__,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if profile_names and isinstance(profile_names, list):
@@ -1115,21 +1143,25 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Requested profile names: {0} (count: {1}). Processing each profile from "
                 "validated switch_profile_names list to extract CLI templates and site "
                 "assignments.".format(profile_names, len(profile_names)),
-                "INFO"
+                "INFO",
             )
 
             profile_count = 0
             profiles_with_templates = 0
             profiles_with_sites = 0
 
-            for profile_index, profile in enumerate(self.have.get("switch_profile_names", []), start=1):
+            for profile_index, profile in enumerate(
+                self.have.get("switch_profile_names", []), start=1
+            ):
                 self.log(
                     "Processing switch profile {0}/{1}: '{2}' from profile_name_list filter. "
                     "Retrieving profile UUID to lookup templates and sites from collected "
                     "metadata.".format(
-                        profile_index, len(self.have.get("switch_profile_names", [])), profile
+                        profile_index,
+                        len(self.have.get("switch_profile_names", [])),
+                        profile,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 each_profile_config = {}
                 each_profile_config["profile_name"] = profile
@@ -1140,9 +1172,11 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "requested profile_name_list filter. This should not happen as "
                         "validation should have filtered only requested profiles. Skipping "
                         "this profile due to mismatch.".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])), profile
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -1158,67 +1192,79 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "Profile UUID not found for switch profile {0}/{1}: '{2}'. Profile exists "
                         "in validated names list but has no ID mapping in profile catalog. "
                         "Skipping template and site extraction for this profile.".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])), profile
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
                 self.log(
                     "Retrieved profile UUID '{0}' for profile {1}/{2}: '{3}'. Extracting "
                     "CLI templates and site assignments from collected metadata.".format(
-                        profile_id, profile_index,
-                        len(self.have.get("switch_profile_names", [])), profile
+                        profile_id,
+                        profile_index,
+                        len(self.have.get("switch_profile_names", [])),
+                        profile,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 cli_template_details = self.have.get(
-                    "switch_profile_templates", {}).get(profile_id)
+                    "switch_profile_templates", {}
+                ).get(profile_id)
                 if cli_template_details and isinstance(cli_template_details, list):
                     each_profile_config["day_n_templates"] = cli_template_details
                     profiles_with_templates += 1
                     self.log(
                         "Extracted {0} CLI template(s) for profile {1}/{2}: '{3}'. Template "
                         "names: {4}. Added to day_n_templates field.".format(
-                            len(cli_template_details), profile_index,
-                            len(self.have.get("switch_profile_names", [])), profile,
-                            cli_template_details
+                            len(cli_template_details),
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
+                            cli_template_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No CLI templates found for profile {0}/{1}: '{2}'. Profile has no "
                         "template assignments or templates data is invalid. Omitting "
                         "day_n_templates field from configuration.".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])), profile
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-                site_details = self.have.get(
-                    "switch_profile_sites", {}).get(profile_id)
+                site_details = self.have.get("switch_profile_sites", {}).get(profile_id)
                 if site_details and isinstance(site_details, dict):
                     each_profile_config["site_names"] = list(site_details.values())
                     profiles_with_sites += 1
                     self.log(
                         "Extracted {0} site assignment(s) for profile {1}/{2}: '{3}'. "
                         "Hierarchical site names: {4}. Added to site_names field.".format(
-                            len(site_details), profile_index,
-                            len(self.have.get("switch_profile_names", [])), profile,
-                            list(site_details.values())
+                            len(site_details),
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
+                            list(site_details.values()),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No site assignments found for profile {0}/{1}: '{2}'. Profile has "
                         "no site associations or sites data is invalid. Omitting site_names "
                         "field from configuration.".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])), profile
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            profile,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 final_list.append(each_profile_config)
@@ -1228,10 +1274,13 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Completed profile_name_list filtering. Profile configurations collected: {0}. "
                 "Statistics - Total profiles processed: {1}, Profiles with templates: {2}, "
                 "Profiles with sites: {3}. Configuration structure: {4}".format(
-                    len(final_list), profile_count, profiles_with_templates,
-                    profiles_with_sites, final_list
+                    len(final_list),
+                    profile_count,
+                    profiles_with_templates,
+                    profiles_with_sites,
+                    final_list,
                 ),
-                "INFO"
+                "INFO",
             )
 
         if day_n_templates and isinstance(day_n_templates, list):
@@ -1241,7 +1290,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Matching profiles that contain ANY of the specified CLI templates.".format(
                     day_n_templates, len(day_n_templates)
                 ),
-                "INFO"
+                "INFO",
             )
 
             total_templates_checked = 0
@@ -1254,7 +1303,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Iterating through profiles to find matches based on template assignments.".format(
                         template_index, len(day_n_templates), template
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 total_templates_checked += 1
                 matched_profiles = 0
@@ -1265,19 +1314,24 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         "Checking profile {0}/{1} (UUID: {2}) for template matches. Profile has "
                         "{3} template(s): {4}. Matching against requested templates: {5}".format(
-                            profile_index, len(self.have.get("switch_profile_templates", {})),
-                            profile_id, len(templates), templates, day_n_templates
+                            profile_index,
+                            len(self.have.get("switch_profile_templates", {})),
+                            profile_id,
+                            len(templates),
+                            templates,
+                            day_n_templates,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     if template not in templates:
                         self.log(
                             "Profile {0}/{1} (UUID: {2}) did NOT match. None of the requested "
                             "templates found in profile's template list. Skipping profile.".format(
-                                profile_index, len(self.have.get("switch_profile_templates", {})),
-                                profile_id
+                                profile_index,
+                                len(self.have.get("switch_profile_templates", {})),
+                                profile_id,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -1286,7 +1340,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "Extracting complete profile metadata.".format(
                             template_index, len(day_n_templates), template
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     profile_name = self.get_value_by_key(
                         self.have["switch_profile_list"],
@@ -1297,8 +1351,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     if not profile_name:
                         self.log(
                             "Profile name not found for matched profile UUID: {0}. Skipping "
-                            "this profile due to missing name mapping.".format(profile_id),
-                            "WARNING"
+                            "this profile due to missing name mapping.".format(
+                                profile_id
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -1311,25 +1367,28 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "template(s): {2}. Extracting site assignments.".format(
                             profile_name, len(templates), templates
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-                    site_details = self.have.get(
-                        "switch_profile_sites", {}).get(profile_id)
+                    site_details = self.have.get("switch_profile_sites", {}).get(
+                        profile_id
+                    )
                     if site_details and isinstance(site_details, dict):
                         each_profile_config["site_names"] = list(site_details.values())
                         self.log(
                             "Extracted {0} site(s) for profile '{1}': {2}".format(
-                                len(site_details), profile_name, list(site_details.values())
+                                len(site_details),
+                                profile_name,
+                                list(site_details.values()),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         each_profile_config["site_names"] = []
                         self.log(
                             "No site assignments found for profile '{0}'. Setting site_names "
                             "to empty list.".format(profile_name),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     final_list.append(each_profile_config)
 
@@ -1337,14 +1396,16 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.msg = (
                         f"No profiles matched the requested template {template_index}/"
                         f"{len(day_n_templates)}: '{template}'. "
-                        "No profiles contain this template assignment.")
+                        "No profiles contain this template assignment."
+                    )
                     self.log(self.msg, "WARNING")
                     unmatched_templates.append(template)
                 else:
                     self.log(
                         f"Template {template_index}/{len(day_n_templates)}: '{template}' matched "
                         f"with {matched_profiles} profile(s).",
-                        "INFO")
+                        "INFO",
+                    )
                     matched_templates += 1
 
             if unmatched_templates:
@@ -1362,9 +1423,12 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Completed day_n_template_list filtering. Profile configurations collected: {0}. "
                 "Statistics - Total profiles checked: {1}, Profiles matched: {2}. "
                 "Configuration structure: {3}".format(
-                    len(final_list), total_templates_checked, matched_templates, final_list
+                    len(final_list),
+                    total_templates_checked,
+                    matched_templates,
+                    final_list,
                 ),
-                "INFO"
+                "INFO",
             )
 
         if site_list and isinstance(site_list, list):
@@ -1374,7 +1438,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "(count: {1}). Matching profiles assigned to ANY of the specified sites.".format(
                     site_list, len(site_list)
                 ),
-                "INFO"
+                "INFO",
             )
 
             total_sites_checked = 0
@@ -1387,7 +1451,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "through profiles to find matches based on site assignments.".format(
                         site_index, len(site_list), site
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 total_sites_checked += 1
                 matched_profiles = 0
@@ -1398,20 +1462,25 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         "Checking profile {0}/{1} (UUID: {2}) for site matches. Profile has {3} "
                         "site(s): {4}. Matching against requested sites: {5}".format(
-                            profile_index, len(self.have.get("switch_profile_sites", {})),
-                            profile_id, len(sites), list(sites.values()), site_list
+                            profile_index,
+                            len(self.have.get("switch_profile_sites", {})),
+                            profile_id,
+                            len(sites),
+                            list(sites.values()),
+                            site_list,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if site not in sites.values():
                         self.log(
                             "Profile {0}/{1} (Site Name: {2}) did NOT match. None of the requested sites "
                             "found in profile's site assignment list. Skipping profile.".format(
-                                profile_index, len(self.have.get("switch_profile_sites", {})),
-                                site
+                                profile_index,
+                                len(self.have.get("switch_profile_sites", {})),
+                                site,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -1420,7 +1489,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "site assignment. Extracting complete profile metadata.".format(
                             site_index, len(site_list), site
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     profile_name = self.get_value_by_key(
                         self.have["switch_profile_list"],
@@ -1431,8 +1500,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     if not profile_name:
                         self.log(
                             "Profile name not found for matched profile UUID: {0}. Skipping "
-                            "this profile due to missing name mapping.".format(profile_id),
-                            "WARNING"
+                            "this profile due to missing name mapping.".format(
+                                profile_id
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -1444,25 +1515,28 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "site(s): {2}. Extracting CLI templates.".format(
                             profile_name, len(sites), list(sites.values())
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     cli_template_details = self.have.get(
-                        "switch_profile_templates", {}).get(profile_id)
+                        "switch_profile_templates", {}
+                    ).get(profile_id)
                     if cli_template_details and isinstance(cli_template_details, list):
                         each_profile_config["day_n_templates"] = cli_template_details
                         self.log(
                             "Extracted {0} CLI template(s) for profile '{1}': {2}".format(
-                                len(cli_template_details), profile_name, cli_template_details
+                                len(cli_template_details),
+                                profile_name,
+                                cli_template_details,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         each_profile_config["day_n_templates"] = []
                         self.log(
                             "No CLI templates found for profile '{0}'. Setting day_n_templates "
                             "to empty list.".format(profile_name),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                     each_profile_config["site_names"] = list(sites.values())
@@ -1472,7 +1546,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.msg = (
                         f"No profiles matched the requested site {site_index}/"
                         f"{len(site_list)}: '{site}'. "
-                        "No profiles contain this site assignment.")
+                        "No profiles contain this site assignment."
+                    )
                     self.log(self.msg, "WARNING")
                     unmatched_sites.append(site)
                 else:
@@ -1480,7 +1555,8 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         f"Site {site_index}/{len(site_list)}: '{site}' matched "
                         f"with {matched_profiles} profile(s).",
-                        "INFO")
+                        "INFO",
+                    )
 
             if unmatched_sites:
                 self.msg = (
@@ -1499,7 +1575,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Configuration structure: {3}".format(
                     len(final_list), total_sites_checked, matched_sites, final_list
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
@@ -1509,7 +1585,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Cannot extract profile configurations without valid filter criteria.".format(
                     profile_names, day_n_templates, site_list
                 ),
-                "WARNING"
+                "WARNING",
             )
 
         if not final_list:
@@ -1518,7 +1594,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Filter criteria may be too restrictive or no profiles exist with the "
                 "specified attributes. Final result is empty. Returning None to indicate "
                 "no matching configurations found.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1528,7 +1604,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "day_n_templates and site_names fields. Result ready for YAML generation workflow.".format(
                 len(final_list)
             ),
-            "INFO"
+            "INFO",
         )
 
         return final_list
@@ -1569,7 +1645,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "YAML file compatible with network_profile_switching_workflow_manager module.".format(
                 yaml_config_generator
             ),
-            "INFO"
+            "INFO",
         )
 
         # Check if generate_all_configurations mode is enabled
@@ -1580,14 +1656,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "This mode will retrieve complete switch profile catalog from Catalyst Center "
                 "including all CLI templates and site assignments, ignoring any provided filters. "
                 "Use this mode for comprehensive network switch profile generation.",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "Operational mode: FILTERED CONFIGURATION generation (generate_all_configurations=False). "
                 "This mode will apply global_filters to extract specific switch profile subset "
                 "based on profile_name_list, day_n_template_list, or site_list criteria.",
-                "INFO"
+                "INFO",
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
@@ -1597,26 +1673,31 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "No custom file_path provided by user in module parameters. "
                 "Initiating automatic filename generation with timestamp format. Default "
                 "filename pattern: network_profile_switching_playbook_config_YYYY-MM-DD_HH-MM-SS.yml",
-                "DEBUG"
+                "DEBUG",
             )
             file_path = self.generate_filename()
             self.log(
                 "Auto-generated default filename for YAML output: {0}. File will be created "
-                "in current working directory with timestamped name for uniqueness.".format(file_path),
-                "INFO"
+                "in current working directory with timestamped name for uniqueness.".format(
+                    file_path
+                ),
+                "INFO",
             )
         else:
             self.log(
                 "Using user-provided custom file_path from module parameters for YAML output: {0}. File will be "
-                "created at specified path (absolute or relative path supported).".format(file_path),
-                "INFO"
+                "created at specified path (absolute or relative path supported).".format(
+                    file_path
+                ),
+                "INFO",
             )
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
         file_mode = self.params.get("file_mode", "overwrite")
         self.log(
-            "YAML configuration file mode determined: {0}".format(file_mode),
-            "DEBUG"
+            "YAML configuration file mode determined: {0}".format(file_mode), "DEBUG"
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
@@ -1628,7 +1709,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Processing in GENERATE ALL CONFIGURATIONS mode. Preparing to collect complete "
                 "switch profile catalog from Catalyst Center without applying any filters. "
                 "This will include all profiles discovered during get_have() operation.",
-                "INFO"
+                "INFO",
             )
 
             # Warn if filters provided in generate_all mode
@@ -1638,7 +1719,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "be IGNORED due to generate_all_configurations=True. In generate_all mode, ALL "
                     "switch profiles are processed regardless of filter criteria. Remove global_filters "
                     "or set generate_all_configurations=False to apply filtering.",
-                    "WARNING"
+                    "WARNING",
                 )
 
             profile_count = 0
@@ -1651,10 +1732,11 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 self.log(
                     "Processing switch profile {0}/{1}: '{2}' in generate_all mode. Extracting "
                     "complete CLI template and site assignment metadata from collected data.".format(
-                        profile_index, len(self.have.get("switch_profile_names", [])),
-                        each_profile_name
+                        profile_index,
+                        len(self.have.get("switch_profile_names", [])),
+                        each_profile_name,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 each_profile_config = {}
                 each_profile_config["profile_name"] = each_profile_name
@@ -1670,44 +1752,52 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "Profile UUID not found for switch profile {0}/{1}: '{2}'. Profile exists "
                         "in validated names list but has no ID mapping in profile catalog. Skipping "
                         "template and site extraction for this profile.".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])),
-                            each_profile_name
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            each_profile_name,
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
                 self.log(
                     "Retrieved profile UUID '{0}' for profile {1}/{2}: '{3}'. Extracting CLI "
                     "templates and site assignments from collected metadata.".format(
-                        profile_id, profile_index,
-                        len(self.have.get("switch_profile_names", [])), each_profile_name
+                        profile_id,
+                        profile_index,
+                        len(self.have.get("switch_profile_names", [])),
+                        each_profile_name,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
-                cli_template_details = self.have.get("switch_profile_templates", {}).get(profile_id)
+                cli_template_details = self.have.get(
+                    "switch_profile_templates", {}
+                ).get(profile_id)
                 if cli_template_details and isinstance(cli_template_details, list):
                     each_profile_config["day_n_templates"] = cli_template_details
                     profiles_with_templates += 1
                     self.log(
                         "Extracted {0} CLI template(s) for profile {1}/{2}: '{3}'. Template "
                         "names: {4}. Added to day_n_templates field in YAML configuration.".format(
-                            len(cli_template_details), profile_index,
-                            len(self.have.get("switch_profile_names", [])), each_profile_name,
-                            cli_template_details
+                            len(cli_template_details),
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            each_profile_name,
+                            cli_template_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No CLI templates found for profile {0}/{1}: '{2}'. Profile has no "
                         "template assignments or templates data is invalid. Omitting day_n_templates "
                         "field from YAML configuration (optional field).".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])),
-                            each_profile_name
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            each_profile_name,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Extract site assignment details
@@ -1718,21 +1808,24 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         "Extracted {0} site assignment(s) for profile {1}/{2}: '{3}'. "
                         "Hierarchical site names: {4}. Added to site_names field in YAML configuration.".format(
-                            len(site_details), profile_index,
-                            len(self.have.get("switch_profile_names", [])), each_profile_name,
-                            list(site_details.values())
+                            len(site_details),
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            each_profile_name,
+                            list(site_details.values()),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No site assignments found for profile {0}/{1}: '{2}'. Profile has no "
                         "site associations or sites data is invalid. Omitting site_names field "
                         "from YAML configuration (optional field).".format(
-                            profile_index, len(self.have.get("switch_profile_names", [])),
-                            each_profile_name
+                            profile_index,
+                            len(self.have.get("switch_profile_names", [])),
+                            each_profile_name,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 final_list.append(each_profile_config)
@@ -1742,10 +1835,13 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Completed generate_all_configurations mode processing. Total configurations "
                 "collected: {0}. Statistics - Profiles processed: {1}, Profiles with templates: {2}, "
                 "Profiles with sites: {3}. Configuration structure ready for YAML export: {4}".format(
-                    len(final_list), profile_count, profiles_with_templates, profiles_with_sites,
-                    final_list
+                    len(final_list),
+                    profile_count,
+                    profiles_with_templates,
+                    profiles_with_sites,
+                    final_list,
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             # we get ALL configurations
@@ -1753,7 +1849,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Processing in FILTERED CONFIGURATION mode. Extracting global_filters parameter "
                 "to apply hierarchical filtering (profile_name_list > day_n_template_list > site_list). "
                 "Only matching switch profiles will be included in YAML export.",
-                "INFO"
+                "INFO",
             )
             # Use provided filters or default to empty
             global_filters = yaml_config_generator.get("global_filters") or {}
@@ -1763,7 +1859,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Validating filter structure and preparing for profile matching operation.".format(
                     global_filters, type(global_filters).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if global_filters:
@@ -1771,7 +1867,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Global filters detected. Calling process_global_filters() to apply filter "
                     "criteria and extract matching switch profile configurations. Filter priority: "
                     "profile_name_list (highest) > day_n_template_list > site_list (lowest).",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = self.process_global_filters(global_filters)
 
@@ -1780,14 +1876,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                         "Global filter processing completed successfully. Matched {0} switch "
                         "profile(s) against provided filter criteria. Configurations ready for "
                         "YAML export: {1}".format(len(final_list), final_list),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         "Global filter processing returned no matching profiles. Filter criteria "
                         "may be too restrictive or no profiles exist with specified attributes. "
                         "final_list is empty after filter application.",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
@@ -1795,7 +1891,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "profile configurations without filter criteria in filtered mode. Set "
                     "generate_all_configurations=True to retrieve all profiles, or provide "
                     "global_filters with profile_name_list, day_n_template_list, or site_list.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         if not final_list:
@@ -1804,7 +1900,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "indicating either no profiles matched filter criteria, or no profiles exist in "
                 "Catalyst Center. Possible causes: (1) restrictive global_filters, (2) no profiles "
                 "configured, (3) insufficient API permissions. YAML file will NOT be created.",
-                "WARNING"
+                "WARNING",
             )
             self.msg = (
                 f"No configurations to process for the module '{self.module_name}'. Verify input "
@@ -1820,7 +1916,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Assembling final YAML configuration structure. Creating root 'config' key with "
             "{0} profile configuration(s). Structure follows network_profile_switching_workflow_manager "
             "module format for Ansible playbook compatibility.".format(len(final_list)),
-            "DEBUG"
+            "DEBUG",
         )
 
         final_dict = {"config": final_list}
@@ -1831,7 +1927,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "(optional), and site_names (optional) fields per profile.".format(
                 final_dict, len(final_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Write YAML configuration to file
@@ -1840,7 +1936,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "write_dict_to_yaml() to serialize configuration dictionary and create file.".format(
                 file_path
             ),
-            "INFO"
+            "INFO",
         )
 
         if self.write_dict_to_yaml(final_dict, file_path, file_mode):
@@ -1850,7 +1946,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "compatible format. File ready for Ansible playbook execution.".format(
                     file_path, len(final_list)
                 ),
-                "INFO"
+                "INFO",
             )
             self.msg = {
                 "YAML config generation Task succeeded for module '{0}'.".format(
@@ -1862,13 +1958,11 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             self.log(
                 f"YAML configuration file is already up-to-date at: {file_path}. "
                 f"No write operation performed.",
-                "INFO"
+                "INFO",
             )
             self.msg = {
                 f"YAML configuration file already up-to-date for module '{self.module_name}'.  "
-                f"No changes required.": {
-                    "file_path": file_path
-                }
+                f"No changes required.": {"file_path": file_path}
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
 
@@ -1906,15 +2000,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Preparing desired configuration parameters for API operations based on playbook "
             "configuration. State parameter: '{0}'. This operation validates input parameters, "
             "extracts YAML generation settings, and populates the want dictionary for downstream "
-            "processing by get_have() and yaml_config_generator() functions.".format(state),
-            "INFO"
+            "processing by get_have() and yaml_config_generator() functions.".format(
+                state
+            ),
+            "INFO",
         )
 
         self.log(
             "Initiating comprehensive input parameter validation using validate_params(). "
             "This validates parameter types, required fields, and schema compliance for "
             "YAML generation workflow.",
-            "INFO"
+            "INFO",
         )
 
         self.validate_params(config)
@@ -1922,7 +2018,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Input parameter validation completed successfully. All configuration parameters "
             "conform to expected schema and type requirements. Proceeding with want dictionary "
             "population.",
-            "DEBUG"
+            "DEBUG",
         )
 
         want = {}
@@ -1935,7 +2031,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "(generate_all vs filtered), output file location, and profile filtering criteria.".format(
                 want["yaml_config_generator"]
             ),
-            "INFO"
+            "INFO",
         )
 
         self.want = want
@@ -1974,15 +2070,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "This operation collects switch profile configurations including CLI templates "
             "(Day-N templates) and site assignments based on configuration mode (generate_all "
             "or filtered). Data will be used for YAML playbook generation workflow.",
-            "INFO"
+            "INFO",
         )
 
         if not config or not isinstance(config, dict):
             self.log(
                 "Invalid config parameter provided to get_have(). Config is None or not a "
                 "dictionary type. Cannot retrieve switch profile data without valid configuration. "
-                "Skipping data collection. Config type: {0}".format(type(config).__name__),
-                "WARNING"
+                "Skipping data collection. Config type: {0}".format(
+                    type(config).__name__
+                ),
+                "WARNING",
             )
             self.msg = "Invalid configuration provided. Skipping switch profile data retrieval."
             return self
@@ -1990,21 +2088,24 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         self.log(
             "Configuration parameter validated successfully. Config type: dict. Proceeding with "
             "operational mode detection and data collection workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if config.get("generate_all_configurations", False):
-            self.log("Generate all configurations mode ENABLED (generate_all_configurations=True). "
-                     "Initiating complete switch profile catalog collection from Cisco Catalyst Center "
-                     "without applying any filters. This mode retrieves ALL switch profiles including "
-                     "complete CLI template and site assignment metadata for comprehensive "
-                     "network profile switching and documentation.", "INFO")
+            self.log(
+                "Generate all configurations mode ENABLED (generate_all_configurations=True). "
+                "Initiating complete switch profile catalog collection from Cisco Catalyst Center "
+                "without applying any filters. This mode retrieves ALL switch profiles including "
+                "complete CLI template and site assignment metadata for comprehensive "
+                "network profile switching and documentation.",
+                "INFO",
+            )
 
             self.log(
                 "Calling collect_all_switch_profile_list() without profile name filters to "
                 "retrieve complete switch profile catalog from Catalyst Center. This will fetch "
                 "all network profiles of type 'Switching' using paginated API calls.",
-                "INFO"
+                "INFO",
             )
             self.collect_all_switch_profile_list()
             if not self.have.get("switch_profile_names"):
@@ -2021,9 +2122,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "mode. Profile names: {1}. Proceeding with CLI template and site assignment "
                 "collection for all discovered profiles.".format(
                     len(self.have.get("switch_profile_names", [])),
-                    self.have.get("switch_profile_names", [])
+                    self.have.get("switch_profile_names", []),
                 ),
-                "INFO"
+                "INFO",
             )
 
             self.log(
@@ -2031,18 +2132,20 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "enrich profile data with CLI template assignments and site hierarchy mappings. "
                 "This will make approximately {1} API calls (2 per profile for templates and sites).".format(
                     len(self.have.get("switch_profile_names", [])),
-                    len(self.have.get("switch_profile_names", [])) * 2
+                    len(self.have.get("switch_profile_names", [])) * 2,
                 ),
-                "INFO"
+                "INFO",
             )
-            self.collect_site_and_template_details(self.have.get("switch_profile_names", []))
+            self.collect_site_and_template_details(
+                self.have.get("switch_profile_names", [])
+            )
         else:
             self.log(
                 "Filtered configuration mode detected (generate_all_configurations=False or not "
                 "specified). Extracting global_filters parameter to determine data collection "
                 "strategy. Filter priority: profile_name_list (HIGHEST) > day_n_template_list > "
                 "site_list (LOWEST). Only highest priority filter with valid data will be processed.",
-                "INFO"
+                "INFO",
             )
 
             global_filters = config.get("global_filters")
@@ -2054,7 +2157,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "data collection. To retrieve profiles, either enable generate_all_configurations "
                     "or provide global_filters with at least one filter type (profile_name_list, "
                     "day_n_template_list, or site_list).",
-                    "WARNING"
+                    "WARNING",
                 )
                 self.msg = (
                     "No global_filters provided in filtered mode. Cannot collect switch profile "
@@ -2067,7 +2170,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "components: profile_name_list, day_n_template_list, site_list. Filter structure: {0}".format(
                     global_filters
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract individual filter components
@@ -2079,11 +2182,25 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "Extracted filter components from global_filters. profile_name_list: {0} (type: {1}, "
                 "count: {2}), day_n_template_list: {3} (type: {4}, count: {5}), site_list: {6} "
                 "(type: {7}, count: {8})".format(
-                    profile_name_list, type(profile_name_list).__name__, len(profile_name_list) if isinstance(profile_name_list, list) else 0,
-                    day_n_template_list, type(day_n_template_list).__name__, len(day_n_template_list) if isinstance(day_n_template_list, list) else 0,
-                    site_list, type(site_list).__name__, len(site_list) if isinstance(site_list, list) else 0
+                    profile_name_list,
+                    type(profile_name_list).__name__,
+                    (
+                        len(profile_name_list)
+                        if isinstance(profile_name_list, list)
+                        else 0
+                    ),
+                    day_n_template_list,
+                    type(day_n_template_list).__name__,
+                    (
+                        len(day_n_template_list)
+                        if isinstance(day_n_template_list, list)
+                        else 0
+                    ),
+                    site_list,
+                    type(site_list).__name__,
+                    len(site_list) if isinstance(site_list, list) else 0,
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Process profile_name_list (HIGHEST PRIORITY)
@@ -2093,14 +2210,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "(count: {1}). This filter will be used for targeted switch profile collection. "
                     "Other filters (day_n_template_list, site_list) will be IGNORED due to priority "
                     "hierarchy.".format(profile_name_list, len(profile_name_list)),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
                     "Calling collect_all_switch_profile_list() with profile_name_list filter to "
                     "retrieve and validate specified switch profiles exist in Catalyst Center. "
                     "Function will fail if any requested profile is not found.",
-                    "INFO"
+                    "INFO",
                 )
 
                 self.collect_all_switch_profile_list(profile_name_list)
@@ -2109,12 +2226,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Successfully validated {0} switch profile(s) exist in Catalyst Center. Validated "
                     "profile names: {1}. Proceeding with CLI template and site assignment collection.".format(
                         len(self.have.get("switch_profile_names", [])),
-                        self.have.get("switch_profile_names", [])
+                        self.have.get("switch_profile_names", []),
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
-                self.collect_site_and_template_details(self.have.get("switch_profile_names", []))
+                self.collect_site_and_template_details(
+                    self.have.get("switch_profile_names", [])
+                )
 
             if day_n_template_list and isinstance(day_n_template_list, list):
                 self.log(
@@ -2124,14 +2243,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Actual template matching will be performed in process_global_filters().".format(
                         day_n_template_list, len(day_n_template_list)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
                     "Calling collect_all_switch_profile_list() WITHOUT filters to retrieve complete "
                     "switch profile catalog. All profiles needed to identify which contain requested "
                     "CLI templates: {0}".format(day_n_template_list),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.collect_all_switch_profile_list()
@@ -2140,7 +2259,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         "No switch profiles found in Catalyst Center for template-based filtering. "
                         "Cannot match templates without existing profiles.",
-                        "WARNING"
+                        "WARNING",
                     )
                     self.msg = "No switch profiles found for template-based filtering."
                     return self
@@ -2150,12 +2269,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "collect_site_and_template_details() to collect CLI template assignments for "
                     "all profiles. Template matching against {1} will occur during filter processing.".format(
                         len(self.have.get("switch_profile_names", [])),
-                        day_n_template_list
+                        day_n_template_list,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
-                self.collect_site_and_template_details(self.have.get("switch_profile_names", []))
+                self.collect_site_and_template_details(
+                    self.have.get("switch_profile_names", [])
+                )
 
             if site_list and isinstance(site_list, list):
                 self.log(
@@ -2165,14 +2286,14 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "site assignments. Actual site matching will be performed in process_global_filters().".format(
                         site_list, len(site_list)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
                     "Calling collect_all_switch_profile_list() WITHOUT filters to retrieve complete "
                     "switch profile catalog. All profiles needed to identify which are assigned to "
                     "requested sites: {0}".format(site_list),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.collect_all_switch_profile_list()
@@ -2181,7 +2302,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.log(
                         "No switch profiles found in Catalyst Center for site-based filtering. "
                         "Cannot match sites without existing profiles.",
-                        "WARNING"
+                        "WARNING",
                     )
                     self.msg = "No switch profiles found for site-based filtering."
                     return self
@@ -2190,20 +2311,21 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Retrieved {0} switch profile(s) for site-based filtering. Calling "
                     "collect_site_and_template_details() to collect site assignments for all "
                     "profiles. Site matching against {1} will occur during filter processing.".format(
-                        len(self.have.get("switch_profile_names", [])),
-                        site_list
+                        len(self.have.get("switch_profile_names", [])), site_list
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
-                self.collect_site_and_template_details(self.have.get("switch_profile_names", []))
+                self.collect_site_and_template_details(
+                    self.have.get("switch_profile_names", [])
+                )
 
         # Log complete self.have structure
         self.log(
             "Switch profile data collection completed successfully. Current state (self.have) "
             "structure populated with switch profile metadata: {0}. Data ready for YAML generation "
             "workflow processing.".format(self.pprint(self.have)),
-            "INFO"
+            "INFO",
         )
         profile_count = len(self.have.get("switch_profile_names", []))
         template_count = len(self.have.get("switch_profile_templates", {}))
@@ -2214,19 +2336,21 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "Profiles with sites: {2}. Self.have keys populated: {3}".format(
                 profile_count, template_count, site_count, list(self.have.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.msg = (
             "Successfully retrieved network switch profile details from Cisco Catalyst Center. "
             "Collected {0} switch profile(s) with complete CLI template and site assignment "
-            "metadata. Data ready for YAML configuration generation.".format(profile_count)
+            "metadata. Data ready for YAML configuration generation.".format(
+                profile_count
+            )
         )
 
         self.log(
             "Completed get_have() operation successfully. Operation result: {0}. Returning self "
             "instance for method chaining and downstream processing.".format(self.msg),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -2255,7 +2379,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "parameters from validated want dictionary, calling yaml_config_generator function, "
             "and checking operation status. Workflow supports extensible operation pattern for "
             "future enhancements.",
-            "DEBUG"
+            "DEBUG",
         )
         operations = [
             (
@@ -2271,9 +2395,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "details: {1}. Each operation will be processed sequentially with parameter "
             "validation and status checking.".format(
                 len(operations),
-                [(op[0], op[1]) for op in operations]  # Log param_key and name only
+                [(op[0], op[1]) for op in operations],  # Log param_key and name only
             ),
-            "DEBUG"
+            "DEBUG",
         )
         for index, (param_key, operation_name, operation_func) in enumerate(
             operations, start=1
@@ -2284,7 +2408,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "be called with extracted parameters and return status validated.".format(
                     index, len(operations), operation_name, param_key
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
@@ -2292,10 +2416,13 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "Iteration {0}/{1}: Parameters successfully extracted for '{2}' operation. "
                     "Parameter structure: {3} (type: {4}). Initiating operation execution by "
                     "calling operation function with extracted parameters.".format(
-                        index, len(operations), operation_name,
-                        param_key, type(params).__name__
+                        index,
+                        len(operations),
+                        operation_name,
+                        param_key,
+                        type(params).__name__,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
@@ -2306,17 +2433,20 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "success after completion.".format(
                         index, len(operations), operation_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 operation_func(params).check_return_status()
                 self.log(
                     "Iteration {0}/{1}: '{2}' operation completed successfully. check_return_status() "
                     "validated operation success. Result status: {3}, Changed: {4}. Continuing to "
                     "next operation if available.".format(
-                        index, len(operations), operation_name,
-                        self.status, self.result.get("changed")
+                        index,
+                        len(operations),
+                        operation_name,
+                        self.status,
+                        self.result.get("changed"),
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
@@ -2326,7 +2456,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     "to next operation without execution.".format(
                         index, len(operations), operation_name, param_key
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -2337,7 +2467,7 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             "successfully. Total execution time: {0:.2f} seconds. All defined operations processed "
             "sequentially with status validation. Returning self instance for method chaining and "
             "module exit_json() execution.".format(duration),
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2460,7 +2590,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -2479,11 +2608,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -2512,53 +2637,41 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "file_path": {
-            "type": "str",
-            "required": False
-        },
+        "file_path": {"type": "str", "required": False},
         "file_mode": {
             "type": "str",
             "required": False,
             "default": "overwrite",
-            "choices": ["overwrite", "append"]
+            "choices": ["overwrite", "append"],
         },
-        "config": {
-            "required": False,
-            "type": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "config": {"required": False, "type": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the NetworkProfileSwitchingPlaybookGenerator object
     # This creates the main orchestrator for network profile switching extraction
-    ccc_network_profile_switching_playbook_generator = NetworkProfileSwitchingPlaybookGenerator(module)
+    ccc_network_profile_switching_playbook_generator = (
+        NetworkProfileSwitchingPlaybookGenerator(module)
+    )
 
     # Log module initialization after object creation (now logging is available)
     ccc_network_profile_switching_playbook_generator.log(
         "Starting Ansible module execution for network profile switching playbook config "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_network_profile_switching_playbook_generator.log(
@@ -2571,9 +2684,9 @@ def main():
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
-            bool(module.params.get("config"))
+            bool(module.params.get("config")),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -2584,11 +2697,16 @@ def main():
         "meets minimum requirement of 2.3.7.9 for network settings APIs".format(
             ccc_network_profile_switching_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_network_profile_switching_playbook_generator.compare_catalystcenter_versions(
-            ccc_network_profile_switching_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
+    if (
+        ccc_network_profile_switching_playbook_generator.compare_catalystcenter_versions(
+            ccc_network_profile_switching_playbook_generator.get_ccc_version(),
+            "2.3.7.9",
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -2601,13 +2719,15 @@ def main():
         )
 
         ccc_network_profile_switching_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_network_profile_switching_playbook_generator.msg = error_msg
         ccc_network_profile_switching_playbook_generator.set_operation_result(
-            "failed", False, ccc_network_profile_switching_playbook_generator.msg, "ERROR"
+            "failed",
+            False,
+            ccc_network_profile_switching_playbook_generator.msg,
+            "ERROR",
         ).check_return_status()
 
     ccc_network_profile_switching_playbook_generator.log(
@@ -2615,7 +2735,7 @@ def main():
         "all required network profile switching APIs".format(
             ccc_network_profile_switching_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2627,7 +2747,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_network_profile_switching_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_network_profile_switching_playbook_generator.supported_states:
@@ -2639,8 +2759,7 @@ def main():
         )
 
         ccc_network_profile_switching_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_network_profile_switching_playbook_generator.status = "invalid"
@@ -2651,7 +2770,7 @@ def main():
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2659,7 +2778,7 @@ def main():
     # ============================================
     ccc_network_profile_switching_playbook_generator.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_network_profile_switching_playbook_generator.validate_input().check_return_status()
@@ -2667,7 +2786,7 @@ def main():
     ccc_network_profile_switching_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2676,8 +2795,7 @@ def main():
     config = ccc_network_profile_switching_playbook_generator.validated_config
 
     ccc_network_profile_switching_playbook_generator.log(
-        "Starting configuration processing for state '{0}'.".format(state),
-        "INFO"
+        "Starting configuration processing for state '{0}'.".format(state), "INFO"
     )
 
     ccc_network_profile_switching_playbook_generator.reset_values()
@@ -2687,7 +2805,9 @@ def main():
     ccc_network_profile_switching_playbook_generator.get_have(
         config
     ).check_return_status()
-    ccc_network_profile_switching_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_network_profile_switching_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -2696,8 +2816,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_network_profile_switching_playbook_generator.log(
@@ -2707,9 +2826,9 @@ def main():
             completion_timestamp,
             module_duration,
             1,
-            ccc_network_profile_switching_playbook_generator.status
+            ccc_network_profile_switching_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
@@ -2718,7 +2837,7 @@ def main():
         "Exiting Ansible module with result: {0}".format(
             ccc_network_profile_switching_playbook_generator.result
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_network_profile_switching_playbook_generator.result)

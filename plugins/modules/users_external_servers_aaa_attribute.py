@@ -15,10 +15,10 @@ description:
     "cisco-av-pair" and for RADIUS servers it will be "Cisco- AVPair". - > Delete the custom AAA attribute that was added.
     Note that by deleting the AAA attribute, a default AAA attribute will be used for authentication based on the protocol
     supported by your server. For TACACS servers it will be "cisco-av-pair" and for RADIUS servers it will be "Cisco-AVPair".
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributeName:
     description: Name of the custom AAA attribute.

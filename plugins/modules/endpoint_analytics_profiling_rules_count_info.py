@@ -12,10 +12,10 @@ description:
   - Get all Endpoint Analytics Profiling-Rules Count. - > This API fetches the count of profiling rules based on the filter
     values provided in the query parameters. The filter parameters are same as that of 'GET /profiling-rules' API, excluding
     the pagination and sort parameters.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

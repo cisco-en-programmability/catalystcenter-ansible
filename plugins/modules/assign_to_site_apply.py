@@ -13,10 +13,10 @@ description:
     with that it can also be used to assign unprovisioned network devices to a different site. If device controllability is
     enabled, it will be triggered once device assigned to site successfully. Device Controllability can be enabled/disabled
     using `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIds:
     description: Unassigned network devices, ranging from a minimum of 1 to a maximum of 100.

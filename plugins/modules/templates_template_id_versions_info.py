@@ -13,10 +13,10 @@ description:
   - Get Templates Template Id Versions by id.
   - Get a template's version by the version ID.
   - Get a template's version information.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

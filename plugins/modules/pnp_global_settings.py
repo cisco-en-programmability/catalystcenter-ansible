@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Global Settings
 description:
   - Manage operation update of the resource Pnp Global Settings.
   - Updates the user's list of global PnP settings.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   acceptEula:
     description: Accept Eula.

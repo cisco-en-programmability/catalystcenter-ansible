@@ -13,10 +13,10 @@ description:
   - Get Wireless Settings Interfaces by id.
   - This API allows the user to get all Interfaces.
   - This API allows the user to get an interface by ID.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Get Network Device by id.
   - Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
   - Returns the network device details for the given device ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

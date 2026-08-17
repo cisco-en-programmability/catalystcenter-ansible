@@ -13,10 +13,10 @@ description:
   - Get Pnp Workflow by id.
   - Returns a workflow specified by id. - > Returns the list of workflows based on filter criteria. If a limit is not specified,
     it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Applications Count V2
 description:
   - Get all Applications Count V2.
   - Get the number of all existing applications.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

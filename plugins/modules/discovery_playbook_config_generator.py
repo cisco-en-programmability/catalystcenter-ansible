@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Discovery Workflow Manager Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -32,7 +33,7 @@ description:
   and usernames for generated playbooks.
 - Requires Cisco Catalyst Center version 2.3.7.9 or
   higher for discovery API support.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -294,7 +295,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper import (
-    BrownFieldHelper
+    BrownFieldHelper,
 )
 
 
@@ -357,14 +358,14 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "discovery_name_list": {
                     "type": "list",
                     "elements": "str",
-                    "description": "List of discovery names to filter by"
+                    "description": "List of discovery names to filter by",
                 },
                 "discovery_type_list": {
                     "type": "list",
                     "elements": "str",
                     "description": "List of discovery types to filter by",
-                    "choices": ['Single', 'Range', 'CDP', 'LLDP', 'CIDR']
-                }
+                    "choices": ["Single", "Range", "CDP", "LLDP", "CIDR"],
+                },
             },
             "network_elements": {
                 "discovery_details": {
@@ -372,15 +373,15 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "components_list": {
                             "type": "list",
                             "elements": "str",
-                            "description": "List of components to include"
+                            "description": "List of components to include",
                         },
                         "include_global_credentials": {
                             "type": "bool",
-                            "description": "Include global credential mappings"
+                            "description": "Include global credential mappings",
                         },
                     }
                 }
-            }
+            },
         }
 
     def validate_input(self):
@@ -409,8 +410,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not config_provided:
             self.config = {}
             self.log(
-                "Config not provided. Internal auto-discovery mode enabled.",
-                "INFO"
+                "Config not provided. Internal auto-discovery mode enabled.", "INFO"
             )
 
         # Expected schema for configuration parameters
@@ -438,7 +438,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Input validation completed successfully for "
             "discovery playbook configuration",
-            "INFO"
+            "INFO",
         )
 
         # Set the validated configuration and update the result with success status
@@ -464,7 +464,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
             )
 
-        invalid_keys = sorted(set(global_filters.keys()) - self.valid_global_filter_keys)
+        invalid_keys = sorted(
+            set(global_filters.keys()) - self.valid_global_filter_keys
+        )
         if invalid_keys:
             self.fail_and_exit(
                 "Invalid key(s) under 'global_filters': {0}. Valid keys are: {1}.".format(
@@ -481,7 +483,8 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     )
                 )
             invalid_names = [
-                name for name in discovery_name_list
+                name
+                for name in discovery_name_list
                 if not isinstance(name, str) or not name.strip()
             ]
             if invalid_names:
@@ -500,7 +503,8 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
 
             invalid_types = [
-                discovery_type for discovery_type in discovery_type_list
+                discovery_type
+                for discovery_type in discovery_type_list
                 if not isinstance(discovery_type, str)
                 or discovery_type.strip() not in self.valid_discovery_types
             ]
@@ -540,7 +544,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "lookup with {0} entry(ies)".format(
                     len(self._global_credentials_lookup)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return self._global_credentials_lookup
 
@@ -548,7 +552,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Building global credentials lookup table "
             "from Catalyst Center API (v1 primary, v2 "
             "fallback)",
-            "INFO"
+            "INFO",
         )
         self._global_credentials_lookup = {}
 
@@ -564,18 +568,16 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "V1 API call completed, raw response type: "
                 "{0}".format(
-                    type(response).__name__ if response
-                    is not None else "None"
+                    type(response).__name__ if response is not None else "None"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract response data
             if response is None:
                 self.log(
-                    "V1 API returned None response, "
-                    "attempting v2 fallback",
-                    "WARNING"
+                    "V1 API returned None response, " "attempting v2 fallback",
+                    "WARNING",
                 )
                 # Jump directly to v2 fallback
                 response_data = None
@@ -585,12 +587,14 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "V1 API returned dict, extracted "
                     "'response' key: type={0}, "
                     "is_none={1}".format(
-                        type(response_data).__name__
-                        if response_data is not None
-                        else "None",
-                        response_data is None
+                        (
+                            type(response_data).__name__
+                            if response_data is not None
+                            else "None"
+                        ),
+                        response_data is None,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if response_data is None:
@@ -598,17 +602,15 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "V1 API dict contains None "
                         "'response' key, using full dict "
                         "as response_data",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     response_data = response
             else:
                 self.log(
                     "V1 API returned unexpected type "
                     "{0}, treating as direct "
-                    "response_data".format(
-                        type(response).__name__
-                    ),
-                    "WARNING"
+                    "response_data".format(type(response).__name__),
+                    "WARNING",
                 )
                 response_data = response
 
@@ -617,59 +619,54 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "V1 API response_data is None after "
                     "extraction, skipping v1 processing",
-                    "WARNING"
+                    "WARNING",
                 )
             elif not isinstance(response_data, dict):
                 self.log(
                     "V1 API response_data is not a dict "
                     "(type: {0}), skipping v1 "
-                    "processing".format(
-                        type(response_data).__name__
-                    ),
-                    "WARNING"
+                    "processing".format(type(response_data).__name__),
+                    "WARNING",
                 )
                 response_data = None
 
-            self.log(f"Global credentials API response type: {type(response_data)}", "DEBUG")
-            self.log(f"Global credentials API response content: {response_data}", "DEBUG")
+            self.log(
+                f"Global credentials API response type: {type(response_data)}", "DEBUG"
+            )
+            self.log(
+                f"Global credentials API response content: {response_data}", "DEBUG"
+            )
 
             # Process v1 response if valid
-            if response_data is not None and isinstance(
-                    response_data, dict
-            ):
+            if response_data is not None and isinstance(response_data, dict):
                 credential_types = [
-                    'cliCredential', 'snmpV2cRead',
-                    'snmpV2cWrite', 'snmpV3',
-                    'httpsRead', 'httpsWrite',
-                    'netconfCredential'
+                    "cliCredential",
+                    "snmpV2cRead",
+                    "snmpV2cWrite",
+                    "snmpV3",
+                    "httpsRead",
+                    "httpsWrite",
+                    "netconfCredential",
                 ]
 
                 self.log(
                     "V1 API response_data is valid dict, "
                     "processing {0} credential "
-                    "type(s)".format(
-                        len(credential_types)
-                    ),
-                    "DEBUG"
+                    "type(s)".format(len(credential_types)),
+                    "DEBUG",
                 )
 
-                for type_index, cred_type in enumerate(
-                    credential_types, start=1
-                ):
-                    credentials_list = response_data.get(
-                        cred_type
-                    )
+                for type_index, cred_type in enumerate(credential_types, start=1):
+                    credentials_list = response_data.get(cred_type)
 
                     if credentials_list is None:
                         self.log(
                             "V1 credential type {0}/{1}: "
                             "'{2}' key not found in "
                             "response, skipping".format(
-                                type_index,
-                                len(credential_types),
-                                cred_type
+                                type_index, len(credential_types), cred_type
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -681,10 +678,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 type_index,
                                 len(credential_types),
                                 cred_type,
-                                type(credentials_list)
-                                .__name__
+                                type(credentials_list).__name__,
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         continue
 
@@ -693,11 +689,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "V1 credential type {0}/{1}: "
                             "'{2}' list is empty, "
                             "skipping".format(
-                                type_index,
-                                len(credential_types),
-                                cred_type
+                                type_index, len(credential_types), cred_type
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -708,23 +702,20 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             type_index,
                             len(credential_types),
                             cred_type,
-                            len(credentials_list)
+                            len(credentials_list),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-                    for cred_index, cred in enumerate(
-                        credentials_list, start=1
-                    ):
+                    for cred_index, cred in enumerate(credentials_list, start=1):
                         if cred is None:
                             self.log(
                                 "V1 credential type '{0}' "
                                 "entry {1}/{2} is None, "
                                 "skipping".format(
-                                    cred_type, cred_index,
-                                    len(credentials_list)
+                                    cred_type, cred_index, len(credentials_list)
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             continue
 
@@ -734,49 +725,37 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "entry {1}/{2} is not a "
                                 "dict (type: {3}), "
                                 "skipping".format(
-                                    cred_type, cred_index,
+                                    cred_type,
+                                    cred_index,
                                     len(credentials_list),
-                                    type(cred).__name__
+                                    type(cred).__name__,
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             continue
 
-                        cred_id = cred.get('id')
+                        cred_id = cred.get("id")
                         if not cred_id:
                             self.log(
                                 "V1 credential type '{0}' "
                                 "entry {1}/{2} has no 'id' "
                                 "field, skipping".format(
-                                    cred_type, cred_index,
-                                    len(credentials_list)
+                                    cred_type, cred_index, len(credentials_list)
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             continue
 
-                        cred_description = cred.get(
-                            'description', ''
-                        )
-                        cred_username = cred.get(
-                            'username', ''
-                        )
-                        self._global_credentials_lookup[
-                            cred_id
-                        ] = {
+                        cred_description = cred.get("description", "")
+                        cred_username = cred.get("username", "")
+                        self._global_credentials_lookup[cred_id] = {
                             "id": cred_id,
                             "description": cred_description,
                             "username": cred_username,
                             "credentialType": cred_type,
-                            "comments": cred.get(
-                                'comments', ''
-                            ),
-                            "instanceTenantId": cred.get(
-                                'instanceTenantId', ''
-                            ),
-                            "instanceUuid": cred.get(
-                                'instanceUuid', ''
-                            )
+                            "comments": cred.get("comments", ""),
+                            "instanceTenantId": cred.get("instanceTenantId", ""),
+                            "instanceUuid": cred.get("instanceUuid", ""),
                         }
                         self.log(
                             "V1 mapped credential {0}/{1} "
@@ -785,36 +764,39 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "'{5}'".format(
                                 cred_index,
                                 len(credentials_list),
-                                cred_type, cred_id,
+                                cred_type,
+                                cred_id,
                                 cred_description,
-                                cred_username
+                                cred_username,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 self.log(
                     "V1 API processing complete: {0} "
                     "total credential(s) mapped".format(
-                        len(
-                            self._global_credentials_lookup
-                        )
+                        len(self._global_credentials_lookup)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         except Exception as e:
             self.log(
-                "V1 API call failed with exception: "
-                "{0}".format(str(e)),
-                "WARNING"
+                "V1 API call failed with exception: " "{0}".format(str(e)), "WARNING"
             )
             self.log(
                 "Exception type: {0}, attempting v2 "
                 "fallback".format(type(e).__name__),
-                "DEBUG"
+                "DEBUG",
             )
-            self.msg = "Failed to retrieve global credentials using v1 API, error: {0}".format(str(e))
-            self.set_operation_result("failed", False, self.msg, "WARNING").check_return_status()
+            self.msg = (
+                "Failed to retrieve global credentials using v1 API, error: {0}".format(
+                    str(e)
+                )
+            )
+            self.set_operation_result(
+                "failed", False, self.msg, "WARNING"
+            ).check_return_status()
 
             # Fallback: try v2 API if v1 returns empty results
             if not self._global_credentials_lookup:
@@ -823,21 +805,21 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "attempting v2 fallback API".format(
                         len(self._global_credentials_lookup)
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 try:
                     self.log(
                         "Calling v2 global credentials API: "
                         "family='discovery', function="
                         "'get_all_global_credentials_v2'",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     headers = {}
                     alt_response = self.catalystcenter._exec(
                         family="discovery",
                         function="get_all_global_credentials_v2",
-                        params=headers
+                        params=headers,
                     )
 
                     self.log(
@@ -847,30 +829,30 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             if alt_response is not None
                             else "None"
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if alt_response is None:
                         self.log(
                             "V2 API returned None response, "
                             "unable to retrieve credentials",
-                            "WARNING"
+                            "WARNING",
                         )
                         alt_response_data = None
                     elif isinstance(alt_response, dict):
-                        alt_response_data = alt_response.get(
-                            "response"
-                        )
+                        alt_response_data = alt_response.get("response")
                         self.log(
                             "V2 API returned dict, extracted "
                             "'response' key: type={0}, "
                             "is_none={1}".format(
-                                type(alt_response_data).__name__
-                                if alt_response_data is not None
-                                else "None",
-                                alt_response_data is None
+                                (
+                                    type(alt_response_data).__name__
+                                    if alt_response_data is not None
+                                    else "None"
+                                ),
+                                alt_response_data is None,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         if alt_response_data is None:
@@ -878,27 +860,23 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "V2 API dict contains None "
                                 "'response' key, using full "
                                 "dict as alt_response_data",
-                                "DEBUG"
+                                "DEBUG",
                             )
                             alt_response_data = alt_response
                     elif isinstance(alt_response, list):
                         self.log(
                             "V2 API returned list directly, "
                             "using as alt_response_data with "
-                            "{0} entry(ies)".format(
-                                len(alt_response)
-                            ),
-                            "DEBUG"
+                            "{0} entry(ies)".format(len(alt_response)),
+                            "DEBUG",
                         )
                         alt_response_data = alt_response
                     else:
                         self.log(
                             "V2 API returned unexpected type "
                             "{0}, treating as direct "
-                            "alt_response_data".format(
-                                type(alt_response).__name__
-                            ),
-                            "WARNING"
+                            "alt_response_data".format(type(alt_response).__name__),
+                            "WARNING",
                         )
                         alt_response_data = alt_response
 
@@ -908,39 +886,34 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "V2 API alt_response_data is None "
                             "after extraction, no credentials "
                             "available",
-                            "WARNING"
+                            "WARNING",
                         )
                     elif not isinstance(alt_response_data, list):
                         self.log(
                             "V2 API alt_response_data is not a "
                             "list (type: {0}), expected list of "
-                            "credentials".format(
-                                type(alt_response_data).__name__
-                            ),
-                            "WARNING"
+                            "credentials".format(type(alt_response_data).__name__),
+                            "WARNING",
                         )
                         alt_response_data = None
 
                     # Process v2 response if valid
-                    if (
-                        alt_response_data is not None and
-                        isinstance(alt_response_data, list)
+                    if alt_response_data is not None and isinstance(
+                        alt_response_data, list
                     ):
                         if len(alt_response_data) == 0:
                             self.log(
                                 "V2 API returned empty list, no "
                                 "credentials found in Catalyst "
                                 "Center",
-                                "WARNING"
+                                "WARNING",
                             )
                         else:
                             self.log(
                                 "V2 API returned valid list with "
                                 "{0} credential(s), "
-                                "processing".format(
-                                    len(alt_response_data)
-                                ),
-                                "INFO"
+                                "processing".format(len(alt_response_data)),
+                                "INFO",
                             )
 
                             for cred_index, cred in enumerate(
@@ -951,10 +924,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "V2 credential entry "
                                         "{0}/{1} is None, "
                                         "skipping".format(
-                                            cred_index,
-                                            len(alt_response_data)
+                                            cred_index, len(alt_response_data)
                                         ),
-                                        "WARNING"
+                                        "WARNING",
                                     )
                                     continue
 
@@ -966,52 +938,37 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "skipping".format(
                                             cred_index,
                                             len(alt_response_data),
-                                            type(cred).__name__
+                                            type(cred).__name__,
                                         ),
-                                        "WARNING"
+                                        "WARNING",
                                     )
                                     continue
-                                cred_id = cred.get('id')
+                                cred_id = cred.get("id")
                                 if not cred_id:
                                     self.log(
                                         "V2 credential entry "
                                         "{0}/{1} has no 'id' "
                                         "field, skipping".format(
-                                            cred_index,
-                                            len(alt_response_data)
+                                            cred_index, len(alt_response_data)
                                         ),
-                                        "WARNING"
+                                        "WARNING",
                                     )
                                     continue
 
-                                cred_description = cred.get(
-                                    'description', ''
-                                )
-                                cred_username = cred.get(
-                                    'username', ''
-                                )
-                                cred_type = cred.get(
-                                    'credentialType', ''
-                                )
+                                cred_description = cred.get("description", "")
+                                cred_username = cred.get("username", "")
+                                cred_type = cred.get("credentialType", "")
 
-                                self._global_credentials_lookup[
-                                    cred_id
-                                ] = {
+                                self._global_credentials_lookup[cred_id] = {
                                     "id": cred_id,
-                                    "description": (
-                                        cred_description
-                                    ),
+                                    "description": (cred_description),
                                     "username": cred_username,
                                     "credentialType": cred_type,
-                                    "comments": cred.get(
-                                        'comments', ''
-                                    ),
+                                    "comments": cred.get("comments", ""),
                                     "instanceTenantId": cred.get(
-                                        'instanceTenantId', ''
+                                        "instanceTenantId", ""
                                     ),
-                                    "instanceUuid": cred.get(
-                                        'instanceUuid', ''
-                                    )
+                                    "instanceUuid": cred.get("instanceUuid", ""),
                                 }
                                 self.log(
                                     "V2 mapped credential "
@@ -1020,59 +977,59 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     "'{4}', username='{5}'".format(
                                         cred_index,
                                         len(alt_response_data),
-                                        cred_id, cred_type,
+                                        cred_id,
+                                        cred_type,
                                         cred_description,
-                                        cred_username
+                                        cred_username,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             self.log(
                                 "V2 API processing complete: "
                                 "{0} total credential(s) "
-                                "mapped".format(
-                                    len(
-                                        self
-                                        ._global_credentials_lookup
-                                    )
-                                ),
-                                "INFO"
+                                "mapped".format(len(self._global_credentials_lookup)),
+                                "INFO",
                             )
 
                 except (KeyError, TypeError, AttributeError) as alt_e:
                     self.log(
-                        "V2 API call failed with exception: "
-                        "{0}".format(str(alt_e)),
-                        "WARNING"
+                        "V2 API call failed with exception: " "{0}".format(str(alt_e)),
+                        "WARNING",
                     )
                     self.log(
                         "V2 exception type: {0}, no "
                         "credentials available from either "
                         "API".format(type(alt_e).__name__),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if alt_response_data and isinstance(alt_response_data, list):
-                        self.log(f"V2 API returned {len(alt_response_data)} credentials", "DEBUG")
+                        self.log(
+                            f"V2 API returned {len(alt_response_data)} credentials",
+                            "DEBUG",
+                        )
                         for cred in alt_response_data:
-                            if isinstance(cred, dict) and cred.get('id'):
-                                cred_id = cred.get('id')
-                                cred_description = cred.get('description', '')
-                                cred_username = cred.get('username', '')
-                                cred_type = cred.get('credentialType', '')
+                            if isinstance(cred, dict) and cred.get("id"):
+                                cred_id = cred.get("id")
+                                cred_description = cred.get("description", "")
+                                cred_username = cred.get("username", "")
+                                cred_type = cred.get("credentialType", "")
 
                                 self._global_credentials_lookup[cred_id] = {
                                     "id": cred_id,
                                     "description": cred_description,
                                     "username": cred_username,
                                     "credentialType": cred_type,
-                                    "comments": cred.get('comments', ''),
-                                    "instanceTenantId": cred.get('instanceTenantId', ''),
-                                    "instanceUuid": cred.get('instanceUuid', '')
+                                    "comments": cred.get("comments", ""),
+                                    "instanceTenantId": cred.get(
+                                        "instanceTenantId", ""
+                                    ),
+                                    "instanceUuid": cred.get("instanceUuid", ""),
                                 }
                                 self.log(
                                     f"V2_CREDENTIAL_MAPPING: ID={cred_id} -> Type={cred_type}, "
                                     f"Description='{cred_description}', Username='{cred_username}'",
-                                    "INFO"
+                                    "INFO",
                                 )
         except (ImportError, ValueError) as e:  # pylint: disable=bad-except-order
             self.log(f"Error retrieving global credentials: {str(e)}", "WARNING")
@@ -1084,7 +1041,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Both v1 and v2 APIs failed to return "
                 "credentials, returning empty lookup "
                 "table",
-                "WARNING"
+                "WARNING",
             )
         else:
             self.log(
@@ -1092,11 +1049,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "successfully with {0} credential "
                 "ID(s) from {1} API".format(
                     len(self._global_credentials_lookup),
-                    "v1" if len(
-                        self._global_credentials_lookup
-                    ) > 0 else "v2"
+                    "v1" if len(self._global_credentials_lookup) > 0 else "v2",
                 ),
-                "INFO"
+                "INFO",
             )
 
         return self._global_credentials_lookup
@@ -1111,7 +1066,10 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Credential description or original ID if not found
         """
-        self.log(f"Transforming credential ID to description with params: cred_id={cred_id}", "DEBUG")
+        self.log(
+            f"Transforming credential ID to description with params: cred_id={cred_id}",
+            "DEBUG",
+        )
 
         if not cred_id:
             self.log("Credential ID is empty or None, returning None", "DEBUG")
@@ -1119,14 +1077,19 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         lookup = self.get_global_credentials_lookup()
         cred_info = lookup.get(cred_id, {})
-        description = cred_info.get('description')
+        description = cred_info.get("description")
 
         if not description:
-            self.log(f"Could not find description for credential ID: {cred_id}, returning original ID", "WARNING")
+            self.log(
+                f"Could not find description for credential ID: {cred_id}, returning original ID",
+                "WARNING",
+            )
             self.log(f"Returning credential ID: {cred_id}", "DEBUG")
             return cred_id
 
-        self.log(f"Mapped credential ID {cred_id} to description: {description}", "DEBUG")
+        self.log(
+            f"Mapped credential ID {cred_id} to description: {description}", "DEBUG"
+        )
         self.log(f"Returning description: {description}", "DEBUG")
         return description
 
@@ -1140,7 +1103,10 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Credential username or None if not found
         """
-        self.log(f"Transforming credential ID to username with params: cred_id={cred_id}", "DEBUG")
+        self.log(
+            f"Transforming credential ID to username with params: cred_id={cred_id}",
+            "DEBUG",
+        )
 
         if not cred_id:
             self.log("Credential ID is empty or None, returning None", "DEBUG")
@@ -1148,7 +1114,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         lookup = self.get_global_credentials_lookup()
         cred_info = lookup.get(cred_id, {})
-        username = cred_info.get('username')
+        username = cred_info.get("username")
 
         if not username:
             self.log(f"Could not find username for credential ID: {cred_id}", "DEBUG")
@@ -1169,15 +1135,24 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: Transformed global credentials structure compatible with discovery_workflow_manager
         """
-        self.log(f"Transforming global credentials list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}", "DEBUG")
+        self.log(
+            f"Transforming global credentials list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}",
+            "DEBUG",
+        )
 
         if not discovery_data or not isinstance(discovery_data, dict):
-            self.log("Discovery data is empty or not a dictionary, returning empty dict", "DEBUG")
+            self.log(
+                "Discovery data is empty or not a dictionary, returning empty dict",
+                "DEBUG",
+            )
             return {}
 
-        global_cred_ids = discovery_data.get('globalCredentialIdList', [])
+        global_cred_ids = discovery_data.get("globalCredentialIdList", [])
         if not global_cred_ids:
-            self.log("No global credential IDs found in discovery data, returning empty dict", "DEBUG")
+            self.log(
+                "No global credential IDs found in discovery data, returning empty dict",
+                "DEBUG",
+            )
             return {}
 
         self.log(f"Transforming {len(global_cred_ids)} global credential IDs", "DEBUG")
@@ -1190,7 +1165,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "snmp_v2_read_credential_list": [],
             "snmp_v2_write_credential_list": [],
             "snmp_v3_credential_list": [],
-            "net_conf_port_list": []
+            "net_conf_port_list": [],
         }
 
         lookup = self.get_global_credentials_lookup()
@@ -1200,16 +1175,19 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         for idx, cred_id in enumerate(global_cred_ids):
             self.log(f"Processing credential at index {idx}: {cred_id}", "DEBUG")
             cred_info = lookup.get(cred_id, {})
-            cred_type = cred_info.get('credentialType', '')
-            description = cred_info.get('description', cred_id)
-            username = cred_info.get('username', '')
+            cred_type = cred_info.get("credentialType", "")
+            description = cred_info.get("description", cred_id)
+            username = cred_info.get("username", "")
 
             self.log(f"TRANSFORM_DEBUG: Processing credential ID {cred_id}", "DEBUG")
             self.log(f"TRANSFORM_DEBUG: Found info: {cred_info}", "DEBUG")
 
             # Skip credentials without proper description (still showing IDs)
             if description == cred_id and not cred_info:
-                self.log(f"CREDENTIAL_NOT_FOUND: ID={cred_id} not found in lookup table, skipping", "WARNING")
+                self.log(
+                    f"CREDENTIAL_NOT_FOUND: ID={cred_id} not found in lookup table, skipping",
+                    "WARNING",
+                )
                 continue
 
             # Build credential entry, excluding username if it's empty
@@ -1217,84 +1195,122 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if username:  # Only include username if it's not empty
                 cred_entry["username"] = username
 
-            self.log(f"CREDENTIAL_TRANSFORM: ID={cred_id} -> Entry={cred_entry}, Type='{cred_type}'", "INFO")
+            self.log(
+                f"CREDENTIAL_TRANSFORM: ID={cred_id} -> Entry={cred_entry}, Type='{cred_type}'",
+                "INFO",
+            )
 
             # Map credential types based on API field names (same as discovery_workflow_manager.py)
-            if cred_type == 'cliCredential':
+            if cred_type == "cliCredential":
                 credentials["cli_credentials_list"].append(cred_entry)
                 self.log(f"MAPPED_TO: cli_credentials_list - {description}", "DEBUG")
                 continue
 
-            if cred_type == 'httpsRead':
+            if cred_type == "httpsRead":
                 credentials["http_read_credential_list"].append(cred_entry)
-                self.log(f"MAPPED_TO: http_read_credential_list - {description}", "DEBUG")
+                self.log(
+                    f"MAPPED_TO: http_read_credential_list - {description}", "DEBUG"
+                )
                 continue
 
-            if cred_type == 'httpsWrite':
+            if cred_type == "httpsWrite":
                 credentials["http_write_credential_list"].append(cred_entry)
-                self.log(f"MAPPED_TO: http_write_credential_list - {description}", "DEBUG")
+                self.log(
+                    f"MAPPED_TO: http_write_credential_list - {description}", "DEBUG"
+                )
                 continue
 
-            if cred_type == 'snmpV2cRead':
+            if cred_type == "snmpV2cRead":
                 credentials["snmp_v2_read_credential_list"].append(cred_entry)
-                self.log(f"MAPPED_TO: snmp_v2_read_credential_list - {description}", "DEBUG")
+                self.log(
+                    f"MAPPED_TO: snmp_v2_read_credential_list - {description}", "DEBUG"
+                )
                 continue
 
-            if cred_type == 'snmpV2cWrite':
+            if cred_type == "snmpV2cWrite":
                 credentials["snmp_v2_write_credential_list"].append(cred_entry)
-                self.log(f"MAPPED_TO: snmp_v2_write_credential_list - {description}", "DEBUG")
+                self.log(
+                    f"MAPPED_TO: snmp_v2_write_credential_list - {description}", "DEBUG"
+                )
                 continue
 
-            if cred_type == 'snmpV3':
+            if cred_type == "snmpV3":
                 credentials["snmp_v3_credential_list"].append(cred_entry)
                 self.log(f"MAPPED_TO: snmp_v3_credential_list - {description}", "DEBUG")
                 continue
 
-            if cred_type == 'netconfCredential':
+            if cred_type == "netconfCredential":
                 credentials["net_conf_port_list"].append(cred_entry)
                 self.log(f"MAPPED_TO: net_conf_port_list - {description}", "DEBUG")
                 continue
 
             cred_type_upper = cred_type.upper()
-            self.log(f"FALLBACK_MAPPING: Processing unknown cred_type='{cred_type}' (upper='{cred_type_upper}') for ID={cred_id}", "DEBUG")
+            self.log(
+                f"FALLBACK_MAPPING: Processing unknown cred_type='{cred_type}' (upper='{cred_type_upper}') for ID={cred_id}",
+                "DEBUG",
+            )
 
-            if 'CLI' in cred_type_upper or cred_type_upper == 'GLOBAL':
+            if "CLI" in cred_type_upper or cred_type_upper == "GLOBAL":
                 credentials["cli_credentials_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: cli_credentials_list (CLI/GLOBAL match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: cli_credentials_list (CLI/GLOBAL match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'HTTP_READ' in cred_type_upper or 'HTTPS_READ' in cred_type_upper:
+            if "HTTP_READ" in cred_type_upper or "HTTPS_READ" in cred_type_upper:
                 credentials["http_read_credential_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: http_read_credential_list (HTTP_READ match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: http_read_credential_list (HTTP_READ match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'HTTP_WRITE' in cred_type_upper or 'HTTPS_WRITE' in cred_type_upper:
+            if "HTTP_WRITE" in cred_type_upper or "HTTPS_WRITE" in cred_type_upper:
                 credentials["http_write_credential_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: http_write_credential_list (HTTP_WRITE match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: http_write_credential_list (HTTP_WRITE match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'SNMPV2_READ' in cred_type_upper or 'SNMPv2_READ' in cred_type_upper:
+            if "SNMPV2_READ" in cred_type_upper or "SNMPv2_READ" in cred_type_upper:
                 credentials["snmp_v2_read_credential_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: snmp_v2_read_credential_list (SNMPV2_READ match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: snmp_v2_read_credential_list (SNMPV2_READ match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'SNMPV2_WRITE' in cred_type_upper or 'SNMPv2_WRITE' in cred_type_upper:
+            if "SNMPV2_WRITE" in cred_type_upper or "SNMPv2_WRITE" in cred_type_upper:
                 credentials["snmp_v2_write_credential_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: snmp_v2_write_credential_list (SNMPV2_WRITE match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: snmp_v2_write_credential_list (SNMPV2_WRITE match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'SNMPV3' in cred_type_upper or 'SNMPv3' in cred_type_upper:
+            if "SNMPV3" in cred_type_upper or "SNMPv3" in cred_type_upper:
                 credentials["snmp_v3_credential_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: snmp_v3_credential_list (SNMPV3 match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: snmp_v3_credential_list (SNMPV3 match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            if 'NETCONF' in cred_type_upper or 'NET_CONF' in cred_type_upper:
+            if "NETCONF" in cred_type_upper or "NET_CONF" in cred_type_upper:
                 credentials["net_conf_port_list"].append(cred_entry)
-                self.log(f"FALLBACK_MAPPED_TO: net_conf_port_list (NETCONF match) - {description}", "DEBUG")
+                self.log(
+                    f"FALLBACK_MAPPED_TO: net_conf_port_list (NETCONF match) - {description}",
+                    "DEBUG",
+                )
                 continue
 
-            self.log(f"FALLBACK_DEFAULT: Unknown credential type '{cred_type}' for ID {cred_id},"
-                     f" skipping to avoid misclassification - {description}", "WARNING")
+            self.log(
+                f"FALLBACK_DEFAULT: Unknown credential type '{cred_type}' for ID {cred_id},"
+                f" skipping to avoid misclassification - {description}",
+                "WARNING",
+            )
             # Do not default unknown credentials to CLI to prevent misclassification
 
         # Remove empty credential lists to keep output clean
@@ -1302,15 +1318,26 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         credentials = {k: v for k, v in credentials.items() if v}
 
         self.log(f"TRANSFORM_SUMMARY: Input IDs count: {len(global_cred_ids)}", "INFO")
-        self.log(f"TRANSFORM_SUMMARY: Credentials before filtering: {credentials_before_filter}", "DEBUG")
-        self.log(f"TRANSFORM_SUMMARY: Final transformed credentials: {credentials}", "INFO")
+        self.log(
+            f"TRANSFORM_SUMMARY: Credentials before filtering: {credentials_before_filter}",
+            "DEBUG",
+        )
+        self.log(
+            f"TRANSFORM_SUMMARY: Final transformed credentials: {credentials}", "INFO"
+        )
 
         # Log summary by credential type
         for cred_type, cred_list in credentials.items():
-            descriptions = [c.get('description', 'N/A') for c in cred_list]
-            self.log(f"FINAL_{cred_type.upper()}: {len(cred_list)} entries - {descriptions}", "INFO")
+            descriptions = [c.get("description", "N/A") for c in cred_list]
+            self.log(
+                f"FINAL_{cred_type.upper()}: {len(cred_list)} entries - {descriptions}",
+                "INFO",
+            )
 
-        self.log(f"Returning transformed credentials with {len(credentials)} credential types", "DEBUG")
+        self.log(
+            f"Returning transformed credentials with {len(credentials)} credential types",
+            "DEBUG",
+        )
         return credentials if credentials else {}
 
     def transform_ip_address_list(self, discovery_data):
@@ -1323,26 +1350,38 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: Formatted IP address list as individual elements
         """
-        self.log(f"Transforming IP address list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}", "DEBUG")
+        self.log(
+            f"Transforming IP address list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}",
+            "DEBUG",
+        )
 
         if not discovery_data or not isinstance(discovery_data, dict):
-            self.log("Discovery data is empty or not a dictionary, returning empty list", "DEBUG")
+            self.log(
+                "Discovery data is empty or not a dictionary, returning empty list",
+                "DEBUG",
+            )
             return []
 
-        ip_list = discovery_data.get('ipAddressList', "")
+        ip_list = discovery_data.get("ipAddressList", "")
         if isinstance(ip_list, str) and ip_list:
-            result = [ip.strip() for ip in ip_list.split(',') if ip.strip()]
-            self.log(f"Transformed string IP list to {len(result)} IP addresses", "DEBUG")
+            result = [ip.strip() for ip in ip_list.split(",") if ip.strip()]
+            self.log(
+                f"Transformed string IP list to {len(result)} IP addresses", "DEBUG"
+            )
             self.log(f"Returning IP address list: {result}", "DEBUG")
             return result
 
         if isinstance(ip_list, list):
             result = [str(ip) for ip in ip_list if ip]
-            self.log(f"Converted list of {len(result)} IP addresses to strings", "DEBUG")
+            self.log(
+                f"Converted list of {len(result)} IP addresses to strings", "DEBUG"
+            )
             self.log(f"Returning IP address list: {result}", "DEBUG")
             return result
 
-        self.log("IP address list is empty or invalid type, returning empty list", "DEBUG")
+        self.log(
+            "IP address list is empty or invalid type, returning empty list", "DEBUG"
+        )
         return []
 
     def transform_ip_filter_list(self, discovery_data):
@@ -1355,16 +1394,25 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: Formatted IP filter list as individual elements
         """
-        self.log(f"Transforming IP filter list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}", "DEBUG")
+        self.log(
+            f"Transforming IP filter list with params: discovery_data keys={list(discovery_data.keys()) if discovery_data else None}",
+            "DEBUG",
+        )
 
         if not discovery_data or not isinstance(discovery_data, dict):
-            self.log("Discovery data is empty or not a dictionary, returning empty list", "DEBUG")
+            self.log(
+                "Discovery data is empty or not a dictionary, returning empty list",
+                "DEBUG",
+            )
             return []
 
-        filter_list = discovery_data.get('ipFilterList', "")
+        filter_list = discovery_data.get("ipFilterList", "")
         if isinstance(filter_list, str) and filter_list:
-            result = [ip.strip() for ip in filter_list.split(',') if ip.strip()]
-            self.log(f"Transformed string IP filter list to {len(result)} IP filters", "DEBUG")
+            result = [ip.strip() for ip in filter_list.split(",") if ip.strip()]
+            self.log(
+                f"Transformed string IP filter list to {len(result)} IP filters",
+                "DEBUG",
+            )
             self.log(f"Returning IP filter list: {result}", "DEBUG")
             return result
 
@@ -1374,7 +1422,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(f"Returning IP filter list: {result}", "DEBUG")
             return result
 
-        self.log("IP filter list is empty or invalid type, returning empty list", "DEBUG")
+        self.log(
+            "IP filter list is empty or invalid type, returning empty list", "DEBUG"
+        )
         return []
 
     def transform_discovery_type(self, discovery_data):
@@ -1419,42 +1469,58 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                   is absent or empty.
         """
         if not discovery_data or not isinstance(discovery_data, dict):
-            self.log("Discovery type transformation skipped - invalid or empty discovery data", "DEBUG")
+            self.log(
+                "Discovery type transformation skipped - invalid or empty discovery data",
+                "DEBUG",
+            )
             return None
 
         discovery_type = str(discovery_data.get("discoveryType", "")).strip()
         if not discovery_type:
-            self.log("Discovery type field is absent or empty, skipping type transformation", "DEBUG")
+            self.log(
+                "Discovery type field is absent or empty, skipping type transformation",
+                "DEBUG",
+            )
             return None
 
         normalized_type = discovery_type.upper()
         if normalized_type == "RANGE":
             raw_ip_ranges = discovery_data.get("ipAddressList", "")
             if isinstance(raw_ip_ranges, str):
-                range_items = [item.strip() for item in raw_ip_ranges.split(",") if item.strip()]
+                range_items = [
+                    item.strip() for item in raw_ip_ranges.split(",") if item.strip()
+                ]
                 if len(range_items) > 1:
                     self.log(
-                        "RANGE with {0} IP ranges (str) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
-                        "DEBUG"
+                        "RANGE with {0} IP ranges (str) detected, classifying as 'MULTI RANGE'".format(
+                            len(range_items)
+                        ),
+                        "DEBUG",
                     )
                     return "MULTI RANGE"
             elif isinstance(raw_ip_ranges, list):
                 range_items = [item for item in raw_ip_ranges if item]
                 if len(range_items) > 1:
                     self.log(
-                        "RANGE with {0} IP ranges (list) detected, classifying as 'MULTI RANGE'".format(len(range_items)),
-                        "DEBUG"
+                        "RANGE with {0} IP ranges (list) detected, classifying as 'MULTI RANGE'".format(
+                            len(range_items)
+                        ),
+                        "DEBUG",
                     )
                     return "MULTI RANGE"
-            self.log("Single IP range detected, classifying discovery as 'RANGE'", "DEBUG")
+            self.log(
+                "Single IP range detected, classifying discovery as 'RANGE'", "DEBUG"
+            )
             return "RANGE"
 
         if normalized_type in {"SINGLE", "CDP", "LLDP", "CIDR"}:
             return normalized_type
 
         self.log(
-            "Unrecognized discovery type '{0}' encountered, passing through without normalization".format(discovery_type),
-            "WARNING"
+            "Unrecognized discovery type '{0}' encountered, passing through without normalization".format(
+                discovery_type
+            ),
+            "WARNING",
         )
 
         return discovery_type
@@ -1469,7 +1535,10 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             bool or None: Boolean value or None if conversion not possible
         """
-        self.log(f"Transforming value to boolean with params: value={value}, type={type(value).__name__}", "DEBUG")
+        self.log(
+            f"Transforming value to boolean with params: value={value}, type={type(value).__name__}",
+            "DEBUG",
+        )
 
         if value is None:
             self.log("Value is None, returning None", "DEBUG")
@@ -1480,7 +1549,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             return value
 
         if isinstance(value, str):
-            result = value.lower() in ('true', '1', 'yes', 'on')
+            result = value.lower() in ("true", "1", "yes", "on")
             self.log(f"Converted string '{value}' to boolean: {result}", "DEBUG")
             return result
 
@@ -1489,7 +1558,10 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(f"Converted int {value} to boolean: {result}", "DEBUG")
             return result
 
-        self.log(f"Cannot convert value of type {type(value).__name__} to boolean, returning None", "DEBUG")
+        self.log(
+            f"Cannot convert value of type {type(value).__name__} to boolean, returning None",
+            "DEBUG",
+        )
         return None
 
     def discovery_reverse_mapping_function(self, requested_components=None):
@@ -1502,64 +1574,77 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: Reverse mapping specification for discovery details
         """
-        self.log("Generating reverse mapping specification for discovery configurations.", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for discovery configurations.",
+            "DEBUG",
+        )
 
-        return OrderedDict({
-            "discovery_name": {"type": "str", "source_key": "name"},
-            "discovery_type": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_discovery_type,
-            },
-            "ip_address_list": {
-                "type": "list",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_ip_address_list
-            },
-            "ip_filter_list": {
-                "type": "list",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_ip_filter_list
-            },
-            "global_credentials": {
-                "type": "dict",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_global_credentials_list
-            },
-            "discovery_specific_credentials": {
-                "type": "dict",
-                "source_key": None,
-                "special_handling": True,
-                "transform": lambda x: {}  # Exclude for security
-            },
-            "protocol_order": {"type": "str", "source_key": "protocolOrder"},
-            "cdp_level": {"type": "int", "source_key": "cdpLevel"},
-            "lldp_level": {"type": "int", "source_key": "lldpLevel"},
-            "preferred_mgmt_ip_method": {"type": "str", "source_key": "preferredMgmtIPMethod"},
-            "use_global_credentials": {
-                "type": "bool",
-                "source_key": None,
-                "special_handling": True,
-                "transform": lambda x: True  # Default assumption
-            },
-            "snmp_version": {"type": "str", "source_key": "snmpVersion"},
-            "timeout": {"type": "int", "source_key": "timeout"},
-            "retry": {"type": "int", "source_key": "retry"},
-            # Status and administrative fields (read-only)
-            "discovery_condition": {"type": "str", "source_key": "discoveryCondition"},
-            "discovery_status": {"type": "str", "source_key": "discoveryStatus"},
-            "is_auto_cdp": {
-                "type": "bool",
-                "source_key": "isAutoCdp",
-                "transform": self.transform_to_boolean
+        return OrderedDict(
+            {
+                "discovery_name": {"type": "str", "source_key": "name"},
+                "discovery_type": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_discovery_type,
+                },
+                "ip_address_list": {
+                    "type": "list",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_ip_address_list,
+                },
+                "ip_filter_list": {
+                    "type": "list",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_ip_filter_list,
+                },
+                "global_credentials": {
+                    "type": "dict",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_global_credentials_list,
+                },
+                "discovery_specific_credentials": {
+                    "type": "dict",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": lambda x: {},  # Exclude for security
+                },
+                "protocol_order": {"type": "str", "source_key": "protocolOrder"},
+                "cdp_level": {"type": "int", "source_key": "cdpLevel"},
+                "lldp_level": {"type": "int", "source_key": "lldpLevel"},
+                "preferred_mgmt_ip_method": {
+                    "type": "str",
+                    "source_key": "preferredMgmtIPMethod",
+                },
+                "use_global_credentials": {
+                    "type": "bool",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": lambda x: True,  # Default assumption
+                },
+                "snmp_version": {"type": "str", "source_key": "snmpVersion"},
+                "timeout": {"type": "int", "source_key": "timeout"},
+                "retry": {"type": "int", "source_key": "retry"},
+                # Status and administrative fields (read-only)
+                "discovery_condition": {
+                    "type": "str",
+                    "source_key": "discoveryCondition",
+                },
+                "discovery_status": {"type": "str", "source_key": "discoveryStatus"},
+                "is_auto_cdp": {
+                    "type": "bool",
+                    "source_key": "isAutoCdp",
+                    "transform": self.transform_to_boolean,
+                },
             }
-        })
+        )
 
-    def get_discoveries_data(self, global_filters=None, component_specific_filters=None):
+    def get_discoveries_data(
+        self, global_filters=None, component_specific_filters=None
+    ):
         """
         Retrieve discovery configurations from Cisco Catalyst Center.
 
@@ -1570,9 +1655,15 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: List of discovery configurations
         """
-        self.log(f"Retrieving discoveries data with params: global_filters={global_filters}, component_specific_filters={component_specific_filters}", "DEBUG")
+        self.log(
+            f"Retrieving discoveries data with params: global_filters={global_filters}, component_specific_filters={component_specific_filters}",
+            "DEBUG",
+        )
 
-        self.log(f"Retrieving discoveries data with params: global_filters={global_filters}, component_specific_filters={component_specific_filters}", "DEBUG")
+        self.log(
+            f"Retrieving discoveries data with params: global_filters={global_filters}, component_specific_filters={component_specific_filters}",
+            "DEBUG",
+        )
 
         all_discoveries = []
         start_index = 1
@@ -1581,43 +1672,70 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         try:
             while True:
-                self.log(f"Fetching discoveries: start_index={start_index}, records_to_return={records_to_return}", "DEBUG")
+                self.log(
+                    f"Fetching discoveries: start_index={start_index}, records_to_return={records_to_return}",
+                    "DEBUG",
+                )
 
                 try:
                     response = self.catalystcenter._exec(
                         family="discovery",
-                        function='get_discoveries_by_range',
+                        function="get_discoveries_by_range",
                         op_modifies=False,
-                        params={"start_index": start_index, "records_to_return": records_to_return}
+                        params={
+                            "start_index": start_index,
+                            "records_to_return": records_to_return,
+                        },
                     )
                 except Exception as e:
-                    self.log(f"Error calling get_discoveries_by_range API at start_index {start_index}: {str(e)}", "ERROR")
+                    self.log(
+                        f"Error calling get_discoveries_by_range API at start_index {start_index}: {str(e)}",
+                        "ERROR",
+                    )
                     break
 
                 if not response:
-                    self.log(f"No response received from get_discoveries_by_range API at start_index {start_index}", "WARNING")
+                    self.log(
+                        f"No response received from get_discoveries_by_range API at start_index {start_index}",
+                        "WARNING",
+                    )
                     break
 
-                discoveries_batch = response.get('response', [])
+                discoveries_batch = response.get("response", [])
 
                 if total_count is None:
-                    total_count = response.get('totalCount', 0)
-                    self.log(f"Total discoveries available in Catalyst Center: {total_count}", "INFO")
+                    total_count = response.get("totalCount", 0)
+                    self.log(
+                        f"Total discoveries available in Catalyst Center: {total_count}",
+                        "INFO",
+                    )
 
                 if not discoveries_batch:
-                    self.log(f"No discoveries in batch at start_index {start_index}, ending pagination", "DEBUG")
+                    self.log(
+                        f"No discoveries in batch at start_index {start_index}, ending pagination",
+                        "DEBUG",
+                    )
                     break
 
                 batch_size = len(discoveries_batch)
                 all_discoveries.extend(discoveries_batch)
-                self.log(f"Retrieved {batch_size} discoveries in current batch, total so far: {len(all_discoveries)}", "DEBUG")
+                self.log(
+                    f"Retrieved {batch_size} discoveries in current batch, total so far: {len(all_discoveries)}",
+                    "DEBUG",
+                )
 
                 if len(all_discoveries) >= total_count:
-                    self.log(f"Retrieved all {len(all_discoveries)} discoveries, ending pagination", "INFO")
+                    self.log(
+                        f"Retrieved all {len(all_discoveries)} discoveries, ending pagination",
+                        "INFO",
+                    )
                     break
 
                 if batch_size < records_to_return:
-                    self.log(f"Batch size {batch_size} less than requested {records_to_return}, ending pagination", "DEBUG")
+                    self.log(
+                        f"Batch size {batch_size} less than requested {records_to_return}, ending pagination",
+                        "DEBUG",
+                    )
                     break
 
                 start_index += records_to_return
@@ -1627,24 +1745,39 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log("No discoveries found in Catalyst Center", "INFO")
                 return []
 
-            self.log(f"Retrieved {len(all_discoveries)} total discoveries from Catalyst Center", "INFO")
+            self.log(
+                f"Retrieved {len(all_discoveries)} total discoveries from Catalyst Center",
+                "INFO",
+            )
 
-            filtered_discoveries = self.apply_global_filters(all_discoveries, global_filters)
+            filtered_discoveries = self.apply_global_filters(
+                all_discoveries, global_filters
+            )
 
             if not filtered_discoveries:
                 self.log("No discoveries matched the global filters", "INFO")
                 return []
 
-            self.log(f"After global filtering: {len(filtered_discoveries)} discoveries remain", "INFO")
+            self.log(
+                f"After global filtering: {len(filtered_discoveries)} discoveries remain",
+                "INFO",
+            )
 
-            final_discoveries = self.apply_component_filters(filtered_discoveries, component_specific_filters)
+            final_discoveries = self.apply_component_filters(
+                filtered_discoveries, component_specific_filters
+            )
 
             if not final_discoveries:
                 self.log("No discoveries matched the component filters", "INFO")
                 return []
 
-            self.log(f"After component filtering: {len(final_discoveries)} discoveries remain", "INFO")
-            self.log(f"Returning {len(final_discoveries)} filtered discoveries", "DEBUG")
+            self.log(
+                f"After component filtering: {len(final_discoveries)} discoveries remain",
+                "INFO",
+            )
+            self.log(
+                f"Returning {len(final_discoveries)} filtered discoveries", "DEBUG"
+            )
             return final_discoveries
 
         except Exception as e:
@@ -1662,7 +1795,10 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: Filtered list of discoveries
         """
-        self.log(f"Applying global filters with params: total_discoveries={len(discoveries)}, filters={global_filters}", "DEBUG")
+        self.log(
+            f"Applying global filters with params: total_discoveries={len(discoveries)}, filters={global_filters}",
+            "DEBUG",
+        )
 
         if not global_filters:
             self.log("No global filters provided, returning all discoveries", "DEBUG")
@@ -1671,17 +1807,21 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         filtered_discoveries = discoveries
 
         # Filter by discovery names (highest priority)
-        discovery_name_list = global_filters.get('discovery_name_list', [])
-        discovery_type_list = global_filters.get('discovery_type_list', [])
+        discovery_name_list = global_filters.get("discovery_name_list", [])
+        discovery_type_list = global_filters.get("discovery_type_list", [])
         if discovery_name_list:
             self.log(f"Filtering by discovery names: {discovery_name_list}", "DEBUG")
             filtered_discoveries = [
-                discovery for discovery in filtered_discoveries
-                if discovery.get('name') in discovery_name_list
+                discovery
+                for discovery in filtered_discoveries
+                if discovery.get("name") in discovery_name_list
             ]
-            self.log(f"After name filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
+            self.log(
+                f"After name filtering: {len(filtered_discoveries)} discoveries",
+                "DEBUG",
+            )
             # Log which discoveries were found by name
-            found_names = [d.get('name') for d in filtered_discoveries]
+            found_names = [d.get("name") for d in filtered_discoveries]
             self.log(f"Found discoveries by name: {found_names}", "DEBUG")
 
         # Filter by discovery types (only if names not provided)
@@ -1691,15 +1831,22 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 discovery_type.strip().upper() for discovery_type in discovery_type_list
             }
             filtered_discoveries = [
-                discovery for discovery in filtered_discoveries
-                if str(discovery.get('discoveryType', '')).upper() in normalized_discovery_type_list
+                discovery
+                for discovery in filtered_discoveries
+                if str(discovery.get("discoveryType", "")).upper()
+                in normalized_discovery_type_list
             ]
-            self.log(f"After type filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
+            self.log(
+                f"After type filtering: {len(filtered_discoveries)} discoveries",
+                "DEBUG",
+            )
             # Log which discoveries were found by type
-            found_types = [d.get('discoveryType') for d in filtered_discoveries]
+            found_types = [d.get("discoveryType") for d in filtered_discoveries]
             self.log(f"Found discoveries by type: {found_types}", "DEBUG")
 
-        self.log(f"Final filtered discoveries count: {len(filtered_discoveries)}", "INFO")
+        self.log(
+            f"Final filtered discoveries count: {len(filtered_discoveries)}", "INFO"
+        )
         return filtered_discoveries
 
     def apply_component_filters(self, discoveries, component_specific_filters):
@@ -1714,23 +1861,32 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: Filtered list of discoveries
         """
-        self.log(f"Applying component filters with params: total_discoveries={len(discoveries)}, filters={component_specific_filters}", "DEBUG")
+        self.log(
+            f"Applying component filters with params: total_discoveries={len(discoveries)}, filters={component_specific_filters}",
+            "DEBUG",
+        )
 
         if not component_specific_filters:
-            self.log("No component filters provided, returning all discoveries", "DEBUG")
+            self.log(
+                "No component filters provided, returning all discoveries", "DEBUG"
+            )
             return discoveries
 
         filtered_discoveries = discoveries
 
         # Filter by discovery status
-        status_filter = component_specific_filters.get('discovery_status_filter')
+        status_filter = component_specific_filters.get("discovery_status_filter")
         if status_filter:
             self.log(f"Filtering by discovery status: {status_filter}", "DEBUG")
             filtered_discoveries = [
-                discovery for discovery in filtered_discoveries
-                if discovery.get('discoveryCondition') in status_filter
+                discovery
+                for discovery in filtered_discoveries
+                if discovery.get("discoveryCondition") in status_filter
             ]
-            self.log(f"After status filtering: {len(filtered_discoveries)} discoveries", "DEBUG")
+            self.log(
+                f"After status filtering: {len(filtered_discoveries)} discoveries",
+                "DEBUG",
+            )
 
         return filtered_discoveries
 
@@ -1768,26 +1924,20 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         auto_discovery_mode = self.params.get("config") is None
 
         # Determine file mode
-        file_mode = self.params.get('file_mode', 'overwrite')
-        self.log(
-            "File mode set to: {0}".format(file_mode),
-            "DEBUG"
-        )
+        file_mode = self.params.get("file_mode", "overwrite")
+        self.log("File mode set to: {0}".format(file_mode), "DEBUG")
 
         # Determine file path
-        file_path = self.params.get('file_path')
+        file_path = self.params.get("file_path")
 
         if not file_path:
             self.log(
                 "No file_path parameter provided by user, generating default filename "
                 "with timestamp for uniqueness",
-                "DEBUG"
+                "DEBUG",
             )
             file_path = self.generate_filename()
-            self.log(
-                "Auto-generated file path: {0}".format(file_path),
-                "INFO"
-            )
+            self.log("Auto-generated file path: {0}".format(file_path), "INFO")
         else:
             # Validate file_path is a string
             if not isinstance(file_path, str):
@@ -1802,12 +1952,14 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.module_name
                 )
                 additional_info = {"error": error_msg}
-                self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR", additional_info
+                )
                 return self
 
             self.log(
                 "Using user-provided file path for YAML output: {0}".format(file_path),
-                "INFO"
+                "INFO",
             )
 
             # Validate file path is writable
@@ -1817,29 +1969,33 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Output directory does not exist: {0}. Attempting to create it.".format(
                         directory
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 try:
                     os.makedirs(directory, exist_ok=True)
                     self.log(
                         "Successfully created output directory: {0}".format(directory),
-                        "INFO"
+                        "INFO",
                     )
                 except Exception as e:
-                    error_msg = "Failed to create output directory: {0}. Error: {1}".format(
-                        directory, str(e)
+                    error_msg = (
+                        "Failed to create output directory: {0}. Error: {1}".format(
+                            directory, str(e)
+                        )
                     )
                     self.log(error_msg, "ERROR")
                     self.msg = "YAML config generation failed for module '{0}' - cannot create output directory.".format(
                         self.module_name
                     )
                     additional_info = {"error": error_msg}
-                    self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR", additional_info
+                    )
                     return self
 
         # Get filters
-        global_filters = config.get('global_filters', {})
-        component_specific_filters = config.get('component_specific_filters', {})
+        global_filters = config.get("global_filters", {})
+        component_specific_filters = config.get("component_specific_filters", {})
 
         # Handle internal auto-discovery when config is omitted
         if auto_discovery_mode:
@@ -1853,7 +2009,9 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 return self
 
         # Get discovery data
-        discoveries_data = self.get_discoveries_data(global_filters, component_specific_filters)
+        discoveries_data = self.get_discoveries_data(
+            global_filters, component_specific_filters
+        )
 
         if not discoveries_data:
             self.msg = (
@@ -1862,10 +2020,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No YAML configuration was generated. Verify that the filter "
                 "values match existing discovery task names or types."
             )
-            additional_info = {
-                "status": "ok",
-                "message": self.msg
-            }
+            additional_info = {"status": "ok", "message": self.msg}
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
@@ -1873,31 +2028,37 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         reverse_mapping_spec = self.discovery_reverse_mapping_function()
 
         # Process credential inclusion settings
-        include_credentials = component_specific_filters.get('include_credentials', True)
-        include_global_credentials = component_specific_filters.get('include_global_credentials', True)
+        include_credentials = component_specific_filters.get(
+            "include_credentials", True
+        )
+        include_global_credentials = component_specific_filters.get(
+            "include_global_credentials", True
+        )
 
         if not include_credentials:
             # Remove credential-related fields
-            reverse_mapping_spec.pop('global_credentials', None)
-            reverse_mapping_spec.pop('discovery_specific_credentials', None)
+            reverse_mapping_spec.pop("global_credentials", None)
+            reverse_mapping_spec.pop("discovery_specific_credentials", None)
             self.log("Credential information excluded from configuration", "INFO")
         elif not include_global_credentials:
-            reverse_mapping_spec.pop('global_credentials', None)
-            self.log("Global credential information excluded from configuration", "INFO")
+            reverse_mapping_spec.pop("global_credentials", None)
+            self.log(
+                "Global credential information excluded from configuration", "INFO"
+            )
 
         # Transform discovery data
-        discovery_details = self.modify_parameters(reverse_mapping_spec, discoveries_data)
+        discovery_details = self.modify_parameters(
+            reverse_mapping_spec, discoveries_data
+        )
 
         # Build final YAML structure matching discovery_workflow_manager format
-        yaml_data = {
-            "config": discovery_details
-        }
+        yaml_data = {"config": discovery_details}
 
         self.log(
             "Writing YAML for {0} discoveries to file '{1}' with mode '{2}'".format(
                 len(discoveries_data), file_path, file_mode
             ),
-            "INFO"
+            "INFO",
         )
 
         # Write YAML file using BrownFieldHelper shared header generation.
@@ -1909,25 +2070,24 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         discovery_summary = [
             {
-                "discovery_name": disc.get('name'),
-                "discovery_type": disc.get('discoveryType'),
-                "status": disc.get('discoveryCondition')
-            } for disc in discoveries_data
+                "discovery_name": disc.get("name"),
+                "discovery_type": disc.get("discoveryType"),
+                "status": disc.get("discoveryCondition"),
+            }
+            for disc in discoveries_data
         ]
 
         component_summary = {
             "discovery_details": {
                 "total_processed": len(discoveries_data),
                 "total_successful": len(discovery_details),
-                "total_failed": len(discoveries_data) - len(discovery_details)
+                "total_failed": len(discoveries_data) - len(discovery_details),
             }
         }
 
         if success:
-            self.msg = (
-                "YAML configuration file generated successfully for module '{0}'.".format(
-                    self.module_name
-                )
+            self.msg = "YAML configuration file generated successfully for module '{0}'.".format(
+                self.module_name
             )
             additional_info = {
                 "status": "success",
@@ -1937,12 +2097,14 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "total_discoveries_processed": len(discoveries_data),
                 "discoveries_found": discovery_summary,
                 "discoveries_skipped": [],
-                "component_summary": component_summary
+                "component_summary": component_summary,
             }
-            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
+            self.set_operation_result(
+                "success", True, self.msg, "INFO", additional_info
+            )
             self.log(
                 "Discovery playbook generated successfully: {0}".format(file_path),
-                "INFO"
+                "INFO",
             )
         else:
             # write_dict_to_yaml returns False when the existing file content is
@@ -1960,13 +2122,13 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "total_discoveries_processed": len(discoveries_data),
                 "discoveries_found": discovery_summary,
                 "discoveries_skipped": [],
-                "component_summary": component_summary
+                "component_summary": component_summary,
             }
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             self.log(
                 "Discovery YAML file '{0}' content is identical to newly generated "
                 "content. Skipping write (idempotent).".format(file_path),
-                "INFO"
+                "INFO",
             )
 
         return self
@@ -2100,10 +2262,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
+        "validate_response_schema": {"type": "bool", "default": True},
         # Logging Configuration Parameters
         "catalystcenter_debug": {
             "type": "bool",
@@ -2145,24 +2304,17 @@ def main():
             "required": False,
             "type": "dict",
         },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the DiscoveryPlaybookGenerator object
@@ -2173,7 +2325,7 @@ def main():
     ccc_discovery_playbook_generator.log(
         "Starting Ansible module execution for discovery playbook config "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     config_params = module.params.get("config") or {}
@@ -2189,9 +2341,9 @@ def main():
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
-            config_keys
+            config_keys,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -2202,7 +2354,7 @@ def main():
         "Storing Catalyst Center version: {0} for validation and comparison".format(
             stored_ccc_version
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_discovery_playbook_generator.log(
@@ -2210,7 +2362,7 @@ def main():
         "meets minimum requirement of 2.3.7.9 for discovery configuration APIs".format(
             stored_ccc_version
         ),
-        "INFO"
+        "INFO",
     )
 
     if (
@@ -2224,7 +2376,7 @@ def main():
             "meet minimum requirement of 2.3.7.9 for discovery configuration APIs".format(
                 stored_ccc_version
             ),
-            "ERROR"
+            "ERROR",
         )
 
         ccc_discovery_playbook_generator.msg = (
@@ -2240,10 +2392,8 @@ def main():
 
     ccc_discovery_playbook_generator.log(
         "Version compatibility check passed - Catalyst Center version {0} supports "
-        "all required discovery configuration APIs".format(
-            stored_ccc_version
-        ),
-        "INFO"
+        "all required discovery configuration APIs".format(stored_ccc_version),
+        "INFO",
     )
 
     # ============================================
@@ -2255,7 +2405,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_discovery_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_discovery_playbook_generator.supported_states:
@@ -2264,21 +2414,27 @@ def main():
             "Supported states: {1}".format(
                 state, ccc_discovery_playbook_generator.supported_states
             ),
-            "ERROR"
+            "ERROR",
         )
 
         ccc_discovery_playbook_generator.status = "failed"
-        ccc_discovery_playbook_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, ccc_discovery_playbook_generator.supported_states
+        ccc_discovery_playbook_generator.msg = (
+            "State '{0}' is not supported. Supported states: {1}".format(
+                state, ccc_discovery_playbook_generator.supported_states
+            )
         )
-        ccc_discovery_playbook_generator.result["msg"] = ccc_discovery_playbook_generator.msg
-        ccc_discovery_playbook_generator.module.fail_json(**ccc_discovery_playbook_generator.result)
+        ccc_discovery_playbook_generator.result["msg"] = (
+            ccc_discovery_playbook_generator.msg
+        )
+        ccc_discovery_playbook_generator.module.fail_json(
+            **ccc_discovery_playbook_generator.result
+        )
 
     ccc_discovery_playbook_generator.log(
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2286,7 +2442,7 @@ def main():
     # ============================================
     ccc_discovery_playbook_generator.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_discovery_playbook_generator.validate_input().check_return_status()
@@ -2294,7 +2450,7 @@ def main():
     ccc_discovery_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2304,8 +2460,10 @@ def main():
 
     ccc_discovery_playbook_generator.log(
         "Starting configuration processing for discovery playbook generation "
-        "with keys: {0}".format(list(config.keys()) if isinstance(config, dict) else "N/A"),
-        "INFO"
+        "with keys: {0}".format(
+            list(config.keys()) if isinstance(config, dict) else "N/A"
+        ),
+        "INFO",
     )
 
     # Process the gathered state directly
@@ -2318,8 +2476,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_discovery_playbook_generator.log(
@@ -2327,9 +2484,9 @@ def main():
         "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_discovery_playbook_generator.status
+            ccc_discovery_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
@@ -2338,7 +2495,7 @@ def main():
         "Exiting Ansible module with result: {0}".format(
             ccc_discovery_playbook_generator.result
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_discovery_playbook_generator.result)

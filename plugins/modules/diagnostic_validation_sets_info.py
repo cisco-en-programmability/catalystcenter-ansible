@@ -13,10 +13,10 @@ description:
   - Get Diagnostic Validation Sets by id.
   - Retrieves all the validation sets and optionally the contained validations.
   - Retrieves validation details for the given validation set id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

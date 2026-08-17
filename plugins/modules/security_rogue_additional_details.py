@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Security Rogue Additional Details. - > This API provides additional information
     of the rogue threats with details at BSSID level. The additional information includes Switch Port details in case of Rogue
     on Wire, first time when the rogue is seen in the network etc.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
     description: This is the epoch end time in milliseconds upto which data need to be fetched. Default value is current time.

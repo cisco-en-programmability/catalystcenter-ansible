@@ -15,10 +15,10 @@ description:
     the `id` field data as input to this API. - > Retrieve the list of device replacements with replacement details. Filters
     can be applied based on faulty device name, faulty device platform, faulty device serial number, replacement device platform,
     replacement device serial number, device replacement status, device family.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Application Policy Application Set
 description:
   - Get all Application Policy Application Set.
   - Get application set/s by offset/limit or by name.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

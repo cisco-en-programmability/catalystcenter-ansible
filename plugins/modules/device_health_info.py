@@ -11,10 +11,10 @@ short_description: Information module for Device Health
 description:
   - Get all Device Health. - > Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards
     or creating additional value added services.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

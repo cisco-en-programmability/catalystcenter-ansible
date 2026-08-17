@@ -102,6 +102,8 @@ class ActionModule(ActionBase):
             function="retrieves_network_device_product_names_assigned_to_a_software_image",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

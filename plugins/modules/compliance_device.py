@@ -11,10 +11,10 @@ short_description: Resource module for Compliance Device
 description:
   - Manage operation create of the resource Compliance Device.
   - Run compliance check for devices.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   categories:
     description: Category can have any value among 'INTENT'(mapped to compliance types NETWORK_SETTINGS,NETWORK_PROFILE,WORKFLOW,FABRIC,APPLICATION_VISIBILITY),

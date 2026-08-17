@@ -11,10 +11,10 @@ short_description: Information module for Sda Port Channels Count
 description:
   - Get all Sda Port Channels Count.
   - Returns the count of port channels that match the provided query parameters.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

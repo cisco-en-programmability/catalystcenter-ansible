@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Network Device Images Id Readiness Checks. - > Triggers an on-demand network device
     update readiness check, where system-defined pre-checks will be performed. Upon task completion, the task API response's
     `resultLocation` attribute will contain the URL for fetching the validation result.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Network device identifier.

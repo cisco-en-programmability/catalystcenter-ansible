@@ -11,10 +11,10 @@ short_description: Information module for System Health Count
 description:
   - Get all System Health Count.
   - This API gives the count of the latest system events.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

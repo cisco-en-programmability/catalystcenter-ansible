@@ -29,7 +29,7 @@ Notes:
 
 ## Requirements
 
-- Python >= 3.12
+- Python >= 3.10, <= 3.12 (matching the controller Python versions supported by ansible-core >= 2.16; later ansible-core releases may support newer Python versions)
 - [catalystcentersdk](https://github.com/cisco-en-programmability/catalystcentersdk) (see Compatibility Matrix for tested versions)
 - ansible-core >= 2.16
 
@@ -266,10 +266,14 @@ This collection is validated against the following environments:
 
 - Cisco CATALYST Center: 2.3.7.6, 2.3.7.9, 3.1.3.0, 3.1.6.0
 - ansible-core: >= 2.16
-- Python: >= 3.12
+- Python: >= 3.10, <= 3.12
 
 Known limitations and compatibility notes are documented in the [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml). For platform-specific issues, consult the official documentation or open a support case as appropriate.
 
+
+## Troubleshooting
+
+On macOS controllers, a task may fail with `[ERROR]: A worker was found in a dead state` — this is a [known macOS/Python fork issue](https://github.com/ansible/workshops/blob/main/docs/faq.md), not a bug in this collection. Fix: `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES` before running `ansible-playbook`.
 
 
 ## Contributing

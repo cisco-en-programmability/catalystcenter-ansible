@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Pnp Virtual Account Add. - > Registers a Smart Account, Virtual Account and the
     relevant server profile info with the PnP System & database. The devices present in the registered virtual account are
     synced with the PnP database as well. The response payload returns the new profile.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   autoSyncPeriod:
     description: Pnp Virtual Account Add's autoSyncPeriod.

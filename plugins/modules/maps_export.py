@@ -11,10 +11,10 @@ short_description: Resource module for Maps Export
 description:
   - Manage operation create of the resource Maps Export.
   - Allows exporting a Map archive in an XML interchange format along with the associated images.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   siteHierarchyUuid:
     description: SiteHierarchyUuid path parameter. The site hierarchy element UUID to export, all child elements starting

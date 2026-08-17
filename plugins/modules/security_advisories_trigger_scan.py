@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Security Advisories Trigger Scan. - > Triggers a security advisories scan for
     the supported network devices. The supported devices are switches, routers and wireless controllers with IOS and IOS-XE.
     If a device is not supported, the SecurityAdvisoryNetworkDevice scanStatus will be Failed with appropriate comments.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   failedDevicesOnly:
     description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that

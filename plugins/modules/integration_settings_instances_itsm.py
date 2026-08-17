@@ -13,10 +13,10 @@ description:
   - Creates ITSM Integration setting.
   - Deletes the ITSM Integration setting.
   - Updates the ITSM Integration setting.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   data:
     description: Integration Settings Instances Itsm's data.

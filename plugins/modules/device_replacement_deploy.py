@@ -11,10 +11,10 @@ short_description: Resource module for Device Replacement Deploy
 description:
   - Manage operation create of the resource Device Replacement Deploy. - > API to trigger RMA workflow that will replace faulty
     device with replacement device with same configuration and images.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   faultyDeviceSerialNumber:
     description: Faulty device serial number.

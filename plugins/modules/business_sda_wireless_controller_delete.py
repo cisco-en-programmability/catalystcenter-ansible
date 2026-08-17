@@ -11,10 +11,10 @@ short_description: Resource module for Business Sda Wireless Controller Delete
 description:
   - Manage operation delete of the resource Business Sda Wireless Controller Delete.
   - Remove WLC from Fabric Domain.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIPAddress:
     description: DeviceIPAddress query parameter. Device Management IP Address.

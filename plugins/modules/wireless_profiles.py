@@ -17,10 +17,10 @@ description:
     Consequently, all fields must be included—not just the fields to be updated. Any missing fields will be set to their default
     or null values. To ensure all fields are accurately populated, consider using the GET operation to retrieve the current
     resource data before proceeding with the PUT operation.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   additionalInterfaces:
     description: These additional interfaces will be configured on the device as independent interfaces in addition to the

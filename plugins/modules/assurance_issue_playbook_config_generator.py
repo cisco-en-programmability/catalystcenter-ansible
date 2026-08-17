@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbooks for Assurance Issue Operations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -20,7 +21,7 @@ description:
 - The YAML configurations generated represent the user-defined issue definitions
   configured on the Cisco Catalyst Center.
 - Supports extraction of User-Defined Issue Definitions configurations.
-version_added: 6.45.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -281,8 +282,10 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 import os
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -340,8 +343,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not config_provided:
             self.config = {}
             self.log(
-                "Config not provided. Internal auto-discovery mode enabled.",
-                "INFO"
+                "Config not provided. Internal auto-discovery mode enabled.", "INFO"
             )
             self.validated_config = {"generate_all_configurations": True}
             self.msg = (
@@ -363,9 +365,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
 
         if config_provided and not valid_temp.get("component_specific_filters"):
-            self.msg = (
-                "Validation failed: component_specific_filters is required when config is provided."
-            )
+            self.msg = "Validation failed: component_specific_filters is required when config is provided."
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self.check_return_status()
@@ -375,11 +375,15 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             # Validate that only known keys are present in component_specific_filters.
             # Valid keys are the component block names from the schema plus 'components_list'.
-            valid_csf_keys = set(self.module_schema.get("issue_elements", {}).keys()) | {"components_list"}
+            valid_csf_keys = set(
+                self.module_schema.get("issue_elements", {}).keys()
+            ) | {"components_list"}
             self.validate_invalid_params(component_filters, valid_csf_keys)
 
             components_list = component_filters.get("components_list")
-            has_components_list = isinstance(components_list, list) and len(components_list) > 0
+            has_components_list = (
+                isinstance(components_list, list) and len(components_list) > 0
+            )
             has_component_blocks = any(
                 key != "components_list" and value not in (None, {}, [])
                 for key, value in component_filters.items()
@@ -400,17 +404,19 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Normalizing components_list with {0} candidate entries.".format(
                         len(components_list)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 deduplicated_components_list = []
                 seen_components = set()
-                for component_index, component_name in enumerate(components_list, start=1):
+                for component_index, component_name in enumerate(
+                    components_list, start=1
+                ):
                     if component_name in seen_components:
                         self.log(
                             "Skipping duplicate components_list entry at index {0}: {1}".format(
                                 component_index, component_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -426,24 +432,25 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         ).format(
                             len(components_list), len(deduplicated_components_list)
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 component_filters["components_list"] = deduplicated_components_list
                 valid_temp["component_specific_filters"] = component_filters
 
             # Normalize duplicate issue filter blocks while preserving order.
-            issue_filters = component_filters.get("assurance_user_defined_issue_settings")
+            issue_filters = component_filters.get(
+                "assurance_user_defined_issue_settings"
+            )
             if isinstance(issue_filters, list):
                 self.log(
                     "Normalizing assurance_user_defined_issue_settings filters with {0} candidate entries.".format(
                         len(issue_filters)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Derive valid keys for each filter entry from the schema
                 valid_filter_keys = set(
-                    self.module_schema
-                    .get("issue_elements", {})
+                    self.module_schema.get("issue_elements", {})
                     .get("assurance_user_defined_issue_settings", {})
                     .get("filters", {})
                     .keys()
@@ -453,8 +460,10 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 for filter_index, item in enumerate(issue_filters, start=1):
                     if not isinstance(item, dict):
                         self.log(
-                            "Retaining non-dict filter at index {0}: {1}".format(filter_index, item),
-                            "DEBUG"
+                            "Retaining non-dict filter at index {0}: {1}".format(
+                                filter_index, item
+                            ),
+                            "DEBUG",
                         )
                         deduplicated_issue_filters.append(item)
                         continue
@@ -462,16 +471,13 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     # Reject any unrecognized keys in the filter entry
                     self.validate_invalid_params(item, valid_filter_keys)
 
-                    filter_key = (
-                        item.get("name"),
-                        item.get("is_enabled")
-                    )
+                    filter_key = (item.get("name"), item.get("is_enabled"))
                     if filter_key in seen_filter_keys:
                         self.log(
                             "Skipping duplicate assurance_user_defined_issue_settings filter at index {0} with key {1}".format(
                                 filter_index, filter_key
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -483,12 +489,12 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Deduplicated assurance_user_defined_issue_settings "
                             "filters from {0} to {1} entries to prevent repeated "
                             "API calls for the same filter combination."
-                        ).format(
-                            len(issue_filters), len(deduplicated_issue_filters)
-                        ),
-                        "INFO"
+                        ).format(len(issue_filters), len(deduplicated_issue_filters)),
+                        "INFO",
                     )
-                component_filters["assurance_user_defined_issue_settings"] = deduplicated_issue_filters
+                component_filters["assurance_user_defined_issue_settings"] = (
+                    deduplicated_issue_filters
+                )
                 valid_temp["component_specific_filters"] = component_filters
 
         # Set the validated configuration and update the result with success status
@@ -526,7 +532,11 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     os.makedirs(directory, exist_ok=True)
                     self.log("Created directory: {0}".format(directory), "INFO")
                 except Exception as e:
-                    self.msg = "Cannot create directory for file_path: {0}. Error: {1}".format(directory, str(e))
+                    self.msg = (
+                        "Cannot create directory for file_path: {0}. Error: {1}".format(
+                            directory, str(e)
+                        )
+                    )
                     self.status = "failed"
                     return self
 
@@ -535,14 +545,19 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if component_filters:
             components_list = component_filters.get("components_list", [])
             # Ensure module_schema is available
-            if not hasattr(self, 'module_schema') or not self.module_schema:
+            if not hasattr(self, "module_schema") or not self.module_schema:
                 self.module_schema = self.get_workflow_elements_schema()
-            supported_components = list(self.module_schema.get("issue_elements", {}).keys())
+            supported_components = list(
+                self.module_schema.get("issue_elements", {}).keys()
+            )
 
             for component in components_list:
                 if component not in supported_components:
-                    self.msg = "Unsupported component: {0}. Supported components: {1}".format(
-                        component, supported_components)
+                    self.msg = (
+                        "Unsupported component: {0}. Supported components: {1}".format(
+                            component, supported_components
+                        )
+                    )
                     self.status = "failed"
                     return self
 
@@ -559,14 +574,8 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         issue_elements = {
             "assurance_user_defined_issue_settings": {
                 "filters": {
-                    "name": {
-                        "type": "str",
-                        "required": False
-                    },
-                    "is_enabled": {
-                        "type": "bool",
-                        "required": False
-                    }
+                    "name": {"type": "str", "required": False},
+                    "is_enabled": {"type": "bool", "required": False},
                 },
                 "reverse_mapping_function": self.user_defined_issue_reverse_mapping_function,
                 "api_function": "get_all_the_custom_issue_definitions_based_on_the_given_filters",
@@ -581,13 +590,13 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "issue_name_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "device_type_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
-                }
+                    "elements": "str",
+                },
             },
         }
 
@@ -623,7 +632,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Converting data structure to regular dict for YAML output, "
             "type: {0}, depth: {1}".format(type(data).__name__, _depth),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Initialize circular reference tracking
@@ -633,8 +642,10 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Check recursion depth
         if _depth > 100:
             self.log(
-                "Deep recursion detected (depth={0}) during OrderedDict conversion".format(_depth),
-                "WARNING"
+                "Deep recursion detected (depth={0}) during OrderedDict conversion".format(
+                    _depth
+                ),
+                "WARNING",
             )
 
         # Handle dict and OrderedDict (OrderedDict is subclass of dict)
@@ -643,8 +654,10 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             obj_id = id(data)
             if obj_id in _seen:
                 self.log(
-                    "Circular reference detected in dict/OrderedDict at depth {0}".format(_depth),
-                    "WARNING"
+                    "Circular reference detected in dict/OrderedDict at depth {0}".format(
+                        _depth
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -656,8 +669,10 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             _seen.discard(obj_id)
 
             self.log(
-                "Converted dict/OrderedDict with {0} key(s) at depth {1}".format(len(result), _depth),
-                "DEBUG"
+                "Converted dict/OrderedDict with {0} key(s) at depth {1}".format(
+                    len(result), _depth
+                ),
+                "DEBUG",
             )
             return result
 
@@ -667,52 +682,57 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if obj_id in _seen:
                 self.log(
                     "Circular reference detected in list at depth {0}".format(_depth),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             _seen.add(obj_id)
             result = [
-                self.convert_ordereddict(item, _depth + 1, _seen)
-                for item in data
+                self.convert_ordereddict(item, _depth + 1, _seen) for item in data
             ]
             _seen.discard(obj_id)
 
             self.log(
-                "Converted list with {0} element(s) at depth {1}".format(len(result), _depth),
-                "DEBUG"
+                "Converted list with {0} element(s) at depth {1}".format(
+                    len(result), _depth
+                ),
+                "DEBUG",
             )
             return result
 
         # Handle tuples (preserve immutability)
         elif isinstance(data, tuple):
             result = tuple(
-                self.convert_ordereddict(item, _depth + 1, _seen)
-                for item in data
+                self.convert_ordereddict(item, _depth + 1, _seen) for item in data
             )
             self.log(
-                "Converted tuple with {0} element(s) at depth {1}".format(len(result), _depth),
-                "DEBUG"
+                "Converted tuple with {0} element(s) at depth {1}".format(
+                    len(result), _depth
+                ),
+                "DEBUG",
             )
             return result
 
         # Handle sets
         elif isinstance(data, set):
             result = {
-                self.convert_ordereddict(item, _depth + 1, _seen)
-                for item in data
+                self.convert_ordereddict(item, _depth + 1, _seen) for item in data
             }
             self.log(
-                "Converted set with {0} element(s) at depth {1}".format(len(result), _depth),
-                "DEBUG"
+                "Converted set with {0} element(s) at depth {1}".format(
+                    len(result), _depth
+                ),
+                "DEBUG",
             )
             return result
 
         # Handle scalar values (str, int, float, bool, None, etc.)
         else:
             self.log(
-                "Returning scalar value of type {0} at depth {1}".format(type(data).__name__, _depth),
-                "DEBUG"
+                "Returning scalar value of type {0} at depth {1}".format(
+                    type(data).__name__, _depth
+                ),
+                "DEBUG",
             )
             return data
 
@@ -733,21 +753,21 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Generating YAML header comments for file_path: {0}".format(file_path),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not operation_summary or not isinstance(operation_summary, dict):
             self.log(
                 "Operation summary is None or invalid, using default empty values",
-                "WARNING"
+                "WARNING",
             )
             operation_summary = {
-                'total_components_processed': 0,
-                'total_successful_operations': 0,
-                'total_failed_operations': 0,
-                'components_with_complete_success': [],
-                'components_with_partial_success': [],
-                'components_with_complete_failure': []
+                "total_components_processed": 0,
+                "total_successful_operations": 0,
+                "total_failed_operations": 0,
+                "components_with_complete_success": [],
+                "components_with_partial_success": [],
+                "components_with_complete_failure": [],
             }
         try:
             from datetime import datetime
@@ -756,29 +776,43 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # Get Catalyst Center connection details (safely)
-            catalystcenter_host = getattr(self, 'catalystcenter_host', 'Unknown')
-            catalystcenter_version = getattr(self, 'catalystcenter_version', 'Unknown')
-            module_name = getattr(self, 'module_name', 'assurance_issue_workflow_manager')
+            catalystcenter_host = getattr(self, "catalystcenter_host", "Unknown")
+            catalystcenter_version = getattr(self, "catalystcenter_version", "Unknown")
+            module_name = getattr(
+                self, "module_name", "assurance_issue_workflow_manager"
+            )
 
             self.log(
                 "Retrieved connection details - host: {0}, version: {1}, module: {2}".format(
                     catalystcenter_host, catalystcenter_version, module_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Cache operation summary values to avoid repeated .get() calls
-            total_processed = operation_summary.get('total_components_processed', 0)
-            total_success = operation_summary.get('total_successful_operations', 0)
-            total_failed = operation_summary.get('total_failed_operations', 0)
-            complete_success = operation_summary.get('components_with_complete_success', [])
-            partial_success = operation_summary.get('components_with_partial_success', [])
-            complete_failure = operation_summary.get('components_with_complete_failure', [])
+            total_processed = operation_summary.get("total_components_processed", 0)
+            total_success = operation_summary.get("total_successful_operations", 0)
+            total_failed = operation_summary.get("total_failed_operations", 0)
+            complete_success = operation_summary.get(
+                "components_with_complete_success", []
+            )
+            partial_success = operation_summary.get(
+                "components_with_partial_success", []
+            )
+            complete_failure = operation_summary.get(
+                "components_with_complete_failure", []
+            )
 
             # Format component lists (show "None" if empty)
-            complete_success_str = ', '.join(complete_success) if complete_success else 'None'
-            partial_success_str = ', '.join(partial_success) if partial_success else 'None'
-            complete_failure_str = ', '.join(complete_failure) if complete_failure else 'None'
+            complete_success_str = (
+                ", ".join(complete_success) if complete_success else "None"
+            )
+            partial_success_str = (
+                ", ".join(partial_success) if partial_success else "None"
+            )
+            complete_failure_str = (
+                ", ".join(complete_failure) if complete_failure else "None"
+            )
 
             # Define header separator width
             SEPARATOR_WIDTH = 80
@@ -809,13 +843,15 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "#       exported from Cisco Catalyst Center.",
                 "#       Review and modify as needed before applying.",
                 "# " + "=" * SEPARATOR_WIDTH,
-                ""
+                "",
             ]
 
             header_content = "\n".join(header_lines)
             self.log(
-                "Successfully generated YAML header with {0} lines".format(len(header_lines)),
-                "DEBUG"
+                "Successfully generated YAML header with {0} lines".format(
+                    len(header_lines)
+                ),
+                "DEBUG",
             )
 
             return header_content
@@ -825,7 +861,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Error generating detailed header comments: {0}. Using minimal fallback.".format(
                     str(e)
                 ),
-                "WARNING"
+                "WARNING",
             )
             fallback_header = (
                 "# Generated by Brownfield Assurance Issue Playbook Generator\n"
@@ -843,56 +879,46 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             bool: True if successful, False otherwise
         """
-        self.log(
-            "Writing YAML configuration to file: {0}".format(file_path),
-            "DEBUG"
-        )
+        self.log("Writing YAML configuration to file: {0}".format(file_path), "DEBUG")
 
         # Validate and normalize file path (prevent path traversal)
         file_path = os.path.abspath(file_path)
         if ".." in file_path:
             self.log(
-                "Invalid file_path: path traversal detected in {0}".format(
-                    file_path
-                ),
-                "ERROR"
+                "Invalid file_path: path traversal detected in {0}".format(file_path),
+                "ERROR",
             )
             return False
 
         # Warn if file already exists
         if os.path.exists(file_path):
             self.log(
-                "File {0} already exists and will be overwritten".format(
-                    file_path
-                ),
-                "WARNING"
+                "File {0} already exists and will be overwritten".format(file_path),
+                "WARNING",
             )
 
         # Log data size
-        data_size_info = "{0} top-level keys".format(
-            len(data.keys())
-        ) if isinstance(data, dict) else "unknown structure"
-        self.log(
-            "Processing YAML data with {0}".format(data_size_info),
-            "DEBUG"
+        data_size_info = (
+            "{0} top-level keys".format(len(data.keys()))
+            if isinstance(data, dict)
+            else "unknown structure"
         )
+        self.log("Processing YAML data with {0}".format(data_size_info), "DEBUG")
 
         # Convert OrderedDict to regular dict for clean output
         self.log(
-            "Converting OrderedDict structures to regular dict for clean YAML",
-            "DEBUG"
+            "Converting OrderedDict structures to regular dict for clean YAML", "DEBUG"
         )
 
         try:
             # Convert OrderedDict to regular dict for clean output
             clean_data = self.convert_ordereddict(data)
-            self.log(
-                "Generating YAML header comments with operation summary",
-                "DEBUG"
-            )
+            self.log("Generating YAML header comments with operation summary", "DEBUG")
 
             # Generate header comments
-            header_comments = self.generate_yaml_header_comments(file_path, operation_summary)
+            header_comments = self.generate_yaml_header_comments(
+                file_path, operation_summary
+            )
             self.log("Serializing configuration data to YAML format", "DEBUG")
 
             # Generate YAML content
@@ -904,7 +930,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     width=120,
                     allow_unicode=True,
                     sort_keys=False,
-                    explicit_start=True  # Add '---' at start
+                    explicit_start=True,  # Add '---' at start
                 )
             else:
                 # Fallback to basic string representation
@@ -919,47 +945,42 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Generated YAML file is large ({0:.2f} MB). "
                     "Writing may take time.".format(content_size_mb),
-                    "WARNING"
+                    "WARNING",
                 )
 
             # Write to file with UTF-8 encoding
             self.log(
-                "Writing {0} bytes to file: {1}".format(
-                    len(full_content),
-                    file_path
-                ),
-                "DEBUG"
+                "Writing {0} bytes to file: {1}".format(len(full_content), file_path),
+                "DEBUG",
             )
 
             # Write to file
-            with open(file_path, 'w', encoding='utf-8') as file:
+            with open(file_path, "w", encoding="utf-8") as file:
                 file.write(full_content)
 
-            self.log("Successfully wrote YAML with header comments to: {}".format(file_path), "INFO")
+            self.log(
+                "Successfully wrote YAML with header comments to: {}".format(file_path),
+                "INFO",
+            )
             return True
 
         except (IOError, OSError, PermissionError) as e:
             self.log(
-                "Failed to write YAML file to {0}: {1}".format(
-                    file_path, str(e)
-                ),
-                "ERROR"
+                "Failed to write YAML file to {0}: {1}".format(file_path, str(e)),
+                "ERROR",
             )
             return False
 
         except yaml.YAMLError as e:
             self.log(
-                "Failed to serialize data to YAML format: {0}".format(str(e)),
-                "ERROR"
+                "Failed to serialize data to YAML format: {0}".format(str(e)), "ERROR"
             )
             return False
 
         except Exception as e:
             self.log(
-                "Unexpected error writing YAML to {0}: {1}".format(
-                    file_path, str(e)
-                ),
-                "ERROR"
+                "Unexpected error writing YAML to {0}: {1}".format(file_path, str(e)),
+                "ERROR",
             )
             return False
 
@@ -971,27 +992,39 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: Reverse mapping specification for user-defined issue details
         """
-        self.log("Generating reverse mapping specification for user-defined issues.", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for user-defined issues.", "DEBUG"
+        )
 
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            "is_enabled": {"type": "bool", "source_key": "isEnabled"},
-            "priority": {"type": "str", "source_key": "priority"},
-            "is_notification_enabled": {"type": "bool", "source_key": "isNotificationEnabled"},
-            "rules": {
-                "type": "list",
-                "source_key": "rules",
-                "options": OrderedDict({
-                    "severity": {"type": "int", "source_key": "severity"},
-                    "facility": {"type": "str", "source_key": "facility"},
-                    "mnemonic": {"type": "str", "source_key": "mnemonic"},
-                    "pattern": {"type": "str", "source_key": "pattern"},
-                    "occurrences": {"type": "int", "source_key": "occurrences"},
-                    "duration_in_minutes": {"type": "int", "source_key": "durationInMinutes"},
-                })
-            },
-        })
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                "is_enabled": {"type": "bool", "source_key": "isEnabled"},
+                "priority": {"type": "str", "source_key": "priority"},
+                "is_notification_enabled": {
+                    "type": "bool",
+                    "source_key": "isNotificationEnabled",
+                },
+                "rules": {
+                    "type": "list",
+                    "source_key": "rules",
+                    "options": OrderedDict(
+                        {
+                            "severity": {"type": "int", "source_key": "severity"},
+                            "facility": {"type": "str", "source_key": "facility"},
+                            "mnemonic": {"type": "str", "source_key": "mnemonic"},
+                            "pattern": {"type": "str", "source_key": "pattern"},
+                            "occurrences": {"type": "int", "source_key": "occurrences"},
+                            "duration_in_minutes": {
+                                "type": "int",
+                                "source_key": "durationInMinutes",
+                            },
+                        }
+                    ),
+                },
+            }
+        )
 
     def reset_operation_tracking(self):
         """
@@ -1012,18 +1045,24 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             additional_info (dict, optional): Extra information about the successful operation.
         """
         self.log("Creating success entry for component {0}".format(component), "DEBUG")
-        success_entry = {
-            "component": component,
-            "status": "success"
-        }
+        success_entry = {"component": component, "status": "success"}
 
         if additional_info:
-            self.log("Adding additional information to success entry: {0}".format(additional_info), "DEBUG")
+            self.log(
+                "Adding additional information to success entry: {0}".format(
+                    additional_info
+                ),
+                "DEBUG",
+            )
             success_entry.update(additional_info)
 
         self.operation_successes.append(success_entry)
-        self.log("Successfully added success entry for component {0}. Total successes: {1}".format(
-            component, len(self.operation_successes)), "DEBUG")
+        self.log(
+            "Successfully added success entry for component {0}. Total successes: {1}".format(
+                component, len(self.operation_successes)
+            ),
+            "DEBUG",
+        )
 
     def add_failure(self, component, error_info):
         """
@@ -1037,12 +1076,18 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         failure_entry = {
             "component": component,
             "status": "failed",
-            "error_info": error_info
+            "error_info": error_info,
         }
 
         self.operation_failures.append(failure_entry)
-        self.log("Successfully added failure entry for component {0}: {1}. Total failures: {2}".format(
-            component, error_info.get("error_message", "Unknown error"), len(self.operation_failures)), "ERROR")
+        self.log(
+            "Successfully added failure entry for component {0}: {1}. Total failures: {2}".format(
+                component,
+                error_info.get("error_message", "Unknown error"),
+                len(self.operation_failures),
+            ),
+            "ERROR",
+        )
 
     def get_operation_summary(self):
         """
@@ -1050,32 +1095,63 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: Summary containing successes, failures, and statistics.
         """
-        self.log("Generating operation summary from {0} successes and {1} failures".format(
-            len(self.operation_successes), len(self.operation_failures)), "DEBUG")
+        self.log(
+            "Generating operation summary from {0} successes and {1} failures".format(
+                len(self.operation_successes), len(self.operation_failures)
+            ),
+            "DEBUG",
+        )
 
         unique_successful_components = set()
         unique_failed_components = set()
 
-        self.log("Processing successful operations to extract unique component information", "DEBUG")
+        self.log(
+            "Processing successful operations to extract unique component information",
+            "DEBUG",
+        )
         for success in self.operation_successes:
             unique_successful_components.add(success.get("component", "unknown"))
 
-        self.log("Processing failed operations to extract unique component information", "DEBUG")
+        self.log(
+            "Processing failed operations to extract unique component information",
+            "DEBUG",
+        )
         for failure in self.operation_failures:
             unique_failed_components.add(failure.get("component", "unknown"))
 
-        self.log("Calculating component categorization based on success and failure patterns", "DEBUG")
-        partial_success_components = unique_successful_components.intersection(unique_failed_components)
-        self.log("Components with partial success (both successes and failures): {0}".format(
-            len(partial_success_components)), "DEBUG")
+        self.log(
+            "Calculating component categorization based on success and failure patterns",
+            "DEBUG",
+        )
+        partial_success_components = unique_successful_components.intersection(
+            unique_failed_components
+        )
+        self.log(
+            "Components with partial success (both successes and failures): {0}".format(
+                len(partial_success_components)
+            ),
+            "DEBUG",
+        )
 
-        complete_success_components = unique_successful_components - unique_failed_components
-        self.log("Components with complete success (only successes): {0}".format(
-            len(complete_success_components)), "DEBUG")
+        complete_success_components = (
+            unique_successful_components - unique_failed_components
+        )
+        self.log(
+            "Components with complete success (only successes): {0}".format(
+                len(complete_success_components)
+            ),
+            "DEBUG",
+        )
 
-        complete_failure_components = unique_failed_components - unique_successful_components
-        self.log("Components with complete failure (only failures): {0}".format(
-            len(complete_failure_components)), "DEBUG")
+        complete_failure_components = (
+            unique_failed_components - unique_successful_components
+        )
+        self.log(
+            "Components with complete failure (only failures): {0}".format(
+                len(complete_failure_components)
+            ),
+            "DEBUG",
+        )
 
         summary = {
             "total_components_processed": self.total_components_processed,
@@ -1085,11 +1161,15 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "components_with_partial_success": list(partial_success_components),
             "components_with_complete_failure": list(complete_failure_components),
             "success_details": self.operation_successes,
-            "failure_details": self.operation_failures
+            "failure_details": self.operation_failures,
         }
 
-        self.log("Operation summary generated successfully with {0} total components processed".format(
-            summary["total_components_processed"]), "INFO")
+        self.log(
+            "Operation summary generated successfully with {0} total components processed".format(
+                summary["total_components_processed"]
+            ),
+            "INFO",
+        )
 
         return summary
 
@@ -1114,13 +1194,18 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 - assurance_user_defined_issue_settings (list): List of transformed issue dicts
                 - operation_summary (dict): Operation tracking summary with success/failure details
         """
-        self.log("Starting to retrieve user-defined issues with filters: {0}".format(filters), "DEBUG")
+        self.log(
+            "Starting to retrieve user-defined issues with filters: {0}".format(
+                filters
+            ),
+            "DEBUG",
+        )
 
         # Safety check for filters
         if not filters:
             self.log(
                 "No filters provided, using empty filter dictionary and fetching all issues",
-                "DEBUG"
+                "DEBUG",
             )
             filters = {}
 
@@ -1128,13 +1213,19 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         api_family = issue_element.get("api_family")
         api_function = issue_element.get("api_function")
 
-        self.log("Getting user-defined issues using family '{0}' and function '{1}'.".format(
-            api_family, api_function), "INFO")
+        self.log(
+            "Getting user-defined issues using family '{0}' and function '{1}'.".format(
+                api_family, api_function
+            ),
+            "INFO",
+        )
 
         params = {}
         component_specific_filters = filters.get("component_specific_filters", [])
         if isinstance(component_specific_filters, dict):
-            component_specific_filters = component_specific_filters.get("assurance_user_defined_issue_settings", [])
+            component_specific_filters = component_specific_filters.get(
+                "assurance_user_defined_issue_settings", []
+            )
         elif component_specific_filters is None:
             component_specific_filters = []
         elif not isinstance(component_specific_filters, list):
@@ -1146,7 +1237,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Normalizing component-specific user issue filters with {0} candidate entries.".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             deduplicated_filters = []
             seen_filter_keys = set()
@@ -1156,12 +1247,15 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Retaining non-dict component-specific filter at index {0}: {1}".format(
                             filter_index, item
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     deduplicated_filters.append(item)
-                    self.log("Removed {0} duplicate filter entries in component-specific filters before API calls.".format(
-                        len(component_specific_filters) - len(deduplicated_filters)
-                    ), "INFO")
+                    self.log(
+                        "Removed {0} duplicate filter entries in component-specific filters before API calls.".format(
+                            len(component_specific_filters) - len(deduplicated_filters)
+                        ),
+                        "INFO",
+                    )
                     continue
 
                 filter_key = (item.get("name"), item.get("is_enabled"))
@@ -1170,7 +1264,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Skipping duplicate component-specific filter at index {0} with key {1}".format(
                             filter_index, filter_key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -1182,14 +1276,16 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Deduplicated component-specific filters from {0} to {1} entries.".format(
                         len(component_specific_filters), len(deduplicated_filters)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
             component_specific_filters = deduplicated_filters
 
         self.log(
-            "Component-specific filters count: {0}".format(len(component_specific_filters)),
-            "DEBUG"
+            "Component-specific filters count: {0}".format(
+                len(component_specific_filters)
+            ),
+            "DEBUG",
         )
 
         try:
@@ -1198,14 +1294,16 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Processing {0} component-specific filter(s)".format(
                         len(component_specific_filters)
                     ),
-                    "INFO"
+                    "INFO",
                 )
-                for filter_index, filter_param in enumerate(component_specific_filters, start=1):
+                for filter_index, filter_param in enumerate(
+                    component_specific_filters, start=1
+                ):
                     self.log(
                         "Processing filter {0}/{1}: {2}".format(
                             filter_index, len(component_specific_filters), filter_param
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     base_params = {}
                     for key, value in filter_param.items():
@@ -1217,28 +1315,41 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     # If specific filters are provided, use them directly
                     if base_params:
                         self.log(
-                            "Retrieving issues with specific filters: {0}".format(base_params),
-                            "INFO"
+                            "Retrieving issues with specific filters: {0}".format(
+                                base_params
+                            ),
+                            "INFO",
                         )
-                        user_issue_details = self.execute_get_with_pagination(api_family, api_function, base_params)
-                        self.log("Retrieved user-defined issue details with filters {0}: {1}".format(base_params, len(user_issue_details)), "INFO")
+                        user_issue_details = self.execute_get_with_pagination(
+                            api_family, api_function, base_params
+                        )
+                        self.log(
+                            "Retrieved user-defined issue details with filters {0}: {1}".format(
+                                base_params, len(user_issue_details)
+                            ),
+                            "INFO",
+                        )
                         final_user_issues.extend(user_issue_details)
                     else:
                         self.log(
                             "No valid filters in filter_param, fetching all priority/enabled combinations",
-                            "WARNING"
+                            "WARNING",
                         )
                         final_user_issues.extend(
-                            self._fetch_all_priority_enabled_combinations(api_family, api_function)
+                            self._fetch_all_priority_enabled_combinations(
+                                api_family, api_function
+                            )
                         )
             else:
                 # No component-specific filters, fetch all combinations
                 self.log(
                     "No component-specific filters provided, fetching all priority/enabled combinations",
-                    "INFO"
+                    "INFO",
                 )
                 final_user_issues.extend(
-                    self._fetch_all_priority_enabled_combinations(api_family, api_function)
+                    self._fetch_all_priority_enabled_combinations(
+                        api_family, api_function
+                    )
                 )
 
             # Deduplicate merged issue entries (same issue can be returned across repeated filters).
@@ -1248,7 +1359,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Deduplicated final issue results from {0} to {1} entries to remove cross-filter duplicates.".format(
                     len(final_user_issues), len(deduplicated_user_issues)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             for issue_index, issue in enumerate(final_user_issues, start=1):
                 if not isinstance(issue, dict):
@@ -1256,7 +1367,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Retaining non-dict merged issue entry at index {0}: {1}".format(
                             issue_index, issue
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     deduplicated_user_issues.append(issue)
                     continue
@@ -1264,14 +1375,14 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 issue_key = (
                     issue.get("name"),
                     issue.get("isEnabled"),
-                    issue.get("priority")
+                    issue.get("priority"),
                 )
                 if issue_key in seen_issues:
                     self.log(
                         "Skipping duplicate merged issue entry at index {0} with key {1}".format(
                             issue_index, issue_key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -1283,55 +1394,71 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Deduplicated merged issue entries from {0} to {1}.".format(
                         len(final_user_issues), len(deduplicated_user_issues)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log("No duplicate merged issue entries found.", "DEBUG")
             final_user_issues = deduplicated_user_issues
 
             # Track success
-            self.add_success("assurance_user_defined_issue_settings", {
-                "issues_processed": len(final_user_issues)
-            })
+            self.add_success(
+                "assurance_user_defined_issue_settings",
+                {"issues_processed": len(final_user_issues)},
+            )
 
             # Apply reverse mapping
             reverse_mapping_function = issue_element.get("reverse_mapping_function")
             reverse_mapping_spec = reverse_mapping_function()
 
             # Transform using inherited modify_parameters function
-            issue_details = self.modify_parameters(reverse_mapping_spec, final_user_issues)
+            issue_details = self.modify_parameters(
+                reverse_mapping_spec, final_user_issues
+            )
             self.log(
-                "Transformed {0} issue(s) using reverse mapping".format(len(issue_details)),
-                "DEBUG"
+                "Transformed {0} issue(s) using reverse mapping".format(
+                    len(issue_details)
+                ),
+                "DEBUG",
             )
 
             if not issue_details:
                 self.log(
                     "No user-defined issue details found after applying filters.",
-                    "INFO"
+                    "INFO",
                 )
                 return {}
 
             # Post-process to ensure severity values are integers, not strings
             if issue_details and isinstance(issue_details, list):
                 for issue in issue_details:
-                    if isinstance(issue, dict) and "rules" in issue and isinstance(issue["rules"], list):
+                    if (
+                        isinstance(issue, dict)
+                        and "rules" in issue
+                        and isinstance(issue["rules"], list)
+                    ):
                         for rule in issue["rules"]:
                             if isinstance(rule, dict) and "severity" in rule:
                                 # Ensure severity is an integer
                                 try:
                                     rule["severity"] = int(rule["severity"])
                                 except (ValueError, TypeError):
-                                    self.log("Warning: Could not convert severity to int: {0}".format(rule["severity"]), "WARNING")
+                                    self.log(
+                                        "Warning: Could not convert severity to int: {0}".format(
+                                            rule["severity"]
+                                        ),
+                                        "WARNING",
+                                    )
 
             return {"assurance_user_defined_issue_settings": issue_details}
 
         except Exception as e:
-            self.log("Error retrieving user-defined issues: {0}".format(str(e)), "ERROR")
-            self.add_failure("assurance_user_defined_issue_settings", {
-                "error_type": "api_error",
-                "error_message": str(e)
-            })
+            self.log(
+                "Error retrieving user-defined issues: {0}".format(str(e)), "ERROR"
+            )
+            self.add_failure(
+                "assurance_user_defined_issue_settings",
+                {"error_type": "api_error", "error_message": str(e)},
+            )
             return {}
 
     def _fetch_all_priority_enabled_combinations(self, api_family, api_function):
@@ -1357,22 +1484,19 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Fetching issues for all priority/enabled combinations ({0} API calls)".format(
                 total_calls
             ),
-            "INFO"
+            "INFO",
         )
 
         call_count = 0
         for priority in priorities:
             for enabled_status in enabled_statuses:
                 call_count += 1
-                params = {
-                    "priority": priority,
-                    "isEnabled": enabled_status
-                }
+                params = {"priority": priority, "isEnabled": enabled_status}
                 self.log(
                     "API call {0}/{1}: Retrieving issues with priority={2}, enabled={3}".format(
                         call_count, total_calls, priority, enabled_status
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 try:
@@ -1384,7 +1508,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Retrieved {0} issue(s) for priority={1}, enabled={2}".format(
                                 len(user_issue_details), priority, enabled_status
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         all_issues.extend(user_issue_details)
                     else:
@@ -1392,14 +1516,14 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "No issues found for priority={0}, enabled={1}".format(
                                 priority, enabled_status
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 except Exception as e:
                     self.log(
                         "Failed to retrieve issues for priority={0}, enabled={1}: {2}".format(
                             priority, enabled_status, str(e)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     # Continue to next combination
 
@@ -1407,7 +1531,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Completed fetching all combinations, total issues retrieved: {0}".format(
                 len(all_issues)
             ),
-            "INFO"
+            "INFO",
         )
 
         return all_issues
@@ -1433,7 +1557,7 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Post-processing {0} issue(s) to ensure severity values are integers".format(
                 len(issue_details)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         conversion_count = 0
@@ -1465,15 +1589,17 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Converted severity from {0} to {1}".format(
                                     type(original_value).__name__, rule["severity"]
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                         except (ValueError, TypeError) as e:
                             error_count += 1
                             self.log(
                                 "Could not convert severity to int: {0} (type: {1}), error: {2}".format(
-                                    original_value, type(original_value).__name__, str(e)
+                                    original_value,
+                                    type(original_value).__name__,
+                                    str(e),
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
 
         if conversion_count > 0:
@@ -1481,13 +1607,15 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Successfully converted {0} severity value(s) to integers".format(
                     conversion_count
                 ),
-                "INFO"
+                "INFO",
             )
 
         if error_count > 0:
             self.log(
-                "Failed to convert {0} severity value(s) to integers".format(error_count),
-                "WARNING"
+                "Failed to convert {0} severity value(s) to integers".format(
+                    error_count
+                ),
+                "WARNING",
             )
 
     def get_diff_gathered(self):
@@ -1514,7 +1642,10 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1533,18 +1664,18 @@ class AssuranceIssuePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     operation_func(params).check_return_status()
                     operations_executed += 1
                     self.log(
-                        f"{operation_name} operation completed successfully",
-                        "DEBUG"
+                        f"{operation_name} operation completed successfully", "DEBUG"
                     )
                 except Exception as e:
                     self.log(
                         f"{operation_name} operation failed with error: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         f"{operation_name} operation failed: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1568,31 +1699,85 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_host": {
+            "type": "str",
+            "required": True,
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "state": {"type": "str", "default": "gathered", "choices": ["gathered"]},
         "file_path": {"type": "str", "required": False},
-        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "config": {"type": "dict", "required": False},
     }
 
     # Initialize the Ansible module with the defined argument spec
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=False
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     # Create an instance of the workflow manager class
     catalystcenter_assurance_issue = AssuranceIssuePlaybookGenerator(module)
@@ -1603,11 +1788,17 @@ def main():
     # Check if the state is valid
     if state not in catalystcenter_assurance_issue.supported_states:
         catalystcenter_assurance_issue.status = "failed"
-        catalystcenter_assurance_issue.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, catalystcenter_assurance_issue.supported_states
+        catalystcenter_assurance_issue.msg = (
+            "State '{0}' is not supported. Supported states: {1}".format(
+                state, catalystcenter_assurance_issue.supported_states
+            )
         )
-        catalystcenter_assurance_issue.result["msg"] = catalystcenter_assurance_issue.msg
-        catalystcenter_assurance_issue.module.fail_json(**catalystcenter_assurance_issue.result)
+        catalystcenter_assurance_issue.result["msg"] = (
+            catalystcenter_assurance_issue.msg
+        )
+        catalystcenter_assurance_issue.module.fail_json(
+            **catalystcenter_assurance_issue.result
+        )
 
     # Validate the input parameters
     catalystcenter_assurance_issue.validate_input().check_return_status()
@@ -1618,7 +1809,9 @@ def main():
     catalystcenter_assurance_issue.get_diff_state_apply[state]().check_return_status()
 
     # Exit with the result
-    catalystcenter_assurance_issue.module.exit_json(**catalystcenter_assurance_issue.result)
+    catalystcenter_assurance_issue.module.exit_json(
+        **catalystcenter_assurance_issue.result
+    )
 
 
 if __name__ == "__main__":

@@ -13,10 +13,10 @@ description:
   - This API allows the user to create an AnchorGroup.
   - This API allows the user to delete an AnchorGroup by specifying the AnchorGroup ID.
   - This API allows the user to update an AnchorGroup.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   anchorGroupName:
     description: Anchor Group Name. Max length is 32 characters.

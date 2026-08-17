@@ -14,10 +14,10 @@ description:
   - Deletes a port assignment based on id.
   - Deletes port assignments based on user input.
   - Updates port assignments based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataVlanName:
     description: DataVlanName query parameter. Data VLAN name of the port assignment.

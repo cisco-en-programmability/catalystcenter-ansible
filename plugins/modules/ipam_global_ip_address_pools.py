@@ -13,10 +13,10 @@ description:
     pool, which is not bound to a particular site. A global pool must be either an IPv4 or IPv6 pool. - > Deletes a global
     IP address pool. A global IP address pool can only be deleted if there are no subpools reserving address space from it.
   - Updates a global IP address pool.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   addressSpace:
     description: Ipam Global Ip Address Pools's addressSpace.

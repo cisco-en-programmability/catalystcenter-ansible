@@ -114,7 +114,9 @@ class ActionModule(ActionBase):
                 function="get_the_custom_issue_definition_for_the_given_custom_issue_definition_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -123,6 +125,8 @@ class ActionModule(ActionBase):
                 function="get_all_the_custom_issue_definitions_based_on_the_given_filters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

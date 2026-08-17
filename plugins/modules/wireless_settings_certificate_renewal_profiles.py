@@ -13,10 +13,10 @@ description:
   - This API is used to Create LSC Certificate Renewal Profile.
   - Delete LSC Certificate Renewal Profile by ID.
   - This API allows users to update access point certificate renewal profiles by profile ID.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   CalendarProfileSetting:
     description: Wireless Settings Certificate Renewal Profiles's CalendarProfileSetting.

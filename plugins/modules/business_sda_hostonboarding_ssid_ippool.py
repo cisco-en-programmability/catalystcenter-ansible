@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
   - Add SSID to IP Pool Mapping.
   - Update SSID to IP Pool Mapping.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   scalableGroupName:
     description: Scalable Group Name.

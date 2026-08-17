@@ -11,10 +11,10 @@ short_description: Information module for Network Device Summary
 description:
   - Get all Network Device Summary.
   - Returns brief summary of device info for the given device Id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

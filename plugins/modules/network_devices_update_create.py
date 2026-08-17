@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Network Devices Update Create. - > Updates specified fields of an existing network
     device. Only include the fields you wish to update. Omitted fields remain unchanged. To unset a field, explicitly set
     it to null. If a different managementIpAddress is provided, the device will be updated with the new managementIpAddress.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   category:
     description: Category of the device. Used to determine the type of the device being added.

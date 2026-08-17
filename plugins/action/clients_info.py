@@ -134,7 +134,9 @@ class ActionModule(ActionBase):
                 function="retrieves_specific_client_information_matching_the_macaddress",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -143,6 +145,8 @@ class ActionModule(ActionBase):
                 function="retrieves_the_list_of_clients_while_also_offering_basic_filtering_and_sorting_capabilities",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

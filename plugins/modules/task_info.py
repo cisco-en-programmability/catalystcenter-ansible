@@ -13,10 +13,10 @@ description:
   - Get Task by id.
   - Returns a task by specified id.
   - Returns tasks based on filter criteria.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

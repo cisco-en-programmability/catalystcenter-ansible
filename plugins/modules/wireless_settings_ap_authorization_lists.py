@@ -13,10 +13,10 @@ description:
   - This API allows the user to create an AP Authorization List.
   - This API allows the user to delete an AP Authorization List.
   - This API allows the user to update an AP Authorization List.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apAuthorizationListName:
     description: AP Authorization List Name. For a AP Authorization List to be created successfully, either Local Authorization

@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Interface Operation Create. - > Clear mac-address on an individual port. In request
     body, operation needs to be specified as 'ClearMacAddress'. In the future more possible operations will be added to this
     API.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: DeploymentMode query parameter. Preview/Deploy 'Preview' means the configuration is not pushed to the device.

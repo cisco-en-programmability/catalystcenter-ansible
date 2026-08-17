@@ -14,10 +14,10 @@ description:
   - Deletes a layer 2 virtual network based on id.
   - Deletes layer 2 virtual networks based on user input.
   - Updates layer 2 virtual networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   associatedLayer3VirtualNetworkName:
     description: AssociatedLayer3VirtualNetworkName query parameter. Name of the associated layer 3 virtual network.

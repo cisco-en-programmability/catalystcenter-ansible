@@ -11,10 +11,10 @@ short_description: Resource module for Templates Template Id Network Profiles Fo
 description:
   - Manage operation delete of the resource Templates Template Id Network Profiles For Sites Bulk Delete.
   - Detach a list of network profiles from a Day-N CLI template with a list of profile IDs along with the template ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profileId:
     description: ProfileId query parameter. The id or ids of the network profile, retrievable from /dna/intent/api/v1/networkProfilesForSites.

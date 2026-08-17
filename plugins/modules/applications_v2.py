@@ -13,10 +13,10 @@ description:
   - Create new custom application/s.
   - Delete existing custom application by id.
   - Edit the attributes of an existing application.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of custom application to delete.

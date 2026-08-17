@@ -11,10 +11,10 @@ short_description: Information module for Lan Automation Count
 description:
   - Get all Lan Automation Count.
   - Invoke this API to get the total count of LAN Automation sessions.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

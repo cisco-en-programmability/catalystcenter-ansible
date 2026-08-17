@@ -11,10 +11,10 @@ short_description: Resource module for Backups Id Restore
 description:
   - Manage operation create of the resource Backups Id Restore.
   - This api is used to trigger restore workflow of a specific backup.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   encryptionPassphrase:
     description: Passphrase to restore backup.

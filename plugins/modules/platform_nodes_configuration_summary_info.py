@@ -12,10 +12,10 @@ description:
   - Get all Platform Nodes Configuration Summary. - > Provides details about the current Cisco Catalyst Center node configuration,
     such as API version, node name, NTP server, intracluster link, LACP mode, network static routes, DNS server, subnet mask,
     host IP, default gateway, and interface information.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

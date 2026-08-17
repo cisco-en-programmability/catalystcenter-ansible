@@ -11,10 +11,10 @@ short_description: Information module for Diagnostic Validation Workflows Count
 description:
   - Get all Diagnostic Validation Workflows Count.
   - Retrieves the count of workflows that have been successfully submitted and are currently available.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

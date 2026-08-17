@@ -16,10 +16,10 @@ description:
     - > Retrieve the existing syslog-based custom issue definitions. The supported filters are id, name, profileId, definition
     enable status, priority, severity, facility and mnemonic. The issue definition configurations may vary across profiles,
     hence specifying the profile Id in the query parameter is important and the default profile is global.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

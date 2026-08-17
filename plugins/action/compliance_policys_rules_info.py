@@ -98,7 +98,9 @@ class ActionModule(ActionBase):
                 function="retrieve_a_specific_rule",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -107,6 +109,8 @@ class ActionModule(ActionBase):
                 function="retrieve_the_rules",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -19,10 +19,10 @@ description:
     including its planned radio and antenna details. Use the Get variant of this API to fetch the existing planned access
     points for the floor. The payload to update a planned access point is in the same format, albeit a single object instead
     of a list, of that API.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
     description: Planned Access Points's attributes.

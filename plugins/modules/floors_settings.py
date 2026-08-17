@@ -11,10 +11,10 @@ short_description: Resource module for Floors Settings
 description:
   - Manage operation update of the resource Floors Settings.
   - Updates UI user preference for floor unit system. Unit sytem change will effect for all floors across all sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   unitsOfMeasure:
     description: Floor units of measure.

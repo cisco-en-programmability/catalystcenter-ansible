@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Site.
   - Add Site in SDA Fabric.
   - Delete Site from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricName:
     description: Warning - Starting Catalyst Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not

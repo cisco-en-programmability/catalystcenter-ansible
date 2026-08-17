@@ -13,10 +13,10 @@ description:
     factory reset Access Points. It is supported for maximum 100 Access Points per request. Factory reset clears all configurations
     from the Access Points. After factory reset the Access Point may become unreachable from the currently associated Wireless
     Controller and may or may not join back the same controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apMacAddresses:
     description: List of Access Point's Ethernet MAC addresses, set maximum 100 ethernet MAC addresses per request.

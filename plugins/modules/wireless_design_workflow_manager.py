@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wireless design operations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -40,7 +41,7 @@ description:
     Mandatory fields (e.g., radio_band, event_driven_rrm_enable,
     global_multicast_enabled) are automatically preserved and
     cannot be reset to null."
-version_added: "6.17.0"
+version_added: "2.2.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -7522,10 +7523,10 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
-    validate_list_of_dicts
+    validate_list_of_dicts,
 )
 import re
 
@@ -7536,7 +7537,9 @@ class WirelessDesign(CatalystCenterBase):
     """
 
     # Keys to skip during SSID comparison (not user-provided values)
-    SSID_COMPARISON_SKIP_KEYS = frozenset({"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"})
+    SSID_COMPARISON_SKIP_KEYS = frozenset(
+        {"sites_specific_override_settings", "site_id", "id", "ssid", "wlanType"}
+    )
 
     def __init__(self, module):
         """
@@ -7550,10 +7553,17 @@ class WirelessDesign(CatalystCenterBase):
         self.is_default_rf_profile_in_config = False
         super().__init__(module)
         self._SNAKE_CASE_RE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
-        self._SPEC_META_KEYS = frozenset({
-            "type", "required", "default", "choices", "elements",
-            "maxlength", "no_log",
-        })
+        self._SPEC_META_KEYS = frozenset(
+            {
+                "type",
+                "required",
+                "default",
+                "choices",
+                "elements",
+                "maxlength",
+                "no_log",
+            }
+        )
 
     def validate_input(self):
         """
@@ -7581,7 +7591,7 @@ class WirelessDesign(CatalystCenterBase):
                 "ssid_name": {"type": "str"},
                 "ssid_type": {
                     "type": "str",
-                    "choices_ignore_case": ["Enterprise", "Guest"]
+                    "choices_ignore_case": ["Enterprise", "Guest"],
                 },
                 "wlan_profile_name": {"type": "str"},
                 "radio_policy": {
@@ -7959,7 +7969,12 @@ class WirelessDesign(CatalystCenterBase):
                         "required": False,
                         "peer2peer_blocking": {
                             "type": "str",
-                            "choices": ["DISABLE", "DROP", "FORWARD_UP", "ALLOW_PVT_GROUP"]
+                            "choices": [
+                                "DISABLE",
+                                "DROP",
+                                "FORWARD_UP",
+                                "ALLOW_PVT_GROUP",
+                            ],
                         },
                         "passive_client": {"type": "bool", "default": False},
                         "prediction_optimization": {"type": "bool", "default": False},
@@ -7982,19 +7997,34 @@ class WirelessDesign(CatalystCenterBase):
                         "max_clients": {"type": "int"},
                         "max_clients_per_radio": {"type": "int"},
                         "max_clients_per_ap": {"type": "int"},
-                        "wmm_policy": {"type": "str", "choices": ["DISABLED", "ALLOWED", "REQUIRED"]},
+                        "wmm_policy": {
+                            "type": "str",
+                            "choices": ["DISABLED", "ALLOWED", "REQUIRED"],
+                        },
                         "multicast_buffer": {"type": "bool", "default": False},
                         "multicast_buffer_value": {"type": "int"},
-                        "media_stream_multicast_direct": {"type": "bool", "default": False},
+                        "media_stream_multicast_direct": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "mu_mimo_11ac": {"type": "bool", "default": False},
                         "wifi_to_cellular_steering": {"type": "bool", "default": False},
-                        "wifi_alliance_agile_multiband": {"type": "bool", "default": False},
+                        "wifi_alliance_agile_multiband": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "fastlane_asr": {"type": "bool", "default": False},
-                        "dot11v_bss_max_idle_protected": {"type": "bool", "default": False},
+                        "dot11v_bss_max_idle_protected": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "universal_ap_admin": {"type": "bool", "default": False},
                         "opportunistic_key_caching": {"type": "bool", "default": False},
                         "ip_source_guard": {"type": "bool", "default": False},
-                        "dhcp_opt82_remote_id_sub_option": {"type": "bool", "default": False},
+                        "dhcp_opt82_remote_id_sub_option": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "vlan_central_switching": {"type": "bool", "default": False},
                         "call_snooping": {"type": "bool", "default": False},
                         "send_disassociate": {"type": "bool", "default": False},
@@ -8011,16 +8041,30 @@ class WirelessDesign(CatalystCenterBase):
                         "defer_priority_7": {"type": "bool", "default": False},
                         "share_data_with_client": {"type": "bool", "default": False},
                         "advertise_support": {"type": "bool", "default": False},
-                        "advertise_pc_analytics_support": {"type": "bool", "default": False},
-                        "send_beacon_on_association": {"type": "bool", "default": False},
+                        "advertise_pc_analytics_support": {
+                            "type": "bool",
+                            "default": False,
+                        },
+                        "send_beacon_on_association": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "send_beacon_on_roam": {"type": "bool", "default": False},
                         "fast_transition_reassociation_timeout": {"type": "int"},
                         "mdns_mode": {
                             "type": "str",
-                            "choices": ["MDNS_SD_BRIDGING", "MDNS_SD_DROP", "MDNS_SD_GATEWAY"]
+                            "choices": [
+                                "MDNS_SD_BRIDGING",
+                                "MDNS_SD_DROP",
+                                "MDNS_SD_GATEWAY",
+                            ],
                         },
                     },
-                    "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                    "unlocked_attributes": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
                 },
                 "clean_air_configuration": {
                     "type": "list",
@@ -8032,19 +8076,31 @@ class WirelessDesign(CatalystCenterBase):
                         "required": False,
                         "radio_band": {
                             "type": "str",
-                            "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
+                            "choices": ["2_4GHZ", "5GHZ", "6GHZ"],
                         },
                         "clean_air": {"type": "bool", "default": False},
-                        "clean_air_device_reporting": {"type": "bool", "default": False},
-                        "persistent_device_propagation": {"type": "bool", "default": False},
+                        "clean_air_device_reporting": {
+                            "type": "bool",
+                            "default": False,
+                        },
+                        "persistent_device_propagation": {
+                            "type": "bool",
+                            "default": False,
+                        },
                         "description": {"type": "str"},
                         "interferers_features": {
                             "type": "dict",
                             "required": False,
                             "ble_beacon": {"type": "bool", "default": False},
-                            "bluetooth_paging_inquiry": {"type": "bool", "default": False},
+                            "bluetooth_paging_inquiry": {
+                                "type": "bool",
+                                "default": False,
+                            },
                             "bluetooth_sco_acl": {"type": "bool", "default": False},
-                            "continuous_transmitter": {"type": "bool", "default": False},
+                            "continuous_transmitter": {
+                                "type": "bool",
+                                "default": False,
+                            },
                             "generic_dect": {"type": "bool", "default": False},
                             "generic_tdd": {"type": "bool", "default": False},
                             "jammer": {"type": "bool", "default": False},
@@ -8052,7 +8108,10 @@ class WirelessDesign(CatalystCenterBase):
                             "motorola_canopy": {"type": "bool", "default": False},
                             "si_fhss": {"type": "bool", "default": False},
                             "spectrum80211_fh": {"type": "bool", "default": False},
-                            "spectrum80211_non_standard_channel": {"type": "bool", "default": False},
+                            "spectrum80211_non_standard_channel": {
+                                "type": "bool",
+                                "default": False,
+                            },
                             "spectrum802154": {"type": "bool", "default": False},
                             "spectrum_inverted": {"type": "bool", "default": False},
                             "super_ag": {"type": "bool", "default": False},
@@ -8062,7 +8121,11 @@ class WirelessDesign(CatalystCenterBase):
                             "xbox": {"type": "bool", "default": False},
                         },
                     },
-                    "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                    "unlocked_attributes": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
                 },
                 "dot11ax_configuration": {
                     "type": "list",
@@ -8080,7 +8143,11 @@ class WirelessDesign(CatalystCenterBase):
                         "obss_pd": {"type": "bool", "default": False},
                         "multiple_bssid": {"type": "bool", "default": False},
                     },
-                    "unlocked_attributes": {"type": "list", "elements": "str", "required": False},
+                    "unlocked_attributes": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
+                    },
                 },
                 "dot11be_configuration": {
                     "type": "list",
@@ -8091,7 +8158,10 @@ class WirelessDesign(CatalystCenterBase):
                         "type": "dict",
                         "required": False,
                         "dot11be_status": {"type": "bool", "default": False},
-                        "radio_band": {"type": "str", "choices": ["2_4GHZ", "5GHZ", "6GHZ"]},
+                        "radio_band": {
+                            "type": "str",
+                            "choices": ["2_4GHZ", "5GHZ", "6GHZ"],
+                        },
                     },
                     "unlocked_attributes": {
                         "type": "list",
@@ -8156,11 +8226,7 @@ class WirelessDesign(CatalystCenterBase):
                     "type": "list",
                     "required": False,
                     "elements": "dict",
-                    "design_name": {
-                        "type": "str",
-                        "required": True,
-                        "maxlength": 64
-                    },
+                    "design_name": {"type": "str", "required": True, "maxlength": 64},
                     "feature_attributes": {
                         "type": "dict",
                         "required": False,
@@ -8168,21 +8234,15 @@ class WirelessDesign(CatalystCenterBase):
                         "multicast_ipv4_mode": {
                             "type": "str",
                             "required": False,
-                            "choices": ["UNICAST", "MULTICAST"]
+                            "choices": ["UNICAST", "MULTICAST"],
                         },
-                        "multicast_ipv4_address": {
-                            "type": "str",
-                            "required": False
-                        },
+                        "multicast_ipv4_address": {"type": "str", "required": False},
                         "multicast_ipv6_mode": {
                             "type": "str",
                             "required": False,
-                            "choices": ["UNICAST", "MULTICAST"]
+                            "choices": ["UNICAST", "MULTICAST"],
                         },
-                        "multicast_ipv6_address": {
-                            "type": "str",
-                            "required": False
-                        },
+                        "multicast_ipv6_address": {"type": "str", "required": False},
                     },
                     "unlocked_attributes": {
                         "type": "list",
@@ -8194,37 +8254,37 @@ class WirelessDesign(CatalystCenterBase):
                     "type": "list",
                     "elements": "dict",
                     "required": False,
-                    "design_name": {
-                        "type": "str",
-                        "required": True,
-                        "maxlength": 64
-                    },
+                    "design_name": {"type": "str", "required": True, "maxlength": 64},
                     "feature_attributes": {
                         "type": "dict",
                         "required": False,
                         "radio_band": {
                             "type": "str",
                             "required": False,
-                            "choices": ["2_4GHZ_5GHZ", "5GHZ_6GHZ"]
+                            "choices": ["2_4GHZ_5GHZ", "5GHZ_6GHZ"],
                         },
                         "fra_freeze": {
                             "type": "bool",
                             "required": False,
-                            "default": False
+                            "default": False,
                         },
                         "fra_status": {
                             "type": "bool",
                             "required": False,
-                            "default": False
+                            "default": False,
                         },
-                        "fra_interval": {
-                            "type": "int",
-                            "required": False
-                        },
+                        "fra_interval": {"type": "int", "required": False},
                         "fra_sensitivity": {
                             "type": "str",
                             "required": False,
-                            "choices": ["LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"]
+                            "choices": [
+                                "LOW",
+                                "MEDIUM",
+                                "HIGH",
+                                "HIGHER",
+                                "EVEN_HIGHER",
+                                "SUPER_HIGH",
+                            ],
                         },
                     },
                     "unlocked_attributes": {
@@ -8237,18 +8297,14 @@ class WirelessDesign(CatalystCenterBase):
                     "type": "list",
                     "elements": "dict",
                     "required": False,
-                    "design_name": {
-                        "type": "str",
-                        "required": True,
-                        "maxlength": 64
-                    },
+                    "design_name": {"type": "str", "required": True, "maxlength": 64},
                     "feature_attributes": {
                         "type": "dict",
                         "required": False,
                         "radio_band": {
                             "type": "str",
                             "required": False,
-                            "choices": ["2_4GHZ", "5GHZ", "6GHZ"]
+                            "choices": ["2_4GHZ", "5GHZ", "6GHZ"],
                         },
                         "monitoring_channels": {
                             "type": "str",
@@ -8256,25 +8312,22 @@ class WirelessDesign(CatalystCenterBase):
                             "choices": [
                                 "MONITORING_CHANNELS_ALL",
                                 "MONITORING_CHANNELS_COUNTRY",
-                                "MONITORING_CHANNELS_DCA"
-                            ]
+                                "MONITORING_CHANNELS_DCA",
+                            ],
                         },
                         "neighbor_discover_type": {
                             "type": "str",
                             "required": False,
                             "choices": [
                                 "NEIGHBOR_DISCOVER_TYPE_TRANSPARENT",
-                                "NEIGHBOR_DISCOVER_TYPE_PROTECTED"
-                            ]
+                                "NEIGHBOR_DISCOVER_TYPE_PROTECTED",
+                            ],
                         },
-                        "throughput_threshold": {
-                            "type": "int",
-                            "required": False
-                        },
+                        "throughput_threshold": {"type": "int", "required": False},
                         "coverage_hole_detection": {
                             "type": "bool",
                             "required": False,
-                            "default": False
+                            "default": False,
                         },
                     },
                     "unlocked_attributes": {
@@ -8282,7 +8335,7 @@ class WirelessDesign(CatalystCenterBase):
                         "elements": "str",
                         "required": False,
                     },
-                }
+                },
             },
             "802_11_be_profiles": {
                 "type": "list",
@@ -8301,8 +8354,8 @@ class WirelessDesign(CatalystCenterBase):
                 "required": False,
                 "site_name_hierarchy": {"type": "str"},
                 "vlan_id": {"type": "int"},
-                "remove_override_in_hierarchy": {"type": "bool", "default": True}
-            }
+                "remove_override_in_hierarchy": {"type": "bool", "default": True},
+            },
         }
 
         # Validate params against the expected schema
@@ -8314,7 +8367,9 @@ class WirelessDesign(CatalystCenterBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        validation_error = self._validate_feature_template_unlocked_attributes(valid_temp)
+        validation_error = self._validate_feature_template_unlocked_attributes(
+            valid_temp
+        )
         if validation_error:
             self.msg = validation_error
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -8341,7 +8396,9 @@ class WirelessDesign(CatalystCenterBase):
         if not isinstance(attribute_name, str) or not attribute_name:
             return False
 
-        return all(self._SNAKE_CASE_RE.match(segment) for segment in attribute_name.split("."))
+        return all(
+            self._SNAKE_CASE_RE.match(segment) for segment in attribute_name.split(".")
+        )
 
     def _collect_feature_template_attribute_paths(self, options, prefix=""):
         """
@@ -8388,7 +8445,10 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             str | None: Error message on validation failure, otherwise None.
         """
-        self.log("Validating feature_template_config unlocked_attributes for snake_case compliance.", "DEBUG")
+        self.log(
+            "Validating feature_template_config unlocked_attributes for snake_case compliance.",
+            "DEBUG",
+        )
         feature_template_spec = self.temp_spec.get("feature_template_config", {})
 
         for config_item in config or []:
@@ -8400,19 +8460,25 @@ class WirelessDesign(CatalystCenterBase):
 
                     if unlocked_spec.get("type") != "list":
                         self.log(
-                            "Skipping template '{0}': unlocked_attributes is not type 'list'.".format(template_name),
-                            "DEBUG"
+                            "Skipping template '{0}': unlocked_attributes is not type 'list'.".format(
+                                template_name
+                            ),
+                            "DEBUG",
                         )
                         continue
 
-                    allowed_unlock_attributes = self._collect_feature_template_attribute_paths(
-                        template_spec.get("feature_attributes", {})
+                    allowed_unlock_attributes = (
+                        self._collect_feature_template_attribute_paths(
+                            template_spec.get("feature_attributes", {})
+                        )
                     )
                     if not allowed_unlock_attributes:
                         allowed_unlock_attributes = {
-                            option_name for option_name in template_spec.keys()
+                            option_name
+                            for option_name in template_spec.keys()
                             if option_name not in self._SPEC_META_KEYS
-                            and option_name not in (
+                            and option_name
+                            not in (
                                 "design_name",
                                 "new_design_name",
                                 "feature_attributes",
@@ -8425,8 +8491,11 @@ class WirelessDesign(CatalystCenterBase):
                         unlocked_attributes = entry.get("unlocked_attributes") or []
 
                         invalid_style = [
-                            attribute_name for attribute_name in unlocked_attributes
-                            if not self._is_snake_case_unlocked_attribute(attribute_name)
+                            attribute_name
+                            for attribute_name in unlocked_attributes
+                            if not self._is_snake_case_unlocked_attribute(
+                                attribute_name
+                            )
                         ]
                         if invalid_style:
                             error_msg = (
@@ -8437,7 +8506,8 @@ class WirelessDesign(CatalystCenterBase):
                             return error_msg
 
                         invalid_names = [
-                            attribute_name for attribute_name in unlocked_attributes
+                            attribute_name
+                            for attribute_name in unlocked_attributes
                             if attribute_name not in allowed_unlock_attributes
                         ]
                         if invalid_names:
@@ -8445,7 +8515,9 @@ class WirelessDesign(CatalystCenterBase):
                                 "Invalid unlocked_attributes {0} for feature template "
                                 "'{1}' in design '{2}'. Allowed values are: {3}."
                             ).format(
-                                invalid_names, template_name, design_name,
+                                invalid_names,
+                                template_name,
+                                design_name,
                                 sorted(allowed_unlock_attributes),
                             )
                             self.log(error_msg, "WARNING")
@@ -8470,7 +8542,10 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of RRM General configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of RRM General configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing RRM General configurations
         existing_blocks = self.get_rrm_general_profiles()
@@ -8514,7 +8589,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -8609,7 +8686,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_rrm_general = already_reset_list
             self.log(
-                "RRM General configurations already reset (no action needed): {0}".format(already_reset_list),
+                "RRM General configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -8631,10 +8710,14 @@ class WirelessDesign(CatalystCenterBase):
         """
         add_list, update_list, no_update_list = [], [], []
 
-        self.log("Starting verification of RRM General configurations (Add/Update).", "INFO")
+        self.log(
+            "Starting verification of RRM General configurations (Add/Update).", "INFO"
+        )
 
         # --- Inline universal normalizer/validator ---
-        def normalize_value(value, value_type="str", choices=None, min_val=None, max_val=None):
+        def normalize_value(
+            value, value_type="str", choices=None, min_val=None, max_val=None
+        ):
             """
             value_type: "str", "enum", "bool", "int"
             - enum: returns UPPERCASE string and validates against choices (if provided)
@@ -8665,7 +8748,11 @@ class WirelessDesign(CatalystCenterBase):
             if value_type == "enum":
                 v = str(value).upper()
                 if choices and v not in choices:
-                    raise ValueError("Invalid enum value '{0}'. Allowed: {1}".format(v, sorted(list(choices))))
+                    raise ValueError(
+                        "Invalid enum value '{0}'. Allowed: {1}".format(
+                            v, sorted(list(choices))
+                        )
+                    )
                 return v
 
             # default: string normalization
@@ -8696,7 +8783,7 @@ class WirelessDesign(CatalystCenterBase):
         # Fetch existing summaries and flatten
         existing_blocks = self.get_rrm_general_profiles()
         instances = []
-        for block in (existing_blocks or []):
+        for block in existing_blocks or []:
             instances.extend(block.get("instances", []) or [])
         self.log("Existing RRM General profiles: {0}".format(instances), "DEBUG")
 
@@ -8708,7 +8795,12 @@ class WirelessDesign(CatalystCenterBase):
             fa_req = requested_cfg.get("feature_attributes") or {}
             unl_req = requested_cfg.get("unlocked_attributes") or []
 
-            self.log("Iteration {0}: Checking RRM General config '{1}'.".format(index, design_name), "DEBUG")
+            self.log(
+                "Iteration {0}: Checking RRM General config '{1}'.".format(
+                    index, design_name
+                ),
+                "DEBUG",
+            )
 
             # feature_attributes is mandatory for create/update
             if not fa_req:
@@ -8716,7 +8808,9 @@ class WirelessDesign(CatalystCenterBase):
                     "'feature_attributes' is mandatory for RRM General configuration "
                     "create/update in design '{0}'.".format(design_name)
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # radio_band is mandatory within feature_attributes
             if not fa_req.get("radio_band"):
@@ -8724,51 +8818,101 @@ class WirelessDesign(CatalystCenterBase):
                     "'radio_band' is a mandatory field within 'feature_attributes' "
                     "for RRM General configuration in design '{0}'.".format(design_name)
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # --- VALIDATION (input, snake_case) + normalization ---
             try:
-                radio_band = normalize_value(fa_req.get("radio_band"), "enum", choices=allowed_bands)
+                radio_band = normalize_value(
+                    fa_req.get("radio_band"), "enum", choices=allowed_bands
+                )
             except ValueError as e:
-                self.msg = "Invalid radio_band for design '{0}': {1}".format(design_name, e)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Invalid radio_band for design '{0}': {1}".format(
+                    design_name, e
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             monitoring_channels = None
-            if "monitoring_channels" in fa_req and fa_req.get("monitoring_channels") is not None:
+            if (
+                "monitoring_channels" in fa_req
+                and fa_req.get("monitoring_channels") is not None
+            ):
                 try:
                     monitoring_channels = normalize_value(
-                        fa_req.get("monitoring_channels"), "enum", choices=allowed_monitoring
+                        fa_req.get("monitoring_channels"),
+                        "enum",
+                        choices=allowed_monitoring,
                     )
                 except ValueError as e:
-                    self.msg = "Invalid monitoring_channels for design '{0}': {1}".format(design_name, e)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "Invalid monitoring_channels for design '{0}': {1}".format(
+                            design_name, e
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             neighbor_discover_type = None
-            if "neighbor_discover_type" in fa_req and fa_req.get("neighbor_discover_type") is not None:
+            if (
+                "neighbor_discover_type" in fa_req
+                and fa_req.get("neighbor_discover_type") is not None
+            ):
                 try:
                     neighbor_discover_type = normalize_value(
-                        fa_req.get("neighbor_discover_type"), "enum", choices=allowed_neighbor
+                        fa_req.get("neighbor_discover_type"),
+                        "enum",
+                        choices=allowed_neighbor,
                     )
                 except ValueError as e:
-                    self.msg = "Invalid neighbor_discover_type for design '{0}': {1}".format(design_name, e)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "Invalid neighbor_discover_type for design '{0}': {1}".format(
+                            design_name, e
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             throughput_threshold = None
-            if "throughput_threshold" in fa_req and fa_req.get("throughput_threshold") is not None:
-                tt = normalize_value(fa_req.get("throughput_threshold"), "int", min_val=thr_min, max_val=thr_max)
+            if (
+                "throughput_threshold" in fa_req
+                and fa_req.get("throughput_threshold") is not None
+            ):
+                tt = normalize_value(
+                    fa_req.get("throughput_threshold"),
+                    "int",
+                    min_val=thr_min,
+                    max_val=thr_max,
+                )
                 if not isinstance(tt, int):
-                    self.msg = ("throughput_threshold must be integer within [{0}..{1}] for design '{2}', got '{3}'"
-                                .format(thr_min, thr_max, design_name, fa_req.get("throughput_threshold")))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = "throughput_threshold must be integer within [{0}..{1}] for design '{2}', got '{3}'".format(
+                        thr_min,
+                        thr_max,
+                        design_name,
+                        fa_req.get("throughput_threshold"),
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 throughput_threshold = tt
 
             coverage_hole_detection = None
-            if "coverage_hole_detection" in fa_req and fa_req.get("coverage_hole_detection") is not None:
+            if (
+                "coverage_hole_detection" in fa_req
+                and fa_req.get("coverage_hole_detection") is not None
+            ):
                 chd = normalize_value(fa_req.get("coverage_hole_detection"), "bool")
                 if not isinstance(chd, bool):
-                    self.msg = ("coverage_hole_detection must be boolean for design '{0}', got '{1}'"
-                                .format(design_name, fa_req.get("coverage_hole_detection")))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = "coverage_hole_detection must be boolean for design '{0}', got '{1}'".format(
+                        design_name, fa_req.get("coverage_hole_detection")
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 coverage_hole_detection = chd
 
             # Info-only constraint: 2_4GHZ support requires IOS-XE >= 17.9.1 (cannot verify here)
@@ -8780,9 +8924,13 @@ class WirelessDesign(CatalystCenterBase):
                 allowed_unlock_snake = set(unlock_map.keys())
                 bad = [u for u in unl_req if u not in allowed_unlock_snake]
                 if bad:
-                    self.msg = ("Unlocked attributes {0} are invalid for design '{1}'. "
-                                "Allowed: {2}").format(bad, design_name, sorted(allowed_unlock_snake))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "Unlocked attributes {0} are invalid for design '{1}'. "
+                        "Allowed: {2}"
+                    ).format(bad, design_name, sorted(allowed_unlock_snake))
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             # --- Build controller payload (camelCase) ---
             fa_payload = {"radioBand": radio_band}
@@ -8807,7 +8955,9 @@ class WirelessDesign(CatalystCenterBase):
             existing = existing_dict.get(design_name)
             if not existing:
                 add_list.append(payload)
-                self.log("RRM General '{0}' scheduled for ADD.".format(design_name), "INFO")
+                self.log(
+                    "RRM General '{0}' scheduled for ADD.".format(design_name), "INFO"
+                )
                 continue
 
             # Prefer detailed fetch if available
@@ -8817,28 +8967,41 @@ class WirelessDesign(CatalystCenterBase):
             except Exception:
                 details = existing  # fallback to summary if detail API not available
 
-            existing_fa = (details.get("featureAttributes") or existing.get("featureAttributes") or {})
-            existing_unl = (details.get("unlockedAttributes") or existing.get("unlockedAttributes") or [])
+            existing_fa = (
+                details.get("featureAttributes")
+                or existing.get("featureAttributes")
+                or {}
+            )
+            existing_unl = (
+                details.get("unlockedAttributes")
+                or existing.get("unlockedAttributes")
+                or []
+            )
 
             # normalize enums for fair compare
             def U(v):
                 return str(v).upper() if isinstance(v, str) else v
 
             needs_update = (
-                U(existing_fa.get("radioBand")) != U(fa_payload.get("radioBand")) or
-                U(existing_fa.get("monitoringChannels")) != U(fa_payload.get("monitoringChannels")) or
-                U(existing_fa.get("neighborDiscoverType")) != U(fa_payload.get("neighborDiscoverType")) or
-                normalize_value(existing_fa.get("throughputThreshold"), "int")
-                != normalize_value(fa_payload.get("throughputThreshold"), "int") or
-                normalize_value(existing_fa.get("coverageHoleDetection"), "bool")
-                != normalize_value(fa_payload.get("coverageHoleDetection"), "bool") or
-                set(existing_unl) != set(payload.get("unlockedAttributes", []))
+                U(existing_fa.get("radioBand")) != U(fa_payload.get("radioBand"))
+                or U(existing_fa.get("monitoringChannels"))
+                != U(fa_payload.get("monitoringChannels"))
+                or U(existing_fa.get("neighborDiscoverType"))
+                != U(fa_payload.get("neighborDiscoverType"))
+                or normalize_value(existing_fa.get("throughputThreshold"), "int")
+                != normalize_value(fa_payload.get("throughputThreshold"), "int")
+                or normalize_value(existing_fa.get("coverageHoleDetection"), "bool")
+                != normalize_value(fa_payload.get("coverageHoleDetection"), "bool")
+                or set(existing_unl) != set(payload.get("unlockedAttributes", []))
             )
 
             if needs_update:
                 payload["id"] = existing.get("id")
                 update_list.append(payload)
-                self.log("RRM General '{0}' scheduled for UPDATE.".format(design_name), "INFO")
+                self.log(
+                    "RRM General '{0}' scheduled for UPDATE.".format(design_name),
+                    "INFO",
+                )
             else:
                 no_update_list.append(details or existing)
                 self.log("RRM General '{0}' -> NO CHANGE.".format(design_name), "INFO")
@@ -8859,7 +9022,12 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the RRM General feature template, or {} if fetch fails.
         """
-        self.log("Fetching RRM General configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching RRM General configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
@@ -8869,7 +9037,7 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_r_r_m_general_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -8877,10 +9045,17 @@ class WirelessDesign(CatalystCenterBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch RRM General configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
+            self.log(
+                "Failed to fetch RRM General configuration details for template_id={0}: {1}".format(
+                    template_id, str(e)
+                ),
+                "ERROR",
+            )
             return {}
 
-    def get_rrm_general_profiles(self, design_name=None, template_type="RRM_GENERAL_CONFIGURATION"):
+    def get_rrm_general_profiles(
+        self, design_name=None, template_type="RRM_GENERAL_CONFIGURATION"
+    ):
         """
         Retrieve existing RRM General feature templates from Cisco Catalyst Center.
         Args:
@@ -8890,7 +9065,9 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of existing RRM General template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing RRM General Templates from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing RRM General Templates from Catalyst Center.", "DEBUG"
+        )
 
         try:
             params = {"type": template_type}
@@ -8898,21 +9075,23 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
             existing_rrm_general = response.get("response", [])
             self.log(
-                "Retrieved {0} RRM General Templates.".format(len(existing_rrm_general)),
+                "Retrieved {0} RRM General Templates.".format(
+                    len(existing_rrm_general)
+                ),
                 "DEBUG",
             )
             return existing_rrm_general
 
         except Exception as e:
-            self.log("Failed to fetch RRM General Templates: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch RRM General Templates: {0}".format(str(e)), "ERROR"
+            )
             return []
 
     def verify_delete_rrm_fra_requirement(self, rrm_fra_list):
@@ -8932,7 +9111,10 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of RRM-FRA configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of RRM-FRA configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing RRM-FRA configurations
         existing_blocks = self.get_rrm_fra_profiles()
@@ -8943,7 +9125,9 @@ class WirelessDesign(CatalystCenterBase):
         self.log("Existing RRM-FRA configurations: {0}".format(instances), "DEBUG")
 
         # Convert existing instances into a dictionary for quick lookup
-        existing_dict = {cfg.get("designName"): cfg for cfg in instances if cfg.get("designName")}
+        existing_dict = {
+            cfg.get("designName"): cfg for cfg in instances if cfg.get("designName")
+        }
         self.log("Converted existing RRM-FRA configs to dictionary.", "DEBUG")
 
         # Iterate over requested configurations
@@ -8976,7 +9160,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -9071,7 +9257,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_rrm_fra = already_reset_list
             self.log(
-                "RRM-FRA configurations already reset (no action needed): {0}".format(already_reset_list),
+                "RRM-FRA configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -9094,10 +9282,12 @@ class WirelessDesign(CatalystCenterBase):
         add_list, update_list, no_update_list = [], [], []
 
         existing_blocks = self.get_rrm_fra_profiles()
-        self.log("Existing RRM-FRA Profiles (summary): {0}".format(existing_blocks), "DEBUG")
+        self.log(
+            "Existing RRM-FRA Profiles (summary): {0}".format(existing_blocks), "DEBUG"
+        )
 
         existing_dict = {}
-        for block in (existing_blocks or []):
+        for block in existing_blocks or []:
             for inst in block.get("instances", []) or []:
                 design_name = inst.get("designName")
                 if design_name:
@@ -9106,10 +9296,17 @@ class WirelessDesign(CatalystCenterBase):
 
         # Allowed values
         allowed_bands = ["2_4GHZ_5GHZ", "5GHZ_6GHZ"]
-        allowed_sensitivity = ["LOW", "MEDIUM", "HIGH", "HIGHER", "EVEN_HIGHER", "SUPER_HIGH"]
+        allowed_sensitivity = [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "HIGHER",
+            "EVEN_HIGHER",
+            "SUPER_HIGH",
+        ]
         advanced_sensitivity = {"HIGHER", "EVEN_HIGHER", "SUPER_HIGH"}
 
-        for attr in (rrm_fra_list or []):
+        for attr in rrm_fra_list or []:
             design_name = attr.get("design_name")
             fa = attr.get("feature_attributes") or {}
             unlocked = attr.get("unlocked_attributes", [])
@@ -9117,7 +9314,9 @@ class WirelessDesign(CatalystCenterBase):
             # fail early if design_name missing
             if not design_name:
                 self.msg = "Missing design_name in RRM-FRA item: {0}".format(attr)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # feature_attributes is mandatory for create/update
             if not fa:
@@ -9125,7 +9324,9 @@ class WirelessDesign(CatalystCenterBase):
                     "'feature_attributes' is mandatory for RRM-FRA configuration "
                     "create/update in design '{0}'.".format(design_name)
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # radio_band is mandatory within feature_attributes
             if not fa.get("radio_band"):
@@ -9133,7 +9334,9 @@ class WirelessDesign(CatalystCenterBase):
                     "'radio_band' is a mandatory field within 'feature_attributes' "
                     "for RRM-FRA configuration in design '{0}'.".format(design_name)
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             radio_band = fa.get("radio_band")
             fra_freeze = fa.get("fra_freeze")
@@ -9146,43 +9349,67 @@ class WirelessDesign(CatalystCenterBase):
                 self.msg = "Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
                     radio_band, design_name, allowed_bands
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if fra_interval is not None:
                 try:
                     val = int(fra_interval)
                 except Exception:
-                    self.msg = "fra_interval must be an integer for design '{0}'.".format(design_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "fra_interval must be an integer for design '{0}'.".format(
+                            design_name
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 if not (1 <= val <= 24):
-                    self.msg = "fra_interval must be between 1 and 24 for design '{0}'.".format(design_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = "fra_interval must be between 1 and 24 for design '{0}'.".format(
+                        design_name
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             if fra_sensitivity is not None:
                 if fra_sensitivity not in allowed_sensitivity:
                     self.msg = "Invalid fra_sensitivity '{0}' for design '{1}'. Must be one of: {2}".format(
                         fra_sensitivity, design_name, allowed_sensitivity
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 # Advanced sensitivity only valid for 2_4GHZ_5GHZ
-                if (fra_sensitivity in advanced_sensitivity) and (radio_band != "2_4GHZ_5GHZ"):
-                    self.msg = ("fra_sensitivity '{0}' is supported only for radio_band=2_4GHZ_5GHZ "
-                                "for design '{1}'.").format(fra_sensitivity, design_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                if (fra_sensitivity in advanced_sensitivity) and (
+                    radio_band != "2_4GHZ_5GHZ"
+                ):
+                    self.msg = (
+                        "fra_sensitivity '{0}' is supported only for radio_band=2_4GHZ_5GHZ "
+                        "for design '{1}'."
+                    ).format(fra_sensitivity, design_name)
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             # Note: fra_freeze controller-version constraints cannot be validated here; log hint only.
             if fra_freeze is not None:
                 if radio_band == "2_4GHZ_5GHZ":
-                    self.log("Notice: fra_freeze requires controller >= 17.6 for 2_4GHZ_5GHZ.", "DEBUG")
+                    self.log(
+                        "Notice: fra_freeze requires controller >= 17.6 for 2_4GHZ_5GHZ.",
+                        "DEBUG",
+                    )
                 elif radio_band == "5GHZ_6GHZ":
-                    self.log("Notice: fra_freeze requires controller >= 17.9 for 5GHZ_6GHZ.", "DEBUG")
+                    self.log(
+                        "Notice: fra_freeze requires controller >= 17.9 for 5GHZ_6GHZ.",
+                        "DEBUG",
+                    )
 
             # Build desired payload (camelCase for controller)
             payload = {
                 "designName": design_name,
-                "featureAttributes": {
-                    "radioBand": radio_band
-                }
+                "featureAttributes": {"radioBand": radio_band},
             }
 
             # Convert fra_sensitivity from Ansible format to API format
@@ -9196,9 +9423,11 @@ class WirelessDesign(CatalystCenterBase):
                     "HIGH": "High",
                     "HIGHER": "Higher",
                     "EVEN_HIGHER": "Even Higher",
-                    "SUPER_HIGH": "Super High"
+                    "SUPER_HIGH": "Super High",
                 }
-                api_fra_sensitivity = sensitivity_map.get(fra_sensitivity, fra_sensitivity)
+                api_fra_sensitivity = sensitivity_map.get(
+                    fra_sensitivity, fra_sensitivity
+                )
 
             # Use a mapping and loop to set optional attributes only when provided
             fa_attr_map = {
@@ -9228,14 +9457,19 @@ class WirelessDesign(CatalystCenterBase):
             existing = existing_dict.get(design_name)
             if not existing:
                 add_list.append(payload)
-                self.log("RRM-FRA profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                self.log(
+                    "RRM-FRA profile '{0}' scheduled for creation.".format(design_name),
+                    "DEBUG",
+                )
                 continue
 
             details = self.get_rrm_fra_profile_details(existing["id"]) or {}
-            self.log("Existing details for '{0}': {1}".format(design_name, details), "DEBUG")
+            self.log(
+                "Existing details for '{0}': {1}".format(design_name, details), "DEBUG"
+            )
 
-            existing_fa = (details.get("featureAttributes") or {})
-            existing_unl = (details.get("unlockedAttributes") or [])
+            existing_fa = details.get("featureAttributes") or {}
+            existing_unl = details.get("unlockedAttributes") or []
 
             desired_fa = payload["featureAttributes"]
             desired_unl = payload.get("unlockedAttributes", [])
@@ -9246,25 +9480,35 @@ class WirelessDesign(CatalystCenterBase):
 
             # Normalize sensitivity for comparison: convert both to uppercase and remove spaces
             # API returns "Even Higher" or "Super High", we need to compare against "EVEN_HIGHER", "SUPER_HIGH"
-            existing_sens = str(existing_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
-            desired_sens = str(desired_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
+            existing_sens = (
+                str(existing_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
+            )
+            desired_sens = (
+                str(desired_fa.get("fraSensitivity") or "").upper().replace(" ", "_")
+            )
 
             needs_update = (
-                existing_fa.get("radioBand") != desired_fa.get("radioBand") or
-                existing_fa.get("fraFreeze") != desired_fa.get("fraFreeze") or
-                existing_fa.get("fraStatus") != desired_fa.get("fraStatus") or
-                (existing_interval != desired_interval) or
-                (existing_sens != desired_sens) or
-                (set(existing_unl) != set(desired_unl))
+                existing_fa.get("radioBand") != desired_fa.get("radioBand")
+                or existing_fa.get("fraFreeze") != desired_fa.get("fraFreeze")
+                or existing_fa.get("fraStatus") != desired_fa.get("fraStatus")
+                or (existing_interval != desired_interval)
+                or (existing_sens != desired_sens)
+                or (set(existing_unl) != set(desired_unl))
             )
 
             if needs_update:
                 payload["id"] = existing["id"]
                 update_list.append(payload)
-                self.log("RRM-FRA profile '{0}' marked for update.".format(design_name), "DEBUG")
+                self.log(
+                    "RRM-FRA profile '{0}' marked for update.".format(design_name),
+                    "DEBUG",
+                )
             else:
                 no_update_list.append(details)
-                self.log("RRM-FRA profile '{0}' requires no update.".format(design_name), "DEBUG")
+                self.log(
+                    "RRM-FRA profile '{0}' requires no update.".format(design_name),
+                    "DEBUG",
+                )
 
         self.log(
             "RRM-FRA - Add: {0}, Update: {1}, No-Change: {2}".format(
@@ -9274,7 +9518,9 @@ class WirelessDesign(CatalystCenterBase):
         )
         return add_list, update_list, no_update_list
 
-    def get_rrm_fra_profiles(self, design_name=None, template_type="RRM_FRA_CONFIGURATION"):
+    def get_rrm_fra_profiles(
+        self, design_name=None, template_type="RRM_FRA_CONFIGURATION"
+    ):
         """
         Retrieve existing RRM-FRA feature templates from Cisco Catalyst Center.
         Args:
@@ -9291,13 +9537,13 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_fra = response.get("response", [])
-            self.log("Retrieved {0} RRM-FRA Templates.".format(len(existing_fra)), "DEBUG")
+            self.log(
+                "Retrieved {0} RRM-FRA Templates.".format(len(existing_fra)), "DEBUG"
+            )
             return existing_fra
 
         except Exception as e:
@@ -9312,7 +9558,12 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the RRM-FRA feature template, or {} if fetch fails.
         """
-        self.log("Fetching RRM-FRA configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching RRM-FRA configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
@@ -9322,14 +9573,19 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_r_r_m_f_r_a_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response") or {}
             return details
 
         except Exception as e:
-            self.log("Failed to fetch RRM-FRA configuration details for template_id={0}: {1}".format(template_id, str(e)), "ERROR")
+            self.log(
+                "Failed to fetch RRM-FRA configuration details for template_id={0}: {1}".format(
+                    template_id, str(e)
+                ),
+                "ERROR",
+            )
             return {}
 
     def verify_delete_multicast_requirement(self, multicast_list):
@@ -9349,7 +9605,10 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of multicast configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of multicast configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing multicast configurations
         existing_blocks = self.get_multicast_profiles()
@@ -9393,7 +9652,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -9488,7 +9749,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_multicast = already_reset_list
             self.log(
-                "Multicast configurations already reset (no action needed): {0}".format(already_reset_list),
+                "Multicast configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -9559,18 +9822,20 @@ class WirelessDesign(CatalystCenterBase):
 
             # --- Validation ---
             if ipv4_mode and ipv4_mode not in allowed_ipv4_modes:
-                self.msg = (
-                    "Invalid multicastIpv4Mode '{0}' for design '{1}'. Must be one of: {2}"
-                    .format(ipv4_mode, design_name, allowed_ipv4_modes)
+                self.msg = "Invalid multicastIpv4Mode '{0}' for design '{1}'. Must be one of: {2}".format(
+                    ipv4_mode, design_name, allowed_ipv4_modes
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if ipv6_mode and ipv6_mode not in allowed_ipv6_modes:
-                self.msg = (
-                    "Invalid multicastIpv6Mode '{0}' for design '{1}'. Must be one of: {2}"
-                    .format(ipv6_mode, design_name, allowed_ipv6_modes)
+                self.msg = "Invalid multicastIpv6Mode '{0}' for design '{1}'. Must be one of: {2}".format(
+                    ipv6_mode, design_name, allowed_ipv6_modes
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # IPv4 validation (basic numeric check, only if MULTICAST)
             if ipv4_mode == "MULTICAST" and ipv4_address:
@@ -9585,7 +9850,9 @@ class WirelessDesign(CatalystCenterBase):
                         "Invalid multicastIpv4Address '{0}' for design '{1}'. "
                         "Must be in range 224.0.0.0–239.255.255.255."
                     ).format(ipv4_address, design_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             # IPv6 validation (prefix check, only if MULTICAST)
             if ipv6_mode == "MULTICAST" and ipv6_address:
@@ -9596,16 +9863,28 @@ class WirelessDesign(CatalystCenterBase):
                         "Invalid multicastIpv6Address '{0}' for design '{1}'. "
                         "Must start with FF[0 or 1][1,2,3,4,5,8,E]."
                     ).format(ipv6_address, design_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 else:
                     second = addr_up[2]
                     third = addr_up[3]
-                    if second not in ("0", "1") or third not in ("1", "2", "3", "4", "5", "8", "E"):
+                    if second not in ("0", "1") or third not in (
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5",
+                        "8",
+                        "E",
+                    ):
                         self.msg = (
                             "Invalid multicastIpv6Address '{0}' for design '{1}'. "
                             "Must start with FF[0 or 1][1,2,3,4,5,8,E]."
                         ).format(ipv6_address, design_name)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
             # --- Build payload ---
             payload = {
@@ -9628,14 +9907,21 @@ class WirelessDesign(CatalystCenterBase):
 
             # normalize unlocked attributes using mapping (fallback to original key)
             if unlocked_attributes:
-                normalized_unlocked = [unlock_map.get(u, u) for u in unlocked_attributes]
+                normalized_unlocked = [
+                    unlock_map.get(u, u) for u in unlocked_attributes
+                ]
                 payload["unlockedAttributes"] = normalized_unlocked
 
             # --- Compare with existing ---
             existing = existing_dict.get(design_name)
             if not existing:
                 add_list.append(payload)
-                self.log("Multicast profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                self.log(
+                    "Multicast profile '{0}' scheduled for creation.".format(
+                        design_name
+                    ),
+                    "DEBUG",
+                )
                 continue
 
             details = self.get_multicast_profile_details(existing["id"]) or {}
@@ -9683,10 +9969,16 @@ class WirelessDesign(CatalystCenterBase):
             if needs_update:
                 payload["id"] = existing["id"]
                 update_list.append(payload)
-                self.log("Multicast profile '{0}' marked for update.".format(design_name), "DEBUG")
+                self.log(
+                    "Multicast profile '{0}' marked for update.".format(design_name),
+                    "DEBUG",
+                )
             else:
                 no_update_list.append(details)
-                self.log("Multicast profile '{0}' requires no update.".format(design_name), "DEBUG")
+                self.log(
+                    "Multicast profile '{0}' requires no update.".format(design_name),
+                    "DEBUG",
+                )
 
         # final summary log and return (ensure return is after loop)
         self.log(
@@ -9698,7 +9990,9 @@ class WirelessDesign(CatalystCenterBase):
 
         return add_list, update_list, no_update_list
 
-    def get_multicast_profiles(self, design_name=None, template_type="MULTICAST_CONFIGURATION"):
+    def get_multicast_profiles(
+        self, design_name=None, template_type="MULTICAST_CONFIGURATION"
+    ):
         """
         Retrieve existing Multicast feature templates from Cisco Catalyst Center.
         Args:
@@ -9716,9 +10010,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_multicast = response.get("response", [])
@@ -9740,7 +10032,12 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the multicast feature template, or {} if fetch fails.
         """
-        self.log("Fetching multicast configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching multicast configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
@@ -9750,7 +10047,7 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_multicast_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -9758,7 +10055,12 @@ class WirelessDesign(CatalystCenterBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch multicast configuration details for template_id='{0}': {1}".format(template_id, str(e)), "ERROR")
+            self.log(
+                "Failed to fetch multicast configuration details for template_id='{0}': {1}".format(
+                    template_id, str(e)
+                ),
+                "ERROR",
+            )
             return {}
 
     def verify_delete_flexconnect_requirement(self, flex_list):
@@ -9783,13 +10085,20 @@ class WirelessDesign(CatalystCenterBase):
         instances = []
         for block in existing_blocks:
             instances.extend(block.get("instances", []) or [])
-        existing_by_name = {i.get("designName"): i for i in instances if i.get("designName")}
+        existing_by_name = {
+            i.get("designName"): i for i in instances if i.get("designName")
+        }
 
         for idx, req in enumerate(flex_list or [], start=1):
             dn = req.get("design_name")
             if not dn:
                 skipped.append(idx)
-                self.log("Iteration {0}: Missing 'design_name' in delete entry. Skipping.".format(idx), "ERROR")
+                self.log(
+                    "Iteration {0}: Missing 'design_name' in delete entry. Skipping.".format(
+                        idx
+                    ),
+                    "ERROR",
+                )
                 continue
 
             if dn in existing_by_name:
@@ -9845,38 +10154,61 @@ class WirelessDesign(CatalystCenterBase):
 
                         if is_reset:
                             self.log(
-                                "Iteration {0}: FlexConnect '{1}' is already reset. No reset needed.".format(idx, dn),
+                                "Iteration {0}: FlexConnect '{1}' is already reset. No reset needed.".format(
+                                    idx, dn
+                                ),
                                 "INFO",
                             )
                             already_reset_list.append(dn)
                         else:
                             self.log(
-                                "Iteration {0}: FlexConnect '{1}' needs RESET.".format(idx, dn),
+                                "Iteration {0}: FlexConnect '{1}' needs RESET.".format(
+                                    idx, dn
+                                ),
                                 "INFO",
                             )
                             delete_list.append(got)
                     else:
                         self.log(
-                            "Iteration {0}: Could not fetch details for '{1}'. Will attempt reset.".format(idx, dn),
+                            "Iteration {0}: Could not fetch details for '{1}'. Will attempt reset.".format(
+                                idx, dn
+                            ),
                             "WARNING",
                         )
                         delete_list.append(got)
                 else:
                     # DELETE operation
-                    self.log("Iteration {0}: FlexConnect '{1}' -> DELETE".format(idx, dn), "INFO")
+                    self.log(
+                        "Iteration {0}: FlexConnect '{1}' -> DELETE".format(idx, dn),
+                        "INFO",
+                    )
                     delete_list.append(got)
             else:
-                self.log("Iteration {0}: FlexConnect '{1}' not found -> skip".format(idx, dn), "INFO")
+                self.log(
+                    "Iteration {0}: FlexConnect '{1}' not found -> skip".format(
+                        idx, dn
+                    ),
+                    "INFO",
+                )
 
-        self.log("FlexConnect scheduled for processing: {0}".format(delete_list), "DEBUG")
+        self.log(
+            "FlexConnect scheduled for processing: {0}".format(delete_list), "DEBUG"
+        )
         if skipped:
-            self.log("FlexConnect entries skipped due to missing design_name: {0}".format(skipped), "WARNING")
+            self.log(
+                "FlexConnect entries skipped due to missing design_name: {0}".format(
+                    skipped
+                ),
+                "WARNING",
+            )
 
         # Store already reset info for later use in messaging
         if already_reset_list:
             self.already_reset_flexconnect = already_reset_list
             self.log(
-                "FlexConnect configurations already reset (no action needed): {0}".format(already_reset_list),
+                "FlexConnect configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -9902,9 +10234,11 @@ class WirelessDesign(CatalystCenterBase):
         # Get existing (summary)
         existing_blocks = self.get_flexconnect_profiles()
         instances = []
-        for block in (existing_blocks or []):
+        for block in existing_blocks or []:
             instances.extend(block.get("instances", []) or [])
-        existing_by_name = {i["designName"]: i for i in instances if i.get("designName")}
+        existing_by_name = {
+            i["designName"]: i for i in instances if i.get("designName")
+        }
         self.log("Existing FlexConnect instances: {0}".format(instances), "DEBUG")
 
         for req in flex_list or []:
@@ -9915,13 +10249,12 @@ class WirelessDesign(CatalystCenterBase):
 
             if not design_name:
                 self.msg = "FlexConnect: 'design_name' is required."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # Build normalized payload
-            payload = {
-                "designName": design_name,
-                "featureAttributes": {}
-            }
+            payload = {"designName": design_name, "featureAttributes": {}}
             if overlap_enable is not None:
                 payload["featureAttributes"]["overlapIpEnable"] = overlap_enable
 
@@ -9948,15 +10281,14 @@ class WirelessDesign(CatalystCenterBase):
 
             # Fetch details to compare
             details = self.get_flexconnect_profile_details(existing["id"]) or {}
-            ef = (details.get("featureAttributes") or {})
+            ef = details.get("featureAttributes") or {}
             existing_overlap = ef.get("overlapIpEnable")
             existing_unlocked = details.get("unlockedAttributes", []) or []
             desired_unlocked = payload.get("unlockedAttributes", [])
 
-            needs_update = (
-                existing_overlap != overlap_enable
-                or set(existing_unlocked) != set(desired_unlocked)
-            )
+            needs_update = existing_overlap != overlap_enable or set(
+                existing_unlocked
+            ) != set(desired_unlocked)
 
             if needs_update:
                 payload["id"] = existing["id"]
@@ -9974,7 +10306,9 @@ class WirelessDesign(CatalystCenterBase):
         )
         return add_list, update_list, no_update_list
 
-    def get_flexconnect_profiles(self, design_name=None, template_type="FLEX_CONFIGURATION"):
+    def get_flexconnect_profiles(
+        self, design_name=None, template_type="FLEX_CONFIGURATION"
+    ):
         """
         Summary list of FlexConnect templates (uses get_feature_template_summary with type).
         Args:
@@ -9988,14 +10322,14 @@ class WirelessDesign(CatalystCenterBase):
             if design_name:
                 params["design_name"] = design_name
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             return response.get("response", []) or []
         except Exception as e:
-            self.log("Failed to fetch FlexConnect templates: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch FlexConnect templates: {0}".format(str(e)), "ERROR"
+            )
             return []
 
     def get_flexconnect_profile_details(self, template_id):
@@ -10006,7 +10340,9 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: Dict of FlexConnect template details, or {} if fetch fails
         """
-        self.log("Fetching FlexConnect details for id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching FlexConnect details for id='{0}'".format(template_id), "DEBUG"
+        )
         try:
             if not template_id:
                 self.log("No template_id provided.", "ERROR")
@@ -10014,7 +10350,7 @@ class WirelessDesign(CatalystCenterBase):
             resp = self.execute_get_request(
                 "wireless",
                 "get_flex_connect_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(resp), "DEBUG")
             return resp.get("response") or {}
@@ -10039,11 +10375,17 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of dot11be configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of dot11be configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing dot11be configurations
         existing_blocks = self.get_dot11be_profiles()
-        self.log("Existing dot11be Profiles (summary): {0}".format(existing_blocks), "WARNING")
+        self.log(
+            "Existing dot11be Profiles (summary): {0}".format(existing_blocks),
+            "WARNING",
+        )
         instances = []
         for block in existing_blocks or []:
             instances.extend(block.get("instances", []) or [])
@@ -10084,7 +10426,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -10176,7 +10520,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_dot11be = already_reset_list
             self.log(
-                "dot11be configurations already reset (no action needed): {0}".format(already_reset_list),
+                "dot11be configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -10227,9 +10573,12 @@ class WirelessDesign(CatalystCenterBase):
 
             # Validate radio_band value
             if radio_band not in allowed_bands:
-                self.msg = ("Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
-                    radio_band, design_name, allowed_bands))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
+                    radio_band, design_name, allowed_bands
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # Build payload
             payload = {
@@ -10241,7 +10590,10 @@ class WirelessDesign(CatalystCenterBase):
             }
             if unlocked_attributes:
                 # Normalized to camelCase
-                name_map = {"dot11be_status": "dot11beStatus", "radio_band": "radioBand"}
+                name_map = {
+                    "dot11be_status": "dot11beStatus",
+                    "radio_band": "radioBand",
+                }
                 normalized_unlocked = [name_map.get(u, u) for u in unlocked_attributes]
                 payload["unlockedAttributes"] = normalized_unlocked
 
@@ -10249,12 +10601,19 @@ class WirelessDesign(CatalystCenterBase):
             existing = existing_dict.get(design_name)
             if not existing:
                 add_list.append(payload)
-                self.log("802.11be profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                self.log(
+                    "802.11be profile '{0}' scheduled for creation.".format(
+                        design_name
+                    ),
+                    "DEBUG",
+                )
             else:
                 details = self.get_dot11be_profile_details(existing["id"])
                 self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
 
-                existing_status = details.get("featureAttributes", {}).get("dot11beStatus")
+                existing_status = details.get("featureAttributes", {}).get(
+                    "dot11beStatus"
+                )
                 existing_band = details.get("featureAttributes", {}).get("radioBand")
                 existing_unlocked = details.get("unlockedAttributes", []) or []
 
@@ -10268,21 +10627,31 @@ class WirelessDesign(CatalystCenterBase):
                 ):
                     payload["id"] = existing["id"]
                     update_list.append(payload)
-                    self.log("802.11be profile '{0}' marked for update.".format(design_name), "DEBUG")
+                    self.log(
+                        "802.11be profile '{0}' marked for update.".format(design_name),
+                        "DEBUG",
+                    )
                 else:
                     no_update_list.append(details)
-                    self.log("802.11be profile '{0}' requires no update.".format(design_name), "DEBUG")
+                    self.log(
+                        "802.11be profile '{0}' requires no update.".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
 
         self.log(
             "802.11be Profiles - Add: {0}, Update: {1}, No Changes: {2}".format(
                 len(add_list), len(update_list), len(no_update_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return add_list, update_list, no_update_list
 
-    def get_dot11be_profiles(self, design_name=None, template_type="DOT11BE_STATUS_CONFIGURATION"):
+    def get_dot11be_profiles(
+        self, design_name=None, template_type="DOT11BE_STATUS_CONFIGURATION"
+    ):
         """
         Retrieve existing 802.11be feature templates from Cisco Catalyst Center.
         Args:
@@ -10300,9 +10669,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_dot11be = response.get("response", [])
@@ -10324,7 +10691,12 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the 802.11be feature template, or {} if fetch fails.
         """
-        self.log("Fetching 802.11be configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching 802.11be configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
@@ -10334,7 +10706,7 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_dot11be_status_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -10342,7 +10714,10 @@ class WirelessDesign(CatalystCenterBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch 802.11be configuration details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch 802.11be configuration details: {0}".format(str(e)),
+                "ERROR",
+            )
             return {}
 
     def verify_create_update_event_rrm_requirement(self, event_rrm_list):
@@ -10365,14 +10740,19 @@ class WirelessDesign(CatalystCenterBase):
 
         # Fetch once
         existing_blocks = self.get_event_rrm_profiles()
-        self.log("Existing Event Driven RRM Profiles: {0}".format(existing_blocks), "DEBUG")
+        self.log(
+            "Existing Event Driven RRM Profiles: {0}".format(existing_blocks), "DEBUG"
+        )
 
         # Flatten instances into dict
         existing_dict = {}
         for block in existing_blocks or []:
             for inst in block.get("instances", []):
                 existing_dict[inst["designName"]] = inst
-        self.log("Existing Event Driven RRM Profiles Dict: {0}".format(existing_dict), "DEBUG")
+        self.log(
+            "Existing Event Driven RRM Profiles Dict: {0}".format(existing_dict),
+            "DEBUG",
+        )
 
         # Allowed enums / ranges
         allowed_bands = ["2_4GHZ", "5GHZ"]
@@ -10389,53 +10769,85 @@ class WirelessDesign(CatalystCenterBase):
                     "'feature_attributes' is mandatory for Event Driven RRM configuration "
                     "create/update in design '{0}'.".format(design_name)
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # radio_band is mandatory within feature_attributes
             if not fa.get("radio_band"):
                 self.msg = (
                     "'radio_band' is a mandatory field within 'feature_attributes' "
-                    "for Event Driven RRM configuration in design '{0}'.".format(design_name)
+                    "for Event Driven RRM configuration in design '{0}'.".format(
+                        design_name
+                    )
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             radio_band = fa["radio_band"].upper()
             rrm_enable = fa.get("event_driven_rrm_enable")
-            rrm_level = fa.get("event_driven_rrm_threshold_level").upper() if fa.get("event_driven_rrm_threshold_level") else None
+            rrm_level = (
+                fa.get("event_driven_rrm_threshold_level").upper()
+                if fa.get("event_driven_rrm_threshold_level")
+                else None
+            )
             rrm_custom = fa.get("event_driven_rrm_custom_threshold_val")
             unlocked_attributes = attr.get("unlocked_attributes", [])
 
             # ---- Validations ----
             if not design_name:
                 self.msg = "Missing 'design_name' in Event Driven RRM entry."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if radio_band not in allowed_bands:
-                self.msg = ("Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
-                    radio_band, design_name, allowed_bands))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Invalid radio_band '{0}' for design '{1}'. Must be one of: {2}".format(
+                    radio_band, design_name, allowed_bands
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if rrm_level is not None and rrm_level not in allowed_levels:
-                self.msg = ("Invalid event_driven_rrm_threshold_level '{0}' for design '{1}'. "
-                            "Must be one of: {2}".format(rrm_level, design_name, allowed_levels))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = (
+                    "Invalid event_driven_rrm_threshold_level '{0}' for design '{1}'. "
+                    "Must be one of: {2}".format(rrm_level, design_name, allowed_levels)
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # Threshold level is only supported when RRM is enabled
             if (rrm_level is not None or rrm_custom is not None) and not rrm_enable:
-                self.msg = ("For design '{0}': threshold level/custom value provided but "
-                            "event_driven_rrm_enable is not true.".format(design_name))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = (
+                    "For design '{0}': threshold level/custom value provided but "
+                    "event_driven_rrm_enable is not true.".format(design_name)
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # Custom value only when level == CUSTOM and must be 1..99
             if rrm_custom is not None:
                 if rrm_level != "CUSTOM":
-                    self.msg = ("For design '{0}': event_driven_rrm_custom_threshold_val is only valid when "
-                                "event_driven_rrm_threshold_level == 'CUSTOM'.".format(design_name))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = (
+                        "For design '{0}': event_driven_rrm_custom_threshold_val is only valid when "
+                        "event_driven_rrm_threshold_level == 'CUSTOM'.".format(
+                            design_name
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
                 if not isinstance(rrm_custom, int) or not (1 <= rrm_custom <= 99):
-                    self.msg = ("For design '{0}': event_driven_rrm_custom_threshold_val must be an integer 1–99."
-                                .format(design_name))
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = "For design '{0}': event_driven_rrm_custom_threshold_val must be an integer 1–99.".format(
+                        design_name
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
 
             # ---- Build normalized payload ----
             payload = {
@@ -10450,7 +10862,9 @@ class WirelessDesign(CatalystCenterBase):
             if rrm_level is not None:
                 payload["featureAttributes"]["eventDrivenRrmThresholdLevel"] = rrm_level
             if rrm_custom is not None:
-                payload["featureAttributes"]["eventDrivenRrmCustomThresholdVal"] = rrm_custom
+                payload["featureAttributes"][
+                    "eventDrivenRrmCustomThresholdVal"
+                ] = rrm_custom
 
             # Normalize unlocked attributes (snake_case -> camelCase)
             if unlocked_attributes:
@@ -10465,7 +10879,7 @@ class WirelessDesign(CatalystCenterBase):
                     "Normalized unlocked attributes for '{0}': {1} -> {2}".format(
                         design_name, unlocked_attributes, normalized_unlocked
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 payload["unlockedAttributes"] = normalized_unlocked
 
@@ -10473,7 +10887,12 @@ class WirelessDesign(CatalystCenterBase):
             existing = existing_dict.get(design_name)
             if not existing:
                 add_list.append(payload)
-                self.log("Event Driven RRM profile '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                self.log(
+                    "Event Driven RRM profile '{0}' scheduled for creation.".format(
+                        design_name
+                    ),
+                    "DEBUG",
+                )
             else:
                 details = self.get_event_rrm_profile_details(existing["id"])
                 self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
@@ -10497,22 +10916,32 @@ class WirelessDesign(CatalystCenterBase):
                 if needs_update:
                     payload["id"] = existing["id"]
                     update_list.append(payload)
-                    self.log("Event Driven RRM profile '{0}' marked for update.".format(design_name), "DEBUG")
+                    self.log(
+                        "Event Driven RRM profile '{0}' marked for update.".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
                 else:
                     no_update_list.append(details)
-                    self.log("Event Driven RRM profile '{0}' requires no update.".format(design_name), "DEBUG")
+                    self.log(
+                        "Event Driven RRM profile '{0}' requires no update.".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
 
         self.log(
             "Event Driven RRM - Add: {0}, Update: {1}, No Changes: {2}".format(
                 add_list, update_list, no_update_list
             ),
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             "Event Driven RRM - Add: {0}, Update: {1}, No Changes: {2}".format(
                 len(add_list), len(update_list), len(no_update_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return add_list, update_list, no_update_list
@@ -10525,17 +10954,24 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the Event Driven RRM feature template, or {} if fetch fails.
         """
-        self.log("Fetching Event Driven RRM configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching Event Driven RRM configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
-                self.log("No template_id provided for Event Driven RRM details.", "ERROR")
+                self.log(
+                    "No template_id provided for Event Driven RRM details.", "ERROR"
+                )
                 return {}
 
             response = self.execute_get_request(
                 "wireless",
                 "get_event_driven_r_r_m_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
@@ -10543,10 +10979,17 @@ class WirelessDesign(CatalystCenterBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch Event Driven RRM configuration details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch Event Driven RRM configuration details: {0}".format(
+                    str(e)
+                ),
+                "ERROR",
+            )
             return {}
 
-    def get_event_rrm_profiles(self, design_name=None, template_type="EVENT_DRIVEN_RRM_CONFIGURATION"):
+    def get_event_rrm_profiles(
+        self, design_name=None, template_type="EVENT_DRIVEN_RRM_CONFIGURATION"
+    ):
         """
         Retrieve existing Event Driven RRM feature templates (summary) from Cisco Catalyst Center.
         Args:
@@ -10557,7 +11000,10 @@ class WirelessDesign(CatalystCenterBase):
             list: A list of existing Event Driven RRM template dicts (summary, not full details),
                 or [] on failure.
         """
-        self.log("Fetching existing Event Driven RRM Templates (summary) from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing Event Driven RRM Templates (summary) from Catalyst Center.",
+            "DEBUG",
+        )
 
         try:
             params = {"type": template_type}
@@ -10565,21 +11011,24 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
 
             existing_event_rrm = response.get("response", [])
             self.log(
-                "Retrieved {0} Event Driven RRM Templates (summary).".format(len(existing_event_rrm)),
+                "Retrieved {0} Event Driven RRM Templates (summary).".format(
+                    len(existing_event_rrm)
+                ),
                 "DEBUG",
             )
             return existing_event_rrm
 
         except Exception as e:
-            self.log("Failed to fetch Event Driven RRM Templates: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch Event Driven RRM Templates: {0}".format(str(e)),
+                "ERROR",
+            )
             return []
 
     def verify_delete_event_rrm_requirement(self, event_rrm_list):
@@ -10599,7 +11048,10 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of Event-Driven RRM configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of Event-Driven RRM configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing Event-Driven RRM configurations (summary)
         existing_blocks = self.get_event_rrm_profiles()
@@ -10607,7 +11059,9 @@ class WirelessDesign(CatalystCenterBase):
         for block in existing_blocks or []:
             instances.extend(block.get("instances", []) or [])
 
-        self.log("Existing Event-Driven RRM configurations: {0}".format(instances), "DEBUG")
+        self.log(
+            "Existing Event-Driven RRM configurations: {0}".format(instances), "DEBUG"
+        )
 
         # Convert existing instances into a dictionary for quick lookup
         existing_dict = {cfg["designName"]: cfg for cfg in instances}
@@ -10643,7 +11097,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -10737,7 +11193,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_event_rrm = already_reset_list
             self.log(
-                "Event-Driven RRM configurations already reset (no action needed): {0}".format(already_reset_list),
+                "Event-Driven RRM configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -10760,7 +11218,10 @@ class WirelessDesign(CatalystCenterBase):
         delete_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of dot11ax configurations for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of dot11ax configurations for deletion/reset.",
+            "INFO",
+        )
 
         # Retrieve all existing dot11ax configurations
         existing_blocks = self.get_dot11ax_templates()
@@ -10804,7 +11265,9 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Extract playbook feature_attributes to check only those keys
-                    playbook_feature_attrs = requested_cfg.get("feature_attributes") or {}
+                    playbook_feature_attrs = (
+                        requested_cfg.get("feature_attributes") or {}
+                    )
 
                     # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                     unlocked_attrs_list = requested_cfg.get("unlocked_attributes") or []
@@ -10901,7 +11364,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_dot11ax = already_reset_list
             self.log(
-                "dot11ax configurations already reset (no action needed): {0}".format(already_reset_list),
+                "dot11ax configurations already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -10925,7 +11390,10 @@ class WirelessDesign(CatalystCenterBase):
         """
         add_list, update_list, no_update_list = [], [], []
 
-        self.log("verify_create_update_dot11axs_requirement input: {0}".format(dot11ax_list), "DEBUG")
+        self.log(
+            "verify_create_update_dot11axs_requirement input: {0}".format(dot11ax_list),
+            "DEBUG",
+        )
 
         # map snake_case keys from playbook to controller keys (adjust if controller uses different names)
         key_name_map = {
@@ -10944,7 +11412,11 @@ class WirelessDesign(CatalystCenterBase):
         # helper: snake_case -> lowerCamelCase fallback
         def snake_to_camel(s):
             parts = s.split("_")
-            return parts[0] + "".join(p.capitalize() for p in parts[1:]) if len(parts) > 1 else s
+            return (
+                parts[0] + "".join(p.capitalize() for p in parts[1:])
+                if len(parts) > 1
+                else s
+            )
 
         # Controller-allowed unlocked attribute names (explicit list from controller validation message).
         # If you have an API to fetch this dynamically, replace this static set with that call.
@@ -11018,7 +11490,11 @@ class WirelessDesign(CatalystCenterBase):
                 # warn user / playbook author that some unlocked attrs were invalid and dropped
                 self.log(
                     "[{0}] Some unlockedAttributes were invalid and removed: dropped={1} ({2}), unmapped={3} ({4})".format(
-                        design_name, len(dropped_unlocked), dropped_unlocked, len(unmapped_unlocked), unmapped_unlocked
+                        design_name,
+                        len(dropped_unlocked),
+                        dropped_unlocked,
+                        len(unmapped_unlocked),
+                        unmapped_unlocked,
                     ),
                     "WARNING",
                 )
@@ -11026,9 +11502,15 @@ class WirelessDesign(CatalystCenterBase):
             # Also remove band-incompatible keys from unlocked attributes
             if radio_band_value:
                 if radio_band_value != "6GHZ":
-                    normalized_unlocked = [ua for ua in normalized_unlocked if ua != "multipleBssid"]
+                    normalized_unlocked = [
+                        ua for ua in normalized_unlocked if ua != "multipleBssid"
+                    ]
                 if radio_band_value not in ("2_4GHZ", "5GHZ"):
-                    normalized_unlocked = [ua for ua in normalized_unlocked if ua not in ("obssPd", "nonSRGObssPdMaxThreshold")]
+                    normalized_unlocked = [
+                        ua
+                        for ua in normalized_unlocked
+                        if ua not in ("obssPd", "nonSRGObssPdMaxThreshold")
+                    ]
 
             self.log(
                 "Normalized unlocked attributes for design '{0}': {1}".format(
@@ -11037,7 +11519,10 @@ class WirelessDesign(CatalystCenterBase):
                 "DEBUG",
             )
 
-            payload = {"designName": design_name, "featureAttributes": normalized_features}
+            payload = {
+                "designName": design_name,
+                "featureAttributes": normalized_features,
+            }
             if normalized_unlocked:
                 payload["unlockedAttributes"] = normalized_unlocked
 
@@ -11065,13 +11550,19 @@ class WirelessDesign(CatalystCenterBase):
                 exist_value = existing_features.get(key)
 
                 # normalize boolean-like strings on request side
-                if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                if isinstance(req_value, str) and req_value.lower() in (
+                    "true",
+                    "false",
+                ):
                     req_value = req_value.lower() == "true"
                 # if controller omitted the key and request is boolean, treat omitted as False
                 if exist_value is None and isinstance(req_value, bool):
                     exist_value = False
                 # normalize controller boolean strings
-                if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                if isinstance(exist_value, str) and exist_value.lower() in (
+                    "true",
+                    "false",
+                ):
                     exist_value = exist_value.lower() == "true"
 
                 lower_key = key.lower()
@@ -11091,14 +11582,24 @@ class WirelessDesign(CatalystCenterBase):
                     except Exception:
                         rv_num = req_value
                     if ev_num != rv_num:
-                        self.log("Diff for {0}: existing({1}) != requested({2})".format(key, ev_num, rv_num), "DEBUG")
+                        self.log(
+                            "Diff for {0}: existing({1}) != requested({2})".format(
+                                key, ev_num, rv_num
+                            ),
+                            "DEBUG",
+                        )
                         needs_update = True
                         break
 
                 else:
                     # default strict equality
                     if exist_value != req_value:
-                        self.log("Diff for {0}: existing({1}) != requested({2})".format(key, exist_value, req_value), "DEBUG")
+                        self.log(
+                            "Diff for {0}: existing({1}) != requested({2})".format(
+                                key, exist_value, req_value
+                            ),
+                            "DEBUG",
+                        )
                         needs_update = True
                         break
 
@@ -11110,16 +11611,21 @@ class WirelessDesign(CatalystCenterBase):
                     # assume existing values are controller style; but normalize just in case:
                     # if someone stored snake_case in controller (unlikely), convert. We only convert if '_' present.
                     if isinstance(eu, str) and "_" in eu:
-                        normalized_existing_unlocked.append(key_name_map.get(eu) or snake_to_camel(eu))
+                        normalized_existing_unlocked.append(
+                            key_name_map.get(eu) or snake_to_camel(eu)
+                        )
                     else:
                         normalized_existing_unlocked.append(eu)
 
                 # Compare as sets (order-insensitive). If request omitted unlockedAttributes entirely, we treat as "no change requested"
                 if "unlockedAttributes" in payload:
-                    if set(normalized_existing_unlocked) != set(payload.get("unlockedAttributes", [])):
+                    if set(normalized_existing_unlocked) != set(
+                        payload.get("unlockedAttributes", [])
+                    ):
                         self.log(
                             "Unlocked attributes differ: existing({0}) != requested({1})".format(
-                                normalized_existing_unlocked, payload.get("unlockedAttributes", [])
+                                normalized_existing_unlocked,
+                                payload.get("unlockedAttributes", []),
                             ),
                             "DEBUG",
                         )
@@ -11132,9 +11638,16 @@ class WirelessDesign(CatalystCenterBase):
                 self.log("dot11ax '{0}' marked for UPDATE.".format(design_name), "INFO")
             else:
                 no_update_list.append(details)
-                self.log("dot11ax '{0}' requires NO UPDATE.".format(design_name), "INFO")
+                self.log(
+                    "dot11ax '{0}' requires NO UPDATE.".format(design_name), "INFO"
+                )
 
-        self.log("dot11ax to ADD: {0}, UPDATE: {1}, NO-UPDATE: {2}".format(len(add_list), len(update_list), len(no_update_list)), "DEBUG")
+        self.log(
+            "dot11ax to ADD: {0}, UPDATE: {1}, NO-UPDATE: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
         return add_list, update_list, no_update_list
 
     def get_dot11ax_details(self, template_id):
@@ -11145,7 +11658,12 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the dot11ax feature template, or {} if fetch fails.
         """
-        self.log("Fetching dot11ax configuration details for template_id='{0}'".format(template_id), "DEBUG")
+        self.log(
+            "Fetching dot11ax configuration details for template_id='{0}'".format(
+                template_id
+            ),
+            "DEBUG",
+        )
 
         try:
             if not template_id:
@@ -11155,7 +11673,7 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_dot11ax_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
 
             self.log("Received API response: {0}".format(response), "DEBUG")
@@ -11164,10 +11682,15 @@ class WirelessDesign(CatalystCenterBase):
             return details
 
         except Exception as e:
-            self.log("Failed to fetch dot11ax configuration details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch dot11ax configuration details: {0}".format(str(e)),
+                "ERROR",
+            )
             return {}
 
-    def get_dot11ax_templates(self, design_name=None, template_type="DOT11AX_CONFIGURATION"):
+    def get_dot11ax_templates(
+        self, design_name=None, template_type="DOT11AX_CONFIGURATION"
+    ):
         """
         Retrieve detailed information for a specific dot11ax configuration template from Cisco Catalyst Center.
         Args:
@@ -11183,9 +11706,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_dot11ax = response.get("response", [])
@@ -11214,7 +11735,9 @@ class WirelessDesign(CatalystCenterBase):
         delete_clean_air_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of CleanAir profiles for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of CleanAir profiles for deletion/reset.", "INFO"
+        )
 
         # Retrieve all existing CleanAir templates
         existing_blocks = self.get_clean_air_templates() or []
@@ -11232,13 +11755,17 @@ class WirelessDesign(CatalystCenterBase):
         for idx, requested in enumerate(clean_air_list or [], start=1):
             design_name = requested.get("design_name")
             self.log(
-                "Iteration {0}: Checking CleanAir '{1}' for deletion requirement.".format(idx, design_name),
+                "Iteration {0}: Checking CleanAir '{1}' for deletion requirement.".format(
+                    idx, design_name
+                ),
                 "DEBUG",
             )
 
             if not design_name:
                 self.log(
-                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(idx, requested),
+                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(
+                        idx, requested
+                    ),
                     "WARNING",
                 )
                 continue
@@ -11321,13 +11848,21 @@ class WirelessDesign(CatalystCenterBase):
 
                             api_key = key_name_map.get(snake_key, snake_key)
 
-                            if snake_key == "interferers_features" and isinstance(playbook_feature_attrs.get(snake_key), dict):
+                            if snake_key == "interferers_features" and isinstance(
+                                playbook_feature_attrs.get(snake_key), dict
+                            ):
                                 # Check nested interferers sub-keys
-                                current_interferers = feature_attrs.get("interferersFeatures", {})
+                                current_interferers = feature_attrs.get(
+                                    "interferersFeatures", {}
+                                )
                                 if current_interferers is None:
                                     continue  # Already null
-                                for intf_snake_key in playbook_feature_attrs[snake_key].keys():
-                                    intf_api_key = interferers_key_map.get(intf_snake_key, intf_snake_key)
+                                for intf_snake_key in playbook_feature_attrs[
+                                    snake_key
+                                ].keys():
+                                    intf_api_key = interferers_key_map.get(
+                                        intf_snake_key, intf_snake_key
+                                    )
                                     current_val = current_interferers.get(intf_api_key)
                                     if current_val is not None:
                                         self.log(
@@ -11384,12 +11919,16 @@ class WirelessDesign(CatalystCenterBase):
                     delete_clean_air_list.append(to_delete)
             else:
                 self.log(
-                    "Iteration {0}: CleanAir '{1}' not found - no action required.".format(idx, design_name),
+                    "Iteration {0}: CleanAir '{1}' not found - no action required.".format(
+                        idx, design_name
+                    ),
                     "INFO",
                 )
 
         self.log(
-            "CleanAir profiles scheduled for processing: {0} - {1}".format(len(delete_clean_air_list), delete_clean_air_list),
+            "CleanAir profiles scheduled for processing: {0} - {1}".format(
+                len(delete_clean_air_list), delete_clean_air_list
+            ),
             "DEBUG",
         )
 
@@ -11397,13 +11936,17 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_clean_air = already_reset_list
             self.log(
-                "CleanAir profiles already reset (no action needed): {0}".format(already_reset_list),
+                "CleanAir profiles already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
         return delete_clean_air_list
 
-    def _validate_clean_air_interferer_band_compatibility(self, design_name, radio_band, interferers_features):
+    def _validate_clean_air_interferer_band_compatibility(
+        self, design_name, radio_band, interferers_features
+    ):
         """
         Validate that interferer types are compatible with the specified radio band.
         Args:
@@ -11419,24 +11962,45 @@ class WirelessDesign(CatalystCenterBase):
         # Define interferers supported by each band (snake_case keys)
         # 2.4GHz supports all interferers
         interferers_24ghz = {
-            "ble_beacon", "bluetooth_paging_inquiry", "bluetooth_sco_acl",
-            "continuous_transmitter", "generic_dect", "generic_tdd", "jammer",
-            "microwave_oven", "motorola_canopy", "si_fhss", "spectrum80211_fh",
-            "spectrum80211_non_standard_channel", "spectrum802154", "spectrum_inverted",
-            "super_ag", "video_camera", "wimax_fixed", "wimax_mobile", "xbox"
+            "ble_beacon",
+            "bluetooth_paging_inquiry",
+            "bluetooth_sco_acl",
+            "continuous_transmitter",
+            "generic_dect",
+            "generic_tdd",
+            "jammer",
+            "microwave_oven",
+            "motorola_canopy",
+            "si_fhss",
+            "spectrum80211_fh",
+            "spectrum80211_non_standard_channel",
+            "spectrum802154",
+            "spectrum_inverted",
+            "super_ag",
+            "video_camera",
+            "wimax_fixed",
+            "wimax_mobile",
+            "xbox",
         }
 
         # 5GHz supports subset (excludes BLE, Bluetooth variants, microwave_oven, spectrum80211_fh, spectrum802154, xbox)
         interferers_5ghz = {
-            "continuous_transmitter", "generic_dect", "generic_tdd", "jammer",
-            "motorola_canopy", "si_fhss", "spectrum80211_non_standard_channel",
-            "spectrum_inverted", "super_ag", "video_camera", "wimax_fixed", "wimax_mobile"
+            "continuous_transmitter",
+            "generic_dect",
+            "generic_tdd",
+            "jammer",
+            "motorola_canopy",
+            "si_fhss",
+            "spectrum80211_non_standard_channel",
+            "spectrum_inverted",
+            "super_ag",
+            "video_camera",
+            "wimax_fixed",
+            "wimax_mobile",
         }
 
         # 6GHz supports only continuous_transmitter
-        interferers_6ghz = {
-            "continuous_transmitter"
-        }
+        interferers_6ghz = {"continuous_transmitter"}
 
         # Determine which interferers are allowed for this band
         if radio_band == "2_4GHZ":
@@ -11463,7 +12027,9 @@ class WirelessDesign(CatalystCenterBase):
                 "supported on {1} band: {2}. Please refer to the module documentation for the complete "
                 "band/interferer compatibility matrix."
             ).format(design_name, band_display, ", ".join(invalid_interferers))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
 
     def _get_all_interferers_with_defaults(self, radio_band):
         """
@@ -11477,51 +12043,59 @@ class WirelessDesign(CatalystCenterBase):
         interferers = {}
 
         if radio_band == "2_4GHZ":
-            interferers.update({
-                "bleBeacon": False,
-                "bluetoothPagingInquiry": False,
-                "bluetoothScoAcl": False,
-                "continuousTransmitter": False,
-                "genericDect": False,
-                "genericTdd": False,
-                "jammer": False,
-                "microwaveOven": False,
-                "motorolaCanopy": False,
-                "siFhss": False,
-                "spectrum80211Fh": False,
-                "spectrum80211NonStandardChannel": False,
-                "spectrum802154": False,
-                "spectrumInverted": False,
-                "superAg": False,
-                "videoCamera": False,
-                "wimaxFixed": False,
-                "wimaxMobile": False,
-                "xbox": False,
-            })
+            interferers.update(
+                {
+                    "bleBeacon": False,
+                    "bluetoothPagingInquiry": False,
+                    "bluetoothScoAcl": False,
+                    "continuousTransmitter": False,
+                    "genericDect": False,
+                    "genericTdd": False,
+                    "jammer": False,
+                    "microwaveOven": False,
+                    "motorolaCanopy": False,
+                    "siFhss": False,
+                    "spectrum80211Fh": False,
+                    "spectrum80211NonStandardChannel": False,
+                    "spectrum802154": False,
+                    "spectrumInverted": False,
+                    "superAg": False,
+                    "videoCamera": False,
+                    "wimaxFixed": False,
+                    "wimaxMobile": False,
+                    "xbox": False,
+                }
+            )
         elif radio_band == "5GHZ":
-            interferers.update({
-                "continuousTransmitter": False,
-                "genericDect": False,
-                "genericTdd": False,
-                "jammer": False,
-                "motorolaCanopy": False,
-                "siFhss": False,
-                "spectrum80211NonStandardChannel": False,
-                "spectrumInverted": False,
-                "superAg": False,
-                "videoCamera": False,
-                "wimaxFixed": False,
-                "wimaxMobile": False,
-            })
+            interferers.update(
+                {
+                    "continuousTransmitter": False,
+                    "genericDect": False,
+                    "genericTdd": False,
+                    "jammer": False,
+                    "motorolaCanopy": False,
+                    "siFhss": False,
+                    "spectrum80211NonStandardChannel": False,
+                    "spectrumInverted": False,
+                    "superAg": False,
+                    "videoCamera": False,
+                    "wimaxFixed": False,
+                    "wimaxMobile": False,
+                }
+            )
         elif radio_band == "6GHZ":
             # 6GHz supports only continuousTransmitter
-            interferers.update({
-                "continuousTransmitter": False,
-            })
+            interferers.update(
+                {
+                    "continuousTransmitter": False,
+                }
+            )
 
         return interferers
 
-    def _normalize_clean_air_payload(self, requested_entry, key_name_map, snake_to_camel):
+    def _normalize_clean_air_payload(
+        self, requested_entry, key_name_map, snake_to_camel
+    ):
         """
         Normalize a requested CleanAir entry into controller payload format.
         Args:
@@ -11541,7 +12115,9 @@ class WirelessDesign(CatalystCenterBase):
         # Validate interferer/band compatibility BEFORE normalization
         interferers_features = requested_features_raw.get("interferers_features")
         if interferers_features and radio_band:
-            self._validate_clean_air_interferer_band_compatibility(design_name, radio_band, interferers_features)
+            self._validate_clean_air_interferer_band_compatibility(
+                design_name, radio_band, interferers_features
+            )
 
         # Build normalized features (convert top-level keys)
         normalized_features = {}
@@ -11558,7 +12134,11 @@ class WirelessDesign(CatalystCenterBase):
                 mapped_key = key_name_map.get(raw_k, snake_to_camel(raw_k))
                 normalized_features[mapped_key] = raw_v
 
-        payload = {"designName": design_name, "radioBand": radio_band, "featureAttributes": normalized_features}
+        payload = {
+            "designName": design_name,
+            "radioBand": radio_band,
+            "featureAttributes": normalized_features,
+        }
 
         if requested_unlocked:
             # transform unlocked dot-notation to controller-style
@@ -11574,7 +12154,15 @@ class WirelessDesign(CatalystCenterBase):
 
         return payload
 
-    def _compare_nested_interferers(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+    def _compare_nested_interferers(
+        self,
+        key,
+        normalized_features,
+        existing_features,
+        boolean_defaults,
+        to_bool_if_str,
+        reg_diff_fn,
+    ):
         """
         Compare interferersFeatures nested attributes for CleanAir profiles.
         Args:
@@ -11630,7 +12218,10 @@ class WirelessDesign(CatalystCenterBase):
 
                 if exist_val is None:
                     exist_val = False
-                elif isinstance(exist_val, str) and exist_val.lower() in ("true", "false"):
+                elif isinstance(exist_val, str) and exist_val.lower() in (
+                    "true",
+                    "false",
+                ):
                     exist_val = exist_val.lower() == "true"
 
                 if exist_val != req_val:
@@ -11639,7 +12230,15 @@ class WirelessDesign(CatalystCenterBase):
 
         return needs_update
 
-    def _compare_clean_air_fields(self, key, normalized_features, existing_features, boolean_defaults, to_bool_if_str, reg_diff_fn):
+    def _compare_clean_air_fields(
+        self,
+        key,
+        normalized_features,
+        existing_features,
+        boolean_defaults,
+        to_bool_if_str,
+        reg_diff_fn,
+    ):
         """
         Compare non-nested CleanAir field values.
         Args:
@@ -11681,7 +12280,9 @@ class WirelessDesign(CatalystCenterBase):
             if bool(exist_value) != bool(req_value):
                 reg_diff_fn(key, exist_value, req_value)
                 needs_update = True
-        elif isinstance(req_value, (int, float)) or isinstance(exist_value, (int, float)):
+        elif isinstance(req_value, (int, float)) or isinstance(
+            exist_value, (int, float)
+        ):
             # numeric tolerant compare
             try:
                 evn = int(exist_value) if exist_value is not None else None
@@ -11702,7 +12303,9 @@ class WirelessDesign(CatalystCenterBase):
 
         return needs_update
 
-    def verify_create_update_clean_air_requirement(self, clean_air_list, field_to_check=None):
+    def verify_create_update_clean_air_requirement(
+        self, clean_air_list, field_to_check=None
+    ):
         """
         Determine which CleanAir profiles to add, update, or leave unchanged.
         Args:
@@ -11715,7 +12318,12 @@ class WirelessDesign(CatalystCenterBase):
         """
         add_list, update_list, no_update_list = [], [], []
         clean_air_update_diffs = {}
-        self.log("verify_create_update_clean_air_requirement input: {0}".format(clean_air_list), "DEBUG")
+        self.log(
+            "verify_create_update_clean_air_requirement input: {0}".format(
+                clean_air_list
+            ),
+            "DEBUG",
+        )
 
         # key map: playbook snake_case -> controller camelCase
         key_name_map = {
@@ -11759,7 +12367,11 @@ class WirelessDesign(CatalystCenterBase):
         # helper: snake_case -> lowerCamelCase
         def snake_to_camel(s):
             parts = s.split("_")
-            return parts[0] + "".join(p.capitalize() for p in parts[1:]) if len(parts) > 1 else s
+            return (
+                parts[0] + "".join(p.capitalize() for p in parts[1:])
+                if len(parts) > 1
+                else s
+            )
 
         # normalize field_to_check (support dot notation like 'interferers_features.ble_beacon')
         def normalize_field_key(raw_key):
@@ -11793,18 +12405,27 @@ class WirelessDesign(CatalystCenterBase):
             design_name = requested_entry.get("design_name")
 
             # Normalize payload using helper
-            payload = self._normalize_clean_air_payload(requested_entry, key_name_map, snake_to_camel)
+            payload = self._normalize_clean_air_payload(
+                requested_entry, key_name_map, snake_to_camel
+            )
 
             # check existing
             existing_entry = existing_by_design.get(design_name)
             if not existing_entry:
                 add_list.append(payload)
-                self.log("CleanAir design '{0}' not found -> ADD".format(design_name), "INFO")
+                self.log(
+                    "CleanAir design '{0}' not found -> ADD".format(design_name), "INFO"
+                )
                 continue
 
             # fetch full existing details
             existing_details = self.get_clean_air_details(existing_entry["id"]) or {}
-            self.log("Existing clean-air details for {0}: {1}".format(design_name, existing_details), "DEBUG")
+            self.log(
+                "Existing clean-air details for {0}: {1}".format(
+                    design_name, existing_details
+                ),
+                "DEBUG",
+            )
             existing_features = existing_details.get("featureAttributes", {}) or {}
             existing_unlocked = existing_details.get("unlockedAttributes", []) or []
 
@@ -11826,19 +12447,37 @@ class WirelessDesign(CatalystCenterBase):
             for key in keys_to_check:
                 if key.startswith("interferersFeatures"):
                     # Use helper for nested interferers comparison
-                    if self._compare_nested_interferers(key, normalized_features, existing_features,
-                                                        boolean_defaults, to_bool_if_str, _reg_diff):
+                    if self._compare_nested_interferers(
+                        key,
+                        normalized_features,
+                        existing_features,
+                        boolean_defaults,
+                        to_bool_if_str,
+                        _reg_diff,
+                    ):
                         needs_update = True
                 else:
                     # Use helper for non-nested field comparison
-                    if self._compare_clean_air_fields(key, normalized_features, existing_features,
-                                                      boolean_defaults, to_bool_if_str, _reg_diff):
+                    if self._compare_clean_air_fields(
+                        key,
+                        normalized_features,
+                        existing_features,
+                        boolean_defaults,
+                        to_bool_if_str,
+                        _reg_diff,
+                    ):
                         needs_update = True
 
             # unlocked attributes diff
-            if (field_check_key is None) or (field_check_key and field_check_key.startswith("unlockedAttributes")):
+            if (field_check_key is None) or (
+                field_check_key and field_check_key.startswith("unlockedAttributes")
+            ):
                 if set(existing_unlocked) != set(payload.get("unlockedAttributes", [])):
-                    _reg_diff("unlockedAttributes", existing_unlocked, payload.get("unlockedAttributes", []))
+                    _reg_diff(
+                        "unlockedAttributes",
+                        existing_unlocked,
+                        payload.get("unlockedAttributes", []),
+                    )
                     needs_update = True
 
             # finalize
@@ -11846,15 +12485,30 @@ class WirelessDesign(CatalystCenterBase):
                 payload["id"] = existing_entry.get("id")
                 update_list.append(payload)
                 clean_air_update_diffs[design_name] = per_design_diffs
-                self.log("CleanAir design '{0}' marked for UPDATE. Diffs: {1}".format(design_name, per_design_diffs), "INFO")
+                self.log(
+                    "CleanAir design '{0}' marked for UPDATE. Diffs: {1}".format(
+                        design_name, per_design_diffs
+                    ),
+                    "INFO",
+                )
             else:
                 no_update_list.append(existing_details)
-                self.log("CleanAir design '{0}' requires NO UPDATE".format(design_name), "INFO")
+                self.log(
+                    "CleanAir design '{0}' requires NO UPDATE".format(design_name),
+                    "INFO",
+                )
 
         # attach diffs to self for inspection
         self.clean_air_update_diffs = clean_air_update_diffs
-        self.log("Collected CleanAir diffs: {0}".format(clean_air_update_diffs), "DEBUG")
-        self.log("ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(len(add_list), len(update_list), len(no_update_list)), "DEBUG")
+        self.log(
+            "Collected CleanAir diffs: {0}".format(clean_air_update_diffs), "DEBUG"
+        )
+        self.log(
+            "ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(
+                len(add_list), len(update_list), len(no_update_list)
+            ),
+            "DEBUG",
+        )
         return add_list, update_list, no_update_list
 
     def verify_delete_advanced_ssid_requirement(self, adv_ssid_list):
@@ -11890,13 +12544,17 @@ class WirelessDesign(CatalystCenterBase):
         for idx, requested in enumerate(adv_ssid_list or [], start=1):
             design_name = requested.get("design_name")
             self.log(
-                "Iteration {0}: Checking Advanced SSID '{1}' for deletion requirement.".format(idx, design_name),
+                "Iteration {0}: Checking Advanced SSID '{1}' for deletion requirement.".format(
+                    idx, design_name
+                ),
                 "DEBUG",
             )
 
             if not design_name:
                 self.log(
-                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(idx, requested),
+                    "Iteration {0}: Skipping entry with missing design_name: {1}".format(
+                        idx, requested
+                    ),
                     "WARNING",
                 )
                 continue
@@ -11928,12 +12586,16 @@ class WirelessDesign(CatalystCenterBase):
                         feature_attrs = template_details.get("featureAttributes", {})
 
                         # Check if ONLY playbook-specified attributes are already null
-                        playbook_feature_attrs = requested.get("feature_attributes") or {}
+                        playbook_feature_attrs = (
+                            requested.get("feature_attributes") or {}
+                        )
 
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = requested.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Map playbook keys to API keys
                         key_name_map = {
@@ -12039,12 +12701,16 @@ class WirelessDesign(CatalystCenterBase):
                     delete_ssid_list.append(to_delete)
             else:
                 self.log(
-                    "Iteration {0}: Advanced SSID '{1}' not found - no action required.".format(idx, design_name),
+                    "Iteration {0}: Advanced SSID '{1}' not found - no action required.".format(
+                        idx, design_name
+                    ),
                     "INFO",
                 )
 
         self.log(
-            "Advanced SSIDs scheduled for processing: {0} - {1}".format(len(delete_ssid_list), delete_ssid_list),
+            "Advanced SSIDs scheduled for processing: {0} - {1}".format(
+                len(delete_ssid_list), delete_ssid_list
+            ),
             "DEBUG",
         )
 
@@ -12052,13 +12718,17 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_advanced_ssids = already_reset_list
             self.log(
-                "Advanced SSIDs already reset (no action needed): {0}".format(already_reset_list),
+                "Advanced SSIDs already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
         return delete_ssid_list
 
-    def verify_create_update_advanced_ssid_requirement(self, adv_ssid_list, field_to_check=None):
+    def verify_create_update_advanced_ssid_requirement(
+        self, adv_ssid_list, field_to_check=None
+    ):
         """
         Determine which Advanced SSIDs to add, update, or leave unchanged.
         This function compares requested Advanced SSID configurations against existing ones
@@ -12083,7 +12753,12 @@ class WirelessDesign(CatalystCenterBase):
         """
         add_payloads, update_payloads, no_change_payloads = [], [], []
         update_diffs = {}
-        self.log("verify_create_update_advanced_ssid_requirement input: {0}".format(adv_ssid_list), "DEBUG")
+        self.log(
+            "verify_create_update_advanced_ssid_requirement input: {0}".format(
+                adv_ssid_list
+            ),
+            "DEBUG",
+        )
 
         # key name map (complete map from your playbook)
         key_name_map = {
@@ -12091,7 +12766,6 @@ class WirelessDesign(CatalystCenterBase):
             "design_name": "designName",
             "feature_attributes": "featureAttributes",
             "unlocked_attributes": "unlockedAttributes",
-
             # common ssid fields / enums / booleans
             "peer2peer_blocking": "peer2peerblocking",
             "passive_client": "passiveClient",
@@ -12102,7 +12776,6 @@ class WirelessDesign(CatalystCenterBase):
             "dhcp_server": "dhcpServer",
             "flex_local_auth": "flexLocalAuth",
             "target_wakeup_time": "targetWakeupTime",
-
             # OFDMA / MU-MIMO / 802.11ax
             "downlink_ofdma": "downlinkOfdma",
             "uplink_ofdma": "uplinkOfdma",
@@ -12110,11 +12783,9 @@ class WirelessDesign(CatalystCenterBase):
             "uplink_mu_mimo": "uplinkMuMimo",
             "dot11ax": "dot11ax",
             "mu_mimo_11ac": "muMimo11ac",
-
             # vendor / extra flags
             "aironet_ie_support": "aironetIESupport",
             "load_balancing": "loadBalancing",
-
             # timing / counts / numeric
             "dtim_period_5ghz": "dtimPeriod5GHz",
             "dtim_period_24ghz": "dtimPeriod24GHz",
@@ -12124,18 +12795,15 @@ class WirelessDesign(CatalystCenterBase):
             "max_clients_per_ap": "maxClientsPerAp",
             "idle_threshold": "idleThreshold",
             "fast_transition_reassociation_timeout": "fastTransitionReassociationTimeout",
-
             # WMM / multicast
             "wmm_policy": "wmmPolicy",
             "multicast_buffer": "multicastBuffer",
             "multicast_buffer_value": "multicastBufferValue",
             "media_stream_multicast_direct": "mediaStreamMulticastDirect",
-
             # steering / agile multiband / fastlane
             "wifi_to_cellular_steering": "wifiToCellularSteering",
             "wifi_alliance_agile_multiband": "wifiAllianceAgileMultiband",
             "fastlane_asr": "fastlaneASR",
-
             # 11v / AP admin / caching / security guards
             "dot11v_bss_max_idle_protected": "dot11vBSSMaxIdleProtected",
             "universal_ap_admin": "universalAPAdmin",
@@ -12143,15 +12811,12 @@ class WirelessDesign(CatalystCenterBase):
             "ip_source_guard": "ipSourceGuard",
             "dhcp_opt82_remote_id_sub_option": "dhcpOpt82RemoteIDSubOption",
             "vlan_central_switching": "vlanCentralSwitching",
-
             # call / snooping / disassociate / busy
             "call_snooping": "callSnooping",
             "send_disassociate": "sendDisassociate",
             "sent_486_busy": "sent486Busy",
-
             # ip/mac binding
             "ip_mac_binding": "ipMacBinding",
-
             # defer priorities (0..7)
             "defer_priority_0": "deferPriority0",
             "defer_priority_1": "deferPriority1",
@@ -12161,14 +12826,12 @@ class WirelessDesign(CatalystCenterBase):
             "defer_priority_5": "deferPriority5",
             "defer_priority_6": "deferPriority6",
             "defer_priority_7": "deferPriority7",
-
             # sharing / analytics / beacons
             "share_data_with_client": "shareDataWithClient",
             "advertise_support": "advertiseSupport",
             "advertise_pc_analytics_support": "advertisePCAnalyticsSupport",
             "send_beacon_on_association": "sendBeaconOnAssociation",
             "send_beacon_on_roam": "sendBeaconOnRoam",
-
             # mdns
             "mdns_mode": "mDNSMode",
         }
@@ -12199,7 +12862,9 @@ class WirelessDesign(CatalystCenterBase):
 
         # Fetch existing templates once and flatten by designName
         existing_templates = self.get_advanced_ssid_templates() or []
-        self.log("Existing Advanced SSID templates: {0}".format(existing_templates), "DEBUG")
+        self.log(
+            "Existing Advanced SSID templates: {0}".format(existing_templates), "DEBUG"
+        )
         existing_by_design = {}
         for block in existing_templates:
             for instance in block.get("instances", []) or []:
@@ -12208,9 +12873,13 @@ class WirelessDesign(CatalystCenterBase):
         # Iterate requested SSIDs
         for requested_entry in adv_ssid_list or []:
             design_name = requested_entry.get("design_name")
-            requested_feature_attrs_raw = requested_entry.get("feature_attributes") or {}
+            requested_feature_attrs_raw = (
+                requested_entry.get("feature_attributes") or {}
+            )
             requested_unlocked = requested_entry.get("unlocked_attributes")
-            requested_unlocked = [] if requested_unlocked is None else requested_unlocked
+            requested_unlocked = (
+                [] if requested_unlocked is None else requested_unlocked
+            )
 
             # Inline snake_case -> lowerCamelCase normalization for payload
             normalized_feature_attrs = {}
@@ -12220,11 +12889,15 @@ class WirelessDesign(CatalystCenterBase):
                 else:
                     if "_" in raw_key:
                         parts = raw_key.split("_")
-                        target_key = parts[0] + "".join(p.capitalize() for p in parts[1:])
+                        target_key = parts[0] + "".join(
+                            p.capitalize() for p in parts[1:]
+                        )
                     else:
                         target_key = raw_key
 
-                if target_key == "fastTransitionReassociationTimeout" and isinstance(raw_val, (float, str)):
+                if target_key == "fastTransitionReassociationTimeout" and isinstance(
+                    raw_val, (float, str)
+                ):
                     try:
                         raw_val = int(float(raw_val))
                     except Exception:
@@ -12242,15 +12915,25 @@ class WirelessDesign(CatalystCenterBase):
                         # fallback: snake_case to camelCase conversion
                         if "_" in attr:
                             parts = attr.split("_")
-                            normalized_unlocked.append(parts[0] + "".join(p.capitalize() for p in parts[1:]))
+                            normalized_unlocked.append(
+                                parts[0] + "".join(p.capitalize() for p in parts[1:])
+                            )
                         else:
                             normalized_unlocked.append(attr)
 
-            payload = {"designName": design_name, "featureAttributes": normalized_feature_attrs}
+            payload = {
+                "designName": design_name,
+                "featureAttributes": normalized_feature_attrs,
+            }
             if normalized_unlocked:
                 payload["unlockedAttributes"] = normalized_unlocked
 
-            self.log("Evaluating design: {0} (field_to_check={1})".format(design_name, field_to_check), "DEBUG")
+            self.log(
+                "Evaluating design: {0} (field_to_check={1})".format(
+                    design_name, field_to_check
+                ),
+                "DEBUG",
+            )
 
             existing_entry = existing_by_design.get(design_name)
             self.log("Existing entry match: {0}".format(existing_entry), "DEBUG")
@@ -12262,7 +12945,9 @@ class WirelessDesign(CatalystCenterBase):
                 continue
 
             # Fetch complete details to compare real stored values
-            existing_details = self.get_advanced_ssid_details(existing_entry["id"]) or {}
+            existing_details = (
+                self.get_advanced_ssid_details(existing_entry["id"]) or {}
+            )
             self.log("Existing design details: {0}".format(existing_details), "DEBUG")
             existing_features = existing_details.get("featureAttributes", {}) or {}
             existing_unlocked = existing_details.get("unlockedAttributes", []) or []
@@ -12278,7 +12963,10 @@ class WirelessDesign(CatalystCenterBase):
                     exist_value = existing_features.get(attr_key)
 
                     # coerce boolean-like strings to bool for requested side
-                    if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                    if isinstance(req_value, str) and req_value.lower() in (
+                        "true",
+                        "false",
+                    ):
                         req_value = req_value.lower() == "true"
 
                     # If controller omitted the key (exist_value is None) but the requested value is boolean,
@@ -12287,15 +12975,25 @@ class WirelessDesign(CatalystCenterBase):
                         exist_value = False
 
                     # normalize controller-side boolean strings
-                    if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                    if isinstance(exist_value, str) and exist_value.lower() in (
+                        "true",
+                        "false",
+                    ):
                         exist_value = exist_value.lower() == "true"
 
                     lower_key = attr_key.lower()
 
                     # peer2peer tolerant comparison
                     if "peer2peer" in lower_key:
-                        if _canon_peer2peer_value(exist_value) != _canon_peer2peer_value(req_value):
-                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, exist_value, req_value), "DEBUG")
+                        if _canon_peer2peer_value(
+                            exist_value
+                        ) != _canon_peer2peer_value(req_value):
+                            self.log(
+                                "Diff for {0}: existing({1}) != requested({2})".format(
+                                    attr_key, exist_value, req_value
+                                ),
+                                "DEBUG",
+                            )
                             per_design_diffs.append((attr_key, exist_value, req_value))
                             needs_update = True
                             continue
@@ -12305,15 +13003,35 @@ class WirelessDesign(CatalystCenterBase):
                         ev = None if exist_value is None else str(exist_value).upper()
                         rv = None if req_value is None else str(req_value).upper()
                         if ev != rv:
-                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, ev, rv), "DEBUG")
+                            self.log(
+                                "Diff for {0}: existing({1}) != requested({2})".format(
+                                    attr_key, ev, rv
+                                ),
+                                "DEBUG",
+                            )
                             per_design_diffs.append((attr_key, ev, rv))
                             needs_update = True
                             continue
 
                     # numeric-ish fields: try int comparison
-                    elif any(sub in lower_key for sub in ("dtim", "maxclients", "idle", "timeout", "value", "scan", "defer")):
+                    elif any(
+                        sub in lower_key
+                        for sub in (
+                            "dtim",
+                            "maxclients",
+                            "idle",
+                            "timeout",
+                            "value",
+                            "scan",
+                            "defer",
+                        )
+                    ):
                         try:
-                            ev_num = int(existing_features.get(attr_key)) if existing_features.get(attr_key) is not None else None
+                            ev_num = (
+                                int(existing_features.get(attr_key))
+                                if existing_features.get(attr_key) is not None
+                                else None
+                            )
                         except Exception:
                             ev_num = existing_features.get(attr_key)
                         try:
@@ -12321,7 +13039,12 @@ class WirelessDesign(CatalystCenterBase):
                         except Exception:
                             rv_num = req_value
                         if ev_num != rv_num:
-                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, ev_num, rv_num), "DEBUG")
+                            self.log(
+                                "Diff for {0}: existing({1}) != requested({2})".format(
+                                    attr_key, ev_num, rv_num
+                                ),
+                                "DEBUG",
+                            )
                             per_design_diffs.append((attr_key, ev_num, rv_num))
                             needs_update = True
                             continue
@@ -12329,34 +13052,59 @@ class WirelessDesign(CatalystCenterBase):
                     # default strict equality
                     else:
                         if exist_value != req_value:
-                            self.log("Diff for {0}: existing({1}) != requested({2})".format(attr_key, exist_value, req_value), "DEBUG")
+                            self.log(
+                                "Diff for {0}: existing({1}) != requested({2})".format(
+                                    attr_key, exist_value, req_value
+                                ),
+                                "DEBUG",
+                            )
                             per_design_diffs.append((attr_key, exist_value, req_value))
                             needs_update = True
                             continue
 
                 # If still no difference found, compare unlocked attributes
                 if set(existing_unlocked) != set(normalized_unlocked):
-                    self.log("Unlocked attrs differ: existing({0}) != requested({1})".format(existing_unlocked, normalized_unlocked), "DEBUG")
-                    per_design_diffs.append(("unlockedAttributes", existing_unlocked, normalized_unlocked))
+                    self.log(
+                        "Unlocked attrs differ: existing({0}) != requested({1})".format(
+                            existing_unlocked, normalized_unlocked
+                        ),
+                        "DEBUG",
+                    )
+                    per_design_diffs.append(
+                        ("unlockedAttributes", existing_unlocked, normalized_unlocked)
+                    )
                     needs_update = True
 
             else:
                 # Only compare the single requested field or unlocked attributes
-                if field_to_check in ("unlocked_attributes", "unlockedAttributes") or field_check_key == "unlockedAttributes":
+                if (
+                    field_to_check in ("unlocked_attributes", "unlockedAttributes")
+                    or field_check_key == "unlockedAttributes"
+                ):
                     if set(existing_unlocked) != set(normalized_unlocked):
                         self.log(
                             "Unlocked attrs differ (single-field check): "
-                            "existing({0}) != requested({1})".format(existing_unlocked, normalized_unlocked),
+                            "existing({0}) != requested({1})".format(
+                                existing_unlocked, normalized_unlocked
+                            ),
                             "DEBUG",
                         )
-                        per_design_diffs.append(("unlockedAttributes", existing_unlocked, normalized_unlocked))
+                        per_design_diffs.append(
+                            (
+                                "unlockedAttributes",
+                                existing_unlocked,
+                                normalized_unlocked,
+                            )
+                        )
                         needs_update = True
                 else:
                     # if the requested payload didn't include the field to check, treat as NO-UPDATE
                     if field_check_key not in normalized_feature_attrs:
                         self.log(
                             "Requested entry missing field_to_check '{0}' -> "
-                            "treating NO-UPDATE for design {1}".format(field_to_check, design_name),
+                            "treating NO-UPDATE for design {1}".format(
+                                field_to_check, design_name
+                            ),
                             "DEBUG",
                         )
                         needs_update = False
@@ -12365,44 +13113,103 @@ class WirelessDesign(CatalystCenterBase):
                         exist_value = existing_features.get(field_check_key)
 
                         # coerce boolean-like strings
-                        if isinstance(req_value, str) and req_value.lower() in ("true", "false"):
+                        if isinstance(req_value, str) and req_value.lower() in (
+                            "true",
+                            "false",
+                        ):
                             req_value = req_value.lower() == "true"
                         # same missing-key -> False heuristic for boolean requested values
                         if exist_value is None and isinstance(req_value, bool):
                             exist_value = False
-                        if isinstance(exist_value, str) and exist_value.lower() in ("true", "false"):
+                        if isinstance(exist_value, str) and exist_value.lower() in (
+                            "true",
+                            "false",
+                        ):
                             exist_value = exist_value.lower() == "true"
 
                         lower_key = field_check_key.lower()
                         if "peer2peer" in lower_key:
-                            if _canon_peer2peer_value(exist_value) != _canon_peer2peer_value(req_value):
-                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, exist_value, req_value), "DEBUG")
-                                per_design_diffs.append((field_check_key, exist_value, req_value))
+                            if _canon_peer2peer_value(
+                                exist_value
+                            ) != _canon_peer2peer_value(req_value):
+                                self.log(
+                                    "Diff for {0}: existing({1}) != requested({2})".format(
+                                        field_check_key, exist_value, req_value
+                                    ),
+                                    "DEBUG",
+                                )
+                                per_design_diffs.append(
+                                    (field_check_key, exist_value, req_value)
+                                )
                                 needs_update = True
-                        elif field_check_key.lower() == "wmmpolicy" or field_check_key == "wmmPolicy":
-                            ev = None if exist_value is None else str(exist_value).upper()
+                        elif (
+                            field_check_key.lower() == "wmmpolicy"
+                            or field_check_key == "wmmPolicy"
+                        ):
+                            ev = (
+                                None
+                                if exist_value is None
+                                else str(exist_value).upper()
+                            )
                             rv = None if req_value is None else str(req_value).upper()
                             if ev != rv:
-                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, ev, rv), "DEBUG")
+                                self.log(
+                                    "Diff for {0}: existing({1}) != requested({2})".format(
+                                        field_check_key, ev, rv
+                                    ),
+                                    "DEBUG",
+                                )
                                 per_design_diffs.append((field_check_key, ev, rv))
                                 needs_update = True
-                        elif any(sub in lower_key for sub in ("dtim", "maxclients", "idle", "timeout", "value", "scan", "defer")):
+                        elif any(
+                            sub in lower_key
+                            for sub in (
+                                "dtim",
+                                "maxclients",
+                                "idle",
+                                "timeout",
+                                "value",
+                                "scan",
+                                "defer",
+                            )
+                        ):
                             try:
-                                ev_num = int(existing_features.get(field_check_key)) if existing_features.get(field_check_key) is not None else None
+                                ev_num = (
+                                    int(existing_features.get(field_check_key))
+                                    if existing_features.get(field_check_key)
+                                    is not None
+                                    else None
+                                )
                             except Exception:
                                 ev_num = existing_features.get(field_check_key)
                             try:
-                                rv_num = int(req_value) if req_value is not None else None
+                                rv_num = (
+                                    int(req_value) if req_value is not None else None
+                                )
                             except Exception:
                                 rv_num = req_value
                             if ev_num != rv_num:
-                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, ev_num, rv_num), "DEBUG")
-                                per_design_diffs.append((field_check_key, ev_num, rv_num))
+                                self.log(
+                                    "Diff for {0}: existing({1}) != requested({2})".format(
+                                        field_check_key, ev_num, rv_num
+                                    ),
+                                    "DEBUG",
+                                )
+                                per_design_diffs.append(
+                                    (field_check_key, ev_num, rv_num)
+                                )
                                 needs_update = True
                         else:
                             if exist_value != req_value:
-                                self.log("Diff for {0}: existing({1}) != requested({2})".format(field_check_key, exist_value, req_value), "DEBUG")
-                                per_design_diffs.append((field_check_key, exist_value, req_value))
+                                self.log(
+                                    "Diff for {0}: existing({1}) != requested({2})".format(
+                                        field_check_key, exist_value, req_value
+                                    ),
+                                    "DEBUG",
+                                )
+                                per_design_diffs.append(
+                                    (field_check_key, exist_value, req_value)
+                                )
                                 needs_update = True
 
             # Finalize lists - **FIX: Always ensure unlockedAttributes is in the update payload when it differs**
@@ -12417,7 +13224,7 @@ class WirelessDesign(CatalystCenterBase):
                             "Design '{0}': Adding unlockedAttributes to update payload: {1}".format(
                                 design_name, normalized_unlocked
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     elif existing_unlocked:
                         # Explicitly clear unlocked attributes if playbook wants empty list
@@ -12426,20 +13233,32 @@ class WirelessDesign(CatalystCenterBase):
                             "Design '{0}': Clearing unlockedAttributes in update payload (was: {1})".format(
                                 design_name, existing_unlocked
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                 update_payloads.append(payload)
                 update_diffs[design_name] = per_design_diffs
-                self.log("Design '{0}' marked for UPDATE. Diffs: {1}".format(design_name, per_design_diffs), "INFO")
+                self.log(
+                    "Design '{0}' marked for UPDATE. Diffs: {1}".format(
+                        design_name, per_design_diffs
+                    ),
+                    "INFO",
+                )
             else:
                 no_change_payloads.append(existing_details)
                 self.log("Design '{0}' requires NO UPDATE".format(design_name), "INFO")
 
-        self.log("ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(len(add_payloads), len(update_payloads), len(no_change_payloads)), "DEBUG")
+        self.log(
+            "ADD: {0}, UPDATE: {1}, NO-CHANGE: {2}".format(
+                len(add_payloads), len(update_payloads), len(no_change_payloads)
+            ),
+            "DEBUG",
+        )
         return add_payloads, update_payloads, no_change_payloads
 
-    def get_clean_air_templates(self, design_name=None, template_type="CLEANAIR_CONFIGURATION"):
+    def get_clean_air_templates(
+        self, design_name=None, template_type="CLEANAIR_CONFIGURATION"
+    ):
         """
         Retrieve existing CleanAir feature templates from Cisco Catalyst Center.
         Args:
@@ -12456,9 +13275,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_clean_air = response.get("response", [])
@@ -12480,7 +13297,10 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The template details (API 'response' object) or {} on failure.
         """
-        self.log("Fetching CleanAir template details for id: {0}".format(template_id), "DEBUG")
+        self.log(
+            "Fetching CleanAir template details for id: {0}".format(template_id),
+            "DEBUG",
+        )
 
         if not template_id:
             self.log("get_clean_air_details called without template_id.", "WARNING")
@@ -12490,15 +13310,19 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_clean_air_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response", {}) or {}
-            self.log("Retrieved CleanAir template details: {0}".format(details), "DEBUG")
+            self.log(
+                "Retrieved CleanAir template details: {0}".format(details), "DEBUG"
+            )
             return details
 
         except Exception as e:
-            self.log("Failed to fetch CleanAir template details: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Failed to fetch CleanAir template details: {0}".format(str(e)), "ERROR"
+            )
             return {}
 
     def get_advanced_ssid_details(self, ssid_id):
@@ -12509,7 +13333,9 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the Advanced SSID feature template, or {} if fetch fails.
         """
-        self.log("Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG"
+        )
         try:
             params = {}
             if ssid_id:
@@ -12517,9 +13343,7 @@ class WirelessDesign(CatalystCenterBase):
 
             # Execute API call to Catalyst Center
             response = self.execute_get_request(
-                "wireless",
-                "get_advanced_ssid_configuration_feature_template",
-                params
+                "wireless", "get_advanced_ssid_configuration_feature_template", params
             )
 
             # Log raw response for debugging
@@ -12528,7 +13352,12 @@ class WirelessDesign(CatalystCenterBase):
             existing_ssids = response.get("response", [])
             # Validate response data
             if not isinstance(existing_ssids, dict):
-                self.log("Unexpected response format. Expected list, got {0}".format(type(existing_ssids)), "WARNING")
+                self.log(
+                    "Unexpected response format. Expected list, got {0}".format(
+                        type(existing_ssids)
+                    ),
+                    "WARNING",
+                )
                 return []
             return existing_ssids
 
@@ -12546,7 +13375,9 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of existing Advanced SSID template dicts.
         """
-        self.log("Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG"
+        )
 
         try:
             params = {"type": "ADVANCED_SSID_CONFIGURATION"}
@@ -12555,9 +13386,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_ssids = response.get("response", [])
@@ -12588,7 +13417,9 @@ class WirelessDesign(CatalystCenterBase):
         delete_attrs_list = []
         already_reset_list = []  # Track items that are already reset
 
-        self.log("Starting verification of AAA Radius Attributes for deletion/reset.", "INFO")
+        self.log(
+            "Starting verification of AAA Radius Attributes for deletion/reset.", "INFO"
+        )
 
         # Retrieve all existing AAA Radius Attributes
         existing_blocks = self.get_aaa_radius_attributes()
@@ -12636,20 +13467,27 @@ class WirelessDesign(CatalystCenterBase):
 
                     # Fetch current template details to check if already reset
                     template_id = existing.get("id")
-                    template_details = self.get_aaa_radius_attribute_details(template_id)
+                    template_details = self.get_aaa_radius_attribute_details(
+                        template_id
+                    )
 
                     if template_details:
                         feature_attrs = template_details.get("featureAttributes", {})
                         current_called_station_id = feature_attrs.get("calledStationId")
 
-                        if current_called_station_id is None or current_called_station_id == "":
+                        if (
+                            current_called_station_id is None
+                            or current_called_station_id == ""
+                        ):
                             self.log(
                                 "Iteration {0}: AAA Radius Attribute '{1}' is already reset. No action needed.".format(
                                     index, design_name
                                 ),
                                 "INFO",
                             )
-                            already_reset_list.append(design_name)  # Track for messaging
+                            already_reset_list.append(
+                                design_name
+                            )  # Track for messaging
                             continue  # Skip adding to list - already reset
                         else:
                             self.log(
@@ -12695,7 +13533,9 @@ class WirelessDesign(CatalystCenterBase):
         if already_reset_list:
             self.already_reset_aaa_attrs = already_reset_list
             self.log(
-                "AAA Radius Attributes already reset (no action needed): {0}".format(already_reset_list),
+                "AAA Radius Attributes already reset (no action needed): {0}".format(
+                    already_reset_list
+                ),
                 "INFO",
             )
 
@@ -12733,7 +13573,9 @@ class WirelessDesign(CatalystCenterBase):
         for block in existing_blocks:
             for inst in block.get("instances", []):
                 existing_dict[inst["designName"]] = inst
-        self.log("Existing AAA Radius Attributes Dict: {0}".format(existing_dict), "DEBUG")
+        self.log(
+            "Existing AAA Radius Attributes Dict: {0}".format(existing_dict), "DEBUG"
+        )
 
         # Iterate requested attributes
         for attr in aaa_attr_list:
@@ -12745,100 +13587,171 @@ class WirelessDesign(CatalystCenterBase):
             unlocked_attributes = attr.get("unlocked_attributes", []) or []
             aaa_name_map = {"called_station_id": "calledStationId"}
             desired_unlocked = [aaa_name_map[a] for a in unlocked_attributes]
-            self.log("Evaluating AAA Radius Attribute design: {0}".format(design_name), "DEBUG")
-            self.log("Requested called_station_id: {0}".format(called_station_id), "DEBUG")
+            self.log(
+                "Evaluating AAA Radius Attribute design: {0}".format(design_name),
+                "DEBUG",
+            )
+            self.log(
+                "Requested called_station_id: {0}".format(called_station_id), "DEBUG"
+            )
             self.log(
                 "Resolved unlocked_attributes for design '{0}': desired_unlocked={1}".format(
                     design_name, desired_unlocked
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if new_design_name:
-                self.log("New design name requested: {0}".format(new_design_name), "DEBUG")
+                self.log(
+                    "New design name requested: {0}".format(new_design_name), "DEBUG"
+                )
 
             # validate the called_station_id value
             allowed_values = [
-                "AP_ETHMAC_ONLY", "AP_ETHMAC_SSID", "AP_GROUP_NAME", "AP_LABEL_ADDRESS",
-                "AP_LABEL_ADDRESS_SSID", "AP_LOCATION", "AP_MACADDRESS", "AP_MACADDRESS_SSID",
-                "AP_NAME", "AP_NAME_SSID", "IPADDRESS", "MACADDRESS", "VLAN_ID"
+                "AP_ETHMAC_ONLY",
+                "AP_ETHMAC_SSID",
+                "AP_GROUP_NAME",
+                "AP_LABEL_ADDRESS",
+                "AP_LABEL_ADDRESS_SSID",
+                "AP_LOCATION",
+                "AP_MACADDRESS",
+                "AP_MACADDRESS_SSID",
+                "AP_NAME",
+                "AP_NAME_SSID",
+                "IPADDRESS",
+                "MACADDRESS",
+                "VLAN_ID",
             ]
-            if called_station_id is not None and called_station_id not in allowed_values:
-                self.msg = ("Invalid called_station_id '{0}' for design '{1}'. Must be one of: {2}".format(
-                    called_station_id, design_name, allowed_values))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            if (
+                called_station_id is not None
+                and called_station_id not in allowed_values
+            ):
+                self.msg = "Invalid called_station_id '{0}' for design '{1}'. Must be one of: {2}".format(
+                    called_station_id, design_name, allowed_values
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             # Check if design_name exists
             existing = existing_dict.get(design_name)
 
             # Case 1: design_name exists
             if existing:
-                self.log("Design '{0}' exists in Cisco Catalyst Center.".format(design_name), "DEBUG")
+                self.log(
+                    "Design '{0}' exists in Cisco Catalyst Center.".format(design_name),
+                    "DEBUG",
+                )
 
                 # Get existing details for comparison
                 details = self.get_aaa_radius_attribute_details(existing["id"])
                 self.log("Details for {0}: {1}".format(design_name, details), "DEBUG")
 
-                existing_called = details.get("featureAttributes", {}).get("calledStationId")
+                existing_called = details.get("featureAttributes", {}).get(
+                    "calledStationId"
+                )
                 existing_unlocked = details.get("unlockedAttributes", []) or []
 
                 # Determine if update is needed (config changes or rename)
-                config_changed = (
-                    existing_called != called_station_id
-                    or set(existing_unlocked) != set(desired_unlocked)
-                )
+                config_changed = existing_called != called_station_id or set(
+                    existing_unlocked
+                ) != set(desired_unlocked)
 
                 # Case 1a: new_design_name is provided - rename with potential config update
                 if new_design_name:
-                    self.log("Rename requested from '{0}' to '{1}'.".format(design_name, new_design_name), "INFO")
+                    self.log(
+                        "Rename requested from '{0}' to '{1}'.".format(
+                            design_name, new_design_name
+                        ),
+                        "INFO",
+                    )
 
                     # Check if new_design_name already exists (conflict check)
-                    if new_design_name in existing_dict and new_design_name != design_name:
-                        self.msg = ("Cannot rename design '{0}' to '{1}' - target name already exists.".format(
-                            design_name, new_design_name))
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    if (
+                        new_design_name in existing_dict
+                        and new_design_name != design_name
+                    ):
+                        self.msg = "Cannot rename design '{0}' to '{1}' - target name already exists.".format(
+                            design_name, new_design_name
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
                     # Build update payload with new name and potentially new config
                     payload = {
                         "id": existing["id"],
                         "designName": new_design_name,  # Use new name
-                        "featureAttributes": {"calledStationId": called_station_id if called_station_id is not None else existing_called}
+                        "featureAttributes": {
+                            "calledStationId": (
+                                called_station_id
+                                if called_station_id is not None
+                                else existing_called
+                            )
+                        },
                     }
                     if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
 
                     update_attrs.append(payload)
-                    self.log("AAA Radius Attribute '{0}' scheduled for rename to '{1}' with config update.".format(
-                        design_name, new_design_name), "DEBUG")
+                    self.log(
+                        "AAA Radius Attribute '{0}' scheduled for rename to '{1}' with config update.".format(
+                            design_name, new_design_name
+                        ),
+                        "DEBUG",
+                    )
 
                 # Case 1b: No rename, but config changed
                 elif config_changed:
                     payload = {
                         "id": existing["id"],
                         "designName": design_name,  # Keep original name
-                        "featureAttributes": {"calledStationId": called_station_id if called_station_id is not None else existing_called},
+                        "featureAttributes": {
+                            "calledStationId": (
+                                called_station_id
+                                if called_station_id is not None
+                                else existing_called
+                            )
+                        },
                     }
                     if desired_unlocked:
                         payload["unlockedAttributes"] = ["calledStationId"]
 
                     update_attrs.append(payload)
-                    self.log("AAA Radius Attribute '{0}' marked for config update.".format(design_name), "DEBUG")
+                    self.log(
+                        "AAA Radius Attribute '{0}' marked for config update.".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
 
                 # Case 1c: No changes needed
                 else:
                     no_update_attrs.append(details)
-                    self.log("AAA Radius Attribute '{0}' requires no update.".format(design_name), "DEBUG")
+                    self.log(
+                        "AAA Radius Attribute '{0}' requires no update.".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
 
             # Case 2: design_name does NOT exist
             else:
-                self.log("Design '{0}' does not exist in Cisco Catalyst Center.".format(design_name), "DEBUG")
+                self.log(
+                    "Design '{0}' does not exist in Cisco Catalyst Center.".format(
+                        design_name
+                    ),
+                    "DEBUG",
+                )
 
                 # Case 2a: new_design_name provided but design_name doesn't exist
                 # Per requirement: "take design name as priority and create it"
                 if new_design_name:
                     self.log(
                         "Design '{0}' does not exist. new_design_name '{1}' provided but will be ignored. "
-                        "Creating with original design_name '{0}' as priority.".format(design_name, new_design_name),
-                        "WARNING"
+                        "Creating with original design_name '{0}' as priority.".format(
+                            design_name, new_design_name
+                        ),
+                        "WARNING",
                     )
 
                 # Create with design_name (prioritize design_name for creation)
@@ -12850,11 +13763,19 @@ class WirelessDesign(CatalystCenterBase):
                     payload["unlockedAttributes"] = ["calledStationId"]
 
                 add_attrs.append(payload)
-                self.log("AAA Radius Attribute '{0}' scheduled for creation.".format(design_name), "DEBUG")
+                self.log(
+                    "AAA Radius Attribute '{0}' scheduled for creation.".format(
+                        design_name
+                    ),
+                    "DEBUG",
+                )
 
         self.log("AAA Radius Attributes to Add: {0}".format(add_attrs), "DEBUG")
         self.log("AAA Radius Attributes to Update: {0}".format(update_attrs), "DEBUG")
-        self.log("AAA Radius Attributes with No Changes: {0}".format(no_update_attrs), "DEBUG")
+        self.log(
+            "AAA Radius Attributes with No Changes: {0}".format(no_update_attrs),
+            "DEBUG",
+        )
 
         return add_attrs, update_attrs, no_update_attrs
 
@@ -12875,7 +13796,7 @@ class WirelessDesign(CatalystCenterBase):
             response = self.execute_get_request(
                 "wireless",
                 "get_aaa_radius_attributes_configuration_feature_template",
-                {"id": template_id}
+                {"id": template_id},
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             details = response.get("response", {})
@@ -12904,7 +13825,9 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of existing AAA Radius Attribute dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing AAA Radius Attributes from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing AAA Radius Attributes from Catalyst Center.", "DEBUG"
+        )
 
         try:
             params = {"type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION"}
@@ -12912,9 +13835,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["design_name"] = design_name
 
             response = self.execute_get_request(
-                "wireless",
-                "get_feature_template_summary",
-                params
+                "wireless", "get_feature_template_summary", params
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             existing_attrs = response.get("response", [])
@@ -12950,8 +13871,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
-                self.log("Creating RRM General configuration: {0}".format(design_name), "DEBUG")
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
+                self.log(
+                    "Creating RRM General configuration: {0}".format(design_name),
+                    "DEBUG",
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -12962,23 +13890,36 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # Validate returned tasks (consistent with other handlers)
-                    self.check_tasks_response_status(response, "create_r_r_m_general_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_r_r_m_general_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created RRM General configuration."
+                        results[design_name] = (
+                            "Successfully created RRM General configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create RRM General configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create RRM General configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_general_add": results}
             self.status = (
-                "failed" if results and all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+                "failed"
+                if results
+                and all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
@@ -12986,7 +13927,9 @@ class WirelessDesign(CatalystCenterBase):
         except Exception as exc:
             self.msg = {"rrm_general_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_rrm_general(self, params):
@@ -13010,11 +13953,17 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Updating RRM General configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Updating RRM General configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -13032,32 +13981,51 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # Validate returned tasks
-                    self.check_tasks_response_status(response, "update_r_r_m_general_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_r_r_m_general_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated RRM General configuration."
+                        results[design_name] = (
+                            "Successfully updated RRM General configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update RRM General configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update RRM General configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_general_update": results}
             self.status = (
-                "failed" if results and all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                "failed"
+                if results
+                and all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
                 else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"rrm_general_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "rrm_general_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_rrm_fra(self, params):
@@ -13076,8 +14044,14 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
-                self.log("Creating RRM-FRA configuration: {0}".format(design_name), "DEBUG")
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
+                self.log(
+                    "Creating RRM-FRA configuration: {0}".format(design_name), "DEBUG"
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -13087,23 +14061,35 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "create_r_r_m_f_r_a_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_r_r_m_f_r_a_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created RRM-FRA configuration."
+                        results[design_name] = (
+                            "Successfully created RRM-FRA configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create RRM-FRA configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create RRM-FRA configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_fra_add": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
@@ -13111,7 +14097,9 @@ class WirelessDesign(CatalystCenterBase):
         except Exception as exc:
             self.msg = {"rrm_fra_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_rrm_fra(self, params):
@@ -13130,11 +14118,17 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Updating RRM-FRA configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Updating RRM-FRA configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -13151,31 +14145,50 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "update_r_r_m_f_r_a_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_r_r_m_f_r_a_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated RRM-FRA configuration."
+                        results[design_name] = (
+                            "Successfully updated RRM-FRA configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update RRM-FRA configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update RRM-FRA configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_fra_update": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"rrm_fra_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "rrm_fra_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_multicast(self, params):
@@ -13209,22 +14222,34 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "create_multicast_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_multicast_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created Multicast configuration."
+                        results[design_name] = (
+                            "Successfully created Multicast configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create Multicast configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create Multicast configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while adding: {0}".format(str(exc))
+                    results[design_name] = "Exception while adding: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             self.msg = {"multicast_add": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
@@ -13232,7 +14257,9 @@ class WirelessDesign(CatalystCenterBase):
         except Exception as exc:
             self.msg = {"multicast_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_multicast(self, params):
@@ -13251,11 +14278,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Updating Multicast configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Updating Multicast configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -13272,30 +14303,49 @@ class WirelessDesign(CatalystCenterBase):
                         params={"id": template_id, **payload},
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "update_multicast_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_multicast_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated Multicast configuration."
+                        results[design_name] = (
+                            "Successfully updated Multicast configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update Multicast configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update Multicast configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             self.msg = {"multicast_update": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"multicast_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "multicast_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_multicast(self, params):
@@ -13317,11 +14367,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing Multicast configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing Multicast configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -13339,8 +14393,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation.".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -13349,7 +14405,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -13364,21 +14422,30 @@ class WirelessDesign(CatalystCenterBase):
                         mandatory_fields = {"global_multicast_enabled"}
 
                         # Fetch current template details - API REPLACES entire featureAttributes
-                        current_details = self.get_multicast_profile_details(template_id)
+                        current_details = self.get_multicast_profile_details(
+                            template_id
+                        )
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current Multicast feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current Multicast feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -13386,23 +14453,29 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -13410,20 +14483,31 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting Multicast with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting Multicast with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -13433,20 +14517,33 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_multicast_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_multicast_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for Multicast configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for Multicast configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset Multicast configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset Multicast configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         response = self.catalystcenter._exec(
@@ -13456,30 +14553,49 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_multicast_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_multicast_configuration_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted Multicast configuration."
+                            results[design_name] = (
+                                "Successfully deleted Multicast configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete Multicast configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete Multicast configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             self.msg = {"multicast_delete": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"multicast_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "multicast_delete": "Exception during delete: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_flexconnect(self, params):
@@ -13496,7 +14612,11 @@ class WirelessDesign(CatalystCenterBase):
         results = {}
         try:
             for payload in params or []:
-                dn = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                dn = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 try:
                     resp = self.catalystcenter._exec(
                         family="wireless",
@@ -13505,7 +14625,9 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(resp), "DEBUG")
-                    self.check_tasks_response_status(resp, "create_flex_connect_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        resp, "create_flex_connect_configuration_feature_template"
+                    )
                     results[dn] = (
                         "Successfully created FlexConnect."
                         if self.status not in ["failed", "exited"]
@@ -13515,13 +14637,19 @@ class WirelessDesign(CatalystCenterBase):
                     results[dn] = "Exception while creating: {0}".format(str(exc))
                     self.log(results[dn], "ERROR")
             self.msg = {"flexconnect_add": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
         except Exception as exc:
             self.msg = {"flexconnect_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_flexconnect(self, params):
@@ -13538,7 +14666,11 @@ class WirelessDesign(CatalystCenterBase):
         results = {}
         try:
             for payload in params or []:
-                dn = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                dn = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 tid = payload.get("id")
                 if not tid:
                     results[dn] = "Skipped update: missing 'id' in payload."
@@ -13552,7 +14684,9 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(resp), "DEBUG")
-                    self.check_tasks_response_status(resp, "update_flex_connect_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        resp, "update_flex_connect_configuration_feature_template"
+                    )
                     results[dn] = (
                         "Successfully updated FlexConnect."
                         if self.status not in ["failed", "exited"]
@@ -13562,13 +14696,24 @@ class WirelessDesign(CatalystCenterBase):
                     results[dn] = "Exception while updating: {0}".format(str(exc))
                     self.log(results[dn], "ERROR")
             self.msg = {"flexconnect_update": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
         except Exception as exc:
-            self.msg = {"flexconnect_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "flexconnect_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_event_driven_rrm(self, params):
@@ -13588,8 +14733,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
-                self.log("Creating Event-Driven RRM configuration: {0}".format(design_name), "DEBUG")
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
+                self.log(
+                    "Creating Event-Driven RRM configuration: {0}".format(design_name),
+                    "DEBUG",
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -13600,31 +14752,48 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks
-                    self.check_tasks_response_status(response, "create_event_driven_r_r_m_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response,
+                        "create_event_driven_r_r_m_configuration_feature_template",
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created Event-Driven RRM configuration."
+                        results[design_name] = (
+                            "Successfully created Event-Driven RRM configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create Event-Driven RRM configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create Event-Driven RRM configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"event_driven_rrm_add": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"event_driven_rrm_add": "Exception during add: {0}".format(str(exc))}
+            self.msg = {
+                "event_driven_rrm_add": "Exception during add: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_event_driven_rrm(self, params):
@@ -13644,11 +14813,17 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Updating Event-Driven RRM configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Updating Event-Driven RRM configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -13666,31 +14841,53 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks
-                    self.check_tasks_response_status(response, "update_event_driven_r_r_m_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response,
+                        "update_event_driven_r_r_m_configuration_feature_template",
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated Event-Driven RRM configuration."
+                        results[design_name] = (
+                            "Successfully updated Event-Driven RRM configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update Event-Driven RRM configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update Event-Driven RRM configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"event_driven_rrm_update": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"event_driven_rrm_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "event_driven_rrm_update": "Exception during update: {0}".format(
+                    str(exc)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_dot11be(self, params):
@@ -13709,8 +14906,14 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
-                self.log("Creating dot11be configuration: {0}".format(design_name), "DEBUG")
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
+                self.log(
+                    "Creating dot11be configuration: {0}".format(design_name), "DEBUG"
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -13721,29 +14924,45 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks
-                    self.check_tasks_response_status(response, "create_dot11be_status_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_dot11be_status_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created dot11be configuration."
+                        results[design_name] = (
+                            "Successfully created dot11be configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create dot11be configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create dot11be configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11be_add": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
             self.msg = {"dot11be_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_dot11be(self, params):
@@ -13762,9 +14981,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
-                self.log("Updating dot11be configuration: {0}".format(design_name), "DEBUG")
+                self.log(
+                    "Updating dot11be configuration: {0}".format(design_name), "DEBUG"
+                )
 
                 if not template_id:
                     results[design_name] = "Skipping update: missing template ID"
@@ -13780,29 +15005,47 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks
-                    self.check_tasks_response_status(response, "update_dot11be_status_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_dot11be_status_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated dot11be configuration."
+                        results[design_name] = (
+                            "Successfully updated dot11be configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update dot11be configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update dot11be configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11be_update": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"dot11be_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "dot11be_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_dot11ax(self, params):
@@ -13821,8 +15064,14 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
-                self.log("Creating dot11ax configuration: {0}".format(design_name), "DEBUG")
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
+                self.log(
+                    "Creating dot11ax configuration: {0}".format(design_name), "DEBUG"
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -13833,29 +15082,45 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks (keeps parity with other handlers)
-                    self.check_tasks_response_status(response, "create_dot11ax_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_dot11ax_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created dot11ax configuration."
+                        results[design_name] = (
+                            "Successfully created dot11ax configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create dot11ax configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create dot11ax configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11ax_add": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
             self.msg = {"dot11ax_add": "Exception during add: {0}".format(str(exc))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_dot11ax(self, params):
@@ -13874,9 +15139,18 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
-                self.log("Updating dot11ax configuration: design='{0}', id='{1}'".format(design_name, template_id), "DEBUG")
+                self.log(
+                    "Updating dot11ax configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
+                    "DEBUG",
+                )
 
                 if not template_id:
                     results[design_name] = "Skipped update: missing 'id' in payload."
@@ -13892,32 +15166,51 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate returned tasks (keeps parity with other handlers)
-                    self.check_tasks_response_status(response, "update_dot11ax_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_dot11ax_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully updated dot11ax configuration."
+                        results[design_name] = (
+                            "Successfully updated dot11ax configuration."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update dot11ax configuration: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update dot11ax configuration: {0}".format(
+                                fail_reason
+                            )
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11ax_update": results}
             # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"dot11ax_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "dot11ax_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_clean_air(self, params):
@@ -13947,29 +15240,41 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "create_clean_air_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_clean_air_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
                         results[design_name] = "Successfully created CleanAir Profile."
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create CleanAir Profile: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create CleanAir Profile: {0}".format(fail_reason)
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as e:
-                    results[design_name] = "Exception while creating: {0}".format(str(e))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(e)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final message after all payloads processed
             self.msg = {"clean_air_add": results}
-            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all("Failed" in v or "Exception" in v for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as e:
             self.msg = {"clean_air_add": "Exception during add: {0}".format(str(e))}
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_clean_air(self, params):
@@ -13990,7 +15295,12 @@ class WirelessDesign(CatalystCenterBase):
             for payload in params:
                 design_name = payload.get("designName")
                 template_id = payload.get("id")
-                self.log("Updating CleanAir Profile: design='{0}', id='{1}'".format(design_name, template_id), "DEBUG")
+                self.log(
+                    "Updating CleanAir Profile: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
+                    "DEBUG",
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -14000,29 +15310,43 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "update_clean_air_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_clean_air_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
                         results[design_name] = "Successfully updated CleanAir Profile."
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update CleanAir Profile: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update CleanAir Profile: {0}".format(fail_reason)
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as e:
-                    results[design_name] = "Exception while updating: {0}".format(str(e))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(e)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final result after processing all updates
             self.msg = {"clean_air_update": results}
-            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all("Failed" in v or "Exception" in v for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as e:
-            self.msg = {"clean_air_update": "Exception during update: {0}".format(str(e))}
+            self.msg = {
+                "clean_air_update": "Exception during update: {0}".format(str(e))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_advanced_ssids(self, params):
@@ -14041,9 +15365,18 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("designName") or payload.get("design_name") or "<unknown>"
+                design_name = (
+                    payload.get("designName")
+                    or payload.get("design_name")
+                    or "<unknown>"
+                )
                 template_id = payload.get("id")
-                self.log("Updating Advanced SSID: {0} (id={1})".format(design_name, template_id), "DEBUG")
+                self.log(
+                    "Updating Advanced SSID: {0} (id={1})".format(
+                        design_name, template_id
+                    ),
+                    "DEBUG",
+                )
 
                 if not template_id:
                     results[design_name] = "Skipped update: missing 'id' in payload."
@@ -14059,32 +15392,47 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # validate the returned task(s)
-                    self.check_tasks_response_status(response, "update_advanced_ssid_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "update_advanced_ssid_configuration_feature_template"
+                    )
 
                     if self.status not in ["failed", "exited"]:
                         results[design_name] = "Successfully updated Advanced SSID."
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to update Advanced SSID: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to update Advanced SSID: {0}".format(fail_reason)
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while updating: {0}".format(str(exc))
+                    results[design_name] = "Exception while updating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"advanced_ssids_update": results}
             # If every result contains 'Failed' or 'Exception', mark overall as failed; else success
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"advanced_ssids_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "advanced_ssids_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_advanced_ssids(self, params):
@@ -14115,35 +15463,47 @@ class WirelessDesign(CatalystCenterBase):
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
                     # Reuse your existing task-check helper to validate task status
-                    self.check_tasks_response_status(response, "create_advanced_ssid_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response, "create_advanced_ssid_configuration_feature_template"
+                    )
 
                     # self.status / self.msg are expected to be set by check_tasks_response_status (or set below on failure)
                     if self.status not in ["failed", "exited"]:
                         results[design_name] = "Successfully created Advanced SSID."
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create Advanced SSID: {0}".format(fail_reason)
+                        results[design_name] = (
+                            "Failed to create Advanced SSID: {0}".format(fail_reason)
+                        )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while creating: {0}".format(str(exc))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Summarize outcome
             self.msg = {"advanced_ssids_add": results}
             # If every result contains 'Failed' or 'Exception', mark overall as failed; otherwise success
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v) for v in results.values()) else "success"
+                "failed"
+                if all(("Failed" in v or "Exception" in v) for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
             # catastrophic failure while iterating/processing
-            self.msg = {"advanced_ssids_add": "Exception during add: {0}".format(str(exc))}
+            self.msg = {
+                "advanced_ssids_add": "Exception during add: {0}".format(str(exc))
+            }
             self.status = "failed"
             # set_operation_result(...).check_return_status() matches your AAA pattern
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_aaa_radius_attributes(self, params):
@@ -14163,7 +15523,9 @@ class WirelessDesign(CatalystCenterBase):
         try:
             for payload in params:
                 design_name = payload.get("designName")
-                self.log("Creating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
+                self.log(
+                    "Creating AAA Radius Attribute: {0}".format(design_name), "DEBUG"
+                )
 
                 try:
                     response = self.catalystcenter._exec(
@@ -14173,25 +15535,36 @@ class WirelessDesign(CatalystCenterBase):
                         params=payload,
                     )
                     self.log("Received API response: {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "create_aaa_radius_attributes_configuration_feature_template")
+                    self.check_tasks_response_status(
+                        response,
+                        "create_aaa_radius_attributes_configuration_feature_template",
+                    )
 
                     if self.status not in ["failed", "exited"]:
-                        results[design_name] = "Successfully created AAA Radius Attribute."
+                        results[design_name] = (
+                            "Successfully created AAA Radius Attribute."
+                        )
                     else:
                         fail_reason = self.msg
-                        results[design_name] = "Failed to create AAA Radius Attribute: {0}".format(
-                            fail_reason
+                        results[design_name] = (
+                            "Failed to create AAA Radius Attribute: {0}".format(
+                                fail_reason
+                            )
                         )
                         self.log(results[design_name], "ERROR")
 
                 except Exception as e:
-                    results[design_name] = "Exception while creating: {0}".format(str(e))
+                    results[design_name] = "Exception while creating: {0}".format(
+                        str(e)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final message after all payloads processed
             self.msg = {"aaa_radius_attributes_add": results}
             self.status = (
-                "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+                "failed"
+                if all("Failed" in v or "Exception" in v for v in results.values())
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
@@ -14201,7 +15574,9 @@ class WirelessDesign(CatalystCenterBase):
                 "aaa_radius_attributes_add": "Exception during add: {0}".format(str(e))
             }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_update_aaa_radius_attributes(self, params):
@@ -14221,7 +15596,9 @@ class WirelessDesign(CatalystCenterBase):
         try:
             for payload in params:
                 design_name = payload.get("designName")
-                self.log("Updating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
+                self.log(
+                    "Updating AAA Radius Attribute: {0}".format(design_name), "DEBUG"
+                )
 
                 response = self.catalystcenter._exec(
                     family="wireless",
@@ -14231,15 +15608,16 @@ class WirelessDesign(CatalystCenterBase):
                 )
                 self.log("Received API response: {0}".format(response), "DEBUG")
                 self.check_tasks_response_status(
-                    response, "update_aaa_radius_attributes_configuration_feature_template"
+                    response,
+                    "update_aaa_radius_attributes_configuration_feature_template",
                 )
 
                 if self.status not in ["failed", "exited"]:
                     results[design_name] = "Successfully updated AAA Radius Attribute."
                 else:
                     fail_reason = self.msg
-                    results[design_name] = "Failed to update AAA Radius Attribute: {0}".format(
-                        fail_reason
+                    results[design_name] = (
+                        "Failed to update AAA Radius Attribute: {0}".format(fail_reason)
                     )
                     self.log(results[design_name], "ERROR")
 
@@ -14254,10 +15632,14 @@ class WirelessDesign(CatalystCenterBase):
 
         except Exception as e:
             self.msg = {
-                "aaa_radius_attributes_update": "Exception during update: {0}".format(str(e))
+                "aaa_radius_attributes_update": "Exception during update: {0}".format(
+                    str(e)
+                )
             }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_rrm_general(self, params):
@@ -14279,11 +15661,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing RRM General configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing RRM General configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -14301,8 +15687,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation.".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -14311,7 +15699,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -14326,21 +15716,30 @@ class WirelessDesign(CatalystCenterBase):
                         mandatory_fields = {"radio_band"}
 
                         # Fetch current template details - API REPLACES entire featureAttributes
-                        current_details = self.get_rrm_general_profile_details(template_id)
+                        current_details = self.get_rrm_general_profile_details(
+                            template_id
+                        )
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current RRM General feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current RRM General feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None (skip mandatory)
@@ -14348,18 +15747,22 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -14367,16 +15770,25 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting RRM General with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting RRM General with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         response = self.catalystcenter._exec(
                             family="wireless",
@@ -14385,19 +15797,30 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
                         self.log("Reset API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "update_r_r_m_general_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response,
+                            "update_r_r_m_general_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for RRM General configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for RRM General configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset RRM General configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset RRM General configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         response = self.catalystcenter._exec(
@@ -14407,32 +15830,51 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted RRM General configuration."
+                            results[design_name] = (
+                                "Successfully deleted RRM General configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete RRM General configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete RRM General configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_general_delete": results}
             self.status = (
-                "failed" if results and all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                "failed"
+                if results
+                and all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
                 else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"rrm_general_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "rrm_general_delete": "Exception during delete: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_rrm_fra(self, params):
@@ -14454,11 +15896,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing RRM-FRA configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing RRM-FRA configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -14476,8 +15922,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation.".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -14486,7 +15934,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -14503,19 +15953,26 @@ class WirelessDesign(CatalystCenterBase):
                         # Fetch current template details - API REPLACES entire featureAttributes
                         current_details = self.get_rrm_fra_profile_details(template_id)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current RRM-FRA feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current RRM-FRA feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None (skip mandatory)
@@ -14523,18 +15980,22 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -14542,16 +16003,23 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting RRM-FRA with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting RRM-FRA with payload: {0}".format(reset_payload),
+                            "DEBUG",
+                        )
 
                         response = self.catalystcenter._exec(
                             family="wireless",
@@ -14560,19 +16028,30 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
                         self.log("Reset API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "update_r_r_m_f_r_a_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response,
+                            "update_r_r_m_f_r_a_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for RRM-FRA configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for RRM-FRA configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset RRM-FRA configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset RRM-FRA configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         response = self.catalystcenter._exec(
@@ -14582,31 +16061,50 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted RRM-FRA configuration."
+                            results[design_name] = (
+                                "Successfully deleted RRM-FRA configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete RRM-FRA configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete RRM-FRA configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"rrm_fra_delete": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"rrm_fra_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "rrm_fra_delete": "Exception during delete: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_flexconnect(self, params):
@@ -14625,9 +16123,14 @@ class WirelessDesign(CatalystCenterBase):
         results = {}
         try:
             for payload in params or []:
-                dn = payload.get("design_name") or payload.get("designName") or "Unknown"
+                dn = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 tid = payload.get("id")
-                self.log("Processing FlexConnect: design='{0}', id='{1}'".format(dn, tid), "DEBUG")
+                self.log(
+                    "Processing FlexConnect: design='{0}', id='{1}'".format(dn, tid),
+                    "DEBUG",
+                )
                 if not tid:
                     results[dn] = "Skipped delete: missing 'id' in payload."
                     self.log(results[dn], "ERROR")
@@ -14642,8 +16145,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation.".format(dn),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation.".format(
+                                dn
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -14652,7 +16157,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
                             self.log(
                                 "feature_attributes empty, using unlocked_attributes as reset keys: {0}".format(
                                     list(playbook_feature_attrs.keys())
@@ -14668,19 +16175,26 @@ class WirelessDesign(CatalystCenterBase):
                         # Fetch current template details - API REPLACES entire featureAttributes
                         current_details = self.get_flexconnect_profile_details(tid)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current FlexConnect feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current FlexConnect feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -14688,8 +16202,10 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             reset_feature_attrs[api_key] = None
                             self.log(
-                                "Setting attribute '{0}' to null for reset.".format(api_key),
-                                "DEBUG"
+                                "Setting attribute '{0}' to null for reset.".format(
+                                    api_key
+                                ),
+                                "DEBUG",
                             )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -14697,16 +16213,25 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
 
                         # Build reset payload
                         reset_payload = {
                             "designName": dn,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting FlexConnect with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting FlexConnect with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         resp = self.catalystcenter._exec(
                             family="wireless",
@@ -14715,7 +16240,9 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": tid, "payload": reset_payload},
                         )
                         self.log("Reset API response: {0}".format(resp), "DEBUG")
-                        self.check_tasks_response_status(resp, "update_flex_connect_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            resp, "update_flex_connect_configuration_feature_template"
+                        )
                         results[dn] = (
                             "Successfully reset the feature attributes for FlexConnect configuration."
                             if self.status not in ["failed", "exited"]
@@ -14724,8 +16251,10 @@ class WirelessDesign(CatalystCenterBase):
                     else:
                         # DELETE operation
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(dn),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                dn
+                            ),
+                            "INFO",
                         )
                         resp = self.catalystcenter._exec(
                             family="wireless",
@@ -14734,7 +16263,9 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": tid},
                         )
                         self.log("Received API response: {0}".format(resp), "DEBUG")
-                        self.check_tasks_response_status(resp, "delete_feature_template")
+                        self.check_tasks_response_status(
+                            resp, "delete_feature_template"
+                        )
                         results[dn] = (
                             "Successfully deleted FlexConnect."
                             if self.status not in ["failed", "exited"]
@@ -14744,13 +16275,24 @@ class WirelessDesign(CatalystCenterBase):
                     results[dn] = "Exception while processing: {0}".format(str(exc))
                     self.log(results[dn], "ERROR")
             self.msg = {"flexconnect_delete": results}
-            self.status = "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
         except Exception as exc:
-            self.msg = {"flexconnect_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "flexconnect_delete": "Exception during delete: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_dot11be(self, params):
@@ -14772,11 +16314,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing dot11be configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing dot11be configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -14794,8 +16340,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -14804,7 +16352,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -14819,19 +16369,26 @@ class WirelessDesign(CatalystCenterBase):
                         # so we must start from current state and only null out playbook keys
                         current_details = self.get_dot11be_profile_details(template_id)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current dot11be feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current dot11be feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -14839,23 +16396,29 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -14863,20 +16426,31 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -14886,20 +16460,33 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_dot11be_status_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_dot11be_status_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for dot11be configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for dot11be configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset dot11be configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset dot11be configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         response = self.catalystcenter._exec(
@@ -14910,32 +16497,51 @@ class WirelessDesign(CatalystCenterBase):
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
                         # validate the returned task(s)
-                        self.check_tasks_response_status(response, "delete_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted dot11be configuration."
+                            results[design_name] = (
+                                "Successfully deleted dot11be configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete dot11be configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete dot11be configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11be_delete": results}
             # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"dot11be_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "dot11be_delete": "Exception during delete: {0}".format(str(exc))
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_dot11ax(self, params):
@@ -14956,11 +16562,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing dot11ax configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing dot11ax configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -14978,8 +16588,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -14988,7 +16600,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -15008,19 +16622,26 @@ class WirelessDesign(CatalystCenterBase):
                         # so we must start from current state and only null out playbook keys
                         current_details = self.get_dot11ax_details(template_id)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", [])
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = current_details.get(
+                                "unlockedAttributes", []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current dot11ax feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current dot11ax feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -15028,23 +16649,29 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -15052,20 +16679,31 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -15075,20 +16713,33 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_dot11ax_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_dot11ax_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for dot11ax configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for dot11ax configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset dot11ax configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset dot11ax configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Call DELETE API
@@ -15099,31 +16750,52 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Delete API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_dot11ax_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_dot11ax_configuration_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted dot11ax configuration."
+                            results[design_name] = (
+                                "Successfully deleted dot11ax configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete dot11ax configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete dot11ax configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"dot11ax_delete_or_reset": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"dot11ax_delete_or_reset": "Exception during operation: {0}".format(str(exc))}
+            self.msg = {
+                "dot11ax_delete_or_reset": "Exception during operation: {0}".format(
+                    str(exc)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_clean_air(self, params):
@@ -15144,11 +16816,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing CleanAir Profile: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing CleanAir Profile: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -15166,8 +16842,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting values to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting values to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -15176,7 +16854,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -15218,19 +16898,26 @@ class WirelessDesign(CatalystCenterBase):
                         # so we must start from current state and only null out playbook keys
                         current_details = self.get_clean_air_details(template_id)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", [])
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = current_details.get(
+                                "unlockedAttributes", []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Collect playbook API keys to know which ones to null out
@@ -15244,57 +16931,83 @@ class WirelessDesign(CatalystCenterBase):
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current/playbook value
                                 api_key = key_name_map.get(snake_key, snake_key)
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                                 continue
 
                             api_key = key_name_map.get(snake_key, snake_key)
 
-                            if snake_key == "interferers_features" and isinstance(value, dict):
+                            if snake_key == "interferers_features" and isinstance(
+                                value, dict
+                            ):
                                 # Handle nested dict: preserve non-playbook sub-keys,
                                 # null out only playbook sub-keys
-                                current_interferers = current_feature_attrs.get("interferersFeatures", {}) or {}
+                                current_interferers = (
+                                    current_feature_attrs.get("interferersFeatures", {})
+                                    or {}
+                                )
                                 reset_interferers = copy.deepcopy(current_interferers)
                                 for intf_snake_key in value.keys():
-                                    intf_api_key = interferers_key_map.get(intf_snake_key, intf_snake_key)
+                                    intf_api_key = interferers_key_map.get(
+                                        intf_snake_key, intf_snake_key
+                                    )
                                     reset_interferers[intf_api_key] = None
                                     self.log(
-                                        "Setting interferer '{0}' to null for reset.".format(intf_api_key),
-                                        "DEBUG"
+                                        "Setting interferer '{0}' to null for reset.".format(
+                                            intf_api_key
+                                        ),
+                                        "DEBUG",
                                     )
                                 reset_feature_attrs[api_key] = reset_interferers
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -15304,20 +17017,33 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_clean_air_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_clean_air_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for CleanAir Profile."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for CleanAir Profile."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset CleanAir Profile: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset CleanAir Profile: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Call DELETE API
@@ -15328,31 +17054,52 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Delete API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_clean_air_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_clean_air_configuration_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted CleanAir Profile."
+                            results[design_name] = (
+                                "Successfully deleted CleanAir Profile."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete CleanAir Profile: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete CleanAir Profile: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"clean_air_delete_or_reset": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"clean_air_delete_or_reset": "Exception during operation: {0}".format(str(exc))}
+            self.msg = {
+                "clean_air_delete_or_reset": "Exception during operation: {0}".format(
+                    str(exc)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_event_driven_rrm(self, params):
@@ -15375,11 +17122,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing Event-Driven RRM configuration: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing Event-Driven RRM configuration: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -15397,8 +17148,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Extract playbook feature_attributes
@@ -15407,7 +17160,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Key mapping: snake_case (playbook) -> camelCase (API)
                         key_name_map = {
@@ -15422,21 +17177,30 @@ class WirelessDesign(CatalystCenterBase):
 
                         # Fetch current template details - API REPLACES entire featureAttributes,
                         # so we must start from current state and only null out playbook keys
-                        current_details = self.get_event_rrm_profile_details(template_id)
+                        current_details = self.get_event_rrm_profile_details(
+                            template_id
+                        )
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", []) or []
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = (
+                                current_details.get("unlockedAttributes", []) or []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current Event-Driven RRM feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current Event-Driven RRM feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -15444,23 +17208,29 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(snake_key, snake_key)
                             if snake_key in mandatory_fields:
                                 # Preserve mandatory field with its current value
-                                reset_feature_attrs[api_key] = current_feature_attrs.get(api_key, value)
+                                reset_feature_attrs[api_key] = (
+                                    current_feature_attrs.get(api_key, value)
+                                )
                                 self.log(
                                     "Preserving mandatory field '{0}' with value '{1}'.".format(
                                         api_key, reset_feature_attrs[api_key]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 reset_feature_attrs[api_key] = None
                                 self.log(
-                                    "Setting attribute '{0}' to null for reset.".format(api_key),
-                                    "DEBUG"
+                                    "Setting attribute '{0}' to null for reset.".format(
+                                        api_key
+                                    ),
+                                    "DEBUG",
                                 )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -15468,20 +17238,31 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -15491,20 +17272,33 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_event_driven_r_r_m_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_event_driven_r_r_m_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for Event-Driven RRM configuration."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for Event-Driven RRM configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset Event-Driven RRM configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset Event-Driven RRM configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         response = self.catalystcenter._exec(
@@ -15515,33 +17309,53 @@ class WirelessDesign(CatalystCenterBase):
                         )
                         self.log("Received API response: {0}".format(response), "DEBUG")
                         # validate the returned task(s)
-                        self.check_tasks_response_status(response, "delete_feature_template")
+                        self.check_tasks_response_status(
+                            response, "delete_feature_template"
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted Event-Driven RRM configuration."
+                            results[design_name] = (
+                                "Successfully deleted Event-Driven RRM configuration."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete Event-Driven RRM configuration: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete Event-Driven RRM configuration: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"event_driven_rrm_delete": results}
             # If every result contains 'Failed' or 'Exception' or 'Skipped', mark overall as failed; else success
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values())
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
                 else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"event_driven_rrm_delete": "Exception during delete: {0}".format(str(exc))}
+            self.msg = {
+                "event_driven_rrm_delete": "Exception during delete: {0}".format(
+                    str(exc)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_advanced_ssids(self, params):
@@ -15562,11 +17376,15 @@ class WirelessDesign(CatalystCenterBase):
 
         try:
             for payload in params or []:
-                design_name = payload.get("design_name") or payload.get("designName") or "Unknown"
+                design_name = (
+                    payload.get("design_name") or payload.get("designName") or "Unknown"
+                )
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing Advanced SSID: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing Advanced SSID: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -15584,8 +17402,10 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values for playbook-specified attributes only
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting playbook attributes to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Build reset payload with NULL for ONLY playbook-specified attributes
@@ -15595,7 +17415,9 @@ class WirelessDesign(CatalystCenterBase):
                         # If feature_attributes is empty, use unlocked_attributes as the list of keys to reset
                         unlocked_attrs_list = payload.get("unlocked_attributes") or []
                         if not playbook_feature_attrs and unlocked_attrs_list:
-                            playbook_feature_attrs = {k: None for k in unlocked_attrs_list}
+                            playbook_feature_attrs = {
+                                k: None for k in unlocked_attrs_list
+                            }
 
                         # Map playbook keys to API keys (snake_case to camelCase)
                         key_name_map = {
@@ -15661,19 +17483,26 @@ class WirelessDesign(CatalystCenterBase):
                         # so we must start from current state and only null out playbook keys
                         current_details = self.get_advanced_ssid_details(template_id)
                         if current_details:
-                            current_feature_attrs = current_details.get("featureAttributes", {})
-                            current_unlocked = current_details.get("unlockedAttributes", [])
+                            current_feature_attrs = current_details.get(
+                                "featureAttributes", {}
+                            )
+                            current_unlocked = current_details.get(
+                                "unlockedAttributes", []
+                            )
                         else:
                             current_feature_attrs = {}
                             current_unlocked = []
 
                         self.log(
-                            "Current Advanced SSID feature attributes before reset: {0}".format(current_feature_attrs),
-                            "DEBUG"
+                            "Current Advanced SSID feature attributes before reset: {0}".format(
+                                current_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Start with ALL current values to preserve non-playbook attributes
                         import copy
+
                         reset_feature_attrs = copy.deepcopy(current_feature_attrs)
 
                         # Override ONLY playbook-specified keys with None
@@ -15681,13 +17510,17 @@ class WirelessDesign(CatalystCenterBase):
                             api_key = key_name_map.get(playbook_key, playbook_key)
                             reset_feature_attrs[api_key] = None
                             self.log(
-                                "Setting attribute '{0}' to null for reset.".format(api_key),
-                                "DEBUG"
+                                "Setting attribute '{0}' to null for reset.".format(
+                                    api_key
+                                ),
+                                "DEBUG",
                             )
 
                         self.log(
-                            "Built reset feature attributes (preserving non-playbook values): {0}".format(reset_feature_attrs),
-                            "DEBUG"
+                            "Built reset feature attributes (preserving non-playbook values): {0}".format(
+                                reset_feature_attrs
+                            ),
+                            "DEBUG",
                         )
 
                         # Remove playbook-specified keys from unlockedAttributes
@@ -15695,20 +17528,31 @@ class WirelessDesign(CatalystCenterBase):
                         for snake_key in playbook_feature_attrs.keys():
                             api_key = key_name_map.get(snake_key, snake_key)
                             playbook_api_keys.add(api_key)
-                        reset_unlocked = [attr for attr in current_unlocked if attr not in playbook_api_keys]
+                        reset_unlocked = [
+                            attr
+                            for attr in current_unlocked
+                            if attr not in playbook_api_keys
+                        ]
                         self.log(
-                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(playbook_api_keys, reset_unlocked),
-                            "DEBUG"
+                            "Reset unlockedAttributes (removed playbook keys {0}): {1}".format(
+                                playbook_api_keys, reset_unlocked
+                            ),
+                            "DEBUG",
                         )
 
                         # Build reset payload
                         reset_payload = {
                             "designName": design_name,
                             "featureAttributes": reset_feature_attrs,
-                            "unlockedAttributes": reset_unlocked
+                            "unlockedAttributes": reset_unlocked,
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API
                         reset_response = self.catalystcenter._exec(
@@ -15718,20 +17562,31 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_advanced_ssid_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_advanced_ssid_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the feature attributes for Advanced SSID."
+                            results[design_name] = (
+                                "Successfully reset the feature attributes for Advanced SSID."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset Advanced SSID: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset Advanced SSID: {0}".format(fail_reason)
+                            )
                             self.log(results[design_name], "ERROR")
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Call DELETE API
@@ -15742,31 +17597,51 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Delete API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_advanced_ssid_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response,
+                            "delete_advanced_ssid_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
                             results[design_name] = "Successfully deleted Advanced SSID."
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete Advanced SSID: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete Advanced SSID: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as exc:
-                    results[design_name] = "Exception while processing: {0}".format(str(exc))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(exc)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final aggregated message
             self.msg = {"advanced_ssids_delete_or_reset": results}
             self.status = (
-                "failed" if all(("Failed" in v or "Exception" in v or "Skipped" in v) for v in results.values()) else "success"
+                "failed"
+                if all(
+                    ("Failed" in v or "Exception" in v or "Skipped" in v)
+                    for v in results.values()
+                )
+                else "success"
             )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as exc:
-            self.msg = {"advanced_ssids_delete_or_reset": "Exception during operation: {0}".format(str(exc))}
+            self.msg = {
+                "advanced_ssids_delete_or_reset": "Exception during operation: {0}".format(
+                    str(exc)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_delete_aaa_radius_attributes(self, params):
@@ -15792,7 +17667,9 @@ class WirelessDesign(CatalystCenterBase):
                 template_id = payload.get("id")
 
                 self.log(
-                    "Processing AAA Radius Attribute: design='{0}', id='{1}'".format(design_name, template_id),
+                    "Processing AAA Radius Attribute: design='{0}', id='{1}'".format(
+                        design_name, template_id
+                    ),
                     "DEBUG",
                 )
 
@@ -15806,20 +17683,25 @@ class WirelessDesign(CatalystCenterBase):
                     if has_other_attributes:
                         # RESET operation: Update with null values
                         self.log(
-                            "Other attributes provided for '{0}'. Performing RESET operation (setting values to null).".format(design_name),
-                            "INFO"
+                            "Other attributes provided for '{0}'. Performing RESET operation (setting values to null).".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Build reset payload with NULL values
                         reset_payload = {
                             "designName": design_name,
-                            "featureAttributes": {
-                                "calledStationId": None
-                            },
-                            "unlockedAttributes": []
+                            "featureAttributes": {"calledStationId": None},
+                            "unlockedAttributes": [],
                         }
 
-                        self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
+                        self.log(
+                            "Resetting feature attributes with payload: {0}".format(
+                                reset_payload
+                            ),
+                            "DEBUG",
+                        )
 
                         # Call UPDATE API (not delete)
                         reset_response = self.catalystcenter._exec(
@@ -15829,21 +17711,34 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id, "payload": reset_payload},
                         )
 
-                        self.log("Reset API response: {0}".format(reset_response), "DEBUG")
-                        self.check_tasks_response_status(reset_response, "update_aaa_radius_attributes_configuration_feature_template")
+                        self.log(
+                            "Reset API response: {0}".format(reset_response), "DEBUG"
+                        )
+                        self.check_tasks_response_status(
+                            reset_response,
+                            "update_aaa_radius_attributes_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully reset the called_station_id for AAA Radius Attribute."
+                            results[design_name] = (
+                                "Successfully reset the called_station_id for AAA Radius Attribute."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to reset the called_station_id for AAA Radius Attribute: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to reset the called_station_id for AAA Radius Attribute: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                     else:
                         # DELETE operation: Remove the entire template
                         self.log(
-                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(design_name),
-                            "INFO"
+                            "Only design_name provided for '{0}'. Performing DELETE operation.".format(
+                                design_name
+                            ),
+                            "INFO",
                         )
 
                         # Call DELETE API
@@ -15854,29 +17749,50 @@ class WirelessDesign(CatalystCenterBase):
                             params={"id": template_id},
                         )
                         self.log("Delete API response: {0}".format(response), "DEBUG")
-                        self.check_tasks_response_status(response, "delete_aaa_radius_attributes_configuration_feature_template")
+                        self.check_tasks_response_status(
+                            response,
+                            "delete_aaa_radius_attributes_configuration_feature_template",
+                        )
 
                         if self.status not in ["failed", "exited"]:
-                            results[design_name] = "Successfully deleted AAA Radius Attribute."
+                            results[design_name] = (
+                                "Successfully deleted AAA Radius Attribute."
+                            )
                         else:
                             fail_reason = self.msg
-                            results[design_name] = "Failed to delete AAA Radius Attribute: {0}".format(fail_reason)
+                            results[design_name] = (
+                                "Failed to delete AAA Radius Attribute: {0}".format(
+                                    fail_reason
+                                )
+                            )
                             self.log(results[design_name], "ERROR")
 
                 except Exception as e:
-                    results[design_name] = "Exception while processing: {0}".format(str(e))
+                    results[design_name] = "Exception while processing: {0}".format(
+                        str(e)
+                    )
                     self.log(results[design_name], "ERROR")
 
             # Final result after processing all operations
             self.msg = {"aaa_radius_attributes_delete_or_reset": results}
-            self.status = "failed" if all("Failed" in v or "Exception" in v for v in results.values()) else "success"
+            self.status = (
+                "failed"
+                if all("Failed" in v or "Exception" in v for v in results.values())
+                else "success"
+            )
             self.set_operation_result(self.status, True, self.msg, "INFO")
             return self
 
         except Exception as e:
-            self.msg = {"aaa_radius_attributes_delete_or_reset": "Exception during operation: {0}".format(str(e))}
+            self.msg = {
+                "aaa_radius_attributes_delete_or_reset": "Exception during operation: {0}".format(
+                    str(e)
+                )
+            }
             self.status = "failed"
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
             return self
 
     def process_add_802_11_be_profile(self, params):
@@ -15923,7 +17839,9 @@ class WirelessDesign(CatalystCenterBase):
 
                 except Exception as exc:
                     results[profile_name] = (
-                        "Exception while creating 802.11be profile: {0}".format(str(exc))
+                        "Exception while creating 802.11be profile: {0}".format(
+                            str(exc)
+                        )
                     )
                     self.log(results[profile_name], "ERROR")
 
@@ -16002,7 +17920,9 @@ class WirelessDesign(CatalystCenterBase):
 
                 except Exception as exc:
                     results[profile_name] = (
-                        "Exception while updating 802.11be profile: {0}".format(str(exc))
+                        "Exception while updating 802.11be profile: {0}".format(
+                            str(exc)
+                        )
                     )
                     self.log(results[profile_name], "ERROR")
 
@@ -16020,7 +17940,9 @@ class WirelessDesign(CatalystCenterBase):
             return self
 
         except Exception as exc:
-            self.msg = {"80211be_update": "Exception during update: {0}".format(str(exc))}
+            self.msg = {
+                "80211be_update": "Exception during update: {0}".format(str(exc))
+            }
             self.status = "failed"
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -17729,17 +19651,17 @@ class WirelessDesign(CatalystCenterBase):
 
             # Additional validation for USB interface
             if interface_type == "USB":
-                if 'interface_id' in rule and interface_id != "USB0":
+                if "interface_id" in rule and interface_id != "USB0":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. Provided rule: {}"
                     ).format(rule)
                     self.fail_and_exit(self.msg)
-                if 'parameter_type' in rule and parameter_type != "STATE":
+                if "parameter_type" in rule and parameter_type != "STATE":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. Provided rule: {}"
                     ).format(rule)
                     self.fail_and_exit(self.msg)
-                if 'parameter_value' in rule and parameter_value != "DISABLE":
+                if "parameter_value" in rule and parameter_value != "DISABLE":
                     self.msg = (
                         "For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. Provided rule: {}"
                     ).format(rule)
@@ -17869,7 +19791,9 @@ class WirelessDesign(CatalystCenterBase):
                 "INFO",
             )
 
-    def validate_ap_profile_security_settings(self, security_settings, access_point_profile_name):
+    def validate_ap_profile_security_settings(
+        self, security_settings, access_point_profile_name
+    ):
         """
         Validates the security settings of an access point profile.
         Args:
@@ -18902,7 +20826,10 @@ class WirelessDesign(CatalystCenterBase):
         Raises:
             Exception: If more than one RF profile is set as default.
         """
-        self.log("Validating that only one RF profile is set as default across RF profiles in the config.", "INFO")
+        self.log(
+            "Validating that only one RF profile is set as default across RF profiles in the config.",
+            "INFO",
+        )
 
         # Variable to track the default RF profile
         default_profile = None
@@ -18912,7 +20839,9 @@ class WirelessDesign(CatalystCenterBase):
             profile_name = profile.get("radio_frequency_profile_name", "Unknown")
             is_default = profile.get("default_rf_profile", False)
             self.log(
-                "Processing RF Profile: Name='{0}', Default='{1}'.".format(profile_name, is_default),
+                "Processing RF Profile: Name='{0}', Default='{1}'.".format(
+                    profile_name, is_default
+                ),
                 "DEBUG",
             )
 
@@ -18921,7 +20850,9 @@ class WirelessDesign(CatalystCenterBase):
                 if default_profile:
                     self.msg = (
                         "Validation failed: Multiple RF profiles are set as default. "
-                        "Conflicting profiles: '{0}' and '{1}'.".format(default_profile, profile_name)
+                        "Conflicting profiles: '{0}' and '{1}'.".format(
+                            default_profile, profile_name
+                        )
                     )
                     self.fail_and_exit(self.msg)
                 default_profile = profile_name
@@ -18929,7 +20860,12 @@ class WirelessDesign(CatalystCenterBase):
                 self.is_default_rf_profile_in_config = True
 
         if default_profile:
-            self.log("Validation successful: '{0}' is the only default RF profile.".format(default_profile), "INFO")
+            self.log(
+                "Validation successful: '{0}' is the only default RF profile.".format(
+                    default_profile
+                ),
+                "INFO",
+            )
         else:
             self.log("No default RF profile is set.", "INFO")
 
@@ -19659,12 +21595,10 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
         """
+
         def update_params(offset, limit):
             """Update the params dictionary with pagination info."""
-            params.update({
-                "offset": offset,
-                "limit": limit
-            })
+            params.update({"offset": offset, "limit": limit})
 
         try:
             # Initialize pagination variables
@@ -19683,7 +21617,7 @@ class WirelessDesign(CatalystCenterBase):
                         "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
                             api_family, api_function, params
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     # Execute the API call
@@ -19697,7 +21631,9 @@ class WirelessDesign(CatalystCenterBase):
                 except Exception as e:
                     self.msg = (
                         "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                        "Details using API call. Error: {2}".format(api_family, api_function, str(e))
+                        "Details using API call. Error: {2}".format(
+                            api_family, api_function, str(e)
+                        )
                     )
                     self.fail_and_exit(self.msg)
 
@@ -19941,7 +21877,8 @@ class WirelessDesign(CatalystCenterBase):
                                 value = value == "HEX"
                             modified_ssid[ssid_key] = value
                             self.log(
-                                "Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG"
+                                "Mapped '{0}' to '{1}'.".format(ssid_key, value),
+                                "DEBUG",
                             )
 
         # mpsk_settings keys and entry keys
@@ -20138,7 +22075,7 @@ class WirelessDesign(CatalystCenterBase):
             "rsnCipherSuiteGcmp256",
             "rsnCipherSuiteCcmp256",
             "rsnCipherSuiteGcmp128",
-            "rsnCipherSuiteCcmp128"
+            "rsnCipherSuiteCcmp128",
         ]
 
         # Authentication key management parameters
@@ -20157,7 +22094,7 @@ class WirelessDesign(CatalystCenterBase):
             "isAuthKey8021xPlusFT",
             "isAuthKeySuiteB1x",
             "isAuthKeySuiteB1921x",
-            "isCckmEnabled"
+            "isCckmEnabled",
         ]
 
         def reset_parameters(params, param_type, reset_all=False):
@@ -20174,39 +22111,86 @@ class WirelessDesign(CatalystCenterBase):
                 for param in params:
                     # If reset_all is True or the parameter is not in requested_ssid, reset it to False
                     if reset_all or param not in requested_ssid:
-                        self.log("Setting {0} parameter '{1}' to False.".format(param_type, param), "DEBUG")
+                        self.log(
+                            "Setting {0} parameter '{1}' to False.".format(
+                                param_type, param
+                            ),
+                            "DEBUG",
+                        )
                         updated_ssid[param] = False
                     else:
-                        self.log("{0} parameter '{1}' already present in requested SSID. No reset required.".format(param_type, param), "DEBUG")
+                        self.log(
+                            "{0} parameter '{1}' already present in requested SSID. No reset required.".format(
+                                param_type, param
+                            ),
+                            "DEBUG",
+                        )
             else:
-                self.log("No {0} parameters found in requested_ssid. Skipping reset for {0} parameters.".format(param_type), "DEBUG")
+                self.log(
+                    "No {0} parameters found in requested_ssid. Skipping reset for {0} parameters.".format(
+                        param_type
+                    ),
+                    "DEBUG",
+                )
 
         # Reset WPA encryption and authentication key management parameters
         if auth_type == "OPEN":
-            self.log("Auth type is 'OPEN'. Resetting both WPA encryption and authentication key management parameters.", "DEBUG")
+            self.log(
+                "Auth type is 'OPEN'. Resetting both WPA encryption and authentication key management parameters.",
+                "DEBUG",
+            )
             # Reset all WPA encryption parameters to False
             reset_parameters(wpa_encryption_params, "WPA encryption", reset_all=True)
             # Reset all authentication key management parameters to False
-            reset_parameters(auth_key_management_params, "authentication key management", reset_all=True)
+            reset_parameters(
+                auth_key_management_params,
+                "authentication key management",
+                reset_all=True,
+            )
         else:
-            self.log("Auth type is not 'OPEN'. Proceeding with conditional resets based on requested_ssid.", "DEBUG")
+            self.log(
+                "Auth type is not 'OPEN'. Proceeding with conditional resets based on requested_ssid.",
+                "DEBUG",
+            )
             # Reset WPA encryption parameters only if they exist in requested_ssid
             reset_parameters(wpa_encryption_params, "WPA encryption")
             # Reset authentication key management parameters only if they exist in requested_ssid
-            reset_parameters(auth_key_management_params, "authentication key management")
+            reset_parameters(
+                auth_key_management_params, "authentication key management"
+            )
 
         # Reset passphrase, multiPSKSettings, and openSsid based on auth_type
-        self.log("Checking auth_type '{0}' for resetting additional parameters.".format(auth_type), "DEBUG")
+        self.log(
+            "Checking auth_type '{0}' for resetting additional parameters.".format(
+                auth_type
+            ),
+            "DEBUG",
+        )
         if auth_type == "OPEN" or auth_type != "OPEN-SECURED":
-            self.log("Resetting 'openSsid' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+            self.log(
+                "Resetting 'openSsid' due to auth_type '{0}'.".format(auth_type),
+                "DEBUG",
+            )
             updated_ssid["openSsid"] = ""
 
-        if auth_type == "OPEN" or auth_type not in ["WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL"]:
-            self.log("Resetting 'passphrase' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+        if auth_type == "OPEN" or auth_type not in [
+            "WPA2_PERSONAL",
+            "WPA3_PERSONAL",
+            "WPA2_WPA3_PERSONAL",
+        ]:
+            self.log(
+                "Resetting 'passphrase' due to auth_type '{0}'.".format(auth_type),
+                "DEBUG",
+            )
             updated_ssid["passphrase"] = ""
 
         if auth_type == "OPEN" or auth_type != "WPA2_PERSONAL":
-            self.log("Resetting 'multiPSKSettings' due to auth_type '{0}'.".format(auth_type), "DEBUG")
+            self.log(
+                "Resetting 'multiPSKSettings' due to auth_type '{0}'.".format(
+                    auth_type
+                ),
+                "DEBUG",
+            )
             updated_ssid["multiPSKSettings"] = []
 
         self.log("Completed reset of encryption and authentication parameters.", "INFO")
@@ -20312,16 +22296,28 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     # Determine auth_type based on requested_ssid or existing_ssid
-                    auth_type = updated_ssid.get("authType", existing_ssid.get("authType"))
+                    auth_type = updated_ssid.get(
+                        "authType", existing_ssid.get("authType")
+                    )
                     self.log("Determined auth_type: {0}".format(auth_type), "DEBUG")
 
                     # Reset encryption and auth params based on authType
-                    self.log("Resetting encryption and authentication key management parameters.", "DEBUG")
-                    self.reset_encryption_and_auth_params(auth_type, updated_ssid, requested_ssid)
-                    self.log("Final updated SSID parameters: {0}".format(updated_ssid), "DEBUG")
+                    self.log(
+                        "Resetting encryption and authentication key management parameters.",
+                        "DEBUG",
+                    )
+                    self.reset_encryption_and_auth_params(
+                        auth_type, updated_ssid, requested_ssid
+                    )
+                    self.log(
+                        "Final updated SSID parameters: {0}".format(updated_ssid),
+                        "DEBUG",
+                    )
                 else:
                     self.log(
-                        "No update required for SSID '{0}'.".format(requested_ssid_name),
+                        "No update required for SSID '{0}'.".format(
+                            requested_ssid_name
+                        ),
                         "INFO",
                     )
 
@@ -20644,9 +22640,7 @@ class WirelessDesign(CatalystCenterBase):
                         ssid_entry = {"site_details": site_details}
 
                         get_ssids_params = self.get_ssids_params(
-                            site_id,
-                            requested_ssid_name,
-                            requested_ssid_type
+                            site_id, requested_ssid_name, requested_ssid_type
                         )
                         existing_site_ssids = self.get_ssids(site_id, get_ssids_params)
 
@@ -22470,7 +24464,12 @@ class WirelessDesign(CatalystCenterBase):
             # Iterate over each rule in the power profile
             for rule in rules:
                 # Normalize rule values to uppercase for case-insensitive comparison
-                for key in ("interface_type", "interface_id", "parameter_type", "parameter_value"):
+                for key in (
+                    "interface_type",
+                    "interface_id",
+                    "parameter_type",
+                    "parameter_value",
+                ):
                     if rule.get(key) is not None:
                         rule[key] = rule[key].upper()
 
@@ -22810,7 +24809,10 @@ class WirelessDesign(CatalystCenterBase):
                             ),
                             "DEBUG",
                         )
-                    if "parameter_value" in rule and rule["parameter_value"] is not None:
+                    if (
+                        "parameter_value" in rule
+                        and rule["parameter_value"] is not None
+                    ):
                         mapped_rule["parameterValue"] = rule["parameter_value"].upper()
                         self.log(
                             "Mapped 'parameter_value' to 'parameterValue': {0}".format(
@@ -23668,7 +25670,12 @@ class WirelessDesign(CatalystCenterBase):
 
             # Map the mesh settings if they exist
             if "mesh_settings" in profile and profile["mesh_settings"]:
-                self.log("Found 'mesh_settings': {0} in profile: {1}".format(profile["mesh_settings"], profile), "DEBUG")
+                self.log(
+                    "Found 'mesh_settings': {0} in profile: {1}".format(
+                        profile["mesh_settings"], profile
+                    ),
+                    "DEBUG",
+                )
                 mesh_settings = profile["mesh_settings"]
                 mapped_profile["meshSetting"] = {}
 
@@ -23704,8 +25711,8 @@ class WirelessDesign(CatalystCenterBase):
                 api_calendar_profiles = []
 
                 # Iterate over each calendar power profile in the provided settings
-                for calendar_profile in (power_settings.get(
-                    "calendar_power_profiles") or []
+                for calendar_profile in (
+                    power_settings.get("calendar_power_profiles") or []
                 ):
                     # Map the main calendar power profile fields
                     api_calendar_profile = {}
@@ -23964,7 +25971,9 @@ class WirelessDesign(CatalystCenterBase):
                 )
                 existing[key] = value
 
-    def verify_create_update_access_point_profiles_requirement(self, access_point_profiles):
+    def verify_create_update_access_point_profiles_requirement(
+        self, access_point_profiles
+    ):
         """
         Determines whether access point profiles need to be created, updated, or require no updates.
         Args:
@@ -23986,11 +25995,15 @@ class WirelessDesign(CatalystCenterBase):
         self.log("Retrieved existing access point profiles from the system.", "DEBUG")
 
         self.log(
-            "Existing Access Point Profiles: {0}".format(existing_access_point_profiles),
+            "Existing Access Point Profiles: {0}".format(
+                existing_access_point_profiles
+            ),
             "DEBUG",
         )
         self.log(
-            "Requested Access Point Profiles: {0}".format(updated_access_point_profiles),
+            "Requested Access Point Profiles: {0}".format(
+                updated_access_point_profiles
+            ),
             "DEBUG",
         )
 
@@ -23999,7 +26012,8 @@ class WirelessDesign(CatalystCenterBase):
         no_update_profiles = []
 
         existing_profiles_dict = {
-            profile["apProfileName"]: profile for profile in existing_access_point_profiles
+            profile["apProfileName"]: profile
+            for profile in existing_access_point_profiles
         }
         self.log(
             "Converted existing profiles to a dictionary for quick lookup.", "DEBUG"
@@ -24031,7 +26045,10 @@ class WirelessDesign(CatalystCenterBase):
                     "DEBUG",
                 )
                 for calendar_profile in requested_profile["calendarPowerProfiles"]:
-                    if "duration" not in calendar_profile or calendar_profile["duration"] is None:
+                    if (
+                        "duration" not in calendar_profile
+                        or calendar_profile["duration"] is None
+                    ):
                         calendar_profile["duration"] = {}
 
                     scheduler_type = calendar_profile.get("schedulerType")
@@ -24105,7 +26122,8 @@ class WirelessDesign(CatalystCenterBase):
                     # No changes needed for this profile
                     no_update_profiles.append(existing_profile)
                     self.log(
-                        "Profile '{0}' requires no updates.".format(profile_name), "DEBUG"
+                        "Profile '{0}' requires no updates.".format(profile_name),
+                        "DEBUG",
                     )
 
             else:
@@ -24837,17 +26855,26 @@ class WirelessDesign(CatalystCenterBase):
 
         # Find the existing default RF profile
         existing_default_profile = next(
-            (profile for profile in existing_rf_profiles if profile.get("defaultRfProfile", False)), None
+            (
+                profile
+                for profile in existing_rf_profiles
+                if profile.get("defaultRfProfile", False)
+            ),
+            None,
         )
 
         if not existing_default_profile:
-            self.log("No existing default RF profile found. No action required.", "INFO")
+            self.log(
+                "No existing default RF profile found. No action required.", "INFO"
+            )
             return
 
         profile_name = existing_default_profile.get("rfProfileName", "Unknown")
         self.log(
-            "Found an existing default RF profile: {0}. Proceeding to unset it.".format(profile_name),
-            "INFO"
+            "Found an existing default RF profile: {0}. Proceeding to unset it.".format(
+                profile_name
+            ),
+            "INFO",
         )
 
         # Unset the default RF profile
@@ -24856,21 +26883,29 @@ class WirelessDesign(CatalystCenterBase):
 
         # Verify the update operation
         task_name = "Unset Default RF Profile"
-        operation_msg = "Successfully unset the default RF profile: {0}".format(profile_name)
+        operation_msg = "Successfully unset the default RF profile: {0}".format(
+            profile_name
+        )
         self.log(
-            "Initiated task '{0}' to unset the default RF profile. Task ID: {1}".format(task_name, task_id),
-            "DEBUG"
+            "Initiated task '{0}' to unset the default RF profile. Task ID: {1}".format(
+                task_name, task_id
+            ),
+            "DEBUG",
         )
 
         # Check the status of the task using the task ID
-        self.get_task_status_from_tasks_by_id(task_id, task_name, operation_msg).check_return_status()
+        self.get_task_status_from_tasks_by_id(
+            task_id, task_name, operation_msg
+        ).check_return_status()
 
         if self.status != "success":
-            self.fail_and_exit("Failed to unset the default RF profile: {0}".format(profile_name))
+            self.fail_and_exit(
+                "Failed to unset the default RF profile: {0}".format(profile_name)
+            )
 
         self.log(
             "Successfully unset the default RF profile: {0}".format(profile_name),
-            "INFO"
+            "INFO",
         )
 
     def verify_create_update_radio_frequency_profiles_requirement(
@@ -24912,10 +26947,16 @@ class WirelessDesign(CatalystCenterBase):
 
         # Check if a default RF profile is marked in the configuration
         if getattr(self, "is_default_rf_profile_in_config", False):
-            self.log("A default RF profile is marked in the configuration. Checking existing RF profiles.", "INFO")
+            self.log(
+                "A default RF profile is marked in the configuration. Checking existing RF profiles.",
+                "INFO",
+            )
             self.unset_existing_default_rf_profile(existing_rf_profiles)
         else:
-            self.log("The 'is_default_rf_profile_in_config' is set to False. Skipping default RF profile operations.", "INFO")
+            self.log(
+                "The 'is_default_rf_profile_in_config' is set to False. Skipping default RF profile operations.",
+                "INFO",
+            )
 
         # Initialize lists to store profiles that need to be created, updated, or not changed
         create_profiles = []
@@ -25393,8 +27434,10 @@ class WirelessDesign(CatalystCenterBase):
                 self.log("Dot 11be parameters mapping defined.", "DEBUG")
 
                 # Process spatial reuse settings
-                if ("spatial_reuse" in band_settings
-                        and band_settings["spatial_reuse"] is not None):
+                if (
+                    "spatial_reuse" in band_settings
+                    and band_settings["spatial_reuse"] is not None
+                ):
                     self.log("Processing spatial reuse settings.", "DEBUG")
                     mapped["spatialReuseProperties"] = {}
                     for key, target_key in spatial_reuse_mapping.items():
@@ -25412,8 +27455,10 @@ class WirelessDesign(CatalystCenterBase):
                             )
 
                 # Process coverage hole detection settings
-                if ("coverage_hole_detection" in band_settings
-                        and band_settings["coverage_hole_detection"] is not None):
+                if (
+                    "coverage_hole_detection" in band_settings
+                    and band_settings["coverage_hole_detection"] is not None
+                ):
                     self.log("Processing coverage hole detection settings.", "DEBUG")
                     mapped["coverageHoleDetectionProperties"] = {}
                     for key, target_key in coverage_hole_detection_mapping.items():
@@ -25433,13 +27478,18 @@ class WirelessDesign(CatalystCenterBase):
                             )
 
                 # Process multi-bssid settings
-                if ("multi_bssid" in band_settings
-                        and band_settings["multi_bssid"] is not None):
+                if (
+                    "multi_bssid" in band_settings
+                    and band_settings["multi_bssid"] is not None
+                ):
                     self.log("Processing multi-bssid settings.", "DEBUG")
                     mapped["multiBssidProperties"] = {}
 
-                    if ("dot_11ax_parameters" in band_settings["multi_bssid"]
-                            and band_settings["multi_bssid"]["dot_11ax_parameters"] is not None):
+                    if (
+                        "dot_11ax_parameters" in band_settings["multi_bssid"]
+                        and band_settings["multi_bssid"]["dot_11ax_parameters"]
+                        is not None
+                    ):
                         self.log("Processing dot 11ax parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11axParameters"] = {}
                         for key, target_key in dot_11ax_parameters_mapping.items():
@@ -25463,8 +27513,11 @@ class WirelessDesign(CatalystCenterBase):
                                     "DEBUG",
                                 )
 
-                    if ("dot_11be_parameters" in band_settings["multi_bssid"]
-                            and band_settings["multi_bssid"]["dot_11be_parameters"] is not None):
+                    if (
+                        "dot_11be_parameters" in band_settings["multi_bssid"]
+                        and band_settings["multi_bssid"]["dot_11be_parameters"]
+                        is not None
+                    ):
                         self.log("Processing dot 11be parameters.", "DEBUG")
                         mapped["multiBssidProperties"]["dot11beParameters"] = {}
                         for key, target_key in dot_11be_parameters_mapping.items():
@@ -26101,12 +28154,17 @@ class WirelessDesign(CatalystCenterBase):
             )
             # Handle the case where api_response is None
             if api_response is None:
-                self.log("API response is None. Resetting anchor_groups to an empty list.", "ERROR")
+                self.log(
+                    "API response is None. Resetting anchor_groups to an empty list.",
+                    "ERROR",
+                )
                 anchor_groups = []
             else:
                 anchor_groups = api_response.get("response", [])
         else:
-            self.log("Using 'execute_get_with_pagination' for version > 2.3.7.9", "DEBUG")
+            self.log(
+                "Using 'execute_get_with_pagination' for version > 2.3.7.9", "DEBUG"
+            )
             anchor_groups = self.execute_get_with_pagination(
                 "wireless", "get_anchor_groups", get_anchor_groups_params
             )
@@ -27004,7 +29062,7 @@ class WirelessDesign(CatalystCenterBase):
         - Payloads MUST use siteId resolved via get_site_id().
         """
 
-        add_configs = []   # Always empty (creation not supported)
+        add_configs = []  # Always empty (creation not supported)
         update_configs = []
         no_update_configs = []
 
@@ -27016,8 +29074,10 @@ class WirelessDesign(CatalystCenterBase):
             vlan_id = req.get("vlan_id")
 
             self.log(
-                "Evaluating Flex Connect config for site hierarchy: {0}".format(site_hierarchy),
-                "DEBUG"
+                "Evaluating Flex Connect config for site hierarchy: {0}".format(
+                    site_hierarchy
+                ),
+                "DEBUG",
             )
 
             # Basic validation
@@ -27037,16 +29097,19 @@ class WirelessDesign(CatalystCenterBase):
 
             if not site_exists or not site_id:
                 self.msg = (
-                    "Site '{0}' does not exist or siteId could not be resolved."
-                    .format(site_hierarchy)
+                    "Site '{0}' does not exist or siteId could not be resolved.".format(
+                        site_hierarchy
+                    )
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
             self.log(
-                "Resolved siteId '{0}' for site hierarchy '{1}'.".format(site_id, site_hierarchy),
-                "DEBUG"
+                "Resolved siteId '{0}' for site hierarchy '{1}'.".format(
+                    site_id, site_hierarchy
+                ),
+                "DEBUG",
             )
 
             # ---------------------------------------------------------
@@ -27057,7 +29120,7 @@ class WirelessDesign(CatalystCenterBase):
                 "Existing Flex Connect config for siteId '{0}': {1}".format(
                     site_id, existing_response
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # **FIX: Handle the API response structure correctly**
@@ -27067,7 +29130,10 @@ class WirelessDesign(CatalystCenterBase):
 
             if existing_response:
                 # If it's a dict with nativeVlanId, use it directly
-                if isinstance(existing_response, dict) and 'nativeVlanId' in existing_response:
+                if (
+                    isinstance(existing_response, dict)
+                    and "nativeVlanId" in existing_response
+                ):
                     existing = existing_response
                 # If it's a list (some Catalyst Center versions), take first entry
                 elif isinstance(existing_response, list) and len(existing_response) > 0:
@@ -27076,10 +29142,12 @@ class WirelessDesign(CatalystCenterBase):
             # ---------------------------------------------------------
             # Case 1: Flex Connect config exists → compare & update
             # ---------------------------------------------------------
-            if existing and 'nativeVlanId' in existing:
+            if existing and "nativeVlanId" in existing:
                 self.log(
-                    "Flex Connect configuration exists for siteId '{0}'.".format(site_id),
-                    "DEBUG"
+                    "Flex Connect configuration exists for siteId '{0}'.".format(
+                        site_id
+                    ),
+                    "DEBUG",
                 )
 
                 existing_vlan = existing.get("nativeVlanId")
@@ -27088,14 +29156,11 @@ class WirelessDesign(CatalystCenterBase):
                     "Comparing VLANs for siteId '{0}': existing={1}, requested={2}".format(
                         site_id, existing_vlan, vlan_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if existing_vlan != vlan_id:
-                    payload = {
-                        "siteId": site_id,
-                        "vlanId": vlan_id
-                    }
+                    payload = {"siteId": site_id, "vlanId": vlan_id}
 
                     update_configs.append(payload)
 
@@ -27104,14 +29169,14 @@ class WirelessDesign(CatalystCenterBase):
                         "(existing VLAN: {1}, requested VLAN: {2}).".format(
                             site_id, existing_vlan, vlan_id
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     no_update_configs.append(existing)
                     self.log(
                         "Flex Connect config for siteId '{0}' requires no update "
                         "(VLAN already set to {1}).".format(site_id, vlan_id),
-                        "INFO"
+                        "INFO",
                     )
 
             # ---------------------------------------------------------
@@ -27121,14 +29186,14 @@ class WirelessDesign(CatalystCenterBase):
                 self.log(
                     "Flex Connect configuration does not exist for siteId '{0}'. "
                     "Creation is not supported — skipping.".format(site_id),
-                    "WARNING"
+                    "WARNING",
                 )
 
                 no_update_configs.append(
                     {
                         "siteId": site_id,
                         "vlanId": vlan_id,
-                        "reason": "Flex Connect configuration does not exist; creation not supported"
+                        "reason": "Flex Connect configuration does not exist; creation not supported",
                     }
                 )
 
@@ -27137,15 +29202,12 @@ class WirelessDesign(CatalystCenterBase):
         # ---------------------------------------------------------
         self.log(
             "Flex Connect configs to ADD (always empty): {0}".format(add_configs),
-            "DEBUG"
+            "DEBUG",
         )
-        self.log(
-            "Flex Connect configs to UPDATE: {0}".format(update_configs),
-            "DEBUG"
-        )
+        self.log("Flex Connect configs to UPDATE: {0}".format(update_configs), "DEBUG")
         self.log(
             "Flex Connect configs with NO UPDATE: {0}".format(no_update_configs),
-            "DEBUG"
+            "DEBUG",
         )
 
         return add_configs, update_configs, no_update_configs
@@ -27162,7 +29224,10 @@ class WirelessDesign(CatalystCenterBase):
             list: A list of existing Flex Connect configuration dicts
                 (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing Flex Connect (Native VLAN) configuration from Catalyst Center.", "DEBUG")
+        self.log(
+            "Fetching existing Flex Connect (Native VLAN) configuration from Catalyst Center.",
+            "DEBUG",
+        )
 
         try:
             params = {}
@@ -27170,9 +29235,7 @@ class WirelessDesign(CatalystCenterBase):
                 params["site_id"] = site_id
 
             response = self.execute_get_request(
-                "wireless",
-                "get_native_vlan_settings_by_site",
-                params
+                "wireless", "get_native_vlan_settings_by_site", params
             )
 
             self.log("Received API response: {0}".format(response), "DEBUG")
@@ -27222,8 +29285,7 @@ class WirelessDesign(CatalystCenterBase):
         no_delete_configs = []
 
         self.log(
-            "Starting verification of Flex Connect configurations for deletion.",
-            "INFO"
+            "Starting verification of Flex Connect configurations for deletion.", "INFO"
         )
 
         for req in flex_connect_list or []:
@@ -27243,7 +29305,7 @@ class WirelessDesign(CatalystCenterBase):
                 "Evaluating Flex Connect deletion for site hierarchy: {0}".format(
                     site_hierarchy
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # -------------------------------------------------
@@ -27256,12 +29318,12 @@ class WirelessDesign(CatalystCenterBase):
                     "Site '{0}' does not exist. Skipping deletion.".format(
                         site_hierarchy
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 no_delete_configs.append(
                     {
                         "site_name_hierarchy": site_hierarchy,
-                        "reason": "Site does not exist"
+                        "reason": "Site does not exist",
                     }
                 )
                 continue
@@ -27270,7 +29332,7 @@ class WirelessDesign(CatalystCenterBase):
                 "Resolved siteId '{0}' for site hierarchy '{1}'.".format(
                     site_id, site_hierarchy
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # -------------------------------------------------
@@ -27282,7 +29344,7 @@ class WirelessDesign(CatalystCenterBase):
                 "Existing Flex Connect configs for siteId '{0}': {1}".format(
                     site_id, existing_configs
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # -------------------------------------------------
@@ -27290,10 +29352,7 @@ class WirelessDesign(CatalystCenterBase):
             # -------------------------------------------------
             if existing_configs:
                 delete_configs.append(
-                    {
-                        "siteId": site_id,
-                        "removeOverrideInHierarchy": remove_override
-                    }
+                    {"siteId": site_id, "removeOverrideInHierarchy": remove_override}
                 )
 
                 self.log(
@@ -27301,29 +29360,28 @@ class WirelessDesign(CatalystCenterBase):
                     "Remove hierarchy overrides: {1}".format(
                         site_hierarchy, remove_override
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
                     "No Flex Connect configuration exists for site '{0}'. "
                     "Nothing to delete.".format(site_hierarchy),
-                    "INFO"
+                    "INFO",
                 )
                 no_delete_configs.append(
                     {
                         "site_name_hierarchy": site_hierarchy,
                         "siteId": site_id,
-                        "reason": "Flex Connect configuration does not exist"
+                        "reason": "Flex Connect configuration does not exist",
                     }
                 )
 
+        self.log("Flex Connect configs to DELETE: {0}".format(delete_configs), "DEBUG")
         self.log(
-            "Flex Connect configs to DELETE: {0}".format(delete_configs),
-            "DEBUG"
-        )
-        self.log(
-            "Flex Connect configs with NO DELETE required: {0}".format(no_delete_configs),
-            "DEBUG"
+            "Flex Connect configs with NO DELETE required: {0}".format(
+                no_delete_configs
+            ),
+            "DEBUG",
         )
 
         return delete_configs, no_delete_configs
@@ -27448,14 +29506,14 @@ class WirelessDesign(CatalystCenterBase):
                     continue
 
                 if "flex_connect_configuration" in item:
-                    flex_connect_list.extend(
-                        item.get("flex_connect_configuration", [])
-                    )
+                    flex_connect_list.extend(item.get("flex_connect_configuration", []))
 
             if flex_connect_list:
                 self.log(
-                    "Processing Flex Connect configuration for state: {0}".format(state),
-                    "DEBUG"
+                    "Processing Flex Connect configuration for state: {0}".format(
+                        state
+                    ),
+                    "DEBUG",
                 )
 
                 if state == "merged":
@@ -27479,9 +29537,7 @@ class WirelessDesign(CatalystCenterBase):
                     (
                         delete_flex_configs,
                         no_delete_flex_configs,
-                    ) = self.verify_delete_flex_connect_requirement(
-                        flex_connect_list
-                    )
+                    ) = self.verify_delete_flex_connect_requirement(flex_connect_list)
 
                     have.update(
                         {
@@ -27502,7 +29558,9 @@ class WirelessDesign(CatalystCenterBase):
                 config_list = raw_config
             else:
                 self.msg = "Invalid config format for 802.11be profiles"
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             for item in config_list:
                 if not isinstance(item, dict):
@@ -27513,13 +29571,17 @@ class WirelessDesign(CatalystCenterBase):
 
             if be_profiles_list:
                 self.log(
-                    "Processing 802.11be profiles configuration for state: {0}".format(state),
-                    "DEBUG"
+                    "Processing 802.11be profiles configuration for state: {0}".format(
+                        state
+                    ),
+                    "DEBUG",
                 )
 
                 if state == "merged":
                     add_be_profiles, update_be_profiles, no_update_be_profiles = (
-                        self.verify_create_update_80211be_profiles_requirement(be_profiles_list)
+                        self.verify_create_update_80211be_profiles_requirement(
+                            be_profiles_list
+                        )
                     )
 
                     have.update(
@@ -27532,7 +29594,9 @@ class WirelessDesign(CatalystCenterBase):
 
                 elif state == "deleted":
                     delete_be_profiles, no_delete_be_profiles = (
-                        self.verify_delete_80211be_profiles_requirement(be_profiles_list)
+                        self.verify_delete_80211be_profiles_requirement(
+                            be_profiles_list
+                        )
                     )
 
                     have.update(
@@ -27550,11 +29614,16 @@ class WirelessDesign(CatalystCenterBase):
                     aaa_attr_list.extend(item.get("aaa_radius_attribute", []))
 
             if aaa_attr_list:
-                self.log("Processing AAA Radius Attributes for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing AAA Radius Attributes for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_attrs, update_attrs, no_update_attrs = (
-                        self.verify_create_update_aaa_radius_attributes_requirement(aaa_attr_list)
+                        self.verify_create_update_aaa_radius_attributes_requirement(
+                            aaa_attr_list
+                        )
                     )
                     have.update(
                         {
@@ -27564,8 +29633,10 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_aaa_radius_attribute"] = self.verify_delete_aaa_radius_attributes_requirement(
-                        aaa_attr_list
+                    have["delete_aaa_radius_attribute"] = (
+                        self.verify_delete_aaa_radius_attributes_requirement(
+                            aaa_attr_list
+                        )
                     )
 
             # --- New logic for Advanced SSID ---
@@ -27575,11 +29646,15 @@ class WirelessDesign(CatalystCenterBase):
                     adv_ssid_list.extend(item.get("advanced_ssid", []))
 
             if adv_ssid_list:
-                self.log("Processing Advanced SSID for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing Advanced SSID for state: {0}".format(state), "DEBUG"
+                )
 
                 if state == "merged":
                     add_adv, update_adv, no_update_adv = (
-                        self.verify_create_update_advanced_ssid_requirement(adv_ssid_list)
+                        self.verify_create_update_advanced_ssid_requirement(
+                            adv_ssid_list
+                        )
                     )
                     have.update(
                         {
@@ -27589,8 +29664,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_advanced_ssid"] = self.verify_delete_advanced_ssid_requirement(
-                        adv_ssid_list
+                    have["delete_advanced_ssid"] = (
+                        self.verify_delete_advanced_ssid_requirement(adv_ssid_list)
                     )
 
             # --- New logic for CleanAir profiles ---
@@ -27600,7 +29675,10 @@ class WirelessDesign(CatalystCenterBase):
                     clean_air_list.extend(item.get("clean_air_configuration", []))
 
             if clean_air_list:
-                self.log("Processing CleanAir configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing CleanAir configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_clean_air, update_clean_air, no_update_clean_air = (
@@ -27614,8 +29692,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_clean_air_configuration"] = self.verify_delete_clean_air_requirement(
-                        clean_air_list
+                    have["delete_clean_air_configuration"] = (
+                        self.verify_delete_clean_air_requirement(clean_air_list)
                     )
 
             # --- New logic for 802.11ax profiles ---
@@ -27625,7 +29703,10 @@ class WirelessDesign(CatalystCenterBase):
                     dot11ax_list.extend(item.get("dot11ax_configuration", []))
 
             if dot11ax_list:
-                self.log("Processing 802.11ax configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing 802.11ax configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_dot11ax, update_dot11ax, no_update_dot11ax = (
@@ -27639,19 +29720,25 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_dot11ax_configuration"] = self.verify_delete_dot11axs_requirement(
-                        dot11ax_list
+                    have["delete_dot11ax_configuration"] = (
+                        self.verify_delete_dot11axs_requirement(dot11ax_list)
                     )
 
             # --- New logic for 802.11be profiles ---
             dot11be_list = []
             for item in config.get("feature_template_config", []):
-                self.log("Processing 802.11be configuration for state: {0}".format(item), "Warning")
+                self.log(
+                    "Processing 802.11be configuration for state: {0}".format(item),
+                    "Warning",
+                )
                 if "dot11be_configuration" in item:
                     dot11be_list.extend(item.get("dot11be_configuration", []))
 
             if dot11be_list:
-                self.log("Processing 802.11be configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing 802.11be configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_dot11be, update_dot11be, no_update_dot11be = (
@@ -27665,20 +29752,30 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    self.log("Deleting 802.11be configuration for state: {0}".format(state), "WARNING")
+                    self.log(
+                        "Deleting 802.11be configuration for state: {0}".format(state),
+                        "WARNING",
+                    )
                     self.log("Dot11be List: {0}".format(dot11be_list), "WARNING")
-                    have["delete_dot11be_configuration"] = self.verify_delete_dot11be_requirement(
-                        dot11be_list
+                    have["delete_dot11be_configuration"] = (
+                        self.verify_delete_dot11be_requirement(dot11be_list)
                     )
 
             # --- New logic for Event Driven RRM profiles ---
             event_rrm_list = []
             for item in config.get("feature_template_config", []):
                 if "event_driven_rrm_configuration" in item:
-                    event_rrm_list.extend(item.get("event_driven_rrm_configuration", []))
+                    event_rrm_list.extend(
+                        item.get("event_driven_rrm_configuration", [])
+                    )
 
             if event_rrm_list:
-                self.log("Processing Event Driven RRM configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing Event Driven RRM configuration for state: {0}".format(
+                        state
+                    ),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_event_rrm, update_event_rrm, no_update_event_rrm = (
@@ -27692,8 +29789,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_event_driven_rrm_configuration"] = self.verify_delete_event_rrm_requirement(
-                        event_rrm_list
+                    have["delete_event_driven_rrm_configuration"] = (
+                        self.verify_delete_event_rrm_requirement(event_rrm_list)
                     )
 
             # --- New logic for FlexConnect profiles ---
@@ -27703,11 +29800,16 @@ class WirelessDesign(CatalystCenterBase):
                     flexconnect_list.extend(item.get("flexconnect_configuration", []))
 
             if flexconnect_list:
-                self.log("Processing FlexConnect configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing FlexConnect configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_flexconnect, update_flexconnect, no_update_flexconnect = (
-                        self.verify_create_update_flexconnect_requirement(flexconnect_list)
+                        self.verify_create_update_flexconnect_requirement(
+                            flexconnect_list
+                        )
                     )
                     have.update(
                         {
@@ -27717,8 +29819,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_flexconnect_configuration"] = self.verify_delete_flexconnect_requirement(
-                        flexconnect_list
+                    have["delete_flexconnect_configuration"] = (
+                        self.verify_delete_flexconnect_requirement(flexconnect_list)
                     )
 
             # --- New logic for Multicast profiles ---
@@ -27728,7 +29830,10 @@ class WirelessDesign(CatalystCenterBase):
                     multicast_list.extend(item.get("multicast_configuration", []))
 
             if multicast_list:
-                self.log("Processing Multicast configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing Multicast configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_multicast, update_multicast, no_update_multicast = (
@@ -27742,8 +29847,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_multicast_configuration"] = self.verify_delete_multicast_requirement(
-                        multicast_list
+                    have["delete_multicast_configuration"] = (
+                        self.verify_delete_multicast_requirement(multicast_list)
                     )
 
             # --- New logic for RRM-FRA profiles ---
@@ -27753,7 +29858,10 @@ class WirelessDesign(CatalystCenterBase):
                     rrm_fra_list.extend(item.get("rrm_fra_configuration", []))
 
             if rrm_fra_list:
-                self.log("Processing RRM-FRA configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing RRM-FRA configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_rrm_fra, update_rrm_fra, no_update_rrm_fra = (
@@ -27767,8 +29875,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_rrm_fra_configuration"] = self.verify_delete_rrm_fra_requirement(
-                        rrm_fra_list
+                    have["delete_rrm_fra_configuration"] = (
+                        self.verify_delete_rrm_fra_requirement(rrm_fra_list)
                     )
 
             # --- New logic for RRM General profiles ---
@@ -27778,11 +29886,16 @@ class WirelessDesign(CatalystCenterBase):
                     rrm_general_list.extend(item.get("rrm_general_configuration", []))
 
             if rrm_general_list:
-                self.log("Processing RRM General configuration for state: {0}".format(state), "DEBUG")
+                self.log(
+                    "Processing RRM General configuration for state: {0}".format(state),
+                    "DEBUG",
+                )
 
                 if state == "merged":
                     add_rrm_general, update_rrm_general, no_update_rrm_general = (
-                        self.verify_create_update_rrm_general_requirement(rrm_general_list)
+                        self.verify_create_update_rrm_general_requirement(
+                            rrm_general_list
+                        )
                     )
                     have.update(
                         {
@@ -27792,8 +29905,8 @@ class WirelessDesign(CatalystCenterBase):
                         }
                     )
                 elif state == "deleted":
-                    have["delete_rrm_general_configuration"] = self.verify_delete_rrm_general_requirement(
-                        rrm_general_list
+                    have["delete_rrm_general_configuration"] = (
+                        self.verify_delete_rrm_general_requirement(rrm_general_list)
                     )
 
         self.have = have
@@ -27875,13 +29988,27 @@ class WirelessDesign(CatalystCenterBase):
                     self.have.get("update_anchor_groups"),
                 ),
                 # --- New AAA Radius Attributes ---
-                ("add_aaa_radius_attribute", "add_aaa_radius_attribute_params", self.have.get("add_aaa_radius_attribute")),
-                ("update_aaa_radius_attribute", "update_aaa_radius_attribute_params", self.have.get("update_aaa_radius_attribute")),
-
+                (
+                    "add_aaa_radius_attribute",
+                    "add_aaa_radius_attribute_params",
+                    self.have.get("add_aaa_radius_attribute"),
+                ),
+                (
+                    "update_aaa_radius_attribute",
+                    "update_aaa_radius_attribute_params",
+                    self.have.get("update_aaa_radius_attribute"),
+                ),
                 # --- New Advanced SSID ---
-                ("add_advanced_ssid", "add_advanced_ssid_params", self.have.get("add_advanced_ssid")),
-                ("update_advanced_ssid", "update_advanced_ssid_params", self.have.get("update_advanced_ssid")),
-
+                (
+                    "add_advanced_ssid",
+                    "add_advanced_ssid_params",
+                    self.have.get("add_advanced_ssid"),
+                ),
+                (
+                    "update_advanced_ssid",
+                    "update_advanced_ssid_params",
+                    self.have.get("update_advanced_ssid"),
+                ),
                 # --- New CleanAir ---
                 (
                     "add_clean_air_configuration",
@@ -28134,10 +30261,7 @@ class WirelessDesign(CatalystCenterBase):
         # Fetch existing profiles
         # ------------------------------------------------------------------
         existing_blocks = self.get_80211be_profiles()
-        self.log(
-            "Existing 802.11be Profiles RAW: {0}".format(existing_blocks),
-            "DEBUG"
-        )
+        self.log("Existing 802.11be Profiles RAW: {0}".format(existing_blocks), "DEBUG")
 
         # ------------------------------------------------------------------
         # Normalize existing profiles into dict { profileName: profile }
@@ -28156,9 +30280,10 @@ class WirelessDesign(CatalystCenterBase):
                         existing_dict[inst["profileName"]] = inst
 
         self.log(
-            "Detected existing 802.11be profiles for delete: {0}"
-            .format(list(existing_dict.keys())),
-            "DEBUG"
+            "Detected existing 802.11be profiles for delete: {0}".format(
+                list(existing_dict.keys())
+            ),
+            "DEBUG",
         )
 
         # ------------------------------------------------------------------
@@ -28174,9 +30299,10 @@ class WirelessDesign(CatalystCenterBase):
                 ).check_return_status()
 
             self.log(
-                "Evaluating delete request for 802.11be profile: {0}"
-                .format(profile_name),
-                "DEBUG"
+                "Evaluating delete request for 802.11be profile: {0}".format(
+                    profile_name
+                ),
+                "DEBUG",
             )
 
             existing = existing_dict.get(profile_name)
@@ -28193,9 +30319,10 @@ class WirelessDesign(CatalystCenterBase):
                 )
 
                 self.log(
-                    "802.11be profile '{0}' scheduled for deletion."
-                    .format(profile_name),
-                    "DEBUG"
+                    "802.11be profile '{0}' scheduled for deletion.".format(
+                        profile_name
+                    ),
+                    "DEBUG",
                 )
 
             # =========================
@@ -28204,22 +30331,19 @@ class WirelessDesign(CatalystCenterBase):
             else:
                 no_delete_profiles.append(profile_name)
                 self.log(
-                    "802.11be profile '{0}' does not exist. Nothing to delete."
-                    .format(profile_name),
-                    "INFO"
+                    "802.11be profile '{0}' does not exist. Nothing to delete.".format(
+                        profile_name
+                    ),
+                    "INFO",
                 )
 
         # ------------------------------------------------------------------
         # Final logs
         # ------------------------------------------------------------------
+        self.log("802.11be Profiles to Delete: {0}".format(delete_profiles), "DEBUG")
         self.log(
-            "802.11be Profiles to Delete: {0}".format(delete_profiles),
-            "DEBUG"
-        )
-        self.log(
-            "802.11be Profiles not found for deletion: {0}"
-            .format(no_delete_profiles),
-            "DEBUG"
+            "802.11be Profiles not found for deletion: {0}".format(no_delete_profiles),
+            "DEBUG",
         )
 
         return delete_profiles, no_delete_profiles
@@ -28258,8 +30382,10 @@ class WirelessDesign(CatalystCenterBase):
                         existing_dict[inst["profileName"]] = inst
 
         self.log(
-            "Detected existing 802.11be profiles: {0}".format(list(existing_dict.keys())),
-            "DEBUG"
+            "Detected existing 802.11be profiles: {0}".format(
+                list(existing_dict.keys())
+            ),
+            "DEBUG",
         )
 
         # ------------------------------------------------------------------
@@ -28294,15 +30420,12 @@ class WirelessDesign(CatalystCenterBase):
             if existing:
                 self.log(
                     "802.11be profile '{0}' already exists.".format(profile_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 details = self.get_80211be_profile_details(existing.get("id")) or {}
 
-                existing_config = {
-                    k: details.get(k)
-                    for k in desired_config.keys()
-                }
+                existing_config = {k: details.get(k) for k in desired_config.keys()}
 
                 config_changed = existing_config != desired_config
 
@@ -28314,8 +30437,9 @@ class WirelessDesign(CatalystCenterBase):
                     ):
                         self.msg = (
                             "Cannot rename 802.11be profile '{0}' to '{1}' "
-                            "- target name already exists."
-                            .format(profile_name, new_profile_name)
+                            "- target name already exists.".format(
+                                profile_name, new_profile_name
+                            )
                         )
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR"
@@ -28330,9 +30454,10 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     self.log(
-                        "802.11be profile '{0}' scheduled for rename/update."
-                        .format(profile_name),
-                        "DEBUG"
+                        "802.11be profile '{0}' scheduled for rename/update.".format(
+                            profile_name
+                        ),
+                        "DEBUG",
                     )
 
                 # ------------------ Config update only
@@ -28346,18 +30471,20 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                     self.log(
-                        "802.11be profile '{0}' marked for config update."
-                        .format(profile_name),
-                        "DEBUG"
+                        "802.11be profile '{0}' marked for config update.".format(
+                            profile_name
+                        ),
+                        "DEBUG",
                     )
 
                 # ------------------ No change
                 else:
                     no_update_profiles.append(details)
                     self.log(
-                        "802.11be profile '{0}' requires no update."
-                        .format(profile_name),
-                        "DEBUG"
+                        "802.11be profile '{0}' requires no update.".format(
+                            profile_name
+                        ),
+                        "DEBUG",
                     )
 
             # ==============================================================
@@ -28372,9 +30499,10 @@ class WirelessDesign(CatalystCenterBase):
                 )
 
                 self.log(
-                    "802.11be profile '{0}' scheduled for creation."
-                    .format(profile_name),
-                    "DEBUG"
+                    "802.11be profile '{0}' scheduled for creation.".format(
+                        profile_name
+                    ),
+                    "DEBUG",
                 )
 
         # ------------------------------------------------------------------
@@ -28414,8 +30542,7 @@ class WirelessDesign(CatalystCenterBase):
             return {}
 
         self.log(
-            "Fetching 802.11be profile details for id: {0}".format(profile_id),
-            "DEBUG"
+            "Fetching 802.11be profile details for id: {0}".format(profile_id), "DEBUG"
         )
 
         try:
@@ -28436,8 +30563,7 @@ class WirelessDesign(CatalystCenterBase):
             ).check_return_status()
 
         self.log(
-            "Raw get80211beProfileById API response: {0}".format(response),
-            "DEBUG"
+            "Raw get80211beProfileById API response: {0}".format(response), "DEBUG"
         )
 
         data = response.get("response")
@@ -28493,16 +30619,11 @@ class WirelessDesign(CatalystCenterBase):
         if profile_name:
             params["profileName"] = profile_name
 
-        self.log(
-            "get80211beProfiles request params: {0}".format(params),
-            "DEBUG"
-        )
+        self.log("get80211beProfiles request params: {0}".format(params), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
-                family="wireless",
-                function="get80211be_profiles",
-                params=params
+                family="wireless", function="get80211be_profiles", params=params
             )
             self.log(f"Received API response for {response}", "DEBUG")
 
@@ -28512,10 +30633,7 @@ class WirelessDesign(CatalystCenterBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        self.log(
-            "Raw get80211beProfiles API response: {0}".format(response),
-            "DEBUG"
-        )
+        self.log("Raw get80211beProfiles API response: {0}".format(response), "DEBUG")
 
         # Normalize response safely
         profiles = response.get("response", [])
@@ -28574,14 +30692,12 @@ class WirelessDesign(CatalystCenterBase):
                 # -------------------------------------------------
                 # Build API payload (Catalyst Center expects nativeVlanId)
                 # -------------------------------------------------
-                api_payload = {
-                    "site_id": site_id,
-                    "nativeVlanId": vlan_id
-                }
+                api_payload = {"site_id": site_id, "nativeVlanId": vlan_id}
                 self.log(
-                    "Constructed API payload for Flex Connect update: {0}"
-                    .format(api_payload),
-                    "DEBUG"
+                    "Constructed API payload for Flex Connect update: {0}".format(
+                        api_payload
+                    ),
+                    "DEBUG",
                 )
 
                 try:
@@ -28598,8 +30714,7 @@ class WirelessDesign(CatalystCenterBase):
                     # Validate async task
                     # -------------------------------------------------
                     self.check_tasks_response_status(
-                        response,
-                        "updateNativeVlanSettingsBySite"
+                        response, "updateNativeVlanSettingsBySite"
                     )
 
                     if self.status not in ["failed", "exited"]:
@@ -28609,15 +30724,17 @@ class WirelessDesign(CatalystCenterBase):
                     else:
                         fail_reason = self.msg
                         results[site_key] = (
-                            "Failed to update Flex Connect configuration: {0}"
-                            .format(fail_reason)
+                            "Failed to update Flex Connect configuration: {0}".format(
+                                fail_reason
+                            )
                         )
                         self.log(results[site_key], "ERROR")
 
                 except Exception as exc:
                     results[site_key] = (
-                        "Exception while updating Flex Connect configuration: {0}"
-                        .format(str(exc))
+                        "Exception while updating Flex Connect configuration: {0}".format(
+                            str(exc)
+                        )
                     )
                     self.log(results[site_key], "ERROR")
 
@@ -28714,23 +30831,23 @@ class WirelessDesign(CatalystCenterBase):
             (
                 "add_aaa_radius_attribute_params",
                 "ADD AAA Radius Attributes",
-                self.process_add_aaa_radius_attributes
+                self.process_add_aaa_radius_attributes,
             ),
             (
                 "update_aaa_radius_attribute_params",
                 "UPDATE AAA Radius Attributes",
-                self.process_update_aaa_radius_attributes
+                self.process_update_aaa_radius_attributes,
             ),
             # --- New Advanced SSID ---
             (
                 "add_advanced_ssid_params",
                 "ADD Advanced SSIDs",
-                self.process_add_advanced_ssids
+                self.process_add_advanced_ssids,
             ),
             (
                 "update_advanced_ssid_params",
                 "UPDATE Advanced SSIDs",
-                self.process_update_advanced_ssids
+                self.process_update_advanced_ssids,
             ),
             # --- New CleanAir ---
             (
@@ -28941,10 +31058,14 @@ class WirelessDesign(CatalystCenterBase):
             (
                 "delete_aaa_radius_attribute_params",
                 "DELETE AAA Radius Attributes",
-                self.process_delete_aaa_radius_attributes
+                self.process_delete_aaa_radius_attributes,
             ),
             # --- New Advanced SSIDs ---
-            ("delete_advanced_ssid_params", "DELETE Advanced SSIDs", self.process_delete_advanced_ssids),
+            (
+                "delete_advanced_ssid_params",
+                "DELETE Advanced SSIDs",
+                self.process_delete_advanced_ssids,
+            ),
             # --- New CleanAir ---
             (
                 "delete_clean_air_configuration_params",
@@ -29005,7 +31126,6 @@ class WirelessDesign(CatalystCenterBase):
                 "DELETE Flex Connect Configuration",
                 self.process_delete_flex_connect_configuration,
             ),
-
         ]
 
         # Iterate over operations and process deletions
@@ -29050,11 +31170,18 @@ class WirelessDesign(CatalystCenterBase):
         # Handle the case where no deletions are required
         if not final_status_list:
             # Check if AAA Radius Attributes were already reset (idempotency case)
-            if hasattr(self, 'already_reset_aaa_attrs') and self.already_reset_aaa_attrs:
-                already_reset_names = ', '.join(self.already_reset_aaa_attrs)
-                self.msg = "AAA Radius Attributes '{0}' are already reset. No changes required.".format(already_reset_names)
+            if (
+                hasattr(self, "already_reset_aaa_attrs")
+                and self.already_reset_aaa_attrs
+            ):
+                already_reset_names = ", ".join(self.already_reset_aaa_attrs)
+                self.msg = "AAA Radius Attributes '{0}' are already reset. No changes required.".format(
+                    already_reset_names
+                )
                 self.set_operation_result("ok", False, self.msg, "INFO")
-                self.log("AAA Radius Attributes already in desired state (reset).", "INFO")
+                self.log(
+                    "AAA Radius Attributes already in desired state (reset).", "INFO"
+                )
             else:
                 self.msg = "No deletions were required for the provided parameters in the Cisco Catalyst Center."
                 self.set_operation_result("ok", False, self.msg, "INFO")
@@ -29100,8 +31227,9 @@ class WirelessDesign(CatalystCenterBase):
                 site_key = site_id or "<unknown-site>"
 
                 self.log(
-                    "Deleting Flex Connect config: siteId='{0}', removeOverrideInHierarchy='{1}'"
-                    .format(site_id, remove_override),
+                    "Deleting Flex Connect config: siteId='{0}', removeOverrideInHierarchy='{1}'".format(
+                        site_id, remove_override
+                    ),
                     "DEBUG",
                 )
 
@@ -29109,9 +31237,7 @@ class WirelessDesign(CatalystCenterBase):
                 # Validate payload
                 # -------------------------------------------------
                 if not site_id:
-                    results[site_key] = (
-                        "Skipped delete: missing 'siteId' in payload."
-                    )
+                    results[site_key] = "Skipped delete: missing 'siteId' in payload."
                     self.log(results[site_key], "ERROR")
                     continue
 
@@ -29120,12 +31246,13 @@ class WirelessDesign(CatalystCenterBase):
                 # -------------------------------------------------
                 api_payload = {
                     "site_id": site_id,
-                    "removeOverrideInHierarchy": remove_override
+                    "removeOverrideInHierarchy": remove_override,
                 }
                 self.log(
-                    "Constructed API payload for Flex Connect delete: {0}"
-                    .format(api_payload),
-                    "DEBUG"
+                    "Constructed API payload for Flex Connect delete: {0}".format(
+                        api_payload
+                    ),
+                    "DEBUG",
                 )
 
                 try:
@@ -29142,8 +31269,7 @@ class WirelessDesign(CatalystCenterBase):
                     # Validate async task
                     # -------------------------------------------------
                     self.check_tasks_response_status(
-                        response,
-                        "deleteNativeVlanSettingsBySite"
+                        response, "deleteNativeVlanSettingsBySite"
                     )
 
                     if self.status not in ["failed", "exited"]:
@@ -29153,15 +31279,17 @@ class WirelessDesign(CatalystCenterBase):
                     else:
                         fail_reason = self.msg
                         results[site_key] = (
-                            "Failed to delete/reset Flex Connect configuration: {0}"
-                            .format(fail_reason)
+                            "Failed to delete/reset Flex Connect configuration: {0}".format(
+                                fail_reason
+                            )
                         )
                         self.log(results[site_key], "ERROR")
 
                 except Exception as exc:
                     results[site_key] = (
-                        "Exception while deleting Flex Connect configuration: {0}"
-                        .format(str(exc))
+                        "Exception while deleting Flex Connect configuration: {0}".format(
+                            str(exc)
+                        )
                     )
                     self.log(results[site_key], "ERROR")
 
@@ -29217,9 +31345,10 @@ class WirelessDesign(CatalystCenterBase):
                 profile_id = payload.get("id")
 
                 self.log(
-                    "Deleting 802.11be profile: profile='{0}', id='{1}'"
-                    .format(profile_name, profile_id),
-                    "DEBUG"
+                    "Deleting 802.11be profile: profile='{0}', id='{1}'".format(
+                        profile_name, profile_id
+                    ),
+                    "DEBUG",
                 )
 
                 # Safety check
@@ -29238,7 +31367,7 @@ class WirelessDesign(CatalystCenterBase):
 
                     self.log(
                         "Received API response for delete: {0}".format(response),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Validate async task (Catalyst Center standard)
@@ -29257,19 +31386,19 @@ class WirelessDesign(CatalystCenterBase):
 
                 except Exception as exc:
                     results[profile_name] = (
-                        "Exception while deleting 802.11be profile: {0}".format(str(exc))
+                        "Exception while deleting 802.11be profile: {0}".format(
+                            str(exc)
+                        )
                     )
                     self.log(results[profile_name], "ERROR")
 
             # --------------------------------------------------
             # Final aggregated result - count successes and failures
             # --------------------------------------------------
-            success_count = sum(
-                1 for v in results.values()
-                if "Successfully" in v
-            )
+            success_count = sum(1 for v in results.values() if "Successfully" in v)
             failure_count = sum(
-                1 for v in results.values()
+                1
+                for v in results.values()
                 if ("Failed" in v or "Exception" in v or "Skipped" in v)
             )
 
@@ -29503,21 +31632,73 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

@@ -11,10 +11,10 @@ short_description: Information module for Discoverys Jobs Summarys
 description:
   - Get all Discoverys Jobs Summarys. - > API to fetch the summary of all discoveries. The response includes the basic details
     of all discoveries, latest job status and the number of reachable devices.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Network Device Global Polling Interval
 description:
   - Get all Network Device Global Polling Interval.
   - Returns polling interval of all devices.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Resource module for Event Snmp Config Update
 description:
   - Manage operation update of the resource Event Snmp Config Update.
   - Update SNMP Destination.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authPassword:
     description: Auth Password.

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Edge Device.
   - Add edge device in SDA Fabric.
   - Delete edge device from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.

@@ -14,10 +14,10 @@ description:
     REP ring member networkDeviceId can be provided. In case of failed REP ring creation, provide only root node networkDeviceId.
     The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevice and deploymentMode
     FABRIC/NON_FABRIC .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: Deployment mode of the configured REP ring.

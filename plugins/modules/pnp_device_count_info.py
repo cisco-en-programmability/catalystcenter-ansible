@@ -11,10 +11,10 @@ short_description: Information module for Pnp Device Count
 description:
   - Get all Pnp Device Count.
   - Returns the device count based on filter criteria. This is useful for pagination.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

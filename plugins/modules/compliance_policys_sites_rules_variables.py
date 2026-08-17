@@ -11,10 +11,10 @@ short_description: Resource module for Compliance Policys Sites Rules Variables
 description:
   - Manage operation update of the resource Compliance Policys Sites Rules Variables.
   - Set site variable values for the specified rule within the compliance policy.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   policyId:
     description: PolicyId path parameter. The `id` of the compliance policy.

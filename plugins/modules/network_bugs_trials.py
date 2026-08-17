@@ -11,10 +11,10 @@ short_description: Resource module for Network Bugs Trials
 description:
   - Manage operation create of the resource Network Bugs Trials.
   - Creates a trial for bugs detection on network devices. The consent to connect.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options: {}
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

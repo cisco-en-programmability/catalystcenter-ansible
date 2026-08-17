@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Pnp Virtual Account Devices Sync. - > Synchronizes the device info from the given
     smart account & virtual account with the PnP database. The response payload returns a list of synced devices Deprecated
     .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   autoSyncPeriod:
     description: Pnp Virtual Account Devices Sync's autoSyncPeriod.

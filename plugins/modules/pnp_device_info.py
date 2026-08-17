@@ -13,10 +13,10 @@ description:
   - Get Pnp Device by id.
   - Returns device details specified by device id. - > Returns list of devices from Plug & Play based on filter criteria.
     Returns 50 devices by default. This endpoint supports Pagination and Sorting.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

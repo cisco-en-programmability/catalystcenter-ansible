@@ -11,10 +11,10 @@ short_description: Resource module for Endpoint Analytics Cmdb Endpoints
 description:
   - Manage operation create of the resource Endpoint Analytics Cmdb Endpoints.
   - Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Endpoint Analytics Cmdb Endpoints's payload.

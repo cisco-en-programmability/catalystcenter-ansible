@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Psk Override
 description:
   - Manage operation create of the resource Wireless Psk Override.
   - Update/Override passphrase of SSID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Wireless Psk Override's payload.

@@ -12,10 +12,10 @@ description:
   - Manage operation delete of the resource Iot Fabric Rep Rings Delete. - > This API deletes the REP ring configured in the
     FABRIC deployment for the given id. The id of configured REP ring can be retrieved using the API /dna/intent/api/v1/iot/repRings/query.The
     taskid returned can be used to monitor the status of delete operation using following API -/intent/api/v1/task/{taskId}.
-version_added: '6.46.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Ring ID of configured REP ring can be fetched using the API `/dna/intent/api/v1/iot/repRings/query`.

@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Maps Import Start. - > Initiates a map archive import of a tar.gz file. The archive
     must consist of one xmlDir/MapsImportExport.xml map descriptor file, and 1 or more images for the map areas nested under
     /images folder.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options: {}
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

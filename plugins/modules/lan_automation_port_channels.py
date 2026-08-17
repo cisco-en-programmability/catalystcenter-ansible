@@ -13,10 +13,10 @@ description:
     between two LAN Automation associated devices using the PAgP protocol, with a minimum of 2 and a maximum of 8 LAN Automated
     interfaces in UP status.
   - This API deletes a Port Channel between LAN Automation associated devices using a valid Port Channel ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   device1ManagementIPAddress:
     description: Either device1ManagementIPAddress or device1Uuid is required.

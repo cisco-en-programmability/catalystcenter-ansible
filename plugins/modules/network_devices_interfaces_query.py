@@ -11,10 +11,10 @@ short_description: Resource module for Network Devices Interfaces Query
 description:
   - Manage operation create of the resource Network Devices Interfaces Query. - > This API returns the Interface Stats for
     the given Device Id. Please refer to the Feature tab for the Request Body usage and the API filtering support.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: DeviceId path parameter. Network Device Id.

@@ -104,6 +104,8 @@ class ActionModule(ActionBase):
             function="retrieves_the_total_count_of_thousand_eyes_test_results",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

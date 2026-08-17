@@ -11,10 +11,10 @@ short_description: Information module for User Enrichment Details
 description:
   - Get all User Enrichment Details. - > Enriches a given network End User context a network user-id or end user's device
     Mac Address with details about the user and devices that the user is connected to.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

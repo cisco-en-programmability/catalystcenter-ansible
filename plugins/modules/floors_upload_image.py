@@ -11,10 +11,10 @@ short_description: Resource module for Floors Upload Image
 description:
   - Manage operation create of the resource Floors Upload Image.
   - Uploads floor image.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Floor Id.

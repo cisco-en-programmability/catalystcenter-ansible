@@ -24,23 +24,23 @@ import sys
 from unittest.mock import patch, mock_open, MagicMock
 
 # Add the plugins path to the system path
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../plugins/modules'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../../../plugins/modules"))
 
 
 def get_mock_module():
     """Helper function to create a mock Ansible module"""
     mock_module = MagicMock()
     mock_module.params = {
-        'catalystcenter_host': '198.18.129.100',
-        'catalystcenter_username': 'admin',
-        'catalystcenter_password': 'admin123',
-        'catalystcenter_verify': False,
-        'catalystcenter_port': 443,
-        'catalystcenter_version': '2.3.7.6',
-        'catalystcenter_debug': False,
-        'state': 'gathered',
-        'file_mode': 'overwrite',
-        'config': None
+        "catalystcenter_host": "198.18.129.100",
+        "catalystcenter_username": "admin",
+        "catalystcenter_password": "admin123",
+        "catalystcenter_verify": False,
+        "catalystcenter_port": 443,
+        "catalystcenter_version": "2.3.7.6",
+        "catalystcenter_debug": False,
+        "state": "gathered",
+        "file_mode": "overwrite",
+        "config": None,
     }
     mock_module.exit_json = MagicMock()
     mock_module.fail_json = MagicMock()
@@ -69,8 +69,18 @@ from unittest.mock import patch, mock_open, MagicMock
 from collections import OrderedDict
 
 # Add module path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'plugins', 'modules'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'plugins', 'module_utils'))
+sys.path.insert(
+    0,
+    os.path.join(
+        os.path.dirname(__file__), "..", "..", "..", "..", "plugins", "modules"
+    ),
+)
+sys.path.insert(
+    0,
+    os.path.join(
+        os.path.dirname(__file__), "..", "..", "..", "..", "plugins", "module_utils"
+    ),
+)
 
 # Import the module
 import assurance_device_health_score_settings_playbook_config_generator as test_module
@@ -84,12 +94,12 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         # Load test data
         self.test_data_path = os.path.join(
             os.path.dirname(__file__),
-            'fixtures',
-            'assurance_device_health_score_settings_playbook_config_generator.json'
+            "fixtures",
+            "assurance_device_health_score_settings_playbook_config_generator.json",
         )
 
         if os.path.exists(self.test_data_path):
-            with open(self.test_data_path, 'r') as f:
+            with open(self.test_data_path, "r") as f:
                 self.test_data = json.load(f)
         else:
             self.test_data = {}
@@ -98,10 +108,10 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.module_instance = get_mock_module()
 
         # Mock patches
-        self.mock_patches = []        # Mock AnsibleModule
+        self.mock_patches = []  # Mock AnsibleModule
         mock_ansible_module = patch(
-            'ansible_collections.cisco.catalystcenter.plugins.modules.'
-            'assurance_device_health_score_settings_playbook_config_generator.AnsibleModule'
+            "ansible_collections.cisco.catalystcenter.plugins.modules."
+            "assurance_device_health_score_settings_playbook_config_generator.AnsibleModule"
         )
         self.mock_ansible_module = mock_ansible_module.start()
         self.mock_ansible_module.return_value = get_mock_module()
@@ -130,19 +140,26 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
     def test_module_imports_successfully(self):
         """Test that the module can be imported without errors"""
         try:
-            from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_device_health_score_settings_playbook_config_generator
-            self.assertIsNotNone(assurance_device_health_score_settings_playbook_config_generator)
+            from ansible_collections.cisco.catalystcenter.plugins.modules import (
+                assurance_device_health_score_settings_playbook_config_generator,
+            )
+
+            self.assertIsNotNone(
+                assurance_device_health_score_settings_playbook_config_generator
+            )
         except ImportError as e:
             self.fail(f"Module import failed: {e}")
 
     def test_module_has_required_documentation(self):
         """Test that module has required documentation attributes"""
-        from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_device_health_score_settings_playbook_config_generator as module
+        from ansible_collections.cisco.catalystcenter.plugins.modules import (
+            assurance_device_health_score_settings_playbook_config_generator as module,
+        )
 
         # Check for required documentation
-        self.assertTrue(hasattr(module, 'DOCUMENTATION'))
-        self.assertTrue(hasattr(module, 'EXAMPLES'))
-        self.assertTrue(hasattr(module, 'RETURN'))
+        self.assertTrue(hasattr(module, "DOCUMENTATION"))
+        self.assertTrue(hasattr(module, "EXAMPLES"))
+        self.assertTrue(hasattr(module, "RETURN"))
 
         # Verify documentation is not empty
         self.assertIsNotNone(module.DOCUMENTATION)
@@ -150,8 +167,11 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertIsNotNone(module.RETURN)
 
         # Check documentation contains key information
-        self.assertIn('assurance_device_health_score_settings_playbook_config_generator', module.DOCUMENTATION)
-        self.assertIn('config', module.DOCUMENTATION)
+        self.assertIn(
+            "assurance_device_health_score_settings_playbook_config_generator",
+            module.DOCUMENTATION,
+        )
+        self.assertIn("config", module.DOCUMENTATION)
 
     def test_module_parameter_validation(self):
         """Test parameter validation functionality"""
@@ -169,7 +189,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 "component_specific_filters": {
                     "components_list": ["device_health_score_settings"]
                 }
-            }
+            },
         }
 
         set_module_args(**valid_params)
@@ -179,13 +199,16 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertEqual(test_params["catalystcenter_host"], "198.18.129.100")
         self.assertTrue(isinstance(test_params["config"], dict))
 
-    @patch('ansible_collections.cisco.catalystcenter.plugins.modules.'
-           'assurance_device_health_score_settings_playbook_config_generator.'
-           'AssuranceDeviceHealthScorePlaybookGenerator')
+    @patch(
+        "ansible_collections.cisco.catalystcenter.plugins.modules."
+        "assurance_device_health_score_settings_playbook_config_generator."
+        "AssuranceDeviceHealthScorePlaybookGenerator"
+    )
     def test_module_main_function_execution(self, mock_generator_class):
         """Test main function execution flow"""
-        from ansible_collections.cisco.catalystcenter.plugins.modules import \
-            assurance_device_health_score_settings_playbook_config_generator as module
+        from ansible_collections.cisco.catalystcenter.plugins.modules import (
+            assurance_device_health_score_settings_playbook_config_generator as module,
+        )
 
         # Mock the generator class
         mock_generator = MagicMock()
@@ -207,7 +230,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 "component_specific_filters": {
                     "components_list": ["device_health_score_settings"]
                 }
-            }
+            },
         )
 
         # Verify that set_module_args worked
@@ -215,47 +238,59 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertEqual(test_params["catalystcenter_host"], "198.18.129.100")
 
         # Test that main function exists
-        self.assertTrue(hasattr(module, 'main'))
+        self.assertTrue(hasattr(module, "main"))
         print("Main function execution test completed")
 
     def test_class_initialization(self):
         """Test that the main class can be initialized"""
-        from ansible_collections.cisco.catalystcenter.plugins.modules.\
-            assurance_device_health_score_settings_playbook_config_generator import \
-            AssuranceDeviceHealthScorePlaybookGenerator
+        from ansible_collections.cisco.catalystcenter.plugins.modules.assurance_device_health_score_settings_playbook_config_generator import (
+            AssuranceDeviceHealthScorePlaybookGenerator,
+        )
 
         # Mock the parent class initialization and log method
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__') as mock_catalystcenter_init:
-            with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__') as mock_helper_init:
-                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log') as mock_log:
+        with patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__"
+        ) as mock_catalystcenter_init:
+            with patch(
+                "ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__"
+            ) as mock_helper_init:
+                with patch(
+                    "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log"
+                ) as mock_log:
                     mock_catalystcenter_init.return_value = None
                     mock_helper_init.return_value = None
                     mock_log.return_value = None
 
                     # Create mock module
                     mock_module = MagicMock()
-                    mock_module.params = {
-                        "file_mode": "overwrite",
-                        "config": None
-                    }
+                    mock_module.params = {"file_mode": "overwrite", "config": None}
 
                     # Test class instantiation
                     try:
-                        generator = AssuranceDeviceHealthScorePlaybookGenerator(mock_module)
+                        generator = AssuranceDeviceHealthScorePlaybookGenerator(
+                            mock_module
+                        )
                         self.assertIsNotNone(generator)
-                        self.assertTrue(hasattr(generator, 'module_name'))
-                        self.assertEqual(generator.module_name, "assurance_device_health_score_settings_playbook_config_generator")
+                        self.assertTrue(hasattr(generator, "module_name"))
+                        self.assertEqual(
+                            generator.module_name,
+                            "assurance_device_health_score_settings_playbook_config_generator",
+                        )
                     except Exception as e:
                         self.fail(f"Class initialization failed: {e}")
 
     def test_supported_states(self):
         """Test that the module supports the correct states"""
-        from ansible_collections.cisco.catalystcenter.plugins.modules.\
-            assurance_device_health_score_settings_playbook_config_generator import \
-            AssuranceDeviceHealthScorePlaybookGenerator
+        from ansible_collections.cisco.catalystcenter.plugins.modules.assurance_device_health_score_settings_playbook_config_generator import (
+            AssuranceDeviceHealthScorePlaybookGenerator,
+        )
 
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__'):
-            with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__'):
+        with patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__"
+        ):
+            with patch(
+                "ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__"
+            ):
                 mock_module = MagicMock()
                 mock_module.params = {"config": {}}
 
@@ -269,13 +304,16 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
 
     def test_workflow_elements_schema_method(self):
         """Test that the workflow elements schema method exists"""
-        from ansible_collections.cisco.catalystcenter.plugins.modules.\
-            assurance_device_health_score_settings_playbook_config_generator import \
-            AssuranceDeviceHealthScorePlaybookGenerator
+        from ansible_collections.cisco.catalystcenter.plugins.modules.assurance_device_health_score_settings_playbook_config_generator import (
+            AssuranceDeviceHealthScorePlaybookGenerator,
+        )
 
         # Test that the method exists in the class
         self.assertTrue(
-            hasattr(AssuranceDeviceHealthScorePlaybookGenerator, 'get_workflow_elements_schema')
+            hasattr(
+                AssuranceDeviceHealthScorePlaybookGenerator,
+                "get_workflow_elements_schema",
+            )
         )
 
     def test_file_path_handling(self):
@@ -285,25 +323,20 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "/tmp/test.yml",
             "/home/user/configs/health_score.yml",
             "./relative/path/config.yml",
-            "simple_filename.yml"
+            "simple_filename.yml",
         ]
 
         for path in valid_paths:
             # Basic path validation (ends with .yml or .yaml)
             self.assertTrue(
-                path.endswith('.yml') or path.endswith('.yaml'),
-                f"Path {path} should end with .yml or .yaml"
+                path.endswith(".yml") or path.endswith(".yaml"),
+                f"Path {path} should end with .yml or .yaml",
             )
 
     def test_device_family_constants(self):
         """Test that supported device families are properly defined"""
         # These should be the supported device families
-        expected_families = [
-            "UNIFIED_AP",
-            "ROUTER",
-            "SWITCH",
-            "WIRELESS_CONTROLLER"
-        ]
+        expected_families = ["UNIFIED_AP", "ROUTER", "SWITCH", "WIRELESS_CONTROLLER"]
 
         # Test that these are valid strings
         for family in expected_families:
@@ -321,7 +354,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "Temperature",
             "Interference 2.4 GHz",
             "Interference 5 GHz",
-            "Interference 6 GHz"
+            "Interference 6 GHz",
         ]
 
         # Test that these are valid strings
@@ -338,7 +371,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                     "kpi_name": "CPU Utilization",
                     "threshold_value": 80,
                     "include_for_overall_health": True,
-                    "sync_with_issue_threshold": False
+                    "sync_with_issue_threshold": False,
                 }
             ]
         }
@@ -354,25 +387,30 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
                 "kpi_name",
                 "threshold_value",
                 "include_for_overall_health",
-                "sync_with_issue_threshold"
+                "sync_with_issue_threshold",
             ]
 
             for key in required_keys:
-                self.assertIn(key, config_item, f"Required key '{key}' missing from config structure")
+                self.assertIn(
+                    key,
+                    config_item,
+                    f"Required key '{key}' missing from config structure",
+                )
 
     def test_yaml_formatting_and_structure(self):
         """Test YAML formatting and structure validation."""
         # Test OrderedDumper functionality
         if test_module.HAS_YAML and test_module.OrderedDumper:
             from io import StringIO
-            test_data = OrderedDict([('key1', 'value1'), ('key2', 'value2')])
+
+            test_data = OrderedDict([("key1", "value1"), ("key2", "value2")])
 
             # Create OrderedDumper with required stream parameter
             stream = StringIO()
             dumper = test_module.OrderedDumper(stream)
 
             # Test represent_dict method exists
-            self.assertTrue(hasattr(dumper, 'represent_dict'))
+            self.assertTrue(hasattr(dumper, "represent_dict"))
 
             # Test that it can handle OrderedDict
             result = dumper.represent_dict(test_data)
@@ -391,7 +429,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertIsNotNone(test_module.RETURN)
 
         # Test module constants
-        self.assertTrue(hasattr(test_module, 'HAS_YAML'))
+        self.assertTrue(hasattr(test_module, "HAS_YAML"))
         self.assertIsInstance(test_module.HAS_YAML, bool)
 
         # Test that module can be imported without basic errors
@@ -404,7 +442,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         # Test that module has values_to_nullify constant
         try:
             # Import with proper mocking to avoid metaclass issues
-            self.assertTrue(hasattr(test_module, 'DOCUMENTATION'))
+            self.assertTrue(hasattr(test_module, "DOCUMENTATION"))
 
             # Test that common null values are handled
             null_values = ["NOT CONFIGURED", "None", ""]
@@ -437,57 +475,73 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         """Test comprehensive integration scenario covering multiple code paths."""
         # Set up complete scenario
         self.module_instance.params = {
-            'catalystcenter_host': '198.18.129.100',
-            'catalystcenter_username': 'admin',
-            'catalystcenter_password': 'password',
-            'catalystcenter_verify': False,
-            'catalystcenter_version': '2.3.7.6',
-            'state': 'gathered',
-            'config_verify': True,
-            'file_path': '/tmp/comprehensive_test.yml',
-            'file_mode': 'overwrite',
-            'config': {
-                'component_specific_filters': {
-                    'device_health_score_settings': [
-                        {'device_families': ['UNIFIED_AP', 'ROUTER']}
+            "catalystcenter_host": "198.18.129.100",
+            "catalystcenter_username": "admin",
+            "catalystcenter_password": "password",
+            "catalystcenter_verify": False,
+            "catalystcenter_version": "2.3.7.6",
+            "state": "gathered",
+            "config_verify": True,
+            "file_path": "/tmp/comprehensive_test.yml",
+            "file_mode": "overwrite",
+            "config": {
+                "component_specific_filters": {
+                    "device_health_score_settings": [
+                        {"device_families": ["UNIFIED_AP", "ROUTER"]}
                     ]
                 }
-            }
+            },
         }
 
         # Test comprehensive integration scenario without class instantiation
         # This tests the module structure and constants comprehensively
 
         # Test documentation comprehensiveness
-        self.assertIn('module:', test_module.DOCUMENTATION)
-        self.assertIn('description:', test_module.DOCUMENTATION)
-        self.assertIn('version_added:', test_module.DOCUMENTATION)
-        self.assertIn('options:', test_module.DOCUMENTATION)
+        self.assertIn("module:", test_module.DOCUMENTATION)
+        self.assertIn("description:", test_module.DOCUMENTATION)
+        self.assertIn("version_added:", test_module.DOCUMENTATION)
+        self.assertIn("options:", test_module.DOCUMENTATION)
 
         # Test examples completeness
-        self.assertIn('cisco.catalystcenter.assurance_device_health_score_settings_playbook_config_generator:', test_module.EXAMPLES)
-        self.assertIn('config:', test_module.EXAMPLES)
+        self.assertIn(
+            "cisco.catalystcenter.assurance_device_health_score_settings_playbook_config_generator:",
+            test_module.EXAMPLES,
+        )
+        self.assertIn("config:", test_module.EXAMPLES)
 
         # Test return documentation
-        self.assertIn('response', test_module.RETURN)
-        self.assertIn('operation_summary', test_module.RETURN)
+        self.assertIn("response", test_module.RETURN)
+        self.assertIn("operation_summary", test_module.RETURN)
 
         # Test module structure
-        self.assertTrue(hasattr(test_module, 'main'))
-        self.assertTrue(hasattr(test_module, 'AssuranceDeviceHealthScorePlaybookGenerator'))
+        self.assertTrue(hasattr(test_module, "main"))
+        self.assertTrue(
+            hasattr(test_module, "AssuranceDeviceHealthScorePlaybookGenerator")
+        )
 
         # Test constants
         self.assertIsInstance(test_module.HAS_YAML, bool)
         if test_module.HAS_YAML:
-            self.assertTrue(hasattr(test_module, 'OrderedDumper'))
+            self.assertTrue(hasattr(test_module, "OrderedDumper"))
 
         print("Comprehensive integration scenario tested")
 
     def _build_validation_generator(self):
-        with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__', return_value=None):
-            with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__', return_value=None):
-                with patch('ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log', return_value=None):
-                    generator = test_module.AssuranceDeviceHealthScorePlaybookGenerator(MagicMock())
+        with patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.__init__",
+            return_value=None,
+        ):
+            with patch(
+                "ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper.BrownFieldHelper.__init__",
+                return_value=None,
+            ):
+                with patch(
+                    "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterBase.log",
+                    return_value=None,
+                ):
+                    generator = test_module.AssuranceDeviceHealthScorePlaybookGenerator(
+                        MagicMock()
+                    )
 
         generator.status = "success"
         generator.msg = ""
@@ -507,7 +561,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": ["device_health_score_settings"],
-            "device_health_score_settings": ["ROUTER"]
+            "device_health_score_settings": ["ROUTER"],
         }
         result = generator.validate_component_specific_filters(
             component_specific_filters
@@ -523,7 +577,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "components_list": ["device_health_score_settings"],
             "device_health_score_settings": [
                 {"device_families": ["ROUTER"], "bad_key": "value"}
-            ]
+            ],
         }
         result = generator.validate_component_specific_filters(
             component_specific_filters
@@ -540,8 +594,8 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "components_list": ["device_health_score_settings"],
             "device_health_score_settings": [
                 {"device_families": ["ROUTER", "UNIFIED_AP"]},
-                {"device_families": ["UNIFIED_AP", "SWITCH_AND_HUB"]}
-            ]
+                {"device_families": ["UNIFIED_AP", "SWITCH_AND_HUB"]},
+            ],
         }
         result = generator.validate_component_specific_filters(
             component_specific_filters
@@ -549,8 +603,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertTrue(result)
         normalized = component_specific_filters["device_health_score_settings"]
         self.assertEqual(
-            normalized["device_families"],
-            ["ROUTER", "UNIFIED_AP", "SWITCH_AND_HUB"]
+            normalized["device_families"], ["ROUTER", "UNIFIED_AP", "SWITCH_AND_HUB"]
         )
 
     def test_device_health_score_settings_single_entry_normalizes(self):
@@ -559,9 +612,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator.deduplicate_component_filters = MagicMock()
         component_specific_filters = {
             "components_list": ["device_health_score_settings"],
-            "device_health_score_settings": [
-                {"device_families": ["ROUTER"]}
-            ]
+            "device_health_score_settings": [{"device_families": ["ROUTER"]}],
         }
         result = generator.validate_component_specific_filters(
             component_specific_filters
@@ -569,7 +620,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertTrue(result)
         self.assertEqual(
             component_specific_filters["device_health_score_settings"],
-            {"device_families": ["ROUTER"]}
+            {"device_families": ["ROUTER"]},
         )
 
     def test_device_health_score_settings_wrong_type_fails(self):
@@ -577,7 +628,7 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": ["device_health_score_settings"],
-            "device_health_score_settings": "ROUTER"
+            "device_health_score_settings": "ROUTER",
         }
         result = generator.validate_component_specific_filters(
             component_specific_filters
@@ -590,13 +641,16 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": [],
-            "device_health_score_settings": [
-                {"device_families": ["ROUTER"]}
-            ]
+            "device_health_score_settings": [{"device_families": ["ROUTER"]}],
         }
-        result = generator.validate_component_specific_filters(component_specific_filters)
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
         self.assertTrue(result)
-        self.assertIn("device_health_score_settings", component_specific_filters["components_list"])
+        self.assertIn(
+            "device_health_score_settings",
+            component_specific_filters["components_list"],
+        )
 
     def test_components_list_empty_without_filters_fails(self):
         generator = self._build_validation_generator()
@@ -612,7 +666,9 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
         self.assertEqual(generator.status, "failed")
         self.assertIn("components_list", generator.msg)
 
-    def test_validate_config_requirements_requires_component_filters_when_config_provided(self):
+    def test_validate_config_requirements_requires_component_filters_when_config_provided(
+        self,
+    ):
         generator = self._build_validation_generator()
         generator.validate_config_requirements({}, True)
         self.assertEqual(generator.status, "failed")
@@ -628,22 +684,29 @@ class TestBrownfieldDeviceHealthScoreSettings(unittest.TestCase):
             "components_list": ["device_health_score_settings"],
             "device_health_score_settings": {},
         }
-        filtered = generator.apply_health_score_filters(response_data, component_specific_filters)
+        filtered = generator.apply_health_score_filters(
+            response_data, component_specific_filters
+        )
         self.assertEqual(len(filtered), len(response_data))
 
     def test_device_health_score_settings_none_treated_as_empty_filter(self):
         generator = self._build_validation_generator()
         component_specific_filters = {
             "components_list": ["device_health_score_settings"],
-            "device_health_score_settings": None
+            "device_health_score_settings": None,
         }
-        result = generator.validate_component_specific_filters(component_specific_filters)
+        result = generator.validate_component_specific_filters(
+            component_specific_filters
+        )
         self.assertTrue(result)
         # None is normalized to an empty list then flattened to {"device_families": []}
-        self.assertEqual(component_specific_filters["device_health_score_settings"], {"device_families": []})
+        self.assertEqual(
+            component_specific_filters["device_health_score_settings"],
+            {"device_families": []},
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run comprehensive tests
     print("🧪 Running Comprehensive Brownfield Device Health Score Settings Tests")
     print("Target: 90%+ Code Coverage")

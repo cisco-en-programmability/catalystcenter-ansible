@@ -11,10 +11,10 @@ short_description: Information module for Application Visibility Network Devices
 description:
   - Get all Application Visibility Network Devices. - > This API retrieves the list of network devices with their application
     visibility status. The list can be filtered using the query parameters. Multiple filters can be applied.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

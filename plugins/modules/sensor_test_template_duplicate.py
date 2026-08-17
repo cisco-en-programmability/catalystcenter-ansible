@@ -11,10 +11,10 @@ short_description: Resource module for Sensor Test Template Duplicate
 description:
   - Manage operation update of the resource Sensor Test Template Duplicate.
   - Intent API to duplicate an existing SENSOR test template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   newTemplateName:
     description: Destination test template name.

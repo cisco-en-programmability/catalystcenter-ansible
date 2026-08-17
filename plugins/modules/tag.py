@@ -13,10 +13,10 @@ description:
   - Creates tag with specified tag attributes.
   - Deletes a tag specified by id.
   - Updates a tag specified by id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of the tag.

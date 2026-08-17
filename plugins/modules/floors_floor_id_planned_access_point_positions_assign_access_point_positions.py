@@ -11,10 +11,10 @@ short_description: Resource module for Floors Floor Id Planned Access Point Posi
 description:
   - Manage operation create of the resource Floors Floor Id Planned Access Point Positions Assign Access Point Positions.
   - Assign Planned Access Points to operations ones.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   floorId:
     description: FloorId path parameter. Floor Id.

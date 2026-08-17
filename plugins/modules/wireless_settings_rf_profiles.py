@@ -13,10 +13,10 @@ description:
   - This API allows the user to create a custom RF Profile.
   - This API allows the user to delete a custom RF Profile.
   - This API allows the user to update a custom RF Profile.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   defaultRfProfile:
     description: true if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given

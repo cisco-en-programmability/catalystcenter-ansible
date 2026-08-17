@@ -12,10 +12,10 @@ description:
   - Get all Network Devices Members Associations Count. - > Fetches the count of network devices that are associated with
     at least one tag. A tag is a user-defined or system-defined construct to group resources. When a device is tagged, it
     is called a member of the tag.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

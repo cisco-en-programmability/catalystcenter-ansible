@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Application Policy Application Set.
   - Create new custom application set/s.
   - Delete existing custom application set by id.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of custom application set to delete.

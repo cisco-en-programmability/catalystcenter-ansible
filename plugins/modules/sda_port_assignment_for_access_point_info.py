@@ -11,10 +11,10 @@ short_description: Information module for Sda Port Assignment For Access Point
 description:
   - Get all Sda Port Assignment For Access Point.
   - Get Port assignment for access point in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

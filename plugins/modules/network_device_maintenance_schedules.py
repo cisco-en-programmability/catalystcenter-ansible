@@ -18,10 +18,10 @@ description:
     using `PUT /dna/intent/api/v1/networkDeviceMaintenanceSchedules/{id}` API, and then proceed to delete the maintenance
     schedule.
   - API to update the maintenance schedule for the network devices.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: A brief narrative describing the maintenance schedule.

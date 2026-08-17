@@ -13,10 +13,10 @@ description:
   - Provision Wired Device.
   - Delete provisioned Wired Device.
   - Re-Provision Wired Device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter. Valid IP address of the device currently provisioned in a fabric

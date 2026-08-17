@@ -13,10 +13,10 @@ description:
     id. The response includes a task url that provides access to the task's details. By accessing this URL, users will receive
     a response containing a resultLocation attribute, which provides details of the discovery job that was started, including
     the jobId. A new discovery job is created every time this API is triggered.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The id of the discovery.

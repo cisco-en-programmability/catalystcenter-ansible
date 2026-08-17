@@ -18,7 +18,7 @@ description:
     for SDA operations in Cisco Catalyst Center.
   - Create, update, or delete Anycast Gateway(s) for
     SDA operations in Cisco Catalyst Center.
-version_added: '6.18.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -1560,16 +1560,18 @@ class VirtualNetwork(CatalystCenterBase):
             # Use vlan_name-based lookup for reserved VLAN handling to preserve idempotent behavior.
             if self._is_reserved_vlan_id(vlan_id):
                 self.log(
-                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name param to fetch fabric vlan."
-                    .format(vlan_id),
-                    "DEBUG"
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name param to fetch fabric vlan.".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
                 )
                 params["vlan_name"] = vlan_name
             else:
                 self.log(
-                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id param to fetch fabric vlan."
-                    .format(vlan_id),
-                    "DEBUG"
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id param to fetch fabric vlan.".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
                 )
                 params["vlan_id"] = vlan_id
 
@@ -1600,8 +1602,7 @@ class VirtualNetwork(CatalystCenterBase):
             filtered_response = [
                 vlan
                 for vlan in response
-                if vlan.get("vlanName") == vlan_name
-                and vlan.get("vlanId") == vlan_id
+                if vlan.get("vlanName") == vlan_name and vlan.get("vlanId") == vlan_id
             ]
 
             if not filtered_response:
@@ -1668,15 +1669,17 @@ class VirtualNetwork(CatalystCenterBase):
             params = {"fabric_id": fabric_id}
             if self._is_reserved_vlan_id(vlan_id):
                 self.log(
-                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name with fabric_id to fetch VLAN details."
-                    .format(vlan_id),
+                    "Given VLAN ID '{0}' is a reserved VLAN ID. Using vlan_name with fabric_id to fetch VLAN details.".format(
+                        vlan_id
+                    ),
                     "DEBUG",
                 )
                 params["vlan_name"] = vlan_name
             else:
                 self.log(
-                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id with fabric_id to fetch VLAN details."
-                    .format(vlan_id),
+                    "Given VLAN ID '{0}' is not a reserved VLAN ID. Using vlan_id with fabric_id to fetch VLAN details.".format(
+                        vlan_id
+                    ),
                     "DEBUG",
                 )
                 params["vlan_id"] = vlan_id
@@ -1708,8 +1711,7 @@ class VirtualNetwork(CatalystCenterBase):
             filtered_response = [
                 vlan
                 for vlan in response
-                if vlan.get("vlanName") == vlan_name
-                and vlan.get("vlanId") == vlan_id
+                if vlan.get("vlanName") == vlan_name and vlan.get("vlanId") == vlan_id
             ]
 
             if not filtered_response:
@@ -1895,8 +1897,8 @@ class VirtualNetwork(CatalystCenterBase):
         )
 
         for i in range(0, len(vlan_payloads), req_limit):
-            fabric_vlan_payload = vlan_payloads[i:i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
+            fabric_vlan_payload = vlan_payloads[i : i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
 
             try:
                 payload = {"payload": fabric_vlan_payload}
@@ -1969,7 +1971,10 @@ class VirtualNetwork(CatalystCenterBase):
         desired_traffic_type = desired_vlan_config.get("traffic_type")
         current_traffic_type = current_vlan_config.get("trafficType")
 
-        if desired_traffic_type and desired_traffic_type.upper() != current_traffic_type:
+        if (
+            desired_traffic_type
+            and desired_traffic_type.upper() != current_traffic_type
+        ):
             self.log(
                 "Traffic type needs update: desired='{0}', current='{1}'".format(
                     desired_traffic_type, current_traffic_type
@@ -2008,12 +2013,13 @@ class VirtualNetwork(CatalystCenterBase):
                 "Using new payload structure for fabric VLAN configuration in Cisco Catalyst Center.",
                 "DEBUG",
             )
-            wireless_flooding_enable = desired_vlan_config.get("wireless_flooding_enable")
+            wireless_flooding_enable = desired_vlan_config.get(
+                "wireless_flooding_enable"
+            )
             if (
                 wireless_flooding_enable is not None
-                and wireless_flooding_enable != current_vlan_config.get(
-                    "isWirelessFloodingEnabled"
-                )
+                and wireless_flooding_enable
+                != current_vlan_config.get("isWirelessFloodingEnabled")
             ):
                 self.log(
                     "Wireless flooding setting needs update: desired='{0}', current='{1}'".format(
@@ -2027,9 +2033,8 @@ class VirtualNetwork(CatalystCenterBase):
             resource_guard_enable = desired_vlan_config.get("resource_guard_enable")
             if (
                 resource_guard_enable is not None
-                and resource_guard_enable != current_vlan_config.get(
-                    "isResourceGuardEnabled"
-                )
+                and resource_guard_enable
+                != current_vlan_config.get("isResourceGuardEnabled")
             ):
                 self.log(
                     "Resource guard setting needs update: desired='{0}', current='{1}'".format(
@@ -2043,8 +2048,10 @@ class VirtualNetwork(CatalystCenterBase):
             flooding_address_assignment = desired_vlan_config.get(
                 "flooding_address_assignment"
             )
-            if flooding_address_assignment and flooding_address_assignment != current_vlan_config.get(
-                "layer2FloodingAddressAssignment"
+            if (
+                flooding_address_assignment
+                and flooding_address_assignment
+                != current_vlan_config.get("layer2FloodingAddressAssignment")
             ):
                 self.log(
                     "Flooding address assignment needs update: desired='{0}', current='{1}'".format(
@@ -2060,7 +2067,8 @@ class VirtualNetwork(CatalystCenterBase):
                 "layer2FloodingAddressAssignment"
             )
             if (
-                flooding_address and address_assignment == "CUSTOM"
+                flooding_address
+                and address_assignment == "CUSTOM"
                 and flooding_address != current_vlan_config.get("layer2FloodingAddress")
             ):
                 self.log(
@@ -2174,7 +2182,9 @@ class VirtualNetwork(CatalystCenterBase):
                     "Parameter 'resource_guard_enable' not provided; using current value from Catalyst Center.",
                     "DEBUG",
                 )
-                resource_guard_enable = current_vlan_config.get("isResourceGuardEnabled")
+                resource_guard_enable = current_vlan_config.get(
+                    "isResourceGuardEnabled"
+                )
 
             flooding_address_assignment = new_vlan_config.get(
                 "flooding_address_assignment"
@@ -2188,17 +2198,25 @@ class VirtualNetwork(CatalystCenterBase):
                     "layer2FloodingAddressAssignment"
                 )
 
-            multiple_ip_to_mac_addresses = new_vlan_config.get("multiple_ip_to_mac_addresses")
+            multiple_ip_to_mac_addresses = new_vlan_config.get(
+                "multiple_ip_to_mac_addresses"
+            )
             if multiple_ip_to_mac_addresses is None:
                 self.log(
                     "Parameter 'multiple_ip_to_mac_addresses' not provided; using current value from Catalyst Center.",
                     "DEBUG",
                 )
-                multiple_ip_to_mac_addresses = current_vlan_config.get("isMultipleIpToMacAddresses")
+                multiple_ip_to_mac_addresses = current_vlan_config.get(
+                    "isMultipleIpToMacAddresses"
+                )
 
             vlan_update_payload["isResourceGuardEnabled"] = resource_guard_enable
-            vlan_update_payload["isMultipleIpToMacAddresses"] = multiple_ip_to_mac_addresses
-            vlan_update_payload["layer2FloodingAddressAssignment"] = flooding_address_assignment
+            vlan_update_payload["isMultipleIpToMacAddresses"] = (
+                multiple_ip_to_mac_addresses
+            )
+            vlan_update_payload["layer2FloodingAddressAssignment"] = (
+                flooding_address_assignment
+            )
 
             if flooding_address_assignment == "CUSTOM":
                 self.log(
@@ -2221,10 +2239,12 @@ class VirtualNetwork(CatalystCenterBase):
                     "fabric_enable_wireless: {1}".format(
                         wireless_enabled, fabric_enable_wireless
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if wireless_enabled and wireless_enabled is True:
-                    vlan_update_payload["isWirelessFloodingEnabled"] = wireless_flooding_enable
+                    vlan_update_payload["isWirelessFloodingEnabled"] = (
+                        wireless_flooding_enable
+                    )
                 elif fabric_enable_wireless and fabric_enable_wireless is False:
                     vlan_update_payload["isWirelessFloodingEnabled"] = False
 
@@ -2237,7 +2257,9 @@ class VirtualNetwork(CatalystCenterBase):
 
                 return vlan_update_payload
 
-            vlan_update_payload["isWirelessFloodingEnabled"] = vlan_update_payload["isFabricEnabledWireless"]
+            vlan_update_payload["isWirelessFloodingEnabled"] = vlan_update_payload[
+                "isFabricEnabledWireless"
+            ]
 
         self.log(
             "Constructed update payload for fabric VLAN: {0}".format(
@@ -2275,8 +2297,8 @@ class VirtualNetwork(CatalystCenterBase):
         )
 
         for i in range(0, len(update_vlan_payload), req_limit):
-            vlan_payload = update_vlan_payload[i:i + req_limit]
-            fabric_vlan_details = self.created_fabric_vlans[i:i + req_limit]
+            vlan_payload = update_vlan_payload[i : i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i : i + req_limit]
 
             try:
                 payload = {"payload": vlan_payload}
@@ -2900,7 +2922,7 @@ class VirtualNetwork(CatalystCenterBase):
 
             for i in range(0, len(add_vn_payloads), req_limit):
                 batch_number = (i // req_limit) + 1
-                vn_payload = add_vn_payloads[i:i + req_limit]
+                vn_payload = add_vn_payloads[i : i + req_limit]
                 vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
                 payload = {"payload": vn_payload}
 
@@ -2914,10 +2936,8 @@ class VirtualNetwork(CatalystCenterBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
                 if not task_id:
-                    self.msg = (
-                        "Batch {0}: Failed to retrieve task ID for '{1}'. VN creation aborted.".format(
-                            batch_number, task_name
-                        )
+                    self.msg = "Batch {0}: Failed to retrieve task ID for '{1}'. VN creation aborted.".format(
+                        batch_number, task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
@@ -3171,7 +3191,7 @@ class VirtualNetwork(CatalystCenterBase):
 
             for i in range(0, len(update_vn_payloads), req_limit):
                 batch_number = (i // req_limit) + 1
-                vn_payload = update_vn_payloads[i:i + req_limit]
+                vn_payload = update_vn_payloads[i : i + req_limit]
                 vn_names = [vn.get("virtualNetworkName") for vn in vn_payload]
                 payload = {"payload": vn_payload}
 
@@ -3427,10 +3447,7 @@ class VirtualNetwork(CatalystCenterBase):
 
         # Reserved VLANs are intentionally not validated here to keep operations idempotent.
         # If reserved VLAN IDs already exist, this check should not fail the workflow.
-        if (
-            vlan_id
-            and vlan_id not in range(2, 4094)
-        ):
+        if vlan_id and vlan_id not in range(2, 4094):
             self.msg = (
                 "Invalid vlan_id '{0}' given in the playbook. Please provide vlan_id within the range 2-4093."
             ).format(vlan_id)
@@ -3500,7 +3517,7 @@ class VirtualNetwork(CatalystCenterBase):
             "flooding_address_assignment": "layer2FloodingAddressAssignment",
             "flooding_address": "layer2FloodingAddress",
             "wireless_flooding_enable": "isWirelessFloodingEnabled",
-            "resource_guard_enable": "isResourceGuardEnabled"
+            "resource_guard_enable": "isResourceGuardEnabled",
         }
 
         if vn_name == "INFRA_VN":
@@ -3514,7 +3531,7 @@ class VirtualNetwork(CatalystCenterBase):
                 "multiple_ip_to_mac_addresses",
                 "flooding_address_assignment",
                 "wireless_flooding_enable",
-                "resource_guard_enable"
+                "resource_guard_enable",
             ]
 
             for item in params_to_remove:
@@ -3525,7 +3542,9 @@ class VirtualNetwork(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+        elif (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0
+        ):
             self.log(
                 "CCC version is below 3.1.3, removing certain parameters from gateway mapping.",
                 "DEBUG",
@@ -3534,7 +3553,7 @@ class VirtualNetwork(CatalystCenterBase):
                 "flooding_address",
                 "flooding_address_assignment",
                 "wireless_flooding_enable",
-                "resource_guard_enable"
+                "resource_guard_enable",
             ]
 
             for item in params_to_remove:
@@ -3643,7 +3662,10 @@ class VirtualNetwork(CatalystCenterBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+                >= 0
+            ):
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
                     "DEBUG",
@@ -3768,7 +3790,10 @@ class VirtualNetwork(CatalystCenterBase):
                 "'group_policy_enforcement_enabled'.",
                 "DEBUG",
             )
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+                >= 0
+            ):
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for non-INFRA_VN.",
                     "DEBUG",
@@ -3776,9 +3801,12 @@ class VirtualNetwork(CatalystCenterBase):
                 flooding_address = anycast.get("flooding_address")
                 address_in_ccc = anycast_details_in_ccc.get("layer2FloodingAddress")
                 update_param_to_check.remove("flooding_address")
-                if flooding_address and anycast_details_in_ccc.get(
-                    "layer2FloodingAddressAssignment"
-                ) == "CUSTOM" and flooding_address != address_in_ccc:
+                if (
+                    flooding_address
+                    and anycast_details_in_ccc.get("layer2FloodingAddressAssignment")
+                    == "CUSTOM"
+                    and flooding_address != address_in_ccc
+                ):
                     self.log(
                         "Given flooding address '{0}' does not match the one in CCC '{1}'; gateway needs update.".format(
                             flooding_address, address_in_ccc
@@ -3930,12 +3958,15 @@ class VirtualNetwork(CatalystCenterBase):
                     "DEBUG",
                 )
 
-        if vn_name != "INFRA_VN" and self.compare_catalystcenter_versions(
-            self.get_ccc_version(), "3.1.3.0"
-        ) >= 0:
+        if (
+            vn_name != "INFRA_VN"
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
+        ):
             self.log(
-                "Catalyst version {0} supports new Anycast Gateway parameters; processing them."
-                .format(self.get_ccc_version()),
+                "Catalyst version {0} supports new Anycast Gateway parameters; processing them.".format(
+                    self.get_ccc_version()
+                ),
                 "DEBUG",
             )
             self.log(
@@ -3945,19 +3976,22 @@ class VirtualNetwork(CatalystCenterBase):
             flooding_address_assignment = anycast.get("flooding_address_assignment")
             anycast_payload["layer2FloodingAddressAssignment"] = (
                 flooding_address_assignment
-                or anycast_details_in_ccc.get("layer2FloodingAddressAssignment", "SHARED")
+                or anycast_details_in_ccc.get(
+                    "layer2FloodingAddressAssignment", "SHARED"
+                )
             )
 
             flooding_address = anycast.get("flooding_address")
             if flooding_address_assignment == "CUSTOM":
-                anycast_payload["layer2FloodingAddress"] = flooding_address or anycast_details_in_ccc.get(
-                    "layer2FloodingAddress"
+                anycast_payload["layer2FloodingAddress"] = (
+                    flooding_address
+                    or anycast_details_in_ccc.get("layer2FloodingAddress")
                 )
 
             wireless_flooding_enable = anycast.get("wireless_flooding_enable")
-            fabric_enabled_wireless = anycast_payload.get("isWirelessPool") or anycast_details_in_ccc.get(
+            fabric_enabled_wireless = anycast_payload.get(
                 "isWirelessPool"
-            )
+            ) or anycast_details_in_ccc.get("isWirelessPool")
             if fabric_enabled_wireless and fabric_enabled_wireless is True:
                 anycast_payload["isWirelessFloodingEnabled"] = (
                     wireless_flooding_enable
@@ -4009,8 +4043,8 @@ class VirtualNetwork(CatalystCenterBase):
         )
         for i in range(0, len(add_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = add_anycast_payloads[i:i + req_limit]
-            batch_gateways_added = self.created_anycast_gateways[i:i + req_limit]
+            gateway_payload = add_anycast_payloads[i : i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i : i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "add_anycast_gateways"
             self.log(
@@ -4085,8 +4119,8 @@ class VirtualNetwork(CatalystCenterBase):
         )
         for i in range(0, len(update_anycast_payloads), req_limit):
             batch_number = (i // req_limit) + 1
-            gateway_payload = update_anycast_payloads[i:i + req_limit]
-            batch_gateways_updated = self.updated_anycast_gateways[i:i + req_limit]
+            gateway_payload = update_anycast_payloads[i : i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i : i + req_limit]
             payload = {"payload": gateway_payload}
             task_name = "update_anycast_gateways"
 
@@ -4120,9 +4154,7 @@ class VirtualNetwork(CatalystCenterBase):
                     task_id, task_name, success_msg
                 ).check_return_status()
                 self.log(
-                    "Batch {0}: Completed Anycast Gateway update.".format(
-                        batch_number
-                    ),
+                    "Batch {0}: Completed Anycast Gateway update.".format(batch_number),
                     "INFO",
                 )
 
@@ -4259,7 +4291,10 @@ class VirtualNetwork(CatalystCenterBase):
                 return self
 
             flooding_address_assignment = vlan.get("flooding_address_assignment")
-            if flooding_address_assignment and flooding_address_assignment not in ["SHARED", "CUSTOM"]:
+            if flooding_address_assignment and flooding_address_assignment not in [
+                "SHARED",
+                "CUSTOM",
+            ]:
                 self.msg = (
                     "Invalid flooding_address_assignment '{0}' given in the playbook. Allowed values are "
                     "'SHARED' or 'CUSTOM'."
@@ -4305,7 +4340,9 @@ class VirtualNetwork(CatalystCenterBase):
                 self.log("Fabric type '{0}' is valid.".format(fabric_type), "INFO")
 
             # Validate that multiple_ip_to_mac_addresses requires associated_layer3_virtual_network
-            if vlan.get("multiple_ip_to_mac_addresses") and not vlan.get("associated_layer3_virtual_network"):
+            if vlan.get("multiple_ip_to_mac_addresses") and not vlan.get(
+                "associated_layer3_virtual_network"
+            ):
                 self.msg = (
                     "The parameter 'multiple_ip_to_mac_addresses' for VLAN '{0}' requires "
                     "'associated_layer3_virtual_network' to be specified."
@@ -5013,7 +5050,9 @@ class VirtualNetwork(CatalystCenterBase):
                 )
 
         self.log(
-            "Collected fabric VLAN payload(s) for creation: {0}".format(collected_add_vlan_payload),
+            "Collected fabric VLAN payload(s) for creation: {0}".format(
+                collected_add_vlan_payload
+            ),
             "DEBUG",
         )
 
@@ -5369,7 +5408,9 @@ class VirtualNetwork(CatalystCenterBase):
                 )
                 fabric_ids = self.get_fabric_ids(fabric_locations)
                 if not fabric_ids:
-                    self.absent_virtual_networks.append(vn_name + " with fabric sites: " + str(fabric_locations))
+                    self.absent_virtual_networks.append(
+                        vn_name + " with fabric sites: " + str(fabric_locations)
+                    )
                     self.log(
                         "No fabric IDs found for the provided locations so cannot remove any site.",
                         "WARNING",
@@ -5378,7 +5419,9 @@ class VirtualNetwork(CatalystCenterBase):
 
                 fabric_ids_in_ccc = vn_in_ccc.get("fabricIds")
                 if not fabric_ids_in_ccc:
-                    self.absent_virtual_networks.append(vn_name + " with fabric sites: " + str(fabric_locations))
+                    self.absent_virtual_networks.append(
+                        vn_name + " with fabric sites: " + str(fabric_locations)
+                    )
                     self.log(
                         "No fabric IDs found in the Catalyst Center for the VN {0} against "
                         "the fabric_ids: {1}".format(vn_name, fabric_ids),
@@ -5464,9 +5507,7 @@ class VirtualNetwork(CatalystCenterBase):
                         removed_vn_site_list.append(fabric_id)
                         fabric_ids_in_ccc.remove(fabric_id)
 
-                self.removed_vn_sites.append(
-                    vn_name + ": " + str(removed_vn_site_list)
-                )
+                self.removed_vn_sites.append(vn_name + ": " + str(removed_vn_site_list))
                 vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
                 # Call the update API to remove the fabric sites from the given virtual network
                 self.update_virtual_networks([vn_in_ccc]).check_return_status()
@@ -5573,7 +5614,10 @@ class VirtualNetwork(CatalystCenterBase):
             deletions and any gateways that could not be found, ensuring clarity and traceability of actions taken within
             the Cisco Catalyst Center.
         """
-        self.log("Starting the process to delete anycast gateways from Cisco Catalyst Center.", "INFO")
+        self.log(
+            "Starting the process to delete anycast gateways from Cisco Catalyst Center.",
+            "INFO",
+        )
         anchored_gateway_dict = {}
 
         for anycast in anycast_gateways:
@@ -6221,24 +6265,76 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "sda_fabric_vlan_limit": {"type": "int", "default": 20},
         "sda_fabric_gateway_limit": {"type": "int", "default": 20},
         "sda_virtual_network_limit": {"type": "int", "default": 20},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

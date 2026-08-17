@@ -11,10 +11,10 @@ short_description: Resource module for License Register
 description:
   - Manage operation create of the resource License Register.
   - Registers the system with Cisco Smart Software Manager CSSM .
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   smartAccountId:
     description: The ID of the Smart Account to which the system is registered.

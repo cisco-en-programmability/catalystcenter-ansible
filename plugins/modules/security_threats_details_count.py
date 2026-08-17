@@ -11,10 +11,10 @@ short_description: Resource module for Security Threats Details Count
 description:
   - Manage operation create of the resource Security Threats Details Count.
   - The details count for the Rogue and aWIPS threats.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
     description: End Time.

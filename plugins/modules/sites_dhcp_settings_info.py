@@ -11,10 +11,10 @@ short_description: Information module for Sites Dhcp Settings
 description:
   - Get all Sites Dhcp Settings. - > Retrieve DHCP settings for a site; `null` values indicate that the setting will be inherited
     from the parent site; empty objects `{}` indicate that the setting is unset at a site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

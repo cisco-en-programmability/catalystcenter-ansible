@@ -13,10 +13,10 @@ description:
   - Get Product Names by name.
   - Get the list of network device product names, their ordinal, and the support PIDs based on filter criteria.
   - Get the network device product name, its ordinal, and supported PIDs.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

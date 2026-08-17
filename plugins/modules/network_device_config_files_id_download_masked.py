@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Config Files Id Download M
 description:
   - Manage operation create of the resource Network Device Config Files Id Download Masked.
   - Download the masked sanitized device configuration by providing the file `id`.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The value of `id` can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.

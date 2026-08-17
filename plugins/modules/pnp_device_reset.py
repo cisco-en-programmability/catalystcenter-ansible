@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Device Reset
 description:
   - Manage operation create of the resource Pnp Device Reset.
   - Recovers a device from a Workflow Execution Error state.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceResetList:
     description: Pnp Device Reset's deviceResetList.

@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Access Points Provision
 description:
   - Manage operation create of the resource Wireless Access Points Provision. - > This API is used to provision Access Points.
     Prerequisite Access Point has to be assigned to the site using the API /dna/intent/api/v1/networkDevices/assignToSite/apply.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apZoneName:
     description: AP Zone Name. A custom AP Zone should be passed if no rfProfileName is provided.

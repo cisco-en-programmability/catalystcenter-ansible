@@ -13,10 +13,10 @@ description:
   - Get Network Bugs Results Bugs by id.
   - Get network bug by Id.
   - Get network bugs.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

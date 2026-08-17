@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wired campus automation in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -72,7 +73,7 @@ description:
   - Port Configuration (switchportInterfaceConfig) -
   - Switchport configuration may silently fail during comprehensive port updates
   - Storm Control, Port Security, and UDLD interface configurations are not supported (available in 3.2.x release)
-version_added: "6.20.0"
+version_added: "2.3.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -3539,13 +3540,17 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type boolean. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(param, config_name, value, type(value).__name__, config_values)
+                    ).format(
+                        param, config_name, value, type(value).__name__, config_values
+                    )
                     self.fail_and_exit(self.msg)
                 elif expected_type == "str" and not isinstance(value, str):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type string. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(param, config_name, value, type(value).__name__, config_values)
+                    ).format(
+                        param, config_name, value, type(value).__name__, config_values
+                    )
                     self.fail_and_exit(self.msg)
                 elif expected_type == "int" and (
                     isinstance(value, bool) or not isinstance(value, int)
@@ -3554,19 +3559,25 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type integer. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(param, config_name, value, type(value).__name__, config_values)
+                    ).format(
+                        param, config_name, value, type(value).__name__, config_values
+                    )
                     self.fail_and_exit(self.msg)
                 elif expected_type == "list" and not isinstance(value, list):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type list. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(param, config_name, value, type(value).__name__, config_values)
+                    ).format(
+                        param, config_name, value, type(value).__name__, config_values
+                    )
                     self.fail_and_exit(self.msg)
                 elif expected_type == "dict" and not isinstance(value, dict):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type dictionary. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(param, config_name, value, type(value).__name__, config_values)
+                    ).format(
+                        param, config_name, value, type(value).__name__, config_values
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate the range of the parameter
@@ -3593,7 +3604,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be at least {2} characters long. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(param, config_name, rule["minLength"], len(value), config_values)
+                    ).format(
+                        param, config_name, rule["minLength"], len(value), config_values
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate the maximum length of the parameter
@@ -3602,7 +3615,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' exceeds maximum length of {2}. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(param, config_name, rule["maxLength"], len(value), config_values)
+                    ).format(
+                        param, config_name, rule["maxLength"], len(value), config_values
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate maximum number of items in list
@@ -3728,7 +3743,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                 self.msg = (
                     "VLAN ID {0} is reserved for legacy protocols (FDDI, Token Ring). "
                     "Reserved VLAN IDs 1002-1005 cannot be created, modified, or deleted. "
-                    "Please use a VLAN ID outside the reserved range (2-1001 or 1006-4094).".format(vlan_id)
+                    "Please use a VLAN ID outside the reserved range (2-1001 or 1006-4094).".format(
+                        vlan_id
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
@@ -3920,7 +3937,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "Invalid configuration: 'vtp_pruning' can only be set to true when "
                 "'vtp_mode' is 'SERVER'. Current 'vtp_mode' is '{0}'. "
                 "Either set 'vtp_mode' to 'SERVER' or remove 'vtp_pruning' "
-                "from the configuration.".format(vtp_mode if vtp_mode is not None else "not specified")
+                "from the configuration.".format(
+                    vtp_mode if vtp_mode is not None else "not specified"
+                )
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -5547,7 +5566,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                 if instance.get("stp_instance_vlan_id") is None:
                     self.log(
                         "Skipping STP instance entry at index {0} because 'stp_instance_vlan_id' is not provided. "
-                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(
+                            index
+                        ),
                         "WARNING",
                     )
                     continue
@@ -8979,8 +9000,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "Invalid input types for deep comparison - "
                 "desired_type={0}, current_type={1}. "
                 "Returning True (differs).".format(
-                    type(desired_dict).__name__,
-                    type(current_dict).__name__
+                    type(desired_dict).__name__, type(current_dict).__name__
                 ),
                 "DEBUG",
             )
@@ -8991,7 +9011,9 @@ class WiredCampusAutomation(CatalystCenterBase):
 
             if isinstance(desired_value, dict) and isinstance(current_value, dict):
                 self.log(
-                    "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
+                    "Key '{0}' is a nested dict - recursing for deep comparison".format(
+                        key
+                    ),
                     "DEBUG",
                 )
                 if self._deep_compare_nested_dict(desired_value, current_value):
@@ -9022,7 +9044,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                         "DEBUG",
                     )
 
-        self.log("Deep nested dict comparison completed - no differences found", "DEBUG")
+        self.log(
+            "Deep nested dict comparison completed - no differences found", "DEBUG"
+        )
         return False
 
     def _deep_compare_nested_list(self, desired_list, current_list):
@@ -9179,7 +9203,9 @@ class WiredCampusAutomation(CatalystCenterBase):
             if i < len(deployed_items):
                 deployed_item = deployed_items[i]
                 self.log(
-                    "Comparing desired and deployed configurations for item at index {0}".format(i),
+                    "Comparing desired and deployed configurations for item at index {0}".format(
+                        i
+                    ),
                     "DEBUG",
                 )
 
@@ -9561,7 +9587,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                 if not vlan_id:
                     self.log(
                         "Skipping STP instance at index {0} during merge because 'vlanId' is not provided. "
-                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(
+                            index
+                        ),
                         "WARNING",
                     )
                     continue
@@ -9573,7 +9601,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                         "Updated STP instance for VLAN {0} at index {1}".format(
                             vlan_id, index
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     # Add new instance
@@ -10229,7 +10257,9 @@ class WiredCampusAutomation(CatalystCenterBase):
             if not vlan_id:
                 self.log(
                     "Skipping IGMP Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
-                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
+                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(
+                        index
+                    ),
                     "WARNING",
                 )
                 continue
@@ -10771,7 +10801,9 @@ class WiredCampusAutomation(CatalystCenterBase):
             if not vlan_id:
                 self.log(
                     "Skipping MLD Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
-                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
+                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.".format(
+                        index
+                    ),
                     "WARNING",
                 )
                 continue
@@ -12397,7 +12429,9 @@ class WiredCampusAutomation(CatalystCenterBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if not isinstance(desired, current.__class__) and not isinstance(current, desired.__class__):
+        if not isinstance(desired, current.__class__) and not isinstance(
+            current, desired.__class__
+        ):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__
@@ -14648,8 +14682,10 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "Initiating post-operation configuration retrieval from Catalyst Center",
                 "DEBUG",
             )
-            post_operation_deployed_configs, post_operation_intended_configs = self.get_current_configs_for_features(
-                network_device_id, discovered_features
+            post_operation_deployed_configs, post_operation_intended_configs = (
+                self.get_current_configs_for_features(
+                    network_device_id, discovered_features
+                )
             )
 
             self.log(
@@ -14798,21 +14834,73 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

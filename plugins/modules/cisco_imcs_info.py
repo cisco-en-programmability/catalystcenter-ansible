@@ -13,10 +13,10 @@ description:
   - Get Cisco Imcs by id. - > This API retrieves the Cisco Integrated Management Controller IMC configuration for a Catalyst
     Center node, identified by the specified ID. - > This API retrieves the configurations of the Cisco Integrated Management
     Controller IMC that have been added to the Catalyst Center nodes.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

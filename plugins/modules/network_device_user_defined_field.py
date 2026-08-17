@@ -13,10 +13,10 @@ description:
   - Creates a new global User Defined Field, which can be assigned to devices.
   - Deletes an existing Global User-Defined-Field using it's id.
   - Updates an existing global User Defined Field, using it's id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of UDF.

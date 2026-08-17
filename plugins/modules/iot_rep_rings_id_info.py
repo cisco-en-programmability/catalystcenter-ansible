@@ -11,10 +11,10 @@ short_description: Information module for Iot Rep Rings Id
 description:
   - Get Iot Rep Rings Id by id. - > This API returns REP ring for the given id The id of configured REP ring can be retrieved
     using the API /dna/intent/api/v1/iot/repRings/query .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

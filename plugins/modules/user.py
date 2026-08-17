@@ -13,10 +13,10 @@ description:
   - Add a new user in the system.
   - Delete a user in the system.
   - Update a user in the system.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   accessGroups:
     description: List of access groups that will be assigned to the user. The first access group in the list will be the default

@@ -11,10 +11,10 @@ short_description: Information module for Wireless Settings Rf Profiles Count
 description:
   - Get all Wireless Settings Rf Profiles Count.
   - This API allows the user to get count of all RF profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

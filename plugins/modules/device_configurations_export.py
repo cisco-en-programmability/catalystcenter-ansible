@@ -11,10 +11,10 @@ short_description: Resource module for Device Configurations Export
 description:
   - Manage operation create of the resource Device Configurations Export.
   - Export Device configuration for every device that is provided will be included in an encrypted zip file.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: UUIDs of the devices for which configurations need to be exported.

@@ -13,10 +13,10 @@ description:
   - This API allows users to create a Advanced SSID configuration feature template.
   - This API allows users to delete a specific Advanced SSID configuration feature template by Id.
   - This API allows users to update the details of a specific Advanced SSID configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   designName:
     description: Design Name.

@@ -13,10 +13,10 @@ description:
   - This API is used to create a new project.
   - Deletes the project by its id.
   - This API is used to update an existing project.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   createTime:
     description: Create time of project.

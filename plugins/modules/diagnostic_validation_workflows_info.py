@@ -13,10 +13,10 @@ description:
   - Get Diagnostic Validation Workflows by id. - > Retrieves the workflows that have been successfully submitted and are currently
     available. This is sorted by `submitTime`.
   - Retrieves workflow details for a workflow id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Get Sites Wireless Settings Ssids by id.
   - This API allows the user to get all SSIDs Service Set Identifier at the given site.
   - This API allows the user to get an SSID Service Set Identifier by ID at the given site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

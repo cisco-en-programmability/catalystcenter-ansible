@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Export Project
 description:
   - Manage operation create of the resource Configuration Template Export Project.
   - Exports the projects for given projectNames.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Configuration Template Export Project's payload.

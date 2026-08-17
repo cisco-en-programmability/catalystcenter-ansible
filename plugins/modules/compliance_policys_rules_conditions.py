@@ -13,10 +13,10 @@ description:
   - This API operation creates a new condition within the specified compliance policy and rule.
   - Deletes a specific condition within the specified compliance policy and rule.
   - Updates an existing compliance condition within the specified compliance policy and rule.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   action:
     description: Compliance Policys Rules Conditions's action.

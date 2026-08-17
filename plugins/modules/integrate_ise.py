@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Integrate Ise. - > API to accept Cisco ISE server certificate for Cisco ISE server
     integration. Use 'Cisco ISE Server Integration Status' Intent API to check the integration status. This API can be used
     to retry the failed integration.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Cisco ISE Server Identifier. Use 'Get Authentication and Policy Servers' intent API to

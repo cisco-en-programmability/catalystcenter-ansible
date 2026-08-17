@@ -13,10 +13,10 @@ description:
     the intended configuration features on a wired device. This can be used only if the provisioning settings do not require
     Preview or ITSM Approval before deploying configurations on network devices. The API /intent/api/v1/provisioningSettings
     can be used to get or update provisioning settings.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkDeviceId:
     description: NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API /intent/api/v1/network-device

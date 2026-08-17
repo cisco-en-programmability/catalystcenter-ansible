@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Accespoint Configuration
 description:
   - Manage operation create of the resource Wireless Accespoint Configuration.
   - User can configure multiple access points with required options using this intent API.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   adminStatus:
     description: Configure the access point's admin status. Set this parameter's value to "true" to enable it and "false"

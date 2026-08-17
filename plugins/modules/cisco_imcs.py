@@ -14,10 +14,10 @@ description:
     `id` attribute in the response of the `/dna/intent/api/v1/nodes-config` API. - > This API removes a specific Cisco Integrated
     Management Controller IMC configuration from a Catalyst Center node using the provided identifier. - > This API updates
     the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The unique identifier for this Cisco IMC configuration.

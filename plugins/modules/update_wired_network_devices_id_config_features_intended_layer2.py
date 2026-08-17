@@ -15,10 +15,10 @@ description:
     updates are complete, the intended features can be deployed to a device using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy.
     When the intended features are deployed, they are applied on top of the existing configurations on the device. Any existing
     configurations on the device which are not included in the intended features, are retained on the device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Network device ID of the wired device to configure.

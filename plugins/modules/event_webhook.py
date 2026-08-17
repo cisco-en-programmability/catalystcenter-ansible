@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Event Webhook.
   - Create Webhook Destination.
   - Update Webhook Destination.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description.

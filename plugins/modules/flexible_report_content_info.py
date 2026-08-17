@@ -12,10 +12,10 @@ description:
   - Get Flexible Report Content by id. - > This is used to download the flexible report. The API returns report content. Save
     the response to a file by converting the response data as a blob and setting the file format available from content-disposition
     response header.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

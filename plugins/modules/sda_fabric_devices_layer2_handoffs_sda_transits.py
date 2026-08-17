@@ -13,10 +13,10 @@ description:
   - Adds layer 3 handoffs with sda transit in fabric devices based on user input.
   - Deletes layer 3 handoffs with sda transit of a fabric device based on user input.
   - Updates layer 3 handoffs with sda transit of fabric devices based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricId:
     description: FabricId query parameter. ID of the fabric this device belongs to.

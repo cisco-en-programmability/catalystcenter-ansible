@@ -11,10 +11,10 @@ short_description: Information module for Wireless Controllers Network Device Id
 description:
   - Get all Wireless Controllers Network Device Id Provision Status.
   - Retrieves wireless controller's provision status.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

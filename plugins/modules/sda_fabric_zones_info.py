@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabric Zones
 description:
   - Get all Sda Fabric Zones.
   - Returns a list of fabric zones that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

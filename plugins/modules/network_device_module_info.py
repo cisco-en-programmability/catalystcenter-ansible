@@ -16,10 +16,10 @@ description:
     'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/network-device/module/count API to get
     the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve
     all records incrementally.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

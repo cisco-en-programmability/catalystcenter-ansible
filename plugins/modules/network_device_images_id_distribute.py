@@ -14,10 +14,10 @@ description:
   - Providing value for the `distributedImages` will only trigger the distribution process.
   - To monitor the progress and completion of the update task, call the GET API
     `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   distributedImages:
     description: Network Device Images Id Distribute's distributedImages.

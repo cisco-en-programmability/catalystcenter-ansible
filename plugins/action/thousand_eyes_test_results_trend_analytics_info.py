@@ -112,6 +112,8 @@ class ActionModule(ActionBase):
             function="get_trend_analytics_data_for_thousand_eyes_test_results_in_the_specified_time_range",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

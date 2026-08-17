@@ -11,10 +11,10 @@ short_description: Resource module for Network Profiles For Sites Site Assignmen
 description:
   - Manage operation create of the resource Network Profiles For Sites Site Assignments Bulk Create.
   - Assign a network profile for sites to a list of sites. Also assigns the profile to child sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   items:
     description: Network Profiles For Sites Site Assignments Bulk Create's items.

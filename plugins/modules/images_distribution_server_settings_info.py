@@ -14,10 +14,10 @@ description:
   - Retrieve image distribution server for the given server identifier. - > Retrieve the list of remote image distribution
     servers. There can be up to two remote servers.Product always acts as local distribution server, and it is not part of
     this API response.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

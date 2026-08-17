@@ -11,10 +11,10 @@ short_description: Information module for Network Device Licenses Network Device
 description:
   - Get all Network Device Licenses Network Device Id Port Channels Count.
   - This API endpoint retrieves the count of port channels for the given network device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

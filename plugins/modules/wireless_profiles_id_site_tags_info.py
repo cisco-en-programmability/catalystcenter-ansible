@@ -14,10 +14,10 @@ description:
     `Wireless Profile`. This API requires the `id` of the `Wireless Profile` to be provided as a path parameter. - > This
     endpoint retrieves the details of a specific `Site Tag` associated with a given `Wireless Profile`. This API requires
     the `id` of the `Wireless Profile` and the `siteTagId` of the `Site Tag`.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

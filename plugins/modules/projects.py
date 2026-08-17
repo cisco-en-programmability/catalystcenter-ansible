@@ -13,10 +13,10 @@ description:
   - Create a template project.
   - Delete a template project by the project's ID.
   - Update a template project by the project's ID.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of the project.

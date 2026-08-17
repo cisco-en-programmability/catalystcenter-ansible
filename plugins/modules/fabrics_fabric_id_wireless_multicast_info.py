@@ -12,10 +12,10 @@ description:
   - Get all Fabrics Fabric Id Wireless Multicast. - > Retrieves the current Software-Defined Access SDA Wireless Multicast
     setting for a specified fabric site. The setting indicates whether multicast is enabled true or disabled false. For optimal
     performance, ensure wired multicast is also enabled.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

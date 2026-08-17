@@ -126,7 +126,9 @@ class ActionModule(ActionBase):
                 function="get_site_analytics_for_one_site",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -135,6 +137,8 @@ class ActionModule(ActionBase):
                 function="get_site_analytics_for_the_child_sites_of_given_parent_site_and_other_query_parameters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

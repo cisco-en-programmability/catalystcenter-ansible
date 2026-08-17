@@ -96,6 +96,8 @@ class ActionModule(ActionBase):
             function="count_of_network_device_image_update_validation_results",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -13,10 +13,10 @@ description:
     virtual account info and the associated device information from the PnP System & database. The devices associated with
     the deregistered virtual account are removed from the PnP database as well. The response payload contains the deregistered
     smart & virtual account information.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   domain:
     description: Domain query parameter. Smart Account Domain.

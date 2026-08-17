@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Wireless Settings Network Device Id Assign Anchor Managed Ap Locations. - > This
     API allows user to assign Anchor Managed AP Locations for WLC by device ID. The payload should always be a complete list.
     The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   anchorManagedAPLocationsSiteIds:
     description:

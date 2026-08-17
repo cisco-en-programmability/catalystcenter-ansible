@@ -11,10 +11,10 @@ short_description: Resource module for Intent Network Devices Query Count
 description:
   - Manage operation create of the resource Intent Network Devices Query Count.
   - API to fetch the count of network devices for the given filter query.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   filter:
     description: Intent Network Devices Query Count's filter.

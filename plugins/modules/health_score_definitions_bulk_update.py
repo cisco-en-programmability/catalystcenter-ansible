@@ -11,10 +11,10 @@ short_description: Resource module for Health Score Definitions Bulk Update
 description:
   - Manage operation create of the resource Health Score Definitions Bulk Update.
   - Update health thresholds, include status of overall health status for each metric.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

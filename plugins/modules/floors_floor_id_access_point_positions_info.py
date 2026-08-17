@@ -11,10 +11,10 @@ short_description: Information module for Floors Floor Id Access Point Positions
 description:
   - Get all Floors Floor Id Access Point Positions.
   - Retrieve all Access Points positions assigned for a specific floor.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

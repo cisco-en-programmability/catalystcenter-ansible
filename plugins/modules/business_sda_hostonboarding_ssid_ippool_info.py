@@ -11,10 +11,10 @@ short_description: Information module for Business Sda Hostonboarding Ssid Ippoo
 description:
   - Get all Business Sda Hostonboarding Ssid Ippool.
   - Get SSID to IP Pool Mapping.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

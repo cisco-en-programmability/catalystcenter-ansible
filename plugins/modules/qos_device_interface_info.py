@@ -11,10 +11,10 @@ short_description: Information module for Qos Device Interface
 description:
   - Get all Qos Device Interface.
   - Get all or by network device id, existing qos device interface infos.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

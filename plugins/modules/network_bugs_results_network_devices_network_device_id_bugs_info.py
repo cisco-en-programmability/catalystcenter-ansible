@@ -13,10 +13,10 @@ description:
   - Get Network Bugs Results Network Devices Network Device Id Bugs by id.
   - Get bug affecting the network device by device Id and bug id.
   - Get bugs affecting the network device.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

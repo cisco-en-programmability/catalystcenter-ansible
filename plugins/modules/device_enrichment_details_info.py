@@ -11,10 +11,10 @@ short_description: Information module for Device Enrichment Details
 description:
   - Get all Device Enrichment Details. - > Enriches a given network device context device id or device Mac Address or device
     management IP address with details about the device and neighbor topology.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

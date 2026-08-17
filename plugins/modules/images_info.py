@@ -12,10 +12,10 @@ description:
   - Get all Images. - > A list of available images for the specified site is provided. The default value of the site is set
     to global. The list includes images that have been imported onto the disk, as well as the latest and suggested images
     from Cisco.com.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

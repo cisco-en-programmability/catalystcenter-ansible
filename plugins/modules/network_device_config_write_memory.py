@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Config Write Memory
 description:
   - Manage operation create of the resource Network Device Config Write Memory.
   - This operation would commit device running configuration to startup by issuing "write memory" to device.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: UUID of the device.

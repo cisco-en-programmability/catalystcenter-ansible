@@ -11,10 +11,10 @@ short_description: Resource module for Sp Profile Delete V2
 description:
   - Manage operation delete of the resource Sp Profile Delete V2.
   - API to delete Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   spProfileName:
     description: SpProfileName path parameter. SP profile name.

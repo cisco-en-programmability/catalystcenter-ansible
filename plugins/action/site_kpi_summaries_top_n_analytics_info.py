@@ -90,6 +90,8 @@ class ActionModule(ActionBase):
             function="get_top_n_entities_related_to_site_analytics_for_the_given_task_id",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

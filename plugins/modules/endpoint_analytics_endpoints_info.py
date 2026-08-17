@@ -14,10 +14,10 @@ description:
   - Fetches details of the endpoint for the given unique identifier 'epId'. - > Query the endpoints, optionally using various
     filter and pagination criteria. 'GET /endpoints/count' API can be used to find out the total number of endpoints matching
     the filter criteria.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Get Backup Restore Executions by id.
   - This api is used to get all the backup and restore executions.
   - This api is used to get the execution detail of a specific backup or restore worflow process.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

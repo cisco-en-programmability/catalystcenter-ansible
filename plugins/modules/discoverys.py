@@ -15,10 +15,10 @@ description:
     id.
   - API to delete discovery by the given discovery id. - > API to edit the discovery details of the given discovery id. Updating
     the discovery details while the discovery is in progress is not allowed.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   credentials:
     description: Discoverys's credentials.

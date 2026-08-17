@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Provision Device Create
 description:
   - Manage operation create of the resource Wireless Provision Device Create.
   - Provision wireless device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

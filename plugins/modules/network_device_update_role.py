@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Update Role
 description:
   - Manage operation update of the resource Network Device Update Role.
   - Updates the role of the device as access, core, distribution, border router.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: DeviceId of the Device.

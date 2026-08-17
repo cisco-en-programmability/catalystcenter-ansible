@@ -102,7 +102,9 @@ class ActionModule(ActionBase):
                 function="fetches_the_discovery_job_details_for_the_given_job_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -111,6 +113,8 @@ class ActionModule(ActionBase):
                 function="fetches_all_the_discovery_job_details_by_discovery_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

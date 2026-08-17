@@ -11,10 +11,10 @@ short_description: Resource module for Users External Authentication
 description:
   - Manage operation create of the resource Users External Authentication.
   - Enable or disable external authentication in the System.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   enable:
     description: Enable/disable External Authentication.

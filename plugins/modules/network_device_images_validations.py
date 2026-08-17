@@ -17,10 +17,10 @@ description:
     will provide the URL to retrieve the validation id.
   - Delete the custom network device validation.
   - Update the custom network device validation details.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cli:
     description:

@@ -11,10 +11,10 @@ short_description: Resource module for Floors Floor Id Access Point Positions Bu
 description:
   - Manage operation create of the resource Floors Floor Id Access Point Positions Bulk Change.
   - Position or reposition the Access Points on the map.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   floorId:
     description: FloorId path parameter. Floor Id.

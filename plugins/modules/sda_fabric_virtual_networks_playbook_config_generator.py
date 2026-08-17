@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for SD-Access Fabric Virtual Networks Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent Fabric VLANs, Virtual Networks, and Anycast Gateways
   configured on Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -580,7 +581,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    CatalystCenterBase,
 )
 import time
 from collections import OrderedDict
@@ -632,17 +633,14 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -687,14 +685,17 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
 
-        self.log("Building workflow filters schema for sda fabric virtual networks module", "DEBUG")
+        self.log(
+            "Building workflow filters schema for sda fabric virtual networks module",
+            "DEBUG",
+        )
 
         schema = {
             "network_elements": {
                 "fabric_vlan": {
                     "filters": {
                         "vlan_name": {"type": "str"},
-                        "vlan_id": {"type": "int"}
+                        "vlan_id": {"type": "int"},
                     },
                     "reverse_mapping_function": self.fabric_vlan_temp_spec,
                     "api_function": "get_layer2_virtual_networks",
@@ -702,9 +703,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     "get_function_name": self.get_fabric_vlans_configuration,
                 },
                 "virtual_networks": {
-                    "filters": {
-                        "vn_name": {"type": "str"}
-                    },
+                    "filters": {"vn_name": {"type": "str"}},
                     "reverse_mapping_function": self.virtual_network_temp_spec,
                     "api_function": "get_layer3_virtual_networks",
                     "api_family": "sda",
@@ -715,7 +714,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                         "vn_name": {"type": "str"},
                         "vlan_id": {"type": "int"},
                         "vlan_name": {"type": "str"},
-                        "ip_pool_name": {"type": "str"}
+                        "ip_pool_name": {"type": "str"},
                     },
                     "reverse_mapping_function": self.anycast_gateway_temp_spec,
                     "api_function": "get_anycast_gateways",
@@ -748,47 +747,60 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         """
 
         self.log(
-            "Starting site name hierarchy and fabric type transformation for given fabric id: {0}"
-            .format(vlan_details.get("fabricId", "Unknown")),
-            "DEBUG"
+            "Starting site name hierarchy and fabric type transformation for given fabric id: {0}".format(
+                vlan_details.get("fabricId", "Unknown")
+            ),
+            "DEBUG",
         )
         fabric_id = vlan_details.get("fabricId")
 
         if not fabric_id:
-            self.log("No fabric ID found in vlan details: {0}".format(vlan_details), "WARNING")
+            self.log(
+                "No fabric ID found in vlan details: {0}".format(vlan_details),
+                "WARNING",
+            )
             return fabric_id
 
         self.log(
-            "Processing site name hierarchy and fabric type for given fabric id: {0}"
-            .format(fabric_id),
-            "DEBUG"
+            "Processing site name hierarchy and fabric type for given fabric id: {0}".format(
+                fabric_id
+            ),
+            "DEBUG",
         )
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
 
         if not site_id:
-            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            self.log(
+                "No site ID found for given fabric ID: {0}".format(fabric_id), "WARNING"
+            )
             return site_id
 
         if not fabric_type:
-            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            self.log(
+                "Fabric type not found for given fabric ID: {0}".format(fabric_id),
+                "WARNING",
+            )
             return fabric_type
 
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
         if not site_name_hierarchy:
-            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            self.log(
+                "Site name hierarchy not found for site ID: {0}".format(site_id),
+                "WARNING",
+            )
             return site_name_hierarchy
 
         self.log(
             "Completed site name hierarchy and fabric type transformation for fabric id: {0}, "
-            "Transformed site name hierarchy: {1}, fabric type: {2}"
-            .format(fabric_id, site_name_hierarchy, fabric_type),
-            "DEBUG"
+            "Transformed site name hierarchy: {1}, fabric type: {2}".format(
+                fabric_id, site_name_hierarchy, fabric_type
+            ),
+            "DEBUG",
         )
 
-        return [{
-            "site_name_hierarchy": site_name_hierarchy,
-            "fabric_type": fabric_type
-        }]
+        return [
+            {"site_name_hierarchy": site_name_hierarchy, "fabric_type": fabric_type}
+        ]
 
     def transform_fabric_vn_site_locations(self, vn_details):
         """
@@ -807,54 +819,67 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         """
 
         self.log(
-            "Starting fabric site locations transformation for given fabric id(s): {0}"
-            .format(vn_details.get("fabricIds", "Unknown")),
-            "DEBUG"
+            "Starting fabric site locations transformation for given fabric id(s): {0}".format(
+                vn_details.get("fabricIds", "Unknown")
+            ),
+            "DEBUG",
         )
         fabric_ids = vn_details.get("fabricIds")
         fabric_site_list = []
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in VN details: {0}".format(vn_details),
-                "DEBUG"
+                "No fabric IDs found in VN details: {0}".format(vn_details), "DEBUG"
             )
             return fabric_site_list
 
         self.log(
-            "Processing {0} fabric site locations for fabric id(s): {1}".format(len(fabric_ids), fabric_ids),
-            "DEBUG"
+            "Processing {0} fabric site locations for fabric id(s): {1}".format(
+                len(fabric_ids), fabric_ids
+            ),
+            "DEBUG",
         )
 
         for fabric_id in fabric_ids:
             site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
             if not site_id:
-                self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+                self.log(
+                    "No site ID found for given fabric ID: {0}".format(fabric_id),
+                    "WARNING",
+                )
                 return site_id
 
             if not fabric_type:
-                self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+                self.log(
+                    "Fabric type not found for given fabric ID: {0}".format(fabric_id),
+                    "WARNING",
+                )
                 return fabric_type
 
             site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
             if not site_name_hierarchy:
-                self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+                self.log(
+                    "Site name hierarchy not found for site ID: {0}".format(site_id),
+                    "WARNING",
+                )
                 return site_name_hierarchy
 
             self.log(
                 "Transformed fabric site name {0} for fabric id: {1}".format(
                     site_name_hierarchy, fabric_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             site_dict = {
                 "site_name_hierarchy": site_name_hierarchy,
-                "fabric_type": fabric_type
+                "fabric_type": fabric_type,
             }
             fabric_site_list.append(site_dict)
 
         self.log(
-            "Completed fabric site locations transformation. Transformed fabric site(s): {0}"
-            .format(fabric_site_list), "DEBUG"
+            "Completed fabric site locations transformation. Transformed fabric site(s): {0}".format(
+                fabric_site_list
+            ),
+            "DEBUG",
         )
 
         return fabric_site_list
@@ -876,42 +901,52 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         """
 
         self.log(
-            "Starting anycast gateway details transformation for given fabric id: {0}"
-            .format(anycast_details.get("fabricId", "Unknown")), "DEBUG"
+            "Starting anycast gateway details transformation for given fabric id: {0}".format(
+                anycast_details.get("fabricId", "Unknown")
+            ),
+            "DEBUG",
         )
 
         fabric_id = anycast_details.get("fabricId")
         if not fabric_id:
             self.log(
-                "No fabric ID found in anycast gateway details: {0}".format(anycast_details),
-                "DEBUG"
+                "No fabric ID found in anycast gateway details: {0}".format(
+                    anycast_details
+                ),
+                "DEBUG",
             )
             return fabric_id
 
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
         if not site_id:
-            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            self.log(
+                "No site ID found for given fabric ID: {0}".format(fabric_id), "WARNING"
+            )
             return site_id
 
         if not fabric_type:
-            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            self.log(
+                "Fabric type not found for given fabric ID: {0}".format(fabric_id),
+                "WARNING",
+            )
             return fabric_type
 
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
         if not site_name_hierarchy:
-            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            self.log(
+                "Site name hierarchy not found for site ID: {0}".format(site_id),
+                "WARNING",
+            )
             return site_name_hierarchy
 
         self.log(
             "Completed anycast gateway details transformation for fabric id: {0}. "
-            "Transformed site name hierarchy: {1}, fabric type: {2}"
-            .format(fabric_id, site_name_hierarchy, fabric_type),
-            "DEBUG"
+            "Transformed site name hierarchy: {1}, fabric type: {2}".format(
+                fabric_id, site_name_hierarchy, fabric_type
+            ),
+            "DEBUG",
         )
-        return {
-            "site_name_hierarchy": site_name_hierarchy,
-            "fabric_type": fabric_type
-        }
+        return {"site_name_hierarchy": site_name_hierarchy, "fabric_type": fabric_type}
 
     def transform_anchored_site_name(self, vn_details):
         """
@@ -927,36 +962,48 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         """
 
         self.log(
-            "Starting anchored site name transformation for given anchored site id: {0}"
-            .format(vn_details.get("anchoredSiteId", "Unknown")), "DEBUG"
+            "Starting anchored site name transformation for given anchored site id: {0}".format(
+                vn_details.get("anchoredSiteId", "Unknown")
+            ),
+            "DEBUG",
         )
 
         fabric_id = vn_details.get("anchoredSiteId")
         if not fabric_id:
             self.log(
                 "No anchored site ID found in VN details: {0}".format(vn_details),
-                "DEBUG"
+                "DEBUG",
             )
             return fabric_id
 
         site_id, fabric_type = self.analyse_fabric_site_or_zone_details(fabric_id)
         if not site_id:
-            self.log("No site ID found for given fabric ID: {0}". format(fabric_id), "WARNING")
+            self.log(
+                "No site ID found for given fabric ID: {0}".format(fabric_id), "WARNING"
+            )
             return site_id
 
         if not fabric_type:
-            self.log("Fabric type not found for given fabric ID: {0}".format(fabric_id), "WARNING")
+            self.log(
+                "Fabric type not found for given fabric ID: {0}".format(fabric_id),
+                "WARNING",
+            )
             return fabric_type
 
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
         if not site_name_hierarchy:
-            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            self.log(
+                "Site name hierarchy not found for site ID: {0}".format(site_id),
+                "WARNING",
+            )
             return site_name_hierarchy
 
         self.log(
             "Completed anchored site name transformation for anchored site id: {0}. "
-            "Transformed anchored site name: {1}". format(fabric_id, site_name_hierarchy),
-            "DEBUG"
+            "Transformed anchored site name: {1}".format(
+                fabric_id, site_name_hierarchy
+            ),
+            "DEBUG",
         )
         return site_name_hierarchy
 
@@ -974,10 +1021,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         fabric_vlan = OrderedDict(
             {
                 "vlan_name": {"type": "str", "source_key": "vlanName"},
-                "vlan_id": {
-                    "type": "int",
-                    "source_key": "vlanId"
-                },
+                "vlan_id": {"type": "int", "source_key": "vlanId"},
                 "fabric_site_locations": {
                     "type": "list",
                     "elements": "dict",
@@ -987,12 +1031,30 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     "fabric_type": {"type": "str"},
                 },
                 "traffic_type": {"type": "str", "source_key": "trafficType"},
-                "fabric_enabled_wireless": {"type": "bool", "source_key": "isFabricEnabledWireless"},
-                "associated_layer3_virtual_network": {"type": "str", "source_key": "associatedLayer3VirtualNetworkName"},
-                "is_wireless_flooding_enable": {"type": "bool", "source_key": "isWirelessFloodingEnabled"},
-                "is_resource_guard_enable": {"type": "bool", "source_key": "isResourceGuardEnabled"},
-                "flooding_address_assignment": {"type": "str", "source_key": "layer2FloodingAddressAssignment"},
-                "flooding_address": {"type": "str", "source_key": "layer2FloodingAddress"},
+                "fabric_enabled_wireless": {
+                    "type": "bool",
+                    "source_key": "isFabricEnabledWireless",
+                },
+                "associated_layer3_virtual_network": {
+                    "type": "str",
+                    "source_key": "associatedLayer3VirtualNetworkName",
+                },
+                "is_wireless_flooding_enable": {
+                    "type": "bool",
+                    "source_key": "isWirelessFloodingEnabled",
+                },
+                "is_resource_guard_enable": {
+                    "type": "bool",
+                    "source_key": "isResourceGuardEnabled",
+                },
+                "flooding_address_assignment": {
+                    "type": "str",
+                    "source_key": "layer2FloodingAddressAssignment",
+                },
+                "flooding_address": {
+                    "type": "str",
+                    "source_key": "layer2FloodingAddress",
+                },
             }
         )
         return fabric_vlan
@@ -1049,19 +1111,55 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 "vlan_id": {"type": "int", "source_key": "vlanId"},
                 "traffic_type": {"type": "str", "source_key": "trafficType"},
                 "pool_type": {"type": "str", "source_key": "poolType"},
-                "security_group_name": {"type": "str", "source_key": "securityGroupName"},
+                "security_group_name": {
+                    "type": "str",
+                    "source_key": "securityGroupName",
+                },
                 "is_critical_pool": {"type": "bool", "source_key": "isCriticalPool"},
-                "layer2_flooding_enabled": {"type": "bool", "source_key": "isLayer2FloodingEnabled"},
-                "fabric_enabled_wireless": {"type": "bool", "source_key": "isWirelessPool"},
-                "is_wireless_flooding_enable": {"type": "bool", "source_key": "isWirelessFloodingEnabled"},
-                "is_resource_guard_enable": {"type": "bool", "source_key": "isResourceGuardEnabled"},
-                "ip_directed_broadcast": {"type": "bool", "source_key": "isIpDirectedBroadcast"},
-                "intra_subnet_routing_enabled": {"type": "bool", "source_key": "isIntraSubnetRoutingEnabled"},
-                "multiple_ip_to_mac_addresses": {"type": "bool", "source_key": "isMultipleIpToMacAddresses"},
-                "supplicant_based_extended_node_onboarding": {"type": "bool", "source_key": "isSupplicantBasedExtendedNodeOnboarding"},
-                "group_policy_enforcement_enabled": {"type": "bool", "source_key": "isGroupBasedPolicyEnforcementEnabled"},
-                "flooding_address_assignment": {"type": "str", "source_key": "layer2FloodingAddressAssignment"},
-                "flooding_address": {"type": "str", "source_key": "layer2FloodingAddress"},
+                "layer2_flooding_enabled": {
+                    "type": "bool",
+                    "source_key": "isLayer2FloodingEnabled",
+                },
+                "fabric_enabled_wireless": {
+                    "type": "bool",
+                    "source_key": "isWirelessPool",
+                },
+                "is_wireless_flooding_enable": {
+                    "type": "bool",
+                    "source_key": "isWirelessFloodingEnabled",
+                },
+                "is_resource_guard_enable": {
+                    "type": "bool",
+                    "source_key": "isResourceGuardEnabled",
+                },
+                "ip_directed_broadcast": {
+                    "type": "bool",
+                    "source_key": "isIpDirectedBroadcast",
+                },
+                "intra_subnet_routing_enabled": {
+                    "type": "bool",
+                    "source_key": "isIntraSubnetRoutingEnabled",
+                },
+                "multiple_ip_to_mac_addresses": {
+                    "type": "bool",
+                    "source_key": "isMultipleIpToMacAddresses",
+                },
+                "supplicant_based_extended_node_onboarding": {
+                    "type": "bool",
+                    "source_key": "isSupplicantBasedExtendedNodeOnboarding",
+                },
+                "group_policy_enforcement_enabled": {
+                    "type": "bool",
+                    "source_key": "isGroupBasedPolicyEnforcementEnabled",
+                },
+                "flooding_address_assignment": {
+                    "type": "str",
+                    "source_key": "layer2FloodingAddressAssignment",
+                },
+                "flooding_address": {
+                    "type": "str",
+                    "source_key": "layer2FloodingAddress",
+                },
                 "fabric_site_location": {
                     "type": "dict",
                     "special_handling": True,
@@ -1101,8 +1199,10 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -1110,10 +1210,12 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Getting all fabric vlans using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        fabric_vlan_details = self.execute_get_with_pagination(api_family, api_function) or []
+        fabric_vlan_details = (
+            self.execute_get_with_pagination(api_family, api_function) or []
+        )
 
         final_fabric_vlans = []
         field_map = {
@@ -1126,7 +1228,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 "Started Processing {0} filter(s) for fabric vlans retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -1135,14 +1237,16 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for fabric vlans: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for fabric vlans: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 filtered_vlans = []
                 self.log(
                     "Fetching fabric vlans with filter_param: {0}".format(filter_param),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 active_filters = {
@@ -1153,7 +1257,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
 
                 self.log(
                     "Applying active fabric vlan filters: {0}".format(active_filters),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 filtered_vlans.extend(
@@ -1171,19 +1275,21 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                         "Retrieved {0} fabric vlan(s): {1}".format(
                             len(filtered_vlans), filtered_vlans
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No fabric vlans found with filter_param: {0}".format(filter_param),
-                        "DEBUG"
+                        "No fabric vlans found with filter_param: {0}".format(
+                            filter_param
+                        ),
+                        "DEBUG",
                     )
 
             self.log(
                 "Completed Processing {0} filter(s) for fabric vlans retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         else:
@@ -1193,7 +1299,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     "Retrieved {0} fabric vlan(s) from Catalyst Center".format(
                         len(fabric_vlan_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No fabric vlans found in Catalyst Center", "DEBUG")
@@ -1203,7 +1309,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Transforming {0} fabric vlan(s) using fabric_vlan temp spec".format(
                 len(final_fabric_vlans)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         fabric_vlan_temp_spec = self.fabric_vlan_temp_spec()
         vlans_details = self.modify_parameters(
@@ -1212,7 +1318,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         modified_fabric_vlans_details = {}
 
         if vlans_details:
-            modified_fabric_vlans_details['fabric_vlan'] = vlans_details
+            modified_fabric_vlans_details["fabric_vlan"] = vlans_details
 
         self.log(
             "Completed retrieving fabric vlan(s): {0}".format(
@@ -1252,8 +1358,10 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -1261,10 +1369,12 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Getting all virtual networks using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        virtual_network_details = self.execute_get_with_pagination(api_family, api_function) or []
+        virtual_network_details = (
+            self.execute_get_with_pagination(api_family, api_function) or []
+        )
 
         final_virtual_networks = []
 
@@ -1273,21 +1383,25 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 "Started Processing {0} filter(s) for virtual networks retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
                 unsupported_keys = set(filter_param.keys()) - {"vn_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for virtual networks: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for virtual networks: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 filtered_vns = []
                 self.log(
-                    "Fetching virtual networks with filter_param: {0}".format(filter_param),
-                    "DEBUG"
+                    "Fetching virtual networks with filter_param: {0}".format(
+                        filter_param
+                    ),
+                    "DEBUG",
                 )
 
                 if "vn_name" in filter_param:
@@ -1303,19 +1417,21 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                         "Retrieved {0} virtual network(s): {1}".format(
                             len(filtered_vns), filtered_vns
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No virtual networks found with filter_param: {0}".format(filter_param),
-                        "DEBUG"
+                        "No virtual networks found with filter_param: {0}".format(
+                            filter_param
+                        ),
+                        "DEBUG",
                     )
 
             self.log(
                 "Completed Processing {0} filter(s) for virtual networks retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             if virtual_network_details:
@@ -1324,7 +1440,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     "Retrieved {0} virtual network(s) from Catalyst Center".format(
                         len(virtual_network_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No virtual networks found in Catalyst Center", "DEBUG")
@@ -1334,7 +1450,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Transforming {0} virtual network(s) using virtual_network temp spec".format(
                 len(final_virtual_networks)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         virtual_network_temp_spec = self.virtual_network_temp_spec()
         vn_details = self.modify_parameters(
@@ -1343,7 +1459,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         modified_virtual_networks_details = {}
 
         if vn_details:
-            modified_virtual_networks_details['virtual_networks'] = vn_details
+            modified_virtual_networks_details["virtual_networks"] = vn_details
 
         self.log(
             "Completed retrieving virtual network(s): {0}".format(
@@ -1383,8 +1499,10 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -1392,10 +1510,12 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Getting all anycast gateways using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        anycast_gateway_details = self.execute_get_with_pagination(api_family, api_function) or []
+        anycast_gateway_details = (
+            self.execute_get_with_pagination(api_family, api_function) or []
+        )
 
         final_anycast_gateways = []
         field_map = {
@@ -1410,7 +1530,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 "Started Processing {0} filter(s) for anycast gateways retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -1419,14 +1539,18 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for anycast gateways: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for anycast gateways: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 filtered_anycast_gateways = []
                 self.log(
-                    "Fetching anycast gateways with filter_param: {0}".format(filter_param),
-                    "DEBUG"
+                    "Fetching anycast gateways with filter_param: {0}".format(
+                        filter_param
+                    ),
+                    "DEBUG",
                 )
 
                 active_filters = {
@@ -1436,8 +1560,10 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                 }
 
                 self.log(
-                    "Applying active anycast gateway filters: {0}".format(active_filters),
-                    "DEBUG"
+                    "Applying active anycast gateway filters: {0}".format(
+                        active_filters
+                    ),
+                    "DEBUG",
                 )
 
                 filtered_anycast_gateways.extend(
@@ -1455,19 +1581,21 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                         "Retrieved {0} anycast gateway(s): {1}".format(
                             len(filtered_anycast_gateways), filtered_anycast_gateways
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No anycast gateways found with filter_param: {0}".format(filter_param),
-                        "DEBUG"
+                        "No anycast gateways found with filter_param: {0}".format(
+                            filter_param
+                        ),
+                        "DEBUG",
                     )
 
             self.log(
                 "Completed Processing {0} filter(s) for anycast gateways retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             if anycast_gateway_details:
@@ -1476,7 +1604,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     "Retrieved {0} anycast gateway(s) from Catalyst Center".format(
                         len(anycast_gateway_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No anycast gateways found in Catalyst Center", "DEBUG")
@@ -1486,7 +1614,7 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
             "Transforming {0} anycast gateway(s) using anycast_gateway temp spec".format(
                 len(final_anycast_gateways)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         anycast_gateway_temp_spec = self.anycast_gateway_temp_spec()
         anycast_gateways_details = self.modify_parameters(
@@ -1496,7 +1624,9 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         modified_anycast_gateways_details = {}
 
         if anycast_gateways_details:
-            modified_anycast_gateways_details["anycast_gateways"] = anycast_gateways_details
+            modified_anycast_gateways_details["anycast_gateways"] = (
+                anycast_gateways_details
+            )
 
         self.log(
             "Completed retrieving anycast gateway(s): {0}".format(
@@ -1530,7 +1660,10 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1554,17 +1687,20 @@ class VirtualNetworksPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelpe
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1591,20 +1727,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {
@@ -1642,21 +1830,15 @@ def main():
     # Check if the state is valid
     if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = "State {0} is invalid".format(
-            state
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()
 
     config = config_generator.validated_config
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

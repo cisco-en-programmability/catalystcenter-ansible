@@ -13,10 +13,10 @@ description:
   - Get Transit Network Health Summaries by id.
   - Get a paginated list of Transit Networks with health summary.
   - Get health summary for a specific transit Network by providing the unique transit networks id in the url path.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Network Device User Defined Field
 description:
   - Get all Network Device User Defined Field. - > Gets existing global User Defined Fields. If no input is given, it fetches
     ALL the Global UDFs. Filter/search is supported by UDF Ids or UDF names or both.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

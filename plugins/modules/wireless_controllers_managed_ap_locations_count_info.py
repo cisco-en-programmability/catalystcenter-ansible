@@ -12,10 +12,10 @@ description:
   - Get all Wireless Controllers Managed Ap Locations Count. - > Retrieves the count of Managed AP locations, including Primary
     Managed AP Locations, Secondary Managed AP Locations, and Anchor Managed AP Locations, associated with the specific Wireless
     Controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

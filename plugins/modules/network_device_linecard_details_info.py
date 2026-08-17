@@ -11,10 +11,10 @@ short_description: Information module for Network Device Linecard Details
 description:
   - Get all Network Device Linecard Details.
   - Get line card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

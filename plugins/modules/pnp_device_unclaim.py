@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Device Unclaim
 description:
   - Manage operation create of the resource Pnp Device Unclaim.
   - Un-Claims one of more devices with specified workflow Deprecated .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIdList:
     description: Pnp Device Unclaim's deviceIdList.

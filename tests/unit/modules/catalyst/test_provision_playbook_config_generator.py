@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import Mock, patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import provision_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    provision_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -55,7 +57,8 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         super(TestCatalystCenterProvisionPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -205,9 +208,9 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
             {
                 "YAML config generation Task succeeded for module 'provision_workflow_manager'.": {
                     "file_path": expected_file_path,
-                    "devices_count": 7
+                    "devices_count": 7,
                 }
-            }
+            },
         )
 
     def test_provision_playbook_config_generator_duplicate_components_list_fails(self):
@@ -233,10 +236,12 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Duplicate component names found in 'components_list': ['wired']",
-            result.get("msg", "")
+            result.get("msg", ""),
         )
 
-    def test_provision_playbook_config_generator_playbook_global_filters_default_file_path(self):
+    def test_provision_playbook_config_generator_playbook_global_filters_default_file_path(
+        self,
+    ):
         """
         Validate that omitting both config and file_path still generates YAML using a default filename.
         """
@@ -271,7 +276,7 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
                     "file_path": default_file_path,
                     "devices_count": 7,
                 }
-            }
+            },
         )
 
     def test_validate_input_accepts_list_values_for_component_filters(self):
@@ -292,7 +297,9 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         generator.validate_input()
 
         self.assertEqual(generator.status, "success")
-        wired_filter = generator.validated_config["component_specific_filters"]["wired"][0]
+        wired_filter = generator.validated_config["component_specific_filters"][
+            "wired"
+        ][0]
         self.assertEqual(
             wired_filter["management_ip_address"], ["204.1.2.5", "204.1.2.6"]
         )
@@ -336,7 +343,9 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         generator.transform_device_site_hierarchy = lambda device: device.get(
             "site_name_hierarchy"
         )
-        generator.transform_device_family_info = lambda device: device.get("device_family")
+        generator.transform_device_family_info = lambda device: device.get(
+            "device_family"
+        )
 
         devices = [
             {
@@ -384,39 +393,41 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         generator._cached_inventory_devices = None
         generator._cached_inventory_by_id = None
 
-        exec_mock = Mock(side_effect=[
-            {
-                "response": [
-                    {
-                        "networkDeviceId": "dev-1",
-                        "siteId": "site-1",
-                    }
-                ]
-            },
-            {
-                "response": [
-                    {
-                        "id": "dev-1",
-                        "managementIpAddress": "10.10.10.1",
-                        "family": "Switches and Hubs",
-                        "type": "Cisco Catalyst 9300 Switch",
-                        "hostname": "edge-1",
-                        "location": "Global/USA/SAN JOSE/BLD23",
-                        "siteId": "site-1",
-                    },
-                    {
-                        "id": "dev-2",
-                        "managementIpAddress": "10.10.10.2",
-                        "family": "Wireless Controller",
-                        "type": "Cisco Catalyst 9800",
-                        "hostname": "wlc-1",
-                        "location": "Global/USA/SAN JOSE/BLD23",
-                        "siteId": "site-2",
-                    },
-                ]
-            },
-            {"status": "success"},
-        ])
+        exec_mock = Mock(
+            side_effect=[
+                {
+                    "response": [
+                        {
+                            "networkDeviceId": "dev-1",
+                            "siteId": "site-1",
+                        }
+                    ]
+                },
+                {
+                    "response": [
+                        {
+                            "id": "dev-1",
+                            "managementIpAddress": "10.10.10.1",
+                            "family": "Switches and Hubs",
+                            "type": "Cisco Catalyst 9300 Switch",
+                            "hostname": "edge-1",
+                            "location": "Global/USA/SAN JOSE/BLD23",
+                            "siteId": "site-1",
+                        },
+                        {
+                            "id": "dev-2",
+                            "managementIpAddress": "10.10.10.2",
+                            "family": "Wireless Controller",
+                            "type": "Cisco Catalyst 9800",
+                            "hostname": "wlc-1",
+                            "location": "Global/USA/SAN JOSE/BLD23",
+                            "siteId": "site-2",
+                        },
+                    ]
+                },
+                {"status": "success"},
+            ]
+        )
         generator.catalystcenter = Mock(_exec=exec_mock)
 
         devices = generator.get_all_provisioned_devices_internal()
@@ -429,10 +440,16 @@ class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
         self.assertEqual(devices[1]["deviceType"], "WirelessController")
         self.assertEqual(devices[1]["managementIpAddress"], "10.10.10.2")
         self.assertEqual(exec_mock.call_count, 3)
-        called_functions = [call.kwargs["function"] for call in exec_mock.call_args_list]
+        called_functions = [
+            call.kwargs["function"] for call in exec_mock.call_args_list
+        ]
         self.assertEqual(
             called_functions,
-            ["get_provisioned_devices", "get_device_list", "get_provisioned_wired_device"],
+            [
+                "get_provisioned_devices",
+                "get_device_list",
+                "get_provisioned_wired_device",
+            ],
         )
 
     def test_transform_device_site_hierarchy_uses_cached_location(self):

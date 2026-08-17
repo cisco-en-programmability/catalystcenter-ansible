@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Provision Ssid Create Provision
 description:
   - Manage operation create of the resource Wireless Provision Ssid Create Provision. - > Creates SSID, updates the SSID to
     the corresponding site profiles and provision it to the devices matching the given sites.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   enableFabric:
     description: Enable SSID for Fabric.

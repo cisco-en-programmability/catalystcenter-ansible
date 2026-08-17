@@ -13,10 +13,10 @@ description:
     issues based on given filters and group by field. This data can be used to find issue counts in different intervals over
     a period of time. For detailed information about the usage of the API, please refer to the Open API specification document
     - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- IssuesList-1.0.1-resolved.yaml.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Assurance Issues Trend Analytics's aggregateAttributes.

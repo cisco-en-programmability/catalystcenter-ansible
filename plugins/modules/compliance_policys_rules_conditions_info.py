@@ -13,10 +13,10 @@ description:
   - Get Compliance Policys Rules Conditions by id.
   - Retrieves a specific condition within the specified compliance policy and rule.
   - Retrieves the list of all conditions within the specified compliance policy and rule.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

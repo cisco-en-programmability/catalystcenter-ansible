@@ -13,10 +13,10 @@ description:
   - API to reserve an ip subpool from the global pool.
   - API to delete the reserved ip subpool.
   - API to update ip subpool from the global pool.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of reserve ip subpool to be deleted.

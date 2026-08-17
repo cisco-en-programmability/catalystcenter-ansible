@@ -14,10 +14,10 @@ description:
   - Delete provisioned devices based on query parameters.
   - Deletes provisioned device based on Id.
   - Re-provisions network devices to the site based on the user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cleanUpConfig:
     description: CleanUpConfig query parameter. Enable/disable configuration cleanup for the device(s). Defaults to true.

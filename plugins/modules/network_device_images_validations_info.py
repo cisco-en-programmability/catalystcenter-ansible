@@ -13,10 +13,10 @@ description:
   - Get Network Device Images Validations by id. - > Fetches custom network device validations that run on the network device
     as part of the update workflow. This process verifies and assesses the configuration of the network devices.
   - This API fetches the details for the given network device validation.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

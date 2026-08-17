@@ -13,10 +13,10 @@ description:
   - Adds layer 3 virtual networks based on user input.
   - Deletes layer 3 virtual networks based on user input.
   - Updates layer 3 virtual networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sda Layer3 Virtual Networks's payload.

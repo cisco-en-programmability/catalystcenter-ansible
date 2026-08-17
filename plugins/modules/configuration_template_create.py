@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Create
 description:
   - Manage operation create of the resource Configuration Template Create.
   - API to create a template by project id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   author:
     description: Author of template.

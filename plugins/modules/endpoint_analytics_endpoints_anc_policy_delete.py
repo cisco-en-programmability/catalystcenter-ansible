@@ -11,10 +11,10 @@ short_description: Resource module for Endpoint Analytics Endpoints Anc-Policy D
 description:
   - Manage operation delete of the resource Endpoint Analytics Endpoints Anc-Policy Delete.
   - Revokes given ANC policy from the endpoint.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   epId:
     description: EpId path parameter. Unique identifier for the endpoint.

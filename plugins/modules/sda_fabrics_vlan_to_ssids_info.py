@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabrics Vlan To Ssids
 description:
   - Get all Sda Fabrics Vlan To Ssids.
   - It will return all vlan to SSID mapping across all the fabric site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

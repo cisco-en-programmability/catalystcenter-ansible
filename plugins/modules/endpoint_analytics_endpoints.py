@@ -13,10 +13,10 @@ description:
   - Register a new endpoint in the system.
   - Deletes the endpoint for the given unique identifier 'epId'.
   - Update attributes of a registered endpoint.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceType:
     description: Type of the device represented by this endpoint.

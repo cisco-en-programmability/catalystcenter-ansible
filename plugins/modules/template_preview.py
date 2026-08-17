@@ -11,10 +11,10 @@ short_description: Resource module for Template Preview
 description:
   - Manage operation update of the resource Template Preview.
   - API to preview a template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: UUID of device to get template preview.

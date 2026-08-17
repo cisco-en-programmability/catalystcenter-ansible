@@ -13,10 +13,10 @@ description:
   - Get Global Credentials by id.
   - API to get global credentials based on the given filters.
   - API to retrieve the global credential details by its unique identifier.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -14,10 +14,10 @@ description:
     credential get managed in inventory with the associated site credential. Credential gets configured on network devices
     before these get managed in inventory. Please make a note that cli credential wouldn't be configured on AAA authenticated
     devices but they just get managed with the associated site cli credential.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   configureDevice:
     description: If the value is true and the devices at the applied site are locally authenticated, the applied CLI credentials

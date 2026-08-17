@@ -13,10 +13,10 @@ description:
     "status","date".The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD"
     format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail
     will be send as response.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

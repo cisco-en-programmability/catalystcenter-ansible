@@ -14,10 +14,10 @@ description:
   - GET LSC Certificate Renewal Profile by ID. - > Retrieves the access point certificate renewal profiles that are created
     in the catalyst centre network design for wireless. Filtering can be done on access point certificate renewal profile
     name and renewal type.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

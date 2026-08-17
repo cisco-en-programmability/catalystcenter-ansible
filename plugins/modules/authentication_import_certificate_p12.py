@@ -11,10 +11,10 @@ short_description: Resource module for Authentication Import Certificate P12
 description:
   - Manage operation create of the resource Authentication Import Certificate P12.
   - This API enables a user to import a PKCS12 certificate bundle for the controller and/or disaster recovery.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   listOfUsers:
     description: ListOfUsers query parameter. Specify whether the certificate will be used for controller ("server"), disaster

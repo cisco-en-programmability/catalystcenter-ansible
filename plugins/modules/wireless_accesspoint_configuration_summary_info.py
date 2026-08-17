@@ -12,10 +12,10 @@ description:
   - Get all Wireless Accesspoint Configuration Summary. - > Users can query access point configuration information for a specific
     device by using the Ethernet MAC address as a 'key' filter. If no key is specified, all access point details will be retrieved
     based on the combination of filters provided.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

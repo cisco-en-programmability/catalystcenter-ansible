@@ -11,10 +11,10 @@ short_description: Resource module for Lan Automation Port Channels Id Remove Li
 description:
   - Manage operation create of the resource Lan Automation Port Channels Id Remove Link.
   - This API removes a member link from an existing Port Channel, reverting the link to a P2P L3 interface.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the port channel.

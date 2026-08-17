@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Sda Transit Networks.
   - Adds transit networks based on user input.
   - Updates transit networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sda Transit Networks's payload.

@@ -14,10 +14,10 @@ description:
     removed from the inventory. Important Devices currently provisioned cannot be deleted. To delete a provisioned device,
     the device must be first deprovisioned. - > Update the credentials, management IP address of a given device or a set of
     devices in Catalyst Center and trigger an inventory sync.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cleanConfig:
     description: CleanConfig query parameter. Selecting the clean up configuration option will attempt to remove device settings

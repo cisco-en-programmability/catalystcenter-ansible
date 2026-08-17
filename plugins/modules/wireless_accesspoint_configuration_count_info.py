@@ -11,10 +11,10 @@ short_description: Information module for Wireless Accesspoint Configuration Cou
 description:
   - Get all Wireless Accesspoint Configuration Count.
   - Get Access Point Configuration Count.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

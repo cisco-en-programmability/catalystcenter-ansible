@@ -13,10 +13,10 @@ description:
     identified by its instanceUuid, in the specified time range. The data is grouped based on the trend time Interval, other
     input parameters like attributes and aggregate attributes. The default time interval range is 3 hours when start and endTime
     is not provided.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Interfaces Id Trend Analytics's aggregateAttributes.

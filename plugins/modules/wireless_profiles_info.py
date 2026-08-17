@@ -13,10 +13,10 @@ description:
   - Get Wireless Profiles by id.
   - This API allows the user to get a Wireless Network Profile by ID.
   - This API allows the user to get all Wireless Network Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

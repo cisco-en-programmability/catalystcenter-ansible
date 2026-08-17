@@ -13,10 +13,10 @@ description:
   - Get Fabric Site Health Summaries by id.
   - Get Fabric site health summary for a specific fabric site by providing the unique fabric site id in the url path.
   - Get a paginated list of Fabric sites Networks with health summary.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

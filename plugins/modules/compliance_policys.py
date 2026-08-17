@@ -13,10 +13,10 @@ description:
   - This API operation creates a new compliance policy.
   - Deletes a specific compliance policy.
   - Updates the details of an existing compliance policy.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: An optional field for providing a detailed description of the compliance policy.

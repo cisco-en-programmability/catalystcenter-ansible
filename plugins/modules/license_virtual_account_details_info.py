@@ -11,10 +11,10 @@ short_description: Information module for License Virtual Account Details
 description:
   - Get all License Virtual Account Details.
   - Get virtual account details of a smart account.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

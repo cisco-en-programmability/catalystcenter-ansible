@@ -11,10 +11,10 @@ short_description: Information module for Swim Image Details
 description:
   - Get all Swim Image Details.
   - Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

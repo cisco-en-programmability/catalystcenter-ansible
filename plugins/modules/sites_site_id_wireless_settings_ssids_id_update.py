@@ -11,10 +11,10 @@ short_description: Resource module for Sites Site Id Wireless Settings Ssids Id 
 description:
   - Manage operation create of the resource Sites Site Id Wireless Settings Ssids Id Update.
   - This API allows to either update SSID at global 'siteId' or override SSID at given non-global 'siteId'.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aaaOverride:
     description: Activate the AAA Override feature when set to true.

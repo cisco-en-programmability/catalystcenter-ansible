@@ -11,10 +11,10 @@ short_description: Resource module for Network Update
 description:
   - Manage operation update of the resource Network Update. - > API to update network settings for DHCP, Syslog, SNMP, NTP,
     Network AAA, Client and EndPoint AAA, and/or DNS server settings.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

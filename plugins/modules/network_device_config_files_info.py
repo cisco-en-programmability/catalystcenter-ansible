@@ -14,10 +14,10 @@ description:
   - Retrieves the details of a specific network device configuration file using the `id`. - > Retrieves the list of network
     device configuration file details, sorted by createdTime in descending order. Use /intent/api/v1/networkDeviceConfigFiles/{id}/downloadMasked
     to download masked configurations, or /intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked for unmasked configurations.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

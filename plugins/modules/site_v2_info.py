@@ -11,10 +11,10 @@ short_description: Information module for Site V2
 description:
   - Get all Site V2. - > API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are
     not given as an input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

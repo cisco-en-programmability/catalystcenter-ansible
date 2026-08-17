@@ -13,10 +13,10 @@ description:
     Network Device, Meraki Dashboard, Compute Device, Firewall Management Center FMC and Third-Party Device. Access points
     associated with added WLC will be automatically added to inventory. For Meraki Dashboard, use the dashboard URL as the
     management address.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   category:
     description: Category of the device. Used to determine the type of the device being added.

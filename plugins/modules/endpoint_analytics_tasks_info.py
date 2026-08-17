@@ -11,10 +11,10 @@ short_description: Information module for Endpoint Analytics Tasks
 description:
   - Get Endpoint Analytics Tasks by id. - > Fetches the details of backend task. Task is typically created by making call
     to some other API that takes longer time to execute.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

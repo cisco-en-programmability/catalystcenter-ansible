@@ -13,10 +13,10 @@ description:
     of devices for smart license flow. If default smart account is not configured, 'defaultSmartAccountId' is 'null'. Similarly,
     if auto registration of devices for smart license flow is not enabled, 'autoRegistrationVirtualAccountId' is 'null'. For
     smart proxy connection mode, 'autoRegistrationVirtualAccountId' is always 'null'.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

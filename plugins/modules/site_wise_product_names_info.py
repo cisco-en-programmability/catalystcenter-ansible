@@ -11,10 +11,10 @@ short_description: Information module for Site Wise Product Names
 description:
   - Get all Site Wise Product Names. - > Provides network device product names for a site. The default value of `siteId` is
     global. The response will include the network device count and image summary.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Resource module for Lan Automation Update V2
 description:
   - Manage operation update of the resource Lan Automation Update V2. - > Invoke this API to stop LAN Automation and update
     device parameters such as Loopback0 IP address and/or hostname discovered in the current session.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.

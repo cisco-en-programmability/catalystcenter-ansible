@@ -13,10 +13,10 @@ description:
   - This API allows the user to create a custom Power Profile.
   - This API allows the user to delete an Power Profile by specifying the Power Profile ID.
   - This API allows the user to update a custom power Profile.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of the Power Profile. Max allowed characters is 128.

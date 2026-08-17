@@ -13,10 +13,10 @@ description:
   - This API allows the user to create a custom AP Profile.
   - This API allows the user to delete an AP Profile by specifying the AP Profile ID.
   - This API allows the user to update a custom AP Profile.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apPowerProfileName:
     description: Name of the existing AP power profile.

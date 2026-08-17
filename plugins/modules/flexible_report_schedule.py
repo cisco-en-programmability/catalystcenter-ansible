@@ -11,10 +11,10 @@ short_description: Resource module for Flexible Report Schedule
 description:
   - Manage operation update of the resource Flexible Report Schedule.
   - Update schedule of flexible report.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   reportId:
     description: ReportId path parameter. Id of the report.

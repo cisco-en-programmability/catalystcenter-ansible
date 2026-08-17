@@ -13,10 +13,10 @@ description:
   - This API operation creates a new rule within the specified compliance policy.
   - Deletes the rule within the specified compliance policy.
   - Updates the details of an existing rule within the specified compliance policy.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: A comprehensive description of the rule. This should provide detailed information about what the rule does,

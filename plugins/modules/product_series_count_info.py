@@ -11,10 +11,10 @@ short_description: Information module for Product Series Count
 description:
   - Get all Product Series Count.
   - Count of product series based on filter criteria.
-version_added: '6.46.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

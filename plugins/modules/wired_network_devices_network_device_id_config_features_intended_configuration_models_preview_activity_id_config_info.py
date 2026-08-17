@@ -16,10 +16,10 @@ description:
   - Step 2 Use POST config to generate device CLIs for preview.
   - Step 3 Use GET config to view the CLIs that will be applied to the device.
   - Step 4 Use POST deploy to deploy the intent to the device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

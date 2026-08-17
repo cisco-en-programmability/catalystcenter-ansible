@@ -11,10 +11,10 @@ short_description: Information module for Network Devices Network Profiles For S
 description:
   - Get all Network Devices Network Profiles For Sites Count.
   - Retrieves the count of network profiles for sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

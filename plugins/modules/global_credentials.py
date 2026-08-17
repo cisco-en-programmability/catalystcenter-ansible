@@ -13,10 +13,10 @@ description:
   - API to add new global credential.
   - API to delete global credential by the given identifier.
   - API to update the global credential by the given identifier.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Unique identifier of the global credential. Accepts comma separated values.

@@ -14,10 +14,10 @@ description:
   - Deletes a layer 3 handoff with ip transit of a fabric device by id.
   - Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
   - Updates layer 3 handoffs with ip transit of fabric devices based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricId:
     description: FabricId query parameter. ID of the fabric this device belongs to.

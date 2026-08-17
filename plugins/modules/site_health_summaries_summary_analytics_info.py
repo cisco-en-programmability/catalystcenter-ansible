@@ -11,10 +11,10 @@ short_description: Information module for Site Health Summaries Summary Analytic
 description:
   - Get all Site Health Summaries Summary Analytics. - > Get an aggregated summary of all site health or use the query params
     to get an aggregated summary of health for a subset of sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

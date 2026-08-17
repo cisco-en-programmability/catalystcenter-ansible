@@ -17,10 +17,10 @@ description:
     Intent API to check the integration status.
   - API to delete AAA/ISE server access configuration. - > API to edit AAA/ISE server access configuration. After edit, use
     'Cisco ISE Server Integration Status' Intent API to check the integration status.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   accountingPort:
     description: Accounting port of RADIUS server. It is required for RADIUS server. The range is from 1 to 65535. E.g. 1813.

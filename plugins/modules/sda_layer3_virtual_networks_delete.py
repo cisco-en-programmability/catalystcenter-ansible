@@ -11,10 +11,10 @@ short_description: Resource module for Sda Layer3 Virtual Networks Delete
 description:
   - Manage operation delete of the resource Sda Layer3 Virtual Networks Delete.
   - Deletes a layer 3 virtual network based on id.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the layer 3 virtual network.

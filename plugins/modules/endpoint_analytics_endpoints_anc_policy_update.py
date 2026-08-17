@@ -11,10 +11,10 @@ short_description: Resource module for Endpoint Analytics Endpoints Anc-Policy U
 description:
   - Manage operation update of the resource Endpoint Analytics Endpoints Anc-Policy Update.
   - Applies given ANC policy to the endpoint.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   ancPolicy:
     description: ANC policy name.

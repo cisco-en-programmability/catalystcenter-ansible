@@ -11,10 +11,10 @@ short_description: Resource module for Qos Policy Setting
 description:
   - Manage operation update of the resource Qos Policy Setting.
   - API to update the application QoS policy setting.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deployByDefaultOnWiredDevices:
     description: Flag to indicate whether QoS policy should be deployed automatically on wired network device when it is provisioned.

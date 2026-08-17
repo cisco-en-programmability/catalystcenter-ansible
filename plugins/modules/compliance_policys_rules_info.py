@@ -13,10 +13,10 @@ description:
   - Get Compliance Policys Rules by id.
   - Retrieves the details of a rule under the specified compliance policy.
   - Retrieves the list of rules under the specified compliance policy.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

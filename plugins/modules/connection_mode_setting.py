@@ -11,10 +11,10 @@ short_description: Resource module for Connection Mode Setting
 description:
   - Manage operation update of the resource Connection Mode Setting.
   - Update Cisco Smart Software Manager CSSM connection mode for the system.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   connectionMode:
     description: The CSSM connection modes of Catalyst Center are DIRECT, ON_PREMISE and SMART_PROXY.

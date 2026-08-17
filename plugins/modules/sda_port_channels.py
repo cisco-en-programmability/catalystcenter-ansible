@@ -14,10 +14,10 @@ description:
   - Deletes a port channel based on id.
   - Deletes port channels based on user input.
   - Updates port channels based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   connectedDeviceType:
     description: ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are TRUNK,

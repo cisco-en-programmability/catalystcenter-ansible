@@ -13,10 +13,10 @@ description:
   - Assigns a given network profile for sites to a given site. Also assigns the profile to child sites. - > Unassigns a given
     network profile for sites from a site. The profile must be removed from parent sites first, otherwise this operation will
     not ulimately unassign the profile.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id.

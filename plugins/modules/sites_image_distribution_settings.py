@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Sites Image Distribution Settings. - > Set image distribution settings for a site;
     `null` values indicate that the setting will be inherited from the parent site; empty objects `{}` indicate that the settings
     is unset.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Site Id.

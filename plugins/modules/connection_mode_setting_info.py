@@ -11,10 +11,10 @@ short_description: Information module for Connection Mode Setting
 description:
   - Get all Connection Mode Setting.
   - Retrieves Cisco Smart Software Manager CSSM connection mode setting.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

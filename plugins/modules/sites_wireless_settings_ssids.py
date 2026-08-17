@@ -14,10 +14,10 @@ description:
     delete an SSID Service Set Identifier at the global level , if the SSID is not mapped to any Wireless Profile, Or remove
     override from given site Id .
   - This API allows the user to update an SSID Service Set Identifier at the given site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aaaOverride:
     description: Activate the AAA Override feature when set to true.

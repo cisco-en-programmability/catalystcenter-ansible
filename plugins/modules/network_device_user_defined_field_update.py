@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Network Device User Defined Field Update. - > Assigns an existing Global User-Defined-Field
     to a device. If the UDF is already assigned to the specific device, then it updates the device UDF value accordingly.
     Please note that the assigning UDF 'name' must be an existing global UDF. Otherwise error shall be shown.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: DeviceId path parameter. UUID of device to which UDF has to be added.

@@ -11,10 +11,10 @@ short_description: Resource module for Field Notices Trigger Scan
 description:
   - Manage operation create of the resource Field Notices Trigger Scan.
   - Triggers a field notices scan for the supported network devices. The supported.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   failedDevicesOnly:
     description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that

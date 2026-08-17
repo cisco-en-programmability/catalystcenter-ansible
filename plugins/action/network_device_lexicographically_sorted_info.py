@@ -132,6 +132,8 @@ class ActionModule(ActionBase):
             function="get_device_values_that_match_fully_or_partially_an_attribute",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

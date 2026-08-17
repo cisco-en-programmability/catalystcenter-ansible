@@ -12,10 +12,10 @@ description:
   - Get all Client Enrichment Details V2. - > Enriches a given network End User context a network user-id or end user's device
     Mac Address with details about the user, the devices that the user is connected to and the assurance issues that the user
     is impacted by.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

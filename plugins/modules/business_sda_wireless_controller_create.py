@@ -11,10 +11,10 @@ short_description: Resource module for Business Sda Wireless Controller Create
 description:
   - Manage operation create of the resource Business Sda Wireless Controller Create.
   - Add WLC to Fabric Domain.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceName:
     description: WLC Device Name.

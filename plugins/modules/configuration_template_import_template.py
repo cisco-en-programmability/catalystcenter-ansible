@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Import Template
 description:
   - Manage operation create of the resource Configuration Template Import Template.
   - Imports the templates provided in the DTO by project Name.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   doVersion:
     description: DoVersion query parameter. If this flag is true then it creates a new version of the template with the imported

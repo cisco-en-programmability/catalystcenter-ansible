@@ -13,10 +13,10 @@ description:
   - Creates a building in the network hierarchy under area. - > Deletes building in the network hierarchy. This operations
     fails if there are any floors for this building, or if there are any devices assigned to this building.
   - Updates a building in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   address:
     description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States. Please

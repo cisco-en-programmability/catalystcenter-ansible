@@ -90,6 +90,8 @@ class ActionModule(ActionBase):
             function="returns_the_count_of_vlans_mapped_to_ssids_in_a_fabric_site",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

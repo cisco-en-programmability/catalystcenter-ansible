@@ -11,10 +11,10 @@ short_description: Information module for Wireless Settings Dot11be Profiles Cou
 description:
   - Get all Wireless Settings Dot11be Profiles Count.
   - This API allows the user to get count of all 802.11be Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

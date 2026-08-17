@@ -11,10 +11,10 @@ short_description: Information module for Network Device By Serial Number
 description:
   - Get Network Device By Serial Number by id.
   - Returns the network device with given serial number.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

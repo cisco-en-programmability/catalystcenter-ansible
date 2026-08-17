@@ -14,10 +14,10 @@ description:
   - Delete a global credential. Only 'id' of the credential has to be passed. - > API to update device credentials. Multiple
     credentials can be passed at once, but only a single credential of a given type can be passed at once. Please refer sample
     Request Body for more information.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cliCredential:
     description: Global Credential V2's cliCredential.

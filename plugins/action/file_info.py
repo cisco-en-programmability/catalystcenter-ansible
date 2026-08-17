@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 dirpath=download_response.dirpath,
                 path=download_response.path,
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -114,6 +116,8 @@ class ActionModule(ActionBase):
                 changed=False,
                 result="Module does not have get all, check arguments of module",
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

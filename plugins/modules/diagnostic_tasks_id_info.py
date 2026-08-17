@@ -11,10 +11,10 @@ short_description: Information module for Diagnostic Tasks Id
 description:
   - Get Diagnostic Tasks Id by id.
   - This API retrieves the diagnostic task identified by the specified `id`.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

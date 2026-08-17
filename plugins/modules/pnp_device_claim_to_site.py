@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Device Claim To Site
 description:
   - Manage operation create of the resource Pnp Device Claim To Site. - > Claim a device based on Catalyst Center Site-based
     design process. Some required parameters differ based on device platform.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   configInfo:
     description: Pnp Device Claim To Site's configInfo.

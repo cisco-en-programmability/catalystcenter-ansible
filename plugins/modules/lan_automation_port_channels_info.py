@@ -13,10 +13,10 @@ description:
   - Get Lan Automation Port Channels by id.
   - Returns a list of Port Channel between the LAN Automation associated devices.
   - This API retrieves Port Channel information using its ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

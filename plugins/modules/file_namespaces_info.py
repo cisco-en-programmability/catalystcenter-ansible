@@ -13,10 +13,10 @@ description:
   - Get File Namespaces by name.
   - Returns list of available namespaces.
   - Returns list of files under a specific namespace.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

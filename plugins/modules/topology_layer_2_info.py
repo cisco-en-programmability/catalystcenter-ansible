@@ -11,10 +11,10 @@ short_description: Information module for Topology Layer 2
 description:
   - Get Topology Layer 2 by id.
   - Returns Layer 2 network topology by specified VLAN ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

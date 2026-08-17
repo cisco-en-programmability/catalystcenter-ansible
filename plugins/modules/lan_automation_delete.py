@@ -11,10 +11,10 @@ short_description: Resource module for Lan Automation Delete
 description:
   - Manage operation delete of the resource Lan Automation Delete.
   - Invoke this API to stop LAN Automation for the given site.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.

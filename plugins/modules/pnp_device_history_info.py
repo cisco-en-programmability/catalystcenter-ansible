@@ -11,10 +11,10 @@ short_description: Information module for Pnp Device History
 description:
   - Get all Pnp Device History.
   - Returns history for a specific device. Serial number is a required parameter.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

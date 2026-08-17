@@ -29,7 +29,9 @@ __email__ = "soni.archit03@gmail.com"
 __version__ = "1.0.0"
 
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import tags_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    tags_workflow_manager,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 

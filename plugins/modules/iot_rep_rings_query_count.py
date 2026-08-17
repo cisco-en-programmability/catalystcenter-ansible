@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Iot Rep Rings Query Count. - > This API returns the count of REP rings for the
     given fields - networkDeviceId Network device ID of the REP ring member. The networkDeviceId is the instanceUuid attribute
     in the response of API - /dna/intent/api/v1/networkDevices and deploymentMode FABRIC/NON_FABRIC .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: Deployment mode of the configured REP ring.

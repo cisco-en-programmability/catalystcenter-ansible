@@ -12,10 +12,10 @@ description:
   - Get all System Performance. - > Retrieves the average values of cluster key performance indicators KPIs , such as CPU
     utilization, memory utilization or network rates over the past 15 minutes. Query parameters 'function', 'startTime' and
     'endTime' are no longer supported.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

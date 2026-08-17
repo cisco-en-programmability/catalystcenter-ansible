@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Security Rogue Wireless-Containment Stop. - > Intent API to stop the wireless
     rogue access point containment. This API will stop the containment through single WLC. The response includes the details
     like WLC and BSSID on which the stop containment has been initiated.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   macAddress:
     description: Mac Address.

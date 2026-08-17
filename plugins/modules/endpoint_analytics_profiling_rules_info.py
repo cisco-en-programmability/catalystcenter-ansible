@@ -14,10 +14,10 @@ description:
   - Fetches details of the profiling rule for the given 'ruleId'. - > This API fetches the list of profiling rules. It can
     be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk'
     API can be used to import such exported rules into another environment.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

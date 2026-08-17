@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Event Email Config.
   - Create Email Destination.
   - Update Email Destination.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   emailConfigId:
     description: Required only for update email configuration.

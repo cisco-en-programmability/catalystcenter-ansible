@@ -11,10 +11,10 @@ short_description: Information module for Sda Site Member Member
 description:
   - Get all Sda Site Member Member.
   - API to get devices that are assigned to a site.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

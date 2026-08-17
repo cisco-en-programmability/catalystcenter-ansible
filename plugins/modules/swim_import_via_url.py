@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Swim Import Via Url. - > Fetches a software image from remote file system using
     URL for HTTP/FTP and uploads to Catalyst Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova,
     tar_gz and qcow2.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Swim Import Via Url's payload.

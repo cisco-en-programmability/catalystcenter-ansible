@@ -13,10 +13,10 @@ description:
   - Get Wireless Settings Anchor Groups by id.
   - This API allows the user to get AnchorGroups that captured in wireless settings design.
   - This API allows the user to get an AnchorGroup by AnchorGroup ID.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

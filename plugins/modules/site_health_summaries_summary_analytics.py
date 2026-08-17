@@ -11,10 +11,10 @@ short_description: Resource module for Site Health Summaries Summary Analytics
 description:
   - Manage operation create of the resource Site Health Summaries Summary Analytics.
   - Query an aggregated summary of all site health.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
     description: Attributes.

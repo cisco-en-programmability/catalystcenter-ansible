@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Fabrics Fabric Id Switch Wireless Setting. - > This API is used to enable or disable
     wireless capabilities on switch devices, along with configuring rolling AP upgrades on the fabric site. Reboot action
     is required to remove wireless configurations.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   enableWireless:
     description: Enable Wireless.

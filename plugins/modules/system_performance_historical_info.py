@@ -12,10 +12,10 @@ description:
   - Get all System Performance Historical. - > Retrieves hourly data of cluster key performance indicators KPIs , like CPU
     utilization, memory utilization or network rates for the past 24 hours. Query parameters 'startTime' and 'endTime' are
     no longer supported.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

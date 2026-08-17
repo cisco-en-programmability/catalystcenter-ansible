@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Wireless Design Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the wireless settings configured on
   the Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -405,10 +406,10 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper import (
-    BrownFieldHelper
+    BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    CatalystCenterBase,
 )
 import time
 import re
@@ -462,17 +463,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -518,7 +516,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
 
-        self.log("Building workflow filters schema for wireless design module.", "DEBUG")
+        self.log(
+            "Building workflow filters schema for wireless design module.", "DEBUG"
+        )
 
         schema = {
             "network_elements": {
@@ -528,7 +528,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "ssid_name": {"type": "str"},
                         "ssid_type": {
                             "type": "str",
-                            "choices": ["Enterprise", "Guest"]
+                            "choices": ["Enterprise", "Guest"],
                         },
                     },
                     "reverse_mapping_function": self.wireless_ssid_temp_spec,
@@ -539,7 +539,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "interfaces": {
                     "filters": {
                         "interface_name": {"type": "str"},
-                        "vlan_id": {"type": "int"}
+                        "vlan_id": {"type": "int"},
                     },
                     "reverse_mapping_function": self.wireless_interfaces_temp_spec,
                     "api_function": "get_interfaces",
@@ -547,36 +547,28 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "get_function_name": self.get_wireless_interfaces,
                 },
                 "power_profiles": {
-                    "filters": {
-                        "power_profile_name": {"type": "str"}
-                    },
+                    "filters": {"power_profile_name": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_power_profiles_temp_spec,
                     "api_function": "get_power_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_power_profiles,
                 },
                 "access_point_profiles": {
-                    "filters": {
-                        "ap_profile_name": {"type": "str"}
-                    },
+                    "filters": {"ap_profile_name": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_access_point_profiles_temp_spec,
                     "api_function": "get_ap_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_access_point_profiles,
                 },
                 "radio_frequency_profiles": {
-                    "filters": {
-                        "rf_profile_name": {"type": "str"}
-                    },
+                    "filters": {"rf_profile_name": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_radio_frequency_profiles_temp_spec,
                     "api_function": "get_rf_profiles",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_radio_frequency_profiles,
                 },
                 "anchor_groups": {
-                    "filters": {
-                        "anchor_group_name": {"type": "str"}
-                    },
+                    "filters": {"anchor_group_name": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_anchor_groups_temp_spec,
                     "api_function": "get_anchor_groups",
                     "api_family": "wireless",
@@ -596,32 +588,28 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                 "flexconnect_configuration",
                                 "multicast_configuration",
                                 "rrm_fra_configuration",
-                                "rrm_general_configuration"
-                            ]
+                                "rrm_general_configuration",
+                            ],
                         },
-                        "design_name": {"type": "str"}
+                        "design_name": {"type": "str"},
                     },
                     "api_function": "get_feature_template_summary",
                     "api_family": "wireless",
                     "get_function_name": self.get_wireless_feature_template_config,
                 },
                 "802_11_be_profiles": {
-                    "filters": {
-                        "profile_name": {"type": "str"}
-                    },
+                    "filters": {"profile_name": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_802_11_be_profiles_temp_spec,
                     "api_function": "get80211be_profiles",
                     "api_family": "wireless",
-                    "get_function_name": self.get_wireless_802_11_be_profiles
+                    "get_function_name": self.get_wireless_802_11_be_profiles,
                 },
                 "flex_connect_configuration": {
-                    "filters": {
-                        "site_name_hierarchy": {"type": "str"}
-                    },
+                    "filters": {"site_name_hierarchy": {"type": "str"}},
                     "reverse_mapping_function": self.wireless_flex_connect_config_temp_spec,
                     "api_function": "get_native_vlan_settings_by_site",
                     "api_family": "wireless",
-                    "get_function_name": self.get_wireless_flex_connect_configurations
+                    "get_function_name": self.get_wireless_flex_connect_configurations,
                 },
             }
         }
@@ -747,7 +735,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         transformed_attribute = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", attribute)
-        transformed_attribute = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", transformed_attribute)
+        transformed_attribute = re.sub(
+            r"([a-z0-9])([A-Z])", r"\1_\2", transformed_attribute
+        )
         return transformed_attribute.lower()
 
     def transform_feature_attributes_from_camel_case_to_snake_case(self, attribute):
@@ -761,8 +751,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting feature attribute transformation from camelCase to snake_case for attribute: {0}"
-            .format(attribute),
+            "Starting feature attribute transformation from camelCase to snake_case for attribute: {0}".format(
+                attribute
+            ),
             "DEBUG",
         )
 
@@ -775,11 +766,15 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             )
             return attribute
 
-        api_response_to_module_attribute_map = self._get_api_response_to_module_attribute_map()
+        api_response_to_module_attribute_map = (
+            self._get_api_response_to_module_attribute_map()
+        )
         transformed_attribute = api_response_to_module_attribute_map.get(attribute)
 
         if transformed_attribute is None:
-            transformed_attribute = self._transform_attribute_name_to_snake_case(attribute)
+            transformed_attribute = self._transform_attribute_name_to_snake_case(
+                attribute
+            )
 
         self.log(
             "Completed feature attribute transformation. Output: {0}".format(
@@ -821,10 +816,16 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                 "source_key": "ghz24Policy",
                                 "transform": self.transform_2_dot_4_ghz_band_policy,
                             },
-                            "band_select": {"type": "bool", "source_key": "wlanBandSelectEnable"},
-                            "6_ghz_client_steering": {"type": "bool", "source_key": "ghz6PolicyClientSteering"}
+                            "band_select": {
+                                "type": "bool",
+                                "source_key": "wlanBandSelectEnable",
+                            },
+                            "6_ghz_client_steering": {
+                                "type": "bool",
+                                "source_key": "ghz6PolicyClientSteering",
+                            },
                         }
-                    )
+                    ),
                 },
                 "fast_lane": {"type": "bool", "source_key": "isFastLaneEnabled"},
                 "quality_of_service": {
@@ -832,30 +833,36 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "options": OrderedDict(
                         {
                             "egress": {"type": "str", "source_key": "egressQos"},
-                            "ingress": {"type": "str", "source_key": "ingressQos"}
+                            "ingress": {"type": "str", "source_key": "ingressQos"},
                         }
-                    )
+                    ),
                 },
                 "ssid_state": {
                     "type": "dict",
                     "options": OrderedDict(
                         {
                             "admin_status": {"type": "bool", "source_key": "isEnabled"},
-                            "broadcast_ssid": {"type": "bool", "source_key": "isBroadcastSSID"}
+                            "broadcast_ssid": {
+                                "type": "bool",
+                                "source_key": "isBroadcastSSID",
+                            },
                         }
-                    )
+                    ),
                 },
                 "l2_security": {
                     "type": "dict",
                     "options": OrderedDict(
                         {
                             "l2_auth_type": {"type": "str", "source_key": "authType"},
-                            "ap_beacon_protection": {"type": "bool", "source_key": "isApBeaconProtectionEnabled"},
+                            "ap_beacon_protection": {
+                                "type": "bool",
+                                "source_key": "isApBeaconProtectionEnabled",
+                            },
                             "open_ssid": {"type": "str", "source_key": "openSsid"},
                             "passphrase_type": {
                                 "type": "str",
                                 "source_key": "isHex",
-                                "transform": lambda isHex: "HEX" if isHex else "ASCII"
+                                "transform": lambda isHex: "HEX" if isHex else "ASCII",
                             },
                             "passphrase": {
                                 "type": "str",
@@ -864,23 +871,29 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                 "transform": lambda ssid_details: self.generate_placeholder_using_component_details(
                                     ssid_details, "ssid", "ssid", "passphrase"
                                 ),
-                            }
+                            },
                         }
-                    )
+                    ),
                 },
                 "fast_transition": {"type": "str", "source_key": "fastTransition"},
-                "fast_transition_over_the_ds": {"type": "bool", "source_key": "fastTransitionOverTheDistributedSystemEnable"},
+                "fast_transition_over_the_ds": {
+                    "type": "bool",
+                    "source_key": "fastTransitionOverTheDistributedSystemEnable",
+                },
                 "wpa_encryption": {
                     "type": "list",
                     "special_handling": True,
-                    "transform": self.transform_ssid_wpa_encryption
+                    "transform": self.transform_ssid_wpa_encryption,
                 },
                 "auth_key_management": {
                     "type": "list",
                     "special_handling": True,
-                    "transform": self.transform_auth_key_management
+                    "transform": self.transform_auth_key_management,
                 },
-                "cckm_timestamp_tolerance": {"type": "int", "source_key": "cckmTsfTolerance"},
+                "cckm_timestamp_tolerance": {
+                    "type": "int",
+                    "source_key": "cckmTsfTolerance",
+                },
                 "l3_security": {
                     "type": "dict",
                     "options": OrderedDict(
@@ -888,45 +901,101 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                             "l3_auth_type": {
                                 "type": "str",
                                 "source_key": "l3AuthType",
-                                "transform": lambda x: x.upper() if x is not None else x
+                                "transform": lambda x: (
+                                    x.upper() if x is not None else x
+                                ),
                             },
                             "auth_server": {
                                 "type": "str",
                                 "special_handling": True,
                                 "transform": self.transform_l3_security_auth_server,
                             },
-                            "web_auth_url": {"type": "str", "source_key": "externalAuthIpAddress"},
-                            "enable_sleeping_client": {"type": "bool", "source_key": "sleepingClientEnable"},
-                            "sleeping_client_timeout": {"type": "int", "source_key": "sleepingClientTimeout"},
+                            "web_auth_url": {
+                                "type": "str",
+                                "source_key": "externalAuthIpAddress",
+                            },
+                            "enable_sleeping_client": {
+                                "type": "bool",
+                                "source_key": "sleepingClientEnable",
+                            },
+                            "sleeping_client_timeout": {
+                                "type": "int",
+                                "source_key": "sleepingClientTimeout",
+                            },
                         }
-                    )
+                    ),
                 },
                 "aaa": {
                     "type": "dict",
                     "options": OrderedDict(
                         {
-                            "auth_servers_ip_address_list": {"type": "list", "source_key": "authServers"},
-                            "accounting_servers_ip_address_list": {"type": "list", "source_key": "acctServers"},
-                            "aaa_override": {"type": "bool", "source_key": "aaaOverride"},
-                            "mac_filtering": {"type": "bool", "source_key": "isMacFilteringEnabled"},
-                            "deny_rcm_clients": {"type": "bool", "source_key": "isRandomMacFilterEnabled"},
-                            "enable_posture": {"type": "bool", "source_key": "isPosturingEnabled"},
-                            "pre_auth_acl_name": {"type": "str", "source_key": "aclName"},
+                            "auth_servers_ip_address_list": {
+                                "type": "list",
+                                "source_key": "authServers",
+                            },
+                            "accounting_servers_ip_address_list": {
+                                "type": "list",
+                                "source_key": "acctServers",
+                            },
+                            "aaa_override": {
+                                "type": "bool",
+                                "source_key": "aaaOverride",
+                            },
+                            "mac_filtering": {
+                                "type": "bool",
+                                "source_key": "isMacFilteringEnabled",
+                            },
+                            "deny_rcm_clients": {
+                                "type": "bool",
+                                "source_key": "isRandomMacFilterEnabled",
+                            },
+                            "enable_posture": {
+                                "type": "bool",
+                                "source_key": "isPosturingEnabled",
+                            },
+                            "pre_auth_acl_name": {
+                                "type": "str",
+                                "source_key": "aclName",
+                            },
                         }
                     ),
                 },
-                "mfp_client_protection": {"type": "str", "source_key": "managementFrameProtectionClientprotection"},
-                "protected_management_frame": {"type": "str", "source_key": "protectedManagementFrame"},
-                "11k_neighbor_list": {"type": "bool", "source_key": "neighborListEnable"},
-                "coverage_hole_detection": {"type": "bool", "source_key": "coverageHoleDetectionEnable"},
+                "mfp_client_protection": {
+                    "type": "str",
+                    "source_key": "managementFrameProtectionClientprotection",
+                },
+                "protected_management_frame": {
+                    "type": "str",
+                    "source_key": "protectedManagementFrame",
+                },
+                "11k_neighbor_list": {
+                    "type": "bool",
+                    "source_key": "neighborListEnable",
+                },
+                "coverage_hole_detection": {
+                    "type": "bool",
+                    "source_key": "coverageHoleDetectionEnable",
+                },
                 "wlan_timeouts": {
                     "type": "dict",
                     "options": OrderedDict(
                         {
-                            "enable_session_timeout": {"type": "bool", "source_key": "sessionTimeOutEnable"},
-                            "session_timeout": {"type": "int", "source_key": "sessionTimeOut"},
-                            "enable_client_execlusion_timeout": {"type": "bool", "source_key": "clientExclusionEnable"},
-                            "client_execlusion_timeout": {"type": "int", "source_key": "clientExclusionTimeout"},
+                            "enable_session_timeout": {
+                                "type": "bool",
+                                "source_key": "sessionTimeOutEnable",
+                            },
+                            "session_timeout": {
+                                "type": "int",
+                                "source_key": "sessionTimeOut",
+                            },
+                            "enable_client_execlusion_timeout": {
+                                "type": "bool",
+                                "source_key": "clientExclusionEnable",
+                            },
+                            "client_execlusion_timeout": {
+                                "type": "int",
+                                "source_key": "clientExclusionTimeout",
+                            },
                         }
                     ),
                 },
@@ -934,14 +1003,23 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "dict",
                     "options": OrderedDict(
                         {
-                            "bss_max_idle_service": {"type": "bool", "source_key": "basicServiceSetMaxIdleEnable"},
-                            "bss_idle_client_timeout": {"type": "int", "source_key": "basicServiceSetClientIdleTimeout"},
-                            "directed_multicast_service": {"type": "bool", "source_key": "directedMulticastServiceEnable"},
+                            "bss_max_idle_service": {
+                                "type": "bool",
+                                "source_key": "basicServiceSetMaxIdleEnable",
+                            },
+                            "bss_idle_client_timeout": {
+                                "type": "int",
+                                "source_key": "basicServiceSetClientIdleTimeout",
+                            },
+                            "directed_multicast_service": {
+                                "type": "bool",
+                                "source_key": "directedMulticastServiceEnable",
+                            },
                         }
                     ),
                 },
                 "nas_id": {"type": "list", "source_key": "nasOptions"},
-                "client_rate_limit": {"type": "int", "source_key": "clientRateLimit"}
+                "client_rate_limit": {"type": "int", "source_key": "clientRateLimit"},
             }
         )
         return wireless_ssid_temp_spec
@@ -955,7 +1033,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless interfaces attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Interfaces config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Interfaces config", "DEBUG"
+        )
 
         wireless_interfaces_temp_spec = OrderedDict(
             {
@@ -974,20 +1054,38 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless power profiles attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Power Profiles config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Power Profiles config",
+            "DEBUG",
+        )
         wireless_power_profiles_temp_spec = OrderedDict(
             {
                 "power_profile_name": {"type": "str", "source_key": "profileName"},
-                "power_profile_description": {"type": "str", "source_key": "description"},
+                "power_profile_description": {
+                    "type": "str",
+                    "source_key": "description",
+                },
                 "rules": {
                     "type": "list",
                     "elements": "dict",
                     "options": OrderedDict(
                         {
-                            "interface_type": {"type": "str", "source_key": "interfaceType"},
-                            "interface_id": {"type": "str", "source_key": "interfaceId"},
-                            "parameter_type": {"type": "str", "source_key": "parameterType"},
-                            "parameter_value": {"type": "str", "source_key": "parameterValue"},
+                            "interface_type": {
+                                "type": "str",
+                                "source_key": "interfaceType",
+                            },
+                            "interface_id": {
+                                "type": "str",
+                                "source_key": "interfaceId",
+                            },
+                            "parameter_type": {
+                                "type": "str",
+                                "source_key": "parameterType",
+                            },
+                            "parameter_value": {
+                                "type": "str",
+                                "source_key": "parameterValue",
+                            },
                         }
                     ),
                 },
@@ -1004,29 +1102,59 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless access point profiles attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Access Point Profiles config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Access Point Profiles config",
+            "DEBUG",
+        )
 
         wireless_access_point_profiles_temp_spec = OrderedDict(
             {
-                "access_point_profile_name": {"type": "str", "source_key": "apProfileName"},
-                "access_point_profile_description": {"type": "str", "source_key": "description"},
-                "remote_teleworker": {"type": "bool", "source_key": "remoteWorkerEnabled"},
+                "access_point_profile_name": {
+                    "type": "str",
+                    "source_key": "apProfileName",
+                },
+                "access_point_profile_description": {
+                    "type": "str",
+                    "source_key": "description",
+                },
+                "remote_teleworker": {
+                    "type": "bool",
+                    "source_key": "remoteWorkerEnabled",
+                },
                 "management_settings": {
                     "type": "dict",
                     "special_handling": True,
-                    "transform": self.transform_ap_management_settings
+                    "transform": self.transform_ap_management_settings,
                 },
                 "security_settings": {
                     "type": "dict",
                     "options": OrderedDict(
                         {
                             "awips": {"type": "bool", "source_key": "awipsEnabled"},
-                            "awips_forensic": {"type": "bool", "source_key": "awipsForensicEnabled"},
-                            "rogue_detection_enabled": {"type": "bool", "source_key": "rogueDetectionSetting.rogueDetection"},
-                            "minimum_rssi": {"type": "int", "source_key": "rogueDetectionSetting.rogueDetectionMinRssi"},
-                            "transient_interval": {"type": "int", "source_key": "rogueDetectionSetting.rogueDetectionTransientInterval"},
-                            "report_interval": {"type": "int", "source_key": "rogueDetectionSetting.rogueDetectionReportInterval"},
-                            "pmf_denial": {"type": "bool", "source_key": "pmfDenialEnabled"},
+                            "awips_forensic": {
+                                "type": "bool",
+                                "source_key": "awipsForensicEnabled",
+                            },
+                            "rogue_detection_enabled": {
+                                "type": "bool",
+                                "source_key": "rogueDetectionSetting.rogueDetection",
+                            },
+                            "minimum_rssi": {
+                                "type": "int",
+                                "source_key": "rogueDetectionSetting.rogueDetectionMinRssi",
+                            },
+                            "transient_interval": {
+                                "type": "int",
+                                "source_key": "rogueDetectionSetting.rogueDetectionTransientInterval",
+                            },
+                            "report_interval": {
+                                "type": "int",
+                                "source_key": "rogueDetectionSetting.rogueDetectionReportInterval",
+                            },
+                            "pmf_denial": {
+                                "type": "bool",
+                                "source_key": "pmfDenialEnabled",
+                            },
                         }
                     ),
                 },
@@ -1037,11 +1165,26 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "options": OrderedDict(
                         {
                             "range": {"type": "int", "source_key": "range"},
-                            "backhaul_client_access": {"type": "bool", "source_key": "backhaulClientAccess"},
-                            "rap_downlink_backhaul": {"type": "str", "source_key": "rapDownlinkBackhaul"},
-                            "ghz_5_backhaul_data_rates": {"type": "str", "source_key": "ghz5BackhaulDataRates"},
-                            "ghz_2_4_backhaul_data_rates": {"type": "str", "source_key": "ghz24BackhaulDataRates"},
-                            "bridge_group_name": {"type": "str", "source_key": "bridgeGroupName"}
+                            "backhaul_client_access": {
+                                "type": "bool",
+                                "source_key": "backhaulClientAccess",
+                            },
+                            "rap_downlink_backhaul": {
+                                "type": "str",
+                                "source_key": "rapDownlinkBackhaul",
+                            },
+                            "ghz_5_backhaul_data_rates": {
+                                "type": "str",
+                                "source_key": "ghz5BackhaulDataRates",
+                            },
+                            "ghz_2_4_backhaul_data_rates": {
+                                "type": "str",
+                                "source_key": "ghz24BackhaulDataRates",
+                            },
+                            "bridge_group_name": {
+                                "type": "str",
+                                "source_key": "bridgeGroupName",
+                            },
                         }
                     ),
                 },
@@ -1049,19 +1192,40 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "dict",
                     "options": OrderedDict(
                         {
-                            "ap_power_profile_name": {"type": "str", "source_key": "apPowerProfileName"},
+                            "ap_power_profile_name": {
+                                "type": "str",
+                                "source_key": "apPowerProfileName",
+                            },
                             "calendar_power_profiles": {
                                 "type": "list",
                                 "elements": "dict",
                                 "source_key": "calendarPowerProfiles",
                                 "options": OrderedDict(
                                     {
-                                        "ap_power_profile_name": {"type": "str", "source_key": "powerProfileName"},
-                                        "scheduler_type": {"type": "str", "source_key": "schedulerType"},
-                                        "scheduler_start_time": {"type": "str", "source_key": "duration.schedulerStartTime"},
-                                        "scheduler_end_time": {"type": "str", "source_key": "duration.schedulerEndTime"},
-                                        "scheduler_days_list": {"type": "list", "source_key": "duration.schedulerDay"},
-                                        "scheduler_dates_list": {"type": "list", "source_key": "duration.schedulerDate"},
+                                        "ap_power_profile_name": {
+                                            "type": "str",
+                                            "source_key": "powerProfileName",
+                                        },
+                                        "scheduler_type": {
+                                            "type": "str",
+                                            "source_key": "schedulerType",
+                                        },
+                                        "scheduler_start_time": {
+                                            "type": "str",
+                                            "source_key": "duration.schedulerStartTime",
+                                        },
+                                        "scheduler_end_time": {
+                                            "type": "str",
+                                            "source_key": "duration.schedulerEndTime",
+                                        },
+                                        "scheduler_days_list": {
+                                            "type": "list",
+                                            "source_key": "duration.schedulerDay",
+                                        },
+                                        "scheduler_dates_list": {
+                                            "type": "list",
+                                            "source_key": "duration.schedulerDate",
+                                        },
                                     }
                                 ),
                             },
@@ -1071,12 +1235,18 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "country_code": {
                     "type": "str",
                     "source_key": "countryCode",
-                    "transform": self.transform_ap_country_code
+                    "transform": self.transform_ap_country_code,
                 },
                 "time_zone": {"type": "str", "source_key": "timeZone"},
-                "time_zone_offset_hour": {"type": "int", "source_key": "timeZoneOffsetHour"},
-                "time_zone_offset_minutes": {"type": "int", "source_key": "timeZoneOffsetMinutes"},
-                "maximum_client_limit": {"type": "int", "source_key": "clientLimit"}
+                "time_zone_offset_hour": {
+                    "type": "int",
+                    "source_key": "timeZoneOffsetHour",
+                },
+                "time_zone_offset_minutes": {
+                    "type": "int",
+                    "source_key": "timeZoneOffsetMinutes",
+                },
+                "maximum_client_limit": {"type": "int", "source_key": "clientLimit"},
             }
         )
         return wireless_access_point_profiles_temp_spec
@@ -1102,7 +1272,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         ap_management_settings_temp_spec = OrderedDict(
             {
-                "access_point_authentication": {"type": "str", "source_key": "authType"},
+                "access_point_authentication": {
+                    "type": "str",
+                    "source_key": "authType",
+                },
                 "dot1x_username": {"type": "str", "source_key": "dot1xUsername"},
                 "dot1x_password": {
                     "type": "str",
@@ -1111,12 +1284,15 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         value.get("dot1xPassword"),
                         "ap_profile",
                         access_point_profile_name,
-                        "dot1x_password"
-                    )
+                        "dot1x_password",
+                    ),
                 },
                 "ssh_enabled": {"type": "bool", "source_key": "sshEnabled"},
                 "telnet_enabled": {"type": "bool", "source_key": "telnetEnabled"},
-                "management_username": {"type": "str", "source_key": "managementUserName"},
+                "management_username": {
+                    "type": "str",
+                    "source_key": "managementUserName",
+                },
                 "management_password": {
                     "type": "str",
                     "special_handling": True,
@@ -1137,7 +1313,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "management_enable_password",
                     ),
                 },
-                "cdp_state": {"type": "bool", "source_key": "cdpState"}
+                "cdp_state": {"type": "bool", "source_key": "cdpState"},
             }
         )
 
@@ -1158,69 +1334,129 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless radio frequency profiles attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Radio Frequency Profiles config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Radio Frequency Profiles config",
+            "DEBUG",
+        )
 
         radio_frequency_profiles_temp_spec = OrderedDict(
             {
-                "radio_frequency_profile_name": {"type": "str", "source_key": "rfProfileName"},
-                "default_rf_profile": {"type": "bool", "source_key": "defaultRfProfile"},
+                "radio_frequency_profile_name": {
+                    "type": "str",
+                    "source_key": "rfProfileName",
+                },
+                "default_rf_profile": {
+                    "type": "bool",
+                    "source_key": "defaultRfProfile",
+                },
                 "radio_bands": {
                     "type": "list",
                     "special_handling": True,
-                    "transform": self.transform_rf_radio_bands
+                    "transform": self.transform_rf_radio_bands,
                 },
                 "radio_bands_2_4ghz_settings": {
                     "type": "dict",
                     "source_key": "radioTypeBProperties",
                     "options": OrderedDict(
                         {
-                            "parent_profile": {"type": "str", "source_key": "parentProfile"},
+                            "parent_profile": {
+                                "type": "str",
+                                "source_key": "parentProfile",
+                            },
                             "dca_channels_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("radioChannels"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("radioChannels")
+                                ),
                             },
                             "supported_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("dataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("dataRates")
+                                ),
                             },
                             "mandatory_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("mandatoryDataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("mandatoryDataRates")
+                                ),
                             },
-                            "minimum_power_level": {"type": "int", "source_key": "minPowerLevel"},
-                            "maximum_power_level": {"type": "int", "source_key": "maxPowerLevel"},
-                            "rx_sop_threshold": {"type": "str", "source_key": "rxSopThreshold"},
-                            "custom_rx_sop_threshold": {"type": "int", "source_key": "customRxSopThreshold"},
-                            "tpc_power_threshold": {"type": "int", "source_key": "powerThresholdV1"},
+                            "minimum_power_level": {
+                                "type": "int",
+                                "source_key": "minPowerLevel",
+                            },
+                            "maximum_power_level": {
+                                "type": "int",
+                                "source_key": "maxPowerLevel",
+                            },
+                            "rx_sop_threshold": {
+                                "type": "str",
+                                "source_key": "rxSopThreshold",
+                            },
+                            "custom_rx_sop_threshold": {
+                                "type": "int",
+                                "source_key": "customRxSopThreshold",
+                            },
+                            "tpc_power_threshold": {
+                                "type": "int",
+                                "source_key": "powerThresholdV1",
+                            },
                             "coverage_hole_detection": {
                                 "type": "dict",
                                 "source_key": "coverageHoleDetectionProperties",
                                 "options": OrderedDict(
                                     {
-                                        "minimum_client_level": {"type": "int", "source_key": "chdClientLevel"},
-                                        "data_rssi_threshold": {"type": "int", "source_key": "chdDataRssiThreshold"},
-                                        "voice_rssi_threshold": {"type": "int", "source_key": "chdVoiceRssiThreshold"},
-                                        "exception_level": {"type": "int", "source_key": "chdExceptionLevel"},
+                                        "minimum_client_level": {
+                                            "type": "int",
+                                            "source_key": "chdClientLevel",
+                                        },
+                                        "data_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdDataRssiThreshold",
+                                        },
+                                        "voice_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdVoiceRssiThreshold",
+                                        },
+                                        "exception_level": {
+                                            "type": "int",
+                                            "source_key": "chdExceptionLevel",
+                                        },
                                     }
                                 ),
                             },
-                            "client_limit": {"type": "int", "source_key": "maxRadioClients"},
+                            "client_limit": {
+                                "type": "int",
+                                "source_key": "maxRadioClients",
+                            },
                             "spatial_reuse": {
                                 "type": "dict",
                                 "source_key": "spatialReuseProperties",
                                 "options": OrderedDict(
                                     {
-                                        "non_srg_obss_pd": {"type": "bool", "source_key": "dot11axNonSrgObssPacketDetect"},
-                                        "non_srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold"},
-                                        "srg_obss_pd": {"type": "bool", "source_key": "dot11axSrgObssPacketDetect"},
-                                        "srg_obss_pd_min_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMinThreshold"},
-                                        "srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMaxThreshold"},
+                                        "non_srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axNonSrgObssPacketDetect",
+                                        },
+                                        "non_srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold",
+                                        },
+                                        "srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axSrgObssPacketDetect",
+                                        },
+                                        "srg_obss_pd_min_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMinThreshold",
+                                        },
+                                        "srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMaxThreshold",
+                                        },
                                     }
                                 ),
                             },
@@ -1232,54 +1468,108 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "radioTypeAProperties",
                     "options": OrderedDict(
                         {
-                            "parent_profile": {"type": "str", "source_key": "parentProfile"},
-                            "channel_width": {"type": "str", "source_key": "channelWidth"},
-                            "preamble_puncturing": {"type": "bool", "source_key": "preamblePuncture"},
-                            "zero_wait_dfs": {"type": "bool", "source_key": "zeroWaitDfsEnable"},
+                            "parent_profile": {
+                                "type": "str",
+                                "source_key": "parentProfile",
+                            },
+                            "channel_width": {
+                                "type": "str",
+                                "source_key": "channelWidth",
+                            },
+                            "preamble_puncturing": {
+                                "type": "bool",
+                                "source_key": "preamblePuncture",
+                            },
+                            "zero_wait_dfs": {
+                                "type": "bool",
+                                "source_key": "zeroWaitDfsEnable",
+                            },
                             "dca_channels_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("radioChannels"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("radioChannels")
+                                ),
                             },
                             "supported_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("dataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("dataRates")
+                                ),
                             },
                             "mandatory_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("mandatoryDataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("mandatoryDataRates")
+                                ),
                             },
-                            "minimum_power_level": {"type": "int", "source_key": "minPowerLevel"},
-                            "maximum_power_level": {"type": "int", "source_key": "maxPowerLevel"},
-                            "rx_sop_threshold": {"type": "str", "source_key": "rxSopThreshold"},
-                            "custom_rx_sop_threshold": {"type": "int", "source_key": "customRxSopThreshold"},
-                            "tpc_power_threshold": {"type": "int", "source_key": "powerThresholdV1"},
+                            "minimum_power_level": {
+                                "type": "int",
+                                "source_key": "minPowerLevel",
+                            },
+                            "maximum_power_level": {
+                                "type": "int",
+                                "source_key": "maxPowerLevel",
+                            },
+                            "rx_sop_threshold": {
+                                "type": "str",
+                                "source_key": "rxSopThreshold",
+                            },
+                            "custom_rx_sop_threshold": {
+                                "type": "int",
+                                "source_key": "customRxSopThreshold",
+                            },
+                            "tpc_power_threshold": {
+                                "type": "int",
+                                "source_key": "powerThresholdV1",
+                            },
                             "coverage_hole_detection": {
                                 "type": "dict",
                                 "source_key": "coverageHoleDetectionProperties",
                                 "options": OrderedDict(
                                     {
-                                        "minimum_client_level": {"type": "int", "source_key": "chdClientLevel"},
-                                        "data_rssi_threshold": {"type": "int", "source_key": "chdDataRssiThreshold"},
-                                        "voice_rssi_threshold": {"type": "int", "source_key": "chdVoiceRssiThreshold"},
-                                        "exception_level": {"type": "int", "source_key": "chdExceptionLevel"},
+                                        "minimum_client_level": {
+                                            "type": "int",
+                                            "source_key": "chdClientLevel",
+                                        },
+                                        "data_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdDataRssiThreshold",
+                                        },
+                                        "voice_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdVoiceRssiThreshold",
+                                        },
+                                        "exception_level": {
+                                            "type": "int",
+                                            "source_key": "chdExceptionLevel",
+                                        },
                                     }
                                 ),
                             },
-                            "client_limit": {"type": "int", "source_key": "maxRadioClients"},
+                            "client_limit": {
+                                "type": "int",
+                                "source_key": "maxRadioClients",
+                            },
                             "flexible_radio_assigment": {
                                 "type": "dict",
                                 "source_key": "fraPropertiesA",
                                 "options": OrderedDict(
                                     {
-                                        "client_aware": {"type": "bool", "source_key": "clientAware"},
-                                        "client_select": {"type": "int", "source_key": "clientSelect"},
-                                        "client_reset": {"type": "int", "source_key": "clientReset"},
+                                        "client_aware": {
+                                            "type": "bool",
+                                            "source_key": "clientAware",
+                                        },
+                                        "client_select": {
+                                            "type": "int",
+                                            "source_key": "clientSelect",
+                                        },
+                                        "client_reset": {
+                                            "type": "int",
+                                            "source_key": "clientReset",
+                                        },
                                     }
                                 ),
                             },
@@ -1288,11 +1578,26 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                 "source_key": "spatialReuseProperties",
                                 "options": OrderedDict(
                                     {
-                                        "non_srg_obss_pd": {"type": "bool", "source_key": "dot11axNonSrgObssPacketDetect"},
-                                        "non_srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold"},
-                                        "srg_obss_pd": {"type": "bool", "source_key": "dot11axSrgObssPacketDetect"},
-                                        "srg_obss_pd_min_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMinThreshold"},
-                                        "srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMaxThreshold"},
+                                        "non_srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axNonSrgObssPacketDetect",
+                                        },
+                                        "non_srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold",
+                                        },
+                                        "srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axSrgObssPacketDetect",
+                                        },
+                                        "srg_obss_pd_min_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMinThreshold",
+                                        },
+                                        "srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMaxThreshold",
+                                        },
                                     }
                                 ),
                             },
@@ -1304,60 +1609,123 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "radioType6GHzProperties",
                     "options": OrderedDict(
                         {
-                            "parent_profile": {"type": "str", "source_key": "parentProfile"},
-                            "minimum_dbs_channel_width": {"type": "int", "source_key": "minDbsWidth"},
-                            "maximum_dbs_channel_width": {"type": "int", "source_key": "maxDbsWidth"},
-                            "preamble_puncturing": {"type": "bool", "source_key": "preamblePuncture"},
-                            "psc_enforcing_enabled": {"type": "bool", "source_key": "pscEnforcingEnabled"},
+                            "parent_profile": {
+                                "type": "str",
+                                "source_key": "parentProfile",
+                            },
+                            "minimum_dbs_channel_width": {
+                                "type": "int",
+                                "source_key": "minDbsWidth",
+                            },
+                            "maximum_dbs_channel_width": {
+                                "type": "int",
+                                "source_key": "maxDbsWidth",
+                            },
+                            "preamble_puncturing": {
+                                "type": "bool",
+                                "source_key": "preamblePuncture",
+                            },
+                            "psc_enforcing_enabled": {
+                                "type": "bool",
+                                "source_key": "pscEnforcingEnabled",
+                            },
                             "dca_channels_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("radioChannels"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("radioChannels")
+                                ),
                             },
                             "supported_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("dataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("dataRates")
+                                ),
                             },
                             "mandatory_data_rates_list": {
                                 "type": "list",
                                 "special_handling": True,
-                                "transform": lambda properties:
-                                    self.str_numbers_to_numeric_list(properties.get("mandatoryDataRates"))
+                                "transform": lambda properties: self.str_numbers_to_numeric_list(
+                                    properties.get("mandatoryDataRates")
+                                ),
                             },
-                            "standard_power_service": {"type": "bool", "source_key": "enableStandardPowerService"},
-                            "minimum_power_level": {"type": "int", "source_key": "minPowerLevel"},
-                            "maximum_power_level": {"type": "int", "source_key": "maxPowerLevel"},
-                            "rx_sop_threshold": {"type": "str", "source_key": "rxSopThreshold"},
-                            "custom_rx_sop_threshold": {"type": "int", "source_key": "customRxSopThreshold"},
-                            "tpc_power_threshold": {"type": "int", "source_key": "powerThresholdV1"},
+                            "standard_power_service": {
+                                "type": "bool",
+                                "source_key": "enableStandardPowerService",
+                            },
+                            "minimum_power_level": {
+                                "type": "int",
+                                "source_key": "minPowerLevel",
+                            },
+                            "maximum_power_level": {
+                                "type": "int",
+                                "source_key": "maxPowerLevel",
+                            },
+                            "rx_sop_threshold": {
+                                "type": "str",
+                                "source_key": "rxSopThreshold",
+                            },
+                            "custom_rx_sop_threshold": {
+                                "type": "int",
+                                "source_key": "customRxSopThreshold",
+                            },
+                            "tpc_power_threshold": {
+                                "type": "int",
+                                "source_key": "powerThresholdV1",
+                            },
                             "coverage_hole_detection": {
                                 "type": "dict",
                                 "source_key": "coverageHoleDetectionProperties",
                                 "options": OrderedDict(
                                     {
-                                        "minimum_client_level": {"type": "int", "source_key": "chdClientLevel"},
-                                        "data_rssi_threshold": {"type": "int", "source_key": "chdDataRssiThreshold"},
-                                        "voice_rssi_threshold": {"type": "int", "source_key": "chdVoiceRssiThreshold"},
-                                        "exception_level": {"type": "int", "source_key": "chdExceptionLevel"},
+                                        "minimum_client_level": {
+                                            "type": "int",
+                                            "source_key": "chdClientLevel",
+                                        },
+                                        "data_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdDataRssiThreshold",
+                                        },
+                                        "voice_rssi_threshold": {
+                                            "type": "int",
+                                            "source_key": "chdVoiceRssiThreshold",
+                                        },
+                                        "exception_level": {
+                                            "type": "int",
+                                            "source_key": "chdExceptionLevel",
+                                        },
                                     }
                                 ),
                             },
-                            "client_limit": {"type": "int", "source_key": "maxRadioClients"},
+                            "client_limit": {
+                                "type": "int",
+                                "source_key": "maxRadioClients",
+                            },
                             "flexible_radio_assigment": {
                                 "type": "dict",
                                 "source_key": "fraPropertiesC",
                                 "options": OrderedDict(
                                     {
-                                        "client_reset_count": {"type": "int", "source_key": "clientResetCount"},
-                                        "client_utilization_threshold": {"type": "int", "source_key": "clientUtilizationThreshold"},
+                                        "client_reset_count": {
+                                            "type": "int",
+                                            "source_key": "clientResetCount",
+                                        },
+                                        "client_utilization_threshold": {
+                                            "type": "int",
+                                            "source_key": "clientUtilizationThreshold",
+                                        },
                                     }
                                 ),
                             },
-                            "discovery_frames_6ghz": {"type": "str", "source_key": "discoveryFrames6GHz"},
-                            "broadcast_probe_response_interval": {"type": "int", "source_key": "broadcastProbeResponseInterval"},
+                            "discovery_frames_6ghz": {
+                                "type": "str",
+                                "source_key": "discoveryFrames6GHz",
+                            },
+                            "broadcast_probe_response_interval": {
+                                "type": "int",
+                                "source_key": "broadcastProbeResponseInterval",
+                            },
                             "multi_bssid": {
                                 "type": "dict",
                                 "source_key": "multiBssidProperties",
@@ -1368,10 +1736,22 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                             "source_key": "dot11axParameters",
                                             "options": OrderedDict(
                                                 {
-                                                    "ofdma_downlink": {"type": "bool", "source_key": "ofdmaDownLink"},
-                                                    "ofdma_uplink": {"type": "bool", "source_key": "ofdmaUpLink"},
-                                                    "mu_mimo_downlink": {"type": "bool", "source_key": "muMimoDownLink"},
-                                                    "mu_mimo_uplink": {"type": "bool", "source_key": "muMimoUpLink"},
+                                                    "ofdma_downlink": {
+                                                        "type": "bool",
+                                                        "source_key": "ofdmaDownLink",
+                                                    },
+                                                    "ofdma_uplink": {
+                                                        "type": "bool",
+                                                        "source_key": "ofdmaUpLink",
+                                                    },
+                                                    "mu_mimo_downlink": {
+                                                        "type": "bool",
+                                                        "source_key": "muMimoDownLink",
+                                                    },
+                                                    "mu_mimo_uplink": {
+                                                        "type": "bool",
+                                                        "source_key": "muMimoUpLink",
+                                                    },
                                                 }
                                             ),
                                         },
@@ -1380,16 +1760,37 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                             "source_key": "dot11beParameters",
                                             "options": OrderedDict(
                                                 {
-                                                    "ofdma_downlink": {"type": "bool", "source_key": "ofdmaDownLink"},
-                                                    "ofdma_uplink": {"type": "bool", "source_key": "ofdmaUpLink"},
-                                                    "mu_mimo_downlink": {"type": "bool", "source_key": "muMimoDownLink"},
-                                                    "mu_mimo_uplink": {"type": "bool", "source_key": "muMimoUpLink"},
-                                                    "ofdma_multi_ru": {"type": "bool", "source_key": "ofdmaMultiRu"},
+                                                    "ofdma_downlink": {
+                                                        "type": "bool",
+                                                        "source_key": "ofdmaDownLink",
+                                                    },
+                                                    "ofdma_uplink": {
+                                                        "type": "bool",
+                                                        "source_key": "ofdmaUpLink",
+                                                    },
+                                                    "mu_mimo_downlink": {
+                                                        "type": "bool",
+                                                        "source_key": "muMimoDownLink",
+                                                    },
+                                                    "mu_mimo_uplink": {
+                                                        "type": "bool",
+                                                        "source_key": "muMimoUpLink",
+                                                    },
+                                                    "ofdma_multi_ru": {
+                                                        "type": "bool",
+                                                        "source_key": "ofdmaMultiRu",
+                                                    },
                                                 }
                                             ),
                                         },
-                                        "target_waketime": {"type": "bool", "source_key": "targetWakeTime"},
-                                        "twt_broadcast_support": {"type": "bool", "source_key": "twtBroadcastSupport"},
+                                        "target_waketime": {
+                                            "type": "bool",
+                                            "source_key": "targetWakeTime",
+                                        },
+                                        "twt_broadcast_support": {
+                                            "type": "bool",
+                                            "source_key": "twtBroadcastSupport",
+                                        },
                                     }
                                 ),
                             },
@@ -1398,11 +1799,26 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                                 "source_key": "spatialReuseProperties",
                                 "options": OrderedDict(
                                     {
-                                        "non_srg_obss_pd": {"type": "bool", "source_key": "dot11axNonSrgObssPacketDetect"},
-                                        "non_srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold"},
-                                        "srg_obss_pd": {"type": "bool", "source_key": "dot11axSrgObssPacketDetect"},
-                                        "srg_obss_pd_min_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMinThreshold"},
-                                        "srg_obss_pd_max_threshold": {"type": "int", "source_key": "dot11axSrgObssPacketDetectMaxThreshold"},
+                                        "non_srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axNonSrgObssPacketDetect",
+                                        },
+                                        "non_srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axNonSrgObssPacketDetectMaxThreshold",
+                                        },
+                                        "srg_obss_pd": {
+                                            "type": "bool",
+                                            "source_key": "dot11axSrgObssPacketDetect",
+                                        },
+                                        "srg_obss_pd_min_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMinThreshold",
+                                        },
+                                        "srg_obss_pd_max_threshold": {
+                                            "type": "int",
+                                            "source_key": "dot11axSrgObssPacketDetectMaxThreshold",
+                                        },
                                     }
                                 ),
                             },
@@ -1422,7 +1838,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless anchor groups attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Anchor Groups config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Anchor Groups config",
+            "DEBUG",
+        )
 
         anchor_groups_temp_spec = OrderedDict(
             {
@@ -1434,21 +1853,42 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "options": OrderedDict(
                         {
                             "device_name": {"type": "str", "source_key": "deviceName"},
-                            "device_ip_address": {"type": "str", "source_key": "ipAddress"},
-                            "device_mac_address": {"type": "str", "source_key": "macAddress"},
-                            "device_type": {"type": "str", "source_key": "peerDeviceType"},
+                            "device_ip_address": {
+                                "type": "str",
+                                "source_key": "ipAddress",
+                            },
+                            "device_mac_address": {
+                                "type": "str",
+                                "source_key": "macAddress",
+                            },
+                            "device_type": {
+                                "type": "str",
+                                "source_key": "peerDeviceType",
+                            },
                             "device_priority": {
                                 "type": "str",
                                 "source_key": "anchorPriority",
-                                "transform": lambda priority:
-                                    {"PRIMARY": 1, "SECONDARY": 2, "TERTIARY": 3}.get(priority, None),
+                                "transform": lambda priority: {
+                                    "PRIMARY": 1,
+                                    "SECONDARY": 2,
+                                    "TERTIARY": 3,
+                                }.get(priority, None),
                             },
-                            "device_nat_ip_address": {"type": "str", "source_key": "privateIp"},
-                            "mobility_group_name": {"type": "str", "source_key": "mobilityGroupName"},
-                            "managed_device": {"type": "bool", "source_key": "managedAnchorWlc"},
+                            "device_nat_ip_address": {
+                                "type": "str",
+                                "source_key": "privateIp",
+                            },
+                            "mobility_group_name": {
+                                "type": "str",
+                                "source_key": "mobilityGroupName",
+                            },
+                            "managed_device": {
+                                "type": "bool",
+                                "source_key": "managedAnchorWlc",
+                            },
                         }
                     ),
-                }
+                },
             }
         )
 
@@ -1463,7 +1903,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless aaa radius attributes config.
         """
 
-        self.log("Generating temporary specification for Wireless AAA Radius Attributes config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless AAA Radius Attributes config",
+            "DEBUG",
+        )
 
         aaa_radius_attribute_config_temp_spec = OrderedDict(
             {
@@ -1471,14 +1914,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "called_station_id": {
                     "type": "str",
                     "source_key": "featureAttributes",
-                    "transform": lambda x: x.get("calledStationId")
+                    "transform": lambda x: x.get("calledStationId"),
                 },
                 "unlocked_attributes": {
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
-                }
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
+                },
             }
         )
         return aaa_radius_attribute_config_temp_spec
@@ -1492,7 +1935,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless advanced ssid config.
         """
 
-        self.log("Generating temporary specification for Wireless Advanced SSID config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Advanced SSID config",
+            "DEBUG",
+        )
 
         advanced_ssid_config_temp_spec = OrderedDict(
             {
@@ -1502,71 +1948,224 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "featureAttributes",
                     "options": OrderedDict(
                         {
-                            "peer2peer_blocking": {"type": "str", "source_key": "peer2peerblocking"},
-                            "passive_client": {"type": "bool", "source_key": "passiveClient"},
-                            "prediction_optimization": {"type": "bool", "source_key": "predictionOptimization"},
-                            "dual_band_neighbor_list": {"type": "bool", "source_key": "dualBandNeighborList"},
-                            "radius_nac_state": {"type": "bool", "source_key": "radiusNacState"},
-                            "dhcp_required": {"type": "bool", "source_key": "dhcpRequired"},
+                            "peer2peer_blocking": {
+                                "type": "str",
+                                "source_key": "peer2peerblocking",
+                            },
+                            "passive_client": {
+                                "type": "bool",
+                                "source_key": "passiveClient",
+                            },
+                            "prediction_optimization": {
+                                "type": "bool",
+                                "source_key": "predictionOptimization",
+                            },
+                            "dual_band_neighbor_list": {
+                                "type": "bool",
+                                "source_key": "dualBandNeighborList",
+                            },
+                            "radius_nac_state": {
+                                "type": "bool",
+                                "source_key": "radiusNacState",
+                            },
+                            "dhcp_required": {
+                                "type": "bool",
+                                "source_key": "dhcpRequired",
+                            },
                             "dhcp_server": {"type": "str", "source_key": "dhcpServer"},
-                            "flex_local_auth": {"type": "bool", "source_key": "flexLocalAuth"},
-                            "target_wakeup_time": {"type": "bool", "source_key": "targetWakeupTime"},
-                            "downlink_ofdma": {"type": "bool", "source_key": "downlinkOfdma"},
-                            "uplink_ofdma": {"type": "bool", "source_key": "uplinkOfdma"},
-                            "downlink_mu_mimo": {"type": "bool", "source_key": "downlinkMuMimo"},
-                            "uplink_mu_mimo": {"type": "bool", "source_key": "uplinkMuMimo"},
+                            "flex_local_auth": {
+                                "type": "bool",
+                                "source_key": "flexLocalAuth",
+                            },
+                            "target_wakeup_time": {
+                                "type": "bool",
+                                "source_key": "targetWakeupTime",
+                            },
+                            "downlink_ofdma": {
+                                "type": "bool",
+                                "source_key": "downlinkOfdma",
+                            },
+                            "uplink_ofdma": {
+                                "type": "bool",
+                                "source_key": "uplinkOfdma",
+                            },
+                            "downlink_mu_mimo": {
+                                "type": "bool",
+                                "source_key": "downlinkMuMimo",
+                            },
+                            "uplink_mu_mimo": {
+                                "type": "bool",
+                                "source_key": "uplinkMuMimo",
+                            },
                             "dot11ax": {"type": "bool", "source_key": "dot11ax"},
-                            "aironet_ie_support": {"type": "bool", "source_key": "aironetIESupport"},
-                            "load_balancing": {"type": "bool", "source_key": "loadBalancing"},
-                            "dtim_period_5ghz": {"type": "int", "source_key": "dtimPeriod5GHz"},
-                            "dtim_period_24ghz": {"type": "int", "source_key": "dtimPeriod24GHz"},
-                            "scan_defer_time": {"type": "int", "source_key": "scanDeferTime"},
+                            "aironet_ie_support": {
+                                "type": "bool",
+                                "source_key": "aironetIESupport",
+                            },
+                            "load_balancing": {
+                                "type": "bool",
+                                "source_key": "loadBalancing",
+                            },
+                            "dtim_period_5ghz": {
+                                "type": "int",
+                                "source_key": "dtimPeriod5GHz",
+                            },
+                            "dtim_period_24ghz": {
+                                "type": "int",
+                                "source_key": "dtimPeriod24GHz",
+                            },
+                            "scan_defer_time": {
+                                "type": "int",
+                                "source_key": "scanDeferTime",
+                            },
                             "max_clients": {"type": "int", "source_key": "maxClients"},
-                            "max_clients_per_radio": {"type": "int", "source_key": "maxClientsPerRadio"},
-                            "max_clients_per_ap": {"type": "int", "source_key": "maxClientsPerAp"},
+                            "max_clients_per_radio": {
+                                "type": "int",
+                                "source_key": "maxClientsPerRadio",
+                            },
+                            "max_clients_per_ap": {
+                                "type": "int",
+                                "source_key": "maxClientsPerAp",
+                            },
                             "wmm_policy": {"type": "str", "source_key": "wmmPolicy"},
-                            "multicast_buffer": {"type": "bool", "source_key": "multicastBuffer"},
-                            "multicast_buffer_value": {"type": "int", "source_key": "multicastBufferValue"},
-                            "media_stream_multicast_direct": {"type": "bool", "source_key": "mediaStreamMulticastDirect"},
-                            "mu_mimo_11ac": {"type": "bool", "source_key": "muMimo11ac"},
-                            "wifi_to_cellular_steering": {"type": "bool", "source_key": "wifiToCellularSteering"},
-                            "wifi_alliance_agile_multiband": {"type": "bool", "source_key": "wifiAllianceAgileMultiband"},
-                            "fastlane_asr": {"type": "bool", "source_key": "fastlaneASR"},
-                            "dot11v_bss_max_idle_protected": {"type": "bool", "source_key": "dot11vBSSMaxIdleProtected"},
-                            "universal_ap_admin": {"type": "bool", "source_key": "universalAPAdmin"},
-                            "opportunistic_key_caching": {"type": "bool", "source_key": "opportunisticKeyCaching"},
-                            "ip_source_guard": {"type": "bool", "source_key": "ipSourceGuard"},
-                            "dhcp_opt82_remote_id_sub_option": {"type": "bool", "source_key": "dhcpOpt82RemoteIDSubOption"},
-                            "vlan_central_switching": {"type": "bool", "source_key": "vlanCentralSwitching"},
-                            "call_snooping": {"type": "bool", "source_key": "callSnooping"},
-                            "send_disassociate": {"type": "bool", "source_key": "sendDisassociate"},
-                            "sent_486_busy": {"type": "bool", "source_key": "sent486Busy"},
-                            "ip_mac_binding": {"type": "bool", "source_key": "ipMacBinding"},
-                            "idle_threshold": {"type": "int", "source_key": "idleThreshold"},
-                            "defer_priority_0": {"type": "bool", "source_key": "deferPriority0"},
-                            "defer_priority_1": {"type": "bool", "source_key": "deferPriority1"},
-                            "defer_priority_2": {"type": "bool", "source_key": "deferPriority2"},
-                            "defer_priority_3": {"type": "bool", "source_key": "deferPriority3"},
-                            "defer_priority_4": {"type": "bool", "source_key": "deferPriority4"},
-                            "defer_priority_5": {"type": "bool", "source_key": "deferPriority5"},
-                            "defer_priority_6": {"type": "bool", "source_key": "deferPriority6"},
-                            "defer_priority_7": {"type": "bool", "source_key": "deferPriority7"},
-                            "share_data_with_client": {"type": "bool", "source_key": "shareDataWithClient"},
-                            "advertise_support": {"type": "bool", "source_key": "advertiseSupport"},
-                            "advertise_pc_analytics_support": {"type": "bool", "source_key": "advertisePCAnalyticsSupport"},
-                            "send_beacon_on_association": {"type": "bool", "source_key": "sendBeaconOnAssociation"},
-                            "send_beacon_on_roam": {"type": "bool", "source_key": "sendBeaconOnRoam"},
-                            "fast_transition_reassociation_timeout": {"type": "int", "source_key": "fastTransitionReassociationTimeout"},
+                            "multicast_buffer": {
+                                "type": "bool",
+                                "source_key": "multicastBuffer",
+                            },
+                            "multicast_buffer_value": {
+                                "type": "int",
+                                "source_key": "multicastBufferValue",
+                            },
+                            "media_stream_multicast_direct": {
+                                "type": "bool",
+                                "source_key": "mediaStreamMulticastDirect",
+                            },
+                            "mu_mimo_11ac": {
+                                "type": "bool",
+                                "source_key": "muMimo11ac",
+                            },
+                            "wifi_to_cellular_steering": {
+                                "type": "bool",
+                                "source_key": "wifiToCellularSteering",
+                            },
+                            "wifi_alliance_agile_multiband": {
+                                "type": "bool",
+                                "source_key": "wifiAllianceAgileMultiband",
+                            },
+                            "fastlane_asr": {
+                                "type": "bool",
+                                "source_key": "fastlaneASR",
+                            },
+                            "dot11v_bss_max_idle_protected": {
+                                "type": "bool",
+                                "source_key": "dot11vBSSMaxIdleProtected",
+                            },
+                            "universal_ap_admin": {
+                                "type": "bool",
+                                "source_key": "universalAPAdmin",
+                            },
+                            "opportunistic_key_caching": {
+                                "type": "bool",
+                                "source_key": "opportunisticKeyCaching",
+                            },
+                            "ip_source_guard": {
+                                "type": "bool",
+                                "source_key": "ipSourceGuard",
+                            },
+                            "dhcp_opt82_remote_id_sub_option": {
+                                "type": "bool",
+                                "source_key": "dhcpOpt82RemoteIDSubOption",
+                            },
+                            "vlan_central_switching": {
+                                "type": "bool",
+                                "source_key": "vlanCentralSwitching",
+                            },
+                            "call_snooping": {
+                                "type": "bool",
+                                "source_key": "callSnooping",
+                            },
+                            "send_disassociate": {
+                                "type": "bool",
+                                "source_key": "sendDisassociate",
+                            },
+                            "sent_486_busy": {
+                                "type": "bool",
+                                "source_key": "sent486Busy",
+                            },
+                            "ip_mac_binding": {
+                                "type": "bool",
+                                "source_key": "ipMacBinding",
+                            },
+                            "idle_threshold": {
+                                "type": "int",
+                                "source_key": "idleThreshold",
+                            },
+                            "defer_priority_0": {
+                                "type": "bool",
+                                "source_key": "deferPriority0",
+                            },
+                            "defer_priority_1": {
+                                "type": "bool",
+                                "source_key": "deferPriority1",
+                            },
+                            "defer_priority_2": {
+                                "type": "bool",
+                                "source_key": "deferPriority2",
+                            },
+                            "defer_priority_3": {
+                                "type": "bool",
+                                "source_key": "deferPriority3",
+                            },
+                            "defer_priority_4": {
+                                "type": "bool",
+                                "source_key": "deferPriority4",
+                            },
+                            "defer_priority_5": {
+                                "type": "bool",
+                                "source_key": "deferPriority5",
+                            },
+                            "defer_priority_6": {
+                                "type": "bool",
+                                "source_key": "deferPriority6",
+                            },
+                            "defer_priority_7": {
+                                "type": "bool",
+                                "source_key": "deferPriority7",
+                            },
+                            "share_data_with_client": {
+                                "type": "bool",
+                                "source_key": "shareDataWithClient",
+                            },
+                            "advertise_support": {
+                                "type": "bool",
+                                "source_key": "advertiseSupport",
+                            },
+                            "advertise_pc_analytics_support": {
+                                "type": "bool",
+                                "source_key": "advertisePCAnalyticsSupport",
+                            },
+                            "send_beacon_on_association": {
+                                "type": "bool",
+                                "source_key": "sendBeaconOnAssociation",
+                            },
+                            "send_beacon_on_roam": {
+                                "type": "bool",
+                                "source_key": "sendBeaconOnRoam",
+                            },
+                            "fast_transition_reassociation_timeout": {
+                                "type": "int",
+                                "source_key": "fastTransitionReassociationTimeout",
+                            },
                             "mdns_mode": {"type": "str", "source_key": "mDNSMode"},
                         }
-                    )
+                    ),
                 },
                 "unlocked_attributes": {
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
-                }
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
+                },
             }
         )
         return advanced_ssid_config_temp_spec
@@ -1580,7 +2179,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining clean air configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Clean Air configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Clean Air configuration",
+            "DEBUG",
+        )
 
         clean_air_config_temp_spec = OrderedDict(
             {
@@ -1592,35 +2194,92 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         {
                             "radio_band": {"type": "str", "source_key": "radioBand"},
                             "clean_air": {"type": "bool", "source_key": "cleanAir"},
-                            "clean_air_device_reporting": {"type": "bool", "source_key": "cleanAirDeviceReporting"},
-                            "persistent_device_propagation": {"type": "bool", "source_key": "persistentDevicePropagation"},
+                            "clean_air_device_reporting": {
+                                "type": "bool",
+                                "source_key": "cleanAirDeviceReporting",
+                            },
+                            "persistent_device_propagation": {
+                                "type": "bool",
+                                "source_key": "persistentDevicePropagation",
+                            },
                             "description": {"type": "str", "source_key": "description"},
                             "interferers_features": {
                                 "type": "dict",
                                 "source_key": "interferersFeatures",
                                 "options": OrderedDict(
                                     {
-                                        "ble_beacon": {"type": "bool", "source_key": "bleBeacon"},
-                                        "bluetooth_paging_inquiry": {"type": "bool", "source_key": "bluetoothPagingInquiry"},
-                                        "bluetooth_sco_acl": {"type": "bool", "source_key": "bluetoothScoAcl"},
-                                        "continuous_transmitter": {"type": "bool", "source_key": "continuousTransmitter"},
-                                        "generic_dect": {"type": "bool", "source_key": "genericDect"},
-                                        "generic_tdd": {"type": "bool", "source_key": "genericTdd"},
-                                        "jammer": {"type": "bool", "source_key": "jammer"},
-                                        "microwave_oven": {"type": "bool", "source_key": "microwaveOven"},
-                                        "motorola_canopy": {"type": "bool", "source_key": "motorolaCanopy"},
-                                        "si_fhss": {"type": "bool", "source_key": "siFhss"},
-                                        "spectrum80211_fh": {"type": "bool", "source_key": "spectrum80211Fh"},
+                                        "ble_beacon": {
+                                            "type": "bool",
+                                            "source_key": "bleBeacon",
+                                        },
+                                        "bluetooth_paging_inquiry": {
+                                            "type": "bool",
+                                            "source_key": "bluetoothPagingInquiry",
+                                        },
+                                        "bluetooth_sco_acl": {
+                                            "type": "bool",
+                                            "source_key": "bluetoothScoAcl",
+                                        },
+                                        "continuous_transmitter": {
+                                            "type": "bool",
+                                            "source_key": "continuousTransmitter",
+                                        },
+                                        "generic_dect": {
+                                            "type": "bool",
+                                            "source_key": "genericDect",
+                                        },
+                                        "generic_tdd": {
+                                            "type": "bool",
+                                            "source_key": "genericTdd",
+                                        },
+                                        "jammer": {
+                                            "type": "bool",
+                                            "source_key": "jammer",
+                                        },
+                                        "microwave_oven": {
+                                            "type": "bool",
+                                            "source_key": "microwaveOven",
+                                        },
+                                        "motorola_canopy": {
+                                            "type": "bool",
+                                            "source_key": "motorolaCanopy",
+                                        },
+                                        "si_fhss": {
+                                            "type": "bool",
+                                            "source_key": "siFhss",
+                                        },
+                                        "spectrum80211_fh": {
+                                            "type": "bool",
+                                            "source_key": "spectrum80211Fh",
+                                        },
                                         "spectrum80211_non_standard_channel": {
                                             "type": "bool",
                                             "source_key": "spectrum80211NonStandardChannel",
                                         },
-                                        "spectrum802154": {"type": "bool", "source_key": "spectrum802154"},
-                                        "spectrum_inverted": {"type": "bool", "source_key": "spectrumInverted"},
-                                        "super_ag": {"type": "bool", "source_key": "superAg"},
-                                        "video_camera": {"type": "bool", "source_key": "videoCamera"},
-                                        "wimax_fixed": {"type": "bool", "source_key": "wimaxFixed"},
-                                        "wimax_mobile": {"type": "bool", "source_key": "wimaxMobile"},
+                                        "spectrum802154": {
+                                            "type": "bool",
+                                            "source_key": "spectrum802154",
+                                        },
+                                        "spectrum_inverted": {
+                                            "type": "bool",
+                                            "source_key": "spectrumInverted",
+                                        },
+                                        "super_ag": {
+                                            "type": "bool",
+                                            "source_key": "superAg",
+                                        },
+                                        "video_camera": {
+                                            "type": "bool",
+                                            "source_key": "videoCamera",
+                                        },
+                                        "wimax_fixed": {
+                                            "type": "bool",
+                                            "source_key": "wimaxFixed",
+                                        },
+                                        "wimax_mobile": {
+                                            "type": "bool",
+                                            "source_key": "wimaxMobile",
+                                        },
                                         "xbox": {"type": "bool", "source_key": "xbox"},
                                     }
                                 ),
@@ -1632,7 +2291,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1647,7 +2306,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining 802.11ax configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless 802.11ax configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless 802.11ax configuration",
+            "DEBUG",
+        )
 
         dot11ax_config_temp_spec = OrderedDict(
             {
@@ -1659,11 +2321,23 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         {
                             "radio_band": {"type": "str", "source_key": "radioBand"},
                             "bss_color": {"type": "bool", "source_key": "bssColor"},
-                            "target_waketime_broadcast": {"type": "bool", "source_key": "targetWaketimeBroadcast"},
-                            "non_srg_obss_pd_max_threshold": {"type": "int", "source_key": "nonSRGObssPdMaxThreshold"},
-                            "target_wakeup_time_11ax": {"type": "bool", "source_key": "targetWakeUpTime11ax"},
+                            "target_waketime_broadcast": {
+                                "type": "bool",
+                                "source_key": "targetWaketimeBroadcast",
+                            },
+                            "non_srg_obss_pd_max_threshold": {
+                                "type": "int",
+                                "source_key": "nonSRGObssPdMaxThreshold",
+                            },
+                            "target_wakeup_time_11ax": {
+                                "type": "bool",
+                                "source_key": "targetWakeUpTime11ax",
+                            },
                             "obss_pd": {"type": "bool", "source_key": "obssPd"},
-                            "multiple_bssid": {"type": "bool", "source_key": "multipleBssid"},
+                            "multiple_bssid": {
+                                "type": "bool",
+                                "source_key": "multipleBssid",
+                            },
                         }
                     ),
                 },
@@ -1671,7 +2345,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1686,7 +2360,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining 802.11be configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless 802.11be configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless 802.11be configuration",
+            "DEBUG",
+        )
 
         dot11be_config_temp_spec = OrderedDict(
             {
@@ -1696,7 +2373,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "featureAttributes",
                     "options": OrderedDict(
                         {
-                            "dot11be_status": {"type": "bool", "source_key": "dot11beStatus"},
+                            "dot11be_status": {
+                                "type": "bool",
+                                "source_key": "dot11beStatus",
+                            },
                             "radio_band": {"type": "str", "source_key": "radioBand"},
                         }
                     ),
@@ -1705,7 +2385,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1720,7 +2400,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining event-driven RRM configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Event-Driven RRM configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Event-Driven RRM configuration",
+            "DEBUG",
+        )
 
         event_driven_rrm_config_temp_spec = OrderedDict(
             {
@@ -1731,7 +2414,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "options": OrderedDict(
                         {
                             "radio_band": {"type": "str", "source_key": "radioBand"},
-                            "event_driven_rrm_enable": {"type": "bool", "source_key": "eventDrivenRrmEnable"},
+                            "event_driven_rrm_enable": {
+                                "type": "bool",
+                                "source_key": "eventDrivenRrmEnable",
+                            },
                             "event_driven_rrm_threshold_level": {
                                 "type": "str",
                                 "source_key": "eventDrivenRrmThresholdLevel",
@@ -1747,7 +2433,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1762,7 +2448,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining feature template flexconnect configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless FlexConnect configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless FlexConnect configuration",
+            "DEBUG",
+        )
 
         flexconnect_config_temp_spec = OrderedDict(
             {
@@ -1772,7 +2461,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "featureAttributes",
                     "options": OrderedDict(
                         {
-                            "overlap_ip_enable": {"type": "bool", "source_key": "overlapIpEnable"},
+                            "overlap_ip_enable": {
+                                "type": "bool",
+                                "source_key": "overlapIpEnable",
+                            },
                         }
                     ),
                 },
@@ -1780,7 +2472,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1795,7 +2487,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining multicast configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Multicast configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Multicast configuration",
+            "DEBUG",
+        )
 
         multicast_config_temp_spec = OrderedDict(
             {
@@ -1805,11 +2500,26 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "source_key": "featureAttributes",
                     "options": OrderedDict(
                         {
-                            "global_multicast_enabled": {"type": "bool", "source_key": "globalMulticastEnabled"},
-                            "multicast_ipv4_mode": {"type": "str", "source_key": "multicastIpv4Mode"},
-                            "multicast_ipv4_address": {"type": "str", "source_key": "multicastIpv4Address"},
-                            "multicast_ipv6_mode": {"type": "str", "source_key": "multicastIpv6Mode"},
-                            "multicast_ipv6_address": {"type": "str", "source_key": "multicastIpv6Address"},
+                            "global_multicast_enabled": {
+                                "type": "bool",
+                                "source_key": "globalMulticastEnabled",
+                            },
+                            "multicast_ipv4_mode": {
+                                "type": "str",
+                                "source_key": "multicastIpv4Mode",
+                            },
+                            "multicast_ipv4_address": {
+                                "type": "str",
+                                "source_key": "multicastIpv4Address",
+                            },
+                            "multicast_ipv6_mode": {
+                                "type": "str",
+                                "source_key": "multicastIpv6Mode",
+                            },
+                            "multicast_ipv6_address": {
+                                "type": "str",
+                                "source_key": "multicastIpv6Address",
+                            },
                         }
                     ),
                 },
@@ -1817,7 +2527,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1832,7 +2542,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining RRM FRA configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless RRM FRA configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless RRM FRA configuration",
+            "DEBUG",
+        )
 
         rrm_fra_config_temp_spec = OrderedDict(
             {
@@ -1845,11 +2558,16 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                             "radio_band": {"type": "str", "source_key": "radioBand"},
                             "fra_freeze": {"type": "bool", "source_key": "fraFreeze"},
                             "fra_status": {"type": "bool", "source_key": "fraStatus"},
-                            "fra_interval": {"type": "int", "source_key": "fraInterval"},
+                            "fra_interval": {
+                                "type": "int",
+                                "source_key": "fraInterval",
+                            },
                             "fra_sensitivity": {
                                 "type": "str",
                                 "source_key": "fraSensitivity",
-                                "transform": lambda x: x.upper() if x is not None else x
+                                "transform": lambda x: (
+                                    x.upper() if x is not None else x
+                                ),
                             },
                         }
                     ),
@@ -1858,7 +2576,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1873,7 +2591,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining RRM general configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless RRM General configuration", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless RRM General configuration",
+            "DEBUG",
+        )
 
         rrm_general_config_temp_spec = OrderedDict(
             {
@@ -1884,10 +2605,22 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "options": OrderedDict(
                         {
                             "radio_band": {"type": "str", "source_key": "radioBand"},
-                            "monitoring_channels": {"type": "str", "source_key": "monitoringChannels"},
-                            "neighbor_discover_type": {"type": "str", "source_key": "neighborDiscoverType"},
-                            "throughput_threshold": {"type": "int", "source_key": "throughputThreshold"},
-                            "coverage_hole_detection": {"type": "bool", "source_key": "coverageHoleDetection"},
+                            "monitoring_channels": {
+                                "type": "str",
+                                "source_key": "monitoringChannels",
+                            },
+                            "neighbor_discover_type": {
+                                "type": "str",
+                                "source_key": "neighborDiscoverType",
+                            },
+                            "throughput_threshold": {
+                                "type": "int",
+                                "source_key": "throughputThreshold",
+                            },
+                            "coverage_hole_detection": {
+                                "type": "bool",
+                                "source_key": "coverageHoleDetection",
+                            },
                         }
                     ),
                 },
@@ -1895,7 +2628,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "type": "list",
                     "elements": "str",
                     "source_key": "unlockedAttributes",
-                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case
+                    "transform": self.transform_feature_attributes_from_camel_case_to_snake_case,
                 },
             }
         )
@@ -1910,7 +2643,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless 802.11be profile attributes.
         """
 
-        self.log("Generating temporary specification for Wireless 802.11be profiles config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless 802.11be profiles config",
+            "DEBUG",
+        )
 
         wireless_802_11be_profiles_temp_spec = OrderedDict(
             {
@@ -1933,17 +2669,25 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             OrderedDict: An ordered dictionary defining the structure of wireless flex connect configuration attributes.
         """
 
-        self.log("Generating temporary specification for Wireless Flex Connect config", "DEBUG")
+        self.log(
+            "Generating temporary specification for Wireless Flex Connect config",
+            "DEBUG",
+        )
 
         wireless_flex_connect_config_temp_spec = OrderedDict(
             {
-                "site_name_hierarchy": {"type": "str", "source_key": "siteNameHierarchy"},
-                "vlan_id": {"type": "int", "source_key": "nativeVlanId"}
+                "site_name_hierarchy": {
+                    "type": "str",
+                    "source_key": "siteNameHierarchy",
+                },
+                "vlan_id": {"type": "int", "source_key": "nativeVlanId"},
             }
         )
         return wireless_flex_connect_config_temp_spec
 
-    def generate_placeholder_using_component_details(self, component_details, component, component_name_parameter, parameter):
+    def generate_placeholder_using_component_details(
+        self, component_details, component, component_name_parameter, parameter
+    ):
         """
         Generates a custom variable name for a given component, component name, and parameter.
         Args:
@@ -1957,11 +2701,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         # Generate the custom variable name
         self.log(
             f"Generating custom variable name for component: {component}, component details: {component_details}, "
-            f"parameter: {parameter}, component name parameter: {component_name_parameter}", "DEBUG",
+            f"parameter: {parameter}, component name parameter: {component_name_parameter}",
+            "DEBUG",
         )
 
         # Replacing consecutive non-alphanumeric characters with a single underscore
-        value = re.sub(r'[^A-Za-z0-9]+', '_', component_details[component_name_parameter])
+        value = re.sub(
+            r"[^A-Za-z0-9]+", "_", component_details[component_name_parameter]
+        )
         self.log("Transformed component name parameter: {0}".format(value), "DEBUG")
 
         variable_name = f"{{ {component}_{value}_{parameter} }}"
@@ -1984,15 +2731,19 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
         # Generate the custom variable name
         self.log(
-            f"Generating custom variable name for value: {value}, component: {component}, name: {name}, parameter: {parameter}", "DEBUG",
+            f"Generating custom variable name for value: {value}, component: {component}, name: {name}, parameter: {parameter}",
+            "DEBUG",
         )
 
         if not value:
-            self.log("No value provided for generating variable name, returning None", "DEBUG")
+            self.log(
+                "No value provided for generating variable name, returning None",
+                "DEBUG",
+            )
             return None
 
         # Replacing consecutive non-alphanumeric characters with a single underscore
-        value = re.sub(r'[^A-Za-z0-9]+', '_', name)
+        value = re.sub(r"[^A-Za-z0-9]+", "_", name)
         self.log("Transformed name: {0}".format(value), "DEBUG")
 
         variable_name = f"{{ {component}_{value}_{parameter} }}"
@@ -2019,9 +2770,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting radio bands transformation for given radio type: {0}"
-            .format(radio_type if radio_type is not None else "Unknown"),
-            "DEBUG"
+            "Starting radio bands transformation for given radio type: {0}".format(
+                radio_type if radio_type is not None else "Unknown"
+            ),
+            "DEBUG",
         )
 
         if not radio_type:
@@ -2040,16 +2792,18 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not transformed_radio_bands:
             self.log(
-                "No radio bands mapping found for radio type: {0}. Returning empty list."
-                .format(radio_type),
-                "DEBUG"
+                "No radio bands mapping found for radio type: {0}. Returning empty list.".format(
+                    radio_type
+                ),
+                "DEBUG",
             )
             return transformed_radio_bands
 
         self.log(
-            "Completed radio bands transformation. Input radio type: {0}, transformed radio bands: {1}"
-            .format(radio_type, transformed_radio_bands),
-            "DEBUG"
+            "Completed radio bands transformation. Input radio type: {0}, transformed radio bands: {1}".format(
+                radio_type, transformed_radio_bands
+            ),
+            "DEBUG",
         )
 
         return transformed_radio_bands
@@ -2070,9 +2824,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting 2.4 GHz band policy transformation for value: {0}"
-            .format(band_value if band_value is not None else "Unknown"),
-            "DEBUG"
+            "Starting 2.4 GHz band policy transformation for value: {0}".format(
+                band_value if band_value is not None else "Unknown"
+            ),
+            "DEBUG",
         )
 
         transformed_value = {
@@ -2081,9 +2836,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         }.get(band_value, None)
 
         self.log(
-            "Completed 2.4 GHz band policy transformation. Input value: {0}, transformed value: {1}"
-            .format(band_value, transformed_value),
-            "DEBUG"
+            "Completed 2.4 GHz band policy transformation. Input value: {0}, transformed value: {1}".format(
+                band_value, transformed_value
+            ),
+            "DEBUG",
         )
 
         return transformed_value
@@ -2100,9 +2856,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting SSID WPA encryption transformation for ssid details: {0}"
-            .format(ssid_details),
-            "DEBUG"
+            "Starting SSID WPA encryption transformation for ssid details: {0}".format(
+                ssid_details
+            ),
+            "DEBUG",
         )
 
         mapping = {
@@ -2122,9 +2879,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 result.append(list_value)
 
         self.log(
-            "Completed SSID WPA encryption transformation. Transformed value: {0}"
-            .format(result),
-            "DEBUG"
+            "Completed SSID WPA encryption transformation. Transformed value: {0}".format(
+                result
+            ),
+            "DEBUG",
         )
 
         return result
@@ -2141,9 +2899,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting authentication key management transformation for ssid details: {0}"
-            .format(ssid_details),
-            "DEBUG"
+            "Starting authentication key management transformation for ssid details: {0}".format(
+                ssid_details
+            ),
+            "DEBUG",
         )
 
         mapping = {
@@ -2174,8 +2933,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 result.append(list_value)
 
         self.log(
-            "Completed authentication key management transformation. Transformed value: {0}"
-            .format(result), "DEBUG"
+            "Completed authentication key management transformation. Transformed value: {0}".format(
+                result
+            ),
+            "DEBUG",
         )
         return result
 
@@ -2191,9 +2952,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting L3 security auth server transformation for value: {0}"
-            .format(ssid_details.get("authServer", "Unknown")),
-            "DEBUG"
+            "Starting L3 security auth server transformation for value: {0}".format(
+                ssid_details.get("authServer", "Unknown")
+            ),
+            "DEBUG",
         )
 
         auth_server = ssid_details.get("authServer")
@@ -2202,18 +2964,29 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             return None
 
         web_passthrough_enabled = ssid_details.get("webPassthrough", False)
-        self.log("Web passthrough enabled: {0}".format(web_passthrough_enabled), "DEBUG")
+        self.log(
+            "Web passthrough enabled: {0}".format(web_passthrough_enabled), "DEBUG"
+        )
 
         transformed_value = {
             "auth_ise": "central_web_authentication",
-            "auth_internal": "web_passthrough_internal" if web_passthrough_enabled else "web_authentication_internal",
-            "auth_external": "web_passthrough_external" if web_passthrough_enabled else "web_authentication_external",
+            "auth_internal": (
+                "web_passthrough_internal"
+                if web_passthrough_enabled
+                else "web_authentication_internal"
+            ),
+            "auth_external": (
+                "web_passthrough_external"
+                if web_passthrough_enabled
+                else "web_authentication_external"
+            ),
         }.get(auth_server, auth_server)
 
         self.log(
-            "Completed L3 security auth server transformation. Input value: {0}, transformed value: {1}"
-            .format(auth_server, transformed_value),
-            "DEBUG"
+            "Completed L3 security auth server transformation. Input value: {0}, transformed value: {1}".format(
+                auth_server, transformed_value
+            ),
+            "DEBUG",
         )
 
         return transformed_value
@@ -2230,15 +3003,16 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting access point country code transformation for value: {0}"
-            .format(country_code if country_code is not None else "Unknown"),
-            "DEBUG"
+            "Starting access point country code transformation for value: {0}".format(
+                country_code if country_code is not None else "Unknown"
+            ),
+            "DEBUG",
         )
 
         if self.country_code_map is None:
             self.log(
                 "Country code mapping is not initialized. Building country code map for access point country code transformation.",
-                "DEBUG"
+                "DEBUG",
             )
             self.country_code_map = {
                 "AF": "Afghanistan",
@@ -2387,9 +3161,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         transformed_value = self.country_code_map.get(country_code)
 
         self.log(
-            "Completed access point country code transformation. Input value: {0}, transformed value: {1}"
-            .format(country_code, transformed_value),
-            "DEBUG"
+            "Completed access point country code transformation. Input value: {0}, transformed value: {1}".format(
+                country_code, transformed_value
+            ),
+            "DEBUG",
         )
 
         return transformed_value
@@ -2406,9 +3181,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting RF radio bands transformation for rf details: {0}"
-            .format(rf_details),
-            "DEBUG"
+            "Starting RF radio bands transformation for rf details: {0}".format(
+                rf_details
+            ),
+            "DEBUG",
         )
 
         mapping = {
@@ -2427,9 +3203,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 result.append(list_value)
 
         self.log(
-            "Completed RF radio bands transformation. Transformed value: {0}"
-            .format(result),
-            "DEBUG"
+            "Completed RF radio bands transformation. Transformed value: {0}".format(
+                result
+            ),
+            "DEBUG",
         )
 
         return result
@@ -2447,9 +3224,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting AP management settings transformation for ap details: {0}"
-            .format(ap_details.get("managementSetting", "Unknown")),
-            "DEBUG"
+            "Starting AP management settings transformation for ap details: {0}".format(
+                ap_details.get("managementSetting", "Unknown")
+            ),
+            "DEBUG",
         )
 
         management_settings = ap_details.get("managementSetting")
@@ -2458,13 +3236,18 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             self.log("No management setting provided for transformation", "DEBUG")
             return management_settings
 
-        management_settings_temp_spec = self.ap_management_settings_temp_spec(ap_details.get("apProfileName", ""))
-        modified_details = self.modify_parameters(management_settings_temp_spec, [management_settings])[0]
+        management_settings_temp_spec = self.ap_management_settings_temp_spec(
+            ap_details.get("apProfileName", "")
+        )
+        modified_details = self.modify_parameters(
+            management_settings_temp_spec, [management_settings]
+        )[0]
 
         self.log(
-            "Completed AP management settings transformation. Transformed value: {0}"
-            .format(modified_details),
-            "DEBUG"
+            "Completed AP management settings transformation. Transformed value: {0}".format(
+                modified_details
+            ),
+            "DEBUG",
         )
 
         return modified_details
@@ -2483,7 +3266,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
         self.log(
             "Starting numeric-list transformation for input: {0}".format(values),
-            "DEBUG"
+            "DEBUG",
         )
 
         if values is None or not str(values).strip():
@@ -2501,8 +3284,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 result.append(int(token))
 
         self.log(
-            "Completed numeric-list transformation. Output: {0}".format(result),
-            "DEBUG"
+            "Completed numeric-list transformation. Output: {0}".format(result), "DEBUG"
         )
         return result
 
@@ -2542,7 +3324,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         feature_template_type = attribute_to_template_type.get(attribute)
         if not feature_template_type:
             self.log(
-                "No feature template type mapping found for attribute: {0}".format(attribute),
+                "No feature template type mapping found for attribute: {0}".format(
+                    attribute
+                ),
                 "WARNING",
             )
             return None
@@ -2566,7 +3350,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             The site ID (str) if the site exists, or None if the site does not exist.
         """
         try:
-            self.log("Retrieving site details from site: {0}".format(site_name), "DEBUG")
+            self.log(
+                "Retrieving site details from site: {0}".format(site_name), "DEBUG"
+            )
 
             response = self.get_site(site_name)
 
@@ -2574,7 +3360,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             if response is None:
                 self.log(
                     "No response from get_site with site_name: {0}".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return response
 
@@ -2582,23 +3368,25 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             if not site_response:
                 self.log(
                     "No site response found in the response: {0}".format(site_response),
-                    "WARNING"
+                    "WARNING",
                 )
                 return site_response
 
             site_id = site_response[0].get("id")
             self.log(
-                "Site details retrieved for site '{0}'': {1}. Retrieved site id: {2}."
-                .format(site_name, str(response), site_id),
-                "DEBUG"
+                "Site details retrieved for site '{0}'': {1}. Retrieved site id: {2}.".format(
+                    site_name, str(response), site_id
+                ),
+                "DEBUG",
             )
             return site_id
 
         except Exception as e:
             self.log(
-                "An exception occurred while retrieving site details for site '{0}'. Error: {1}"
-                .format(site_name, e),
-                "ERROR"
+                "An exception occurred while retrieving site details for site '{0}'. Error: {1}".format(
+                    site_name, e
+                ),
+                "ERROR",
             )
             return None
 
@@ -2641,7 +3429,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         self.log(
             "Resolving feature template attributes for type: {0}".format(
-                feature_template_type if feature_template_type is not None else "Unknown"
+                feature_template_type
+                if feature_template_type is not None
+                else "Unknown"
             ),
             "DEBUG",
         )
@@ -2650,12 +3440,12 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "AAA_RADIUS_ATTRIBUTES_CONFIGURATION": {
                 "temp_spec": self.wireless_aaa_radius_attribute_config_temp_spec(),
                 "attribute_name": "aaa_radius_attribute",
-                "api_function": "get_aaa_radius_attributes_configuration_feature_template"
+                "api_function": "get_aaa_radius_attributes_configuration_feature_template",
             },
             "ADVANCED_SSID_CONFIGURATION": {
                 "temp_spec": self.wireless_advanced_ssid_config_temp_spec(),
                 "attribute_name": "advanced_ssid",
-                "api_function": "get_advanced_ssid_configuration_feature_template"
+                "api_function": "get_advanced_ssid_configuration_feature_template",
             },
             "CLEANAIR_CONFIGURATION": {
                 "temp_spec": self.wireless_clean_air_config_temp_spec(),
@@ -2699,10 +3489,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             },
         }
 
-        feature_template_attributes = feature_template_attributes_map.get(feature_template_type)
+        feature_template_attributes = feature_template_attributes_map.get(
+            feature_template_type
+        )
         if not feature_template_attributes:
             self.log(
-                "No feature template mapping found for type: {0}".format(feature_template_type),
+                "No feature template mapping found for type: {0}".format(
+                    feature_template_type
+                ),
                 "WARNING",
             )
             return None
@@ -2717,7 +3511,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         )
         return feature_template_attributes
 
-    def get_feature_template_details_with_type(self, feature_template_type, feature_template_instances):
+    def get_feature_template_details_with_type(
+        self, feature_template_type, feature_template_instances
+    ):
         """
         Retrieves and transforms feature template details for a specific feature template type.
 
@@ -2763,7 +3559,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             )
             return []
 
-        if not isinstance(feature_template_instances, dict) or not feature_template_instances:
+        if (
+            not isinstance(feature_template_instances, dict)
+            or not feature_template_instances
+        ):
             self.log(
                 "No valid feature template instances provided for type '{0}'. Returning empty result.".format(
                     feature_template_type
@@ -2773,7 +3572,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             return []
 
         final_feature_template_details = []
-        for feature_template_instance, feature_template_instance_id in feature_template_instances.items():
+        for (
+            feature_template_instance,
+            feature_template_instance_id,
+        ) in feature_template_instances.items():
             if feature_template_instance_id is None:
                 self.log(
                     "Skipping feature template instance '{0}' for type '{1}' due to missing id.".format(
@@ -2826,7 +3628,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Completed retrieval of feature template details for type '{0}'. Result: {1}".format(
                 feature_template_type, modified_feature_template_details
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return modified_feature_template_details
 
@@ -2869,7 +3671,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "DEBUG",
         )
 
-        for index, feature_template_config_entry in enumerate(feature_template_config, start=1):
+        for index, feature_template_config_entry in enumerate(
+            feature_template_config, start=1
+        ):
             feature_template_type = feature_template_config_entry.get("type")
             feature_template_instances = feature_template_config_entry.get("instances")
             if not feature_template_type or not feature_template_instances:
@@ -2930,8 +3734,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -2940,7 +3746,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless ssids using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -2949,7 +3755,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless ssids retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -2960,9 +3766,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     site_id = self.get_site_id(value)
                     if not site_id:
                         self.log(
-                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
-                            .format(value),
-                            "WARNING"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing.".format(
+                                value
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -2970,28 +3777,30 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
                             value, site_id
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     site_id = self.get_global_site_id()
 
-                params['site_id'] = site_id
+                params["site_id"] = site_id
 
                 if "ssid_name" in filter_param:
-                    params['ssid'] = filter_param.get("ssid_name")
+                    params["ssid"] = filter_param.get("ssid_name")
                 if "ssid_type" in filter_param:
-                    params['wlanType'] = filter_param.get("ssid_type")
+                    params["wlanType"] = filter_param.get("ssid_type")
 
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless ssids: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless ssids: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
                     "Fetching wireless ssids with parameters: {0}".format(params),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 wireless_ssid_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -3003,12 +3812,12 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Retrieved {0} wireless ssid(s): {1}".format(
                             len(wireless_ssid_details), wireless_ssid_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No wireless ssids found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -3016,12 +3825,15 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless ssids retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless ssids from Catalyst Center using Global Site ID", "DEBUG")
+            self.log(
+                "Fetching all wireless ssids from Catalyst Center using Global Site ID",
+                "DEBUG",
+            )
 
-            params['site_id'] = self.get_global_site_id()
+            params["site_id"] = self.get_global_site_id()
 
             wireless_ssid_details = self.execute_get_with_pagination(
                 api_family, api_function, params
@@ -3033,7 +3845,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} wireless ssid(s) from Catalyst Center".format(
                         len(wireless_ssid_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No wireless ssids found in Catalyst Center", "DEBUG")
@@ -3043,7 +3855,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} wireless ssid(s) using wireless_ssid temp spec".format(
                 len(final_wireless_ssids)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         wireless_ssid_temp_spec = self.wireless_ssid_temp_spec()
         ssid_details = self.modify_parameters(
@@ -3052,12 +3864,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         modified_ssid_details = {}
 
         if ssid_details:
-            modified_ssid_details['ssids'] = ssid_details
+            modified_ssid_details["ssids"] = ssid_details
 
         self.log(
-            "Completed retrieving wireless ssid(s): {0}".format(
-                modified_ssid_details
-            ),
+            "Completed retrieving wireless ssid(s): {0}".format(modified_ssid_details),
             "INFO",
         )
 
@@ -3089,8 +3899,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3099,7 +3911,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless interfaces using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3108,27 +3920,29 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless interfaces retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
                 supported_keys = {"interface_name", "vlan_id"}
 
                 if "interface_name" in filter_param:
-                    params['interfaceName'] = filter_param.get("interface_name")
+                    params["interfaceName"] = filter_param.get("interface_name")
                 if "vlan_id" in filter_param:
-                    params['vlanId'] = filter_param.get("vlan_id")
+                    params["vlanId"] = filter_param.get("vlan_id")
 
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless interfaces: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless interfaces: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
                     "Fetching wireless interfaces with parameters: {0}".format(params),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 wireless_interface_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -3140,12 +3954,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Retrieved {0} wireless interface(s): {1}".format(
                             len(wireless_interface_details), wireless_interface_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless interfaces found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No wireless interfaces found for parameters: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -3153,7 +3969,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless interfaces retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log("Fetching all wireless interfaces from Catalyst Center", "DEBUG")
@@ -3168,7 +3984,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} wireless interface(s) from Catalyst Center".format(
                         len(wireless_interface_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No wireless interfaces found in Catalyst Center", "DEBUG")
@@ -3178,7 +3994,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} wireless interface(s) using wireless_interface temp spec".format(
                 len(final_wireless_interfaces)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         wireless_interface_temp_spec = self.wireless_interfaces_temp_spec()
         interface_details = self.modify_parameters(
@@ -3187,7 +4003,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         modified_interface_details = {}
 
         if interface_details:
-            modified_interface_details['interfaces'] = interface_details
+            modified_interface_details["interfaces"] = interface_details
 
         self.log(
             "Completed retrieving wireless interfaces: {0}".format(
@@ -3224,8 +4040,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3234,7 +4052,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless power profiles using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3243,24 +4061,28 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless power profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
 
                 if "power_profile_name" in filter_param:
-                    params['profileName'] = filter_param.get("power_profile_name")
+                    params["profileName"] = filter_param.get("power_profile_name")
 
                 unsupported_keys = set(filter_param.keys()) - {"power_profile_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless power profiles: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless power profiles: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless power profiles with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless power profiles with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
                 wireless_power_profile_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -3270,14 +4092,17 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     final_wireless_power_profiles.extend(wireless_power_profile_details)
                     self.log(
                         "Retrieved {0} wireless power profile(s): {1}".format(
-                            len(wireless_power_profile_details), wireless_power_profile_details
+                            len(wireless_power_profile_details),
+                            wireless_power_profile_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless power profiles found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No wireless power profiles found for parameters: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -3285,10 +4110,12 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless power profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless power profiles from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless power profiles from Catalyst Center", "DEBUG"
+            )
 
             wireless_power_profile_details = self.execute_get_with_pagination(
                 api_family, api_function, params
@@ -3300,7 +4127,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} wireless power profile(s) from Catalyst Center".format(
                         len(wireless_power_profile_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No wireless power profiles found in Catalyst Center", "DEBUG")
@@ -3310,7 +4137,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} wireless power profile(s) using wireless_power_profile temp spec".format(
                 len(final_wireless_power_profiles)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         wireless_power_profile_temp_spec = self.wireless_power_profiles_temp_spec()
         power_profiles_details = self.modify_parameters(
@@ -3319,7 +4146,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         modified_power_profiles_details = {}
 
         if power_profiles_details:
-            modified_power_profiles_details['power_profiles'] = power_profiles_details
+            modified_power_profiles_details["power_profiles"] = power_profiles_details
 
         self.log(
             "Completed retrieving wireless power profiles: {0}".format(
@@ -3356,8 +4183,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3366,7 +4195,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless access point profiles using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3375,41 +4204,50 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless access point profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
 
                 if "ap_profile_name" in filter_param:
-                    params['apProfileName'] = filter_param.get("ap_profile_name")
+                    params["apProfileName"] = filter_param.get("ap_profile_name")
 
                 unsupported_keys = set(filter_param.keys()) - {"ap_profile_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless access point profiles: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless access point profiles: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless access point profiles with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless access point profiles with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
-                wireless_access_point_profile_details = self.execute_get_with_pagination(
-                    api_family, api_function, params
+                wireless_access_point_profile_details = (
+                    self.execute_get_with_pagination(api_family, api_function, params)
                 )
 
                 if wireless_access_point_profile_details:
-                    final_wireless_access_point_profiles.extend(wireless_access_point_profile_details)
+                    final_wireless_access_point_profiles.extend(
+                        wireless_access_point_profile_details
+                    )
                     self.log(
                         "Retrieved {0} wireless access point profile(s): {1}".format(
-                            len(wireless_access_point_profile_details), wireless_access_point_profile_details
+                            len(wireless_access_point_profile_details),
+                            wireless_access_point_profile_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless access point profiles found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No wireless access point profiles found for parameters: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -3417,41 +4255,54 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless access point profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless access point profiles from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless access point profiles from Catalyst Center",
+                "DEBUG",
+            )
 
             wireless_access_point_profile_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
 
             if wireless_access_point_profile_details:
-                final_wireless_access_point_profiles.extend(wireless_access_point_profile_details)
+                final_wireless_access_point_profiles.extend(
+                    wireless_access_point_profile_details
+                )
                 self.log(
                     "Retrieved {0} wireless access point profile(s) from Catalyst Center".format(
                         len(wireless_access_point_profile_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
-                self.log("No wireless access point profiles found in Catalyst Center", "DEBUG")
+                self.log(
+                    "No wireless access point profiles found in Catalyst Center",
+                    "DEBUG",
+                )
 
         # Transform using temp spec
         self.log(
             "Transforming {0} wireless access point profile(s) using wireless_access_point_profile temp spec".format(
                 len(final_wireless_access_point_profiles)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        wireless_access_point_profile_temp_spec = self.wireless_access_point_profiles_temp_spec()
+        wireless_access_point_profile_temp_spec = (
+            self.wireless_access_point_profiles_temp_spec()
+        )
         access_point_profiles_details = self.modify_parameters(
-            wireless_access_point_profile_temp_spec, final_wireless_access_point_profiles
+            wireless_access_point_profile_temp_spec,
+            final_wireless_access_point_profiles,
         )
         modified_access_point_profiles_details = {}
 
         if access_point_profiles_details:
-            modified_access_point_profiles_details['access_point_profiles'] = access_point_profiles_details
+            modified_access_point_profiles_details["access_point_profiles"] = (
+                access_point_profiles_details
+            )
 
         self.log(
             "Completed retrieving wireless access point profiles: {0}".format(
@@ -3488,8 +4339,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3498,7 +4351,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless radio frequency profiles using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3507,41 +4360,50 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless radio frequency profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
 
                 if "rf_profile_name" in filter_param:
-                    params['rfProfileName'] = filter_param.get("rf_profile_name")
+                    params["rfProfileName"] = filter_param.get("rf_profile_name")
 
                 unsupported_keys = set(filter_param.keys()) - {"rf_profile_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless radio frequency profiles: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless radio frequency profiles: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless radio frequency profiles with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless radio frequency profiles with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
-                wireless_radio_frequency_profile_details = self.execute_get_with_pagination(
-                    api_family, api_function, params
+                wireless_radio_frequency_profile_details = (
+                    self.execute_get_with_pagination(api_family, api_function, params)
                 )
 
                 if wireless_radio_frequency_profile_details:
-                    final_wireless_radio_frequency_profiles.extend(wireless_radio_frequency_profile_details)
+                    final_wireless_radio_frequency_profiles.extend(
+                        wireless_radio_frequency_profile_details
+                    )
                     self.log(
                         "Retrieved {0} wireless radio frequency profile(s): {1}".format(
-                            len(wireless_radio_frequency_profile_details), wireless_radio_frequency_profile_details
+                            len(wireless_radio_frequency_profile_details),
+                            wireless_radio_frequency_profile_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless radio frequency profiles found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No wireless radio frequency profiles found for parameters: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -3549,41 +4411,54 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless radio frequency profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless radio frequency profiles from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless radio frequency profiles from Catalyst Center",
+                "DEBUG",
+            )
 
             wireless_radio_frequency_profile_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
 
             if wireless_radio_frequency_profile_details:
-                final_wireless_radio_frequency_profiles.extend(wireless_radio_frequency_profile_details)
+                final_wireless_radio_frequency_profiles.extend(
+                    wireless_radio_frequency_profile_details
+                )
                 self.log(
                     "Retrieved {0} wireless radio frequency profile(s) from Catalyst Center".format(
                         len(wireless_radio_frequency_profile_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
-                self.log("No wireless radio frequency profiles found in Catalyst Center", "DEBUG")
+                self.log(
+                    "No wireless radio frequency profiles found in Catalyst Center",
+                    "DEBUG",
+                )
 
         # Transform using temp spec
         self.log(
             "Transforming {0} wireless radio frequency profile(s) using wireless_radio_frequency_profile temp spec".format(
                 len(final_wireless_radio_frequency_profiles)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        wireless_radio_frequency_profile_temp_spec = self.wireless_radio_frequency_profiles_temp_spec()
+        wireless_radio_frequency_profile_temp_spec = (
+            self.wireless_radio_frequency_profiles_temp_spec()
+        )
         radio_frequency_profiles_details = self.modify_parameters(
-            wireless_radio_frequency_profile_temp_spec, final_wireless_radio_frequency_profiles
+            wireless_radio_frequency_profile_temp_spec,
+            final_wireless_radio_frequency_profiles,
         )
         modified_radio_frequency_profiles_details = {}
 
         if radio_frequency_profiles_details:
-            modified_radio_frequency_profiles_details['radio_frequency_profiles'] = radio_frequency_profiles_details
+            modified_radio_frequency_profiles_details["radio_frequency_profiles"] = (
+                radio_frequency_profiles_details
+            )
 
         self.log(
             "Completed retrieving wireless radio frequency profiles: {0}".format(
@@ -3620,8 +4495,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3630,7 +4507,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless anchor groups using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3639,7 +4516,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless anchor groups retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -3647,13 +4524,17 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 unsupported_keys = set(filter_param.keys()) - {"anchor_group_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless anchor groups: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless anchor groups: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless anchor groups with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless anchor groups with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
                 wireless_anchor_group_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -3661,28 +4542,40 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
                 if "anchor_group_name" in filter_param:
                     anchor_group_name = filter_param.get("anchor_group_name")
-                    wireless_anchor_group_details = [item for item in wireless_anchor_group_details if item.get("anchorGroupName") == anchor_group_name]
+                    wireless_anchor_group_details = [
+                        item
+                        for item in wireless_anchor_group_details
+                        if item.get("anchorGroupName") == anchor_group_name
+                    ]
 
                 if wireless_anchor_group_details:
                     final_wireless_anchor_groups.extend(wireless_anchor_group_details)
                     self.log(
                         "Retrieved {0} wireless anchor group(s): {1}".format(
-                            len(wireless_anchor_group_details), wireless_anchor_group_details
+                            len(wireless_anchor_group_details),
+                            wireless_anchor_group_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
-                    self.log("No wireless anchor groups found with filter params: {0}".format(filter_param), "DEBUG")
+                    self.log(
+                        "No wireless anchor groups found with filter params: {0}".format(
+                            filter_param
+                        ),
+                        "DEBUG",
+                    )
                 params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for wireless anchor groups retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless anchor groups from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless anchor groups from Catalyst Center", "DEBUG"
+            )
 
             wireless_anchor_group_details = self.execute_get_with_pagination(
                 api_family, api_function, params
@@ -3694,7 +4587,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} wireless anchor group(s) from Catalyst Center".format(
                         len(wireless_anchor_group_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No wireless anchor groups found in Catalyst Center", "DEBUG")
@@ -3704,7 +4597,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} wireless anchor group(s) using wireless_anchor_group temp spec".format(
                 len(final_wireless_anchor_groups)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         wireless_anchor_group_temp_spec = self.wireless_anchor_groups_temp_spec()
         anchor_group_details = self.modify_parameters(
@@ -3713,7 +4606,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         modified_anchor_group_details = {}
 
         if anchor_group_details:
-            modified_anchor_group_details['anchor_groups'] = anchor_group_details
+            modified_anchor_group_details["anchor_groups"] = anchor_group_details
 
         self.log(
             "Completed retrieving wireless anchor groups: {0}".format(
@@ -3750,8 +4643,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3759,7 +4654,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless feature template config using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         feature_template_config = self.execute_get_with_pagination(
@@ -3773,9 +4668,13 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "DEBUG",
         )
 
-        feature_template_instances = self.fetch_instances_from_feature_template_config(feature_template_config)
+        feature_template_instances = self.fetch_instances_from_feature_template_config(
+            feature_template_config
+        )
         if not feature_template_instances:
-            self.log("No Feature Template Instances found. Skipping Processing", "DEBUG")
+            self.log(
+                "No Feature Template Instances found. Skipping Processing", "DEBUG"
+            )
             return {}
 
         self.log(
@@ -3792,7 +4691,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless feature template config retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             supported_keys = {"feature_template_type", "design_name"}
@@ -3801,8 +4700,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless feature template config: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless feature template config: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 final_feature_template_instances = {}
@@ -3812,77 +4713,106 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 if "design_name" in filter_param:
                     has_design_name_filter_param = True
                     design_name = filter_param.get("design_name")
-                    for feature_template_type, feature_template_instance in feature_template_instances.items():
-                        if feature_template_instance and feature_template_instance.get(design_name):
+                    for (
+                        feature_template_type,
+                        feature_template_instance,
+                    ) in feature_template_instances.items():
+                        if feature_template_instance and feature_template_instance.get(
+                            design_name
+                        ):
                             final_feature_template_instances[feature_template_type] = {
                                 design_name: feature_template_instance.get(design_name)
                             }
 
                     self.log(
-                        "Retrieved feature template instances : {0} using design name filter: {1}"
-                        .format(final_feature_template_instances, design_name),
-                        "DEBUG"
+                        "Retrieved feature template instances : {0} using design name filter: {1}".format(
+                            final_feature_template_instances, design_name
+                        ),
+                        "DEBUG",
                     )
 
                 if "feature_template_type" in filter_param:
                     feature_template_type = filter_param.get("feature_template_type")
                     if not feature_template_type:
                         self.log(
-                            "Unsupported feature template type: {0}. Skipping Processing...".format(feature_template_type),
-                            "WARNING"
+                            "Unsupported feature template type: {0}. Skipping Processing...".format(
+                                feature_template_type
+                            ),
+                            "WARNING",
                         )
                         continue
-                    feature_template_type = self.feature_template_attributes_mapping(feature_template_type)
+                    feature_template_type = self.feature_template_attributes_mapping(
+                        feature_template_type
+                    )
 
                     self.log(
-                        "Mapped feature-template attribute name to Catalyst Center feature template type: {0}"
-                        .format(feature_template_type),
-                        "DEBUG"
+                        "Mapped feature-template attribute name to Catalyst Center feature template type: {0}".format(
+                            feature_template_type
+                        ),
+                        "DEBUG",
                     )
                     if feature_template_type:
                         if has_design_name_filter_param:
-                            final_feature_template_instances[feature_template_type] = final_feature_template_instances.get(feature_template_type)
+                            final_feature_template_instances[feature_template_type] = (
+                                final_feature_template_instances.get(
+                                    feature_template_type
+                                )
+                            )
                         else:
-                            final_feature_template_instances[feature_template_type] = feature_template_instances.get(feature_template_type)
+                            final_feature_template_instances[feature_template_type] = (
+                                feature_template_instances.get(feature_template_type)
+                            )
 
                 self.log(
-                    "Retrieved final feature template instances : {0} with params: {1}"
-                    .format(final_feature_template_instances, filter_param),
-                    "DEBUG"
+                    "Retrieved final feature template instances : {0} with params: {1}".format(
+                        final_feature_template_instances, filter_param
+                    ),
+                    "DEBUG",
                 )
 
                 if final_feature_template_instances:
-                    for feature_template_type, feature_template_instance in final_feature_template_instances.items():
-                        feature_template_details = self.get_feature_template_details_with_type(
-                            feature_template_type,
-                            feature_template_instance
+                    for (
+                        feature_template_type,
+                        feature_template_instance,
+                    ) in final_feature_template_instances.items():
+                        feature_template_details = (
+                            self.get_feature_template_details_with_type(
+                                feature_template_type, feature_template_instance
+                            )
                         )
                         final_feature_templates.extend(feature_template_details)
                         self.log(
                             "Retrieved {0} feature template config: {1}".format(
                                 len(feature_template_details), feature_template_details
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     self.log(
-                        "No wireless feature template config found with filter params: {0}".format(filter_param),
-                        "DEBUG"
+                        "No wireless feature template config found with filter params: {0}".format(
+                            filter_param
+                        ),
+                        "DEBUG",
                     )
 
             self.log(
                 "Completed Processing {0} filter(s) for wireless feature template config retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless feature template config from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless feature template config from Catalyst Center",
+                "DEBUG",
+            )
 
-            for feature_template_type, feature_template_instance in feature_template_instances.items():
+            for (
+                feature_template_type,
+                feature_template_instance,
+            ) in feature_template_instances.items():
                 feature_template_details = self.get_feature_template_details_with_type(
-                    feature_template_type,
-                    feature_template_instance
+                    feature_template_type, feature_template_instance
                 )
 
                 if feature_template_details:
@@ -3891,18 +4821,21 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Retrieved {0} wireless feature template config for template type: {1} from Catalyst Center".format(
                             len(feature_template_details), feature_template_type
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless feature template config for template type: {0} found in Catalyst Center"
-                        .format(feature_template_type),
-                        "DEBUG"
+                        "No wireless feature template config for template type: {0} found in Catalyst Center".format(
+                            feature_template_type
+                        ),
+                        "DEBUG",
                     )
 
         modified_feature_templates = {}
         if final_feature_templates:
-            modified_feature_templates['feature_template_config'] = final_feature_templates
+            modified_feature_templates["feature_template_config"] = (
+                final_feature_templates
+            )
 
         self.log(
             "Completed retrieving wireless feature template config: {0}".format(
@@ -3938,8 +4871,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -3948,7 +4883,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless 802.11be profiles using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -3957,7 +4892,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless 802.11be profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -3968,13 +4903,17 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 unsupported_keys = set(filter_param.keys()) - {"profile_name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for wireless 802.11be profiles: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for wireless 802.11be profiles: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless 802.11be profiles with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless 802.11be profiles with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
 
                 wireless_802_11be_profiles_details = self.execute_get_with_pagination(
@@ -3982,56 +4921,74 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 )
 
                 if wireless_802_11be_profiles_details:
-                    final_wireless_802_11be_profiles.extend(wireless_802_11be_profiles_details)
+                    final_wireless_802_11be_profiles.extend(
+                        wireless_802_11be_profiles_details
+                    )
                     self.log(
                         "Retrieved {0} wireless 802.11be profile(s): {1}".format(
-                            len(wireless_802_11be_profiles_details), wireless_802_11be_profiles_details
+                            len(wireless_802_11be_profiles_details),
+                            wireless_802_11be_profiles_details,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
-                    self.log("No wireless 802.11be profiles found with params: {0}".format(params), "DEBUG")
+                    self.log(
+                        "No wireless 802.11be profiles found with params: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
+                    )
                 params.clear()
 
             self.log(
                 "Completed Processing {0} filter(s) for wireless 802.11be profiles retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log("Fetching all wireless 802.11be profiles from Catalyst Center", "DEBUG")
+            self.log(
+                "Fetching all wireless 802.11be profiles from Catalyst Center", "DEBUG"
+            )
 
             wireless_802_11be_profiles_details = self.execute_get_with_pagination(
                 api_family, api_function, params
             )
 
             if wireless_802_11be_profiles_details:
-                final_wireless_802_11be_profiles.extend(wireless_802_11be_profiles_details)
+                final_wireless_802_11be_profiles.extend(
+                    wireless_802_11be_profiles_details
+                )
                 self.log(
                     "Retrieved {0} wireless 802.11be profile(s) from Catalyst Center".format(
                         len(wireless_802_11be_profiles_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
-                self.log("No wireless 802.11be profiles found in Catalyst Center", "DEBUG")
+                self.log(
+                    "No wireless 802.11be profiles found in Catalyst Center", "DEBUG"
+                )
 
         # Transform using temp spec
         self.log(
             "Transforming {0} wireless 802.11be profile(s) using wireless_802_11be_profiles temp spec".format(
                 len(final_wireless_802_11be_profiles)
             ),
-            "DEBUG"
+            "DEBUG",
         )
-        wireless_802_11be_profiles_temp_spec = self.wireless_802_11_be_profiles_temp_spec()
+        wireless_802_11be_profiles_temp_spec = (
+            self.wireless_802_11_be_profiles_temp_spec()
+        )
         wireless_802_11be_profiles_details = self.modify_parameters(
             wireless_802_11be_profiles_temp_spec, final_wireless_802_11be_profiles
         )
         modified_802_11be_profiles_details = {}
 
         if wireless_802_11be_profiles_details:
-            modified_802_11be_profiles_details['802_11_be_profiles'] = wireless_802_11be_profiles_details
+            modified_802_11be_profiles_details["802_11_be_profiles"] = (
+                wireless_802_11be_profiles_details
+            )
 
         self.log(
             "Completed retrieving wireless 802.11be profiles: {0}".format(
@@ -4068,8 +5025,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -4078,7 +5037,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting wireless flex connect configurations using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -4087,7 +5046,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for wireless flex connect configurations retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -4098,9 +5057,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     site_id = self.get_site_id(site_name)
                     if not site_id:
                         self.log(
-                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
-                            .format(site_name),
-                            "WARNING"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing.".format(
+                                site_name
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -4108,7 +5068,7 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
                             site_name, site_id
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     site_id = self.get_global_site_id()
@@ -4121,12 +5081,14 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Ignoring unsupported filter parameters for wireless flex connect configurations: {0}".format(
                             unsupported_keys
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching wireless flex connect configurations with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching wireless flex connect configurations with parameters: {0}".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
 
                 flex_connect_details = self.execute_get_with_pagination(
@@ -4135,19 +5097,22 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
                 if flex_connect_details:
                     flex_connect_details = [
-                        {**item, "siteNameHierarchy": site_name} for item in flex_connect_details
+                        {**item, "siteNameHierarchy": site_name}
+                        for item in flex_connect_details
                     ]
                     final_flex_connect_configs.extend(flex_connect_details)
                     self.log(
                         "Retrieved {0} wireless flex connect configuration(s): {1}".format(
                             len(flex_connect_details), flex_connect_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No wireless flex connect configurations found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No wireless flex connect configurations found for parameters: {0}".format(
+                            params
+                        ),
+                        "DEBUG",
                     )
 
                 params.clear()
@@ -4156,12 +5121,12 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for wireless flex connect configurations retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "Fetching all wireless flex connect configurations from Catalyst Center using Global Site ID",
-                "DEBUG"
+                "DEBUG",
             )
 
             params["site_id"] = self.get_global_site_id()
@@ -4172,23 +5137,27 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
             if flex_connect_details:
                 flex_connect_details = [
-                    {**item, "siteNameHierarchy": "Global"} for item in flex_connect_details
+                    {**item, "siteNameHierarchy": "Global"}
+                    for item in flex_connect_details
                 ]
                 final_flex_connect_configs.extend(flex_connect_details)
                 self.log(
                     "Retrieved {0} wireless flex connect configuration(s) from Catalyst Center".format(
                         len(flex_connect_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
-                self.log("No wireless flex connect configurations found in Catalyst Center", "DEBUG")
+                self.log(
+                    "No wireless flex connect configurations found in Catalyst Center",
+                    "DEBUG",
+                )
 
         self.log(
             "Transforming {0} wireless flex connect configuration(s) using wireless_flex_connect_config temp spec".format(
                 len(final_flex_connect_configs)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         wireless_flex_connect_temp_spec = self.wireless_flex_connect_config_temp_spec()
@@ -4198,7 +5167,9 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         modified_flex_connect_config_details = {}
         if flex_connect_config_details:
-            modified_flex_connect_config_details["flex_connect_configuration"] = flex_connect_config_details
+            modified_flex_connect_config_details["flex_connect_configuration"] = (
+                flex_connect_config_details
+            )
 
         self.log(
             "Completed retrieving wireless flex connect configuration(s): {0}".format(
@@ -4233,7 +5204,10 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -4257,17 +5231,20 @@ class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -4294,20 +5271,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {

@@ -13,10 +13,10 @@ description:
     actions for given set of filters specified in request body. If there is no start and/or end time, then end time will be
     defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
     description: End Time.

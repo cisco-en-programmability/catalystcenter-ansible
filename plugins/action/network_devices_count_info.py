@@ -122,6 +122,8 @@ class ActionModule(ActionBase):
             function="gets_the_total_network_device_counts_based_on_the_provided_query_parameters",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

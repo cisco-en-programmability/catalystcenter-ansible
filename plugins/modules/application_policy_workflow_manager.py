@@ -24,7 +24,7 @@ description:
     application queuing profiles in Cisco Catalyst Center.
   - Supports managing queuing profiles and application
     policies for traffic classification and prioritization.
-version_added: "6.31.0"
+version_added: "2.2.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -1331,7 +1331,7 @@ class ApplicationPolicy(CatalystCenterBase):
         policy_prefix = "{0}_".format(policy_scope) if policy_scope else ""
 
         if policy_prefix and full_name.startswith(policy_prefix):
-            return full_name[len(policy_prefix):]
+            return full_name[len(policy_prefix) :]
 
         return full_name
 
@@ -2680,7 +2680,9 @@ class ApplicationPolicy(CatalystCenterBase):
                         expected_set_names = relevant_set_names[current_relevance_type]
                     else:
                         self.log(
-                            "Unexpected relevance type encountered: {0}".format(current_relevance_type),
+                            "Unexpected relevance type encountered: {0}".format(
+                                current_relevance_type
+                            ),
                             "WARNING",
                         )
                         expected_set_names = []
@@ -2859,10 +2861,8 @@ class ApplicationPolicy(CatalystCenterBase):
             )
 
             if update_not_required:
-                self.msg = (
-                    "Application policy '{0}' does not need any update. ".format(
-                        application_policy_name
-                    )
+                self.msg = "Application policy '{0}' does not need any update. ".format(
+                    application_policy_name
                 )
                 self.no_update_application_policy.append(application_policy_name)
                 self.set_operation_result("success", False, self.msg, "INFO")
@@ -2885,9 +2885,7 @@ class ApplicationPolicy(CatalystCenterBase):
                     elif app_set in final_default_set_name:
                         relevance_level = "DEFAULT"
 
-                    current_app_set_name = self._extract_app_set_name(
-                        application_sets
-                    )
+                    current_app_set_name = self._extract_app_set_name(application_sets)
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
@@ -2970,9 +2968,7 @@ class ApplicationPolicy(CatalystCenterBase):
                     elif app_set in final_want_default:
                         relevance_level = "DEFAULT"
 
-                    current_app_set_name = self._extract_app_set_name(
-                        application_sets
-                    )
+                    current_app_set_name = self._extract_app_set_name(application_sets)
 
                     if relevance_level and app_set == current_app_set_name:
                         app_set_payload = {
@@ -2986,12 +2982,12 @@ class ApplicationPolicy(CatalystCenterBase):
                             "policyScope": application_sets.get("policyScope"),
                             "priority": application_sets.get("priority"),
                             "advancedPolicyScope": {
-                                "id": application_sets.get(
-                                    "advancedPolicyScope"
-                                ).get("id"),
-                                "name": application_sets.get(
-                                    "advancedPolicyScope"
-                                ).get("name"),
+                                "id": application_sets.get("advancedPolicyScope").get(
+                                    "id"
+                                ),
+                                "name": application_sets.get("advancedPolicyScope").get(
+                                    "name"
+                                ),
                                 "advancedPolicyScopeElement": [
                                     {
                                         "id": application_sets.get(
@@ -3010,9 +3006,7 @@ class ApplicationPolicy(CatalystCenterBase):
                                 ),
                                 "clause": [
                                     {
-                                        "id": application_sets.get(
-                                            "exclusiveContract"
-                                        )
+                                        "id": application_sets.get("exclusiveContract")
                                         .get("clause")[0]
                                         .get("id"),
                                         "type": application_sets.get(
@@ -6225,7 +6219,7 @@ class ApplicationPolicy(CatalystCenterBase):
                         "Processing clause {0}/{1} with type='{2}'.".format(
                             clause_idx + 1,
                             total_clauses,
-                            clause_item.get("clause_type", "unknown")
+                            clause_item.get("clause_type", "unknown"),
                         ),
                         "DEBUG",
                     )
@@ -6274,9 +6268,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 prefix = policy_name + "_"
 
                 total_current = len(current_application_policy)
-                for cp_idx, current_policy in enumerate(
-                    current_application_policy
-                ):
+                for cp_idx, current_policy in enumerate(current_application_policy):
                     current_name = current_policy.get("name", "")
                     self.log(
                         "Evaluating policy entry {0}/{1} "
@@ -6290,9 +6282,7 @@ class ApplicationPolicy(CatalystCenterBase):
                     if not policy_id:
                         self.log(
                             "Skipping policy entry '{0}' — no 'id' "
-                            "field found. Continuing.".format(
-                                current_name
-                            ),
+                            "field found. Continuing.".format(current_name),
                             "DEBUG",
                         )
                         continue
@@ -6307,9 +6297,7 @@ class ApplicationPolicy(CatalystCenterBase):
                             self.log(
                                 "Found BUSINESS_RELEVANCE at clause "
                                 "index {0} with relevanceLevel='{1}'. "
-                                "Breaking out of loop.".format(
-                                    cc_idx, entry_relevance
-                                ),
+                                "Breaking out of loop.".format(cc_idx, entry_relevance),
                                 "DEBUG",
                             )
                             break
@@ -6328,22 +6316,18 @@ class ApplicationPolicy(CatalystCenterBase):
                     # to extract the app set name for matching against
                     # user-specified targets.
                     if current_name.startswith(prefix):
-                        entry_app_set_name = current_name[len(prefix):]
+                        entry_app_set_name = current_name[len(prefix) :]
                     else:
                         entry_app_set_name = current_name
 
                     # Check if we should delete all sets under this relevance
                     if entry_relevance in delete_all_for_relevance:
                         ids_list.append(policy_id)
-                        application_set_names_deleted.append(
-                            entry_app_set_name
-                        )
+                        application_set_names_deleted.append(entry_app_set_name)
                         self.log(
                             "Marked '{0}' for deletion — matches "
                             "delete-all for relevance='{1}'. "
-                            "Continuing.".format(
-                                entry_app_set_name, entry_relevance
-                            ),
+                            "Continuing.".format(entry_app_set_name, entry_relevance),
                             "DEBUG",
                         )
                         continue
@@ -6356,9 +6340,7 @@ class ApplicationPolicy(CatalystCenterBase):
                             self.log(
                                 "Match found for targeted set "
                                 "relevance='{0}', app_name='{1}'. "
-                                "Breaking out of loop.".format(
-                                    rel, app_name
-                                ),
+                                "Breaking out of loop.".format(rel, app_name),
                                 "DEBUG",
                             )
                             break
@@ -6367,10 +6349,17 @@ class ApplicationPolicy(CatalystCenterBase):
                 if targeted_sets:
                     found_names = set(application_set_names_deleted)
                     not_found = [
-                        targeted_set[1] for targeted_set in targeted_sets if targeted_set[1] not in found_names
+                        targeted_set[1]
+                        for targeted_set in targeted_sets
+                        if targeted_set[1] not in found_names
                     ]
                     if not_found:
-                        self.log("Targeted sets not found in policy '{0}': {1}.".format(policy_name, not_found), "WARNING")
+                        self.log(
+                            "Targeted sets not found in policy '{0}': {1}.".format(
+                                policy_name, not_found
+                            ),
+                            "WARNING",
+                        )
                         application_set_not_present.append((policy_name, not_found))
 
                 if not ids_list:
@@ -6384,16 +6373,13 @@ class ApplicationPolicy(CatalystCenterBase):
             else:
                 # No clause provided - delete the entire policy
                 total_current = len(current_application_policy)
-                for cp_idx, current_policy in enumerate(
-                    current_application_policy
-                ):
+                for cp_idx, current_policy in enumerate(current_application_policy):
                     if "id" in current_policy:
                         ids_list.append(current_policy["id"])
                         self.log(
                             "Collecting policy entry {0}/{1} "
                             "with ID='{2}' for full delete.".format(
-                                cp_idx + 1, total_current,
-                                current_policy["id"]
+                                cp_idx + 1, total_current, current_policy["id"]
                             ),
                             "DEBUG",
                         )
@@ -6462,9 +6448,7 @@ class ApplicationPolicy(CatalystCenterBase):
             ):
                 if missing_sets:
                     missing_sets_message.append(
-                        "'{0}': [{1}]".format(
-                            pol_name, ", ".join(missing_sets)
-                        )
+                        "'{0}': [{1}]".format(pol_name, ", ".join(missing_sets))
                     )
             if missing_sets_message:
                 final_msg.append(
@@ -7244,21 +7228,73 @@ class ApplicationPolicy(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
@@ -7271,7 +7307,9 @@ def main():
     min_supported_version = "2.3.7.6"
 
     if (
-        ccc_application.compare_catalystcenter_versions(current_version, min_supported_version)
+        ccc_application.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
         < 0
     ):
         ccc_application.status = "failed"

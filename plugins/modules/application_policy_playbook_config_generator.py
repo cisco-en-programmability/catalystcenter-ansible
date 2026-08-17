@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Application Policy Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
 - The YAML configurations generated represent the application policies and queuing
   profiles deployed in the Cisco Catalyst Center.
 - Supports extraction of Queuing Profiles and Application Policies.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -260,6 +261,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -267,8 +269,8 @@ except ImportError:
 import time
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -304,9 +306,16 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Initialize generate_all_configurations
         self.generate_all_configurations = False
 
-        self.log("Initialized ApplicationPolicyPlaybookGenerator for module: {0}".format(self.module_name), "INFO")
+        self.log(
+            "Initialized ApplicationPolicyPlaybookGenerator for module: {0}".format(
+                self.module_name
+            ),
+            "INFO",
+        )
 
-    def _normalize_component_filter_block(self, component_name, component_value, list_key):
+    def _normalize_component_filter_block(
+        self, component_name, component_value, list_key
+    ):
         """
         Normalize a component filter block to dictionary form.
 
@@ -332,10 +341,8 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
 
         if not isinstance(component_value, list):
-            self.msg = (
-                "'{0}' must be a list of dictionaries, got: {1}.".format(
-                    component_name, type(component_value).__name__
-                )
+            self.msg = "'{0}' must be a list of dictionaries, got: {1}.".format(
+                component_name, type(component_value).__name__
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
@@ -348,32 +355,23 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 component_name,
                 list_key,
                 type(component_value).__name__,
-                len(component_value)
+                len(component_value),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for entry_index, component_entry in enumerate(component_value, start=1):
             if not isinstance(component_entry, dict):
-                self.msg = (
-                    "Each item in '{0}' must be a dictionary, got: {1} at index {2}.".format(
-                        component_name,
-                        type(component_entry).__name__,
-                        entry_index
-                    )
+                self.msg = "Each item in '{0}' must be a dictionary, got: {1} at index {2}.".format(
+                    component_name, type(component_entry).__name__, entry_index
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
             invalid_keys = set(component_entry.keys()) - {list_key}
             if invalid_keys:
-                self.msg = (
-                    "Invalid keys found in '{0}' item {1}: {2}. Allowed keys are: ['{3}'].".format(
-                        component_name,
-                        entry_index,
-                        sorted(list(invalid_keys)),
-                        list_key
-                    )
+                self.msg = "Invalid keys found in '{0}' item {1}: {2}. Allowed keys are: ['{3}'].".format(
+                    component_name, entry_index, sorted(list(invalid_keys)), list_key
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
@@ -381,10 +379,8 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             list_values = component_entry.get(list_key)
             if list_values is not None:
                 if not isinstance(list_values, list):
-                    self.msg = (
-                        "'{0}' must be a list when provided in '{1}'.".format(
-                            list_key, component_name
-                        )
+                    self.msg = "'{0}' must be a list when provided in '{1}'.".format(
+                        list_key, component_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return None
@@ -398,7 +394,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Normalized '{0}' filter block to dictionary form: {1}".format(
                 component_name, normalized_filter
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return normalized_filter
 
@@ -422,7 +418,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Clause {0}/{1} has no 'type' field but contains "
                     "'interfaceSpeedBandwidthClauses'. Inferred clause type as "
                     "'BANDWIDTH'.".format(clause_index, total_clauses),
-                    "DEBUG"
+                    "DEBUG",
                 )
             elif "tcDscpSettings" in clause:
                 clause_type = "DSCP_CUSTOMIZATION"
@@ -430,7 +426,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Clause {0}/{1} has no 'type' field but contains "
                     "'tcDscpSettings'. Inferred clause type as "
                     "'DSCP_CUSTOMIZATION'.".format(clause_index, total_clauses),
-                    "DEBUG"
+                    "DEBUG",
                 )
         return clause_type
 
@@ -455,12 +451,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
@@ -469,7 +460,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Schema validation passed successfully. All parameters conform to expected "
             "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log("Validating invalid parameters against provided config", "DEBUG")
@@ -502,7 +493,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting construction of workflow elements schema for application "
             "policy brownfield discovery module",
-            "DEBUG"
+            "DEBUG",
         )
 
         queuing_profile_config = {
@@ -510,7 +501,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "profile_names_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 }
             },
             "reverse_mapping_function": self.queuing_profile_reverse_mapping_spec,
@@ -524,7 +515,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "policy_names_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 }
             },
             "reverse_mapping_function": self.application_policy_reverse_mapping_spec,
@@ -535,17 +526,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         network_elements = {
             "queuing_profile": queuing_profile_config,
-            "application_policy": application_policy_config
+            "application_policy": application_policy_config,
         }
 
-        schema = {
-            "network_elements": network_elements
-        }
+        schema = {"network_elements": network_elements}
 
         self.log(
             "Schema structure ready for use in validation, component iteration, and "
             "API calls throughout brownfield discovery workflow",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -555,9 +544,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 list(queuing_profile_config["filters"].keys()),
                 queuing_profile_config["api_function"],
                 list(application_policy_config["filters"].keys()),
-                application_policy_config["api_function"]
+                application_policy_config["api_function"],
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return schema
@@ -578,43 +567,39 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting construction of reverse mapping specification for queuing "
             "profile data transformation from API format to playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
-        reverse_mapping_spec = OrderedDict({
-            "profile_name": {
-                "type": "str",
-                "source_key": "name"
-            },
-            "profile_description": {
-                "type": "str",
-                "source_key": "description"
-            },
-            "bandwidth_settings": {
-                "type": "dict",
-                "source_key": "clause",
-                "special_handling": True,
-                "transform": self.transform_bandwidth_settings
-            },
-            "dscp_settings": {
-                "type": "dict",
-                "source_key": "clause",
-                "special_handling": True,
-                "transform": self.transform_dscp_settings
+        reverse_mapping_spec = OrderedDict(
+            {
+                "profile_name": {"type": "str", "source_key": "name"},
+                "profile_description": {"type": "str", "source_key": "description"},
+                "bandwidth_settings": {
+                    "type": "dict",
+                    "source_key": "clause",
+                    "special_handling": True,
+                    "transform": self.transform_bandwidth_settings,
+                },
+                "dscp_settings": {
+                    "type": "dict",
+                    "source_key": "clause",
+                    "special_handling": True,
+                    "transform": self.transform_dscp_settings,
+                },
             }
-        })
+        )
 
         self.log(
             "Field mapping summary: profile_name (direct), profile_description (direct), "
             "bandwidth_settings (transform), dscp_settings (transform)",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Reverse mapping specification ready for use in queuing profile data "
             "transformation workflow. Specification will ensure consistent field "
             "ordering and proper data type handling.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return reverse_mapping_spec
@@ -636,76 +621,87 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting construction of reverse mapping specification for application "
             "policy data transformation from API format to playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Initializing reverse mapping with {0} total field mappings including "
             "direct mappings and special transformation functions".format(7),
-            "DEBUG"
+            "DEBUG",
         )
 
-        reverse_mapping_spec = OrderedDict({
-            "name": {"type": "str", "source_key": "policyScope"},
-            "policy_status": {
-                "type": "str",
-                "source_key": "deletePolicyStatus",
-                "transform": lambda x: "deployed" if x == "NONE" else x.lower()
-            },
-            "site_names": {
-                "type": "list",
-                "elements": "str",
-                "source_key": "advancedPolicyScope",
-                "special_handling": True,
-                "transform": self.transform_site_names
-            },
-            "device_type": {
-                "type": "str",
-                "source_key": "advancedPolicyScope",
-                "special_handling": True,
-                "transform": self.transform_device_type
-            },
-            "ssid_name": {
-                "type": "str",
-                "source_key": "advancedPolicyScope",
-                "special_handling": True,
-                "transform": self.transform_ssid_name
-            },
-            "application_queuing_profile_name": {
-                "type": "str",
-                "source_key": "contract",
-                "special_handling": True,
-                "transform": self.get_queuing_profile_name_from_id
-            },
-            "clause": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "consumer",
-                "special_handling": True,
-                "transform": self.transform_clause
+        reverse_mapping_spec = OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "policyScope"},
+                "policy_status": {
+                    "type": "str",
+                    "source_key": "deletePolicyStatus",
+                    "transform": lambda x: "deployed" if x == "NONE" else x.lower(),
+                },
+                "site_names": {
+                    "type": "list",
+                    "elements": "str",
+                    "source_key": "advancedPolicyScope",
+                    "special_handling": True,
+                    "transform": self.transform_site_names,
+                },
+                "device_type": {
+                    "type": "str",
+                    "source_key": "advancedPolicyScope",
+                    "special_handling": True,
+                    "transform": self.transform_device_type,
+                },
+                "ssid_name": {
+                    "type": "str",
+                    "source_key": "advancedPolicyScope",
+                    "special_handling": True,
+                    "transform": self.transform_ssid_name,
+                },
+                "application_queuing_profile_name": {
+                    "type": "str",
+                    "source_key": "contract",
+                    "special_handling": True,
+                    "transform": self.get_queuing_profile_name_from_id,
+                },
+                "clause": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "consumer",
+                    "special_handling": True,
+                    "transform": self.transform_clause,
+                },
             }
-        })
+        )
 
         self.log(
             "Reverse mapping specification constructed successfully with {0} field "
             "definitions. Fields with special handling: {1}. Fields with direct "
             "mapping: {2}. Fields with lambda transforms: {3}".format(
                 len(reverse_mapping_spec),
-                sum(1 for v in reverse_mapping_spec.values()
-                    if v.get("special_handling") and callable(v.get("transform"))),
-                sum(1 for v in reverse_mapping_spec.values()
-                    if not v.get("special_handling") and not v.get("transform")),
-                sum(1 for v in reverse_mapping_spec.values()
-                    if v.get("transform") and not v.get("special_handling"))
+                sum(
+                    1
+                    for v in reverse_mapping_spec.values()
+                    if v.get("special_handling") and callable(v.get("transform"))
+                ),
+                sum(
+                    1
+                    for v in reverse_mapping_spec.values()
+                    if not v.get("special_handling") and not v.get("transform")
+                ),
+                sum(
+                    1
+                    for v in reverse_mapping_spec.values()
+                    if v.get("transform") and not v.get("special_handling")
+                ),
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Note: Policy consolidation by policyScope happens in "
             "transform_application_policies() before applying this reverse mapping "
             "specification to aggregate multiple sub-policies into single policy entry",
-            "DEBUG"
+            "DEBUG",
         )
 
         return reverse_mapping_spec
@@ -734,7 +730,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting transformation of bandwidth settings from clause data for queuing "
             "profile configuration",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not clause_data or not isinstance(clause_data, list):
@@ -743,7 +739,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Expected list of clause dictionaries, got: {0}".format(
                     type(clause_data).__name__ if clause_data else "None"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -752,7 +748,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Searching for BANDWIDTH or BANDWIDTH_CUSTOM clause types.".format(
                 len(clause_data)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Traffic class mapping from API format to playbook format
@@ -768,14 +764,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "TRANSACTIONAL_DATA": "transactional_data",
             "VOIP_TELEPHONY": "voip_telephony",
             "BEST_EFFORT": "best_effort",
-            "SCAVENGER": "scavenger"
+            "SCAVENGER": "scavenger",
         }
 
         self.log(
             "Traffic class mapping table initialized with {0} traffic class entries for "
             "converting API format (uppercase with underscores) to playbook format "
             "(lowercase with underscores)".format(len(tc_map)),
-            "DEBUG"
+            "DEBUG",
         )
 
         bandwidth_settings = None
@@ -785,20 +781,20 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Processing clause {0}/{1} to check for bandwidth configuration. "
                 "Clause type check in progress.".format(clause_index, len(clause_data)),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(clause, dict):
                 self.log(
                     "Clause {0}/{1} is not a dictionary - skipping. Expected dict, got: "
-                    "{2}".format(
-                        clause_index, len(clause_data), type(clause).__name__
-                    ),
-                    "WARNING"
+                    "{2}".format(clause_index, len(clause_data), type(clause).__name__),
+                    "WARNING",
                 )
                 continue
 
-            clause_type = self._infer_clause_type(clause, clause_index, len(clause_data))
+            clause_type = self._infer_clause_type(
+                clause, clause_index, len(clause_data)
+            )
 
             # Process BANDWIDTH or BANDWIDTH_CUSTOM clause types
             if clause_type in ["BANDWIDTH", "BANDWIDTH_CUSTOM"]:
@@ -807,7 +803,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Extracting bandwidth configuration settings.".format(
                         clause_index, len(clause_data), clause_type
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 is_common = clause.get("isCommonBetweenAllInterfaceSpeeds", False)
@@ -816,13 +812,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Bandwidth configuration mode determined: {0}. Settings are {1} "
                     "across all interface speeds.".format(
                         "common" if is_common else "interface-specific",
-                        "common" if is_common else "NOT common"
+                        "common" if is_common else "NOT common",
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Extract interface speed bandwidth clauses
-                interface_speed_clauses = clause.get("interfaceSpeedBandwidthClauses", [])
+                interface_speed_clauses = clause.get(
+                    "interfaceSpeedBandwidthClauses", []
+                )
 
                 if not interface_speed_clauses:
                     self.log(
@@ -831,7 +829,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "allocation data. Check if API response structure is valid.".format(
                             clause_index, len(clause_data)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -840,7 +838,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{1}/{2}. Processing bandwidth allocations for each interface speed.".format(
                         len(interface_speed_clauses), clause_index, len(clause_data)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if is_common:
@@ -850,44 +848,52 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "speeds). Building bandwidth_settings structure with "
                         "is_common_between_all_interface_speeds=true and "
                         "interface_speed='ALL'.",
-                        "INFO"
+                        "INFO",
                     )
 
-                    bandwidth_settings = OrderedDict([
-                        ("is_common_between_all_interface_speeds", True),
-                        ("interface_speed", "ALL"),
-                        ("bandwidth_percentages", OrderedDict())
-                    ])
+                    bandwidth_settings = OrderedDict(
+                        [
+                            ("is_common_between_all_interface_speeds", True),
+                            ("interface_speed", "ALL"),
+                            ("bandwidth_percentages", OrderedDict()),
+                        ]
+                    )
 
                     self.log(
                         "Initialized common bandwidth settings structure. Extracting "
                         "traffic class bandwidth percentages from first interface speed "
                         "clause (should be 'ALL' interface speed).",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     if len(interface_speed_clauses) > 0:
                         first_speed_clause = interface_speed_clauses[0]
-                        interface_speed_value = first_speed_clause.get("interfaceSpeed", "ALL")
+                        interface_speed_value = first_speed_clause.get(
+                            "interfaceSpeed", "ALL"
+                        )
 
                         self.log(
                             "Processing interface speed clause with speed: '{0}'. Expected "
                             "'ALL' for common bandwidth settings.".format(
                                 interface_speed_value
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
-                        tc_bandwidth_settings = first_speed_clause.get("tcBandwidthSettings", [])
+                        tc_bandwidth_settings = first_speed_clause.get(
+                            "tcBandwidthSettings", []
+                        )
 
                         self.log(
                             "Found {0} traffic class bandwidth setting(s) in interface "
                             "speed clause. Processing each traffic class allocation.".format(
                                 len(tc_bandwidth_settings)
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
-                        for tc_index, tc_setting in enumerate(tc_bandwidth_settings, start=1):
+                        for tc_index, tc_setting in enumerate(
+                            tc_bandwidth_settings, start=1
+                        ):
                             tc_name = tc_setting.get("trafficClass")
                             bandwidth_percent = tc_setting.get("bandwidthPercentage")
 
@@ -895,40 +901,48 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Processing traffic class {0}/{1}: API name='{2}', "
                                 "bandwidth percentage={3}. Checking if traffic class is in "
                                 "mapping table.".format(
-                                    tc_index, len(tc_bandwidth_settings), tc_name,
-                                    bandwidth_percent
+                                    tc_index,
+                                    len(tc_bandwidth_settings),
+                                    tc_name,
+                                    bandwidth_percent,
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
-                                bandwidth_settings["bandwidth_percentages"][playbook_tc_name] = str(
-                                    bandwidth_percent
-                                )
+                                bandwidth_settings["bandwidth_percentages"][
+                                    playbook_tc_name
+                                ] = str(bandwidth_percent)
 
                                 self.log(
                                     "Successfully mapped traffic class {0}/{1}: '{2}' → "
                                     "'{3}' with bandwidth allocation {4}%. Added to "
                                     "bandwidth_percentages dictionary.".format(
-                                        tc_index, len(tc_bandwidth_settings), tc_name,
-                                        playbook_tc_name, bandwidth_percent
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        tc_name,
+                                        playbook_tc_name,
+                                        bandwidth_percent,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 skip_reason = (
-                                    "traffic class not in mapping table" if tc_name not in tc_map
+                                    "traffic class not in mapping table"
+                                    if tc_name not in tc_map
                                     else "bandwidth percentage is None"
                                 )
                                 self.log(
                                     "Skipping traffic class {0}/{1}: '{2}' - {3}. This "
                                     "traffic class will not be included in bandwidth "
                                     "settings.".format(
-                                        tc_index, len(tc_bandwidth_settings), tc_name,
-                                        skip_reason
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        tc_name,
+                                        skip_reason,
                                     ),
-                                    "WARNING"
+                                    "WARNING",
                                 )
 
                         self.log(
@@ -936,15 +950,20 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "classes configured: {0}. Total bandwidth allocated: {1}% "
                             "(should typically sum to 100%).".format(
                                 len(bandwidth_settings["bandwidth_percentages"]),
-                                sum(int(v) for v in bandwidth_settings["bandwidth_percentages"].values())
+                                sum(
+                                    int(v)
+                                    for v in bandwidth_settings[
+                                        "bandwidth_percentages"
+                                    ].values()
+                                ),
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         self.log(
                             "No interface speed clauses found in common bandwidth settings. "
                             "This is unexpected - bandwidth settings may be incomplete.",
-                            "WARNING"
+                            "WARNING",
                         )
                 else:
                     # Interface-specific bandwidth settings
@@ -953,49 +972,61 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "allocations per interface speed). Building bandwidth_settings "
                         "structure with is_common_between_all_interface_speeds=false and "
                         "interface_speed_settings list.",
-                        "INFO"
+                        "INFO",
                     )
 
-                    bandwidth_settings = OrderedDict([
-                        ("is_common_between_all_interface_speeds", False),
-                        ("interface_speed_settings", [])
-                    ])
+                    bandwidth_settings = OrderedDict(
+                        [
+                            ("is_common_between_all_interface_speeds", False),
+                            ("interface_speed_settings", []),
+                        ]
+                    )
 
                     self.log(
                         "Initialized interface-specific bandwidth settings structure. "
                         "Processing {0} interface speed clause(s) individually.".format(
                             len(interface_speed_clauses)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-                    for speed_index, speed_clause in enumerate(interface_speed_clauses, start=1):
+                    for speed_index, speed_clause in enumerate(
+                        interface_speed_clauses, start=1
+                    ):
                         interface_speed = speed_clause.get("interfaceSpeed")
 
                         self.log(
                             "Processing interface speed clause {0}/{1} for interface speed: "
                             "'{2}'. Extracting traffic class bandwidth allocations specific "
                             "to this interface speed.".format(
-                                speed_index, len(interface_speed_clauses), interface_speed
+                                speed_index,
+                                len(interface_speed_clauses),
+                                interface_speed,
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
-                        tc_bandwidth_settings = speed_clause.get("tcBandwidthSettings", [])
+                        tc_bandwidth_settings = speed_clause.get(
+                            "tcBandwidthSettings", []
+                        )
 
                         self.log(
                             "Found {0} traffic class bandwidth setting(s) for interface "
                             "speed '{1}'. Processing allocations.".format(
                                 len(tc_bandwidth_settings), interface_speed
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        speed_setting = OrderedDict([
-                            ("interface_speed", interface_speed),
-                            ("bandwidth_percentages", OrderedDict())
-                        ])
+                        speed_setting = OrderedDict(
+                            [
+                                ("interface_speed", interface_speed),
+                                ("bandwidth_percentages", OrderedDict()),
+                            ]
+                        )
 
-                        for tc_index, tc_setting in enumerate(tc_bandwidth_settings, start=1):
+                        for tc_index, tc_setting in enumerate(
+                            tc_bandwidth_settings, start=1
+                        ):
                             tc_name = tc_setting.get("trafficClass")
                             bandwidth_percent = tc_setting.get("bandwidthPercentage")
 
@@ -1003,49 +1034,69 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Processing traffic class {0}/{1} for interface speed "
                                 "'{2}': API name='{3}', bandwidth={4}%. Mapping to playbook "
                                 "format.".format(
-                                    tc_index, len(tc_bandwidth_settings), interface_speed,
-                                    tc_name, bandwidth_percent
+                                    tc_index,
+                                    len(tc_bandwidth_settings),
+                                    interface_speed,
+                                    tc_name,
+                                    bandwidth_percent,
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
-                                speed_setting["bandwidth_percentages"][playbook_tc_name] = str(
-                                    bandwidth_percent
-                                )
+                                speed_setting["bandwidth_percentages"][
+                                    playbook_tc_name
+                                ] = str(bandwidth_percent)
 
                                 self.log(
                                     "Successfully mapped traffic class {0}/{1} for interface "
                                     "speed '{2}': '{3}' → '{4}' with {5}% bandwidth.".format(
-                                        tc_index, len(tc_bandwidth_settings), interface_speed,
-                                        tc_name, playbook_tc_name, bandwidth_percent
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        interface_speed,
+                                        tc_name,
+                                        playbook_tc_name,
+                                        bandwidth_percent,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 skip_reason = (
-                                    "traffic class not in mapping table" if tc_name not in tc_map
+                                    "traffic class not in mapping table"
+                                    if tc_name not in tc_map
                                     else "bandwidth percentage is None"
                                 )
                                 self.log(
                                     "Skipping traffic class {0}/{1} for interface speed "
                                     "'{2}': '{3}' - {4}.".format(
-                                        tc_index, len(tc_bandwidth_settings), interface_speed,
-                                        tc_name, skip_reason
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        interface_speed,
+                                        tc_name,
+                                        skip_reason,
                                     ),
-                                    "WARNING"
+                                    "WARNING",
                                 )
-                        bandwidth_settings["interface_speed_settings"].append(speed_setting)
+                        bandwidth_settings["interface_speed_settings"].append(
+                            speed_setting
+                        )
 
                         self.log(
                             "Completed processing interface speed '{0}' ({1}/{2}). Traffic "
                             "classes configured: {3}. Total bandwidth: {4}%.".format(
-                                interface_speed, speed_index, len(interface_speed_clauses),
+                                interface_speed,
+                                speed_index,
+                                len(interface_speed_clauses),
                                 len(speed_setting["bandwidth_percentages"]),
-                                sum(int(v) for v in speed_setting["bandwidth_percentages"].values())
+                                sum(
+                                    int(v)
+                                    for v in speed_setting[
+                                        "bandwidth_percentages"
+                                    ].values()
+                                ),
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                     self.log(
@@ -1053,7 +1104,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Total interface speeds configured: {0}.".format(
                             len(bandwidth_settings["interface_speed_settings"])
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                 # Exit after processing first BANDWIDTH/BANDWIDTH_CUSTOM clause
@@ -1063,23 +1114,30 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Subsequent clauses will not be processed.".format(
                         "common" if is_common else "interface-specific", clause_type
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 break
             else:
                 self.log(
                     "Clause {0}/{1} with type '{2}' is not a bandwidth clause - skipping. "
                     "Only BANDWIDTH and BANDWIDTH_CUSTOM clause types are processed by "
-                    "this function.".format(clause_index, len(clause_data), clause_type),
-                    "DEBUG"
+                    "this function.".format(
+                        clause_index, len(clause_data), clause_type
+                    ),
+                    "DEBUG",
                 )
 
         if bandwidth_settings:
-            is_common_result = bandwidth_settings.get("is_common_between_all_interface_speeds")
+            is_common_result = bandwidth_settings.get(
+                "is_common_between_all_interface_speeds"
+            )
             if is_common_result:
                 tc_count = len(bandwidth_settings.get("bandwidth_percentages", {}))
                 total_bandwidth = sum(
-                    int(v) for v in bandwidth_settings.get("bandwidth_percentages", {}).values()
+                    int(v)
+                    for v in bandwidth_settings.get(
+                        "bandwidth_percentages", {}
+                    ).values()
                 )
                 self.log(
                     "Bandwidth settings transformation completed successfully. Mode: common "
@@ -1087,22 +1145,24 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "bandwidth allocated: {1}%. Returning bandwidth settings dictionary.".format(
                         tc_count, total_bandwidth
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
-                speed_count = len(bandwidth_settings.get("interface_speed_settings", []))
+                speed_count = len(
+                    bandwidth_settings.get("interface_speed_settings", [])
+                )
                 self.log(
                     "Bandwidth settings transformation completed successfully. Mode: "
                     "interface-specific. Interface speeds configured: {0}. Returning "
                     "bandwidth settings dictionary.".format(speed_count),
-                    "INFO"
+                    "INFO",
                 )
         else:
             self.log(
                 "Bandwidth settings transformation completed with no bandwidth configuration "
                 "found. No BANDWIDTH or BANDWIDTH_CUSTOM clauses were found in the {0} "
                 "clause(s) provided. Returning None.".format(len(clause_data)),
-                "WARNING"
+                "WARNING",
             )
 
         return bandwidth_settings
@@ -1132,7 +1192,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting transformation of DSCP settings from clause data for queuing "
             "profile QoS packet marking configuration",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate input clause_data
@@ -1142,14 +1202,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Expected list of clause dictionaries, got: {0}".format(
                     type(clause_data).__name__ if clause_data is not None else "None"
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
         self.log(
             "Received {0} clause(s) to process for DSCP settings extraction. Searching "
             "for DSCP_CUSTOMIZATION clause type.".format(len(clause_data)),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Traffic class mapping from API format to playbook format
@@ -1165,14 +1225,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "TRANSACTIONAL_DATA": "transactional_data",
             "VOIP_TELEPHONY": "voip_telephony",
             "BEST_EFFORT": "best_effort",
-            "SCAVENGER": "scavenger"
+            "SCAVENGER": "scavenger",
         }
 
         self.log(
             "Traffic class mapping table initialized with {0} traffic class entries for "
             "converting API format (uppercase with underscores) to playbook format "
             "(lowercase with underscores)".format(len(tc_map)),
-            "DEBUG"
+            "DEBUG",
         )
 
         dscp_settings = None
@@ -1182,27 +1242,27 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Processing clause {0}/{1} to check for DSCP customization configuration. "
                 "Clause type check in progress.".format(clause_index, len(clause_data)),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(clause, dict):
                 self.log(
                     "Clause {0}/{1} is not a dictionary - skipping. Expected dict, got: "
-                    "{2}".format(
-                        clause_index, len(clause_data), type(clause).__name__
-                    ),
-                    "WARNING"
+                    "{2}".format(clause_index, len(clause_data), type(clause).__name__),
+                    "WARNING",
                 )
                 continue
 
-            clause_type = self._infer_clause_type(clause, clause_index, len(clause_data))
+            clause_type = self._infer_clause_type(
+                clause, clause_index, len(clause_data)
+            )
 
             self.log(
                 "Clause {0}/{1} has type: '{2}'. Checking if this is a DSCP customization "
                 "clause (DSCP_CUSTOMIZATION).".format(
                     clause_index, len(clause_data), clause_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Process DSCP_CUSTOMIZATION clause type
@@ -1212,7 +1272,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "traffic class DSCP value mappings for QoS packet marking.".format(
                         clause_index, len(clause_data)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Extract DSCP values for each traffic class
@@ -1225,7 +1285,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Check if API response structure is valid.".format(
                             clause_index, len(clause_data)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -1234,7 +1294,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{1}/{2}. Processing DSCP values for each traffic class.".format(
                         len(tc_dscp_settings), clause_index, len(clause_data)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Initialize DSCP settings dictionary
@@ -1243,7 +1303,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Initialized DSCP settings OrderedDict for storing traffic class to "
                     "DSCP value mappings in consistent order",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Process each traffic class DSCP setting
@@ -1256,7 +1316,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Checking if traffic class is in mapping table.".format(
                             tc_index, len(tc_dscp_settings), tc_name, dscp_value
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if tc_name in tc_map and dscp_value is not None:
@@ -1266,14 +1326,18 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Successfully mapped traffic class {0}/{1}: '{2}' → '{3}' with "
                             "DSCP value {4}. Added to DSCP settings dictionary.".format(
-                                tc_index, len(tc_dscp_settings), tc_name, playbook_tc_name,
-                                dscp_value
+                                tc_index,
+                                len(tc_dscp_settings),
+                                tc_name,
+                                playbook_tc_name,
+                                dscp_value,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         skip_reason = (
-                            "traffic class not in mapping table" if tc_name not in tc_map
+                            "traffic class not in mapping table"
+                            if tc_name not in tc_map
                             else "DSCP value is None"
                         )
                         self.log(
@@ -1281,14 +1345,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "class will not be included in DSCP settings.".format(
                                 tc_index, len(tc_dscp_settings), tc_name, skip_reason
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                 self.log(
                     "Completed processing DSCP_CUSTOMIZATION clause. Total traffic classes "
                     "configured: {0}. Returning DSCP settings dictionary.".format(
                         len(dscp_settings)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Exit after processing first DSCP_CUSTOMIZATION clause
@@ -1298,7 +1362,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "settings. Subsequent clauses will not be processed.".format(
                         clause_index, len(clause_data)
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 break
             else:
@@ -1306,7 +1370,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Clause {0}/{1} with type '{2}' is not a DSCP customization clause - "
                     "skipping. Only DSCP_CUSTOMIZATION clause type is processed by this "
                     "function.".format(clause_index, len(clause_data), clause_type),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         if dscp_settings:
@@ -1316,16 +1380,16 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Returning DSCP settings dictionary.".format(
                     len(dscp_settings),
                     min(int(v) for v in dscp_settings.values()) if dscp_settings else 0,
-                    max(int(v) for v in dscp_settings.values()) if dscp_settings else 0
+                    max(int(v) for v in dscp_settings.values()) if dscp_settings else 0,
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "DSCP settings transformation completed with no DSCP configuration found. "
                 "No DSCP_CUSTOMIZATION clauses were found in the {0} clause(s) provided. "
                 "Returning None.".format(len(clause_data)),
-                "WARNING"
+                "WARNING",
             )
 
         return dscp_settings
@@ -1354,7 +1418,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting transformation of site UUIDs to hierarchical site names from "
             "advanced policy scope data",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate input advanced_policy_scope
@@ -1362,21 +1426,24 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Site name transformation skipped - invalid advanced policy scope provided. "
                 "Expected dict, got: {0}".format(
-                    type(advanced_policy_scope).__name__ if advanced_policy_scope is not None
+                    type(advanced_policy_scope).__name__
+                    if advanced_policy_scope is not None
                     else "None"
                 ),
-                "WARNING"
+                "WARNING",
             )
             return []
 
         self.log(
             "Received valid advanced policy scope dictionary. Extracting site group IDs "
             "from advancedPolicyScopeElement array.",
-            "DEBUG"
+            "DEBUG",
         )
 
         site_ids = []
-        advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+        advanced_policy_scope_elements = advanced_policy_scope.get(
+            "advancedPolicyScopeElement", []
+        )
 
         if not isinstance(advanced_policy_scope_elements, list):
             self.log(
@@ -1384,32 +1451,37 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Expected list, got: {0}".format(
                     type(advanced_policy_scope_elements).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return []
 
         self.log(
             "Found {0} advanced policy scope element(s) to process for site group ID "
             "extraction.".format(len(advanced_policy_scope_elements)),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract site IDs from all elements
-        for element_index, element in enumerate(advanced_policy_scope_elements, start=1):
+        for element_index, element in enumerate(
+            advanced_policy_scope_elements, start=1
+        ):
             self.log(
                 "Processing advanced policy scope element {0}/{1} to extract site group "
-                "IDs (UUIDs).".format(element_index, len(advanced_policy_scope_elements)),
-                "DEBUG"
+                "IDs (UUIDs).".format(
+                    element_index, len(advanced_policy_scope_elements)
+                ),
+                "DEBUG",
             )
 
             if not isinstance(element, dict):
                 self.log(
                     "Advanced policy scope element {0}/{1} is not a dictionary - skipping. "
                     "Expected dict, got: {2}".format(
-                        element_index, len(advanced_policy_scope_elements),
-                        type(element).__name__
+                        element_index,
+                        len(advanced_policy_scope_elements),
+                        type(element).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1419,19 +1491,22 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "groupId in element {0}/{1} is not a list - skipping. Expected list, "
                     "got: {2}".format(
-                        element_index, len(advanced_policy_scope_elements),
-                        type(group_ids).__name__
+                        element_index,
+                        len(advanced_policy_scope_elements),
+                        type(group_ids).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
             if group_ids:
                 self.log(
                     "Found {0} site group ID(s) in element {1}/{2}. Adding to site ID "
                     "collection.".format(
-                        len(group_ids), element_index, len(advanced_policy_scope_elements)
+                        len(group_ids),
+                        element_index,
+                        len(advanced_policy_scope_elements),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 site_ids.extend(group_ids)
             else:
@@ -1439,20 +1514,20 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Element {0}/{1} has empty groupId array - no site IDs to extract.".format(
                         element_index, len(advanced_policy_scope_elements)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
             "Completed site ID extraction. Total site UUIDs collected: {0}. Starting "
             "site name resolution via get_site_name API calls.".format(len(site_ids)),
-            "INFO"
+            "INFO",
         )
 
         if not site_ids:
             self.log(
                 "No site UUIDs found in advanced policy scope elements. Returning empty "
                 "site names list.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -1462,7 +1537,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Resolving site UUID {0}/{1}: '{2}' to hierarchical site name via "
                 "get_site_name API call.".format(site_index, len(site_ids), site_id),
-                "DEBUG"
+                "DEBUG",
             )
 
             site_name = self.get_site_name(site_id)
@@ -1471,8 +1546,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 site_names.append(site_name)
                 self.log(
                     "Successfully resolved site UUID {0}/{1}: '{2}' → '{3}'. Added to "
-                    "site names list.".format(site_index, len(site_ids), site_id, site_name),
-                    "INFO"
+                    "site names list.".format(
+                        site_index, len(site_ids), site_id, site_name
+                    ),
+                    "INFO",
                 )
             else:
                 self.log(
@@ -1480,7 +1557,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Catalyst Center or API call failed. Excluding from site names list.".format(
                         site_index, len(site_ids), site_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         self.log(
@@ -1488,7 +1565,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "site UUIDs to hierarchical site names. Site names: {2}".format(
                 len(site_names), len(site_ids), site_names
             ),
-            "INFO"
+            "INFO",
         )
 
         if len(site_names) < len(site_ids):
@@ -1498,7 +1575,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "indicate deleted sites or invalid UUIDs in the policy configuration.".format(
                     failed_count
                 ),
-                "WARNING"
+                "WARNING",
             )
 
         return site_names
@@ -1523,27 +1600,30 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting device type determination from advanced policy scope configuration",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not advanced_policy_scope or not isinstance(advanced_policy_scope, dict):
             self.log(
                 "Device type determination defaulting to 'wired' - invalid advanced policy "
                 "scope provided. Expected dict, got: {0}".format(
-                    type(advanced_policy_scope).__name__ if advanced_policy_scope is not None
+                    type(advanced_policy_scope).__name__
+                    if advanced_policy_scope is not None
                     else "None"
                 ),
-                "WARNING"
+                "WARNING",
             )
             return "wired"
 
         self.log(
             "Received valid advanced policy scope dictionary. Extracting "
             "advancedPolicyScopeElement array to check for SSID presence.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+        advanced_policy_scope_elements = advanced_policy_scope.get(
+            "advancedPolicyScopeElement", []
+        )
 
         if not isinstance(advanced_policy_scope_elements, list):
             self.log(
@@ -1551,7 +1631,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "advancedPolicyScopeElement is not a list. Expected list, got: {0}".format(
                     type(advanced_policy_scope_elements).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return "wired"
 
@@ -1559,7 +1639,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Device type determination defaulting to 'wired' - "
                 "advancedPolicyScopeElement array is empty (no policy scope elements found).",
-                "DEBUG"
+                "DEBUG",
             )
             return "wired"
 
@@ -1568,26 +1648,29 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Iterating to detect wireless configuration.".format(
                 len(advanced_policy_scope_elements)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        for element_index, element in enumerate(advanced_policy_scope_elements, start=1):
+        for element_index, element in enumerate(
+            advanced_policy_scope_elements, start=1
+        ):
             self.log(
                 "Checking advanced policy scope element {0}/{1} for SSID field to "
                 "determine wireless policy.".format(
                     element_index, len(advanced_policy_scope_elements)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(element, dict):
                 self.log(
                     "Advanced policy scope element {0}/{1} is not a dictionary - skipping. "
                     "Expected dict, got: {2}".format(
-                        element_index, len(advanced_policy_scope_elements),
-                        type(element).__name__
+                        element_index,
+                        len(advanced_policy_scope_elements),
+                        type(element).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1595,10 +1678,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Advanced policy scope element {0}/{1} SSID field value: {2} (type: {3})".format(
-                    element_index, len(advanced_policy_scope_elements),
-                    ssid, type(ssid).__name__ if ssid is not None else "None"
+                    element_index,
+                    len(advanced_policy_scope_elements),
+                    ssid,
+                    type(ssid).__name__ if ssid is not None else "None",
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if ssid:
@@ -1607,7 +1692,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Device type determined as 'wireless'. Terminating search.".format(
                         element_index, len(advanced_policy_scope_elements), ssid
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 return "wireless"
             else:
@@ -1616,7 +1701,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "empty, or not present). Continuing to check remaining elements.".format(
                         element_index, len(advanced_policy_scope_elements)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
@@ -1624,7 +1709,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "any element. Device type determined as 'wired' (default).".format(
                 len(advanced_policy_scope_elements)
             ),
-            "INFO"
+            "INFO",
         )
 
         return "wired"
@@ -1651,27 +1736,30 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting SSID name extraction from advanced policy scope for wireless policy "
             "identification",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not advanced_policy_scope or not isinstance(advanced_policy_scope, dict):
             self.log(
                 "SSID name extraction returning None - invalid advanced policy scope provided. "
                 "Expected dict, got: {0}. This indicates a wired policy or invalid data.".format(
-                    type(advanced_policy_scope).__name__ if advanced_policy_scope is not None
+                    type(advanced_policy_scope).__name__
+                    if advanced_policy_scope is not None
                     else "None"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Received valid advanced policy scope dictionary. Extracting "
             "advancedPolicyScopeElement array to check for SSID configuration.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        advanced_policy_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+        advanced_policy_scope_elements = advanced_policy_scope.get(
+            "advancedPolicyScopeElement", []
+        )
 
         if not isinstance(advanced_policy_scope_elements, list):
             self.log(
@@ -1679,7 +1767,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "list. Expected list, got: {0}. This indicates invalid policy data.".format(
                     type(advanced_policy_scope_elements).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1688,7 +1776,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "SSID name extraction returning None - advancedPolicyScopeElement array is "
                 "empty (no policy scope elements found). This indicates a wired policy or "
                 "invalid configuration.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -1697,27 +1785,30 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Iterating to extract SSID name for wireless policy.".format(
                 len(advanced_policy_scope_elements)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check each element for SSID presence
-        for element_index, element in enumerate(advanced_policy_scope_elements, start=1):
+        for element_index, element in enumerate(
+            advanced_policy_scope_elements, start=1
+        ):
             self.log(
                 "Checking advanced policy scope element {0}/{1} for SSID field to extract "
                 "wireless network identifier.".format(
                     element_index, len(advanced_policy_scope_elements)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(element, dict):
                 self.log(
                     "Advanced policy scope element {0}/{1} is not a dictionary - skipping. "
                     "Expected dict, got: {2}. Continuing to next element.".format(
-                        element_index, len(advanced_policy_scope_elements),
-                        type(element).__name__
+                        element_index,
+                        len(advanced_policy_scope_elements),
+                        type(element).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1725,11 +1816,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Advanced policy scope element {0}/{1} SSID field value: {2} (type: {3})".format(
-                    element_index, len(advanced_policy_scope_elements),
+                    element_index,
+                    len(advanced_policy_scope_elements),
                     ssid if ssid else "None/null/empty",
-                    type(ssid).__name__ if ssid is not None else "NoneType"
+                    type(ssid).__name__ if ssid is not None else "NoneType",
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if ssid:
@@ -1740,10 +1832,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "SSID found as list in element {0}/{1}. Extracting first SSID from "
                         "list: '{2}'. Total SSIDs in list: {3}. Returning SSID name and "
                         "terminating search.".format(
-                            element_index, len(advanced_policy_scope_elements), ssid_name,
-                            len(ssid)
+                            element_index,
+                            len(advanced_policy_scope_elements),
+                            ssid_name,
+                            len(ssid),
                         ),
-                        "INFO"
+                        "INFO",
                     )
                     return ssid_name
                 # Handle SSID as string (legacy format or direct string value)
@@ -1753,31 +1847,35 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Returning SSID name and terminating search.".format(
                             element_index, len(advanced_policy_scope_elements), ssid
                         ),
-                        "INFO"
+                        "INFO",
                     )
                     return ssid
                 else:
                     self.log(
                         "SSID field in element {0}/{1} has unexpected type or is empty. "
                         "Type: {2}, Value: {3}. Continuing to next element.".format(
-                            element_index, len(advanced_policy_scope_elements),
-                            type(ssid).__name__, ssid
+                            element_index,
+                            len(advanced_policy_scope_elements),
+                            type(ssid).__name__,
+                            ssid,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 self.log(
                     "No SSID found in advanced policy scope element {0}/{1} (SSID is None, "
                     "null, empty list, or empty string). Continuing to check remaining "
-                    "elements.".format(element_index, len(advanced_policy_scope_elements)),
-                    "DEBUG"
+                    "elements.".format(
+                        element_index, len(advanced_policy_scope_elements)
+                    ),
+                    "DEBUG",
                 )
 
         self.log(
             "Completed checking all {0} advanced policy scope element(s). No SSID found in "
             "any element. Returning None. This indicates a wired policy or policy without "
             "SSID configuration.".format(len(advanced_policy_scope_elements)),
-            "INFO"
+            "INFO",
         )
 
         return None
@@ -1804,7 +1902,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting queuing profile name resolution from contract data reference",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not contract_data or not isinstance(contract_data, dict):
@@ -1812,16 +1910,18 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Queuing profile name resolution returning None - invalid contract data "
                 "provided. Expected dict with idRef field, got: {0}. This indicates the "
                 "application policy has no QoS profile assigned.".format(
-                    type(contract_data).__name__ if contract_data is not None else "None"
+                    type(contract_data).__name__
+                    if contract_data is not None
+                    else "None"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Received valid contract data dictionary. Extracting queuing profile ID "
             "reference (idRef) for API lookup.",
-            "DEBUG"
+            "DEBUG",
         )
 
         profile_id = contract_data.get("idRef")
@@ -1832,32 +1932,44 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "application policy has no QoS profile configured.".format(
                     list(contract_data.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Extracted queuing profile ID from contract: '{0}'. Initiating API call to "
             "resolve profile UUID to human-readable profile name.".format(profile_id),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy_queuing_profile",
-                op_modifies=False
+                op_modifies=False,
             )
             self.log(
                 "Received API response for queuing profile lookup. Response structure: "
                 "{0}".format(
                     {
-                        "has_response_key": "response" in response if response else False,
-                        "response_type": type(response.get("response")).__name__ if response and "response" in response else "N/A",
-                        "response_count": len(response.get("response")) if response and isinstance(response.get("response"), list) else 0
-                    } if response else "No response"
+                        "has_response_key": (
+                            "response" in response if response else False
+                        ),
+                        "response_type": (
+                            type(response.get("response")).__name__
+                            if response and "response" in response
+                            else "N/A"
+                        ),
+                        "response_count": (
+                            len(response.get("response"))
+                            if response and isinstance(response.get("response"), list)
+                            else 0
+                        ),
+                    }
+                    if response
+                    else "No response"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response:
@@ -1865,7 +1977,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is None or empty for profile ID '{0}'. This may indicate "
                     "a network issue, authentication failure, or API unavailability. "
                     "Returning None.".format(profile_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1874,7 +1986,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response missing 'response' key for profile ID '{0}'. Response "
                     "keys: {1}. This indicates an unexpected API response format. "
                     "Returning None.".format(profile_id, list(response.keys())),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1885,7 +1997,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response 'response' field is not a list for profile ID '{0}'. "
                     "Got type: {1}. This indicates an unexpected API response format. "
                     "Returning None.".format(profile_id, type(profiles).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1895,14 +2007,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "in Catalyst Center. Returning None for profile ID '{0}'.".format(
                         profile_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "API response contains {0} total queuing profile(s). Searching for profile "
                 "with ID '{1}' in profile list.".format(len(profiles), profile_id),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Search for matching profile by ID
@@ -1913,7 +2025,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "this profile entry.".format(
                             profile_index, len(profiles), type(profile).__name__
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -1924,21 +2036,29 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "name='{1}', id field present: {2}".format(
                             list(profile.keys()),
                             profile.get("name", "N/A"),
-                            "id" in profile
+                            "id" in profile,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Try multiple possible ID field names
-                current_profile_id = profile.get("id") or profile.get("profileId") or profile.get("instanceUuid")
+                current_profile_id = (
+                    profile.get("id")
+                    or profile.get("profileId")
+                    or profile.get("instanceUuid")
+                )
 
                 self.log(
                     "Checking profile {0}/{1}: name='{2}', extracted_id='{3}', "
                     "looking_for_id='{4}', match={5}".format(
-                        profile_index, len(profiles), profile.get("name", "N/A"),
-                        current_profile_id, profile_id, current_profile_id == profile_id
+                        profile_index,
+                        len(profiles),
+                        profile.get("name", "N/A"),
+                        current_profile_id,
+                        profile_id,
+                        current_profile_id == profile_id,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if current_profile_id == profile_id:
@@ -1949,9 +2069,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Found matching profile at index {0}/{1} for ID '{2}' but profile "
                             "is missing 'name' field. Profile keys: {3}. This indicates incomplete "
                             "profile data from API. Returning None.".format(
-                                profile_index, len(profiles), profile_id, list(profile.keys())
+                                profile_index,
+                                len(profiles),
+                                profile_id,
+                                list(profile.keys()),
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         return None
 
@@ -1961,7 +2084,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "playbook configuration.".format(
                             profile_id, profile_index, len(profiles), profile_name
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     return profile_name
@@ -1970,8 +2093,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No queuing profile found with ID '{0}' after searching all {1} profile(s). "
                 "This indicates the profile has been deleted from Catalyst Center or the "
-                "profile ID is invalid. Returning None.".format(profile_id, len(profiles)),
-                "WARNING"
+                "profile ID is invalid. Returning None.".format(
+                    profile_id, len(profiles)
+                ),
+                "WARNING",
             )
 
             return None
@@ -1982,10 +2107,8 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Error type: {1}, Error message: {2}. This may indicate network issues, "
                 "authentication failures, API unavailability, or permission problems. "
                 "Returning None to allow policy generation to continue without QoS profile "
-                "reference.".format(
-                    profile_id, type(e).__name__, str(e)
-                ),
-                "ERROR"
+                "reference.".format(profile_id, type(e).__name__, str(e)),
+                "ERROR",
             )
 
             return None
@@ -2012,7 +2135,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting application set name resolution from application set ID reference",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not app_set_id:
@@ -2020,31 +2143,43 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Application set name resolution returning None - no application set ID "
                 "provided. app_set_id is None or empty string. This indicates the policy "
                 "has no application set reference.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Received application set ID: '{0}'. Initiating API call to retrieve all "
             "application sets for ID matching and name resolution.".format(app_set_id),
-            "INFO"
+            "INFO",
         )
 
         try:
             response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_sets",
-                op_modifies=False
+                op_modifies=False,
             )
             self.log(
                 "Received API response for application sets query. Response structure: {0}".format(
                     {
-                        "has_response_key": "response" in response if response else False,
-                        "response_type": type(response.get("response")).__name__ if response and "response" in response else "N/A",
-                        "response_count": len(response.get("response")) if response and isinstance(response.get("response"), list) else 0
-                    } if response else "No response"
+                        "has_response_key": (
+                            "response" in response if response else False
+                        ),
+                        "response_type": (
+                            type(response.get("response")).__name__
+                            if response and "response" in response
+                            else "N/A"
+                        ),
+                        "response_count": (
+                            len(response.get("response"))
+                            if response and isinstance(response.get("response"), list)
+                            else 0
+                        ),
+                    }
+                    if response
+                    else "No response"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response:
@@ -2052,7 +2187,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is None or empty for application sets query. This may "
                     "indicate a network issue, authentication failure, or API unavailability. "
                     "Returning None for app_set_id '{0}'.".format(app_set_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2063,7 +2198,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Returning None for app_set_id '{1}'.".format(
                         list(response.keys()), app_set_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2074,7 +2209,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response 'response' field is not a list. Got type: {0}. This "
                     "indicates an unexpected API response format. Returning None for "
                     "app_set_id '{1}'.".format(type(app_sets).__name__, app_set_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2083,14 +2218,16 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response contains empty application set list. No application sets "
                     "are configured in Catalyst Center. Cannot resolve app_set_id '{0}'. "
                     "Returning None.".format(app_set_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Retrieved {0} application set(s) from Catalyst Center. Starting linear "
-                "search to find matching ID for '{1}'.".format(len(app_sets), app_set_id),
-                "INFO"
+                "search to find matching ID for '{1}'.".format(
+                    len(app_sets), app_set_id
+                ),
+                "INFO",
             )
 
             # Search for matching application set
@@ -2101,7 +2238,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "dict, got: {2}. Continuing to next application set.".format(
                             set_index, len(app_sets), type(app_set).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -2110,10 +2247,13 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Checking application set {0}/{1}: ID='{2}', target ID='{3}', "
                     "match={4}".format(
-                        set_index, len(app_sets), current_id, app_set_id,
-                        current_id == app_set_id
+                        set_index,
+                        len(app_sets),
+                        current_id,
+                        app_set_id,
+                        current_id == app_set_id,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if current_id == app_set_id:
@@ -2125,9 +2265,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Found matching application set at index {0}/{1} for ID '{2}', "
                             "but 'name' field is missing or empty. Application set keys: {3}. "
                             "Returning None.".format(
-                                set_index, len(app_sets), app_set_id, list(app_set.keys())
+                                set_index,
+                                len(app_sets),
+                                app_set_id,
+                                list(app_set.keys()),
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         return None
 
@@ -2137,7 +2280,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "configuration.".format(
                             app_set_id, set_index, len(app_sets), app_set_name
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     return app_set_name
@@ -2148,7 +2291,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "'{1}'. This indicates the application set has been deleted from Catalyst "
                 "Center, the ID is invalid, or the application set is not synchronized. "
                 "Returning None.".format(len(app_sets), app_set_id),
-                "WARNING"
+                "WARNING",
             )
 
             return None
@@ -2162,7 +2305,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "application set reference.".format(
                     app_set_id, type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -2190,7 +2333,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting clause transformation from application policy producer data",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not policy or not isinstance(policy, dict):
@@ -2200,7 +2343,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "structure issue.".format(
                     type(policy).__name__ if policy is not None else "None"
                 ),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2211,7 +2354,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "special policy type that should not have application clauses.".format(
                 policy_name
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if this is a special policy type that shouldn't have application clauses
@@ -2222,15 +2365,18 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "patterns (queuing_customization, global_policy_configuration).".format(
                 name_lower
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        if any(x in name_lower for x in ["queuing_customization", "global_policy_configuration"]):
+        if any(
+            x in name_lower
+            for x in ["queuing_customization", "global_policy_configuration"]
+        ):
             self.log(
                 "Skipping clause transformation for special policy type: {0}. Special policies "
                 "(queuing_customization, global_policy_configuration) don't require application "
                 "clauses.".format(policy_name),
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2239,7 +2385,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracting producer data to get application set references.".format(
                 policy_name
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract producer data (contains app set info)
@@ -2249,9 +2395,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No valid producer data found in policy '{0}'. Producer is None or not a "
                 "dict (got: {1}). Returning empty clause list. This indicates the policy "
                 "has no application set assignments.".format(
-                    policy_name, type(producer).__name__ if producer is not None else "None"
+                    policy_name,
+                    type(producer).__name__ if producer is not None else "None",
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2260,7 +2407,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "scalableGroup array to get application set ID references.".format(
                 policy_name, list(producer.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         scalable_groups = producer.get("scalableGroup", [])
@@ -2270,9 +2417,13 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "scalableGroup is None, empty, or not a list (got: {1}). Returning empty "
                 "clause list. This indicates the policy has no application sets configured.".format(
                     policy_name,
-                    type(scalable_groups).__name__ if scalable_groups is not None else "None"
+                    (
+                        type(scalable_groups).__name__
+                        if scalable_groups is not None
+                        else "None"
+                    ),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2281,7 +2432,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting application set ID extraction and name resolution.".format(
                 len(scalable_groups), policy_name
             ),
-            "INFO"
+            "INFO",
         )
 
         # Get relevance level from exclusiveContract
@@ -2293,7 +2444,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "exclusiveContract present: {1}".format(
                 policy_name, exclusive_contract is not None
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if exclusive_contract and isinstance(exclusive_contract, dict):
@@ -2304,7 +2455,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "BUSINESS_RELEVANCE clause type to determine relevance level.".format(
                     len(clauses) if isinstance(clauses, list) else 0, policy_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if clauses and isinstance(clauses, list) and len(clauses) > 0:
@@ -2315,7 +2466,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Expected dict, got: {2}".format(
                                 clause_index, len(clauses), type(clause).__name__
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         continue
 
@@ -2326,7 +2477,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "type='{3}'".format(
                             clause_index, len(clauses), policy_name, clause_type
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if clause_type == "BUSINESS_RELEVANCE":
@@ -2338,7 +2489,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "This level will apply to all application sets in this policy.".format(
                                 clause_index, len(clauses), policy_name, relevance_level
                             ),
-                            "INFO"
+                            "INFO",
                         )
                         break
                 else:
@@ -2346,7 +2497,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "No BUSINESS_RELEVANCE clause found in {0} exclusiveContract "
                         "clause(s) for policy '{1}'. Using default relevance level: "
                         "'{2}'.".format(len(clauses), policy_name, relevance_level),
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 self.log(
@@ -2354,14 +2505,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "structure. Using default relevance level: '{1}'.".format(
                         policy_name, relevance_level
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 "No valid exclusiveContract found for policy '{0}'. Using default relevance "
                 "level: '{1}'. This is normal for policies without explicit relevance "
                 "configuration.".format(policy_name, relevance_level),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -2369,7 +2520,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "sets in this policy will be assigned this relevance level.".format(
                 policy_name, relevance_level
             ),
-            "INFO"
+            "INFO",
         )
 
         # Dictionary to group application sets by relevance level
@@ -2380,24 +2531,29 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing {0} scalable group(s) to extract and resolve application set IDs.".format(
                 len(scalable_groups)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Process each scalable group (app set)
         for group_index, group in enumerate(scalable_groups, start=1):
             self.log(
                 "Processing scalable group {0}/{1} in policy '{2}' to extract application "
-                "set ID reference.".format(group_index, len(scalable_groups), policy_name),
-                "DEBUG"
+                "set ID reference.".format(
+                    group_index, len(scalable_groups), policy_name
+                ),
+                "DEBUG",
             )
 
             if not isinstance(group, dict):
                 self.log(
                     "Scalable group {0}/{1} in policy '{2}' is not a dictionary - skipping. "
                     "Expected dict, got: {3}. Continuing to next scalable group.".format(
-                        group_index, len(scalable_groups), policy_name, type(group).__name__
+                        group_index,
+                        len(scalable_groups),
+                        policy_name,
+                        type(group).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -2406,9 +2562,12 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Scalable group {0}/{1} in policy '{2}' has no idRef (application set "
                     "UUID). Scalable group keys: {3}. Skipping this group.".format(
-                        group_index, len(scalable_groups), policy_name, list(group.keys())
+                        group_index,
+                        len(scalable_groups),
+                        policy_name,
+                        list(group.keys()),
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -2417,7 +2576,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "'{3}'. Initiating API call to resolve UUID to application set name.".format(
                     group_index, len(scalable_groups), policy_name, app_set_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Get application set name from ID
@@ -2430,7 +2589,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Created new relevance map entry for level '{0}' in policy '{1}'.".format(
                             relevance_level, policy_name
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 relevance_map[relevance_level].append(app_set_name)
@@ -2439,10 +2598,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Successfully resolved and added application set {0}/{1} for policy "
                     "'{2}': UUID '{3}' → name '{4}'. Added to relevance level '{5}'. "
                     "Total app sets at this level: {6}".format(
-                        group_index, len(scalable_groups), policy_name, app_set_id,
-                        app_set_name, relevance_level, len(relevance_map[relevance_level])
+                        group_index,
+                        len(scalable_groups),
+                        policy_name,
+                        app_set_id,
+                        app_set_name,
+                        relevance_level,
+                        len(relevance_map[relevance_level]),
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
@@ -2452,16 +2616,17 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "clause.".format(
                         group_index, len(scalable_groups), policy_name, app_set_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         self.log(
             "Completed processing all {0} scalable group(s) for policy '{1}'. Relevance "
             "map summary: {2}. Starting clause structure building.".format(
-                len(scalable_groups), policy_name,
-                {k: len(v) for k, v in relevance_map.items()}
+                len(scalable_groups),
+                policy_name,
+                {k: len(v) for k, v in relevance_map.items()},
             ),
-            "INFO"
+            "INFO",
         )
 
         # Build relevance_details list
@@ -2476,36 +2641,42 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "app sets count={2} (after deduplication), app sets={3}".format(
                         policy_name, relevance, len(app_sets), app_sets
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
-                relevance_details.append(OrderedDict([
-                    ("relevance", relevance),
-                    ("application_set_name", app_sets)
-                ]))
+                relevance_details.append(
+                    OrderedDict(
+                        [("relevance", relevance), ("application_set_name", app_sets)]
+                    )
+                )
 
                 self.log(
                     "Added relevance details entry {0} for policy '{1}': '{2}' with {3} "
                     "application set(s)".format(
                         len(relevance_details), policy_name, relevance, len(app_sets)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         if relevance_details:
-            clause_structure = [OrderedDict([
-                ("clause_type", "BUSINESS_RELEVANCE"),
-                ("relevance_details", relevance_details)
-            ])]
+            clause_structure = [
+                OrderedDict(
+                    [
+                        ("clause_type", "BUSINESS_RELEVANCE"),
+                        ("relevance_details", relevance_details),
+                    ]
+                )
+            ]
 
             self.log(
                 "Successfully created BUSINESS_RELEVANCE clause for policy '{0}' with {1} "
                 "relevance level(s). Total application sets across all levels: {2}. "
                 "Returning clause structure.".format(
-                    policy_name, len(relevance_details),
-                    sum(len(rd["application_set_name"]) for rd in relevance_details)
+                    policy_name,
+                    len(relevance_details),
+                    sum(len(rd["application_set_name"]) for rd in relevance_details),
                 ),
-                "INFO"
+                "INFO",
             )
 
             return clause_structure
@@ -2515,7 +2686,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "application set ID resolutions failed, or no valid application sets were "
             "configured. Returning empty clause list. Scalable groups processed: {1}, "
             "successful resolutions: 0".format(policy_name, len(scalable_groups)),
-            "WARNING"
+            "WARNING",
         )
         return []
 
@@ -2542,7 +2713,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log("No policies to transform", "INFO")
             return []
 
-        self.log("Starting transformation of {0} policies".format(len(policies)), "INFO")
+        self.log(
+            "Starting transformation of {0} policies".format(len(policies)), "INFO"
+        )
 
         # First, group policies by policyScope to consolidate them
         policy_groups = {}
@@ -2558,13 +2731,20 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 policy_groups[policy_scope] = []
             policy_groups[policy_scope].append(policy)
 
-        self.log("Grouped into {0} unique policy scopes".format(len(policy_groups)), "INFO")
+        self.log(
+            "Grouped into {0} unique policy scopes".format(len(policy_groups)), "INFO"
+        )
 
         transformed_policies = []
         seen_policies = set()
 
         for policy_scope, policy_list in policy_groups.items():
-            self.log("Processing policy scope: {0} with {1} entries".format(policy_scope, len(policy_list)), "INFO")
+            self.log(
+                "Processing policy scope: {0} with {1} entries".format(
+                    policy_scope, len(policy_list)
+                ),
+                "INFO",
+            )
 
             # Use the first policy as the base (they should all have same scope/site info)
             base_policy = policy_list[0]
@@ -2573,7 +2753,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # Get site IDs for unique identification
             site_ids = []
             if advanced_policy_scope and isinstance(advanced_policy_scope, dict):
-                adv_scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+                adv_scope_elements = advanced_policy_scope.get(
+                    "advancedPolicyScopeElement", []
+                )
                 for element in adv_scope_elements:
                     if isinstance(element, dict):
                         group_ids = element.get("groupId", [])
@@ -2592,7 +2774,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             policy_data["name"] = policy_scope
 
             delete_status = base_policy.get("deletePolicyStatus", "NONE")
-            policy_data["policy_status"] = "deployed" if delete_status == "NONE" else delete_status.lower()
+            policy_data["policy_status"] = (
+                "deployed" if delete_status == "NONE" else delete_status.lower()
+            )
 
             site_names = self.transform_site_names(advanced_policy_scope)
             if site_names:
@@ -2613,26 +2797,30 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 # Check contract field first (most common for queuing customization)
                 contract = policy.get("contract")
                 if contract and isinstance(contract, dict):
-                    queuing_profile_name = self.get_queuing_profile_name_from_id(contract)
+                    queuing_profile_name = self.get_queuing_profile_name_from_id(
+                        contract
+                    )
                     if queuing_profile_name:
                         self.log(
                             "Found queuing profile '{0}' in policy '{1}' contract field".format(
                                 queuing_profile_name, policy.get("name", "N/A")
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
                 # Also check exclusiveContract field as fallback
                 exclusive_contract = policy.get("exclusiveContract")
                 if exclusive_contract and isinstance(exclusive_contract, dict):
-                    queuing_profile_name = self.get_queuing_profile_name_from_id(exclusive_contract)
+                    queuing_profile_name = self.get_queuing_profile_name_from_id(
+                        exclusive_contract
+                    )
                     if queuing_profile_name:
                         self.log(
                             "Found queuing profile '{0}' in policy '{1}' exclusiveContract field".format(
                                 queuing_profile_name, policy.get("name", "N/A")
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         break
 
@@ -2642,7 +2830,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Added queuing profile name '{0}' to policy '{1}' playbook configuration".format(
                         queuing_profile_name, policy_scope
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
@@ -2650,20 +2838,23 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Policy will be generated without QoS profile configuration.".format(
                         policy_scope, len(policy_list)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Collect all application sets across all sub-policies by relevance
             all_relevance_map = {
                 "BUSINESS_RELEVANT": set(),
                 "BUSINESS_IRRELEVANT": set(),
-                "DEFAULT": set()
+                "DEFAULT": set(),
             }
 
             for policy in policy_list:
                 # Skip special policy types
                 name_lower = policy.get("name", "").lower()
-                if any(x in name_lower for x in ["queuing_customization", "global_policy_configuration"]):
+                if any(
+                    x in name_lower
+                    for x in ["queuing_customization", "global_policy_configuration"]
+                ):
                     continue
 
                 # Get app sets from this sub-policy
@@ -2695,38 +2886,66 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         app_set_name = self.get_application_set_name_from_id(app_set_id)
                         if app_set_name:
                             all_relevance_map[relevance_level].add(app_set_name)
-                            self.log("Added '{0}' to {1} for policy '{2}'".format(
-                                app_set_name, relevance_level, policy_scope), "DEBUG")
+                            self.log(
+                                "Added '{0}' to {1} for policy '{2}'".format(
+                                    app_set_name, relevance_level, policy_scope
+                                ),
+                                "DEBUG",
+                            )
 
             # Build clause if we have any application sets
             relevance_details = []
             for relevance in ["BUSINESS_RELEVANT", "BUSINESS_IRRELEVANT", "DEFAULT"]:
                 if all_relevance_map[relevance]:
                     app_sets = sorted(list(all_relevance_map[relevance]))
-                    relevance_details.append(OrderedDict([
-                        ("relevance", relevance),
-                        ("application_set_name", app_sets)
-                    ]))
+                    relevance_details.append(
+                        OrderedDict(
+                            [
+                                ("relevance", relevance),
+                                ("application_set_name", app_sets),
+                            ]
+                        )
+                    )
 
             if relevance_details:
-                policy_data["clause"] = [OrderedDict([
-                    ("clause_type", "BUSINESS_RELEVANCE"),
-                    ("relevance_details", relevance_details)
-                ])]
-                self.log("Successfully added clause to policy '{0}' with {1} relevance levels".format(
-                    policy_scope, len(relevance_details)), "INFO")
+                policy_data["clause"] = [
+                    OrderedDict(
+                        [
+                            ("clause_type", "BUSINESS_RELEVANCE"),
+                            ("relevance_details", relevance_details),
+                        ]
+                    )
+                ]
+                self.log(
+                    "Successfully added clause to policy '{0}' with {1} relevance levels".format(
+                        policy_scope, len(relevance_details)
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("No clause data found for policy '{0}'".format(policy_scope), "INFO")
+                self.log(
+                    "No clause data found for policy '{0}'".format(policy_scope), "INFO"
+                )
 
             if policy_scope and site_names:
                 transformed_policies.append(policy_data)
-                self.log("Successfully transformed policy: {0} (has clause: {1})".format(
-                    policy_scope, "clause" in policy_data), "INFO")
+                self.log(
+                    "Successfully transformed policy: {0} (has clause: {1})".format(
+                        policy_scope, "clause" in policy_data
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("Skipping policy due to missing required fields: name={0}, sites={1}".format(
-                    policy_scope, len(site_names) if site_names else 0), "WARNING")
+                self.log(
+                    "Skipping policy due to missing required fields: name={0}, sites={1}".format(
+                        policy_scope, len(site_names) if site_names else 0
+                    ),
+                    "WARNING",
+                )
 
-        self.log("Transformed {0} policies total".format(len(transformed_policies)), "INFO")
+        self.log(
+            "Transformed {0} policies total".format(len(transformed_policies)), "INFO"
+        )
         return transformed_policies
 
     def get_detailed_application_policy(self, policy_name):
@@ -2754,14 +2973,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting detailed application policy retrieval for policy name: '{0}'".format(
                 policy_name
             ),
-            "INFO"
+            "INFO",
         )
 
         if not policy_name:
             self.log(
                 "Detailed policy retrieval returning None - no policy name provided. "
                 "policy_name is None or empty string. Cannot query API without policy name.",
-                "INFO"
+                "INFO",
             )
             return None
 
@@ -2769,7 +2988,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Initiating API call to fetch detailed policy data for policyScope: '{0}'. "
             "This will retrieve complete policy configuration including consumer, producer, "
             "contract, and clause details.".format(policy_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -2778,18 +2997,33 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 family="application_policy",
                 function="get_application_policy",
                 op_modifies=False,
-                params={"policyScope": policy_name}
+                params={"policyScope": policy_name},
             )
             self.log(
                 "Received API response for detailed policy query '{0}'. Response structure: {1}".format(
                     policy_name,
-                    {
-                        "has_response_key": "response" in response if response else False,
-                        "response_type": type(response.get("response")).__name__ if response and "response" in response else "N/A",
-                        "response_count": len(response.get("response")) if response and isinstance(response.get("response"), list) else 0
-                    } if response else "No response"
+                    (
+                        {
+                            "has_response_key": (
+                                "response" in response if response else False
+                            ),
+                            "response_type": (
+                                type(response.get("response")).__name__
+                                if response and "response" in response
+                                else "N/A"
+                            ),
+                            "response_count": (
+                                len(response.get("response"))
+                                if response
+                                and isinstance(response.get("response"), list)
+                                else 0
+                            ),
+                        }
+                        if response
+                        else "No response"
+                    ),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response:
@@ -2797,7 +3031,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API response is None or empty for policy '{0}'. This may indicate a "
                     "network issue, authentication failure, or API unavailability. Returning "
                     "None.".format(policy_name),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2807,7 +3041,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "This indicates an unexpected API response format. Returning None.".format(
                         policy_name, list(response.keys())
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2819,7 +3053,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "This indicates an unexpected API response format. Returning None.".format(
                         policy_name, type(policies).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2828,7 +3062,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No policy found with policyScope '{0}'. API returned empty policy list. "
                     "This indicates the policy does not exist in Catalyst Center or has been "
                     "deleted. Returning None.".format(policy_name),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2837,7 +3071,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "first policy from response list (policyScope should be unique).".format(
                     len(policies), policy_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract first policy (policyScope should be unique)
@@ -2847,8 +3081,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "First policy in response is not a dictionary for policyScope '{0}'. "
                     "Got type: {1}. This indicates an unexpected API response format. "
-                    "Returning None.".format(policy_name, type(detailed_policy).__name__),
-                    "WARNING"
+                    "Returning None.".format(
+                        policy_name, type(detailed_policy).__name__
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -2863,42 +3099,67 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Successfully retrieved detailed policy data for '{0}'. Policy structure: "
                 "keys={1}, has_consumer={2}, has_producer={3}, has_contract={4}, "
                 "has_exclusiveContract={5}. Internal policy name: '{6}'".format(
-                    policy_name, policy_keys, has_consumer, has_producer, has_contract,
-                    has_exclusive_contract, detailed_policy.get("name", "N/A")
+                    policy_name,
+                    policy_keys,
+                    has_consumer,
+                    has_producer,
+                    has_contract,
+                    has_exclusive_contract,
+                    detailed_policy.get("name", "N/A"),
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Log consumer data if present for debugging
             if has_consumer:
                 consumer = detailed_policy.get("consumer", {})
-                consumer_scalable_groups = consumer.get("scalableGroup", []) if isinstance(consumer, dict) else []
+                consumer_scalable_groups = (
+                    consumer.get("scalableGroup", [])
+                    if isinstance(consumer, dict)
+                    else []
+                )
 
                 self.log(
                     "Detailed policy '{0}' has consumer data with {1} scalable group(s). "
                     "Consumer structure provides destination traffic classification details.".format(
-                        policy_name, len(consumer_scalable_groups) if isinstance(consumer_scalable_groups, list) else 0
+                        policy_name,
+                        (
+                            len(consumer_scalable_groups)
+                            if isinstance(consumer_scalable_groups, list)
+                            else 0
+                        ),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Log producer data if present
             if has_producer:
                 producer = detailed_policy.get("producer", {})
-                producer_scalable_groups = producer.get("scalableGroup", []) if isinstance(producer, dict) else []
+                producer_scalable_groups = (
+                    producer.get("scalableGroup", [])
+                    if isinstance(producer, dict)
+                    else []
+                )
 
                 self.log(
                     "Detailed policy '{0}' has producer data with {1} scalable group(s). "
                     "Producer structure provides source traffic classification details.".format(
-                        policy_name, len(producer_scalable_groups) if isinstance(producer_scalable_groups, list) else 0
+                        policy_name,
+                        (
+                            len(producer_scalable_groups)
+                            if isinstance(producer_scalable_groups, list)
+                            else 0
+                        ),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
                 "Detailed policy retrieval completed successfully for '{0}'. Returning "
-                "complete policy object with all relationship data.".format(policy_name),
-                "INFO"
+                "complete policy object with all relationship data.".format(
+                    policy_name
+                ),
+                "INFO",
             )
 
             return detailed_policy
@@ -2911,7 +3172,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "to allow graceful continuation.".format(
                     policy_name, type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -2942,31 +3203,37 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting application policy retrieval with filters. Component filters: {0}".format(
                 bool(filters.get("component_specific_filters"))
             ),
-            "INFO"
+            "INFO",
         )
 
         app_policy_filters = filters.get("component_specific_filters", [])
-        policy_names_list = [{
-            'policy_names_list': [
-                item
-                for d in app_policy_filters
-                for item in d.get('policy_names_list', [])
-            ]
-        }]
+        policy_names_list = [
+            {
+                "policy_names_list": [
+                    item
+                    for d in app_policy_filters
+                    for item in d.get("policy_names_list", [])
+                ]
+            }
+        ]
 
-        policy_names_list = policy_names_list[0]['policy_names_list'] if policy_names_list and len(policy_names_list) > 0 else []
+        policy_names_list = (
+            policy_names_list[0]["policy_names_list"]
+            if policy_names_list and len(policy_names_list) > 0
+            else []
+        )
 
         if policy_names_list:
             self.log(
                 "Filtering application policies by {0} policy name(s): {1}".format(
                     len(policy_names_list), policy_names_list
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No policy name filter specified - will retrieve all application policies",
-                "INFO"
+                "INFO",
             )
 
         try:
@@ -2979,12 +3246,24 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Received API response for application policy query. Response structure: {0}".format(
                     {
-                        "has_response_key": "response" in response if response else False,
-                        "response_type": type(response.get("response")).__name__ if response and "response" in response else "N/A",
-                        "response_count": len(response.get("response")) if response and isinstance(response.get("response"), list) else 0
-                    } if response else "No response"
+                        "has_response_key": (
+                            "response" in response if response else False
+                        ),
+                        "response_type": (
+                            type(response.get("response")).__name__
+                            if response and "response" in response
+                            else "N/A"
+                        ),
+                        "response_count": (
+                            len(response.get("response"))
+                            if response and isinstance(response.get("response"), list)
+                            else 0
+                        ),
+                    }
+                    if response
+                    else "No response"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response or not response.get("response"):
@@ -2992,7 +3271,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No application policies found in API response. Response is None or missing "
                     "'response' key. This may indicate no policies configured in Catalyst Center, "
                     "API unavailability, or authentication issues. Returning empty policy list.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"application_policy": []}
 
@@ -3004,7 +3283,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "an unexpected API response format. Returning empty policy list.".format(
                         type(policies).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"application_policy": []}
 
@@ -3012,7 +3291,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "API returned empty policy list. No application policies are configured in "
                     "Catalyst Center. Returning empty policy list.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"application_policy": []}
 
@@ -3022,13 +3301,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "relevance-specific sub-policies that will be consolidated during transformation.".format(
                     len(policies)
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Apply client-side filtering by policy names if specified
             if policy_names_list:
                 original_count = len(policies)
-                policies = [p for p in policies if p.get("policyScope") in policy_names_list]
+                policies = [
+                    p for p in policies if p.get("policyScope") in policy_names_list
+                ]
 
                 self.log(
                     "Applied client-side filtering based on policy_names_list. Original policy "
@@ -3038,9 +3319,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         len(policies),
                         len(set(p.get("policyScope") for p in policies)),
                         len(policy_names_list),
-                        policy_names_list
+                        policy_names_list,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 if not policies:
@@ -3050,7 +3331,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Catalyst Center or names may be incorrect. Returning empty policy list.".format(
                             policy_names_list
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     return {"application_policy": []}
             else:
@@ -3059,7 +3340,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "provided). Proceeding with all {0} policy entries from API.".format(
                         len(policies)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
             # Log sample policy structure for debugging
@@ -3083,25 +3364,37 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         has_producer,
                         has_contract,
                         has_exclusive_contract,
-                        has_advanced_policy_scope
+                        has_advanced_policy_scope,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Log consumer data presence for debugging (destination traffic classification)
                 if has_consumer:
                     consumer = sample_policy.get("consumer", {})
-                    consumer_scalable_groups = consumer.get("scalableGroup", []) if isinstance(consumer, dict) else []
+                    consumer_scalable_groups = (
+                        consumer.get("scalableGroup", [])
+                        if isinstance(consumer, dict)
+                        else []
+                    )
 
                     self.log(
                         "Sample policy has consumer data (destination traffic classification). "
                         "Consumer structure: type={0}, has_scalableGroup={1}, scalableGroup_count={2}. "
                         "Consumer data provides destination group references for policy application.".format(
                             type(consumer).__name__,
-                            "scalableGroup" in consumer if isinstance(consumer, dict) else False,
-                            len(consumer_scalable_groups) if isinstance(consumer_scalable_groups, list) else 0
+                            (
+                                "scalableGroup" in consumer
+                                if isinstance(consumer, dict)
+                                else False
+                            ),
+                            (
+                                len(consumer_scalable_groups)
+                                if isinstance(consumer_scalable_groups, list)
+                                else 0
+                            ),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Log sample consumer data structure
@@ -3111,29 +3404,39 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Sample consumer scalableGroup entry: type={0}, keys={1}. This "
                             "represents destination group for policy application.".format(
                                 type(first_consumer_group).__name__,
-                                list(first_consumer_group.keys()) if isinstance(first_consumer_group, dict) else "N/A"
+                                (
+                                    list(first_consumer_group.keys())
+                                    if isinstance(first_consumer_group, dict)
+                                    else "N/A"
+                                ),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     self.log(
                         "Sample policy does not have consumer data. This is normal for some policy "
                         "types (queuing customization, global configuration).",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Log producer data presence (source traffic classification)
                 if has_producer:
                     producer = sample_policy.get("producer", {})
-                    producer_scalable_groups = producer.get("scalableGroup", []) if isinstance(producer, dict) else []
+                    producer_scalable_groups = (
+                        producer.get("scalableGroup", [])
+                        if isinstance(producer, dict)
+                        else []
+                    )
 
                     self.log(
                         "Sample policy has producer data (source traffic classification). Producer "
                         "scalableGroup count: {0}. This provides application set references for "
                         "traffic classification.".format(
-                            len(producer_scalable_groups) if isinstance(producer_scalable_groups, list) else 0
+                            len(producer_scalable_groups)
+                            if isinstance(producer_scalable_groups, list)
+                            else 0
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # Transform policies using consolidation and transformation logic
@@ -3141,7 +3444,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Initiating policy transformation. Calling transform_application_policies() to "
                 "consolidate multiple API entries per policyScope and transform to playbook format. "
                 "Input policy entries: {0}".format(len(policies)),
-                "INFO"
+                "INFO",
             )
 
             transformed_policies = self.transform_application_policies(policies)
@@ -3152,7 +3455,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "This indicates a transformation error. Returning empty policy list.".format(
                         type(transformed_policies).__name__
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 return {"application_policy": []}
 
@@ -3162,17 +3465,31 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "per playbook policy.".format(
                     len(policies),
                     len(transformed_policies),
-                    len(policies) / len(transformed_policies) if transformed_policies else 0
+                    (
+                        len(policies) / len(transformed_policies)
+                        if transformed_policies
+                        else 0
+                    ),
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Log summary of policies with/without clauses
-            policies_with_clauses = sum(1 for p in transformed_policies if "clause" in p)
+            policies_with_clauses = sum(
+                1 for p in transformed_policies if "clause" in p
+            )
             policies_without_clauses = len(transformed_policies) - policies_with_clauses
-            policies_with_qos = sum(1 for p in transformed_policies if "application_queuing_profile_name" in p)
-            wireless_policies = sum(1 for p in transformed_policies if p.get("device_type") == "wireless")
-            wired_policies = sum(1 for p in transformed_policies if p.get("device_type") == "wired")
+            policies_with_qos = sum(
+                1
+                for p in transformed_policies
+                if "application_queuing_profile_name" in p
+            )
+            wireless_policies = sum(
+                1 for p in transformed_policies if p.get("device_type") == "wireless"
+            )
+            wired_policies = sum(
+                1 for p in transformed_policies if p.get("device_type") == "wired"
+            )
 
             self.log(
                 "Policy transformation summary statistics: Total playbook policies: {0}, "
@@ -3183,9 +3500,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     policies_without_clauses,
                     policies_with_qos,
                     wireless_policies,
-                    wired_policies
+                    wired_policies,
                 ),
-                "INFO"
+                "INFO",
             )
 
             if transformed_policies and len(transformed_policies) > 0:
@@ -3201,9 +3518,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         len(sample_transformed.get("site_names", [])),
                         "clause" in sample_transformed,
                         "application_queuing_profile_name" in sample_transformed,
-                        "ssid_name" in sample_transformed
+                        "ssid_name" in sample_transformed,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Log clause details if present
@@ -3212,23 +3529,26 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     if clause and len(clause) > 0:
                         first_clause = clause[0]
                         relevance_details = first_clause.get("relevance_details", [])
-                        total_app_sets = sum(len(rd.get("application_set_name", [])) for rd in relevance_details)
+                        total_app_sets = sum(
+                            len(rd.get("application_set_name", []))
+                            for rd in relevance_details
+                        )
 
                         self.log(
                             "Sample policy clause structure: clause_type='{0}', relevance_levels={1}, "
                             "total_application_sets={2}".format(
                                 first_clause.get("clause_type", "N/A"),
                                 len(relevance_details),
-                                total_app_sets
+                                total_app_sets,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
             self.log(
                 "Application policy retrieval and transformation completed successfully. Returning "
                 "{0} consolidated policy configurations wrapped in 'application_policy' key for "
                 "YAML generation.".format(len(transformed_policies)),
-                "INFO"
+                "INFO",
             )
 
             return {"application_policy": transformed_policies}
@@ -3241,15 +3561,16 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "empty policy list to allow graceful continuation.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
 
             import traceback
+
             self.log(
                 "Full exception traceback for application policy retrieval: {0}".format(
                     traceback.format_exc()
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return {"application_policy": []}
 
@@ -3275,13 +3596,13 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting transformation of queuing profiles from API response to playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if not profiles:
             self.log(
                 "No queuing profiles provided for transformation. Returning empty profile list.",
-                "INFO"
+                "INFO",
             )
             return []
 
@@ -3289,14 +3610,14 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Profiles parameter is not a list - invalid input. Expected list, got: {0}. "
                 "Returning empty profile list.".format(type(profiles).__name__),
-                "WARNING"
+                "WARNING",
             )
             return []
 
         self.log(
             "Received {0} queuing profile(s) from API for transformation. Starting profile "
             "iteration and clause processing.".format(len(profiles)),
-            "INFO"
+            "INFO",
         )
 
         transformed_profiles = []
@@ -3306,7 +3627,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing queuing profile {0}/{1} for transformation".format(
                     profile_index, len(profiles)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(profile, dict):
@@ -3315,7 +3636,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got: {2}. Continuing to next profile.".format(
                         profile_index, len(profiles), type(profile).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -3328,11 +3649,17 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Extracting basic metadata for profile {0}/{1}: name='{2}', "
                 "description='{3}' (length={4})".format(
-                    profile_index, len(profiles), profile_name,
-                    profile_description[:50] + "..." if len(profile_description) > 50 else profile_description,
-                    len(profile_description)
+                    profile_index,
+                    len(profiles),
+                    profile_name,
+                    (
+                        profile_description[:50] + "..."
+                        if len(profile_description) > 50
+                        else profile_description
+                    ),
+                    len(profile_description),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             profile_data["profile_name"] = profile_name
@@ -3344,37 +3671,60 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Extracting clause data from profile '{0}' ({1}/{2}). Clause array length: {3}. "
                 "Calling extract_settings_from_clauses() to process bandwidth and DSCP settings.".format(
-                    profile_name, profile_index, len(profiles), len(clauses) if clauses else 0
+                    profile_name,
+                    profile_index,
+                    len(profiles),
+                    len(clauses) if clauses else 0,
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if clauses:
-                bandwidth_settings, dscp_settings = self.extract_settings_from_clauses(clauses)
+                bandwidth_settings, dscp_settings = self.extract_settings_from_clauses(
+                    clauses
+                )
 
                 self.log(
                     "Clause extraction complete for profile '{0}' ({1}/{2}). Bandwidth settings "
                     "found: {3}, DSCP settings found: {4}".format(
-                        profile_name, profile_index, len(profiles),
-                        bandwidth_settings is not None, dscp_settings is not None
+                        profile_name,
+                        profile_index,
+                        len(profiles),
+                        bandwidth_settings is not None,
+                        dscp_settings is not None,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if bandwidth_settings:
                     profile_data["bandwidth_settings"] = bandwidth_settings
 
-                    is_common = bandwidth_settings.get("is_common_between_all_interface_speeds", False)
+                    is_common = bandwidth_settings.get(
+                        "is_common_between_all_interface_speeds", False
+                    )
 
                     self.log(
                         "Added bandwidth settings to profile '{0}' ({1}/{2}). Configuration type: "
                         "{3}, interface speeds: {4}".format(
-                            profile_name, profile_index, len(profiles),
-                            "common (ALL speeds)" if is_common else "interface-specific",
-                            bandwidth_settings.get("interface_speed") if is_common else
-                            len(bandwidth_settings.get("interface_speed_settings", []))
+                            profile_name,
+                            profile_index,
+                            len(profiles),
+                            (
+                                "common (ALL speeds)"
+                                if is_common
+                                else "interface-specific"
+                            ),
+                            (
+                                bandwidth_settings.get("interface_speed")
+                                if is_common
+                                else len(
+                                    bandwidth_settings.get(
+                                        "interface_speed_settings", []
+                                    )
+                                )
+                            ),
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
@@ -3382,7 +3732,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "settings field will be omitted from playbook configuration.".format(
                             profile_name, profile_index, len(profiles)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 if dscp_settings:
@@ -3391,11 +3741,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Added DSCP settings to profile '{0}' ({1}/{2}). DSCP customizations "
                         "for {3} traffic class(es): {4}".format(
-                            profile_name, profile_index, len(profiles),
+                            profile_name,
+                            profile_index,
+                            len(profiles),
                             len(dscp_settings),
-                            list(dscp_settings.keys())[:5]  # Show first 5 traffic classes
+                            list(dscp_settings.keys())[
+                                :5
+                            ],  # Show first 5 traffic classes
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
@@ -3403,7 +3757,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "field will be omitted from playbook configuration.".format(
                             profile_name, profile_index, len(profiles)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             transformed_profiles.append(profile_data)
@@ -3411,35 +3765,54 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Successfully transformed queuing profile {0}/{1}: '{2}'. Profile structure: "
                 "has_bandwidth_settings={3}, has_dscp_settings={4}, total_fields={5}".format(
-                    profile_index, len(profiles), profile_name,
+                    profile_index,
+                    len(profiles),
+                    profile_name,
                     "bandwidth_settings" in profile_data,
                     "dscp_settings" in profile_data,
-                    len(profile_data)
+                    len(profile_data),
                 ),
-                "INFO"
+                "INFO",
             )
 
         self.log(
             "Completed transformation of all queuing profiles. Successfully transformed {0} out "
             "of {1} profile(s) from API response. Skipped profiles (type errors): {2}".format(
-                len(transformed_profiles), len(profiles), len(profiles) - len(transformed_profiles)
+                len(transformed_profiles),
+                len(profiles),
+                len(profiles) - len(transformed_profiles),
             ),
-            "INFO"
+            "INFO",
         )
 
         # Log summary statistics
-        profiles_with_bandwidth = sum(1 for p in transformed_profiles if "bandwidth_settings" in p)
-        profiles_with_dscp = sum(1 for p in transformed_profiles if "dscp_settings" in p)
-        profiles_with_both = sum(1 for p in transformed_profiles if "bandwidth_settings" in p and "dscp_settings" in p)
-        profiles_minimal = sum(1 for p in transformed_profiles if "bandwidth_settings" not in p and "dscp_settings" not in p)
+        profiles_with_bandwidth = sum(
+            1 for p in transformed_profiles if "bandwidth_settings" in p
+        )
+        profiles_with_dscp = sum(
+            1 for p in transformed_profiles if "dscp_settings" in p
+        )
+        profiles_with_both = sum(
+            1
+            for p in transformed_profiles
+            if "bandwidth_settings" in p and "dscp_settings" in p
+        )
+        profiles_minimal = sum(
+            1
+            for p in transformed_profiles
+            if "bandwidth_settings" not in p and "dscp_settings" not in p
+        )
 
         self.log(
             "Transformation summary statistics: Total profiles: {0}, With bandwidth settings: {1}, "
             "With DSCP settings: {2}, With both settings: {3}, Minimal (no QoS settings): {4}".format(
-                len(transformed_profiles), profiles_with_bandwidth, profiles_with_dscp,
-                profiles_with_both, profiles_minimal
+                len(transformed_profiles),
+                profiles_with_bandwidth,
+                profiles_with_dscp,
+                profiles_with_both,
+                profiles_minimal,
             ),
-            "INFO"
+            "INFO",
         )
 
         return transformed_profiles
@@ -3475,7 +3848,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not clauses:
             self.log(
                 "No clauses provided for settings extraction. Returning (None, None).",
-                "INFO"
+                "INFO",
             )
             return None, None
 
@@ -3483,7 +3856,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Clauses parameter is not a list - invalid input. Expected list, got: {0}. "
                 "Returning (None, None).".format(type(clauses).__name__),
-                "WARNING"
+                "WARNING",
             )
             return None, None
 
@@ -3503,13 +3876,13 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "TRANSACTIONAL_DATA": "transactional_data",
             "VOIP_TELEPHONY": "voip_telephony",
             "BEST_EFFORT": "best_effort",
-            "SCAVENGER": "scavenger"
+            "SCAVENGER": "scavenger",
         }
 
         self.log(
             "Initialized traffic class mapping dictionary with {0} standard traffic class names. "
             "Starting clause iteration.".format(len(tc_map)),
-            "DEBUG"
+            "DEBUG",
         )
 
         for clause_index, clause in enumerate(clauses, start=1):
@@ -3517,7 +3890,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing clause {0}/{1} for bandwidth and DSCP settings extraction".format(
                     clause_index, len(clauses)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(clause, dict):
@@ -3526,7 +3899,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Continuing to next clause.".format(
                         clause_index, len(clauses), type(clause).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -3536,7 +3909,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Clause {0}/{1} type: '{2}'. Determining processing path based on clause type.".format(
                     clause_index, len(clauses), clause_type
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Process bandwidth settings
@@ -3547,17 +3920,19 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Processing BANDWIDTH clause {0}/{1}. Common across all interface speeds: {2}".format(
                         clause_index, len(clauses), is_common
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
-                interface_speed_clauses = clause.get("interfaceSpeedBandwidthClauses", [])
+                interface_speed_clauses = clause.get(
+                    "interfaceSpeedBandwidthClauses", []
+                )
 
                 if not interface_speed_clauses:
                     self.log(
                         "No interfaceSpeedBandwidthClauses found in BANDWIDTH clause {0}/{1}. "
                         "This clause cannot be processed without interface speed bandwidth data. "
                         "Skipping clause.".format(clause_index, len(clauses)),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -3565,9 +3940,11 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "interfaceSpeedBandwidthClauses in clause {0}/{1} is not a list. "
                         "Expected list, got: {2}. Skipping clause.".format(
-                            clause_index, len(clauses), type(interface_speed_clauses).__name__
+                            clause_index,
+                            len(clauses),
+                            type(interface_speed_clauses).__name__,
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -3575,34 +3952,40 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Found {0} interface speed bandwidth clause(s) in BANDWIDTH clause {1}/{2}".format(
                         len(interface_speed_clauses), clause_index, len(clauses)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if is_common:
                     self.log(
                         "Creating common bandwidth settings structure for clause {0}/{1}. "
-                        "Interface speed will be set to 'ALL'.".format(clause_index, len(clauses)),
-                        "DEBUG"
+                        "Interface speed will be set to 'ALL'.".format(
+                            clause_index, len(clauses)
+                        ),
+                        "DEBUG",
                     )
 
                     # Common bandwidth settings across all interface speeds
-                    bandwidth_settings = OrderedDict([
-                        ("is_common_between_all_interface_speeds", True),
-                        ("interface_speed", "ALL"),
-                        ("bandwidth_percentages", OrderedDict())
-                    ])
+                    bandwidth_settings = OrderedDict(
+                        [
+                            ("is_common_between_all_interface_speeds", True),
+                            ("interface_speed", "ALL"),
+                            ("bandwidth_percentages", OrderedDict()),
+                        ]
+                    )
 
                     # Get the first (and should be only) interface speed clause for "ALL"
                     if len(interface_speed_clauses) > 0:
                         first_speed_clause = interface_speed_clauses[0]
-                        tc_bandwidth_settings = first_speed_clause.get("tcBandwidthSettings", [])
+                        tc_bandwidth_settings = first_speed_clause.get(
+                            "tcBandwidthSettings", []
+                        )
 
                         self.log(
                             "Extracting traffic class bandwidth settings from first interface speed "
                             "clause. Traffic class bandwidth settings count: {0}".format(
                                 len(tc_bandwidth_settings)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         if not isinstance(tc_bandwidth_settings, list):
@@ -3611,18 +3994,22 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Expected list, got: {0}. Using empty list.".format(
                                     type(tc_bandwidth_settings).__name__
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             tc_bandwidth_settings = []
 
-                        for tc_index, tc_setting in enumerate(tc_bandwidth_settings, start=1):
+                        for tc_index, tc_setting in enumerate(
+                            tc_bandwidth_settings, start=1
+                        ):
                             if not isinstance(tc_setting, dict):
                                 self.log(
                                     "Traffic class setting {0}/{1} is not a dictionary - skipping. "
                                     "Expected dict, got: {2}".format(
-                                        tc_index, len(tc_bandwidth_settings), type(tc_setting).__name__
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        type(tc_setting).__name__,
                                     ),
-                                    "WARNING"
+                                    "WARNING",
                                 )
                                 continue
 
@@ -3632,105 +4019,136 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             self.log(
                                 "Processing traffic class bandwidth setting {0}/{1}: "
                                 "trafficClass='{2}', bandwidthPercentage={3}".format(
-                                    tc_index, len(tc_bandwidth_settings), tc_name, bandwidth_percent
+                                    tc_index,
+                                    len(tc_bandwidth_settings),
+                                    tc_name,
+                                    bandwidth_percent,
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
-                                bandwidth_settings["bandwidth_percentages"][playbook_tc_name] = str(bandwidth_percent)
+                                bandwidth_settings["bandwidth_percentages"][
+                                    playbook_tc_name
+                                ] = str(bandwidth_percent)
 
                                 self.log(
                                     "Added bandwidth allocation for traffic class {0}/{1}: "
                                     "API name '{2}' → playbook name '{3}', bandwidth: {4}%".format(
-                                        tc_index, len(tc_bandwidth_settings), tc_name,
-                                        playbook_tc_name, bandwidth_percent
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        tc_name,
+                                        playbook_tc_name,
+                                        bandwidth_percent,
                                     ),
-                                    "INFO"
+                                    "INFO",
                                 )
                             else:
                                 self.log(
                                     "Skipping traffic class bandwidth setting {0}/{1}. "
                                     "Reason: trafficClass '{2}' not in mapping (in_map={3}) or "
                                     "bandwidthPercentage is None (is_none={4})".format(
-                                        tc_index, len(tc_bandwidth_settings), tc_name,
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        tc_name,
                                         tc_name in tc_map if tc_name else False,
-                                        bandwidth_percent is None
+                                        bandwidth_percent is None,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
                         self.log(
                             "Completed common bandwidth settings extraction for clause {0}/{1}. "
                             "Total traffic classes configured: {2}".format(
-                                clause_index, len(clauses),
-                                len(bandwidth_settings["bandwidth_percentages"])
+                                clause_index,
+                                len(clauses),
+                                len(bandwidth_settings["bandwidth_percentages"]),
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                 else:
                     self.log(
                         "Creating interface-specific bandwidth settings structure for clause {0}/{1}. "
-                        "Processing multiple interface speeds.".format(clause_index, len(clauses)),
-                        "DEBUG"
+                        "Processing multiple interface speeds.".format(
+                            clause_index, len(clauses)
+                        ),
+                        "DEBUG",
                     )
 
                     # Interface-specific bandwidth settings
-                    bandwidth_settings = OrderedDict([
-                        ("is_common_between_all_interface_speeds", False),
-                        ("interface_speed_settings", [])
-                    ])
+                    bandwidth_settings = OrderedDict(
+                        [
+                            ("is_common_between_all_interface_speeds", False),
+                            ("interface_speed_settings", []),
+                        ]
+                    )
 
-                    for speed_clause_index, speed_clause in enumerate(interface_speed_clauses, start=1):
+                    for speed_clause_index, speed_clause in enumerate(
+                        interface_speed_clauses, start=1
+                    ):
                         if not isinstance(speed_clause, dict):
                             self.log(
                                 "Interface speed clause {0}/{1} in BANDWIDTH clause {2}/{3} is not "
                                 "a dictionary - skipping. Expected dict, got: {4}".format(
-                                    speed_clause_index, len(interface_speed_clauses),
-                                    clause_index, len(clauses), type(speed_clause).__name__
+                                    speed_clause_index,
+                                    len(interface_speed_clauses),
+                                    clause_index,
+                                    len(clauses),
+                                    type(speed_clause).__name__,
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             continue
 
                         interface_speed = speed_clause.get("interfaceSpeed")
-                        tc_bandwidth_settings = speed_clause.get("tcBandwidthSettings", [])
+                        tc_bandwidth_settings = speed_clause.get(
+                            "tcBandwidthSettings", []
+                        )
 
                         self.log(
                             "Processing interface speed clause {0}/{1}: interface_speed='{2}', "
                             "traffic class count={3}".format(
-                                speed_clause_index, len(interface_speed_clauses),
-                                interface_speed, len(tc_bandwidth_settings)
+                                speed_clause_index,
+                                len(interface_speed_clauses),
+                                interface_speed,
+                                len(tc_bandwidth_settings),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
-                        speed_setting = OrderedDict([
-                            ("interface_speed", interface_speed),
-                            ("bandwidth_percentages", OrderedDict())
-                        ])
+                        speed_setting = OrderedDict(
+                            [
+                                ("interface_speed", interface_speed),
+                                ("bandwidth_percentages", OrderedDict()),
+                            ]
+                        )
 
                         if not isinstance(tc_bandwidth_settings, list):
                             self.log(
                                 "tcBandwidthSettings for interface speed '{0}' is not a list. "
                                 "Expected list, got: {1}. Using empty list.".format(
-                                    interface_speed, type(tc_bandwidth_settings).__name__
+                                    interface_speed,
+                                    type(tc_bandwidth_settings).__name__,
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             tc_bandwidth_settings = []
 
-                        for tc_index, tc_setting in enumerate(tc_bandwidth_settings, start=1):
+                        for tc_index, tc_setting in enumerate(
+                            tc_bandwidth_settings, start=1
+                        ):
                             if not isinstance(tc_setting, dict):
                                 self.log(
                                     "Traffic class setting {0}/{1} for interface speed '{2}' is "
                                     "not a dictionary - skipping. Expected dict, got: {3}".format(
-                                        tc_index, len(tc_bandwidth_settings), interface_speed,
-                                        type(tc_setting).__name__
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        interface_speed,
+                                        type(tc_setting).__name__,
                                     ),
-                                    "WARNING"
+                                    "WARNING",
                                 )
                                 continue
 
@@ -3739,43 +4157,57 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                             if tc_name in tc_map and bandwidth_percent is not None:
                                 playbook_tc_name = tc_map[tc_name]
-                                speed_setting["bandwidth_percentages"][playbook_tc_name] = str(bandwidth_percent)
+                                speed_setting["bandwidth_percentages"][
+                                    playbook_tc_name
+                                ] = str(bandwidth_percent)
 
                                 self.log(
                                     "Added bandwidth for interface speed '{0}', traffic class "
                                     "{1}/{2}: '{3}' → '{4}', bandwidth: {5}%".format(
-                                        interface_speed, tc_index, len(tc_bandwidth_settings),
-                                        tc_name, playbook_tc_name, bandwidth_percent
+                                        interface_speed,
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        tc_name,
+                                        playbook_tc_name,
+                                        bandwidth_percent,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 self.log(
                                     "Skipping traffic class {0}/{1} for interface speed '{2}'. "
                                     "trafficClass '{3}' not in mapping or bandwidthPercentage is None".format(
-                                        tc_index, len(tc_bandwidth_settings), interface_speed, tc_name
+                                        tc_index,
+                                        len(tc_bandwidth_settings),
+                                        interface_speed,
+                                        tc_name,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
-                        bandwidth_settings["interface_speed_settings"].append(speed_setting)
+                        bandwidth_settings["interface_speed_settings"].append(
+                            speed_setting
+                        )
 
                         self.log(
                             "Completed interface speed setting {0}/{1}: speed='{2}', "
                             "traffic classes configured={3}".format(
-                                speed_clause_index, len(interface_speed_clauses),
-                                interface_speed, len(speed_setting["bandwidth_percentages"])
+                                speed_clause_index,
+                                len(interface_speed_clauses),
+                                interface_speed,
+                                len(speed_setting["bandwidth_percentages"]),
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                     self.log(
                         "Completed interface-specific bandwidth settings extraction for clause "
                         "{0}/{1}. Total interface speeds configured: {2}".format(
-                            clause_index, len(clauses),
-                            len(bandwidth_settings["interface_speed_settings"])
+                            clause_index,
+                            len(clauses),
+                            len(bandwidth_settings["interface_speed_settings"]),
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
             # Process DSCP settings
@@ -3783,7 +4215,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Processing DSCP_CUSTOMIZATION clause {0}/{1}. Extracting traffic class "
                     "DSCP value mappings.".format(clause_index, len(clauses)),
-                    "INFO"
+                    "INFO",
                 )
 
                 tc_dscp_settings = clause.get("tcDscpSettings", [])
@@ -3794,7 +4226,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Expected list, got: {2}. Using empty list.".format(
                             clause_index, len(clauses), type(tc_dscp_settings).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     tc_dscp_settings = []
 
@@ -3802,7 +4234,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Found {0} traffic class DSCP setting(s) in DSCP_CUSTOMIZATION clause {1}/{2}".format(
                         len(tc_dscp_settings), clause_index, len(clauses)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 for tc_index, tc_setting in enumerate(tc_dscp_settings, start=1):
@@ -3810,9 +4242,11 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Traffic class DSCP setting {0}/{1} is not a dictionary - skipping. "
                             "Expected dict, got: {2}".format(
-                                tc_index, len(tc_dscp_settings), type(tc_setting).__name__
+                                tc_index,
+                                len(tc_dscp_settings),
+                                type(tc_setting).__name__,
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         continue
 
@@ -3821,8 +4255,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                     self.log(
                         "Processing traffic class DSCP setting {0}/{1}: trafficClass='{2}', "
-                        "dscp='{3}'".format(tc_index, len(tc_dscp_settings), tc_name, dscp_value),
-                        "DEBUG"
+                        "dscp='{3}'".format(
+                            tc_index, len(tc_dscp_settings), tc_name, dscp_value
+                        ),
+                        "DEBUG",
                     )
 
                     if tc_name in tc_map and dscp_value is not None:
@@ -3832,26 +4268,32 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Added DSCP mapping for traffic class {0}/{1}: API name '{2}' → "
                             "playbook name '{3}', DSCP value: '{4}'".format(
-                                tc_index, len(tc_dscp_settings), tc_name, playbook_tc_name, dscp_value
+                                tc_index,
+                                len(tc_dscp_settings),
+                                tc_name,
+                                playbook_tc_name,
+                                dscp_value,
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         self.log(
                             "Skipping traffic class DSCP setting {0}/{1}. Reason: trafficClass "
                             "'{2}' not in mapping (in_map={3}) or dscp value is None (is_none={4})".format(
-                                tc_index, len(tc_dscp_settings), tc_name,
+                                tc_index,
+                                len(tc_dscp_settings),
+                                tc_name,
                                 tc_name in tc_map if tc_name else False,
-                                dscp_value is None
+                                dscp_value is None,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 self.log(
                     "Completed DSCP settings extraction for clause {0}/{1}. Total DSCP mappings: {2}".format(
                         clause_index, len(clauses), len(dscp_settings)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         dscp_result = dscp_settings if dscp_settings else None
@@ -3862,11 +4304,15 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 len(clauses),
                 bandwidth_settings is not None,
                 dscp_result is not None,
-                "common (ALL speeds)" if bandwidth_settings and bandwidth_settings.get("is_common_between_all_interface_speeds")
-                else "interface-specific" if bandwidth_settings else "N/A",
-                len(dscp_result) if dscp_result else 0
+                (
+                    "common (ALL speeds)"
+                    if bandwidth_settings
+                    and bandwidth_settings.get("is_common_between_all_interface_speeds")
+                    else "interface-specific" if bandwidth_settings else "N/A"
+                ),
+                len(dscp_result) if dscp_result else 0,
             ),
-            "INFO"
+            "INFO",
         )
 
         return bandwidth_settings, dscp_result
@@ -3899,31 +4345,37 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Has component_specific_filters: {0}".format(
                 bool(filters.get("component_specific_filters"))
             ),
-            "INFO"
+            "INFO",
         )
 
         queuing_profile_filters = filters.get("component_specific_filters", [])
-        profile_names_list = [{
-            'profile_names_list': [
-                item
-                for d in queuing_profile_filters
-                for item in d.get('profile_names_list', [])
-            ]
-        }]
+        profile_names_list = [
+            {
+                "profile_names_list": [
+                    item
+                    for d in queuing_profile_filters
+                    for item in d.get("profile_names_list", [])
+                ]
+            }
+        ]
 
-        profile_names_list = profile_names_list[0].get('profile_names_list', []) if profile_names_list and len(profile_names_list) > 0 else []
+        profile_names_list = (
+            profile_names_list[0].get("profile_names_list", [])
+            if profile_names_list and len(profile_names_list) > 0
+            else []
+        )
 
         if profile_names_list:
             self.log(
                 "Filtering queuing profiles by {0} profile name(s): {1}".format(
                     len(profile_names_list), profile_names_list
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No profile name filter specified - will retrieve all queuing profiles",
-                "INFO"
+                "INFO",
             )
 
         try:
@@ -3936,12 +4388,24 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Received API response for queuing profile query. Response structure: {0}".format(
                     {
-                        "has_response_key": "response" in response if response else False,
-                        "response_type": type(response.get("response")).__name__ if response and "response" in response else "N/A",
-                        "response_count": len(response.get("response")) if response and isinstance(response.get("response"), list) else 0
-                    } if response else "No response"
+                        "has_response_key": (
+                            "response" in response if response else False
+                        ),
+                        "response_type": (
+                            type(response.get("response")).__name__
+                            if response and "response" in response
+                            else "N/A"
+                        ),
+                        "response_count": (
+                            len(response.get("response"))
+                            if response and isinstance(response.get("response"), list)
+                            else 0
+                        ),
+                    }
+                    if response
+                    else "No response"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response or not response.get("response"):
@@ -3949,7 +4413,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No queuing profiles found in API response. Response is None or missing "
                     "'response' key. This may indicate no profiles configured in Catalyst Center, "
                     "API unavailability, or authentication issues. Returning empty profile dictionary.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"queuing_profile": []}
 
@@ -3961,7 +4425,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "an unexpected API response format. Returning empty profile dictionary.".format(
                         type(profiles).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"queuing_profile": []}
 
@@ -3969,7 +4433,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "API returned empty profile list. No queuing profiles are configured in "
                     "Catalyst Center. Returning empty profile dictionary.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"queuing_profile": []}
 
@@ -3977,7 +4441,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Successfully retrieved {0} total queuing profile(s) from Catalyst Center API.".format(
                     len(profiles)
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Filter by profile names if specified
@@ -3993,9 +4457,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         len(profiles),
                         len(set(p.get("name") for p in profiles)),
                         len(profile_names_list),
-                        profile_names_list
+                        profile_names_list,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 if not profiles:
@@ -4004,7 +4468,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "profile_names_list filter. Requested profile names: {0}. These profiles "
                         "may not exist in Catalyst Center or names may be incorrect. Returning "
                         "empty profile dictionary.".format(profile_names_list),
-                        "WARNING"
+                        "WARNING",
                     )
                     return {"queuing_profile": []}
             else:
@@ -4013,7 +4477,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "provided). Proceeding with all {0} profile(s) from API.".format(
                         len(profiles)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
             # Log sample profile structure for debugging
@@ -4021,7 +4485,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 sample_profile = profiles[0]
                 profile_keys = list(sample_profile.keys())
                 has_clause = "clause" in sample_profile
-                clause_count = len(sample_profile.get("clause", [])) if has_clause else 0
+                clause_count = (
+                    len(sample_profile.get("clause", [])) if has_clause else 0
+                )
 
                 self.log(
                     "Sample profile structure analysis (first profile): keys={0}, "
@@ -4029,9 +4495,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         profile_keys,
                         sample_profile.get("name", "N/A"),
                         has_clause,
-                        clause_count
+                        clause_count,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
@@ -4039,7 +4505,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "extract metadata, bandwidth settings, and DSCP settings. Input profile count: {0}".format(
                     len(profiles)
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Transform profiles
@@ -4051,7 +4517,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "This indicates a transformation error. Returning empty profile dictionary.".format(
                         type(transformed_profiles).__name__
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 return {"queuing_profile": []}
 
@@ -4059,14 +4525,26 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Successfully transformed {0} queuing profile(s) from API response.".format(
                     len(transformed_profiles)
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Log summary statistics
-            profiles_with_bandwidth = sum(1 for p in transformed_profiles if "bandwidth_settings" in p)
-            profiles_with_dscp = sum(1 for p in transformed_profiles if "dscp_settings" in p)
-            profiles_with_both = sum(1 for p in transformed_profiles if "bandwidth_settings" in p and "dscp_settings" in p)
-            profiles_minimal = sum(1 for p in transformed_profiles if "bandwidth_settings" not in p and "dscp_settings" not in p)
+            profiles_with_bandwidth = sum(
+                1 for p in transformed_profiles if "bandwidth_settings" in p
+            )
+            profiles_with_dscp = sum(
+                1 for p in transformed_profiles if "dscp_settings" in p
+            )
+            profiles_with_both = sum(
+                1
+                for p in transformed_profiles
+                if "bandwidth_settings" in p and "dscp_settings" in p
+            )
+            profiles_minimal = sum(
+                1
+                for p in transformed_profiles
+                if "bandwidth_settings" not in p and "dscp_settings" not in p
+            )
 
             self.log(
                 "Profile transformation summary statistics: Total profiles: {0}, With bandwidth "
@@ -4076,9 +4554,9 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     profiles_with_bandwidth,
                     profiles_with_dscp,
                     profiles_with_both,
-                    profiles_minimal
+                    profiles_minimal,
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Log sample transformed profile structure
@@ -4093,24 +4571,32 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         len(sample_transformed.get("profile_description", "")),
                         "bandwidth_settings" in sample_transformed,
                         "dscp_settings" in sample_transformed,
-                        len(sample_transformed)
+                        len(sample_transformed),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Log bandwidth settings structure if present
                 if "bandwidth_settings" in sample_transformed:
-                    bandwidth_settings = sample_transformed.get("bandwidth_settings", {})
-                    is_common = bandwidth_settings.get("is_common_between_all_interface_speeds", False)
+                    bandwidth_settings = sample_transformed.get(
+                        "bandwidth_settings", {}
+                    )
+                    is_common = bandwidth_settings.get(
+                        "is_common_between_all_interface_speeds", False
+                    )
 
                     self.log(
                         "Sample profile bandwidth settings structure: is_common={0}, "
                         "interface_speed='{1}', has_bandwidth_percentages={2}".format(
                             is_common,
-                            bandwidth_settings.get("interface_speed") if is_common else "interface-specific",
-                            "bandwidth_percentages" in bandwidth_settings
+                            (
+                                bandwidth_settings.get("interface_speed")
+                                if is_common
+                                else "interface-specific"
+                            ),
+                            "bandwidth_percentages" in bandwidth_settings,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Log DSCP settings structure if present
@@ -4121,9 +4607,13 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Sample profile DSCP settings structure: traffic_class_count={0}, "
                         "sample_classes={1}".format(
                             len(dscp_settings),
-                            list(dscp_settings.keys())[:3] if len(dscp_settings) > 3 else list(dscp_settings.keys())
+                            (
+                                list(dscp_settings.keys())[:3]
+                                if len(dscp_settings) > 3
+                                else list(dscp_settings.keys())
+                            ),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             self.log(
@@ -4131,7 +4621,7 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "{0} profile configuration(s) wrapped in 'queuing_profile' key for YAML generation.".format(
                     len(transformed_profiles)
                 ),
-                "INFO"
+                "INFO",
             )
 
             return {"queuing_profile": transformed_profiles}
@@ -4144,16 +4634,17 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "empty profile dictionary to allow graceful continuation.".format(
                     type(e).__name__, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
 
             # Log full traceback for debugging
             import traceback
+
             self.log(
                 "Full exception traceback for queuing profile retrieval: {0}".format(
                     traceback.format_exc()
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return {"queuing_profile": []}
@@ -4182,7 +4673,10 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -4201,18 +4695,18 @@ class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     operation_func(params).check_return_status()
                     operations_executed += 1
                     self.log(
-                        f"{operation_name} operation completed successfully",
-                        "DEBUG"
+                        f"{operation_name} operation completed successfully", "DEBUG"
                     )
                 except Exception as e:
                     self.log(
                         f"{operation_name} operation failed with error: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         f"{operation_name} operation failed: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -4346,7 +4840,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -4365,11 +4858,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -4398,41 +4887,23 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "file_path": {
-            "type": "str",
-            "required": False
-        },
-        "file_mode": {
-            "type": "str",
-            "required": False,
-            "default": "overwrite"
-        },
-        "config": {
-            "required": False,
-            "type": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "file_path": {"type": "str", "required": False},
+        "file_mode": {"type": "str", "required": False, "default": "overwrite"},
+        "config": {"required": False, "type": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the ApplicationPolicyPlaybookGenerator object
@@ -4442,7 +4913,7 @@ def main():
     # Log module initialization after object creation (now logging is available)
     ccc_app_policy_generator.log(
         "========== Starting application_policy_playbook_config_generator module ==========",
-        "INFO"
+        "INFO",
     )
 
     config_param = module.params.get("config")
@@ -4458,9 +4929,9 @@ def main():
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
-            config_items_count
+            config_items_count,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -4473,10 +4944,15 @@ def main():
         "Version check: Current Catalyst Center version={0}, Minimum required={1}".format(
             current_version, min_supported_version
         ),
-        "INFO"
+        "INFO",
     )
 
-    if ccc_app_policy_generator.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
+    if (
+        ccc_app_policy_generator.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
+        < 0
+    ):
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
             "playbook generation for Application Policy module. Supported versions start "
@@ -4487,8 +4963,7 @@ def main():
         )
 
         ccc_app_policy_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_app_policy_generator.msg = error_msg
@@ -4499,7 +4974,7 @@ def main():
     ccc_app_policy_generator.log(
         "Version compatibility check passed - Catalyst Center version {0} supports "
         "all required application policy APIs".format(current_version),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -4511,7 +4986,7 @@ def main():
         "Requested state: '{0}'. Validating against supported states: {1}".format(
             state, ccc_app_policy_generator.supported_states
         ),
-        "INFO"
+        "INFO",
     )
 
     if state not in ccc_app_policy_generator.supported_states:
@@ -4523,8 +4998,7 @@ def main():
         )
 
         ccc_app_policy_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_app_policy_generator.status = "invalid"
@@ -4535,23 +5009,17 @@ def main():
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
     # Input Parameter Validation
     # ============================================
-    ccc_app_policy_generator.log(
-        "Starting input validation for configuration",
-        "INFO"
-    )
+    ccc_app_policy_generator.log("Starting input validation for configuration", "INFO")
 
     ccc_app_policy_generator.validate_input().check_return_status()
 
-    ccc_app_policy_generator.log(
-        "Input validation completed successfully",
-        "INFO"
-    )
+    ccc_app_policy_generator.log("Input validation completed successfully", "INFO")
 
     # ============================================
     # Configuration Processing
@@ -4559,34 +5027,29 @@ def main():
     config = ccc_app_policy_generator.validated_config
 
     ccc_app_policy_generator.log(
-        "Starting configuration processing for validated configuration",
-        "INFO"
+        "Starting configuration processing for validated configuration", "INFO"
     )
 
     # Reset values for clean state
     ccc_app_policy_generator.log(
-        "Resetting module state variables for clean configuration processing",
-        "DEBUG"
+        "Resetting module state variables for clean configuration processing", "DEBUG"
     )
     ccc_app_policy_generator.reset_values()
 
     # Collect desired state (want) from configuration
     ccc_app_policy_generator.log(
-        "Collecting desired state parameters from configuration",
-        "DEBUG"
+        "Collecting desired state parameters from configuration", "DEBUG"
     )
     ccc_app_policy_generator.get_want(config, state).check_return_status()
 
     # Execute state-specific operation (gathered workflow)
     ccc_app_policy_generator.log(
-        "Executing state-specific operation for '{0}' workflow".format(state),
-        "INFO"
+        "Executing state-specific operation for '{0}' workflow".format(state), "INFO"
     )
     ccc_app_policy_generator.get_diff_state_apply[state]().check_return_status()
 
     ccc_app_policy_generator.log(
-        "Successfully completed configuration processing",
-        "INFO"
+        "Successfully completed configuration processing", "INFO"
     )
 
     # ============================================
@@ -4596,23 +5059,19 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_app_policy_generator.log(
-        "========== Module execution completed successfully ==========",
-        "INFO"
+        "========== Module execution completed successfully ==========", "INFO"
     )
 
     ccc_app_policy_generator.log(
         "Module completed at timestamp {0}. Total execution time: {1:.2f} seconds. "
         "Final status: {2}".format(
-            completion_timestamp,
-            module_duration,
-            ccc_app_policy_generator.status
+            completion_timestamp, module_duration, ccc_app_policy_generator.status
         ),
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
@@ -4621,7 +5080,7 @@ def main():
         "Exiting Ansible module with result: {0}".format(
             ccc_app_policy_generator.result
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_app_policy_generator.result)

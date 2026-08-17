@@ -15,10 +15,10 @@ description:
     configuration intent to the device. After deploying the configuration intent, generating intent CLIs will not be available
     for preview. For detailed information about the usage of the API, please refer to the Open API specification document
     - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkDeviceId:
     description: NetworkDeviceId path parameter. Device id from intent/api/v1/network-device.

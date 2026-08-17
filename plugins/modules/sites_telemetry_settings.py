@@ -11,10 +11,10 @@ short_description: Resource module for Sites Telemetry Settings
 description:
   - Manage operation update of the resource Sites Telemetry Settings. - > Sets telemetry settings for the given site; `null`
     values indicate that the setting will be inherited from the parent site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   applicationVisibility:
     description: Sites Telemetry Settings's applicationVisibility.

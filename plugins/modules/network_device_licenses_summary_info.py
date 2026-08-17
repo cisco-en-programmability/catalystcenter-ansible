@@ -12,10 +12,10 @@ description:
   - Get all Network Device Licenses Summary. - > Retrieves the summary of consumed network, DNA, and Cisco Networking Subscription
     CNS licenses, along with the counts of unregistered and out-of-compliance network devices, and expired and expiring network
     device licenses.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

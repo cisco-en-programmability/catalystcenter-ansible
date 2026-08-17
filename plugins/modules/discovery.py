@@ -14,10 +14,10 @@ description:
   - Stops all the discoveries and removes them. - > Stops the discovery for the given Discovery ID and removes it. Discovery
     ID can be obtained using the "Get Discoveries by range" API.
   - Stops or starts an existing discovery.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributeInfo:
     description: Discovery's attributeInfo.

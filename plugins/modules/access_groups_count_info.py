@@ -11,10 +11,10 @@ short_description: Information module for Access Groups Count
 description:
   - Get all Access Groups Count.
   - Get the total number of access groups in the system.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

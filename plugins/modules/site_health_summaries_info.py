@@ -13,10 +13,10 @@ description:
   - Get Site Health Summaries by id.
   - Get a health summary for a specific site by providing the unique site id in the url path. - > Get a paginated list of
     site health summaries. Use the available query parameters to identify a subset of sites you want health summaries for.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

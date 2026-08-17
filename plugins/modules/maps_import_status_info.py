@@ -13,10 +13,10 @@ description:
     been initiated, will provide the result of validation of the archive and a pre-import preview of what will be performed
     if the import is performed. Once an import is requested to be performed, this API will give the status of the import and
     upon completion a post-import summary of what was performed by the operation.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

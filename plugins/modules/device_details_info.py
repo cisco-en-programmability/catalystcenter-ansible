@@ -11,10 +11,10 @@ short_description: Information module for Device Details
 description:
   - Get all Device Details. - > Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID
     for any given point of time.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

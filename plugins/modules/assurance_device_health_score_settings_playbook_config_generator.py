@@ -11,6 +11,7 @@ playbooks compatible with the assurance_device_health_score_settings_workflow_ma
 infrastructure documentation, configuration backup, migration planning, and multi-site deployment
 standardization.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -47,7 +48,7 @@ description:
   - Provides detailed operation summaries including success and failure statistics,
     device family categorization (complete success, partial success, complete
     failure), and comprehensive error reporting for troubleshooting.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -604,12 +605,14 @@ import time
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -708,7 +711,9 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
-        self.module_name = "assurance_device_health_score_settings_playbook_config_generator"
+        self.module_name = (
+            "assurance_device_health_score_settings_playbook_config_generator"
+        )
 
         # Initialize class-level variables to track successes and failures
         self.operation_successes = []
@@ -740,7 +745,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             self.log(
                 "Configuration is not provided in playbook. Internal auto-discovery "
                 "mode enabled.",
-                "INFO"
+                "INFO",
             )
         elif not isinstance(self.config, dict):
             self.msg = (
@@ -754,15 +759,12 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Proceeding with parameter schema definition and validation workflow. "
             "Configuration structure will be validated against expected parameter "
             "specifications.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            },
+            "component_specific_filters": {"type": "dict", "required": False},
         }
 
         # Validate params
@@ -782,7 +784,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "All parameters passed detailed validation successfully. No type errors, missing "
             "required fields, or invalid values detected. Configuration conforms to module "
             "schema requirements and is ready for processing.",
-            "INFO"
+            "INFO",
         )
 
         # Set the validated configuration and update the result with success status
@@ -795,7 +797,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Input validation workflow completed successfully. Returning self instance for "
             "method chaining with check_return_status(). Instance contains validated_config "
             "ready for get_want() processing and operation execution.",
-            "DEBUG"
+            "DEBUG",
         )
         return self
 
@@ -847,7 +849,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "valid component choices, and device_families parameters are properly structured "
             "within nested device_health_score_settings. Comprehensive error reporting provided "
             "for configuration issues.",
-            "DEBUG"
+            "DEBUG",
         )
         if not isinstance(component_specific_filters, dict):
             self.msg = (
@@ -861,10 +863,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
 
         # Define allowed component filter parameters at top level
         # Note: device_families is only allowed within device_health_score_settings, not at top level
-        allowed_component_params = {
-            'components_list',
-            'device_health_score_settings'
-        }
+        allowed_component_params = {"components_list", "device_health_score_settings"}
 
         self.log(
             "Checking for invalid parameter names in component_specific_filters. Provided "
@@ -872,18 +871,20 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "unsupported configuration options.".format(
                 ", ".join(sorted(component_specific_filters.keys()))
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check for invalid parameters
-        invalid_params = set(component_specific_filters.keys()) - allowed_component_params
+        invalid_params = (
+            set(component_specific_filters.keys()) - allowed_component_params
+        )
         if invalid_params:
             self.msg = (
                 "Invalid component_specific_filters parameter(s) found: {0}. "
                 "Allowed parameters are: {1}"
             ).format(
                 ", ".join(sorted(invalid_params)),
-                ", ".join(sorted(allowed_component_params))
+                ", ".join(sorted(allowed_component_params)),
             )
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -893,10 +894,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "component_specific_filters parameter name validation passed. All provided "
             "parameters are recognized and allowed by module schema. Proceeding with "
             "components_list validation if parameter is present.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        if 'component_list' in component_specific_filters:
+        if "component_list" in component_specific_filters:
             self.msg = (
                 "Invalid key 'component_list' under component_specific_filters. "
                 "Use 'components_list'."
@@ -911,19 +912,19 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             component_specific_filters["components_list"] = components_list
 
         # Validate components_list
-        if 'components_list' in component_specific_filters:
+        if "components_list" in component_specific_filters:
             self.log(
                 "components_list parameter found in component_specific_filters. Starting "
                 "validation of components_list structure and values. This parameter specifies "
                 "which components to include in YAML configuration extraction.",
-                "DEBUG"
+                "DEBUG",
             )
             self.log(
                 "Validating components_list is list type. Type received: {0}. List type "
                 "is required for components_list parameter.".format(
                     type(components_list).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if not isinstance(components_list, list):
                 self.msg = (
@@ -940,7 +941,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "validation to ensure all list entries are strings. Total components: {0}.".format(
                     len(components_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Check if all elements are strings
@@ -948,19 +949,19 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 self.log(
                     "Validating component {0}/{1} in components_list. Component value: '{2}', "
                     "Type: {3}. String type is required for all components_list entries.".format(
-                        component_index, len(components_list), component,
-                        type(component).__name__
+                        component_index,
+                        len(components_list),
+                        component,
+                        type(component).__name__,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if not isinstance(component, str):
                     self.msg = (
                         "All components_list entries must be strings. Component at index {0} "
                         "has invalid type: {1}. Component value: '{2}'. Please ensure all "
                         "components_list entries are string values."
-                    ).format(
-                        component_index - 1, type(component).__name__, component
-                    )
+                    ).format(component_index - 1, type(component).__name__, component)
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
@@ -969,7 +970,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "All components_list entries validated as string type successfully. Proceeding "
                     "with component name validation against allowed choices to ensure only supported "
                     "components are specified.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Validate component names against allowed choices
@@ -980,7 +981,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "Checking if component is in valid_components list.".format(
                         component_index, len(components_list), component
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if component not in valid_components:
                     self.msg = (
@@ -994,19 +995,23 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     return False
 
         # Validate device_health_score_settings if provided (list of dicts structure)
-        if 'device_health_score_settings' in component_specific_filters:
+        if "device_health_score_settings" in component_specific_filters:
             self.log(
                 "device_health_score_settings parameter found in component_specific_filters. "
                 "Starting validation as list of dicts structure. Each entry must be a dict "
                 "with an optional device_families key.",
-                "DEBUG"
+                "DEBUG",
             )
-            device_health_score_settings = component_specific_filters['device_health_score_settings']
+            device_health_score_settings = component_specific_filters[
+                "device_health_score_settings"
+            ]
 
             # Normalize None to empty list
             if device_health_score_settings is None:
                 device_health_score_settings = []
-                component_specific_filters["device_health_score_settings"] = device_health_score_settings
+                component_specific_filters["device_health_score_settings"] = (
+                    device_health_score_settings
+                )
 
             if not isinstance(device_health_score_settings, list):
                 self.msg = (
@@ -1024,24 +1029,26 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "Step 2: flatten and deduplicate device_families across remaining entries.".format(
                     len(device_health_score_settings)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Step 1 — use brownfield_helper.deduplicate_component_filters() to remove
             # exact duplicate dict entries (e.g. two identical {device_families: [ROUTER]} blocks).
             # This modifies component_specific_filters["device_health_score_settings"] in-place.
             self.deduplicate_component_filters(component_specific_filters)
-            device_health_score_settings = component_specific_filters['device_health_score_settings']
+            device_health_score_settings = component_specific_filters[
+                "device_health_score_settings"
+            ]
             self.log(
                 "After brownfield_helper deduplication: {0} entries remain.".format(
                     len(device_health_score_settings)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Step 2 — validate each entry and flatten device_families across all entries,
             # deduplicating individual family strings (preserving first-occurrence order).
-            allowed_nested_params = {'device_families'}
+            allowed_nested_params = {"device_families"}
             all_device_families = []
             seen_families = set()
 
@@ -1065,31 +1072,34 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     ).format(
                         entry_index - 1,
                         ", ".join(sorted(invalid_nested_params)),
-                        ", ".join(sorted(allowed_nested_params))
+                        ", ".join(sorted(allowed_nested_params)),
                     )
                     self.log(self.msg, "ERROR")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
                 # Validate and collect device_families from this entry
-                if 'device_families' in entry:
+                if "device_families" in entry:
                     self.log(
                         "Validating device_families in entry {0}/{1}: {2}.".format(
-                            entry_index, len(device_health_score_settings),
-                            entry['device_families']
+                            entry_index,
+                            len(device_health_score_settings),
+                            entry["device_families"],
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
-                    if not self.validate_device_families_parameter(entry['device_families']):
+                    if not self.validate_device_families_parameter(
+                        entry["device_families"]
+                    ):
                         self.log(
                             "device_families validation failed at entry index {0}. "
                             "Returning False.".format(entry_index - 1),
-                            "ERROR"
+                            "ERROR",
                         )
                         return False
 
                     # Flatten and deduplicate individual family names across all entries
-                    for family in entry['device_families']:
+                    for family in entry["device_families"]:
                         if family not in seen_families:
                             seen_families.add(family)
                             all_device_families.append(family)
@@ -1099,16 +1109,20 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                                 "Skipping to preserve unique list.".format(
                                     family, entry_index - 1
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
 
             if len(all_device_families) < sum(
-                len(e.get('device_families', [])) for e in device_health_score_settings if isinstance(e, dict)
+                len(e.get("device_families", []))
+                for e in device_health_score_settings
+                if isinstance(e, dict)
             ):
                 self.log(
                     "Duplicates removed across device_health_score_settings entries. "
-                    "Final deduplicated device_families: {0}.".format(all_device_families),
-                    "INFO"
+                    "Final deduplicated device_families: {0}.".format(
+                        all_device_families
+                    ),
+                    "INFO",
                 )
 
             # Normalize back to a single canonical dict for downstream use by
@@ -1119,20 +1133,22 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             self.log(
                 "device_health_score_settings validation completed. Normalized to "
                 "device_families: {0}.".format(all_device_families),
-                "DEBUG"
+                "DEBUG",
             )
 
         component_filter_keys = [
-            key for key in component_specific_filters.keys()
-            if key != "components_list"
+            key for key in component_specific_filters.keys() if key != "components_list"
         ]
 
-        if component_filter_keys and "device_health_score_settings" not in components_list:
+        if (
+            component_filter_keys
+            and "device_health_score_settings" not in components_list
+        ):
             components_list.append("device_health_score_settings")
             self.log(
                 "Added 'device_health_score_settings' to components_list because its "
                 "filter block was provided.",
-                "DEBUG"
+                "DEBUG",
             )
 
         if not component_filter_keys and not components_list:
@@ -1147,9 +1163,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         self.log(
             "components_list validation completed successfully. All {0} component(s) are "
             "valid and supported by module schema. Components validated: {1}.".format(
-                len(components_list), ", ".join(components_list) if components_list else "None"
+                len(components_list),
+                ", ".join(components_list) if components_list else "None",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1157,7 +1174,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "checks passed including dictionary type validation, parameter name validation, "
             "components_list validation, and device_families validation in both direct and "
             "nested formats. Configuration conforms to module schema requirements.",
-            "INFO"
+            "INFO",
         )
 
         return True
@@ -1177,7 +1194,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Starting validation of device_families parameter structure and element types. "
             "This validation ensures device_families is properly formatted as list with string "
             "elements for device family name filtering in device health score settings retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         if not isinstance(device_families, list):
             self.msg = (
@@ -1194,7 +1211,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "to ensure all list entries are strings. Total device families: {0}.".format(
                 len(device_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if all elements are strings before deduplication
@@ -1204,7 +1221,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "Type: {3}. String type is required for all device_families entries.".format(
                     family_index, len(device_families), family, type(family).__name__
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if not isinstance(family, str):
                 self.msg = (
@@ -1218,16 +1235,21 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
 
         # Deduplicate device_families in-place by converting to set and back to list
         original_count = len(device_families)
-        device_families_set = list(dict.fromkeys(device_families))  # Preserve order while removing duplicates
+        device_families_set = list(
+            dict.fromkeys(device_families)
+        )  # Preserve order while removing duplicates
 
         if original_count != len(device_families_set):
             duplicates_found = original_count - len(device_families_set)
             self.log(
                 "Duplicate device families detected. Original count: {0}, Unique count: {1}, "
                 "Duplicates removed: {2}. Deduplicated list: {3}".format(
-                    original_count, len(device_families_set), duplicates_found, device_families_set
+                    original_count,
+                    len(device_families_set),
+                    duplicates_found,
+                    device_families_set,
                 ),
-                "WARNING"
+                "WARNING",
             )
             # Update the list in-place
             device_families.clear()
@@ -1237,7 +1259,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "No duplicate device families found. All {0} entries are unique.".format(
                     original_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -1246,7 +1268,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "to validate: {1}.".format(
                 len(device_families), ", ".join(device_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Define allowed device family values
@@ -1256,7 +1278,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "WIRELESS_CONTROLLER",
             "UNIFIED_AP",
             "WIRELESS_CLIENT",
-            "WIRED_CLIENT"
+            "WIRED_CLIENT",
         ]
 
         # Validate each device family against allowed values
@@ -1266,16 +1288,14 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "Checking if family is in allowed_device_families list.".format(
                     family_index, len(device_families), family
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if family not in allowed_device_families:
                 self.msg = (
                     "Invalid device family '{0}' found in device_families at index {1}. "
                     "Allowed device families are: {2}. Device family names are case-sensitive "
                     "and must match exact names used in Catalyst Center."
-                ).format(
-                    family, family_index - 1, ", ".join(allowed_device_families)
-                )
+                ).format(family, family_index - 1, ", ".join(allowed_device_families))
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -1285,12 +1305,11 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "device families validated: {1}. Parameter values conform to module schema requirements.".format(
                 len(device_families), ", ".join(device_families)
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
-            "device_families parameter validation completed successfully.",
-            "DEBUG"
+            "device_families parameter validation completed successfully.", "DEBUG"
         )
 
         return True
@@ -1321,7 +1340,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "settings operations. This schema defines API configuration, filter specifications, "
             "reverse mapping functions, and operation functions enabling consistent parameter "
             "validation, API execution, and data transformation throughout module lifecycle.",
-            "DEBUG"
+            "DEBUG",
         )  # Construct schema dictionary with network elements configuration
         schema_config = {
             "network_elements": {
@@ -1330,7 +1349,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                         "device_families": {
                             "type": "list",
                             "required": False,
-                            "elements": "str"
+                            "elements": "str",
                         },
                     },
                     "reverse_mapping_function": (
@@ -1348,12 +1367,14 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         self.log(
             "Returning workflow elements schema configuration for use in parameter validation, "
             "API execution, and data transformation operations throughout module workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return schema_config
 
-    def device_health_score_settings_reverse_mapping_function(self, requested_filters=None):
+    def device_health_score_settings_reverse_mapping_function(
+        self, requested_filters=None
+    ):
         """
         Returns reverse mapping specification for device health score settings.
 
@@ -1385,7 +1406,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "assurance_device_health_score_settings_workflow_manager module.".format(
                 requested_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return self.get_device_health_score_reverse_mapping_spec()
 
@@ -1408,7 +1429,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Returning reverse KPI name mapping specification transforming internal API "
             "threshold names to user-friendly KPI names for playbook generation. Total "
             "mappings defined: 44 KPI names covering device health metrics.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return {
@@ -1456,7 +1477,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "pubsubSessionThreshold": "Pub-Sub Session Status",
             "remoteRouteThreshold": "Remote Internet Availability",
             "vniStatusThreshold": "VNI Status",
-            "fwConnThreshold": "Firewall Connection"
+            "fwConnThreshold": "Firewall Connection",
         }
 
     def transform_kpi_name(self, internal_kpi_name):
@@ -1480,7 +1501,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Input KPI name: '{0}'. Retrieving reverse mapping specification.".format(
                 internal_kpi_name
             ),
-            "DEBUG"
+            "DEBUG",
         )
         kpi_mapping = self.get_kpi_name_reverse_mapping()
         user_friendly_name = kpi_mapping.get(internal_kpi_name, internal_kpi_name)
@@ -1489,7 +1510,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "'{1}'. Mapping found: {2}.".format(
                 internal_kpi_name, user_friendly_name, internal_kpi_name in kpi_mapping
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return user_friendly_name
 
@@ -1518,40 +1539,43 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Specification includes field mappings for device_family, kpi_name with "
             "transformation function, include_for_overall_health, threshold_value, and "
             "synchronize_to_issue_threshold parameters.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        return OrderedDict({
-            "device_health_score": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "response",
-                "options": OrderedDict({
-                    "device_family": {
-                        "type": "str",
-                        "source_key":
-                        "deviceFamily"
-                    },
-                    "kpi_name": {
-                        "type": "str",
-                        "source_key": "name",
-                        "transform": self.transform_kpi_name
-                    },
-                    "include_for_overall_health": {
-                        "type": "bool",
-                        "source_key": "includeForOverallHealth"
-                    },
-                    "threshold_value": {
-                        "type": "float",
-                        "source_key": "thresholdValue"
-                    },
-                    "synchronize_to_issue_threshold": {
-                        "type": "bool",
-                        "source_key": "synchronizeToIssueThreshold"
-                    }
-                })
+        return OrderedDict(
+            {
+                "device_health_score": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "response",
+                    "options": OrderedDict(
+                        {
+                            "device_family": {
+                                "type": "str",
+                                "source_key": "deviceFamily",
+                            },
+                            "kpi_name": {
+                                "type": "str",
+                                "source_key": "name",
+                                "transform": self.transform_kpi_name,
+                            },
+                            "include_for_overall_health": {
+                                "type": "bool",
+                                "source_key": "includeForOverallHealth",
+                            },
+                            "threshold_value": {
+                                "type": "float",
+                                "source_key": "thresholdValue",
+                            },
+                            "synchronize_to_issue_threshold": {
+                                "type": "bool",
+                                "source_key": "synchronizeToIssueThreshold",
+                            },
+                        }
+                    ),
+                }
             }
-        })
+        )
 
     def reset_operation_tracking(self):
         """
@@ -1568,7 +1592,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Resetting operation tracking variables to initial state. Setting "
             "operation_successes=[], operation_failures=[], "
             "total_device_families_processed=0, total_kpis_processed=0 for new "
-            "operation session tracking.", "DEBUG"
+            "operation session tracking.",
+            "DEBUG",
         )
         self.operation_successes = []
         self.operation_failures = []
@@ -1599,16 +1624,21 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "additional_info: {2}. Creating success entry for operation tracking.".format(
                 device_family, kpi_name, additional_info
             ),
-            "DEBUG"
+            "DEBUG",
         )
         success_entry = {
             "device_family": device_family,
             "kpi_name": kpi_name,
-            "status": "success"
+            "status": "success",
         }
 
         if additional_info:
-            self.log("Adding additional information to success entry: {0}".format(additional_info), "DEBUG")
+            self.log(
+                "Adding additional information to success entry: {0}".format(
+                    additional_info
+                ),
+                "DEBUG",
+            )
             success_entry.update(additional_info)
 
         self.operation_successes.append(success_entry)
@@ -1617,7 +1647,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Total successful operations: {2}.".format(
                 device_family, kpi_name, len(self.operation_successes)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
     def add_failure(self, device_family, kpi_name, error_info):
@@ -1642,26 +1672,29 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         self.log(
             "Recording failed operation for device family '{0}', KPI '{1}' with error: "
             "{2}. Creating failure entry for operation tracking.".format(
-                device_family, kpi_name, error_info.get("error_message", "Unknown error")
+                device_family,
+                kpi_name,
+                error_info.get("error_message", "Unknown error"),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         failure_entry = {
             "device_family": device_family,
             "kpi_name": kpi_name,
             "status": "failed",
-            "error_info": error_info
+            "error_info": error_info,
         }
 
         self.operation_failures.append(failure_entry)
         self.log(
             "Successfully recorded failure entry for device family '{0}', KPI '{1}': "
             "{2}. Total failed operations: {3}.".format(
-                device_family, kpi_name,
+                device_family,
+                kpi_name,
                 error_info.get("error_message", "Unknown error"),
-                len(self.operation_failures)
+                len(self.operation_failures),
             ),
-            "ERROR"
+            "ERROR",
         )
 
     def get_operation_summary(self):
@@ -1689,7 +1722,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "failures ({1} entries) for consolidated reporting.".format(
                 len(self.operation_successes), len(self.operation_failures)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         unique_successful_families = set()
@@ -1700,7 +1733,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "to identify families with at least one successful KPI configuration.".format(
                 len(self.operation_successes)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         for success_index, success in enumerate(self.operation_successes, start=1):
             device_family = success["device_family"]
@@ -1709,17 +1742,19 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             self.log(
                 "Processing success entry {0}/{1}: device_family='{2}', "
                 "kpi_name='{3}', added to successful families set.".format(
-                    success_index, len(self.operation_successes),
-                    device_family, success.get("kpi_name")
+                    success_index,
+                    len(self.operation_successes),
+                    device_family,
+                    success.get("kpi_name"),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Extracted {0} unique device families from successful operations: {1}.".format(
                 len(unique_successful_families), sorted(unique_successful_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1727,10 +1762,13 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "to identify families with at least one failed KPI configuration.".format(
                 len(self.operation_failures)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        self.log("Processing failed operations to extract unique device family information", "DEBUG")
+        self.log(
+            "Processing failed operations to extract unique device family information",
+            "DEBUG",
+        )
         for failure_index, failure in enumerate(self.operation_failures, start=1):
             device_family = failure["device_family"]
             unique_failed_families.add(device_family)
@@ -1738,18 +1776,20 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             self.log(
                 "Processing failure entry {0}/{1}: device_family='{2}', "
                 "kpi_name='{3}', error='{4}', added to failed families set.".format(
-                    failure_index, len(self.operation_failures),
-                    device_family, failure.get("kpi_name"),
-                    failure.get("error_info", {}).get("error_message", "Unknown")
+                    failure_index,
+                    len(self.operation_failures),
+                    device_family,
+                    failure.get("kpi_name"),
+                    failure.get("error_info", {}).get("error_message", "Unknown"),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Extracted {0} unique device families from failed operations: {1}.".format(
                 len(unique_failed_families), sorted(unique_failed_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1757,18 +1797,23 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "failure patterns. Categories: partial success (both successes and "
             "failures), complete success (only successes), complete failure "
             "(only failures).",
-            "DEBUG"
+            "DEBUG",
         )
 
-        self.log("Calculating device family categorization based on success and failure patterns", "DEBUG")
-        partial_success_families = unique_successful_families.intersection(unique_failed_families)
+        self.log(
+            "Calculating device family categorization based on success and failure patterns",
+            "DEBUG",
+        )
+        partial_success_families = unique_successful_families.intersection(
+            unique_failed_families
+        )
         self.log(
             "Identified {0} device families with partial success (both successful "
             "and failed operations): {1}. These families have mixed results with "
             "some KPIs succeeding and others failing.".format(
                 len(partial_success_families), sorted(partial_success_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         complete_success_families = unique_successful_families - unique_failed_families
@@ -1778,7 +1823,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "successfully without any failures.".format(
                 len(complete_success_families), sorted(complete_success_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         complete_failure_families = unique_failed_families - unique_successful_families
@@ -1788,19 +1833,17 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "failed without any successes.".format(
                 len(complete_failure_families), sorted(complete_failure_families)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        total_families = len(
-            unique_successful_families.union(unique_failed_families)
-        )
+        total_families = len(unique_successful_families.union(unique_failed_families))
 
         self.log(
             "Constructing consolidated operation summary dictionary with statistics "
             "and categorization results. Total unique device families processed: {0}.".format(
                 total_families
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         summary = {
@@ -1812,7 +1855,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "device_families_with_partial_success": list(partial_success_families),
             "device_families_with_complete_failure": list(complete_failure_families),
             "success_details": self.operation_successes,
-            "failure_details": self.operation_failures
+            "failure_details": self.operation_failures,
         }
 
         self.log(
@@ -1826,9 +1869,9 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 summary["total_failed_operations"],
                 len(summary["device_families_with_complete_success"]),
                 len(summary["device_families_with_partial_success"]),
-                len(summary["device_families_with_complete_failure"])
+                len(summary["device_families_with_complete_failure"]),
             ),
-            "INFO"
+            "INFO",
         )
 
         return summary
@@ -1861,10 +1904,11 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Network element API family: {0}, API function: {1}. Applied filters: {2}. "
             "This operation will execute API calls with includeForOverallHealth variations "
             "to retrieve complete KPI configuration data.".format(
-                network_element.get("api_family"), network_element.get("api_function"),
-                filters
+                network_element.get("api_family"),
+                network_element.get("api_function"),
+                filters,
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log("Resetting operation tracking for new retrieval session", "DEBUG")
@@ -1874,7 +1918,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
 
-        self.log("API family: {0}, API function: {1}".format(api_family, api_function), "DEBUG")
+        self.log(
+            "API family: {0}, API function: {1}".format(api_family, api_function),
+            "DEBUG",
+        )
 
         # Prepare API parameters
         api_params = {}
@@ -1891,13 +1938,13 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "Will execute separate API calls for each device family.".format(
                     len(device_families), device_families
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No device families filter specified. Will retrieve all device "
                 "families from Catalyst Center.",
-                "DEBUG"
+                "DEBUG",
             )
 
         try:
@@ -1914,7 +1961,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "ensure complete KPI data extraction. Variations: {1}.".format(
                     len(include_variations), include_variations
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Loop through includeForOverallHealth values with enumerate
@@ -1924,11 +1971,18 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 self.log(
                     "Processing includeForOverallHealth variation {0}/{1}: value={2}. "
                     "This variation retrieves KPIs with includeForOverallHealth={2}.".format(
-                        include_index, len(include_variations), include_for_overall_health
+                        include_index,
+                        len(include_variations),
+                        include_for_overall_health,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
-                self.log("Processing includeForOverallHealth: {0}".format(include_for_overall_health), "DEBUG")
+                self.log(
+                    "Processing includeForOverallHealth: {0}".format(
+                        include_for_overall_health
+                    ),
+                    "DEBUG",
+                )
 
                 if has_device_families:
                     self.log(
@@ -1937,7 +1991,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                         "includeForOverallHealth={1}.".format(
                             len(device_families), include_for_overall_health
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     # If device families are specified, make API calls for each device family
                     # Make API calls for each device family with enumerate
@@ -1948,11 +2002,14 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                             "Executing API call for device family {0}/{1}: '{2}' with "
                             "includeForOverallHealth={3} (variation {4}/{5}). Preparing "
                             "API parameters for targeted retrieval.".format(
-                                family_index, len(device_families), device_family,
-                                include_for_overall_health, include_index,
-                                len(include_variations)
+                                family_index,
+                                len(device_families),
+                                device_family,
+                                include_for_overall_health,
+                                include_index,
+                                len(include_variations),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         api_params = {
                             "deviceType": device_family,
@@ -1964,16 +2021,20 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                             "GET request to {2}.{3}().".format(
                                 device_family, api_params, api_family, api_function
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        response = self.execute_get_request(api_family, api_function, api_params)
+                        response = self.execute_get_request(
+                            api_family, api_function, api_params
+                        )
                         self.log(
                             "API response received for device family '{0}' ({1}/{2}). "
                             "Response status: {3}.".format(
-                                device_family, family_index, len(device_families),
-                                "success" if response else "no_data"
+                                device_family,
+                                family_index,
+                                len(device_families),
+                                "success" if response else "no_data",
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         if response and response.get("response"):
@@ -1983,11 +2044,12 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                                 "Successfully retrieved {0} KPI configurations for "
                                 "device family '{1}' with includeForOverallHealth={2}. "
                                 "Total collected: {3} items.".format(
-                                    len(response_data), device_family,
+                                    len(response_data),
+                                    device_family,
                                     include_for_overall_health,
-                                    len(all_response_data)
+                                    len(all_response_data),
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                         else:
                             self.log(
@@ -1995,7 +2057,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                                 "includeForOverallHealth={1}.".format(
                                     device_family, include_for_overall_health
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                 else:
                     # If no device families specified, make API call without deviceType filter
@@ -2003,10 +2065,11 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                         "No device families filter specified. Executing single API call "
                         "without deviceType filter to retrieve all device families with "
                         "includeForOverallHealth={0} (variation {1}/{2}).".format(
-                            include_for_overall_health, include_index,
-                            len(include_variations)
+                            include_for_overall_health,
+                            include_index,
+                            len(include_variations),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     api_params = {
@@ -2016,9 +2079,11 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     self.log(
                         "API parameters for global retrieval: {0}. Executing GET "
                         "request.".format(api_params),
-                        "DEBUG"
+                        "DEBUG",
                     )
-                    response = self.execute_get_request(api_family, api_function, api_params)
+                    response = self.execute_get_request(
+                        api_family, api_function, api_params
+                    )
 
                     if response and response.get("response"):
                         response_data = response.get("response", [])
@@ -2026,37 +2091,48 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                         self.log(
                             "Successfully retrieved {0} KPI configurations with "
                             "includeForOverallHealth={1}. Total collected: {2} items.".format(
-                                len(response_data), include_for_overall_health,
-                                len(all_response_data)
+                                len(response_data),
+                                include_for_overall_health,
+                                len(all_response_data),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
             self.log(
                 "API retrieval completed. Total response data collected: {0} KPI "
                 "configurations across all API calls.".format(len(all_response_data)),
-                "INFO"
+                "INFO",
             )
 
             # Log first few items for debugging
             if all_response_data and len(all_response_data) > 0:
                 self.log(
                     "Sample KPI configuration item: {0}".format(all_response_data[0]),
-                    "DEBUG"
+                    "DEBUG",
                 )
-            self.log("Processing {0} health score definitions from API".format(len(all_response_data)), "DEBUG")
+            self.log(
+                "Processing {0} health score definitions from API".format(
+                    len(all_response_data)
+                ),
+                "DEBUG",
+            )
 
             # Update response_data to use collected data
             response_data = all_response_data
 
             # Since API returns filtered data based on parameters, no additional filtering needed
-            self.log("Using API response data directly: {0} health score settings".format(len(response_data)), "DEBUG")
+            self.log(
+                "Using API response data directly: {0} health score settings".format(
+                    len(response_data)
+                ),
+                "DEBUG",
+            )
 
             if response_data:
                 self.log(
                     "Processing {0} health score definitions for statistics tracking "
                     "and reverse mapping transformation.".format(len(response_data)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Track statistics and process KPI configurations
                 device_families = set()
@@ -2064,7 +2140,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "Starting KPI configuration processing loop for {0} items.".format(
                         len(response_data)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 for kpi_index, item in enumerate(response_data, start=1):
@@ -2081,12 +2157,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                         "Processing KPI {0}/{1}: device_family='{2}', "
                         "kpi_name='{3}' (internal: '{4}'), threshold={5}, "
                         "include_for_overall_health={6}.".format(
-                            kpi_index, len(response_data), device_family,
-                            kpi_user_name, kpi_internal_name,
+                            kpi_index,
+                            len(response_data),
+                            device_family,
+                            kpi_user_name,
+                            kpi_internal_name,
                             item.get("thresholdValue"),
-                            item.get("includeForOverallHealth")
+                            item.get("includeForOverallHealth"),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     self.add_success(
@@ -2096,8 +2175,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                             "threshold_value": item.get("thresholdValue"),
                             "include_for_overall_health": item.get(
                                 "includeForOverallHealth"
-                            )
-                        }
+                            ),
+                        },
                     )
 
                 self.total_device_families_processed = len(device_families)
@@ -2105,14 +2184,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 self.log(
                     "Statistics tracking completed. Unique device families: {0}, "
                     "Total KPIs: {1}.".format(
-                        self.total_device_families_processed,
-                        self.total_kpis_processed
+                        self.total_device_families_processed, self.total_kpis_processed
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Apply reverse mapping
-                reverse_mapping_function = network_element.get("reverse_mapping_function")
+                reverse_mapping_function = network_element.get(
+                    "reverse_mapping_function"
+                )
                 reverse_mapping_spec = reverse_mapping_function()
 
                 self.log(
@@ -2120,32 +2200,33 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "user-friendly format using modify_parameters().".format(
                         len(response_data)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 transformed_data = self.modify_parameters(
-                    reverse_mapping_spec,
-                    [{"response": response_data}]
+                    reverse_mapping_spec, [{"response": response_data}]
                 )
 
                 # Extract the device_health_score list from the transformed data
                 device_health_score_list = []
                 if transformed_data and len(transformed_data) > 0:
-                    device_health_score_list = transformed_data[0].get("device_health_score", [])
+                    device_health_score_list = transformed_data[0].get(
+                        "device_health_score", []
+                    )
 
                 self.log(
                     "Reverse mapping transformation completed. Generated {0} "
                     "device health score configurations.".format(
                         len(device_health_score_list)
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 self.log(
                     "Device health score settings retrieval completed successfully. "
                     "Total configurations: {0}, Device families: {1}.".format(
                         len(device_health_score_list),
-                        self.total_device_families_processed
+                        self.total_device_families_processed,
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 # Return as list so brownfield_helper.yaml_config_generator can call
                 # final_config_list.extend(component_data), producing:
@@ -2156,10 +2237,10 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 self.log(
                     "No health score settings found in API responses after {0} API "
                     "calls. Returning empty result.".format(
-                        len(include_variations) *
-                        (len(device_families) if has_device_families else 1)
+                        len(include_variations)
+                        * (len(device_families) if has_device_families else 1)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
         except Exception as e:
             error_msg = (
@@ -2167,11 +2248,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "{0}. Exception type: {1}.".format(str(e), type(e).__name__)
             )
             self.log(error_msg, "ERROR")
-            self.add_failure("UNKNOWN", "UNKNOWN", {
-                "error_type": "exception",
-                "error_message": error_msg,
-                "error_code": "API_EXCEPTION_ERROR"
-            })
+            self.add_failure(
+                "UNKNOWN",
+                "UNKNOWN",
+                {
+                    "error_type": "exception",
+                    "error_message": error_msg,
+                    "error_code": "API_EXCEPTION_ERROR",
+                },
+            )
 
         # Return empty list so brownfield_helper.yaml_config_generator sees no data
         # and sets ok/False (no change) rather than attempting to write an empty file.
@@ -2205,14 +2290,14 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "families and KPI names from API response data.".format(
                 len(response_data) if response_data else 0, component_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not response_data:
             self.log(
                 "No response data provided for filtering. Returning empty list without "
                 "applying filters.",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2221,13 +2306,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
         self.log(
             "Extracting device families filter from component-specific filters "
             "(device_health_score_settings, components_list).",
-            "DEBUG"
+            "DEBUG",
         )
 
         device_families = []
 
         # Check for nested device_health_score_settings structure
-        health_score_filters = component_specific_filters.get("device_health_score_settings", {}) or {}
+        health_score_filters = (
+            component_specific_filters.get("device_health_score_settings", {}) or {}
+        )
         if health_score_filters.get("device_families"):
             device_families = health_score_filters["device_families"]
             self.log(
@@ -2235,7 +2322,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "structure: {1}. Using for filtering criteria.".format(
                     len(device_families), device_families
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Check for components_list - if present, get all device families
@@ -2245,15 +2332,15 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "components_list contains device_health_score_settings without device "
                 "families filter. Skipping device family filtering to retrieve all "
                 "available families.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Final device families filter determined: {0}. Filter will be applied: {1}.".format(
                 device_families if device_families else "None (all families)",
-                bool(device_families)
+                bool(device_families),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         if device_families:
             self.log(
@@ -2261,61 +2348,70 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "{1}. Items not matching will be excluded.".format(
                     len(filtered_data), device_families
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             filtered_data = [
-                item for item in filtered_data
+                item
+                for item in filtered_data
                 if item.get("deviceFamily") in device_families
             ]
             self.log(
                 "Device families filter applied successfully. Items before filter: {0}, "
                 "after filter: {1}, items removed: {2}.".format(
-                    original_count, len(filtered_data), original_count - len(filtered_data)
+                    original_count,
+                    len(filtered_data),
+                    original_count - len(filtered_data),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Apply KPI names filter
         self.log(
             "Extracting KPI names filter from health_score_filters or top-level "
             "component_specific_filters for KPI-level filtering.",
-            "DEBUG"
+            "DEBUG",
         )
-        kpi_names = health_score_filters.get("kpi_names", component_specific_filters.get("kpi_names", []))
+        kpi_names = health_score_filters.get(
+            "kpi_names", component_specific_filters.get("kpi_names", [])
+        )
         if kpi_names:
             self.log(
                 "Applying KPI names filter to {0} items. Filtering for KPI names: {1}. "
                 "Items not matching will be excluded.".format(
                     len(filtered_data), kpi_names
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             pre_kpi_count = len(filtered_data)
             filtered_data = [
-                item for item in filtered_data
-                if item.get("kpiName") in kpi_names
+                item for item in filtered_data if item.get("kpiName") in kpi_names
             ]
             self.log(
                 "KPI names filter applied successfully. Items before filter: {0}, "
                 "after filter: {1}, items removed: {2}.".format(
-                    pre_kpi_count, len(filtered_data), pre_kpi_count - len(filtered_data)
+                    pre_kpi_count,
+                    len(filtered_data),
+                    pre_kpi_count - len(filtered_data),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No KPI names filter specified. Skipping KPI-level filtering. All KPIs "
                 "for matching device families will be included.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Health score settings filtering completed successfully. Final result: {0} "
             "items from original {1} items. Filters applied: device_families={2}, "
             "kpi_names={3}.".format(
-                len(filtered_data), original_count, bool(device_families), bool(kpi_names)
+                len(filtered_data),
+                original_count,
+                bool(device_families),
+                bool(kpi_names),
             ),
-            "INFO"
+            "INFO",
         )
         return filtered_data
 
@@ -2348,21 +2444,21 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "constructs want dictionary for YAML generation operations.".format(
                 state, config
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Validating playbook configuration parameters to ensure component-specific "
             "filters conform to schema requirements and contain valid parameter names, "
             "types, and values.",
-            "DEBUG"
+            "DEBUG",
         )
         self.validate_params(config)
 
         self.log(
             "Extracting component_specific_filters from configuration for validation. "
             "Filters determine which device families and KPI settings to extract.",
-            "DEBUG"
+            "DEBUG",
         )
         component_filters = config.get("component_specific_filters")
         generate_all = self.params.get("config") is None
@@ -2373,7 +2469,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "retrieve complete device health score settings inventory.".format(
                 generate_all
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.generate_all_configurations = generate_all
@@ -2383,16 +2479,21 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "downstream YAML generation workflow functions.".format(
                 self.generate_all_configurations
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Constructing want dictionary with yaml_config_generator parameters. "
             "Dictionary contains complete configuration for YAML generation including "
             "file path, filters, and auto-discovery mode settings.",
-            "DEBUG"
+            "DEBUG",
         )
-        self.log("Set generate_all_configurations mode: {0}".format(self.generate_all_configurations), "DEBUG")
+        self.log(
+            "Set generate_all_configurations mode: {0}".format(
+                self.generate_all_configurations
+            ),
+            "DEBUG",
+        )
 
         want = {}
 
@@ -2411,9 +2512,9 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 want["yaml_config_generator"],
                 generate_all,
                 yaml_config_generator.get("file_path", "default"),
-                bool(component_filters)
+                bool(component_filters),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.want = want
@@ -2421,7 +2522,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Want dictionary constructed successfully with complete configuration "
             "parameters ready for get_diff_gathered workflow execution. Desired state: "
             "{0}".format(str(self.want)),
-            "INFO"
+            "INFO",
         )
 
         self.msg = (
@@ -2436,7 +2537,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Message: {1}. Returning self instance for method chaining.".format(
                 self.status, self.msg
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -2457,22 +2558,25 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Generating default filename for YAML configuration file. Using base name "
             "'assurance_device_health_score_settings_playbook_config' and current timestamp "
             "for unique identification.",
-            "DEBUG"
+            "DEBUG",
         )
         import datetime
+
         timestamp = datetime.datetime.now()
         self.log(
             "Current timestamp captured: {0}. Formatting as YYYY-MM-DD_HH-MM-SS for "
             "filename component.".format(timestamp.strftime("%Y-%m-%d %H:%M:%S")),
-            "DEBUG"
+            "DEBUG",
         )
-        filename = "assurance_device_health_score_settings_playbook_config_{0}.yml".format(
-            timestamp.strftime("%Y-%m-%d_%H-%M-%S")
+        filename = (
+            "assurance_device_health_score_settings_playbook_config_{0}.yml".format(
+                timestamp.strftime("%Y-%m-%d_%H-%M-%S")
+            )
         )
         self.log(
             "Default filename generated successfully: {0}. File will be created in "
             "current working directory if no custom path provided.".format(filename),
-            "INFO"
+            "INFO",
         )
         return filename
 
@@ -2503,24 +2607,22 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Workflow orchestrates yaml_config_generator operation by checking want "
             "dictionary for parameters, executing generation function, validating "
             "operation status, and tracking execution timing for performance monitoring.",
-            "DEBUG"
+            "DEBUG",
         )
 
         start_time = time.time()
         self.log(
             "Workflow execution start time captured: {0}. Timing metrics will track "
             "complete operation duration from parameter checking through YAML file "
-            "generation for performance analysis and optimization.".format(
-                start_time
-            ),
-            "DEBUG"
+            "generation for performance analysis and optimization.".format(start_time),
+            "DEBUG",
         )
 
         self.log(
             "Defining operations list for gathered state workflow. Operations include "
             "yaml_config_generator with parameter key, display name, and function "
             "reference for iteration and execution.",
-            "DEBUG"
+            "DEBUG",
         )
         operations = [
             (
@@ -2535,7 +2637,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Operations list defined successfully with {0} operation(s). Starting "
             "iteration through operations to execute YAML generation workflow with "
             "parameter validation and status checking.".format(len(operations)),
-            "DEBUG"
+            "DEBUG",
         )
         for operation_index, (param_key, operation_name, operation_func) in enumerate(
             operations, start=1
@@ -2546,7 +2648,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                 "execution should proceed or skip this operation.".format(
                     operation_index, len(operations), operation_name, param_key
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
@@ -2555,10 +2657,13 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "Starting operation execution with parameter validation and status "
                     "checking for error propagation. Parameters will be passed to "
                     "{4}() function.".format(
-                        operation_index, len(operations), operation_name,
-                        bool(params), operation_func.__name__
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        bool(params),
+                        operation_func.__name__,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
@@ -2568,7 +2673,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "check_return_status() will validate operation completion.".format(
                         operation_func.__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 operation_func(params).check_return_status()
                 self.log(
@@ -2577,7 +2682,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "self.result for final module output.".format(
                         operation_index, len(operations), operation_name
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
@@ -2586,7 +2691,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
                     "in current workflow iteration.".format(
                         operation_index, len(operations), operation_name, param_key
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -2596,10 +2701,8 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "Gathered state workflow execution completed successfully. Total execution "
             "time: {0:.2f} seconds. Workflow processed {1} operation(s) with parameter "
             "validation, operation execution, and status checking for YAML playbook "
-            "generation.".format(
-                execution_duration, len(operations)
-            ),
-            "INFO"
+            "generation.".format(execution_duration, len(operations)),
+            "INFO",
         )
 
         self.log(
@@ -2608,13 +2711,13 @@ class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownField
             "monitoring across different infrastructure scales.".format(
                 start_time, end_time, execution_duration
             ),
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             "Returning self instance for method chaining. Instance contains complete "
             "operation results with msg, status, result attributes populated by "
             "yaml_config_generator execution for module exit and user feedback.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2734,7 +2837,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -2753,11 +2855,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -2786,54 +2884,41 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "file_path": {
-            "required": False,
-            "type": "str"
-        },
+        "file_path": {"required": False, "type": "str"},
         "file_mode": {
             "required": False,
             "type": "str",
             "default": "overwrite",
-            "choices": ["overwrite", "append"]
+            "choices": ["overwrite", "append"],
         },
-        "config": {
-            "required": False,
-            "type": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "config": {"required": False, "type": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the AssuranceDeviceHealthScorePlaybookGenerator object
     # This creates the main orchestrator for brownfield device health score settings extraction
-    ccc_brownfield_assurance_device_health_score_settings = AssuranceDeviceHealthScorePlaybookGenerator(
-        module)
+    ccc_brownfield_assurance_device_health_score_settings = (
+        AssuranceDeviceHealthScorePlaybookGenerator(module)
+    )
 
     # Log module initialization after object creation (now logging is available)
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Starting Ansible module execution for brownfield device health score settings playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_brownfield_assurance_device_health_score_settings.log(
@@ -2846,7 +2931,7 @@ def main():
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -2857,11 +2942,16 @@ def main():
         "meets minimum requirement of 2.3.7.9 for device health score settings APIs".format(
             ccc_brownfield_assurance_device_health_score_settings.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_brownfield_assurance_device_health_score_settings.compare_catalystcenter_versions(
-            ccc_brownfield_assurance_device_health_score_settings.get_ccc_version(), "2.3.7.9") < 0):
+    if (
+        ccc_brownfield_assurance_device_health_score_settings.compare_catalystcenter_versions(
+            ccc_brownfield_assurance_device_health_score_settings.get_ccc_version(),
+            "2.3.7.9",
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -2875,13 +2965,15 @@ def main():
         )
 
         ccc_brownfield_assurance_device_health_score_settings.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_brownfield_assurance_device_health_score_settings.msg = error_msg
         ccc_brownfield_assurance_device_health_score_settings.set_operation_result(
-            "failed", False, ccc_brownfield_assurance_device_health_score_settings.msg, "ERROR"
+            "failed",
+            False,
+            ccc_brownfield_assurance_device_health_score_settings.msg,
+            "ERROR",
         ).check_return_status()
 
     ccc_brownfield_assurance_device_health_score_settings.log(
@@ -2889,7 +2981,7 @@ def main():
         "all required device health score settings APIs".format(
             ccc_brownfield_assurance_device_health_score_settings.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2899,22 +2991,26 @@ def main():
 
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
-            state, ccc_brownfield_assurance_device_health_score_settings.supported_states
+            state,
+            ccc_brownfield_assurance_device_health_score_settings.supported_states,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
-    if state not in ccc_brownfield_assurance_device_health_score_settings.supported_states:
+    if (
+        state
+        not in ccc_brownfield_assurance_device_health_score_settings.supported_states
+    ):
         error_msg = (
             "State '{0}' is invalid for this module. Supported states are: {1}. "
             "Please update your playbook to use one of the supported states.".format(
-                state, ccc_brownfield_assurance_device_health_score_settings.supported_states
+                state,
+                ccc_brownfield_assurance_device_health_score_settings.supported_states,
             )
         )
 
         ccc_brownfield_assurance_device_health_score_settings.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_brownfield_assurance_device_health_score_settings.status = "invalid"
@@ -2925,7 +3021,7 @@ def main():
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2933,7 +3029,7 @@ def main():
     # ============================================
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_brownfield_assurance_device_health_score_settings.validate_input().check_return_status()
@@ -2941,7 +3037,7 @@ def main():
     ccc_brownfield_assurance_device_health_score_settings.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2950,20 +3046,19 @@ def main():
     config = ccc_brownfield_assurance_device_health_score_settings.validated_config
 
     ccc_brownfield_assurance_device_health_score_settings.log(
-        "Starting configuration processing for state '{0}'".format(state),
-        "INFO"
+        "Starting configuration processing for state '{0}'".format(state), "INFO"
     )
 
     ccc_brownfield_assurance_device_health_score_settings.get_want(
         config, state
     ).check_return_status()
 
-    ccc_brownfield_assurance_device_health_score_settings.get_diff_state_apply[state](
-    ).check_return_status()
+    ccc_brownfield_assurance_device_health_score_settings.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     ccc_brownfield_assurance_device_health_score_settings.log(
-        "Successfully completed processing configuration",
-        "INFO"
+        "Successfully completed processing configuration", "INFO"
     )
 
     # ============================================
@@ -2973,8 +3068,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_brownfield_assurance_device_health_score_settings.log(
@@ -2982,9 +3076,9 @@ def main():
         "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_brownfield_assurance_device_health_score_settings.status
+            ccc_brownfield_assurance_device_health_score_settings.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
@@ -2993,7 +3087,7 @@ def main():
         "Exiting Ansible module with result: {0}".format(
             ccc_brownfield_assurance_device_health_score_settings.result
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_brownfield_assurance_device_health_score_settings.result)

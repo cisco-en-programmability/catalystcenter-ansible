@@ -16,10 +16,10 @@ description:
     devices. This API should only be used for devices that have wireless disabled but still have the 'wireless-controller'
     configuration present. The reload payload can have a maximum of two switches as only two switches can have a wireless
     role in a fabric site.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: Network Device ID.

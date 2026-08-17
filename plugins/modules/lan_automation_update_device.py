@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Lan Automation Update Device. - > Invoke this API to perform a DAY-N update on
     LAN Automation-related devices. Supported features include Loopback0 IP update, hostname update, link addition, and link
     deletion.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   feature:
     description: Feature query parameter. Feature ID for the update. Supported feature IDs include LOOPBACK0_IPADDRESS_UPDATE,

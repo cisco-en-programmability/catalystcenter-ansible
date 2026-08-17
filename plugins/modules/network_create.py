@@ -11,10 +11,10 @@ short_description: Resource module for Network Create
 description:
   - Manage operation create of the resource Network Create. - > API to create a network for DHCP, Syslog, SNMP, NTP, Network
     AAA, Client and EndPoint AAA, and/or DNS center server settings.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

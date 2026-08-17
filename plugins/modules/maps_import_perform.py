@@ -13,10 +13,10 @@ description:
     to be performed, accepting that data loss may occur. A Map import will fully replace existing Maps data for the sites
     defined in the archive. The Map Archive Import Status API /maps/import/${contextUuid}/status should always be checked
     to validate the pre-import validation output prior to performing the import.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   importContextUuid:
     description: ImportContextUuid path parameter. The unique import context UUID given by a previous call of Start Import

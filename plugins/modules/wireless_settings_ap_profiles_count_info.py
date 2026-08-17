@@ -11,10 +11,10 @@ short_description: Information module for Wireless Settings Ap Profiles Count
 description:
   - Get all Wireless Settings Ap Profiles Count.
   - This API returns the total number of AP Profiles available.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

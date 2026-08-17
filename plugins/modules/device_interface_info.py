@@ -16,10 +16,10 @@ description:
     to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to
     retrieve all records incrementally.
   - Returns the interface for the given interface ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

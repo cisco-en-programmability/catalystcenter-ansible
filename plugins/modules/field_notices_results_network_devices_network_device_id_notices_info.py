@@ -13,10 +13,10 @@ description:
   - Get Field Notices Results Network Devices Network Device Id Notices by id.
   - Get field notice affecting the network device by device Id and notice id.
   - Get field notices affecting the network device.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

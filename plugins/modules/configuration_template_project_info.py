@@ -13,10 +13,10 @@ description:
   - Get Configuration Template Project by id.
   - Get the details of the given project by its id.
   - List the projects.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

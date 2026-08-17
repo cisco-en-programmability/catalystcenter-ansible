@@ -11,10 +11,10 @@ short_description: Information module for Compliance Network Devices Detail Poli
 description:
   - Get all Compliance Network Devices Detail Policys.
   - Retrieve the details of violating compliance policies for the network device.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

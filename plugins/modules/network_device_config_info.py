@@ -13,10 +13,10 @@ description:
   - Get Network Device Config by id. - > Returns the config for all devices. This API has been deprecated and will not be
     available in a Cisco Catalyst Center release after Nov 1st 2024 23 59 59 GMT.
   - Returns the device config by specified device ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
   - Deletes a workflow specified by id.
   - Updates an existing workflow.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   _id:
     description: Pnp Workflow's _id.

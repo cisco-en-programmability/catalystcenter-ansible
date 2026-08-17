@@ -11,10 +11,10 @@ short_description: Information module for Applications Health
 description:
   - Get all Applications Health. - > Intent API to get a list of applications for a specific site, a device, or a client device's
     MAC address. For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

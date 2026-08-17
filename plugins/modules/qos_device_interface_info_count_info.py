@@ -11,10 +11,10 @@ short_description: Information module for Qos Device Interface Info Count
 description:
   - Get all Qos Device Interface Info Count.
   - Get the number of all existing qos device interface infos group by network device id.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

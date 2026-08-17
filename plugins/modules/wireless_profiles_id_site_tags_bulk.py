@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Wireless Profiles Id Site Tags Bulk. - > This endpoint allows the creation of
     multiple `Site Tags` associated with a specific `Wireless Profile` in a single request. The `id` of the `Wireless Profile`
     must be provided as a path parameter, and a list of `Site Tags` should be included in the request body.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Network profile id.

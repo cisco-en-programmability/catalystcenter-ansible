@@ -13,10 +13,10 @@ description:
     The input payload contains the following fields - ringName unique ring name , rootNetworkDeviceId Network device ID of
     the root node of the REP Ring and rootNeighbourNetworkDeviceIds Network device IDs of the two immediate neighbour devices
     of the root node of the REP Ring. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: Deployment mode of the configured REP ring.

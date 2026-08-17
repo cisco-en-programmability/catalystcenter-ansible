@@ -15,10 +15,10 @@ description:
     of a specific `Site Tag` associated with a given `Wireless Profile`. The `id` of the `Wireless Profile` and the `siteTagId`
     of the Site Tag must be provided as path parameters, and the request body should contain the updated `Site Tag` details.
     The `siteTagName` cannot be modified through this endpoint.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apProfileName:
     description: Ap Profile Name.

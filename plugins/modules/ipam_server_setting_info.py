@@ -11,10 +11,10 @@ short_description: Information module for Ipam Server Setting
 description:
   - Get all Ipam Server Setting. - > Retrieves configuration details of the external IPAM server. If an external IPAM server
     has not been created, this resource will return a `404` response.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

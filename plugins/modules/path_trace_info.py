@@ -13,10 +13,10 @@ description:
   - Get Path Trace by id.
   - Returns a summary of all flow analyses stored. Results can be filtered by specified parameters.
   - Returns result of a previously requested flow analysis by its Flow Analysis id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Creates an area in the network hierarchy. - > Deletes an area in the network hierarchy. This operations fails if there
     are any child areas or buildings for this area.
   - Updates an area in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Area ID.

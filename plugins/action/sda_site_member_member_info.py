@@ -98,6 +98,8 @@ class ActionModule(ActionBase):
             function="get_devices_that_are_assigned_to_a_site",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

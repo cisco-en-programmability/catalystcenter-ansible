@@ -11,10 +11,10 @@ short_description: Information module for Field Notices Results Trend
 description:
   - Get all Field Notices Results Trend.
   - Get field notices results trend over time. The default sort is by scan time descending.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

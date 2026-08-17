@@ -11,10 +11,10 @@ short_description: Information module for Network Devices Assigned To Site Count
 description:
   - Get all Network Devices Assigned To Site Count.
   - Get all network devices count under the given site in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

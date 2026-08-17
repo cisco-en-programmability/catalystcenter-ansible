@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Device Replacement.
   - Marks device for replacement.
   - UnMarks device for replacement.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Device Replacement's payload.

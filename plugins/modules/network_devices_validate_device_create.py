@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Network Devices Validate Device Create. - > Validates the credentials and connectivity
     of a network device. This endpoint checks if the provided details are correct and if the device can be reached. The task
     response contains status for HTTP, SNMP, CLI, NETCONF, Enable Password and CLI Priviledge 15.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   category:
     description: Category of the device. Used to determine the type of the device being added.

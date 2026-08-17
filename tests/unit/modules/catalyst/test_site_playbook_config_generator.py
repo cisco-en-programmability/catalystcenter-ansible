@@ -137,8 +137,8 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             return
 
         # Default fixture: return the same consolidated payload for each API call.
-        self.run_catalystcenter_exec.side_effect = lambda *args, **kwargs: self.test_data.get(
-            "get_all_sites_response"
+        self.run_catalystcenter_exec.side_effect = (
+            lambda *args, **kwargs: self.test_data.get("get_all_sites_response")
         )
 
     def run_module_with_config_and_validate_success(self, config):
@@ -678,7 +678,9 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
                 "limit": 500,
             },
         )
-        params = self.run_catalystcenter_exec.call_args_list[0].kwargs.get("params") or {}
+        params = (
+            self.run_catalystcenter_exec.call_args_list[0].kwargs.get("params") or {}
+        )
         self.assertNotIn("parentNameHierarchy", params)
 
     @patch("builtins.open", new_callable=mock_open)

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
   - Intent API to add the threat mac address to allowed list.
   - Intent API to remove the threat mac address from allowed list.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   macAddress:
     description: MacAddress path parameter. Threat mac address which needs to be removed from the allowed list. Multiple mac

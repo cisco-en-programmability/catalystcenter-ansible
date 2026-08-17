@@ -11,10 +11,10 @@ short_description: Information module for Wired Network Devices Id Config Featur
 description:
   - Get Wired Network Devices Id Config Features Deployed Layer2 Feature Count by id.
   - The API returns the number of configurations for a deployed layer 2 feature on a wired device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

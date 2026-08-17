@@ -11,10 +11,10 @@ short_description: Information module for Site Health Summaries Count
 description:
   - Get all Site Health Summaries Count.
   - Get a count of sites. Use the available query parameters to get the count of a subset of sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

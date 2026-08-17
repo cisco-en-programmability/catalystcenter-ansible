@@ -18,7 +18,9 @@ __metaclass__ = type
 
 from unittest.mock import patch, mock_open
 import yaml
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_host_port_onboarding_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_host_port_onboarding_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -26,11 +28,21 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
     module = sda_host_port_onboarding_playbook_config_generator
     test_data = loadPlaybookData("sda_host_port_onboarding_playbook_config_generator")
 
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_port_assignments_filtered = test_data.get("playbook_config_port_assignments_filtered")
-    playbook_config_port_channels_filtered = test_data.get("playbook_config_port_channels_filtered")
-    playbook_config_wireless_ssids_filtered = test_data.get("playbook_config_wireless_ssids_filtered")
-    playbook_config_all_components_filtered = test_data.get("playbook_config_all_components_filtered")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_port_assignments_filtered = test_data.get(
+        "playbook_config_port_assignments_filtered"
+    )
+    playbook_config_port_channels_filtered = test_data.get(
+        "playbook_config_port_channels_filtered"
+    )
+    playbook_config_wireless_ssids_filtered = test_data.get(
+        "playbook_config_wireless_ssids_filtered"
+    )
+    playbook_config_all_components_filtered = test_data.get(
+        "playbook_config_all_components_filtered"
+    )
 
     def setUp(self):
         super(TestSdaHostPortOnboardingPlaybookConfigGenerator, self).setUp()
@@ -59,16 +71,23 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
                 return self.test_data.get("get_port_assignments_response")
             elif function == "get_port_channels":
                 return self.test_data.get("get_port_channels_response")
-            elif function == "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site":
+            elif (
+                function
+                == "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site"
+            ):
                 return self.test_data.get("get_vlans_and_ssids_response")
             elif function == "get_device_by_id":
                 # Handle device-specific responses based on device ID in params
                 if params and "id" in params:
                     device_id = params["id"]
                     if device_id == "device-001":
-                        return self.test_data.get("get_device_by_id_response_device_001")
+                        return self.test_data.get(
+                            "get_device_by_id_response_device_001"
+                        )
                     elif device_id == "device-002":
-                        return self.test_data.get("get_device_by_id_response_device_002")
+                        return self.test_data.get(
+                            "get_device_by_id_response_device_002"
+                        )
                 return self.test_data.get("get_device_by_id_response_device_001")
             elif function == "get_fabric_sites":
                 return self.test_data.get("get_fabric_sites_response")
@@ -87,17 +106,19 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         writes = [call.args[0] for call in handle.write.call_args_list]
         return "".join(writes)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_generate_all_configurations(self, mock_file):
         """Test generation of all SDA host port onboarding configurations."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         # Ensure file write was attempted and contains expected data
@@ -114,18 +135,20 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         # Verify SDK was called
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_port_assignments_filtered(self, mock_file):
         """Test filtering port assignments by fabric site."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_port_assignments_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_port_assignments_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -141,22 +164,26 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         has_port_assignments = any(
             "port_assignments" in block for block in config_blocks
         )
-        self.assertTrue(has_port_assignments, "Port assignments not found in generated YAML")
+        self.assertTrue(
+            has_port_assignments, "Port assignments not found in generated YAML"
+        )
         # Verify SDK was called
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_port_channels_filtered(self, mock_file):
         """Test filtering port channels by fabric site."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_port_channels_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_port_channels_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -169,25 +196,25 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertIsInstance(data.get("config"), list)
         # Verify that port channels are present
         config_blocks = data.get("config")
-        has_port_channels = any(
-            "port_channels" in block for block in config_blocks
-        )
+        has_port_channels = any("port_channels" in block for block in config_blocks)
         self.assertTrue(has_port_channels, "Port channels not found in generated YAML")
         # Verify SDK was called
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_wireless_ssids_filtered(self, mock_file):
         """Test filtering wireless SSIDs by fabric site."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_wireless_ssids_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_wireless_ssids_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -200,25 +227,27 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertIsInstance(data.get("config"), list)
         # Verify that wireless SSIDs are present
         config_blocks = data.get("config")
-        has_wireless_ssids = any(
-            "wireless_ssids" in block for block in config_blocks
+        has_wireless_ssids = any("wireless_ssids" in block for block in config_blocks)
+        self.assertTrue(
+            has_wireless_ssids, "Wireless SSIDs not found in generated YAML"
         )
-        self.assertTrue(has_wireless_ssids, "Wireless SSIDs not found in generated YAML")
         # Verify SDK was called
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_all_components_filtered(self, mock_file):
         """Test filtering all components (port assignments, port channels, wireless SSIDs)."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_all_components_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_all_components_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -232,18 +261,22 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         # Verify SDK was called multiple times for all components
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
-    def test_fabric_site_filter_includes_child_fabric_zones_for_wired_only(self, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    def test_fabric_site_filter_includes_child_fabric_zones_for_wired_only(
+        self, mock_file
+    ):
         """Test that fabric site filters include child zones only for wired components."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_all_components_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_all_components_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -275,17 +308,19 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertNotIn(child_zone_hierarchy, wireless_fabric_names)
         self.assertNotIn(unrelated_zone_hierarchy, wireless_fabric_names)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_no_file_path_generates_default(self, mock_file):
         """Test that default file path is generated when not specified."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_port_assignments_filtered,
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_port_assignments_filtered,
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -293,22 +328,26 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         call_args = mock_file.call_args
         self.assertIsNotNone(call_args)
         self.assertIsInstance(call_args[0][0], str)
-        self.assertTrue(call_args[0][0].endswith(".yaml") or call_args[0][0].endswith(".yml"))
+        self.assertTrue(
+            call_args[0][0].endswith(".yaml") or call_args[0][0].endswith(".yml")
+        )
         written_yaml = self._get_written_yaml(mock_file)
         self.assertTrue(len(written_yaml) > 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_device_id_to_management_ip_resolution(self, mock_file):
         """Test that device IDs are resolved to management IP addresses."""
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_port_assignments_filtered,
-            "file_path": "/tmp/sda_host_port_onboarding.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_port_assignments_filtered,
+                "file_path": "/tmp/sda_host_port_onboarding.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()

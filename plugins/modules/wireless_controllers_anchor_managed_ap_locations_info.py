@@ -11,10 +11,10 @@ short_description: Information module for Wireless Controllers Anchor Managed Ap
 description:
   - Get all Wireless Controllers Anchor Managed Ap Locations.
   - Retrieves all the details of Anchor Managed AP locations associated with the specific Wireless Controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

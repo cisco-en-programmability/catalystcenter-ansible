@@ -11,10 +11,10 @@ short_description: Information module for Field Notices Results Notices Id Netwo
 description:
   - Get all Field Notices Results Notices Id Network Devices Count.
   - Get count of field notice network devices for the notice.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

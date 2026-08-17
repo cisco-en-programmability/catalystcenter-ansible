@@ -11,10 +11,10 @@ short_description: Resource module for Download Software Release Create
 description:
   - Manage operation create of the resource Download Software Release Create.
   - This api is used to trigger download workflow of a specific release.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
     description: Provide the list of optional package's id to be downloaded.Obtain the `id` from the `packagesn.id` attribute

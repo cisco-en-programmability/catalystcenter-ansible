@@ -11,10 +11,10 @@ short_description: Information module for Compliance Policys Rules Variables Cou
 description:
   - Get all Compliance Policys Rules Variables Count.
   - Retrieves the count of variables under the specified compliance policy and rule.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

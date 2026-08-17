@@ -11,10 +11,10 @@ short_description: Information module for Wired Network Devices Id Config Featur
 description:
   - Get all Wired Network Devices Id Config Features Supported Layer2.
   - The API returns the supported layer 2 features on a wired device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

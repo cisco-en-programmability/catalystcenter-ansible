@@ -11,10 +11,10 @@ short_description: Resource module for Swim Trigger Distribution
 description:
   - Manage operation create of the resource Swim Trigger Distribution. - > Distributes a software image on a given device.
     Software image must be imported successfully into Catalyst Center before it can be distributed.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Swim Trigger Distribution's payload.

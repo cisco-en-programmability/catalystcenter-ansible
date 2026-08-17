@@ -13,10 +13,10 @@ description:
   - Create/Schedule a report configuration.
   - Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
   - Delete a scheduled report configuration. Deletes the report executions also.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataCategory:
     description: Category of viewgroup for the report.

@@ -13,10 +13,10 @@ description:
   - Adds multicast for virtual networks based on user input.
   - Deletes a multicast configuration for a virtual network based on id.
   - Updates multicast configurations for virtual networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the multicast configuration.

@@ -11,10 +11,10 @@ short_description: Information module for Planned Access Points
 description:
   - Get all Planned Access Points.
   - Provides a list of Planned Access Points for the Floor it is requested for.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Thousand Eyes Test Results Trend Analy
 description:
   - Get all Thousand Eyes Test Results Trend Analytics.
   - Get trend time series for ThousandEyes test results.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

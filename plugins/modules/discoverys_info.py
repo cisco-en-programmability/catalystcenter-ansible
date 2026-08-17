@@ -13,10 +13,10 @@ description:
   - Get Discoverys by id.
   - API to fetch the discovery details using basic filters.
   - API to get discovery details for the given discovery id.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

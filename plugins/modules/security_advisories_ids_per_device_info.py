@@ -11,10 +11,10 @@ short_description: Information module for Security Advisories Ids Per Device
 description:
   - Get Security Advisories Ids Per Device by id.
   - Retrieves advisory device details for a device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -14,10 +14,10 @@ description:
     specific SP Profile and to be able to define a shaper on WAN interfaces.
   - Delete all qos device interface infos associate with network device id.
   - Update existing qos device interface infos associate with network device id.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of the qos device info, this object holds all qos device interface infos associate

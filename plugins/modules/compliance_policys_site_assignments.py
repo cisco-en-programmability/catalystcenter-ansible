@@ -11,10 +11,10 @@ short_description: Resource module for Compliance Policys Site Assignments
 description:
   - Manage operation update of the resource Compliance Policys Site Assignments. - > Use this API to assign new sites to the
     policy, update existing site allocations, or delete all site assignments by passing an empty list.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   policyId:
     description: PolicyId path parameter. The `id` of the compliance policy.

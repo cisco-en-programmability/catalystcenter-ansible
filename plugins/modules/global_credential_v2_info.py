@@ -11,10 +11,10 @@ short_description: Information module for Global Credential V2
 description:
   - Get all Global Credential V2. - > API to get device credentials' details. It fetches all global credentials of all types
     at once, without the need to pass any input parameters.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

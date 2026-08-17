@@ -100,6 +100,8 @@ class ActionModule(ActionBase):
             function="get_the_total_number_of_site_analytics_records_available_for_for_given_set_of_query_parameters",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

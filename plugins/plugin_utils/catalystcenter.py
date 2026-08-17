@@ -305,7 +305,7 @@ class CatalystCenterSDK(object):
                     "An error occured when executing operation."
                     " The error was: {error}"
                 ).format(error=to_native(e)),
-                status=e.status_code,
+                status=getattr(e, "status_code", None),
             )
             response = None
         return response

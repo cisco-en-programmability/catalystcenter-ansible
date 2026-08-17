@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Path Trace. - > Initiates a new flow analysis with periodic refresh
     and stat collection options. Returns a request id and a task id to get results and follow progress.
   - Deletes a flow analysis request by its id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   controlPath:
     description: Control path tracing.

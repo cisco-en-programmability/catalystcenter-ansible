@@ -14,10 +14,10 @@ description:
     particular site, but may have portions of their address space reserved by site-specific subpools. - > Retrieves global
     IP address pools. Global pools are not associated with any particular site, but may have portions of their address space
     reserved by site-specific subpools.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

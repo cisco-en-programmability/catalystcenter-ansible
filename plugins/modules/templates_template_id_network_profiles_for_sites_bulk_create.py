@@ -11,10 +11,10 @@ short_description: Resource module for Templates Template Id Network Profiles Fo
 description:
   - Manage operation create of the resource Templates Template Id Network Profiles For Sites Bulk Create.
   - Attaches a list of network profiles to the Day-N CLI template by passing the profile IDs and template ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   items:
     description: Templates Template Id Network Profiles For Sites Bulk Create's items.

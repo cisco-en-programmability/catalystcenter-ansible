@@ -13,10 +13,10 @@ description:
   - Creates profiling rule from the request body.
   - Deletes the profiling rule for the given 'ruleId'.
   - Updates the profiling rule for the given 'ruleId'.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   clusterId:
     description: Unique identifier for ML cluster. Only applicable for 'ML Rule'.

@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Event Subscription Email.
   - Create Email Subscription Endpoint for list of registered events.
   - Update Email Subscription Endpoint for list of registered events.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Event Subscription Email's payload.

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Backups.
   - This api is used to trigger a workflow to create an on demand backup.
   - This api is used to trigger delete workflow of a specific backup based on the provided `id`.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The `id` of the backup to be deleted.Obtain the 'id' from the id attribute in the response

@@ -13,10 +13,10 @@ description:
     rogue access point containment. This API will initiate the containment operation on the strongest detecting WLC for the
     given Rogue AP. This is a resource intensive operation which has legal implications since the rogue access point on whom
     it is triggered, might be a valid neighbor access point.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   macAddress:
     description: Mac Address.

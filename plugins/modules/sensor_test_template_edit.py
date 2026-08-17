@@ -11,10 +11,10 @@ short_description: Resource module for Sensor Test Template Edit
 description:
   - Manage operation update of the resource Sensor Test Template Edit.
   - Intent API to deploy, schedule, or edit and existing SENSOR test template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   _id:
     description: The sensor test template unique identifier, generated at test creation time.

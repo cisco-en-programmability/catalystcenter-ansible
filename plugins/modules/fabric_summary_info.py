@@ -11,10 +11,10 @@ short_description: Information module for Fabric Summary
 description:
   - Get all Fabric Summary. - > Read Fabric summary for overall deployment. Get an aggregated summary of all fabric entities
     in a deployment including the entity health.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

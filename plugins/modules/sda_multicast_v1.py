@@ -11,10 +11,10 @@ short_description: Resource module for Sda Multicast V1
 description:
   - Manage operation update of the resource Sda Multicast V1.
   - Updates a multicast configuration at a fabric level based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sda Multicast V1's payload.

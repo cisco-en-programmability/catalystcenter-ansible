@@ -13,10 +13,10 @@ description:
   - Get Product Series by id.
   - Get the list of network device product series and their ordinal on filter criteria.
   - Get the network device product series, its ordinal.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -13,10 +13,10 @@ description:
   - Add a new role in the system.
   - Delete a role in the system.
   - Update a role in the system.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of role.

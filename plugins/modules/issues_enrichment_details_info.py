@@ -11,10 +11,10 @@ short_description: Information module for Issues Enrichment Details
 description:
   - Get all Issues Enrichment Details. - > Enriches a given network issue context an issue id or end user's Mac Address with
     details about the issues, impacted hosts and suggested actions for remediation.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

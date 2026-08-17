@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Virtual Network.
   - Add virtual network VN in SDA Fabric.
   - Delete virtual network VN from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter.

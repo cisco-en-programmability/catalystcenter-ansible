@@ -13,10 +13,10 @@ description:
   - Get Wireless Settings Power Profiles by id.
   - This API allows the user to get Power Profiles that captured in wireless settings design.
   - This API allows the user to get a Power Profile by Power Profile ID that captured in wireless settings design.
-version_added: '6.17.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

@@ -11,10 +11,10 @@ short_description: Information module for Sda Layer2 Virtual Networks
 description:
   - Get all Sda Layer2 Virtual Networks.
   - Returns a list of layer 2 virtual networks that match the provided query parameters.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

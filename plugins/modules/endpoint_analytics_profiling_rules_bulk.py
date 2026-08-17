@@ -11,10 +11,10 @@ short_description: Resource module for Endpoint Analytics Profiling-Rules Bulk
 description:
   - Manage operation create of the resource Endpoint Analytics Profiling-Rules Bulk.
   - This API imports the given list of profiling rules. For each record,.
-version_added: '6.16.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profilingRules:
     description: Endpoint Analytics Profiling Rules Bulk's profilingRules.

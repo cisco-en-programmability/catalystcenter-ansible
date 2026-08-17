@@ -13,10 +13,10 @@ description:
   - Get Network Device Count by id. - > Returns the count of network devices based on the filter criteria by management IP
     address, mac address, hostname and location name.
   - Returns the interface count for the given device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.

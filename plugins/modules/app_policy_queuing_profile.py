@@ -13,10 +13,10 @@ description:
   - Create new custom application queuing profile.
   - Delete existing custom application policy queuing profile by id.
   - Update existing custom application queuing profile.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of custom queuing profile to delete.

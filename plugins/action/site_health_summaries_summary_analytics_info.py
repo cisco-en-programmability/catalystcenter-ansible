@@ -104,6 +104,8 @@ class ActionModule(ActionBase):
             function="read_an_aggregated_summary_of_site_health_data",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result
