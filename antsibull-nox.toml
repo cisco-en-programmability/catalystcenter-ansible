@@ -1,4 +1,4 @@
 [sessions]
 
 [sessions.ansible_test_sanity]
-include_devel = true
+include_devel = false

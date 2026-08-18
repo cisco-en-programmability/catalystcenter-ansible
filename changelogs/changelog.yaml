@@ -423,7 +423,7 @@ releases:
         - Changes in swim_workflow_manager module
         - Changes in wireless_design_workflow_manager module
   2.11.0:
-    release_date: "2026-08-17"
+    release_date: "2026-08-18"
     changes:
       release_summary: Added support for Cisco Catalyst Center API version 3.2.3.0 and addressed ansible-inclusion review feedback.
       minor_changes:
