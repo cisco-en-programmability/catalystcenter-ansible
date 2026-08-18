@@ -1216,6 +1216,8 @@ import time
 class Swim(CatalystCenterBase):
     """Class containing member attributes for Swim workflow_manager module"""
 
+    BULK_REQUEST_LIMIT = 500
+
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
@@ -2770,20 +2772,13 @@ class Swim(CatalystCenterBase):
                     import_function = "import_software_image_via_url"
 
                 elif import_type == "local":
-                    file_path = images_to_import[0]
+                    local_import_details = self.want.get("local_import_details") or {}
+                    file_path = local_import_details.get("file_path")
                     import_params = dict(
-                        is_third_party=self.want.get("local_import_details").get(
-                            "is_third_party"
-                        ),
-                        third_party_vendor=self.want.get("local_import_details").get(
-                            "third_party_vendor"
-                        ),
-                        third_party_image_family=self.want.get(
-                            "local_import_details"
-                        ).get("third_party_image_family"),
-                        third_party_application_type=self.want.get(
-                            "local_import_details"
-                        ).get("third_party_application_type"),
+                        is_third_party=local_import_details.get("is_third_party"),
+                        third_party_vendor=local_import_details.get("third_party_vendor"),
+                        third_party_image_family=local_import_details.get("third_party_image_family"),
+                        third_party_application_type=local_import_details.get("third_party_application_type"),
                         multipart_fields={
                             "file": (
                                 os.path.basename(file_path),
@@ -4506,37 +4501,104 @@ class Swim(CatalystCenterBase):
                 return self
 
             # -------- Bulk API Call --------
-            self.log("Bulk Payload for Distribution: {0}".format(str(bulk_payload)), "DEBUG")
-            try:
-                response = self.catalystcenter._exec(
-                    family="software_image_management_swim",
-                    function="bulk_distribute_images_on_network_devices",
-                    op_modifies=True,
-                    params={"payload": bulk_payload},
+            bulk_request_limit = self.BULK_REQUEST_LIMIT
+            failed_batches = []
+            failed_task_ids = []
+            successful_task_ids = []
+
+            self.log(
+                "API request batch size set to '{0}' for bulk image distribution.".format(
+                    bulk_request_limit
+                ),
+                "DEBUG",
+            )
+
+            for i in range(0, len(bulk_payload), bulk_request_limit):
+                batch_number = (i // bulk_request_limit) + 1
+                batch_payload = bulk_payload[i:i + bulk_request_limit]
+                self.log(
+                    "Processing distribution batch {0}: {1}".format(
+                        batch_number, str(batch_payload)
+                    ),
+                    "DEBUG",
                 )
 
-                self.log("API response from 'bulk_distribute_images_on_network_devices': {0}".format(str(response)), "DEBUG")
+                task_id = None
+                try:
+                    response = self.catalystcenter._exec(
+                        family="software_image_management_swim",
+                        function="bulk_distribute_images_on_network_devices",
+                        op_modifies=True,
+                        params={"payload": batch_payload},
+                    )
+                    if isinstance(response, dict):
+                        task_response = response.get("response") or {}
+                        task_id = task_response.get("taskId")
 
-                self.check_swim_tasks_response_status(
-                    response, "bulk_distribute_images_on_network_devices"
+                    self.log(
+                        "API response for distribution batch {0}: {1}".format(
+                            batch_number, str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    batch_status = self.get_swim_task_response_status(
+                        response, "bulk_distribute_images_on_network_devices"
+                    )
+                    self.log(
+                        "Distribution batch {0} completed with status '{1}'.".format(
+                            batch_number, batch_status
+                        ),
+                        "DEBUG",
+                    )
+
+                    if batch_status in ["failed", "exited"]:
+                        failed_batches.append((batch_number, task_id))
+                        if task_id:
+                            failed_task_ids.append(task_id)
+                    elif task_id:
+                        successful_task_ids.append(task_id)
+
+                except Exception as e:
+                    failed_batches.append((batch_number, task_id))
+
+                    if task_id:
+                        failed_task_ids.append(task_id)
+
+                    self.log(
+                        "Exception occurred during distribution batch {0}: {1}".format(
+                            batch_number, str(e)
+                        ),
+                        "ERROR",
+                    )
+
+            if failed_batches:
+                self.msg = (
+                    "Image distribution completed with batch failures. "
+                    "Successful task IDs: {0}. Failed task IDs: {1}. "
+                    "Check the failed tasks in Catalyst Center before retrying."
+                ).format(
+                    ", ".join(successful_task_ids) or "None",
+                    ", ".join(failed_task_ids) or "Unavailable",
+                )
+                self.set_operation_result(
+                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                )
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
                 )
 
-                if response and self.status not in ["failed", "exited"]:
-                    device_ip = ", ".join(elg_device_list)
-                    self.bulk_distribution_success_ips = device_ip
-                    self.msg = "Bulk image distribution completed successfully - {0}.".format(device_ip)
-                    self.bulk_distribution_success = True
-                    success_distribution_list.extend([(ip, None) for ip in elg_device_list])
-                    self.set_operation_result("success", True, self.msg, "INFO")
-                    return self
-                else:
-                    self.msg = "Bulk image distribution failed."
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-            except Exception as e:
-                self.msg = "Exception occurred during bulk image distribution: {0}".format(str(e))
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                self.log(self.msg, "ERROR")
+            eligible_device_ips = ", ".join(elg_device_list)
+            self.bulk_distribution_success_ips = eligible_device_ips
+            self.msg = (
+                "Bulk image distribution completed successfully - {0}. "
+                "Successful task IDs: {1}."
+            ).format(eligible_device_ips, ", ".join(successful_task_ids))
+            self.bulk_distribution_success = True
+            success_distribution_list.extend([(ip, None) for ip in elg_device_list])
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
 
         # -------- Final Summary Logging --------
         success_image_map = {}
@@ -5089,7 +5151,7 @@ class Swim(CatalystCenterBase):
             image_id_base = self.have.get("activation_image_id")
             # Resolve sub-package ids (if any)
             sub_image_ids = [self.get_image_id_v1(pkg) for pkg in sub_package_images] if sub_package_images else []
-            device_ips = []
+            eligible_device_ips = []
             activation_payload_list = []
             device_ip_for_not_elg_list = []
 
@@ -5135,7 +5197,7 @@ class Swim(CatalystCenterBase):
                     device_ip_for_not_elg_list.append(device_ip)
                     continue
 
-                device_ips.append(elg_device_ip)
+                eligible_device_ips.append(elg_device_ip)
 
                 activation_payload = {}
                 if device_id:
@@ -5163,31 +5225,100 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
 
-            try:
-                response = self.catalystcenter._exec(
-                    family="software_image_management_swim",
-                    function="bulk_update_images_on_network_devices",
-                    op_modifies=True,
-                    params={"payload": activation_payload_list},
-                )
-                self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
-                self.check_swim_tasks_response_status(response, "bulk_update_images_on_network_devices")
+            bulk_request_limit = self.BULK_REQUEST_LIMIT
+            failed_batches = []
+            failed_task_ids = []
+            successful_task_ids = []
 
-                if response and self.status not in ["failed", "exited"]:
-                    self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
-                    self.set_operation_result("success", True, self.msg, "INFO")
-                    return self
-                else:
-                    self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
-                    failed_activation_list = device_ips
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            except Exception as e:
-                self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
-                failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
-                failed_activation_list = device_ips
-                self.msg = "Exception during bulk activation: {0}".format(str(e))
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            self.log(
+                "API request batch size set to '{0}' for bulk image activation.".format(
+                    bulk_request_limit
+                ),
+                "DEBUG",
+            )
+
+            for i in range(0, len(activation_payload_list), bulk_request_limit):
+                batch_number = (i // bulk_request_limit) + 1
+                batch_payload = activation_payload_list[i:i + bulk_request_limit]
+                self.log(
+                    "Processing activation batch {0}: {1}".format(
+                        batch_number, str(batch_payload)
+                    ),
+                    "DEBUG",
+                )
+
+                task_id = None
+                try:
+                    response = self.catalystcenter._exec(
+                        family="software_image_management_swim",
+                        function="bulk_update_images_on_network_devices",
+                        op_modifies=True,
+                        params={"payload": batch_payload},
+                    )
+                    if isinstance(response, dict):
+                        task_response = response.get("response") or {}
+                        task_id = task_response.get("taskId")
+
+                    self.log(
+                        "API response for activation batch {0}: {1}".format(
+                            batch_number, str(response)
+                        ),
+                        "DEBUG",
+                    )
+                    batch_status = self.get_swim_task_response_status(
+                        response, "bulk_update_images_on_network_devices"
+                    )
+                    self.log(
+                        "Activation batch {0} completed with status '{1}'.".format(
+                            batch_number, batch_status
+                        ),
+                        "DEBUG",
+                    )
+
+                    if batch_status in ["failed", "exited"]:
+                        failed_batches.append((batch_number, task_id))
+                        if task_id:
+                            failed_task_ids.append(task_id)
+                    elif task_id:
+                        successful_task_ids.append(task_id)
+
+                except Exception as e:
+                    failed_batches.append((batch_number, task_id))
+
+                    if task_id:
+                        failed_task_ids.append(task_id)
+
+                    self.log(
+                        "Exception occurred during activation batch {0}: {1}".format(
+                            batch_number, str(e)
+                        ),
+                        "ERROR",
+                    )
+
+            if failed_batches:
+                self.msg = (
+                    "Image activation completed with batch failures. "
+                    "Successful task IDs: {0}. Failed task IDs: {1}. "
+                    "Check the failed tasks in Catalyst Center before retrying."
+                ).format(
+                    ", ".join(successful_task_ids) or "None",
+                    ", ".join(failed_task_ids) or "Unavailable",
+                )
+                self.set_operation_result(
+                    "failed", bool(successful_task_ids), self.msg, "ERROR"
+                )
+                self.module.fail_json(
+                    msg=self.msg,
+                    response=self.result.get("response", []),
+                    changed=self.result.get("changed", False),
+                )
+
+            self.msg = (
+                "All eligible images activated successfully on the devices {0}. "
+                "Successful task IDs: {1}."
+            ).format(", ".join(eligible_device_ips), ", ".join(successful_task_ids))
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
 
         # Final single-line message formation
         final_msg = ""
@@ -5217,40 +5348,45 @@ class Swim(CatalystCenterBase):
             self.complete_successful_activation = True
         return self
 
-    def check_swim_tasks_response_status(self, response, api_name):
+    def get_swim_task_response_status(self, response, api_name):
         """
-        Get the task response status from taskId
+        Get the task response status from taskId.
         Args:
             self: The current object details.
             response (dict): API response.
             api_name (str): API name.
         Returns:
-            self (object): The current object with updated desired Fabric Transits information.
+            str: The final task status.
         Description:
             Poll the function 'get_tasks_by_id' until it returns either 'SUCCESS' or 'FAILURE'
-            state or till it reaches the maximum timeout.
-            Log the task details and return self.
+            state or till it reaches the maximum timeout, without exiting the module.
         """
         self.log("Starting SWIM task status monitoring for API operation: {0}".format(api_name), "DEBUG")
         self.log("Input response: {0}".format(response), "DEBUG")
         self.log("Max timeout for task monitoring is set to {0} seconds.".format(self.max_timeout), "DEBUG")
+
         if not response:
             self.msg = "response is empty"
-            self.status = "exited"
-            return self
+            return "exited"
 
         if not isinstance(response, dict):
             self.msg = "response is not a dictionary"
-            self.status = "exited"
-            return self
+            return "exited"
 
         task_info = response.get("response")
+        if not isinstance(task_info, dict):
+            self.msg = "Task information is missing from the API response"
+            return "failed"
+
         if task_info.get("errorcode") is not None:
-            self.msg = response.get("response").get("detail")
-            self.status = "failed"
-            return self
+            self.msg = task_info.get("detail")
+            return "failed"
 
         task_id = task_info.get("taskId")
+        if not task_id:
+            self.msg = "Task ID is missing from the API response"
+            return "failed"
+
         start_time = time.time()
         while True:
             elapsed_time = time.time() - start_time
@@ -5259,29 +5395,71 @@ class Swim(CatalystCenterBase):
                            .format(self.max_timeout, task_id) + \
                            "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
                 self.log(self.msg, "WARNING")
-                self.status = "failed"
-                break
+                return "failed"
 
-            task_details = self.get_tasks_by_id(task_id)
+            try:
+                task_response = self.catalystcenter._exec(
+                    family="task",
+                    function="get_tasks_by_id",
+                    params={"id": task_id},
+                )
+            except Exception as e:
+                self.msg = (
+                    "Unable to retrieve status for task ID '{0}': {1}"
+                ).format(task_id, str(e))
+                self.log(self.msg, "ERROR")
+                return "failed"
+
+            if not isinstance(task_response, dict) or not isinstance(
+                task_response.get("response"), dict
+            ):
+                self.msg = "Invalid status response for task ID '{0}'".format(task_id)
+                self.log(self.msg, "ERROR")
+                return "failed"
+
+            task_details = task_response.get("response")
+
             self.log('Getting tasks details from task ID {0}: {1}'
                      .format(task_id, task_details), "DEBUG")
 
             task_status = task_details.get("status")
             if task_status == "FAILURE":
-                details = self.get_task_details_by_id(task_id)
-                self.msg = details.get("failureReason")
-                self.status = "failed"
-                break
+                try:
+                    details_response = self.catalystcenter._exec(
+                        family="task",
+                        function="get_task_details_by_id",
+                        params={"id": task_id},
+                    )
+                    details = (
+                        details_response.get("response")
+                        if isinstance(details_response, dict)
+                        else None
+                    )
+                    self.msg = (
+                        details.get("failureReason")
+                        if isinstance(details, dict)
+                        else None
+                    ) or "Task ID '{0}' failed".format(task_id)
+                except Exception as e:
+                    self.msg = (
+                        "Task ID '{0}' failed, but its failure details could not be "
+                        "retrieved: {1}"
+                    ).format(task_id, str(e))
+                self.log(self.msg, "ERROR")
+                return "failed"
 
             elif task_status == "SUCCESS":
                 self.result["changed"] = True
                 self.log("The task with task ID '{0}' is executed successfully."
                          .format(task_id), "INFO")
-                break
+                return "success"
 
             self.log("Progress is {0} for task ID: {1}"
                      .format(task_status, task_id), "DEBUG")
 
+    def check_swim_tasks_response_status(self, response, api_name):
+        """Monitor a SWIM task and update the shared workflow status."""
+        self.status = self.get_swim_task_response_status(response, api_name)
         return self
 
     def get_diff_merged(self, config):
