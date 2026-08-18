@@ -41,12 +41,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetsV2
-    description: Complete reference of the GetApplicationSetsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSets
+    description: Complete reference of the GetApplicationSets API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_v2,
+    application_policy.ApplicationPolicy.get_application_sets,
   - Paths used are
     get /dna/intent/api/v2/application-policy-application-set,
 """
@@ -63,10 +63,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    attributes: string
+    attributes: applicationSet
     name: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

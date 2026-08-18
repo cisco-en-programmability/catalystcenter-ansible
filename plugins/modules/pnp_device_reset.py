@@ -103,9 +103,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "jsonArrayResponse": [
-        "string"
-      ],
+      "jsonArrayResponse": [],
       "jsonResponse": {},
       "message": "string",
       "statusCode": 0

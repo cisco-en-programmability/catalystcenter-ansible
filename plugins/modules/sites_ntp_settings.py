@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_ntp_settings
 short_description: Resource module for Sites Ntp Settings
 description:
-  - Manage operation update of the resource Sites Ntp Settings. - > Set NTP settings for a site; `null` values indicate that
-    the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Ntp Settings.
+  - Set ntp settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,23 +20,18 @@ options:
     description: Id path parameter. Site Id.
     type: str
   ntp:
-    description: Sites Ntp Settings's ntp.
-    suboptions:
-      servers:
-        description: NTP servers to facilitate system clock synchronization for your network. Max 10.
-        elements: str
-        type: list
+    description: Ntp servers settings.
     type: dict
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings SetNTPSettingsForASite
-    description: Complete reference of the SetNTPSettingsForASite API.
+  - name: Cisco Catalyst Center documentation for Network Settings SetNtpSettingsForASite
+    description: Complete reference of the SetNtpSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!set-ntp-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.set_n_t_p_settings_for_a_site,
+    network_settings.NetworkSettings.set_ntp_settings_for_a_site,
   - Paths used are
     put /dna/intent/api/v1/sites/{id}/ntpSettings,
 """
@@ -53,10 +48,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    id: string
-    ntp:
-      servers:
-        - string
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
+    ntp: {}
 """
 RETURN = r"""
 catalystcenter_response:
@@ -65,9 +58,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

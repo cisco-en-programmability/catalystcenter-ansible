@@ -41,7 +41,10 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id", "profileName", "rules"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -151,7 +154,6 @@ class WirelessSettingsPowerProfiles(object):
             ("rules", "rules"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

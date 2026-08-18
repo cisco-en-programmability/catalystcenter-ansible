@@ -12,7 +12,7 @@ description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Dot11ax Configurations.
   - This API allows users to create a Dot11ax configuration feature template.
   - This API allows users to delete a specific Dot11ax configuration feature template by ID.
-  - This API allows users to update the details of a specific Dot11ax configuration feature template by ID.
+  - This API allows users to update the details of a specific Dot11ax.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,7 @@ options:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Dot11ax Configurations's featureAttributes.
+    description: Dot11ax Configuration Feature Attributes.
     suboptions:
       bssColor:
         description: BSS (Basic Service Set) Color is supported on Cisco IOS-XE based Wireless Controllers running 17.1 and
@@ -85,38 +85,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_dot11ax_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      bssColor: true
-      multipleBssid: true
-      nonSRGObssPdMaxThreshold: 0
-      obssPd: true
-      radioBand: string
-      targetWakeUpTime11ax: true
-      targetWaketimeBroadcast: true
-    unlockedAttributes:
-      - string
-- name: Delete by id
-  cisco.catalystcenter.feature_templates_wireless_dot11ax_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.feature_templates_wireless_dot11ax_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -137,6 +105,38 @@ EXAMPLES = r"""
       targetWakeUpTime11ax: true
       targetWaketimeBroadcast: true
     id: string
+    unlockedAttributes:
+      - string
+- name: Delete by id
+  cisco.catalystcenter.feature_templates_wireless_dot11ax_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_dot11ax_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      bssColor: true
+      multipleBssid: true
+      nonSRGObssPdMaxThreshold: 0
+      obssPd: true
+      radioBand: string
+      targetWakeUpTime11ax: true
+      targetWaketimeBroadcast: true
     unlockedAttributes:
       - string
 """

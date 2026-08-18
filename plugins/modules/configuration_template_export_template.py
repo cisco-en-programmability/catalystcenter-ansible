@@ -18,7 +18,7 @@ author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Configuration Template Export Template's payload.
-    elements: dict
+    elements: str
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -45,8 +45,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    payload:
-      - {}
+    payload: []
 """
 RETURN = r"""
 catalystcenter_response:
@@ -56,7 +55,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

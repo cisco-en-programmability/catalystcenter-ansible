@@ -27,16 +27,20 @@ options:
     description: A brief narrative describing the maintenance schedule.
     type: str
   id:
-    description: Id path parameter. Unique identifier for the maintenance schedule.
+    description: Id of the schedule maintenance window.
     type: str
   maintenanceSchedule:
-    description: Network Device Maintenance Schedules's maintenanceSchedule.
+    description: Contains all the details necessary to define the maintenance window and its recurrence.
     suboptions:
+      endId:
+        description: Activity id of end schedule of the maintenance window. To check the status of the end schedule, use `GET
+          /dna/intent/api/v1/activities/{id}`. `endId` remains same for every occurrence of recurrence instance.
+        type: str
       endTime:
         description: End time indicates the ending of the maintenance window in Unix epoch time in milliseconds.
-        type: float
+        type: int
       recurrence:
-        description: Network Device Maintenance Schedules's recurrence.
+        description: Details about the recurrence of the maintenance schedule.
         suboptions:
           interval:
             description: Interval for recurrence in days. The interval must be longer than the duration of the schedules.
@@ -45,15 +49,25 @@ options:
           recurrenceEndTime:
             description: The end date for the recurrence in Unix epoch time in milliseconds. Recurrence end time should be
               greater than maintenance end date/time.
-            type: float
+            type: int
         type: dict
+      startId:
+        description: Activity id of start schedule of the maintenance window. To check the status of the start schedule, use
+          `GET /dna/intent/api/v1/activities/{id}`. `startId` remains same for every occurrence of recurrence instance.
+        type: str
       startTime:
         description: Start time indicates the beginning of the maintenance window in Unix epoch time in milliseconds.
-        type: float
+        type: int
+      status:
+        description: The status of the maintenance schedule. Possible values are - `UPCOMING` The maintenance is scheduled
+          and pending execution. - `IN_PROGRESS` The maintenance is currently in progress. - `COMPLETED` The maintenance window
+          has been fully completed (For recurring maintenance, this indicates completion of the most recent occurrence). -
+          `FAILED` Updating the device's management state was not successful. If the status of startId or endId is `FAILED`,
+          this will be indicated as failed. To check the status of startId or endId, refer to `GET /intent/api/v1/activities/{id}`.
+        type: str
     type: dict
   networkDeviceIds:
-    description: List of network device ids. This field is applicable only during creation of schedules; for updates, it is
-      read-only.
+    description: Network Device Maintenance Schedules's networkDeviceIds.
     elements: str
     type: list
 requirements:
@@ -93,25 +107,18 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     description: string
+    id: string
     maintenanceSchedule:
-      endTime: 0
+      endId: string
+      endTime: {}
       recurrence:
         interval: 0
-        recurrenceEndTime: 0
-      startTime: 0
+        recurrenceEndTime: {}
+      startId: string
+      startTime: {}
+      status: string
     networkDeviceIds:
       - string
-- name: Delete by id
-  cisco.catalystcenter.network_device_maintenance_schedules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.network_device_maintenance_schedules:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -125,13 +132,27 @@ EXAMPLES = r"""
     description: string
     id: string
     maintenanceSchedule:
-      endTime: 0
+      endId: string
+      endTime: {}
       recurrence:
         interval: 0
-        recurrenceEndTime: 0
-      startTime: 0
+        recurrenceEndTime: {}
+      startId: string
+      startTime: {}
+      status: string
     networkDeviceIds:
       - string
+- name: Delete by id
+  cisco.catalystcenter.network_device_maintenance_schedules:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 """
 RETURN = r"""
 catalystcenter_response:

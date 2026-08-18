@@ -10,7 +10,7 @@ module: flexible_report_schedule_info
 short_description: Information module for Flexible Report Schedule
 description:
   - Get Flexible Report Schedule by id.
-  - Get flexible report schedule by report id.
+  - Get flexible report schedule by report ID.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

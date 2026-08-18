@@ -53,20 +53,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.snmpv2_read_community_credential:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    comments: string
-    credentialType: string
-    description: string
-    readCommunity: string
 - name: Update all
   cisco.catalystcenter.snmpv2_read_community_credential:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -82,6 +68,21 @@ EXAMPLES = r"""
     description: string
     instanceUuid: string
     readCommunity: string
+- name: Create
+  cisco.catalystcenter.snmpv2_read_community_credential:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - comments: string
+        credentialType: string
+        description: string
+        readCommunity: string
 """
 RETURN = r"""
 catalystcenter_response:

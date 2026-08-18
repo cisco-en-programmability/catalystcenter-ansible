@@ -21,19 +21,19 @@ options:
     description: Required only for update syslog configuration.
     type: str
   description:
-    description: Description.
+    description: Event Syslog Config's description.
     type: str
   host:
-    description: Host.
+    description: Event Syslog Config's host.
     type: str
   name:
-    description: Name.
+    description: Event Syslog Config's name.
     type: str
   port:
-    description: Port.
+    description: Event Syslog Config's port.
     type: int
   protocol:
-    description: Protocol.
+    description: Event Syslog Config's protocol.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

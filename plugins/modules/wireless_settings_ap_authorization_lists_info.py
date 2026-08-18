@@ -74,8 +74,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     apAuthorizationListName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Wireless Settings Ap Authorization Lists by id
   cisco.catalystcenter.wireless_settings_ap_authorization_lists_info:
@@ -97,25 +97,27 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "id": "string",
-        "apAuthorizationListName": "string",
-        "localAuthorization": {
-          "apMacEntries": [
-            "string"
-          ],
-          "apSerialNumberEntries": [
-            "string"
-          ]
-        },
-        "remoteAuthorization": {
-          "aaaServers": [
-            "string"
-          ],
-          "authorizeApWithMac": true,
-          "authorizeApWithSerialNumber": true
+      "response": [
+        {
+          "id": "string",
+          "apAuthorizationListName": "string",
+          "localAuthorization": {
+            "apMacEntries": [
+              "string"
+            ],
+            "apSerialNumberEntries": [
+              "string"
+            ]
+          },
+          "remoteAuthorization": {
+            "aaaServers": [
+              "string"
+            ],
+            "authorizeApWithMac": true,
+            "authorizeApWithSerialNumber": true
+          }
         }
-      },
+      ],
       "version": "string"
     }
 """

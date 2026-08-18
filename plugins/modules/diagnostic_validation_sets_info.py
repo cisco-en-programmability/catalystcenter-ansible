@@ -21,16 +21,16 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Validation set id.
+    type: str
   view:
     description:
       - >
         View query parameter. When the query parameter `view=DETAIL` is passed, all validation sets and
         associated validations will be returned. When the query parameter `view=DEFAULT` is passed, only
         validation sets metadata will be returned.
-    type: str
-  id:
-    description:
-      - Id path parameter. Validation set id.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -63,7 +63,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    view: string
+    view: DEFAULT
   register: result
 - name: Get Diagnostic Validation Sets by id
   cisco.catalystcenter.diagnostic_validation_sets_info:
@@ -85,21 +85,25 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "version": "string",
+        "validationGroups": [
+          {
+            "name": "string",
+            "id": "string",
+            "description": "string",
+            "validations": [
+              {
+                "id": "string",
+                "name": "string"
+              }
+            ]
+          }
+        ]
+      },
       "version": "string"
     }
 """

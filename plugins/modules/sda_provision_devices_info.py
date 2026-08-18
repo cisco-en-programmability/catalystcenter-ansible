@@ -29,7 +29,7 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. ID of the site. This will fetch all the devices in this site hierarchy.
+      - SiteId query parameter. ID of the site hierarchy.
     type: str
   offset:
     description:
@@ -70,8 +70,8 @@ EXAMPLES = r"""
     id: string
     networkDeviceId: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -84,8 +84,8 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "siteId": "string",
-          "networkDeviceId": "string"
+          "networkDeviceId": "string",
+          "siteId": "string"
         }
       ],
       "version": "string"

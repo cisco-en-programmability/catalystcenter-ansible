@@ -125,20 +125,20 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
-    description: Complete reference of the CreateGlobalCredentialsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-  - name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredentialV2
-    description: Complete reference of the DeleteGlobalCredentialV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsV2
-    description: Complete reference of the UpdateGlobalCredentialsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
+  - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentials
+    description: Complete reference of the CreateGlobalCredentials API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials
+  - name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredential
+    description: Complete reference of the DeleteGlobalCredential API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential
+  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentials
+    description: Complete reference of the UpdateGlobalCredentials API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
   - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
-    discovery.Discovery.update_global_credentials_v2,
+    discovery.Discovery.create_global_credentials,
+    discovery.Discovery.delete_global_credential,
+    discovery.Discovery.update_global_credentials,
   - Paths used are
     post /dna/intent/api/v2/global-credential,
     delete /dna/intent/api/v2/global-credential/{id},

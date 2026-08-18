@@ -14,7 +14,7 @@ description:
     have permission to provision the network device. Although the API operation does not change the device configuration,
     removing a device without cleaning up its configuration could lead to a network behaviour that is not consistent with
     the configurations that are known to the system.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

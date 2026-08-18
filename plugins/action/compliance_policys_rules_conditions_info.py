@@ -30,9 +30,9 @@ argument_spec.update(
     dict(
         policyId=dict(type="str"),
         ruleId=dict(type="str"),
+        id=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,9 +76,9 @@ class ActionModule(ActionBase):
         new_object = dict(
             policy_id=params.get("policyId"),
             rule_id=params.get("ruleId"),
+            id=params.get("id"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object

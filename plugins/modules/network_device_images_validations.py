@@ -9,12 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_images_validations
 short_description: Resource module for Network Device Images Validations
 description:
-  - Manage operations create, update and delete of the resource Network Device Images Validations. - > Custom network device
-    validation refers to the tailored process of verifying and assessing the configurations of network devices based on specific
-    organizational requirements and unique network environments. Unlike standard validations, custom network device validations
-    are designed to address the distinctive needs and challenges of a particular network infrastructure, ensuring that devices
-    operate optimally within the defined parameters. Upon task completion, the task API response's `resultLocation` attribute
-    will provide the URL to retrieve the validation id.
+  - Manage operations create, update and delete of the resource Network Device Images Validations.
+  - Custom network device validation refers to the tailored process of verifying.
   - Delete the custom network device validation.
   - Update the custom network device validation details.
 version_added: '2.2.0'
@@ -23,9 +19,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   cli:
-    description:
-      - Show commands that will be executed.
-      - Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands...
+    description: Edit the Command line interface (CLI). Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
     type: str
   description:
     description: Details of the network device validation.
@@ -41,7 +35,7 @@ options:
     type: str
   productSeriesOrdinals:
     description: The custom check will be mapped to the product series and devices that belong to this series. These devices
-      will consume this check when triggered. Fetch productSeriesOrdinal from API `/dna/intent/api/v1/productSeries`.
+      will consume this check when triggered.
     elements: float
     type: list
   type:
@@ -73,23 +67,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.network_device_images_validations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    cli: string
-    description: string
-    name: string
-    operationType: string
-    productSeriesOrdinals:
-      - 0
-    type: string
 - name: Delete by id
   cisco.catalystcenter.network_device_images_validations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -116,6 +93,23 @@ EXAMPLES = r"""
     id: string
     productSeriesOrdinals:
       - 0
+- name: Create
+  cisco.catalystcenter.network_device_images_validations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    cli: string
+    description: string
+    name: string
+    operationType: string
+    productSeriesOrdinals:
+      - 0
+    type: string
 """
 RETURN = r"""
 catalystcenter_response:

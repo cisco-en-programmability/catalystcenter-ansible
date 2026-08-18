@@ -23,7 +23,7 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanMode:
     description:
@@ -98,10 +98,10 @@ EXAMPLES = r"""
     scanMode: string
     scanStatus: string
     advisoryCount: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Security Advisories Results Network Devices by id
   cisco.catalystcenter.security_advisories_results_network_devices_info:

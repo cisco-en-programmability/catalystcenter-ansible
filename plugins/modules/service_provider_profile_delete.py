@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfile
-    description: Complete reference of the DeleteSPProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
+  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfileV1
+    description: Complete reference of the DeleteSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile,
+    network_settings.NetworkSettings.delete_sp_profile_v1,
   - Paths used are
     delete /dna/intent/api/v1/sp-profile/{spProfileName},
 """
@@ -44,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    spProfileName: string
+    spProfileName: application/json
 """
 RETURN = r"""
 catalystcenter_response:
@@ -53,8 +53,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

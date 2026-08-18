@@ -60,7 +60,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     versionNumber: 0
-    latestVersion: true
+    latestVersion: True
     templateId: string
   register: result
 """

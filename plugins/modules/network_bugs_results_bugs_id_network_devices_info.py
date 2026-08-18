@@ -27,7 +27,7 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanMode:
     description:
@@ -97,10 +97,10 @@ EXAMPLES = r"""
     networkDeviceId: string
     scanMode: string
     scanStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     id: string
   register: result
 - name: Get Network Bugs Results Bugs Id Network Devices by id

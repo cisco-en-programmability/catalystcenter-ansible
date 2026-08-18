@@ -11,7 +11,7 @@ short_description: Information module for License Last Operation Status
 description:
   - Get all License Last Operation Status. - > Retrieves the status of the last system licensing operation. If the operation
     does not exist or has not been triggered, the API responds with an HTTP 404 Not Found error.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the backup execution to be retrieved.
+    type: str
   backupId:
     description:
       - >
@@ -59,10 +63,6 @@ options:
         Order query parameter. Whether ascending or descending order should be used to sort the response.Use
         `asc` for ascending and `desc` for descending order .
     type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the backup execution to be retrieved.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -97,9 +97,9 @@ EXAMPLES = r"""
     backupId: string
     jobType: string
     status: string
-    offset: 0
-    limit: 0
-    sortBy: string
+    offset: 1
+    limit: 50
+    sortBy: executionDate
     order: string
   register: result
 - name: Get Backup Restore Executions by id

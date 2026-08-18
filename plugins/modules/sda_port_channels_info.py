@@ -35,7 +35,7 @@ options:
     description:
       - >
         ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are
-        TRUNK, EXTENDED_NODE.
+        TRUNK, EXTENDED_NODE. Required false.
     type: str
   nativeVlanId:
     description:
@@ -43,7 +43,7 @@ options:
         NativeVlanId query parameter. Native VLAN of the port channel, this option is only applicable to TRUNK
         connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is
         TRUNK, default value will be '1').
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -83,10 +83,10 @@ EXAMPLES = r"""
     fabricId: string
     networkDeviceId: string
     portChannelName: string
-    connectedDeviceType: string
+    connectedDeviceType: TRUNK
     nativeVlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

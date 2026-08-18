@@ -10,7 +10,7 @@ module: file_import
 short_description: Resource module for File Import
 description:
   - Manage operation create of the resource File Import.
-  - Uploads a new file within a specific nameSpace.
+  - Upload a new file within a specific nameSpace.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,8 +20,14 @@ options:
     description: File absolute path.
     type: str
   nameSpace:
-    description: NameSpace path parameter.
+    description: NameSpace path parameter. Namespace of the file being uploaded.
     type: str
+  restrictedAccess:
+    description: RestrictedAccess query parameter. To restrict access the file being uploaded.
+    type: bool
+  toEncrypt:
+    description: ToEncrypt query parameter. To encrypt the file being uploaded.
+    type: bool
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -49,6 +55,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     filePath: /tmp/uploads/Test-242.bin
     nameSpace: string
+    restrictedAccess: true
+    toEncrypt: true
 """
 RETURN = r"""
 catalystcenter_response:

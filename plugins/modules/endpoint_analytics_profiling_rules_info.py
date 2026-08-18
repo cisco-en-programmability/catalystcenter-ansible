@@ -7,14 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules_info
-short_description: Information module for Endpoint Analytics Profiling-Rules
+short_description: Information module for Endpoint Analytics Profiling Rules
 description:
-  - Get all Endpoint Analytics Profiling-Rules.
-  - Get Endpoint Analytics Profiling-Rules by id.
+  - Get all Endpoint Analytics Profiling Rules.
+  - Get Endpoint Analytics Profiling Rules by id.
   - Fetches details of the profiling rule for the given 'ruleId'. - > This API fetches the list of profiling rules. It can
     be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk'
     API can be used to import such exported rules into another environment.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -59,8 +59,8 @@ requirements:
   - python >= 3.12
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.get_details_of_a_single_profiling_rule,
-    ai_endpoint_analytics.AiEndpointAnalytics.get_list_of_profiling_rules,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
@@ -68,7 +68,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Endpoint Analytics Profiling-Rules
+- name: Get all Endpoint Analytics Profiling Rules
   cisco.catalystcenter.endpoint_analytics_profiling_rules_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -79,13 +79,13 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     ruleType: string
-    includeDeleted: true
+    includeDeleted: True
     limit: 0
     offset: 0
     sortBy: string
     order: string
   register: result
-- name: Get Endpoint Analytics Profiling-Rules by id
+- name: Get Endpoint Analytics Profiling Rules by id
   cisco.catalystcenter.endpoint_analytics_profiling_rules_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

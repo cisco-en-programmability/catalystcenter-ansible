@@ -81,7 +81,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    eventIds: string
+    eventIds:
     startTime: 0
     endTime: 0
     category: string
@@ -96,7 +96,9 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "string"
+    {
+      "response": 0
+    }
 """

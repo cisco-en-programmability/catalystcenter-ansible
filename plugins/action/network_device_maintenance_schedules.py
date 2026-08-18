@@ -34,14 +34,17 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         description=dict(type="str"),
         maintenanceSchedule=dict(type="dict"),
         networkDeviceIds=dict(type="list"),
-        id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -51,10 +54,10 @@ class NetworkDeviceMaintenanceSchedules(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             description=params.get("description"),
             maintenanceSchedule=params.get("maintenanceSchedule"),
             networkDeviceIds=params.get("networkDeviceIds"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -73,6 +76,7 @@ class NetworkDeviceMaintenanceSchedules(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["maintenanceSchedule"] = self.new_object.get(
             "maintenanceSchedule"
@@ -87,12 +91,12 @@ class NetworkDeviceMaintenanceSchedules(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["maintenanceSchedule"] = self.new_object.get(
             "maintenanceSchedule"
         )
         new_object_params["networkDeviceIds"] = self.new_object.get("networkDeviceIds")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -157,12 +161,11 @@ class NetworkDeviceMaintenanceSchedules(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("description", "description"),
             ("maintenanceSchedule", "maintenanceSchedule"),
             ("networkDeviceIds", "networkDeviceIds"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

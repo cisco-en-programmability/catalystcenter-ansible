@@ -87,7 +87,7 @@ class ApplicationsV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="application_policy",
-                function="get_applications_v2",
+                function="get_applications",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -104,7 +104,7 @@ class ApplicationsV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="application_policy",
-                function="get_applications_v2",
+                function="get_applications",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -163,7 +163,6 @@ class ApplicationsV2(object):
             ("type", "type"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -175,7 +174,7 @@ class ApplicationsV2(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="create_applications_v2",
+            function="create_applications",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -190,7 +189,7 @@ class ApplicationsV2(object):
         result = None
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="edit_applications_v2",
+            function="edit_applications",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -212,7 +211,7 @@ class ApplicationsV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="delete_application_v2",
+            function="delete_application",
             params=self.delete_by_id_params(),
         )
         return result

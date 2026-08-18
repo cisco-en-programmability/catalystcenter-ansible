@@ -75,12 +75,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
+    siteId: application/json
     offset: 0
     limit: 0
-    ignoreInheritedGroups: true
-    poolUsage: string
-    groupName: string
+    ignoreInheritedGroups: True
+    poolUsage: application/json
+    groupName: application/json
   register: result
 """
 RETURN = r"""
@@ -98,7 +98,7 @@ catalystcenter_response:
             {
               "ipPoolName": "string",
               "dhcpServerIps": [
-                "string"
+                {}
               ],
               "gateways": [
                 "string"
@@ -116,7 +116,7 @@ catalystcenter_response:
               "clientOptions": {},
               "groupUuid": "string",
               "dnsServerIps": [
-                "string"
+                {}
               ],
               "context": [
                 {

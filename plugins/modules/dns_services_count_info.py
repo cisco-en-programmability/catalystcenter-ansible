@@ -10,9 +10,7 @@ module: dns_services_count_info
 short_description: Information module for Dns Services Count
 description:
   - Get all Dns Services Count.
-  - Retrieves the total number of DNS Services for given parameters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DNSServices-1.0.0-resolved.yaml.
+  - Retrieves the total number of DNS Services for given parameters. For detailed.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -84,7 +82,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dns-services-for-given-parameters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_n_s_services_for_given_parameters,
+    devices.Devices.retrieves_the_total_number_of_dns_services_for_given_parameters,
   - Paths used are
     get /dna/data/api/v1/dnsServices/count,
 """

@@ -24,12 +24,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Clients GetClientEnrichmentDetails
-    description: Complete reference of the GetClientEnrichmentDetails API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
+  - name: Cisco Catalyst Center documentation for Clients GetClientEnrichmentDetailsV1
+    description: Complete reference of the GetClientEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details-v-1
 notes:
   - SDK Method used are
-    clients.Clients.get_client_enrichment_details,
+    clients.Clients.get_client_enrichment_details_v1,
   - Paths used are
     get /dna/intent/api/v1/client-enrichment-details,
 """
@@ -77,7 +77,7 @@ catalystcenter_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            "string"
+            {}
           ],
           "authType": {},
           "vlanId": "string",
@@ -85,7 +85,7 @@ catalystcenter_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            "string"
+            {}
           ],
           "issueCount": 0,
           "rssi": {},
@@ -161,7 +161,7 @@ catalystcenter_response:
                       "source": "string",
                       "linkStatus": "string",
                       "label": [
-                        "string"
+                        {}
                       ],
                       "target": "string",
                       "id": {},
@@ -192,7 +192,7 @@ catalystcenter_response:
                 {
                   "message": "string",
                   "steps": [
-                    "string"
+                    {}
                   ]
                 }
               ],
@@ -212,7 +212,7 @@ catalystcenter_response:
                     "building": "string",
                     "floor": {},
                     "apsImpacted": [
-                      "string"
+                      {}
                     ]
                   },
                   "timestamp": 0

@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="device_onboarding_pnp",
-            function="unclaim_device",
+            function="un_claim_device",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

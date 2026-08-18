@@ -75,14 +75,14 @@ catalystcenter_response:
       "response": [
         {
           "nwOrchId": "string",
-          "entry": [
+          "logs": [
             {
               "logLevel": "string",
               "timeStamp": "string",
-              "record": "string",
-              "deviceId": "string"
+              "record": "string"
             }
-          ]
+          ],
+          "serialNumber": "string"
         }
       ],
       "version": "string"

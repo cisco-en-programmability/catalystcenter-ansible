@@ -10,7 +10,7 @@ module: license_device_count_info
 short_description: Information module for License Device Count
 description:
   - Get all License Device Count.
-  - Get total number of managed devices.
+  - Get total number of managed devices based on the given filters.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

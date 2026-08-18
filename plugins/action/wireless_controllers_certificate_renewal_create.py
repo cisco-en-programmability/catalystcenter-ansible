@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="access_points_l_s_c_certificate_instantaneous_renewal",
+            function="renewal_of_lsc_certificate_on_access_points",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

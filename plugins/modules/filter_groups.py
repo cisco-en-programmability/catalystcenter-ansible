@@ -10,48 +10,45 @@ module: filter_groups
 short_description: Resource module for Filter Groups
 description:
   - Manage operations create, update and delete of the resource Filter Groups.
-  - Creates filter group with given filters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
-  - Deletes the given filter group.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
+  - Creates filter group with given filters. - > Deletes the given filter group. Delete will fail and throws validation error
+    if the given filter group is associated with any entity.
   - Updates the filter group for given id. The request payload should contain complete definition of the Filter Group.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
 version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   filters:
-    description: Filter Groups's filters.
+    description: List of filters used in this Filter Group.
     elements: dict
     suboptions:
+      displayValue:
+        description: This field stores desriptive equivalent of the `value` field. For example, this field can be used to
+          store site hierarchy name while the `value` field stores site hierarchy id.
+        type: dict
       key:
-        description: Key.
+        description: Field names which are supported by this API as filter keys.
         type: str
       operator:
-        description: Operator.
+        description: Type of filter operator to use for querying data. `in` and `notIn` operator takes multiple values and
+          applies the filters.
         type: str
       value:
-        description: Value.
-        type: str
+        description: This should be array if `operator` is `in` and `notIn`. For all other operators this should be a string
+          or a number.
+        type: dict
     type: list
   headers:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. The id of the filter group to be deleted.
+    description: Id path parameter. The id of the filter group to be updated.
     type: str
   name:
-    description: Name.
+    description: Filter Group name. Only alphabhets, digits and space is allowed for name.
     type: str
   type:
-    description: Type.
+    description: The type of the Filter Group.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -90,10 +87,30 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     filters:
-      - key: string
+      - displayValue: {}
+        key: string
         operator: string
-        value: string
+        value: {}
     headers: '{{my_headers | from_json}}'
+    name: string
+    type: string
+- name: Update by id
+  cisco.catalystcenter.filter_groups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    filters:
+      - displayValue: {}
+        key: string
+        operator: string
+        value: {}
+    headers: '{{my_headers | from_json}}'
+    id: string
     name: string
     type: string
 - name: Delete by id
@@ -108,24 +125,6 @@ EXAMPLES = r"""
     state: absent
     headers: '{{my_headers | from_json}}'
     id: string
-- name: Update by id
-  cisco.catalystcenter.filter_groups:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    filters:
-      - key: string
-        operator: string
-        value: string
-    headers: '{{my_headers | from_json}}'
-    id: string
-    name: string
-    type: string
 """
 RETURN = r"""
 catalystcenter_response:

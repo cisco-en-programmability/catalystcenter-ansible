@@ -131,8 +131,8 @@ EXAMPLES = r"""
     agentId: string
     networkDeviceName: string
     attribute: string
-    limit: 0
-    offset: 0
+    limit: 100
+    offset: 1
     sortBy: string
     order: string
   register: result

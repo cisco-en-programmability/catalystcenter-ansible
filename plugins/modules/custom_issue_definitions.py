@@ -9,64 +9,61 @@ DOCUMENTATION = r"""
 module: custom_issue_definitions
 short_description: Resource module for Custom Issue Definitions
 description:
-  - Manage operations create, update and delete of the resource Custom Issue Definitions. - > Create a new custom issue definition
-    using the provided input request data. The unique identifier for this issue definition is id. Please note that the issue
-    names cannot be duplicated. The definition is based on the syslog. For detailed information about the usage of the API,
-    please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Deletes an existing
-    custom issue definition based on the Id. Only the Global profile issue has the access to delete the issue definition,
-    so no profile id is required. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Updates an existing custom issue definition based on the provided
-    Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+  - Manage operations create, update and delete of the resource Custom Issue Definitions.
+  - Create a new custom issue definition using the provided input request data. - > Deletes an existing custom issue definition
+    based on the Id. Only the Global profile issue has the access to delete the issue definition, so no profile id is required.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
     programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+    - > Updates an existing custom issue definition based on the provided Id. For detailed information about the usage of
+    the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   description:
-    description: Description.
+    description: Custom Issue Definitions's description.
     type: str
   headers:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. The custom issue definition unique identifier.
+    description: Id path parameter. The custom issue definition Identifier.
     type: str
   isEnabled:
-    description: Is Enabled.
+    description: IsEnabled flag.
     type: bool
   isNotificationEnabled:
-    description: Is Notification Enabled.
+    description: IsNotificationEnabled flag.
     type: bool
   name:
-    description: Name.
+    description: Custom Issue Definitions's name.
     type: str
   priority:
-    description: Priority.
+    description: Custom Issue Definitions's priority.
     type: str
   rules:
     description: Custom Issue Definitions's rules.
     elements: dict
     suboptions:
       durationInMinutes:
-        description: Duration In Minutes.
+        description: Custom Issue Definitions's durationInMinutes.
         type: int
       facility:
-        description: Facility.
+        description: Custom Issue Definitions's facility.
         type: str
       mnemonic:
-        description: Mnemonic.
+        description: Custom Issue Definitions's mnemonic.
         type: str
       occurrences:
-        description: Occurrences.
+        description: Custom Issue Definitions's occurrences.
         type: int
       pattern:
-        description: Pattern.
+        description: Custom Issue Definitions's pattern.
         type: str
       severity:
-        description: Severity.
+        description: Custom Issue Definitions's severity.
         type: int
     type: list
 requirements:
@@ -118,18 +115,6 @@ EXAMPLES = r"""
         occurrences: 0
         pattern: string
         severity: 0
-- name: Delete by id
-  cisco.catalystcenter.custom_issue_definitions:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    headers: '{{my_headers | from_json}}'
-    id: string
 - name: Update by id
   cisco.catalystcenter.custom_issue_definitions:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -154,6 +139,18 @@ EXAMPLES = r"""
         occurrences: 0
         pattern: string
         severity: 0
+- name: Delete by id
+  cisco.catalystcenter.custom_issue_definitions:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    headers: '{{my_headers | from_json}}'
+    id: string
 """
 RETURN = r"""
 catalystcenter_response:

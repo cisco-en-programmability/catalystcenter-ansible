@@ -26,7 +26,7 @@ options:
         description: Site Update's area.
         suboptions:
           name:
-            description: Name of the area (eg Area1).
+            description: Area name.
             type: str
           parentName:
             description: Parent hierarchical name (Example Global/USA/CA).
@@ -36,19 +36,19 @@ options:
         description: Site Update's building.
         suboptions:
           address:
-            description: Address of the building to be created.
+            description: Building address (Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States).
             type: str
           country:
-            description: Country (eg United States).
+            description: Country name. This field is mandatory for air-gapped networks (Example United States).
             type: str
           latitude:
-            description: Latitude coordinate of the building (eg 37.338).
+            description: Building latitude (Example 37.403712).
             type: float
           longitude:
-            description: Longitude coordinate of the building (eg -121.832).
+            description: Building longitude (Example -121.971063).
             type: float
           name:
-            description: Name of the building (eg building1).
+            description: Building name.
             type: str
           parentName:
             description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
@@ -58,25 +58,25 @@ options:
         description: Site Update's floor.
         suboptions:
           floorNumber:
-            description: Floor number. (eg 5).
+            description: Floor Number (Example 3).
             type: float
           height:
-            description: Height of the floor. Unit of measure is ft. (eg 15).
+            description: Floor height in feet (Example 10).
             type: float
           length:
-            description: Length of the floor. Unit of measure is ft. (eg 100).
+            description: Floor length in feet (Example 100).
             type: float
           name:
-            description: Name of the floor (eg floor-1).
+            description: Floor name.
             type: str
           parentName:
             description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
             type: str
           rfModel:
-            description: Type of floor (eg Cubes And Walled Offices0.
+            description: RF model (Example Cubes And Walled Offices).
             type: str
           width:
-            description: Width of the floor. Unit of measure is ft. (eg 100).
+            description: Floor width in feet (Example 200).
             type: float
         type: dict
     type: dict
@@ -131,7 +131,7 @@ EXAMPLES = r"""
         parentName: string
         rfModel: string
         width: 0
-    siteId: string
+    siteId: application/json
     type: string
 """
 RETURN = r"""

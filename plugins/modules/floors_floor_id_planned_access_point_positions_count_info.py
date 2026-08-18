@@ -39,12 +39,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetPlannedAccessPointsPositionsCountV2
-    description: Complete reference of the GetPlannedAccessPointsPositionsCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetPlannedAccessPointsPositionsCount
+    description: Complete reference of the GetPlannedAccessPointsPositionsCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_planned_access_points_positions_count_v2,
+    site_design.SiteDesign.get_planned_access_points_positions_count,
   - Paths used are
     get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/count,
 """
@@ -62,7 +62,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    macAddress: string
+    macAddress: 00:00:0C:15:C0:00
     type: string
     floorId: string
   register: result

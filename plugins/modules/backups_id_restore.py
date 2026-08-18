@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Backup RestoreBackup
+  - name: Cisco Catalyst Center documentation for Restore RestoreBackup
     description: Complete reference of the RestoreBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!restore-backup
 notes:
   - SDK Method used are
-    backup.Backup.restore_backup,
+    restore.Restore.restore_backup,
   - Paths used are
     post /dna/system/api/v1/backups/{id}/restore,
 """

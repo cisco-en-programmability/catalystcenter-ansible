@@ -10,10 +10,10 @@ module: wireless_settings_certificate_renewal_profiles_info
 short_description: Information module for Wireless Settings Certificate Renewal Profiles
 description:
   - Get all Wireless Settings Certificate Renewal Profiles.
-  - Get Wireless Settings Certificate Renewal Profiles by id.
-  - GET LSC Certificate Renewal Profile by ID. - > Retrieves the access point certificate renewal profiles that are created
-    in the catalyst centre network design for wireless. Filtering can be done on access point certificate renewal profile
-    name and renewal type.
+  - Get Wireless Settings Certificate Renewal Profiles by id. - > Retrieves the access point certificate renewal profiles
+    that are created in the Catalyst Centre network by profile ID. - > Retrieves the access point certificate renewal profiles
+    that are created in the catalyst centre network design for wireless. Filtering can be done on access point certificate
+    renewal profile name and renwal type.
 version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,41 +26,40 @@ options:
     description:
       - >
         LscProfileName query parameter. Access point certificate renewal profile name. Use this query parameter
-        to obtain the details of access point certificate renewal profile by its name.
+        to obtain the details of ap certificate renewal profile by its name.
     type: str
   renewalType:
     description:
       - >
         RenewalType query parameter. Access point certificate renewal profile renewal type. Use this query
-        parameter to obtain the details of access point certificate renewal profile by its renewal type name.
-        Example STAGGERED, ONESHOT.
+        parameter to obtain the details of acess point certificate renewal profile by its renewal type name.
     type: str
   limit:
     description:
-      - Limit query parameter. Pagination limit.
+      - Limit query parameter.
     type: int
   offset:
     description:
-      - Offset query parameter. Pagination offset.
+      - Offset query parameter.
     type: int
   id:
     description:
-      - Id path parameter. LSC Certificate Renewal Profile ID.
+      - Id path parameter. Access point certificate renewal profile ID.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GETLSCCertificateRenewalProfileByID
-    description: Complete reference of the GETLSCCertificateRenewalProfileByID API.
-    link: https://developer.cisco.com/docs/dna-center/#!g-etlsc-certificate-renewal-profile-by-id
-  - name: Cisco Catalyst Center documentation for Wireless GetLSCCertificateRenewalProfiles
-    description: Complete reference of the GetLSCCertificateRenewalProfiles API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-lsc-certificate-renewal-profiles
+  - name: Cisco Catalyst Center documentation for Wireless GetAccessPointCertificateRenewalProfile
+    description: Complete reference of the GetAccessPointCertificateRenewalProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-point-certificate-renewal-profile
+  - name: Cisco Catalyst Center documentation for Wireless RetrieveTheAccessPointCertificateRenewalProfileByID
+    description: Complete reference of the RetrieveTheAccessPointCertificateRenewalProfileByID API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-access-point-certificate-renewal-profile-by-id
 notes:
   - SDK Method used are
-    wireless.Wireless.get_l_s_c_certificate_renewal_profile_by_id,
-    wireless.Wireless.get_l_s_c_certificate_renewal_profiles,
+    wireless.Wireless.get_access_point_certificate_renewal_profile,
+    wireless.Wireless.retrieve_the_access_point_certificate_renewal_profile_by_id,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles,
     get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/{id},
@@ -80,8 +79,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     lscProfileName: string
     renewalType: string
-    limit: 0
-    offset: 0
+    limit: 20
+    offset: 1
   register: result
 - name: Get Wireless Settings Certificate Renewal Profiles by id
   cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_info:
@@ -104,9 +103,9 @@ catalystcenter_response:
   sample: >
     {
       "lscProfileName": "string",
-      "renewalType": "string",
       "renewalDueInDays": 0,
-      "CalendarProfileSetting": {
+      "renewalType": "string",
+      "calendarProfile": {
         "schedulerType": "string",
         "duration": {
           "schedulerDay": [
@@ -114,7 +113,9 @@ catalystcenter_response:
           ],
           "schedulerStartTime": "string",
           "schedulerEndTime": "string",
-          "schedulerDate": "string"
+          "schedulerDate": [
+            0
+          ]
         }
       }
     }

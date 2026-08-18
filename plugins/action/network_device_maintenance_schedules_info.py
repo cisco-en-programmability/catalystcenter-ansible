@@ -28,7 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        networkDeviceIds=dict(type="str"),
+        networkDeviceIds=dict(type="list"),
         status=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),

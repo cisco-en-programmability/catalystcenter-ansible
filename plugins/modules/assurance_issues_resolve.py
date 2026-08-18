@@ -24,7 +24,7 @@ options:
     description: Additional headers.
     type: dict
   issueIds:
-    description: Issue Ids.
+    description: Assurance Issues Resolve's issueIds.
     elements: str
     type: list
 requirements:

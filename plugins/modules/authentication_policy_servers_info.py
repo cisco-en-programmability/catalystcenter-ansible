@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    isIseEnabled: true
+    isIseEnabled: True
     state_: string
     role: string
   register: result

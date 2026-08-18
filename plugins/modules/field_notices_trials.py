@@ -11,7 +11,7 @@ short_description: Resource module for Field Notices Trials
 description:
   - Manage operation create of the resource Field Notices Trials.
   - Creates a trial for field notices detection on network devices. The consent to.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -52,7 +52,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

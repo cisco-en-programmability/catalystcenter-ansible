@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="retrieve_d_h_c_p_settings_for_a_site",
+            function="retrieve_dhcp_settings_for_a_site",
             params=self.get_object(self._task.args),
         )
         self._result.update(

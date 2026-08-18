@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: site_v2_info
 short_description: Information module for Site V2
 description:
-  - Get all Site V2. - > API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are
-    not given as an input.
+  - Get all Site V2.
+  - API to get sites by site-name-hierarchy or siteId or type. List all sites if.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -43,12 +43,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sites GetSiteV2
-    description: Complete reference of the GetSiteV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-v-2
+  - name: Cisco Catalyst Center documentation for Sites GetSite
+    description: Complete reference of the GetSite API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site
 notes:
   - SDK Method used are
-    sites.Sites.get_site_v2,
+    sites.Sites.get_site,
   - Paths used are
     get /dna/intent/api/v2/site,
 """
@@ -68,8 +68,8 @@ EXAMPLES = r"""
     groupNameHierarchy: string
     id: string
     type: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

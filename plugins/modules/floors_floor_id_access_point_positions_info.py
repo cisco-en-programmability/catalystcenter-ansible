@@ -41,22 +41,22 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first record is numbered 1. Minimum 1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetAccessPointsPositionsV2
-    description: Complete reference of the GetAccessPointsPositionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetAccessPointsPositions
+    description: Complete reference of the GetAccessPointsPositions API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_access_points_positions_v2,
+    site_design.SiteDesign.get_access_points_positions,
   - Paths used are
     get /dna/intent/api/v2/floors/{floorId}/accessPointPositions,
 """
@@ -74,10 +74,10 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    macAddress: string
+    macAddress: 00:00:0C:15:C0:00
     type: string
     model: string
-    offset: 0
+    offset: 1
     limit: 0
     floorId: string
   register: result
@@ -92,15 +92,10 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "macAddress": "string",
-          "model": "string",
           "name": "string",
+          "macAddress": "string",
           "type": "string",
-          "position": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
+          "model": "string",
           "radios": [
             {
               "id": "string",
@@ -112,10 +107,16 @@ catalystcenter_response:
               "antenna": {
                 "name": "string",
                 "azimuth": 0,
-                "elevation": 0
+                "elevation": 0,
+                "elevationAccelerometer": true
               }
             }
-          ]
+          ],
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
         }
       ],
       "version": "string"

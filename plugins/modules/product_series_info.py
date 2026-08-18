@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Product Series by id
   cisco.catalystcenter.product_series_info:
@@ -99,8 +99,9 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "id": "string",
+        "productSeries": "string",
+        "productNameOrdinal": 0
       },
       "version": "string"
     }

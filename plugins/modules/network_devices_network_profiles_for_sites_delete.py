@@ -7,11 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_network_profiles_for_sites_delete
-short_description: Resource module for Network Devices Network Profiles For Sites
+short_description: Resource module for Network Devices Network Profiles For Sites Delete
 description:
-  - Manage operation delete of the resource Network Devices Network Profiles For Sites.
+  - Manage operation delete of the resource Network Devices Network Profiles For Sites Delete.
   - Deletes a network profile for sites.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -44,7 +44,6 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
     id: string
 """
 RETURN = r"""
@@ -56,7 +55,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

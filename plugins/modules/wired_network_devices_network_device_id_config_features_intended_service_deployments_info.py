@@ -25,6 +25,14 @@ options:
         NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API
         /intent/api/v1/network-device can be used to get the network device ID.
     type: str
+  deployActivityId:
+    description:
+      - >
+        DeployActivityId path parameter. Activity Id from the
+        /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/deploy or /intent/api/v1/w
+        ired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}/de
+        ploy task response.
+    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -52,6 +60,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
+    deployActivityId: string
   register: result
 """
 RETURN = r"""

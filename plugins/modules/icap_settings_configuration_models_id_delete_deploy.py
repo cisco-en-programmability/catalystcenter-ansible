@@ -9,31 +9,27 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models_id_delete_deploy
 short_description: Resource module for Icap Settings Configuration Models Id Delete Deploy
 description:
-  - Manage operation create of the resource Icap Settings Configuration Models Id Delete Deploy. - > Creates a ICAP configuration
-    intent to remove the ICAP RFSTATS or ANOMALY configuration from the device. The task has not been applied to the device
-    yet. Subsequent preview-approve workflow APIs must be used to complete the preview-approve process. The path parameter
-    'id' can be retrieved from **GET /dna/intent/api/v1/icapSettings** API. For detailed information about the usage of the
-    API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Settings Configuration Models Id Delete Deploy.
+  - Creates an ICAP configuration intent to remove ICAP RFSTATS or ANOMALY on the.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   id:
-    description: Id path parameter. A unique ID of the deployed ICAP object, which can be obtained from **GET /dna/intent/api/v1/icapSettings**.
+    description: Id path parameter. A unique ID of the deployed ICAP object, which can be obtained from GET /dna/intent/api/v1/icapSettings.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sensors CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDevice
-    description: Complete reference of the CreatesAICAPConfigurationWorkflowForICAPIntentToRemoveTheICAPConfigurationOnTheDevice
+  - name: Cisco Catalyst Center documentation for Sensors CreatesAnICAPConfigurationIntentToRemoveICAPRFSTATSOrANOMALYOnTheDeviceWithPreviewApprove
+    description: Complete reference of the CreatesAnICAPConfigurationIntentToRemoveICAPRFSTATSOrANOMALYOnTheDeviceWithPreviewApprove
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!creates-aicap-configuration-workflow-for-icap-intent-to-remove-the-icap-configuration-on-the-device
+    link: https://developer.cisco.com/docs/dna-center/#!creates-an-icap-configuration-intent-to-remove-icaprfstats-or-anomaly-on-the-device-with-preview-approve
 notes:
   - SDK Method used are
-    sensors.Sensors.creates_ai_cap_configuration_workflow_for_i_capintent_to_remove_the_i_cap_configuration_on_the_device,
+    sensors.Sensors.creates_an_icap_configuration_intent_to_remove_icap_rf_stats_or_anomaly_on_the_device_with_preview_approve,
   - Paths used are
     post /dna/intent/api/v1/icapSettings/configurationModels/{id}/deleteDeploy,
 """

@@ -10,7 +10,7 @@ module: discovery_range_delete
 short_description: Resource module for Discovery Range Delete
 description:
   - Manage operation delete of the resource Discovery Range Delete.
-  - Stops discovery for the given range and removes them.
+  - Stops discovery for the given range and removes them. Deprecated since Catalyst Center Release 3.2.1.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module

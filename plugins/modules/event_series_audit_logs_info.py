@@ -163,14 +163,14 @@ EXAMPLES = r"""
     eventHierarchy: string
     siteId: string
     deviceId: string
-    isSystemEvents: true
+    isSystemEvents: True
     description: string
     offset: 0
-    limit: 0
+    limit: 25
     startTime: 0
     endTime: 0
     sortBy: string
-    order: string
+    order: desc
   register: result
 """
 RETURN = r"""
@@ -195,9 +195,7 @@ catalystcenter_response:
         "severity": 0,
         "source": "string",
         "timestamp": 0,
-        "tags": [
-          "string"
-        ],
+        "tags": [],
         "details": {},
         "ciscoDnaEventLink": "string",
         "note": "string",

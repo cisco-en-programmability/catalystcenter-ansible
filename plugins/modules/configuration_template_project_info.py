@@ -37,9 +37,9 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetsAListOfProjects
-    description: Complete reference of the GetsAListOfProjects API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetsAListOfProjectsV1
+    description: Complete reference of the GetsAListOfProjectsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects-v-1
   - name: Cisco Catalyst Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
     description: Complete reference of the GetsTheDetailsOfAGivenProject API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
@@ -65,7 +65,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    sortOrder: string
+    sortOrder: ASC
   register: result
 - name: Get Configuration Template Project by id
   cisco.catalystcenter.configuration_template_project_info:

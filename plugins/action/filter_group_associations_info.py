@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        filterGroupId=dict(type="str"),
-        entityId=dict(type="str"),
-        entityType=dict(type="str"),
+        filterGroupId=dict(type="list"),
+        entityId=dict(type="list"),
+        entityType=dict(type="list"),
         headers=dict(type="dict"),
     )
 )

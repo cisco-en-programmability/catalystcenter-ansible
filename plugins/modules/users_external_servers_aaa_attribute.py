@@ -35,8 +35,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_and_update_aaa_attribute_api,
-    userand_roles.UserandRoles.delete_aaa_attribute_api,
+    user_and_roles.UserAndRoles.add_and_update_aaa_attribute_api,
+    user_and_roles.UserAndRoles.delete_aaa_attribute_api,
   - Paths used are
     post /dna/system/api/v1/users/external-servers/aaa-attribute,
     delete /dna/system/api/v1/users/external-servers/aaa-attribute,
@@ -44,16 +44,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.users_external_servers_aaa_attribute:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
 - name: Create
   cisco.catalystcenter.users_external_servers_aaa_attribute:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -65,6 +55,16 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     attributeName: string
+- name: Delete all
+  cisco.catalystcenter.users_external_servers_aaa_attribute:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
 """
 RETURN = r"""
 catalystcenter_response:

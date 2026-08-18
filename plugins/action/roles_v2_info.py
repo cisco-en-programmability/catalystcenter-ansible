@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="user_and_roles",
-                function="get_role_v2",
+                function="get_role",
                 params=self.get_object(self._task.args),
             )
             self._result.update(
@@ -100,7 +100,7 @@ class ActionModule(ActionBase):
         if not id:
             response = catalystcenter.exec(
                 family="user_and_roles",
-                function="get_roles_v2",
+                function="get_roles",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

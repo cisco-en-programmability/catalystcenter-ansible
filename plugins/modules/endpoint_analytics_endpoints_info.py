@@ -14,7 +14,7 @@ description:
   - Fetches details of the endpoint for the given unique identifier 'epId'. - > Query the endpoints, optionally using various
     filter and pagination criteria. 'GET /endpoints/count' API can be used to find out the total number of endpoints matching
     the filter criteria.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -167,8 +167,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.get_endpoint_details,
-    ai_endpoint_analytics.AiEndpointAnalytics.query_the_endpoints,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details,
+    ai_endpoint_analytics.AIEndpointAnalytics.query_the_endpoints,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints,
     get /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},
@@ -194,8 +194,8 @@ EXAMPLES = r"""
     hardwareManufacturer: string
     hardwareModel: string
     operatingSystem: string
-    registered: true
-    randomMac: true
+    registered: True
+    randomMac: True
     trustScore: string
     authMethod: string
     postureStatus: string
@@ -203,9 +203,9 @@ EXAMPLES = r"""
     changedProfileTrustLevel: string
     natTrustLevel: string
     concurrentMacTrustLevel: string
-    ipBlocklistDetected: true
-    unauthPortDetected: true
-    weakCredDetected: true
+    ipBlocklistDetected: True
+    unauthPortDetected: True
+    weakCredDetected: True
     ancPolicy: string
     limit: 0
     offset: 0

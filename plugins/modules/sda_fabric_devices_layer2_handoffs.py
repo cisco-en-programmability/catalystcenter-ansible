@@ -28,13 +28,13 @@ options:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   payload:
-    description: Sda Fabric Devices Layer2 Handoffs's payload.
+    description: Layer 2 handoff create request root element.
     elements: dict
     suboptions:
       externalVlanId:
         description: External VLAN number into which the fabric must be extended. Allowed VLAN range is 2-4094 except for
           reserved vlans (1, 1002-1005, 2046, 4094).
-        type: int
+        type: float
       fabricId:
         description: ID of the fabric this device is assigned to.
         type: str
@@ -44,7 +44,7 @@ options:
       internalVlanId:
         description: VLAN number associated with this fabric. Allowed VLAN range is 2-4094 except for reserved vlans (1, 1002-1005,
           2046, 4094).
-        type: int
+        type: float
       networkDeviceId:
         description: Network device ID of the fabric device.
         type: str
@@ -74,18 +74,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    fabricId: string
-    networkDeviceId: string
 - name: Create
   cisco.catalystcenter.sda_fabric_devices_layer2_handoffs:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -102,6 +90,18 @@ EXAMPLES = r"""
         interfaceName: string
         internalVlanId: 0
         networkDeviceId: string
+- name: Delete all
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    fabricId: string
+    networkDeviceId: string
 - name: Delete by id
   cisco.catalystcenter.sda_fabric_devices_layer2_handoffs:
     catalystcenter_host: "{{catalystcenter_host}}"

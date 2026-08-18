@@ -105,7 +105,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="wireless",
-                function="get80211be_profile_by_id",
+                function="get80211be_profiles_by_id",
                 params=self.get_object(self._task.args),
             )
             self._result.update(
@@ -116,7 +116,7 @@ class ActionModule(ActionBase):
         if not id:
             response = catalystcenter.exec(
                 family="wireless",
-                function="get80211be_profiles",
+                function="get_all80211be_profiles",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

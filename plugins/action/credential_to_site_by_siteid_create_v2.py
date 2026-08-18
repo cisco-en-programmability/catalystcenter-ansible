@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="assign_device_credential_to_site_v2",
+            function="assign_device_credential_to_site",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

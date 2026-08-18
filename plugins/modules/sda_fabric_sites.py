@@ -22,18 +22,8 @@ options:
     description: Id path parameter. ID of the fabric site.
     type: str
   payload:
-    description: Sda Fabric Sites's payload.
+    description: Fabric site post request body.
     elements: dict
-    suboptions:
-      authenticationProfileName:
-        description: Authentication profile used for this fabric.
-        type: str
-      isPubSubEnabled:
-        description: Specifies whether this fabric site will use pub/sub for control nodes.
-        type: bool
-      siteId:
-        description: ID of the network hierarchy.
-        type: str
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -72,9 +62,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        isPubSubEnabled: true
-        siteId: string
+      - {}
 - name: Update all
   cisco.catalystcenter.sda_fabric_sites:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -86,10 +74,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        id: string
-        isPubSubEnabled: true
-        siteId: string
+      - {}
 - name: Delete by id
   cisco.catalystcenter.sda_fabric_sites:
     catalystcenter_host: "{{catalystcenter_host}}"

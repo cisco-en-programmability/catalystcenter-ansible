@@ -10,7 +10,7 @@ module: swim_trigger_activation
 short_description: Resource module for Swim Trigger Activation
 description:
   - Manage operation create of the resource Swim Trigger Activation.
-  - Activates a software image on a given device. Software image must be present in the device flash.
+  - Activates a software image on a given device. Software image must be present.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -92,7 +92,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

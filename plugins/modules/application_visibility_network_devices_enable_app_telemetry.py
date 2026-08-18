@@ -17,7 +17,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   networkDevices:
-    description: Application Visibility Network Devices Enable App Telemetry's networkDevices.
+    description: List of network devices where application telemetry has to be enabled. Please note that `includeWlanModes`
+      and `includeGuestSsids` attributes are applicable only for wireless devices.
     elements: dict
     suboptions:
       id:

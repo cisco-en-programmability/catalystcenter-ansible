@@ -42,7 +42,7 @@ options:
   severity:
     description:
       - Severity query parameter.
-    type: str
+    type: int
   domain:
     description:
       - Domain query parameter.
@@ -61,7 +61,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. # of records.
+      - Limit query parameter. \# of records.
     type: int
   sortBy:
     description:
@@ -109,17 +109,17 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    eventIds: string
+    eventIds:
     startTime: 0
     endTime: 0
     category: string
     type: string
-    severity: string
+    severity: 0
     domain: string
     subDomain: string
     source: string
     offset: 0
-    limit: 0
+    limit: 20
     sortBy: string
     order: string
     tags: string
@@ -146,7 +146,7 @@ catalystcenter_response:
         "domain": "string",
         "subDomain": "string",
         "type": "string",
-        "severity": "string",
+        "severity": 0,
         "source": "string",
         "timestamp": "string",
         "details": "string",

@@ -61,8 +61,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     networkDeviceId: string
   register: result
 """

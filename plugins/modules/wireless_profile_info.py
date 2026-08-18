@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    profileName: string
+    profileName: application/json
   register: result
 """
 RETURN = r"""
@@ -69,6 +69,7 @@ catalystcenter_response:
           "ssidDetails": [
             {
               "name": "string",
+              "type": "string",
               "enableFabric": true,
               "flexConnect": {
                 "enableFlexConnect": true,

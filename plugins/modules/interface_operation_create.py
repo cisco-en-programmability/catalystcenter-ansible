@@ -28,7 +28,7 @@ options:
     description: Operation needs to be specified as 'ClearMacAddress'.
     type: str
   payload:
-    description: Interface Operation Create's payload.
+    description: Payload is not applicable.
     type: dict
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -55,7 +55,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deploymentMode: string
+    deploymentMode: Deploy
     interfaceUuid: string
     operation: string
     payload: {}

@@ -92,12 +92,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplatesDetailsV2
-    description: Complete reference of the GetTemplatesDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-templates-details-v-2
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplatesDetails
+    description: Complete reference of the GetTemplatesDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-s-details
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_templates_details_v2,
+    configuration_templates.ConfigurationTemplates.get_templates_details,
   - Paths used are
     get /dna/intent/api/v2/template-programmer/template,
 """
@@ -123,14 +123,14 @@ EXAMPLES = r"""
     productFamily: string
     productSeries: string
     productType: string
-    filterConflictingTemplates: true
+    filterConflictingTemplates: True
     tags: []
-    unCommitted: true
-    sortOrder: string
-    allTemplateAttributes: true
-    includeVersionDetails: true
+    unCommitted: True
+    sortOrder: ASC
+    allTemplateAttributes: True
+    includeVersionDetails: True
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 """
 RETURN = r"""

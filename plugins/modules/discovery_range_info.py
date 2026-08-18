@@ -10,7 +10,7 @@ module: discovery_range_info
 short_description: Information module for Discovery Range
 description:
   - Get all Discovery Range.
-  - Returns the discoveries by specified range.
+  - Returns the discoveries by specified range. Deprecated since Catalyst Center Release 3.2.1.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

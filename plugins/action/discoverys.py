@@ -34,13 +34,14 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         name=dict(type="str"),
         managementIpSelectionMethod=dict(type="str"),
         discoveryTypeDetails=dict(type="dict"),
         onlyNewDevice=dict(type="bool"),
         updateManagementIp=dict(type="bool"),
         credentials=dict(type="dict"),
-        id=dict(type="str"),
+        siteId=dict(type="str"),
     )
 )
 
@@ -57,25 +58,27 @@ class Discoverys(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             name=params.get("name"),
             managementIpSelectionMethod=params.get("managementIpSelectionMethod"),
             discoveryTypeDetails=params.get("discoveryTypeDetails"),
             onlyNewDevice=params.get("onlyNewDevice"),
             updateManagementIp=params.get("updateManagementIp"),
             credentials=params.get("credentials"),
-            id=params.get("id"),
+            siteId=params.get("siteId"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params["id"] = id or self.new_object.get("id")
-        new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["name"] = name or self.new_object.get("name")
+        new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["managementIpSelectionMethod"] = self.new_object.get(
             "managementIpSelectionMethod"
@@ -88,6 +91,7 @@ class Discoverys(object):
             "updateManagementIp"
         )
         new_object_params["credentials"] = self.new_object.get("credentials")
+        new_object_params["siteId"] = self.new_object.get("siteId")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -173,15 +177,15 @@ class Discoverys(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("name", "name"),
             ("managementIpSelectionMethod", "managementIpSelectionMethod"),
             ("discoveryTypeDetails", "discoveryTypeDetails"),
             ("onlyNewDevice", "onlyNewDevice"),
             ("updateManagementIp", "updateManagementIp"),
             ("credentials", "credentials"),
-            ("id", "id"),
+            ("siteId", "siteId"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         name=dict(type="str"),
         additionalInfo_nameSpace=dict(type="str"),
         additionalInfo_attributes=dict(type="str"),
@@ -39,7 +40,6 @@ argument_spec.update(
         sortBy=dict(type="str"),
         order=dict(type="str"),
         systemTag=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -81,6 +81,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             name=params.get("name"),
             additional_info_name_space=params.get("additionalInfo_nameSpace"),
             additional_info_attributes=params.get("additionalInfo_attributes"),
@@ -92,7 +93,6 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             system_tag=params.get("systemTag"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object

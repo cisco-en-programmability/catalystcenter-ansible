@@ -23,7 +23,6 @@ options:
   siteNameHierarchy:
     description: SiteNameHierarchy of the Provisioned Device(site should be part of Fabric Site).
     type: str
-    version_added: 4.0.0
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -55,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    deviceManagementIpAddress: string
+    deviceManagementIpAddress: application/json
 - name: Create
   cisco.catalystcenter.sda_fabric_edge_device:
     catalystcenter_host: "{{catalystcenter_host}}"

@@ -33,7 +33,7 @@ options:
     description: Self device Group Name. Must be alphanumeric without {!,<,space,?/'} and maximum of 31 characters.
     type: str
   mobilityPeers:
-    description: Wireless Controllers Wireless Mobility Groups Mobility Provision's mobilityPeers.
+    description: Peer details. Maximum 24 peers are allowed.
     elements: dict
     suboptions:
       deviceSeries:

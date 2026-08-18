@@ -10,7 +10,7 @@ module: iot_rep_rings_id_info
 short_description: Information module for Iot Rep Rings Id
 description:
   - Get Iot Rep Rings Id by id. - > This API returns REP ring for the given id The id of configured REP ring can be retrieved
-    using the API /dna/intent/api/v1/iot/repRings/query .
+    using the API `/dna/intent/api/v1/iot/repRings/query` .
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,7 +34,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-the-rep-ring-based-on-the-ring-id
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.get_the_r_e_p_ring_based_on_the_ring_id,
+    industrial_configuration.IndustrialConfiguration.get_the_rep_ring_based_on_the_ring_id,
   - Paths used are
     get /dna/intent/api/v1/iot/repRings/{id},
 """
@@ -51,41 +51,54 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: 0bb11acd-5f3f-42bd-9509-8d7c8891aa84
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "response": [
-          {
-            "id": "string",
-            "rootNetworkDeviceId": "string",
-            "rootNeighbourNetworkDeviceIds": [
-              "string"
-            ],
-            "status": "string",
-            "repSegmentId": 0,
-            "deploymentMode": "string",
-            "ringName": "string",
-            "ringMembers": [
+    {
+      "response": [
+        {
+          "id": "string",
+          "rootNetworkDeviceId": "string",
+          "rootNeighbourNetworkDeviceIds": [
+            "string"
+          ],
+          "status": "string",
+          "repSegmentId": 0,
+          "deploymentMode": "string",
+          "ringName": "string",
+          "ringMembers": [
+            {
+              "networkDeviceId": "string",
+              "nodeName": "string",
+              "portName1": "string",
+              "portRepZtpStatus1": "string",
+              "portName2": "string",
+              "portRepZtpStatus2": "string",
+              "ringOrder": 0
+            }
+          ],
+          "macsecConfig": {
+            "encryptionMode": "string",
+            "accessControlMode": "string",
+            "ciphersuite": "string",
+            "keys": [
               {
-                "networkDeviceId": "string",
-                "nodeName": "string",
-                "portName1": "string",
-                "portName2": "string",
-                "ringOrder": 0
+                "id": 0,
+                "cryptoAlgo": "string",
+                "passPhrase": "string",
+                "startTime": "string"
               }
             ]
-          }
-        ],
-        "version": 0
-      }
-    ]
+          },
+          "repZtpMsg": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -24,7 +24,7 @@ options:
     description: Multicast Type.
     type: str
   multicastVnInfo:
-    description: Sda Multicast's multicastVnInfo.
+    description: Multicast Virtual Network Information.
     elements: dict
     suboptions:
       externalRpIpAddress:
@@ -38,7 +38,7 @@ options:
         description: Ip Pool Name, that is reserved to Fabric Site.
         type: str
       ssmInfo:
-        description: Sda Multicast's ssmInfo.
+        description: Source-specific multicast information, required if multicastType is ssm.
         elements: dict
         suboptions:
           ssmGroupRange:
@@ -86,7 +86,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
+    siteNameHierarchy: application/json
 - name: Create
   cisco.catalystcenter.sda_multicast:
     catalystcenter_host: "{{catalystcenter_host}}"

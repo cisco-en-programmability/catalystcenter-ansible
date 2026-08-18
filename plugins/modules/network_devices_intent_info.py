@@ -11,12 +11,9 @@ short_description: Information module for Network Devices Intent
 description:
   - Get all Network Devices Intent.
   - Get Network Devices Intent by id. - > API to fetch the details of network device using the `id`. Use the `/dna/intent/api/v1/networkDevices/query`
-    API for advanced filtering. The API supports views to fetch only the required fields. Refer features for more details.
-    - > API to fetch the list of network devices using basic filters. Use the `/dna/intent/api/v1/networkDevices/query` API
-    for advanced filtering. Refer features for more details. The API returns a paginated response based on 'limit' and 'offset'
-    parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting
-    point using 1-based indexing. Use /dna/intent/api/v1/networkDevices/count API to get the total record count. For data
-    sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+    API for advanced filtering. The API supports views. - > API to fetch the list of network devices using basic filters.
+    Use the `/dna/intent/api/v1/networkDevices/query` API for advanced filtering. The API supports views to fetch only the
+    required fields.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,8 +24,30 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. Network device Id.
+      - Id path parameter. Unique identifier for the network device.
     type: str
+  views:
+    description:
+      - >
+        Views query parameter. The specific views being requested. This is an optional parameter which can be
+        passed to get one or more of the network device data. If this is not provided, then it will default to
+        `BASIC` views. If multiple views are provided, the response will contain the union of the views.
+        Attributes covered by the views are * `BASIC` id, managementAddress, dnsResolvedManagementIpAddress,
+        hostname, macAddress, serialNumbers, type, family, series, status, platformIds, softwareType,
+        softwareVersion, vendor, stackDevice, bootTime, role, roleSource, apEthernetMacAddress,
+        apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, snmpContact, snmpLocation, secureMode *
+        `RESYNC` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers,
+        type, family, series, status, reachabilityStatus, reachabilityFailureReason, managementState,
+        lastSuccessfulResyncReasons, resyncStartTime, resyncEndTime, resyncReasons, resyncRequestedByApps,
+        pendingResyncRequestCount, pendingResyncRequestReasons, resyncIntervalSource, resyncIntervalMinutes,
+        errorCode, errorDescription, secureMode * `USER_DEFINED_FIELDS` id, managementAddress,
+        dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status,
+        userDefinedFields * `CREDENTIALS` (without sensitive credentials) id, managementAddress,
+        dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status,
+        credentials, category Note `CREDENTIALS` view only returns the non-sensitive credentials of the network
+        device. The sensitive credentials are not returned in the response.
+    elements: str
+    type: list
   managementAddress:
     description:
       - ManagementAddress query parameter. Management address of the network device.
@@ -44,44 +63,55 @@ options:
   stackDevice:
     description:
       - StackDevice query parameter. Flag indicating if the device is a stack device.
-    type: str
+    type: bool
   role:
     description:
-      - >
-        Role query parameter. Role assigned to the network device. Available values BORDER_ROUTER, CORE,
-        DISTRIBUTION, ACCESS, UNKNOWN.
+      - Role query parameter. Role assigned to the network device.
     type: str
   status:
     description:
       - >
-        Status query parameter. Inventory related status of the network device. Available values MANAGED,
-        SYNC_NOT_STARTED, SYNC_INIT_FAILED, SYNC_PRECHECK_FAILED, SYNC_IN_PROGRESS, SYNC_INTERNAL_ERROR,
-        SYNC_DISABLED, DELETING_DEVICE, UNDER_MAINTENANCE, QUARANTINED, UNASSOCIATED, UNREACHABLE, UNKNOWN.
-        Refer features for more details.
+        Status query parameter. Inventory related status of the network device. | status | Description | |
+        ---------------------- | -------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------
+        ------------------ | | `MANAGED` | The device is successfully managed. | | `SYNC_NOT_STARTED` | Sync
+        request is queued and pending processing. | | `SYNC_INIT_FAILED` | Sync initialization failed due to
+        bootstrap issues. | | `SYNC_PRECHECK_FAILED` | Device failed to meet necessary preconditions for sync. |
+        | `SYNC_IN_PROGRESS` | Sync with the device is in progress. | | `SYNC_INTERNAL_ERROR` | Encountered an
+        internal error during data collection, potentially leading to incomplete or outdated device information.
+        | | `SYNC_DISABLED` | Sync has been disabled on the device. | | `DELETING_DEVICE` | The device is being
+        deleted from Catalyst Center. | | `UNDER_MAINTENANCE` | The device is in maintenance mode. Assurance
+        will not raise alerts when the network device is in maintenance mode. | | `QUARANTINED` | The device is
+        in quarantined state. Inventory sync and provisioning are disabled for the device. | | `UNASSOCIATED` |
+        Access point is not associated with any WLC. | | `UNREACHABLE` | The device is not reachable by either
+        SNMP/HTTP/NETCONF or ICMP. | | `UNKNOWN` | All information from the device could not be collected, or
+        inventory collection was not started. It may be a temporary issue. Attempt to resync the device, and if
+        the error persists, contact Cisco TAC. |.
     type: str
   reachabilityStatus:
     description:
       - >
-        ReachabilityStatus query parameter. Reachability status of the network device. Available values
-        REACHABLE, ONLY_PING_REACHABLE, UNREACHABLE, UNKNOWN. Refer features for more details.
+        ReachabilityStatus query parameter. Reachability status of the network device. Possible values are *
+        `REACHABLE` - Device is reachable by SNMP (in case of network device) or HTTP (in case of compute device
+        or Meraki device). * `ONLY_PING_REACHABLE` - Mandatory protocol (SNMP/HTTP/NETCONF) failed for the
+        device. The device is reachable only by ICMP. * `UNREACHABLE` - Device is not reachable by either
+        SNMP/HTTP or ICMP. * `UNKNOWN` - Device reachability status can't be determined. The product hasn't
+        interacted with the device yet, or the parent device that controls the device is unreachable.
     type: str
   managementState:
     description:
       - >
-        ManagementState query parameter. The status of the network device's manageability. Available statuses
-        are MANAGED, UNDER_MAINTENANCE, NEVER_MANAGED. Refer features for more details.
+        ManagementState query parameter. The status of the network device's manageability. Possible values are *
+        `MANAGED` Device is managed. * `UNDER_MAINTENANCE` Device is in service maintenance. * `NEVER_MANAGED`
+        Device has never been managed.
     type: str
-  views:
+  secureMode:
     description:
-      - >
-        Views query parameter. The specific views being requested. This is an optional parameter which can be
-        passed to get one or more of the network device data. If this is not provided, then it will default to
-        BASIC views. If multiple views are provided, the response will contain the union of the views. Refer
-        features for more details. Available values BASIC, RESYNC, USER_DEFINED_FIELDS.
+      - SecureMode query parameter. Security mode of the network device.
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   offset:
     description:
@@ -89,13 +119,7 @@ options:
     type: int
   sortBy:
     description:
-      - >
-        SortBy query parameter. A property within the response to sort by. Available values id,
-        managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, type, family, series,
-        platformids, softwareType, softwareVersion, vendor, bootTime, role, roleSource, apEthernetMacAddress,
-        apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, reachabilityFailureReason,
-        resyncStartTime, resyncEndTime, resyncReasons, pendingResyncRequestCount, pendingResyncRequestReasons,
-        resyncIntervalSource, resyncIntervalMinutes.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
@@ -132,20 +156,21 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
-    managementAddress: string
-    serialNumber: string
-    family: string
-    stackDevice: string
-    role: string
+    id: e910e834-e35b-4800-9401-a40e22ce09f3
+    managementAddress: 1.1.1.1
+    serialNumber: FDO20120QWY
+    family: Switch
+    stackDevice: True
+    role: ACCESS
     status: string
-    reachabilityStatus: string
-    managementState: string
-    views: string
+    reachabilityStatus: REACHABLE
+    managementState: MANAGED
+    secureMode: UNKNOWN
+    views: ['BASIC']
     limit: 0
-    offset: 0
-    sortBy: string
-    order: string
+    offset: 1
+    sortBy: macAddress
+    order: asc
   register: result
 - name: Get Network Devices Intent by id
   cisco.catalystcenter.network_devices_intent_info:
@@ -157,7 +182,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    views: string
+    views: ['BASIC']
     id: string
   register: result
 """
@@ -168,61 +193,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "managementAddress": "string",
-          "dnsResolvedManagementIpAddress": "string",
-          "hostname": "string",
-          "macAddress": "string",
-          "serialNumbers": [
-            "string"
-          ],
-          "type": "string",
-          "family": "string",
-          "series": "string",
-          "status": "string",
-          "platformIds": [
-            "string"
-          ],
-          "softwareType": "string",
-          "softwareVersion": "string",
-          "vendor": "string",
-          "stackDevice": true,
-          "bootTime": 0,
-          "role": "string",
-          "roleSource": "string",
-          "apEthernetMacAddress": "string",
-          "apManagerInterfaceIpAddress": "string",
-          "apWlcIpAddress": "string",
-          "deviceSupportLevel": "string",
-          "snmpLocation": "string",
-          "snmpContact": "string",
-          "reachabilityStatus": "string",
-          "reachabilityFailureReason": "string",
-          "managementState": "string",
-          "lastSuccessfulResyncReasons": [
-            "string"
-          ],
-          "resyncStartTime": 0,
-          "resyncEndTime": 0,
-          "resyncReasons": [
-            "string"
-          ],
-          "resyncRequestedByApps": [
-            "string"
-          ],
-          "pendingResyncRequestCount": 0,
-          "pendingResyncRequestReasons": [
-            "string"
-          ],
-          "resyncIntervalSource": "string",
-          "resyncIntervalMinutes": 0,
-          "errorCode": "string",
-          "errorDescription": "string",
-          "userDefinedFields": {}
-        }
-      ],
+      "response": {},
       "version": "string"
     }
 """

@@ -25,6 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -117,19 +118,7 @@ class SdaAuthenticationProfiles(object):
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
 
-        obj_params = [
-            ("id", "id"),
-            ("fabricId", "fabricId"),
-            ("authenticationProfileName", "authenticationProfileName"),
-            ("authenticationOrder", "authenticationOrder"),
-            ("dot1xToMabFallbackTimeout", "dot1xToMabFallbackTimeout"),
-            ("wakeOnLan", "wakeOnLan"),
-            ("numberOfHosts", "numberOfHosts"),
-            ("isBpduGuardEnabled", "isBpduGuardEnabled"),
-            ("isVoiceVlanEnabled", "isVoiceVlanEnabled"),
-            ("preAuthAcl", "preAuthAcl"),
-        ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
+        obj_params = []
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

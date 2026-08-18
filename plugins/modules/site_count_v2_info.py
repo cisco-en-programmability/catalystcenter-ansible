@@ -10,7 +10,7 @@ module: site_count_v2_info
 short_description: Information module for Site Count V2
 description:
   - Get all Site Count V2.
-  - Get the site count of the specified site's sub-hierarchy inclusive of the provided site .
+  - Get the site count of the specified site's sub-hierarchy inclusive of the.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sites GetSiteCountV2
-    description: Complete reference of the GetSiteCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-count-v-2
+  - name: Cisco Catalyst Center documentation for Sites GetSiteCount
+    description: Complete reference of the GetSiteCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-count
 notes:
   - SDK Method used are
-    sites.Sites.get_site_count_v2,
+    sites.Sites.get_site_count,
   - Paths used are
     get /dna/intent/api/v2/site/count,
 """

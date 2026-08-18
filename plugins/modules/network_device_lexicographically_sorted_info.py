@@ -153,8 +153,8 @@ EXAMPLES = r"""
     role: string
     roleSource: string
     associatedWlcIp: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

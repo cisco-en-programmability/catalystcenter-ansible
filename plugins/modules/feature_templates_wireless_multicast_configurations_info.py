@@ -64,8 +64,8 @@ catalystcenter_response:
         "id": "string",
         "featureAttributes": {
           "globalMulticastEnabled": true,
-          "multicastIpv4Mode": "string",
-          "multicastIpv4Address": "string",
+          "multicastMode": "string",
+          "multicastAddress": "string",
           "multicastIpv6Mode": "string",
           "multicastIpv6Address": "string"
         },

@@ -252,8 +252,8 @@ EXAMPLES = r"""
     module_operationstatecode: []
     id: string
     deviceSupportLevel: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Network Device by id
   cisco.catalystcenter.network_device_info:

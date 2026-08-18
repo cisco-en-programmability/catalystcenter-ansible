@@ -75,7 +75,7 @@ class SitesDnsSettings(object):
         try:
             items = self.catalystcenter.exec(
                 family="network_settings",
-                function="retrieve_d_n_s_settings_for_a_site",
+                function="retrieve_dns_settings_for_a_site",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -121,7 +121,6 @@ class SitesDnsSettings(object):
             ("dns", "dns"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -136,7 +135,7 @@ class SitesDnsSettings(object):
         result = None
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="set_d_n_s_settings_for_a_site",
+            function="set_dns_settings_for_a_site",
             params=self.update_all_params(),
             op_modifies=True,
         )

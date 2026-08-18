@@ -20,7 +20,7 @@ options:
     description: PolicyId path parameter. The `id` of the compliance policy.
     type: str
   siteIds:
-    description: An array of root site IDs linked to the policy. The `id` of the policy root site.
+    description: An array of root site IDs linked to the policy.
     elements: str
     type: list
 requirements:
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    policyId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
     siteIds:
       - string
 """

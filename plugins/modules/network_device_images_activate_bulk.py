@@ -9,12 +9,11 @@ DOCUMENTATION = r"""
 module: network_device_images_activate_bulk
 short_description: Resource module for Network Device Images Activate Bulk
 description:
-  - Manage operation create of the resource Network Device Images Activate Bulk.
-  - This API initiates the process of updating the software image on the given network devices.
-  - Providing value for the `installedImages` in request payload will initiate both distribution and activation.
-  - At the end of this process, only the images which are part of `installedImages` will be running on the devices.
-  - To monitor the progress and completion of the update task, call the GET API
-    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
+  - Manage operation create of the resource Network Device Images Activate Bulk. - > This API initiates the process of updating
+    the software image on the given network devices. Providing value for the `installedImages` in request payload will initiate
+    both distribution and activation of the images. At the end of this process, only the images which are part of `installedImages`
+    will be running on the network devices. To monitor the progress and completion of the update task, call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
+    where `taskId` is from the response of the current endpoint.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -25,7 +24,8 @@ options:
     elements: dict
     suboptions:
       compatibleFeatures:
-        description: Network Device Images Activate Bulk's compatibleFeatures.
+        description: The list of functionalities or capabilities that are supported or compatible with a particular device.
+          For example, it determines whether ISSU, Rommon update, etc. Can be enabled on the device.
         elements: dict
         suboptions:
           key:
@@ -39,7 +39,10 @@ options:
         description: Network device identifier.
         type: str
       installedImages:
-        description: Network Device Images Activate Bulk's installedImages.
+        description: Initiate both the distribution and activation of the images. At the end of this process, only the images
+          that are fetched from the GET API `/dna/intent/api/v1/images?imported=true` and are part of the `installedImages`
+          will be running on the network device. If there are no image ids available, they will be retrieved from the golden
+          bundle as part of the workflow.
         elements: dict
         suboptions:
           id:

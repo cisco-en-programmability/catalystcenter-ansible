@@ -22,57 +22,17 @@ options:
   payload:
     description: Floors Floor Id Access Point Positions Bulk Change's payload.
     elements: dict
-    suboptions:
-      id:
-        description: Access Point Id.
-        type: str
-      position:
-        description: Floors Floor Id Access Point Positions Bulk Change's position.
-        suboptions:
-          x:
-            description: Access Point X coordinate in feet.
-            type: float
-          y:
-            description: Access Point Y coordinate in feet.
-            type: float
-          z:
-            description: Access Point Z coordinate in feet.
-            type: float
-        type: dict
-      radios:
-        description: Floors Floor Id Access Point Positions Bulk Change's radios.
-        elements: dict
-        suboptions:
-          antenna:
-            description: Floors Floor Id Access Point Positions Bulk Change's antenna.
-            suboptions:
-              azimuth:
-                description: Angle of the antenna, measured relative to the x axis, clockwise. The azimuth range is from 0
-                  through 360.
-                type: int
-              elevation:
-                description: Elevation of the antenna. The elevation range is from -90 through 90.
-                type: int
-              name:
-                description: Antenna type for this Access Point. Use `/dna/intent/api/v1/maps/supported-access-points` to
-                  find supported Antennas for a particualr Access Point model.
-                type: str
-            type: dict
-          id:
-            description: Radio Id.
-            type: str
-        type: list
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design EditTheAccessPointsPositionsV2
-    description: Complete reference of the EditTheAccessPointsPositionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions-v-2
+  - name: Cisco Catalyst Center documentation for Site Design EditTheAccessPointsPositions
+    description: Complete reference of the EditTheAccessPointsPositions API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-the-access-points-positions
 notes:
   - SDK Method used are
-    site_design.SiteDesign.edit_the_access_points_positions_v2,
+    site_design.SiteDesign.edit_the_access_points_positions,
   - Paths used are
     post /dna/intent/api/v2/floors/{floorId}/accessPointPositions/bulkChange,
 """
@@ -90,17 +50,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     floorId: string
     payload:
-      - id: string
-        position:
-          x: 0
-          y: 0
-          z: 0
-        radios:
-          - antenna:
-              azimuth: 0
-              elevation: 0
-              name: string
-            id: string
+      - {}
 """
 RETURN = r"""
 catalystcenter_response:
@@ -109,9 +59,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

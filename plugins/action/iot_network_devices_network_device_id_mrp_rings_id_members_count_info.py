@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="industrial_configuration",
-            function="retrieves_the_count_of_m_r_p_ring_members",
+            function="retrieves_the_count_of_mrp_ring_members",
             params=self.get_object(self._task.args),
         )
         self._result.update(

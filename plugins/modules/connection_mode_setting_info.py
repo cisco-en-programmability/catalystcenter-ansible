@@ -11,7 +11,7 @@ short_description: Information module for Connection Mode Setting
 description:
   - Get all Connection Mode Setting.
   - Retrieves Cisco Smart Software Manager CSSM connection mode setting.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-cssm-connection-mode
 notes:
   - SDK Method used are
-    licenses.Licenses.retrieves_c_s_s_m_connection_mode,
+    licenses.Licenses.retrieves_cssm_connection_mode,
   - Paths used are
     get /dna/intent/api/v1/connectionModeSetting,
 """

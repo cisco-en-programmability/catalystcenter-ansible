@@ -43,7 +43,22 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    (
+        "state",
+        "present",
+        [
+            "id",
+            "device1ManagementIPAddress",
+            "device1Uuid",
+            "device2ManagementIPAddress",
+            "device2Uuid",
+            "portChannelMembers",
+        ],
+        True,
+    ),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -168,7 +183,6 @@ class LanAutomationPortChannels(object):
             ("portChannelMembers", "portChannelMembers"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

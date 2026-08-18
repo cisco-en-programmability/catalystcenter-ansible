@@ -17,75 +17,75 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   acceptEula:
-    description: Accept Eula.
+    description: Pnp Global Settings's acceptEula.
     type: str
   defaultProfile:
     description: Pnp Global Settings's defaultProfile.
     suboptions:
       cert:
-        description: Cert.
+        description: Pnp Global Settings's cert.
         type: str
       fqdnAddresses:
-        description: Fqdn Addresses.
+        description: Pnp Global Settings's fqdnAddresses.
         elements: str
         type: list
       ipAddresses:
-        description: Ip Addresses.
+        description: Pnp Global Settings's ipAddresses.
         elements: str
         type: list
       port:
-        description: Port.
+        description: Pnp Global Settings's port.
         type: str
       proxy:
-        description: Proxy.
+        description: Pnp Global Settings's proxy.
         type: str
     type: dict
   id:
-    description: Id.
+    description: Pnp Global Settings's id.
     type: str
   savaMappingList:
     description: Pnp Global Settings's savaMappingList.
     elements: dict
     suboptions:
       ccoUser:
-        description: Cco User.
+        description: Pnp Global Settings's ccoUser.
         type: str
       expiry:
-        description: Expiry.
+        description: Pnp Global Settings's expiry.
         type: str
       profile:
         description: Pnp Global Settings's profile.
         suboptions:
           addressFqdn:
-            description: Address Fqdn.
+            description: Pnp Global Settings's addressFqdn.
             type: str
           addressIpV4:
-            description: Address Ip V4.
+            description: Pnp Global Settings's addressIpV4.
             type: str
           cert:
-            description: Cert.
+            description: Pnp Global Settings's cert.
             type: str
           makeDefault:
-            description: Make Default.
+            description: Pnp Global Settings's makeDefault.
             type: str
           name:
-            description: Name.
+            description: Pnp Global Settings's name.
             type: str
           port:
-            description: Port.
+            description: Pnp Global Settings's port.
             type: str
           profileId:
-            description: Profile Id.
+            description: Pnp Global Settings's profileId.
             type: str
           proxy:
-            description: Proxy.
+            description: Pnp Global Settings's proxy.
             type: str
         type: dict
       smartAccountId:
-        description: Smart Account Id.
+        description: Pnp Global Settings's smartAccountId.
         type: str
       virtualAccountId:
-        description: Virtual Account Id.
+        description: Pnp Global Settings's virtualAccountId.
         type: str
     type: list
 requirements:

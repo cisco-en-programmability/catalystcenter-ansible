@@ -153,7 +153,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update by id
   cisco.catalystcenter.pnp_workflow:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -171,6 +171,7 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
+    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0
@@ -208,7 +209,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
-- name: Update by id
+- name: Create
   cisco.catalystcenter.pnp_workflow:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -226,7 +227,6 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
-    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0

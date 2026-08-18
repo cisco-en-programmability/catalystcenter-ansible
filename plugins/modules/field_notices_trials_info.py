@@ -11,7 +11,7 @@ short_description: Information module for Field Notices Trials
 description:
   - Get all Field Notices Trials.
   - Get trial details for field notices detection on network devices.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

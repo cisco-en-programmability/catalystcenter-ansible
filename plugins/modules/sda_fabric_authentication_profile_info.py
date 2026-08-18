@@ -24,7 +24,6 @@ options:
       - SiteNameHierarchy query parameter.
     type: str
   authenticateTemplateName:
-    version_added: "4.0.0"
     description:
       - AuthenticateTemplateName query parameter.
     type: str
@@ -54,8 +53,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteNameHierarchy: string
-    authenticateTemplateName: string
+    siteNameHierarchy: application/json
+    authenticateTemplateName: application/json
   register: result
 """
 RETURN = r"""

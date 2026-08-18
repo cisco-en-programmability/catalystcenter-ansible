@@ -28,8 +28,11 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
@@ -47,9 +50,6 @@ argument_spec.update(
         connectedNetworkDeviceName=dict(type="str"),
         ssid=dict(type="str"),
         band=dict(type="str"),
-        view=dict(type="str"),
-        attribute=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -91,8 +91,12 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            view=params.get("view"),
+            attribute=params.get("attribute"),
+            headers=params.get("headers"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
@@ -110,10 +114,6 @@ class ActionModule(ActionBase):
             connected_network_device_name=params.get("connectedNetworkDeviceName"),
             ssid=params.get("ssid"),
             band=params.get("band"),
-            view=params.get("view"),
-            attribute=params.get("attribute"),
-            headers=params.get("headers"),
-            id=params.get("id"),
         )
         return new_object
 

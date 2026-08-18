@@ -10,7 +10,7 @@ module: swim_image_details_info
 short_description: Information module for Swim Image Details
 description:
   - Get all Swim Image Details.
-  - Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
+  - Returns software image list based on a filter criteria. For example.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -125,14 +125,14 @@ EXAMPLES = r"""
     version: string
     imageSeries: string
     imageName: string
-    isTaggedGolden: true
-    isCCORecommended: true
-    isCCOLatest: true
+    isTaggedGolden: True
+    isCCORecommended: True
+    isCCOLatest: True
     createdTime: 0
     imageSizeGreaterThan: 0
     imageSizeLesserThan: 0
     sortBy: string
-    sortOrder: string
+    sortOrder: asc
     limit: 0
     offset: 0
   register: result

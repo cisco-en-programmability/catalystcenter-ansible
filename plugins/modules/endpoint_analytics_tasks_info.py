@@ -11,7 +11,7 @@ short_description: Information module for Endpoint Analytics Tasks
 description:
   - Get Endpoint Analytics Tasks by id. - > Fetches the details of backend task. Task is typically created by making call
     to some other API that takes longer time to execute.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.get_task_details,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_task_details,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/tasks/{taskId},
 """

@@ -27,6 +27,12 @@ options:
         TemplateId path parameter. The id of the template to get versions of, retrieveable from `GET
         /dna/intent/api/v1/templates`.
     type: str
+  versionId:
+    description:
+      - >
+        VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
+        /dna/intent/api/v1/templates/{id}/versions`.
+    type: str
   versionNumber:
     description:
       - VersionNumber query parameter. Filter response to only get the template version that matches this version number.
@@ -47,12 +53,6 @@ options:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
-  versionId:
-    description:
-      - >
-        VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
-        /dna/intent/api/v1/templates/{id}/versions`.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -85,10 +85,10 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     versionNumber: 0
-    latestVersion: true
-    order: string
-    limit: 0
-    offset: 0
+    latestVersion: True
+    order: asc
+    limit: 500
+    offset: 1
     templateId: string
   register: result
 - name: Get Templates Template Id Versions by id

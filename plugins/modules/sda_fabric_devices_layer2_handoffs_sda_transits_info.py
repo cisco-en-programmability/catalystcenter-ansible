@@ -10,7 +10,7 @@ module: sda_fabric_devices_layer2_handoffs_sda_transits_info
 short_description: Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits
 description:
   - Get all Sda Fabric Devices Layer2 Handoffs Sda Transits.
-  - Returns a list of layer 3 handoffs with sda transit of fabric devices that match the provided query parameters.
+  - Returns a list of layer 3 handoffs with sda transit of fabric devices that.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     networkDeviceId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -78,20 +78,15 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "name": "string",
-          "siteId": "string",
-          "type": "string",
-          "ipTransitSettings": {
-            "routingProtocolName": "string",
-            "autonomousSystemNumber": "string"
-          },
-          "sdaTransitSettings": {
-            "isMulticastOverTransitEnabled": true,
-            "controlPlaneNetworkDeviceIds": [
-              "string"
-            ]
-          }
+          "networkDeviceId": "string",
+          "fabricId": "string",
+          "transitNetworkId": "string",
+          "affinityIdPrime": 0,
+          "affinityIdDecider": 0,
+          "connectedToInternet": true,
+          "isMulticastOverTransitEnabled": true,
+          "isDualStack": true,
+          "lispTransportType": "string"
         }
       ],
       "version": "string"

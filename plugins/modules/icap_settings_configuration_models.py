@@ -10,13 +10,7 @@ module: icap_settings_configuration_models
 short_description: Resource module for Icap Settings Configuration Models
 description:
   - Manage operation create of the resource Icap Settings Configuration Models.
-  - This creates an ICAP configuration intent for preview approval.
-  - The intent is not deployed to the device until further preview-approve APIs are applied.
-  - This API is the first step in the preview-approve workflow, which consists of several APIs.
-  - Skipping any API in the process is not recommended for a complete preview-approve use case.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Creates an ICAP configuration intent for preview-approve.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -27,32 +21,32 @@ options:
     elements: dict
     suboptions:
       apId:
-        description: Ap Id.
+        description: Icap Settings Configuration Models's apId.
         type: str
       captureType:
-        description: Capture Type.
+        description: Icap Settings Configuration Models's captureType.
         type: str
       clientMac:
-        description: Client Mac.
+        description: Icap Settings Configuration Models's clientMac.
         type: str
       durationInMins:
-        description: Duration In Mins.
+        description: Icap Settings Configuration Models's durationInMins.
         type: int
       otaBand:
-        description: Ota Band.
+        description: Icap Settings Configuration Models's otaBand.
         type: str
       otaChannel:
-        description: Ota Channel.
+        description: Icap Settings Configuration Models's otaChannel.
         type: int
       otaChannelWidth:
-        description: Ota Channel Width.
+        description: Icap Settings Configuration Models's otaChannelWidth.
         type: int
-      slot:
-        description: Slot.
+      slots:
+        description: Icap Settings Configuration Models's slots.
         elements: float
         type: list
       wlcId:
-        description: Wlc Id.
+        description: Icap Settings Configuration Models's wlcId.
         type: str
     type: list
   previewDescription:
@@ -67,7 +61,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!creates-an-icap-configuration-intent-for-preview-approve
 notes:
   - SDK Method used are
-    sensors.Sensors.creates_an_i_cap_configuration_intent_for_preview_approve,
+    sensors.Sensors.creates_an_icap_configuration_intent_for_preview_approve,
   - Paths used are
     post /dna/intent/api/v1/icapSettings/configurationModels,
 """
@@ -91,7 +85,7 @@ EXAMPLES = r"""
         otaBand: string
         otaChannel: 0
         otaChannelWidth: 0
-        slot:
+        slots:
           - 0
         wlcId: string
     previewDescription: string

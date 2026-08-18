@@ -51,7 +51,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update all
   cisco.catalystcenter.business_sda_hostonboarding_ssid_ippool:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -66,7 +66,7 @@ EXAMPLES = r"""
     ssidNames:
       - string
     vlanName: string
-- name: Update all
+- name: Create
   cisco.catalystcenter.business_sda_hostonboarding_ssid_ippool:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

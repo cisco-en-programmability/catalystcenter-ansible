@@ -50,16 +50,16 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSetsV2
-    description: Complete reference of the CreateApplicationSetsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-application-sets-v-2
-  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSetV2
-    description: Complete reference of the DeleteApplicationSetV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSets
+    description: Complete reference of the CreateApplicationSets API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-application-sets
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSet
+    description: Complete reference of the DeleteApplicationSet API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_sets_v2,
-    application_policy.ApplicationPolicy.delete_application_set_v2,
+    application_policy.ApplicationPolicy.create_application_sets,
+    application_policy.ApplicationPolicy.delete_application_set,
   - Paths used are
     post /dna/intent/api/v2/application-policy-application-set,
     delete /dna/intent/api/v2/application-policy-application-set/{id},

@@ -10,8 +10,8 @@ module: discoverys_jobs_stop_create
 short_description: Resource module for Discoverys Jobs Stop Create
 description:
   - Manage operation create of the resource Discoverys Jobs Stop Create. - > This API is to be used to stop an ongoing discovery
-    job. After initiating discovery with the POST /dna/intent/api/v1/discoverys/{id}/jobs API, the response will contain a
-    jobId that can be used to stop that particular discovery job.
+    job. After initiating discovery with the `POST /dna/intent/api/v1/discoverys/{id}/jobs` API, the response will contain
+    a `jobId` that can be used to stop that particular discovery job.
 version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_multicast_virtual_networks_count_info
 short_description: Information module for Sda Multicast Virtual Networks Count
 description:
-  - Get all Sda Multicast Virtual Networks Count. - > Returns the count of multicast configurations associated to virtual
-    networks that match the provided query parameters.
+  - Get all Sda Multicast Virtual Networks Count.
+  - Returns the count of multicast configurations associated to virtual networks.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

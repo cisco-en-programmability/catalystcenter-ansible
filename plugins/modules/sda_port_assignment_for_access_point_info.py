@@ -20,7 +20,6 @@ options:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description:
       - DeviceManagementIpAddress query parameter.
     type: str
@@ -54,8 +53,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    deviceManagementIpAddress: string
-    interfaceName: string
+    deviceManagementIpAddress: application/json
+    interfaceName: application/json
   register: result
 """
 RETURN = r"""

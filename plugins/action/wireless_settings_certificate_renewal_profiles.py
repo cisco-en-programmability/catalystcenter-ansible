@@ -35,14 +35,22 @@ argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
         lscProfileName=dict(type="str"),
-        renewalType=dict(type="str"),
         renewalDueInDays=dict(type="int"),
-        CalendarProfileSetting=dict(type="dict"),
+        renewalType=dict(type="str"),
+        calendarProfile=dict(type="dict"),
         id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    (
+        "state",
+        "present",
+        ["id", "lscProfileName", "renewalDueInDays", "renewalType"],
+        True,
+    ),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -53,9 +61,9 @@ class WirelessSettingsCertificateRenewalProfiles(object):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
             lscProfileName=params.get("lscProfileName"),
-            renewalType=params.get("renewalType"),
             renewalDueInDays=params.get("renewalDueInDays"),
-            CalendarProfileSetting=params.get("CalendarProfileSetting"),
+            renewalType=params.get("renewalType"),
+            calendarProfile=params.get("calendarProfile"),
             id=params.get("id"),
         )
 
@@ -74,11 +82,9 @@ class WirelessSettingsCertificateRenewalProfiles(object):
     def create_params(self):
         new_object_params = {}
         new_object_params["lscProfileName"] = self.new_object.get("lscProfileName")
-        new_object_params["renewalType"] = self.new_object.get("renewalType")
         new_object_params["renewalDueInDays"] = self.new_object.get("renewalDueInDays")
-        new_object_params["CalendarProfileSetting"] = self.new_object.get(
-            "CalendarProfileSetting"
-        )
+        new_object_params["renewalType"] = self.new_object.get("renewalType")
+        new_object_params["calendarProfile"] = self.new_object.get("calendarProfile")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -89,11 +95,9 @@ class WirelessSettingsCertificateRenewalProfiles(object):
     def update_by_id_params(self):
         new_object_params = {}
         new_object_params["lscProfileName"] = self.new_object.get("lscProfileName")
-        new_object_params["renewalType"] = self.new_object.get("renewalType")
         new_object_params["renewalDueInDays"] = self.new_object.get("renewalDueInDays")
-        new_object_params["CalendarProfileSetting"] = self.new_object.get(
-            "CalendarProfileSetting"
-        )
+        new_object_params["renewalType"] = self.new_object.get("renewalType")
+        new_object_params["calendarProfile"] = self.new_object.get("calendarProfile")
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -103,7 +107,7 @@ class WirelessSettingsCertificateRenewalProfiles(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get_l_s_c_certificate_renewal_profiles",
+                function="get_access_point_certificate_renewal_profile",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -119,7 +123,7 @@ class WirelessSettingsCertificateRenewalProfiles(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get_l_s_c_certificate_renewal_profile_by_id",
+                function="retrieve_the_access_point_certificate_renewal_profile_by_id",
                 params={"id": id},
             )
             if isinstance(items, dict):
@@ -160,12 +164,11 @@ class WirelessSettingsCertificateRenewalProfiles(object):
 
         obj_params = [
             ("lscProfileName", "lscProfileName"),
-            ("renewalType", "renewalType"),
             ("renewalDueInDays", "renewalDueInDays"),
-            ("CalendarProfileSetting", "CalendarProfileSetting"),
+            ("renewalType", "renewalType"),
+            ("calendarProfile", "calendarProfile"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -177,7 +180,7 @@ class WirelessSettingsCertificateRenewalProfiles(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="wireless",
-            function="create_l_s_c_certificate_renewal_profile",
+            function="create_access_point_certificate_renewal_profile",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -196,7 +199,7 @@ class WirelessSettingsCertificateRenewalProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="update_l_s_c_certificate_renewal_profile",
+            function="update_access_point_certificate_renewal_profile",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -215,7 +218,7 @@ class WirelessSettingsCertificateRenewalProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="delete_l_s_c_certificate_renewal_profile_by_id",
+            function="delete_access_point_certificate_renewal_profile",
             params=self.delete_by_id_params(),
         )
         return result

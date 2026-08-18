@@ -20,7 +20,7 @@ options:
     description: Id path parameter. ID of the port channel.
     type: str
   portChannelMembers:
-    description: Lan Automation Port Channels Id Add Link's portChannelMembers.
+    description: List of interfaces to be part of Port Channel.
     elements: dict
     suboptions:
       device1Interface:

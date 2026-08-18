@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummary
+  - name: Cisco Catalyst Center documentation for Platform CiscoCatalystCenterReleaseSummary
     description: Complete reference of the CiscoCatalystCenterReleaseSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
   - SDK Method used are
-    platform_configuration.PlatformConfiguration.release_summary,
+    platform.Platform.release_summary,
   - Paths used are
     get /dna/intent/api/v1/dnac-release,
 """
@@ -65,9 +65,7 @@ catalystcenter_response:
         "name": "string",
         "installedVersion": "string",
         "systemVersion": "string",
-        "supportedDirectUpdates": [
-          "string"
-        ],
+        "supportedDirectUpdates": [],
         "tenantId": "string"
       }
     }

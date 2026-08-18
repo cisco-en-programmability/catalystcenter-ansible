@@ -34,15 +34,14 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present"]),
-        id=dict(type="str"),
-        enableWireless=dict(type="bool"),
-        rollingApUpgrade=dict(type="dict"),
+        payload=dict(type="list"),
         fabricId=dict(type="str"),
     )
 )
 
 required_if = [
     ("state", "present", ["fabricId"], True),
+    ("state", "present", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -53,9 +52,7 @@ class FabricsFabricIdSwitchWirelessSetting(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
-            id=params.get("id"),
-            enableWireless=params.get("enableWireless"),
-            rollingApUpgrade=params.get("rollingApUpgrade"),
+            payload=params.get("payload"),
             fabric_id=params.get("fabricId"),
         )
 
@@ -68,9 +65,7 @@ class FabricsFabricIdSwitchWirelessSetting(object):
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params["id"] = self.new_object.get("id")
-        new_object_params["enableWireless"] = self.new_object.get("enableWireless")
-        new_object_params["rollingApUpgrade"] = self.new_object.get("rollingApUpgrade")
+        new_object_params["payload"] = self.new_object.get("payload")
         new_object_params["fabricId"] = self.new_object.get("fabricId")
         return new_object_params
 
@@ -100,8 +95,11 @@ class FabricsFabricIdSwitchWirelessSetting(object):
         prev_obj = None
         id_exists = False
         name_exists = False
-        o_id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        requested_obj = self.new_object.get("payload")
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
+        o_id = self.new_object.get("id") or requested_obj.get("id")
+        name = self.new_object.get("name") or requested_obj.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
             id_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -120,15 +118,18 @@ class FabricsFabricIdSwitchWirelessSetting(object):
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
-        requested_obj = self.new_object
+        requested_obj = self.new_object.get("payload")
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
 
         obj_params = [
             ("id", "id"),
-            ("enableWireless", "enableWireless"),
+            ("deviceRoles", "deviceRoles"),
             ("rollingApUpgrade", "rollingApUpgrade"),
+            ("lscProfileName", "lscProfileName"),
+            ("lscPercentage", "lscPercentage"),
             ("fabricId", "fabric_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -138,8 +139,11 @@ class FabricsFabricIdSwitchWirelessSetting(object):
         )
 
     def update(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
+        requested_obj = self.new_object.get("payload")
+        if requested_obj and len(requested_obj) > 0:
+            requested_obj = requested_obj[0]
+        id = self.new_object.get("id") or requested_obj.get("id")
+        name = self.new_object.get("name") or requested_obj.get("name")
         result = None
         result = self.catalystcenter.exec(
             family="fabric_wireless",

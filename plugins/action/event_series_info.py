@@ -33,7 +33,7 @@ argument_spec.update(
         endTime=dict(type="float"),
         category=dict(type="str"),
         type=dict(type="str"),
-        severity=dict(type="str"),
+        severity=dict(type="int"),
         domain=dict(type="str"),
         subDomain=dict(type="str"),
         source=dict(type="str"),

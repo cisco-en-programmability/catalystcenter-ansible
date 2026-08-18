@@ -9,56 +9,18 @@ DOCUMENTATION = r"""
 module: sites_aaa_settings
 short_description: Resource module for Sites Aaa Settings
 description:
-  - Manage operation update of the resource Sites Aaa Settings. - > Set AAA settings for a site; `null` values indicate that
-    the settings will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Aaa Settings.
+  - Sets AAA settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   aaaClient:
-    description: Sites Aaa Settings's aaaClient.
-    suboptions:
-      pan:
-        description: Administration Node. Required for ISE.
-        type: str
-      primaryServerIp:
-        description: The server to use as a primary.
-        type: str
-      protocol:
-        description: Protocol.
-        type: str
-      secondaryServerIp:
-        description: The server to use as a secondary.
-        type: str
-      serverType:
-        description: Server Type.
-        type: str
-      sharedSecret:
-        description: Shared Secret.
-        type: str
+    description: AAA/ISE client settings.
     type: dict
   aaaNetwork:
-    description: Sites Aaa Settings's aaaNetwork.
-    suboptions:
-      pan:
-        description: Administration Node. Required for ISE.
-        type: str
-      primaryServerIp:
-        description: The server to use as a primary.
-        type: str
-      protocol:
-        description: Protocol.
-        type: str
-      secondaryServerIp:
-        description: The server to use as a secondary.
-        type: str
-      serverType:
-        description: Server Type.
-        type: str
-      sharedSecret:
-        description: Shared Secret.
-        type: str
+    description: AAA/ISE network settings.
     type: dict
   id:
     description: Id path parameter. Site Id.
@@ -89,21 +51,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    aaaClient:
-      pan: string
-      primaryServerIp: string
-      protocol: string
-      secondaryServerIp: string
-      serverType: string
-      sharedSecret: string
-    aaaNetwork:
-      pan: string
-      primaryServerIp: string
-      protocol: string
-      secondaryServerIp: string
-      serverType: string
-      sharedSecret: string
-    id: string
+    aaaClient: {}
+    aaaNetwork: {}
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
 """
 RETURN = r"""
 catalystcenter_response:
@@ -112,9 +62,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

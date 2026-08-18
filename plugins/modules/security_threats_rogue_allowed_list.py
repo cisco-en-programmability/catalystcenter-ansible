@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list
-short_description: Resource module for Security Threats Rogue Allowed-List
+short_description: Resource module for Security Threats Rogue Allowed List
 description:
-  - Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
+  - Manage operations create and delete of the resource Security Threats Rogue Allowed List.
   - Intent API to add the threat mac address to allowed list.
   - Intent API to remove the threat mac address from allowed list.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

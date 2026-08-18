@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="industrial_configuration",
-            function="retrieves_the_list_of_rep_rings",
+            function="retrieve_the_list_rep_rings",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -44,7 +44,23 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    (
+        "state",
+        "present",
+        [
+            "id",
+            "cliCredential",
+            "snmpV2cRead",
+            "snmpV2cWrite",
+            "snmpV3",
+            "httpsRead",
+            "httpsWrite",
+        ],
+        True,
+    ),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -98,7 +114,7 @@ class GlobalCredentialV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="discovery",
-                function="get_all_global_credentials_v2",
+                function="get_all_global_credentials",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -115,7 +131,7 @@ class GlobalCredentialV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="discovery",
-                function="get_all_global_credentials_v2",
+                function="get_all_global_credentials",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -161,7 +177,6 @@ class GlobalCredentialV2(object):
             ("httpsWrite", "httpsWrite"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -173,7 +188,7 @@ class GlobalCredentialV2(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="discovery",
-            function="create_global_credentials_v2",
+            function="create_global_credentials",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -185,7 +200,7 @@ class GlobalCredentialV2(object):
         result = None
         result = self.catalystcenter.exec(
             family="discovery",
-            function="update_global_credentials_v2",
+            function="update_global_credentials",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -204,7 +219,7 @@ class GlobalCredentialV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="discovery",
-            function="delete_global_credential_v2",
+            function="delete_global_credential",
             params=self.delete_by_id_params(),
         )
         return result

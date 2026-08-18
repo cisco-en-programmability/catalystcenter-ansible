@@ -17,7 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   networkDevices:
-    description: Application Visibility Network Devices Enable Cbar's networkDevices.
+    description: List of network devices where CBAR has to be enabled.
     elements: dict
     suboptions:
       excludeInterfaceIds:
@@ -46,7 +46,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!enable-cbar-feature-on-multiple-network-devices
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.enable_c_b_a_r_feature_on_multiple_network_devices,
+    application_policy.ApplicationPolicy.enable_cbar_feature_on_multiple_network_devices,
   - Paths used are
     post /dna/intent/api/v1/applicationVisibility/networkDevices/enableCbar,
 """

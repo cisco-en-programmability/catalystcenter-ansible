@@ -87,7 +87,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
     domain: string
@@ -152,9 +152,7 @@ catalystcenter_response:
           "categories": [
             "string"
           ],
-          "severities": [
-            "string"
-          ],
+          "severities": [],
           "sources": [
             "string"
           ],

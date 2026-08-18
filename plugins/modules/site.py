@@ -20,10 +20,10 @@ options:
     description: Additional headers.
     type: dict
   site:
-    description: Site's site.
+    description: Site details.
     suboptions:
       area:
-        description: Site's area.
+        description: Area details.
         suboptions:
           name:
             description: Name of the area (eg Area1).
@@ -33,7 +33,7 @@ options:
             type: str
         type: dict
       building:
-        description: Site's building.
+        description: Building details.
         suboptions:
           address:
             description: Address of the building to be created.

@@ -12,9 +12,9 @@ description:
   - Get all Network Device Replacements.
   - Get Network Device Replacements by id. - > Fetches the status of the device replacement workflow for a given device replacement
     `id`. Invoke the API `/dna/intent/api/v1/networkDeviceReplacements` to `GET` the list of all device replacements and use
-    the `id` field data as input to this API. - > Retrieve the list of device replacements with replacement details. Filters
-    can be applied based on faulty device name, faulty device platform, faulty device serial number, replacement device platform,
-    replacement device serial number, device replacement status, device family.
+    the `id` field data as input to this API. - > Retrieve device replacements with replacement details. Filterable by faulty
+    device name, platform, serial number, replacement device platform, serial number, replacement status, device family, and
+    out-of-band manual device replacement performed outside the system .
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,6 +23,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Instance UUID of the device replacement.
+    type: str
   family:
     description:
       - Family query parameter. Faulty device family.
@@ -47,20 +51,23 @@ options:
     description:
       - ReplacementDeviceSerialNumber query parameter. Replacement device serial number.
     type: str
+  outOfBand:
+    description:
+      - OutOfBand query parameter. Device replacements that were performed manually outside the system (out-of-band).
+    type: bool
   replacementStatus:
     description:
       - >
-        ReplacementStatus query parameter. Device replacement status. Available values MARKED_FOR_REPLACEMENT,
-        NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED, READY_FOR_REPLACEMENT, REPLACEMENT_SCHEDULED,
-        REPLACEMENT_IN_PROGRESS, REPLACED, ERROR. Replacement status 'MARKED_FOR_REPLACEMENT' - The faulty
-        device has been marked for replacement. 'NETWORK_READINESS_REQUESTED' - Initiated steps to shut down
-        neighboring device interfaces and create a DHCP server on the uplink neighbor if the faulty device is
-        part of a fabric setup. 'NETWORK_READINESS_FAILED' - Preparation of the network failed. Neighboring
-        device interfaces were not shut down, and the DHCP server on the uplink neighbor was not created.
-        'READY_FOR_REPLACEMENT' - The network is prepared for the faulty device replacement. Neighboring device
-        interfaces are shut down, and the DHCP server on the uplink neighbor is set up. 'REPLACEMENT_SCHEDULED'
-        - Device replacement has been scheduled. 'REPLACEMENT_IN_PROGRESS' - Device replacement is currently in
-        progress. 'REPLACED' - Device replacement was successful. 'ERROR' - Device replacement has failed.
+        ReplacementStatus query parameter. Device replacement status. Available values `MARKED_FOR_REPLACEMENT`
+        - The faulty device has been marked for replacement. `NETWORK_READINESS_REQUESTED` - Initiated steps to
+        shut down neighboring device interfaces and create a DHCP server on the uplink neighbor if the faulty
+        device is part of a fabric setup. `NETWORK_READINESS_FAILED` - Preparation of the network failed.
+        Neighboring device interfaces were not shut down, and the DHCP server on the uplink neighbor was not
+        created. `READY_FOR_REPLACEMENT` - The network is prepared for the faulty device replacement.
+        Neighboring device interfaces are shut down, and the DHCP server on the uplink neighbor is set up.
+        `REPLACEMENT_SCHEDULED` - Device replacement has been scheduled. `REPLACEMENT_IN_PROGRESS` - Device
+        replacement is currently in progress. `REPLACED` - Device replacement was successful. `ERROR` - Device
+        replacement has failed.
     type: str
   offset:
     description:
@@ -68,35 +75,27 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Maximum value can be 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   sortBy:
     description:
-      - >
-        SortBy query parameter. A property within the response to sort by. Available values id, creationTime,
-        family, faultyDeviceId, fautyDeviceName, faultyDevicePlatform, faultyDeviceSerialNumber,
-        replacementDevicePlatform, replacementDeviceSerialNumber, replacementTime.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   sortOrder:
     description:
-      - >
-        SortOrder query parameter. Whether ascending or descending order should be used to sort the response.
-        Available values ASC, DESC.
-    type: str
-  id:
-    description:
-      - Id path parameter. Instance UUID of the device replacement.
+      - SortOrder query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Device Replacement RetrieveAllDeviceReplacementWorkflows
-    description: Complete reference of the RetrieveAllDeviceReplacementWorkflows API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-all-device-replacement-workflows
-  - name: Cisco Catalyst Center documentation for Device Replacement RetrieveDeviceReplacementWorkflow
-    description: Complete reference of the RetrieveDeviceReplacementWorkflow API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-device-replacement-workflow
+  - name: Cisco Catalyst Center documentation for Device Replacement RetrieveTheStatusOfAllTheDeviceReplacementWorkflows
+    description: Complete reference of the RetrieveTheStatusOfAllTheDeviceReplacementWorkflows API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-all-the-device-replacement-workflows
+  - name: Cisco Catalyst Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
+    description: Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.retrieve_the_status_of_all_the_device_replacement_workflows,
@@ -124,11 +123,12 @@ EXAMPLES = r"""
     faultyDeviceSerialNumber: string
     replacementDevicePlatform: string
     replacementDeviceSerialNumber: string
-    replacementStatus: string
-    offset: 0
+    outOfBand: True
+    replacementStatus: REPLACEMENT_IN_PROGRESS
+    offset: 1
     limit: 0
-    sortBy: string
-    sortOrder: string
+    sortBy: creationTime
+    sortOrder: ASC
   register: result
 - name: Get Network Device Replacements by id
   cisco.catalystcenter.network_device_replacements_info:
@@ -150,38 +150,55 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "creationTime": 0,
-          "family": "string",
-          "faultyDeviceId": "string",
-          "faultyDeviceName": "string",
-          "faultyDevicePlatform": "string",
-          "faultyDeviceSerialNumber": "string",
+      "response": {
+        "id": "string",
+        "creationTime": {},
+        "family": "string",
+        "faultyDeviceId": "string",
+        "faultyDeviceName": "string",
+        "faultyDevicePlatform": "string",
+        "faultyDeviceSerialNumber": "string",
+        "neighborDeviceId": "string",
+        "replacementDevicePlatform": "string",
+        "replacementDeviceSerialNumber": "string",
+        "replacementStatus": {},
+        "replacementTime": {},
+        "workflow": {
           "id": "string",
-          "neighborDeviceId": "string",
-          "replacementDevicePlatform": "string",
-          "replacementDeviceSerialNumber": "string",
-          "replacementStatus": "string",
-          "replacementTime": 0,
-          "workflow": {
-            "id": "string",
-            "name": "string",
-            "workflowStatus": "string",
-            "startTime": 0,
-            "endTime": 0,
-            "steps": [
-              {
-                "name": "string",
-                "status": "string",
-                "statusMessage": "string",
-                "startTime": 0,
-                "endTime": 0
-              }
-            ]
-          }
-        }
-      ],
+          "name": "string",
+          "workflowStatus": "string",
+          "startTime": {},
+          "endTime": {},
+          "steps": [
+            {
+              "name": "string",
+              "status": "string",
+              "statusMessage": "string",
+              "startTime": {},
+              "endTime": {}
+            }
+          ]
+        },
+        "primaryGatewayIp": "string",
+        "primaryIpInterfaceName": "string",
+        "primaryWirelessManagementIp": "string",
+        "primaryNetmask": "string",
+        "primaryVlanId": 0,
+        "secondaryGatewayIp": "string",
+        "secondaryIpInterfaceName": "string",
+        "secondaryWirelessManagementIp": "string",
+        "secondaryNetmask": "string",
+        "secondaryVlanId": 0,
+        "configureSso": true,
+        "haSsoDetail": {
+          "peerDeviceSerialNumber": "string",
+          "redundancyIp": "string",
+          "localRedundancyIp": "string",
+          "haInterfaceName": "string",
+          "peerHaInterfaceName": "string"
+        },
+        "outOfBand": true
+      },
       "version": "string"
     }
 """

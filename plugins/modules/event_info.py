@@ -69,10 +69,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    eventId: string
+    eventId:
     tags: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result

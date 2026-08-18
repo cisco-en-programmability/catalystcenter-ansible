@@ -68,7 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

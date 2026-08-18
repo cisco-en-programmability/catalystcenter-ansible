@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Users GetUserEnrichmentDetails
-    description: Complete reference of the GetUserEnrichmentDetails API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
+  - name: Cisco Catalyst Center documentation for Users GetUserEnrichmentDetailsV1
+    description: Complete reference of the GetUserEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details-v-1
 notes:
   - SDK Method used are
-    users.Users.get_user_enrichment_details,
+    users.Users.get_user_enrichment_details_v1,
   - Paths used are
     get /dna/intent/api/v1/user-enrichment-details,
 """
@@ -76,7 +76,7 @@ catalystcenter_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            "string"
+            {}
           ],
           "authType": {},
           "vlanId": "string",
@@ -87,7 +87,7 @@ catalystcenter_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            "string"
+            {}
           ],
           "issueCount": 0,
           "rssi": {},

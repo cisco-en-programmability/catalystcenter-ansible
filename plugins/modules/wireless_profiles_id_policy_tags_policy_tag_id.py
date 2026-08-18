@@ -21,7 +21,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   apZones:
-    description: Ap Zones.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's apZones.
     elements: str
     type: list
   id:
@@ -31,10 +31,10 @@ options:
     description: PolicyTagId path parameter. Policy Tag Id.
     type: str
   policyTagName:
-    description: Policy Tag Name.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's policyTagName.
     type: str
   siteIds:
-    description: Site Ids.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's siteIds.
     elements: str
     type: list
 requirements:

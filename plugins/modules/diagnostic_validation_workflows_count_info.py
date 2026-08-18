@@ -73,21 +73,9 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "count": 0
+      },
       "version": "string"
     }
 """

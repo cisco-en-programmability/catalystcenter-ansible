@@ -20,35 +20,17 @@ author: Bryan Vargas (@bvargasre)
 options:
   addressSpace:
     description: Ipam Global Ip Address Pools's addressSpace.
-    suboptions:
-      dhcpServers:
-        description: The DHCP server(s) for this subnet.
-        elements: str
-        type: list
-      dnsServers:
-        description: The DNS server(s) for this subnet.
-        elements: str
-        type: list
-      gatewayIpAddress:
-        description: The gateway IP address for this subnet.
-        type: str
-      prefixLength:
-        description: The network mask component, as a decimal, for the CIDR notation of this subnet.
-        type: float
-      subnet:
-        description: The IP address component of the CIDR notation for this subnet.
-        type: str
     type: dict
   id:
-    description: Id path parameter. The `id` of the global IP address pool to delete.
+    description: The UUID for this global IP pool.
     type: str
   name:
     description: The name for this reserve IP pool. Only letters, numbers, '-' (hyphen), '_' (underscore), '.' (period), and
       '/' (forward slash) are allowed.
     type: str
   poolType:
-    description: Once created, a global pool type cannot be changed. Tunnel Assigns IP addresses to site-to-site VPN for IPSec
-      tunneling. Generic used for all other network types.
+    description: Once created, a global pool type cannot be changed. - Tunnel - Assigns IP addresses to site-to-site VPN for
+      IPSec tunneling. - Generic - used for all other network types.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -86,15 +68,23 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    addressSpace:
-      dhcpServers:
-        - string
-      dnsServers:
-        - string
-      gatewayIpAddress: string
-      prefixLength: 0
-      subnet: string
-    name: string
+    addressSpace: {}
+    id: string
+    name: {}
+    poolType: string
+- name: Update by id
+  cisco.catalystcenter.ipam_global_ip_address_pools:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    addressSpace: {}
+    id: string
+    name: {}
     poolType: string
 - name: Delete by id
   cisco.catalystcenter.ipam_global_ip_address_pools:
@@ -107,27 +97,6 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
-- name: Update by id
-  cisco.catalystcenter.ipam_global_ip_address_pools:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    addressSpace:
-      dhcpServers:
-        - string
-      dnsServers:
-        - string
-      gatewayIpAddress: string
-      prefixLength: 0
-      subnet: string
-    id: string
-    name: string
-    poolType: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -136,9 +105,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

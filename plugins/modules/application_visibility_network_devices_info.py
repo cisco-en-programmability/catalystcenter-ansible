@@ -143,10 +143,10 @@ EXAMPLES = r"""
     protocolPackStatus: string
     protocolPackUpdateStatus: string
     applicationRegistrySyncStatus: string
-    offset: 0
+    offset: 1
     limit: 0
     sortBy: string
-    order: string
+    order: asc
   register: result
 """
 RETURN = r"""

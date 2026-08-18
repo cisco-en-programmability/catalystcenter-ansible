@@ -23,7 +23,7 @@ options:
     description: Is it composite template.
     type: bool
   containingTemplates:
-    description: Configuration Template Create's containingTemplates.
+    description: Containing templates for composite template.
     elements: dict
     suboptions:
       composite:
@@ -33,7 +33,7 @@ options:
         description: Description of template.
         type: str
       deviceTypes:
-        description: Configuration Template Create's deviceTypes.
+        description: Applicable device types.
         elements: dict
         suboptions:
           productFamily:
@@ -59,7 +59,7 @@ options:
         description: Project name.
         type: str
       rollbackTemplateParams:
-        description: Configuration Template Create's rollbackTemplateParams.
+        description: Rollback template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -108,7 +108,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Create's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -125,7 +125,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Create's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -138,12 +138,12 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template Create's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
       tags:
-        description: Configuration Template Create's tags.
+        description: Tag object which needs to be applied on the template.
         elements: dict
         suboptions:
           id:
@@ -157,7 +157,7 @@ options:
         description: Template content.
         type: str
       templateParams:
-        description: Configuration Template Create's templateParams.
+        description: Template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -206,7 +206,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Create's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -223,7 +223,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Create's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -236,7 +236,7 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template Create's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
@@ -254,7 +254,7 @@ options:
     description: Description of template.
     type: str
   deviceTypes:
-    description: Configuration Template Create's deviceTypes.
+    description: Applicable device types.
     elements: dict
     suboptions:
       productFamily:
@@ -298,7 +298,7 @@ options:
     description: Rollback template content.
     type: str
   rollbackTemplateParams:
-    description: Configuration Template Create's rollbackTemplateParams.
+    description: Rollback template params(variables).
     elements: dict
     suboptions:
       binding:
@@ -347,7 +347,7 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template Create's range.
+        description: Range of param.
         elements: dict
         suboptions:
           id:
@@ -364,7 +364,7 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template Create's selection.
+        description: Selection of param.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -377,7 +377,7 @@ options:
             description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Configuration Template Create's selectionValues.
+            description: Selection values.
             type: dict
         type: dict
     type: list
@@ -391,7 +391,7 @@ options:
     description: Applicable device software version.
     type: str
   tags:
-    description: Configuration Template Create's tags.
+    description: Tag object which needs to be applied on the template.
     elements: dict
     suboptions:
       id:
@@ -405,7 +405,7 @@ options:
     description: Template content.
     type: str
   templateParams:
-    description: Configuration Template Create's templateParams.
+    description: Template params(variables).
     elements: dict
     suboptions:
       binding:
@@ -454,7 +454,7 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template Create's range.
+        description: Range of param.
         elements: dict
         suboptions:
           id:
@@ -471,7 +471,7 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template Create's selection.
+        description: Selection of param.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -484,12 +484,12 @@ options:
             description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Configuration Template Create's selectionValues.
+            description: Selection values.
             type: dict
         type: dict
     type: list
   validationErrors:
-    description: Configuration Template Create's validationErrors.
+    description: Validation Errors of template content.
     suboptions:
       rollbackTemplateErrors:
         description: Validation or design conflicts errors of rollback template.
@@ -697,7 +697,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

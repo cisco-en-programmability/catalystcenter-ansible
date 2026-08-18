@@ -35,10 +35,27 @@ argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
         id=dict(type="str"),
+        type=dict(type="str"),
+        description=dict(type="str"),
+        username=dict(type="str"),
+        password=dict(type="str", no_log=True),
+        enablePassword=dict(type="str", no_log=True),
+        readCommunity=dict(type="str"),
+        writeCommunity=dict(type="str"),
+        mode=dict(type="str"),
+        authType=dict(type="str"),
+        authPassword=dict(type="str", no_log=True),
+        privacyType=dict(type="str"),
+        privacyPassword=dict(type="str", no_log=True),
+        port=dict(type="str"),
+        protocol=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -49,6 +66,20 @@ class GlobalCredentials(object):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
             id=params.get("id"),
+            type=params.get("type"),
+            description=params.get("description"),
+            username=params.get("username"),
+            password=params.get("password"),
+            enablePassword=params.get("enablePassword"),
+            readCommunity=params.get("readCommunity"),
+            writeCommunity=params.get("writeCommunity"),
+            mode=params.get("mode"),
+            authType=params.get("authType"),
+            authPassword=params.get("authPassword"),
+            privacyType=params.get("privacyType"),
+            privacyPassword=params.get("privacyPassword"),
+            port=params.get("port"),
+            protocol=params.get("protocol"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -65,6 +96,21 @@ class GlobalCredentials(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["type"] = self.new_object.get("type")
+        new_object_params["description"] = self.new_object.get("description")
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+        new_object_params["readCommunity"] = self.new_object.get("readCommunity")
+        new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
+        new_object_params["mode"] = self.new_object.get("mode")
+        new_object_params["authType"] = self.new_object.get("authType")
+        new_object_params["authPassword"] = self.new_object.get("authPassword")
+        new_object_params["privacyType"] = self.new_object.get("privacyType")
+        new_object_params["privacyPassword"] = self.new_object.get("privacyPassword")
+        new_object_params["port"] = self.new_object.get("port")
+        new_object_params["protocol"] = self.new_object.get("protocol")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -74,6 +120,21 @@ class GlobalCredentials(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["type"] = self.new_object.get("type")
+        new_object_params["description"] = self.new_object.get("description")
+        new_object_params["username"] = self.new_object.get("username")
+        new_object_params["password"] = self.new_object.get("password")
+        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+        new_object_params["readCommunity"] = self.new_object.get("readCommunity")
+        new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
+        new_object_params["mode"] = self.new_object.get("mode")
+        new_object_params["authType"] = self.new_object.get("authType")
+        new_object_params["authPassword"] = self.new_object.get("authPassword")
+        new_object_params["privacyType"] = self.new_object.get("privacyType")
+        new_object_params["privacyPassword"] = self.new_object.get("privacyPassword")
+        new_object_params["port"] = self.new_object.get("port")
+        new_object_params["protocol"] = self.new_object.get("protocol")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -139,8 +200,20 @@ class GlobalCredentials(object):
 
         obj_params = [
             ("id", "id"),
+            ("type", "type"),
+            ("description", "description"),
+            ("username", "username"),
+            ("enablePassword", "enablePassword"),
+            ("readCommunity", "readCommunity"),
+            ("writeCommunity", "writeCommunity"),
+            ("mode", "mode"),
+            ("authType", "authType"),
+            ("authPassword", "authPassword"),
+            ("privacyType", "privacyType"),
+            ("privacyPassword", "privacyPassword"),
+            ("port", "port"),
+            ("protocol", "protocol"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

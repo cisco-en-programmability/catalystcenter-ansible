@@ -101,7 +101,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="retrieves_the_total_number_of_d_h_c_p_services_for_given_parameters",
+            function="retrieves_the_total_number_of_dhcp_services_for_given_parameters",
             params=self.get_object(self._task.args),
         )
         self._result.update(

@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server,
+    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ipam_server,
   - Paths used are
     get /dna/intent/api/v1/ipam/serverSetting,
 """
@@ -54,14 +54,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "provider": "string",
-        "serverName": "string",
-        "serverUrl": "string",
-        "state": "string",
-        "userName": "string",
-        "view": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

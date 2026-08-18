@@ -21,7 +21,7 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The id of the execution detail to be retrieved.
+      - Id path parameter. The `id` of the execution detail to be retrieved.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

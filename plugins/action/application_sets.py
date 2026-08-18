@@ -79,7 +79,7 @@ class ApplicationSets(object):
         try:
             items = self.catalystcenter.exec(
                 family="application_policy",
-                function="get_application_sets",
+                function="get_application_sets_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -96,7 +96,7 @@ class ApplicationSets(object):
         try:
             items = self.catalystcenter.exec(
                 family="application_policy",
-                function="get_application_sets",
+                function="get_application_sets_v1",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -142,7 +142,6 @@ class ApplicationSets(object):
             ("name", "name"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -154,7 +153,7 @@ class ApplicationSets(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="create_application_set",
+            function="create_application_set_v1",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -169,7 +168,7 @@ class ApplicationSets(object):
         result = None
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="delete_application_set",
+            function="delete_application_set_policy",
             params=self.delete_all_params(),
         )
         return result

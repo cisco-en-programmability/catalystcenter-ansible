@@ -9,12 +9,9 @@ DOCUMENTATION = r"""
 module: network_devices_count_info
 short_description: Information module for Network Devices Count
 description:
-  - Get all Network Devices Count.
-  - Gets the total Network device counts.
-  - When there is no start and end time specified returns the latest interfaces total count.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Get all Network Devices Count. - > Gets the total Network device counts. When there is no start and end time specified
+    returns the latest interfaces total count. For detailed information about the usage of the API, please refer to the Open
+    API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -139,6 +136,13 @@ options:
         healthScore=good,healthScore=good&healthScore=fair (multiple entity healthscore values with &
         separator). This field is not case sensitive.
     type: str
+  secureMode:
+    description:
+      - >
+        SecureMode query parameter. The list of secureMode statuses. Examples secureMode=ENABLED,
+        secureMode=DISABLED&secureMode=NOT_APPLICABLE Available values ENABLED, DISABLED, NOT_APPLICABLE,
+        UNKNOWN.
+    type: str
   view:
     description:
       - >
@@ -189,9 +193,10 @@ EXAMPLES = r"""
     type: string
     role: string
     serialNumber: string
-    maintenanceMode: true
+    maintenanceMode: True
     softwareVersion: string
     healthScore: string
+    secureMode: string
     view: string
     attribute: string
   register: result

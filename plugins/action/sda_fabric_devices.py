@@ -25,6 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -37,7 +38,7 @@ argument_spec.update(
         payload=dict(type="list"),
         fabricId=dict(type="str"),
         networkDeviceId=dict(type="str"),
-        deviceRoles=dict(type="str"),
+        deviceRoles=dict(type="list"),
         id=dict(type="str"),
     )
 )
@@ -161,7 +162,6 @@ class SdaFabricDevices(object):
             ("deviceRoles", "device_roles"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

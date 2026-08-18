@@ -11,7 +11,7 @@ short_description: Resource module for Application Visibility Network Devices Di
 description:
   - Manage operation create of the resource Application Visibility Network Devices Disable Cbar.
   - This API can be used to disable CBAR feature on multiple network devices.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -29,7 +29,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!disable-cbar-feature-on-multiple-network-devices
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.disable_c_b_a_r_feature_on_multiple_network_devices,
+    application_policy.ApplicationPolicy.disable_cbar_feature_on_multiple_network_devices,
   - Paths used are
     post /dna/intent/api/v1/applicationVisibility/networkDevices/disableCbar,
 """

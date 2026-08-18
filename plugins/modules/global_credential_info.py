@@ -22,6 +22,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Global Credential ID.
+    type: str
   credentialSubType:
     description:
       - >
@@ -36,10 +40,6 @@ options:
     description:
       - Order query parameter. Order of sorting. 'asc' or 'des'.
     type: str
-  id:
-    description:
-      - Id path parameter. Global Credential ID.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -47,13 +47,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Discovery GetCredentialSubTypeByCredentialId
     description: Complete reference of the GetCredentialSubTypeByCredentialId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
-  - name: Cisco Catalyst Center documentation for Discovery GetGlobalCredentials
-    description: Complete reference of the GetGlobalCredentials API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
+  - name: Cisco Catalyst Center documentation for Discovery GetGlobalCredentialsV1
+    description: Complete reference of the GetGlobalCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials-v-1
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id,
-    discovery.Discovery.get_global_credentials,
+    discovery.Discovery.get_global_credentials_v1,
   - Paths used are
     get /dna/intent/api/v1/global-credential,
     get /dna/intent/api/v1/global-credential,

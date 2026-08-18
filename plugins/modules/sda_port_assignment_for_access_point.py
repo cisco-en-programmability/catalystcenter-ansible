@@ -20,26 +20,21 @@ options:
   authenticateTemplateName:
     description: Authenticate TemplateName associated to Fabric Site.
     type: str
-    version_added: 4.0.0
   dataIpAddressPoolName:
     description: Ip Pool Name, that is assigned to INFRA_VN.
     type: str
-    version_added: 4.0.0
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.
     type: str
-    version_added: 4.0.0
   interfaceDescription:
     description: Details or note of interface port assignment.
     type: str
-    version_added: 4.0.0
   interfaceName:
     description: InterfaceName query parameter.
     type: str
   siteNameHierarchy:
     description: Path of sda Fabric Site.
     type: str
-    version_added: 4.0.0
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -71,8 +66,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    deviceManagementIpAddress: string
-    interfaceName: string
+    deviceManagementIpAddress: application/json
+    interfaceName: application/json
 - name: Create
   cisco.catalystcenter.sda_port_assignment_for_access_point:
     catalystcenter_host: "{{catalystcenter_host}}"

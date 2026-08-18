@@ -9,11 +9,9 @@ DOCUMENTATION = r"""
 module: energy_sites_query_count_info
 short_description: Information module for Energy Sites Query Count
 description:
-  - Get all Energy Sites Query Count.
-  - Gets count sites energy task result for the given task ID.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
+  - Get all Energy Sites Query Count. - > Gets count sites energy task result for the given task ID. For detailed information
+    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    sitesEnergy-1.0.1-resolved.yaml.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

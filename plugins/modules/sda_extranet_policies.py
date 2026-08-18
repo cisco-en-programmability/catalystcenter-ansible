@@ -33,7 +33,7 @@ options:
         description: Name of the extranet policy to be created.
         type: str
       fabricIds:
-        description: IDs of the fabric sites to be associated with this extranet policy.
+        description: ID of the fabric sites that associated with this extranet policy.
         elements: str
         type: list
       providerVirtualNetworkName:
@@ -74,17 +74,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_extranet_policies:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    extranetPolicyName: string
 - name: Create
   cisco.catalystcenter.sda_extranet_policies:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -102,6 +91,17 @@ EXAMPLES = r"""
         providerVirtualNetworkName: string
         subscriberVirtualNetworkNames:
           - string
+- name: Delete all
+  cisco.catalystcenter.sda_extranet_policies:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    extranetPolicyName: string
 - name: Update all
   cisco.catalystcenter.sda_extranet_policies:
     catalystcenter_host: "{{catalystcenter_host}}"

@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="delete_planned_access_points_position_v2",
+            function="delete_planned_access_points_position",
             params=self.get_object(self._task.args),
         )
         self._result.update(

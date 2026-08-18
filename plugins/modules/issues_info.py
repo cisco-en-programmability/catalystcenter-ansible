@@ -10,7 +10,7 @@ module: issues_info
 short_description: Information module for Issues
 description:
   - Get all Issues.
-  - Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's MAC address.
+  - Intent API to get a list of global issues, issues for a specific device, or.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

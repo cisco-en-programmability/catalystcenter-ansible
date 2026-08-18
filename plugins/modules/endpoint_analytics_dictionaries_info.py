@@ -11,7 +11,7 @@ short_description: Information module for Endpoint Analytics Dictionaries
 description:
   - Get all Endpoint Analytics Dictionaries.
   - Fetches the list of attribute dictionaries.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -34,7 +34,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/dictionaries,
 """
@@ -51,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    includeAttributes: true
+    includeAttributes: True
   register: result
 """
 RETURN = r"""

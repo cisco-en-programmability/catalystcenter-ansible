@@ -10,17 +10,13 @@ module: network_devices_info
 short_description: Information module for Network Devices
 description:
   - Get all Network Devices.
-  - Get Network Devices by id.
-  - Gets the Network Device details based on the provided query parameters.
-  - When there is no start and end time specified returns the latest device details.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
-  - Returns the device data for the given device Uuid in the specified start and end time range.
-  - When there is no start and end time specified returns the latest available data for the given Id.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Get Network Devices by id. - > Gets the Network Device details based on the provided query parameters. When there is no
+    start and end time specified returns the latest device details. For detailed information about the usage of the API, please
+    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+    - > Returns the device data for the given device Uuid in the specified start and end time range. When there is no start
+    and end time specified returns the latest available data for the given Id. For detailed information about the usage of
+    the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -29,6 +25,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The device Uuid.
+    type: str
   startTime:
     description:
       - >
@@ -42,6 +42,19 @@ options:
         EndTime query parameter. End time to which API queries the data set related to the resource. It must be
         specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
+  view:
+    description:
+      - >
+        View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView```
+        section in the Open API specification document mentioned in the description.
+    type: str
+  attribute:
+    description:
+      - >
+        Attribute query parameter. The List of Network Device model attributes. Please refer to
+        ```NetworkDeviceAttribute``` section in the Open API specification document mentioned in the
+        description.
+    type: str
   limit:
     description:
       - Limit query parameter. Maximum number of records to return.
@@ -87,14 +100,6 @@ options:
         SiteId query parameter. The UUID of the site. (Ex. `flooruuid`) This field supports wildcard asterisk
         (*) character search support. E.g.*flooruuid*, *flooruuid, flooruuid* Examples `?siteId=id1` (single id
         requested) `?siteId=id1&siteId=id2&siteId=id3` (multiple ids requested).
-    type: str
-  id:
-    description:
-      - >
-        Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples
-        id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375-
-        b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79b233318ba0 (multiple
-        entity uuid with '&' separator).
     type: str
   managementIpAddress:
     description:
@@ -163,19 +168,6 @@ options:
         healthScore=good&healthScore=fair (multiple entity healthscore values with & separator). This field is
         not case sensitive.
     type: str
-  view:
-    description:
-      - >
-        View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView```
-        section in the Open API specification document mentioned in the description.
-    type: str
-  attribute:
-    description:
-      - >
-        Attribute query parameter. The List of Network Device model attributes. Please refer to
-        ```NetworkDeviceAttribute``` section in the Open API specification document mentioned in the
-        description.
-    type: str
   fabricSiteId:
     description:
       - >
@@ -215,6 +207,13 @@ options:
         FabricRole query parameter. The list of fabric device role. Examples fabricRole=BORDER,
         fabricRole=BORDER&fabricRole=EDGE (multiple fabric device roles with & separator) Available values
         BORDER, EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
+    type: str
+  secureMode:
+    description:
+      - >
+        SecureMode query parameter. The list of secureMode statuses. Examples secureMode=ENABLED,
+        secureMode=DISABLED&secureMode=NOT_APPLICABLE Available values ENABLED, DISABLED, NOT_APPLICABLE,
+        UNKNOWN.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -263,7 +262,7 @@ EXAMPLES = r"""
     type: string
     role: string
     serialNumber: string
-    maintenanceMode: true
+    maintenanceMode: True
     softwareVersion: string
     healthScore: string
     view: string
@@ -273,6 +272,7 @@ EXAMPLES = r"""
     l3Vn: string
     transitNetworkId: string
     fabricRole: string
+    secureMode: string
   register: result
 - name: Get Network Devices by id
   cisco.catalystcenter.network_devices_info:
@@ -315,6 +315,7 @@ catalystcenter_response:
         "reachabilityHealthStatus": "string",
         "collectionStatus": "string",
         "haStatus": "string",
+        "secureMode": "string",
         "lastBootTime": 0,
         "siteHierarchyId": "string",
         "siteHierarchy": "string",

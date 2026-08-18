@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_time_zone_settings_info
 short_description: Information module for Sites Time Zone Settings
 description:
-  - Get all Sites Time Zone Settings. - > Retrieve time zone settings for a site; `null` values indicate that the setting
-    will be inherited from the parent site; empty objects `{}` indicate that the setting is unset at a site.
+  - Get all Sites Time Zone Settings.
+  - Retrieves time zone settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
-    id: string
+    _inherited: True
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,11 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "timeZone": {
-          "identifier": "string",
-          "inheritedSiteId": "string",
-          "inheritedSiteName": "string"
-        }
+        "timeZone": {}
       },
       "version": "string"
     }

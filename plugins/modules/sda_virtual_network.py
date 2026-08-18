@@ -54,8 +54,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
-    virtualNetworkName: string
+    siteNameHierarchy: application/json
+    virtualNetworkName: application/json
 - name: Create
   cisco.catalystcenter.sda_virtual_network:
     catalystcenter_host: "{{catalystcenter_host}}"

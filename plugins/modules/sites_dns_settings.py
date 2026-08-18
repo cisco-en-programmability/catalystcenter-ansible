@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_dns_settings
 short_description: Resource module for Sites Dns Settings
 description:
-  - Manage operation update of the resource Sites Dns Settings. - > Set DNS settings for a site; `null` values indicate that
-    the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Dns Settings.
+  - Sets DNS settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -18,14 +18,6 @@ author: Bryan Vargas (@bvargasre)
 options:
   dns:
     description: Sites Dns Settings's dns.
-    suboptions:
-      dnsServers:
-        description: DNS servers for hostname resolution.
-        elements: str
-        type: list
-      domainName:
-        description: Network's domain name. Example myCompnay.com.
-        type: str
     type: dict
   id:
     description: Id path parameter. Site Id.
@@ -39,7 +31,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.set_d_n_s_settings_for_a_site,
+    network_settings.NetworkSettings.set_dns_settings_for_a_site,
   - Paths used are
     put /dna/intent/api/v1/sites/{id}/dnsSettings,
 """
@@ -56,11 +48,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    dns:
-      dnsServers:
-        - string
-      domainName: string
-    id: string
+    dns: {}
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
 """
 RETURN = r"""
 catalystcenter_response:
@@ -69,9 +58,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

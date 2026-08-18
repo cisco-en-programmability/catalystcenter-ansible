@@ -87,15 +87,15 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
-    deviceId: string
-    macAddress: string
+    siteId: application/json
+    deviceId: application/json
+    macAddress: application/json
     startTime: 0
     endTime: 0
-    applicationHealth: string
+    applicationHealth: application/json
     offset: 0
     limit: 0
-    applicationName: string
+    applicationName: application/json
   register: result
 """
 RETURN = r"""

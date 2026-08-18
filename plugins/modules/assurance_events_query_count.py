@@ -9,41 +9,39 @@ DOCUMENTATION = r"""
 module: assurance_events_query_count
 short_description: Resource module for Assurance Events Query Count
 description:
-  - Manage operation create of the resource Assurance Events Query Count. - > API to fetch the count of assurance events for
-    the given complex query. Please refer to the 'API Support Documentation' section to understand which fields are supported.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceEvents-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Assurance Events Query Count.
+  - API to fetch the count of assurance events for the given complex query. Please.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   deviceFamily:
-    description: Device Family.
+    description: Assurance Events Query Count's deviceFamily.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Assurance Events Query Count's endTime.
     type: int
   filters:
     description: Assurance Events Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Assurance Events Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Assurance Events Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Assurance Events Query Count's value.
         type: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Assurance Events Query Count's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

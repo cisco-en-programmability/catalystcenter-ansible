@@ -17,15 +17,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Sda Multicast V1's payload.
+    description: Multicast put request (multicast for only one fabric site can be edited in the put request).
     elements: dict
-    suboptions:
-      fabricId:
-        description: ID of the fabric site (updating this field is not allowed).
-        type: str
-      replicationMode:
-        description: Replication Mode deployed in the fabric site.
-        type: str
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -54,8 +47,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - fabricId: string
-        replicationMode: string
+      - {}
 """
 RETURN = r"""
 catalystcenter_response:

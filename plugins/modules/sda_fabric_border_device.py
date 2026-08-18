@@ -20,9 +20,8 @@ options:
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.
     type: str
-    version_added: 4.0.0
   payload:
-    description: Sda Fabric Border Device's payload.
+    description: Add Border Device API (Highlights Supports multi device role,L3 Handoff and L2 Handoff ).
     elements: dict
     suboptions:
       borderPriority:
@@ -32,18 +31,15 @@ options:
       borderSessionType:
         description: Border Session Type.
         type: str
-        version_added: 4.0.0
       borderWithExternalConnectivity:
         description: Border With External Connectivity (Note True for transit and False for non-transit border).
         type: bool
       connectedToInternet:
         description: Connected to Internet.
         type: bool
-        version_added: 4.0.0
       deviceManagementIpAddress:
         description: Management Ip Address of the provisioned Device.
         type: str
-        version_added: 4.0.0
       deviceRole:
         description: Supported Device Roles in SD-Access fabric. Allowed roles are "Border_Node","Control_Plane_Nod... E.g.
           "Border_Node" or "Border_Node", "Control_Plane_Node" or "Border_Node", "Control_Plane_Node","Edge_Node".
@@ -52,55 +48,46 @@ options:
       externalConnectivityIpPoolName:
         description: External Connectivity IpPool Name.
         type: str
-        version_added: 4.0.0
       externalConnectivitySettings:
-        description: Sda Fabric Border Device's externalConnectivitySettings.
+        description: External Connectivity Settings information of L3 and L2 Handoff.
         elements: dict
         suboptions:
           externalAutonomouSystemNumber:
             description: External Autonomous System Number peer (e.g.,1-65535).
             type: str
-            version_added: 4.0.0
           interfaceDescription:
             description: Interface Description.
             type: str
           interfaceName:
             description: Interface Name.
             type: str
-            version_added: 4.0.0
           l2Handoff:
-            description: Sda Fabric Border Device's l2Handoff.
+            description: L2 Handoff information.
             elements: dict
             suboptions:
               virtualNetworkName:
                 description: Virtual Network Name, that is associated to Fabric Site.
                 type: str
-                version_added: 4.0.0
               vlanName:
                 description: Vlan Name of L2 Handoff.
                 type: str
             type: list
           l3Handoff:
-            description: Sda Fabric Border Device's l3Handoff.
+            description: L3 Handoff information.
             elements: dict
             suboptions:
               virtualNetwork:
-                description: Sda Fabric Border Device's virtualNetwork.
+                description: Virtual Network information of L3 Hand off.
                 suboptions:
                   virtualNetworkName:
                     description: Virtual Network Name, that is associated to Fabric Site.
                     type: str
-                    version_added: 4.0.0
                   vlanId:
                     description: Vlan Id (e.g.,2-4096 except for reserved VLANs (1002-1005, 2046, 4095)).
                     type: str
-                    version_added: 4.0.0
                 type: dict
-                version_added: 4.0.0
             type: list
-            version_added: 4.0.0
         type: list
-        version_added: 4.0.0
       externalDomainRoutingProtocolName:
         description: External Domain Routing Protocol Name.
         type: str
@@ -149,7 +136,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    deviceManagementIpAddress: string
+    deviceManagementIpAddress: application/json
 - name: Create
   cisco.catalystcenter.sda_fabric_border_device:
     catalystcenter_host: "{{catalystcenter_host}}"

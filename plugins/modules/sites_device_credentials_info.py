@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
+    _inherited: True
     id: string
   register: result
 """
@@ -70,22 +70,34 @@ catalystcenter_response:
     {
       "response": {
         "cliCredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         },
         "snmpv2cReadCredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         },
         "snmpv2cWriteCredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         },
         "snmpv3CredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         },
         "httpReadCredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         },
         "httpWriteCredentialsId": {
-          "credentialsId": "string"
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
         }
       },
       "version": "string"

@@ -28,10 +28,10 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         credentialSubType=dict(type="str"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -73,10 +73,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             credential_sub_type=params.get("credentialSubType"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -106,7 +106,7 @@ class ActionModule(ActionBase):
         if not id:
             response = catalystcenter.exec(
                 family="discovery",
-                function="get_global_credentials",
+                function="get_global_credentials_v1",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

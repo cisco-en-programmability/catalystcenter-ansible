@@ -80,7 +80,7 @@ class NetworkV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="network_settings",
-                function="get_network_v2",
+                function="get_network",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -129,7 +129,6 @@ class NetworkV2(object):
             ("settings", "settings"),
             ("siteId", "site_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -141,7 +140,7 @@ class NetworkV2(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="create_network_v2",
+            function="create_network",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -162,7 +161,7 @@ class NetworkV2(object):
                 self.new_object.update(dict(site_id=id_))
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="update_network_v2",
+            function="update_network",
             params=self.update_by_id_params(),
             op_modifies=True,
         )

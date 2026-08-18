@@ -25,6 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -151,14 +152,13 @@ class SdaProvisionDevices(object):
 
         obj_params = [
             ("id", "id"),
-            ("siteId", "siteId"),
             ("networkDeviceId", "networkDeviceId"),
+            ("siteId", "siteId"),
             ("networkDeviceId", "network_device_id"),
             ("siteId", "site_id"),
             ("cleanUpConfig", "clean_up_config"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

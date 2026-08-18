@@ -60,8 +60,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     extranetPolicyName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -74,19 +74,14 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "name": "string",
-          "siteId": "string",
-          "type": "string",
-          "ipTransitSettings": {
-            "routingProtocolName": "string",
-            "autonomousSystemNumber": "string"
-          },
-          "sdaTransitSettings": {
-            "isMulticastOverTransitEnabled": true,
-            "controlPlaneNetworkDeviceIds": [
-              "string"
-            ]
-          }
+          "extranetPolicyName": "string",
+          "fabricIds": [
+            "string"
+          ],
+          "providerVirtualNetworkName": "string",
+          "subscriberVirtualNetworkNames": [
+            "string"
+          ]
         }
       ],
       "version": "string"

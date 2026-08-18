@@ -9,10 +9,10 @@ DOCUMENTATION = r"""
 module: interfaces_query_count
 short_description: Resource module for Interfaces Query Count
 description:
-  - Manage operation create of the resource Interfaces Query Count.
-  - Gets the total number of interfaces across the Network devices based on the provided complex filters and aggregation functions.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
+  - Manage operation create of the resource Interfaces Query Count. - > Gets the total number of interfaces across the Network
+    devices based on the provided complex filters and aggregation functions. For detailed information about the usage of the
+    API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,35 +23,35 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Interfaces Query Count's function.
         type: str
       name:
-        description: Name.
+        description: Interfaces Query Count's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Interfaces Query Count's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Interfaces Query Count's endTime.
     type: int
   filters:
     description: Interfaces Query Count's filters.
     elements: dict
     suboptions:
       filters:
-        description: Filters.
+        description: Interfaces Query Count's filters.
         elements: str
         type: list
       key:
-        description: Key.
+        description: Interfaces Query Count's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Interfaces Query Count's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Interfaces Query Count's operator.
         type: str
       value:
         description: Interfaces Query Count's value.
@@ -61,28 +61,28 @@ options:
     description: Interfaces Query Count's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Interfaces Query Count's limit.
         type: int
       offset:
-        description: Offset.
+        description: Interfaces Query Count's offset.
         type: int
       sortBy:
         description: Interfaces Query Count's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Interfaces Query Count's name.
             type: str
           order:
-            description: Order.
+            description: Interfaces Query Count's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Interfaces Query Count's startTime.
     type: int
   views:
-    description: Views.
+    description: Interfaces Query Count's views.
     elements: str
     type: list
 requirements:

@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="deploys_the_i_cap_configuration_intent_by_activity_id",
+            function="deploys_the_icap_configuration_intent_by_activity_id",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -21,7 +21,7 @@ options:
     elements: dict
     suboptions:
       id:
-        description: Id.
+        description: Network Profiles For Sites Site Assignments Bulk Create's id.
         type: str
     type: list
   profileId:
@@ -65,7 +65,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

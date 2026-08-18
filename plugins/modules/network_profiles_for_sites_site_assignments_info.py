@@ -59,8 +59,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     profileId: string
   register: result
 """

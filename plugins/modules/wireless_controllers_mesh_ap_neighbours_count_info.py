@@ -11,7 +11,7 @@ short_description: Information module for Wireless Controllers Mesh Ap Neighbour
 description:
   - Get all Wireless Controllers Mesh Ap Neighbours Count.
   - This API returns the total number of mesh Ap Neighbours available.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

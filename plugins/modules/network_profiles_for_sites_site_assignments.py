@@ -19,7 +19,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   id:
-    description: Id.
+    description: Network Profiles For Sites Site Assignments's id.
     type: str
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
@@ -79,7 +79,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

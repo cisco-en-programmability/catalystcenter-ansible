@@ -69,18 +69,6 @@ EXAMPLES = r"""
     productNameOrdinal: 0
     siteIds:
       - string
-- name: Delete by name
-  cisco.catalystcenter.images_site_wise_product_names:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    imageId: string
-    productNameOrdinal: 0
 - name: Update by name
   cisco.catalystcenter.images_site_wise_product_names:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -95,6 +83,18 @@ EXAMPLES = r"""
     productNameOrdinal: 0
     siteIds:
       - string
+- name: Delete by name
+  cisco.catalystcenter.images_site_wise_product_names:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    imageId: string
+    productNameOrdinal: 0
 """
 RETURN = r"""
 catalystcenter_response:

@@ -10,7 +10,7 @@ module: templates_template_id_versions_commit
 short_description: Resource module for Templates Template Id Versions Commit
 description:
   - Manage operation create of the resource Templates Template Id Versions Commit.
-  - Transitions the current draft of a template to a new committed version with a higher version number.
+  - Transitions the current draft of a template to a new committed version with a.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -59,7 +59,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

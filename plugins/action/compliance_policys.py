@@ -34,9 +34,13 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
-        id=dict(type="str"),
+        rulesCount=dict(type="int"),
+        sitesCount=dict(type="int"),
+        source=dict(type="str"),
+        status=dict(type="str"),
     )
 )
 
@@ -53,9 +57,13 @@ class CompliancePolicys(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             name=params.get("name"),
             description=params.get("description"),
-            id=params.get("id"),
+            rulesCount=params.get("rulesCount"),
+            sitesCount=params.get("sitesCount"),
+            source=params.get("source"),
+            status=params.get("status"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -70,8 +78,13 @@ class CompliancePolicys(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
+        new_object_params["rulesCount"] = self.new_object.get("rulesCount")
+        new_object_params["sitesCount"] = self.new_object.get("sitesCount")
+        new_object_params["source"] = self.new_object.get("source")
+        new_object_params["status"] = self.new_object.get("status")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -81,9 +94,13 @@ class CompliancePolicys(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
-        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["rulesCount"] = self.new_object.get("rulesCount")
+        new_object_params["sitesCount"] = self.new_object.get("sitesCount")
+        new_object_params["source"] = self.new_object.get("source")
+        new_object_params["status"] = self.new_object.get("status")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -148,11 +165,14 @@ class CompliancePolicys(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("name", "name"),
             ("description", "description"),
-            ("id", "id"),
+            ("rulesCount", "rulesCount"),
+            ("sitesCount", "sitesCount"),
+            ("source", "source"),
+            ("status", "status"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

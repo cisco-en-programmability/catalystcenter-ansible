@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="sensors",
-                function="retrieves_the_devices_clis_of_the_i_capintent",
+                function="retrieves_the_devices_clis_of_the_icapintent",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

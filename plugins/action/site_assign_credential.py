@@ -31,9 +31,9 @@ argument_spec.update(
         cliId=dict(type="str"),
         snmpV2ReadId=dict(type="str"),
         snmpV2WriteId=dict(type="str"),
+        snmpV3Id=dict(type="str"),
         httpRead=dict(type="str"),
         httpWrite=dict(type="str"),
-        snmpV3Id=dict(type="str"),
         siteId=dict(type="str"),
         headers=dict(type="dict"),
     )
@@ -79,9 +79,9 @@ class ActionModule(ActionBase):
             cliId=params.get("cliId"),
             snmpV2ReadId=params.get("snmpV2ReadId"),
             snmpV2WriteId=params.get("snmpV2WriteId"),
+            snmpV3Id=params.get("snmpV3Id"),
             httpRead=params.get("httpRead"),
             httpWrite=params.get("httpWrite"),
-            snmpV3Id=params.get("snmpV3Id"),
             site_id=params.get("siteId"),
             headers=params.get("headers"),
         )
@@ -97,7 +97,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="assign_device_credential_to_site",
+            function="assign_device_credential_to_site_v1",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

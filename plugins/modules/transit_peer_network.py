@@ -18,7 +18,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   ipTransitSettings:
-    description: Transit Peer Network's ipTransitSettings.
+    description: Required if transitPeerNetworkType is ip_transit.
     suboptions:
       autonomousSystemNumber:
         description: Autonomous System Number.
@@ -28,10 +28,10 @@ options:
         type: str
     type: dict
   sdaTransitSettings:
-    description: Transit Peer Network's sdaTransitSettings.
+    description: Required if transitPeerNetworkType is sda_transit_with_lisp_bgp or sda_transit_with_pub_sub.
     suboptions:
       transitControlPlaneSettings:
-        description: Transit Peer Network's transitControlPlaneSettings.
+        description: Transit Control Plane Settings info.
         elements: dict
         suboptions:
           deviceManagementIpAddress:
@@ -43,7 +43,7 @@ options:
         type: list
     type: dict
   transitPeerNetworkName:
-    description: TransitPeerNetworkName query parameter. Transit Peer Network Name.
+    description: Transit Peer Network Name.
     type: str
   transitPeerNetworkType:
     description: Transit Peer Network Type.
@@ -69,17 +69,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.transit_peer_network:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    transitPeerNetworkName: string
 - name: Create
   cisco.catalystcenter.transit_peer_network:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -99,6 +88,17 @@ EXAMPLES = r"""
           siteNameHierarchy: string
     transitPeerNetworkName: string
     transitPeerNetworkType: string
+- name: Delete all
+  cisco.catalystcenter.transit_peer_network:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    transitPeerNetworkName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

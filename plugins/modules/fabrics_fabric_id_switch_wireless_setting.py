@@ -17,26 +17,47 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
-  enableWireless:
-    description: Enable Wireless.
-    type: bool
   fabricId:
     description: FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId'
-      can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example e290f1ee-6c54-4b01-90e6-d701748f0851.
+      can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
     type: str
-  id:
-    description: Network Device ID of the wireless capable switch.
-    type: str
-  rollingApUpgrade:
-    description: Fabrics Fabric Id Switch Wireless Setting's rollingApUpgrade.
+  payload:
+    description: Fabrics Fabric Id Switch Wireless Setting's payload.
+    elements: dict
     suboptions:
-      apRebootPercentage:
-        description: AP Reboot Percentage. Permissible values - 5, 15, 25.
+      deviceRoles:
+        description: Description.
+        type: str
+      id:
+        description: Description.
+        type: str
+      lscPercentage:
+        description: Permissible values are 1, 5, 15, 25 and 1000. This represents the percentage of access points that can
+          be affected due to certificate renewal execution in the current iteration. This field is applicable only when the
+          selected LSC profile is of staggered execution type. * 1 - 1% of access points will be considered for certificate
+          renewal in each iteration * 5 - 5% of access points will be considered for certificate renewal in each iteration
+          * 15 - 15% of access points will be considered for certificate renewal in each iteration * 25 - 25% of access points
+          will be considered for certificate renewal in each iteration * 1000 - Access points are selected one after another
+          in a serial manner for certificate renewal. The corresponding device option is 'Serial'.
         type: int
-      enableRollingApUpgrade:
-        description: Enable Rolling Ap Upgrade.
-        type: bool
-    type: dict
+      lscProfileName:
+        description: LSC profile name. Obtain the LSC profile names by using the GET API call /dna/intent/api/v1/wirelessSettings/lscRenewalProfiles.
+        type: str
+      rollingApUpgrade:
+        description: Fabrics Fabric Id Switch Wireless Setting's rollingApUpgrade.
+        suboptions:
+          apRebootPercentage:
+            description: AP Reboot Percentage. Permissible values - 1, 5, 15, 25 and 1000 * 1 - 1% of access points will be
+              rebooted in each iteration * 5 - 5% of access points will be rebooted in each iteration * 15 - 15% of access
+              points will be rebooted in each iteration * 25 - 25% of access points will be rebooted in each iteration * 1000
+              - Access points are rebooted one after another in a serial manner. The corresponding device option is labeled
+              'Serial'.
+            type: int
+          enableRollingApUpgrade:
+            description: True if Rolling AP Upgrade is enabled, else False.
+            type: bool
+        type: dict
+    type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -64,10 +85,12 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     enableWireless: true
-    fabricId: string
-    id: string
+    fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
+    id: 5259d6b3-3569-405f-9c5f-4d642809add2
+    lscPercentage: 1000
+    lscProfileName: autoLscStraggeredProfile
     rollingApUpgrade:
-      apRebootPercentage: 0
+      apRebootPercentage: 1000
       enableRollingApUpgrade: true
 """
 RETURN = r"""

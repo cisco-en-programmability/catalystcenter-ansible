@@ -21,7 +21,7 @@ options:
       within same project).
     type: str
   projectId:
-    description: ProjectId path parameter.
+    description: ProjectId path parameter. UUID of the project in which the template needs to be created.
     type: str
   templateId:
     description: TemplateId path parameter. UUID of the template to clone it.
@@ -63,7 +63,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

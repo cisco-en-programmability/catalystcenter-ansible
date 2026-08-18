@@ -19,15 +19,6 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
-  configureDevice:
-    description: If the value is true and the devices at the applied site are locally authenticated, the applied CLI credentials
-      will be configured on the devices. Authentication will then be performed using the applied CLI credentials. If the authentication
-      is successful, the devices will be updated in the inventory with the applied CLI credentials. If the value is true and
-      the devices are AAA authenticated, authentication will be performed on the devices using the applied CLI credentials.
-      If the authentication is successful, the devices will be updated in the inventory with the applied CLI credentials.
-      If the value is false, the devices will be directly updated in the inventory with the applied CLI credentials, without
-      any authentication being performed.
-    type: bool
   deviceCredentialId:
     description: It must be cli/snmpV2Read/snmpV2Write/snmpV3 Id.
     type: str
@@ -59,7 +50,6 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    configureDevice: true
     deviceCredentialId: string
     siteId: string
 """
@@ -72,7 +62,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

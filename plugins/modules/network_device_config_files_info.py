@@ -83,7 +83,7 @@ EXAMPLES = r"""
     networkDeviceId: string
     fileType: string
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 - name: Get Network Device Config Files by id
   cisco.catalystcenter.network_device_config_files_info:

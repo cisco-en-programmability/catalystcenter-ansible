@@ -17,7 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   templateName:
-    description: Template Name.
+    description: Sensor Test Run's templateName.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

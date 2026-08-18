@@ -28,10 +28,17 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        ringName=dict(type="str"),
+        id=dict(type="str"),
+        networkDeviceId=dict(type="str"),
         rootNetworkDeviceId=dict(type="str"),
         rootNeighbourNetworkDeviceIds=dict(type="list"),
+        status=dict(type="str"),
+        repSegmentId=dict(type="int"),
         deploymentMode=dict(type="str"),
+        ringName=dict(type="str"),
+        ringMembers=dict(type="list"),
+        macsecConfig=dict(type="dict"),
+        repZtpMsg=dict(type="str"),
     )
 )
 
@@ -72,10 +79,17 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            ringName=params.get("ringName"),
+            id=params.get("id"),
+            networkDeviceId=params.get("networkDeviceId"),
             rootNetworkDeviceId=params.get("rootNetworkDeviceId"),
             rootNeighbourNetworkDeviceIds=params.get("rootNeighbourNetworkDeviceIds"),
+            status=params.get("status"),
+            repSegmentId=params.get("repSegmentId"),
             deploymentMode=params.get("deploymentMode"),
+            ringName=params.get("ringName"),
+            ringMembers=params.get("ringMembers"),
+            macsecConfig=params.get("macsecConfig"),
+            repZtpMsg=params.get("repZtpMsg"),
         )
         return new_object
 
@@ -89,7 +103,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="industrial_configuration",
-            function="configure_rep_ring_on_non_fabric_deployment",
+            function="configure_a_rep_ring_on_non_fabric_deployment",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -63,7 +63,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    username: string
+    username: application/json
     number_days: 0
     time_resolution: 0
   register: result

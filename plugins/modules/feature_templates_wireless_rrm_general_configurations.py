@@ -12,7 +12,7 @@ description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Rrm General Configurations.
   - This API allows users to create a RRM General configuration feature template.
   - This API allows users to delete a specific RRM General configuration feature template by ID.
-  - This API allows users to update the details of a specific RRM General configuration feature template by ID.
+  - This API allows users to update the details of a specific RRM General.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,7 @@ options:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Rrm General Configurations's featureAttributes.
+    description: RRM General Configuration Feature Attributes.
     suboptions:
       coverageHoleDetection:
         description: Global Coverage Hole Detection.
@@ -63,9 +63,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-rrm-general-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.create_r_r_m_general_configuration_feature_template,
-    wireless.Wireless.delete_r_r_m_general_configuration_feature_template,
-    wireless.Wireless.update_r_r_m_general_configuration_feature_template,
+    wireless.Wireless.create_rrm_general_configuration_feature_template,
+    wireless.Wireless.delete_rrm_general_configuration_feature_template,
+    wireless.Wireless.update_rrm_general_configuration_feature_template,
   - Paths used are
     post /dna/intent/api/v1/featureTemplates/wireless/rrmGeneralConfigurations,
     delete /dna/intent/api/v1/featureTemplates/wireless/rrmGeneralConfigurations/{id},
@@ -74,25 +74,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_rrm_general_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      coverageHoleDetection: true
-      monitoringChannels: string
-      neighborDiscoverType: string
-      radioBand: string
-      throughputThreshold: 0
-    unlockedAttributes:
-      - string
 - name: Delete by id
   cisco.catalystcenter.feature_templates_wireless_rrm_general_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -122,6 +103,25 @@ EXAMPLES = r"""
       radioBand: string
       throughputThreshold: 0
     id: string
+    unlockedAttributes:
+      - string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_rrm_general_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      coverageHoleDetection: true
+      monitoringChannels: string
+      neighborDiscoverType: string
+      radioBand: string
+      throughputThreshold: 0
     unlockedAttributes:
       - string
 """

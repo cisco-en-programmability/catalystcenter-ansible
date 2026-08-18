@@ -61,9 +61,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteType: string
-    offset: 0
-    limit: 0
+    siteType: Area
+    offset: 1
+    limit: 25
     timestamp: 0
   register: result
 """

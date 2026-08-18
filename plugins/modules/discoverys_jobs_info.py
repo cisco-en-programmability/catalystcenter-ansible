@@ -21,18 +21,15 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  discoveryId:
-    description:
-      - DiscoveryId path parameter. The id of the discovery.
-    type: str
-  jobId:
-    description:
-      - JobId path parameter. The id of the discovery job.
-    type: str
   id:
     description:
       - Id path parameter. The id of the discovery.
     type: str
+  jobId:
+    description:
+      - JobId query parameter. Optional list of the discovery job ids to filter by.
+    elements: str
+    type: list
   limit:
     description:
       - Limit query parameter. The number of records to show for this page.
@@ -47,6 +44,10 @@ options:
         OrderBy query parameter. To fetch the latest discovery job. Use the orderBy query parameter with values
         such as startTime or endTime. By default, jobs are ordered by startTime in descending order to display
         the most recent entries first.
+    type: str
+  discoveryId:
+    description:
+      - DiscoveryId path parameter. The id of the discovery.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -79,9 +80,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    jobId: string
+    jobId: ['1739936077107', '17399360774307']
     limit: 0
-    offset: 0
+    offset: 1
     orderBy: string
     id: string
   register: result
@@ -106,95 +107,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "name": "string",
-        "managementIpSelectionMethod": "string",
-        "discoveryTypeDetails": {
-          "type": "string",
-          "ipAddress": "string",
-          "range": [
-            {
-              "ipAddressStart": "string",
-              "ipAddressEnd": "string"
-            }
-          ],
-          "cidrAddress": {
-            "cidrPrefix": "string",
-            "cidrSuffix": 0
-          },
-          "subnetFilter": {
-            "ipAddress": "string",
-            "cidrAddress": {
-              "cidrPrefix": "string",
-              "cidrSuffix": 0
-            }
-          },
-          "hopCount": 0
-        },
-        "onlyNewDevice": true,
-        "updateManagementIp": true,
-        "credentials": {
-          "cli": {
-            "description": "string",
-            "username": "string",
-            "globalCredentialIdList": [
-              "string"
-            ],
-            "protocolOrder": "string"
-          },
-          "snmp": {
-            "snmpV2Read": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV2Write": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV3": {
-              "description": "string",
-              "mode": "string",
-              "username": "string",
-              "authType": "string",
-              "privacyType": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "retries": 0,
-            "timeout": 0
-          },
-          "httpRead": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "httpWrite": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "netconf": {
-            "port": 0,
-            "description": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          }
-        }
-      },
+      "response": {},
       "version": "string"
     }
 """

@@ -78,16 +78,17 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    password: string
-    port: 0
-    secure: true
-    username: string
+    payload:
+      - comments: string
+        credentialType: string
+        description: string
+        id: string
+        instanceTenantId: string
+        instanceUuid: string
+        password: string
+        port: 0
+        secure: true
+        username: string
 - name: Update all
   cisco.catalystcenter.http_write_credential:
     catalystcenter_host: "{{catalystcenter_host}}"

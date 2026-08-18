@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-rrmfra-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.get_r_r_m_f_r_a_configuration_feature_template,
+    wireless.Wireless.get_rrm_fra_configuration_feature_template,
   - Paths used are
     get /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations/{id},
 """

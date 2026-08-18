@@ -13,9 +13,7 @@ description:
   - Get Custom Issue Definitions by id. - > Get the custom issue definition for the given custom issue definition Id. For
     detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
     programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-    - > Retrieve the existing syslog-based custom issue definitions. The supported filters are id, name, profileId, definition
-    enable status, priority, severity, facility and mnemonic. The issue definition configurations may vary across profiles,
-    hence specifying the profile Id in the query parameter is important and the default profile is global.
+  - Retrieve the existing syslog-based custom issue definitions. The supported.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -123,14 +121,14 @@ EXAMPLES = r"""
     profileId: string
     name: string
     priority: string
-    isEnabled: true
+    isEnabled: True
     severity: 0
     facility: string
     mnemonic: string
     limit: 0
     offset: 0
-    sortBy: string
-    order: string
+    sortBy: name
+    order: asc
   register: result
 - name: Get Custom Issue Definitions by id
   cisco.catalystcenter.custom_issue_definitions_info:

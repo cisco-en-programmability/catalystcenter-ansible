@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+    type: str
   offset:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
@@ -40,10 +44,6 @@ options:
   type:
     description:
       - Type query parameter. Filter responses to only include profiles of a given type.
-    type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -76,10 +76,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     type: string
   register: result
 - name: Get Network Devices Network Profiles For Sites by id

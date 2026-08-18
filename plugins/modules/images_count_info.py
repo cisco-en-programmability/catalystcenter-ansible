@@ -10,7 +10,7 @@ module: images_count_info
 short_description: Information module for Images Count
 description:
   - Get all Images Count.
-  - Returns the count of software images for given `siteId`. The default value of siteId is global.
+  - Returns the count of software images for given `siteId`. The default value of.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -111,13 +111,13 @@ EXAMPLES = r"""
     siteId: string
     productNameOrdinal: 0
     supervisorProductNameOrdinal: 0
-    imported: true
+    imported: True
     name: string
     version: string
     golden: string
     integrity: string
-    hasAddonImages: true
-    isAddonImages: true
+    hasAddonImages: True
+    isAddonImages: True
   register: result
 """
 RETURN = r"""
@@ -128,8 +128,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

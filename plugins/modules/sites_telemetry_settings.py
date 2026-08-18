@@ -21,18 +21,6 @@ options:
     suboptions:
       collector:
         description: Sites Telemetry Settings's collector.
-        suboptions:
-          address:
-            description: IP Address. If collection type is 'TelemetryBrokerOrUDPDirector', this field value is mandatory otherwise
-              it is optional. Examples "250.162.252.170", "2001 db8 3c4d 15 1a2f 1a2b".
-            type: str
-          collectorType:
-            description: Collector Type.
-            type: str
-          port:
-            description: Min 1; Max 65535. If collection type is 'TelemetryBrokerOrUDPDirector', this field value is mandatory
-              otherwise it is optional.
-            type: int
         type: dict
       enableOnWiredAccessDevices:
         description: Enable Netflow Application Telemetry and Controller Based Application Recognition (CBAR) by default upon
@@ -40,25 +28,26 @@ options:
         type: bool
     type: dict
   id:
-    description: Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
+    description: Id path parameter. Site Id, retrievable from the `id` attribute in `/intent/api/v1/sites`.
     type: str
   snmpTraps:
     description: Sites Telemetry Settings's snmpTraps.
     suboptions:
       externalTrapServers:
-        description: External SNMP trap servers. Example "250.162.252.170","2001 db8 3c4d 15 1a2f 1a2b".
-        elements: str
+        description: External SNMP trap servers.
+        elements: dict
         type: list
       useBuiltinTrapServer:
         description: Enable this server as a destination server for SNMP traps and messages from your network.
         type: bool
     type: dict
   syslogs:
-    description: Sites Telemetry Settings's syslogs.
+    description: Devices will be configured to send syslog messages to these servers with syslog severity level 6 (information)
+      or worse.
     suboptions:
       externalSyslogServers:
-        description: External syslog servers. Example "250.162.252.170", "2001 db8 3c4d 15 1a2f 1a2b".
-        elements: str
+        description: External syslog servers.
+        elements: dict
         type: list
       useBuiltinSyslogServer:
         description: Enable this server as a destination server for syslog messages.
@@ -109,25 +98,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    applicationVisibility:
-      collector:
-        address: string
-        collectorType: string
-        port: 0
-      enableOnWiredAccessDevices: true
-    id: string
-    snmpTraps:
-      externalTrapServers:
-        - string
-      useBuiltinTrapServer: true
-    syslogs:
-      externalSyslogServers:
-        - string
-      useBuiltinSyslogServer: true
-    wiredDataCollection:
-      enableWiredDataCollection: true
-    wirelessTelemetry:
-      enableWirelessTelemetry: true
+    applicationVisibility: {}
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
+    snmpTraps: {}
+    syslogs: {}
+    wiredDataCollection: {}
+    wirelessTelemetry: {}
 """
 RETURN = r"""
 catalystcenter_response:
@@ -136,9 +112,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_total_interfaces_count_across_the_network_devices",
+            function="the_total_interfaces_count_across_the_network_devices",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

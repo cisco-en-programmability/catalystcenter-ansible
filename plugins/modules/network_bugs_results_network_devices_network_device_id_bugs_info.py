@@ -88,10 +88,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     severity: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     networkDeviceId: string
   register: result
 - name: Get Network Bugs Results Network Devices Network Device Id Bugs by id

@@ -22,7 +22,7 @@ options:
       requested. The identifier should be in the format of a UUID. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
     type: str
   multicastEnabled:
-    description: Multicast Enabled.
+    description: MulticastEnabled flag.
     type: bool
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

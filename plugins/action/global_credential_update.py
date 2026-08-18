@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="discovery",
-            function="update_global_credentials",
+            function="update_global_credentials_operational_tasks",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

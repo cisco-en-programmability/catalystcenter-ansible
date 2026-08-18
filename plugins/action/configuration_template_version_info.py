@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="configuration_templates",
-                function="get_template_versions",
+                function="gets_all_the_versions_of_a_given_template",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

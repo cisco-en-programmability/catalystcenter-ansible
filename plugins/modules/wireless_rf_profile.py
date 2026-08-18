@@ -204,7 +204,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    rfProfileName: string
+    rfProfileName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

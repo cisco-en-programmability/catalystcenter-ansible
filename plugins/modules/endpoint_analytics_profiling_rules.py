@@ -7,13 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules
-short_description: Resource module for Endpoint Analytics Profiling-Rules
+short_description: Resource module for Endpoint Analytics Profiling Rules
 description:
-  - Manage operations create, update and delete of the resource Endpoint Analytics Profiling-Rules.
+  - Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
   - Creates profiling rule from the request body.
   - Deletes the profiling rule for the given 'ruleId'.
   - Updates the profiling rule for the given 'ruleId'.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -115,9 +115,9 @@ requirements:
   - python >= 3.12
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.create_a_profiling_rule,
-    ai_endpoint_analytics.AiEndpointAnalytics.delete_an_existing_profiling_rule,
-    ai_endpoint_analytics.AiEndpointAnalytics.update_an_existing_profiling_rule,
+    ai_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule,
+    ai_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule,
+    ai_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule,
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},

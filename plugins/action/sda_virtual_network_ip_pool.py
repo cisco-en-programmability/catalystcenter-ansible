@@ -25,6 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -63,7 +64,6 @@ class SdaVirtualNetworkIpPool(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
-            site_name_hierarchy=params.get("siteNameHierarchy"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             virtualNetworkName=params.get("virtualNetworkName"),
             isLayer2Only=params.get("isLayer2Only"),
@@ -80,6 +80,7 @@ class SdaVirtualNetworkIpPool(object):
             isCommonPool=params.get("isCommonPool"),
             isBridgeModeVm=params.get("isBridgeModeVm"),
             poolType=params.get("poolType"),
+            site_name_hierarchy=params.get("siteNameHierarchy"),
             virtual_network_name=params.get("virtualNetworkName"),
             ip_pool_name=params.get("ipPoolName"),
         )
@@ -208,7 +209,6 @@ class SdaVirtualNetworkIpPool(object):
             ("virtualNetworkName", "virtual_network_name"),
             ("ipPoolName", "ip_pool_name"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

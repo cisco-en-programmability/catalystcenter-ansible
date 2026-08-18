@@ -21,7 +21,7 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
+      - Id path parameter. Site Id, retrievable from the `id` attribute in `/intent/api/v1/sites`.
     type: str
   _inherited:
     description:
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
-    id: string
+    _inherited: True
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,32 +68,11 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "wiredDataCollection": {
-          "enableWiredDataCollection": true
-        },
-        "wirelessTelemetry": {
-          "enableWirelessTelemetry": true
-        },
-        "snmpTraps": {
-          "useBuiltinTrapServer": true,
-          "externalTrapServers": [
-            "string"
-          ]
-        },
-        "syslogs": {
-          "useBuiltinSyslogServer": true,
-          "externalSyslogServers": [
-            "string"
-          ]
-        },
-        "applicationVisibility": {
-          "collector": {
-            "collectorType": "string",
-            "address": "string",
-            "port": 0
-          },
-          "enableOnWiredAccessDevices": true
-        }
+        "applicationVisibility": {},
+        "wiredDataCollection": {},
+        "wirelessTelemetry": {},
+        "snmpTraps": {},
+        "syslogs": {}
       },
       "version": "string"
     }

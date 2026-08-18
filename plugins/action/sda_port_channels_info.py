@@ -32,7 +32,7 @@ argument_spec.update(
         networkDeviceId=dict(type="str"),
         portChannelName=dict(type="str"),
         connectedDeviceType=dict(type="str"),
-        nativeVlanId=dict(type="float"),
+        nativeVlanId=dict(type="int"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),

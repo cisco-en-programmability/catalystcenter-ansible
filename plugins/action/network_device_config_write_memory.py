@@ -82,7 +82,7 @@ class ActionModule(ActionBase):
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
-            family="configuration_archive",
+            family="compliance",
             function="commit_device_configuration",
             op_modifies=True,
             params=self.get_object(self._task.args),

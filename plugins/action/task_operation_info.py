@@ -93,7 +93,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="task",
-                function="get_task_by_operation_id",
+                function="get_task_by_operationid",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

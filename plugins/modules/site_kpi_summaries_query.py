@@ -9,33 +9,32 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_query
 short_description: Resource module for Site Kpi Summaries Query
 description:
-  - Manage operation create of the resource Site Kpi Summaries Query. - > Returns site analytics for all child sites of given
-    parent site. For detailed information about the usage of the API, please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- SiteKpiSummaries-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Site Kpi Summaries Query.
+  - Returns site analytics for all child sites of given parent site. For detailed.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Attributes.
+    description: Site Kpi Summaries Query's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Site Kpi Summaries Query's endTime.
     type: int
   filters:
     description: Site Kpi Summaries Query's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Site Kpi Summaries Query's key.
         type: str
       operator:
-        description: Operator.
+        description: Site Kpi Summaries Query's operator.
         type: str
       value:
-        description: Value.
+        description: Site Kpi Summaries Query's value.
         type: str
     type: list
   headers:
@@ -45,27 +44,27 @@ options:
     description: Site Kpi Summaries Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Site Kpi Summaries Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Site Kpi Summaries Query's offset.
         type: int
       sortBy:
         description: Site Kpi Summaries Query's sortBy.
         suboptions:
           name:
-            description: Name.
+            description: Site Kpi Summaries Query's name.
             type: str
           order:
-            description: Order.
+            description: Site Kpi Summaries Query's order.
             type: str
         type: dict
     type: dict
   startTime:
-    description: Start Time.
+    description: Site Kpi Summaries Query's startTime.
     type: int
   views:
-    description: Views.
+    description: Site Kpi Summaries Query's views.
     elements: str
     type: list
 requirements:

@@ -7,11 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list_info
-short_description: Information module for Security Threats Rogue Allowed-List
+short_description: Information module for Security Threats Rogue Allowed List
 description:
-  - Get all Security Threats Rogue Allowed-List.
+  - Get all Security Threats Rogue Allowed List.
   - Intent API to fetch all the allowed mac addresses in the system.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -45,7 +45,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Security Threats Rogue Allowed-List
+- name: Get all Security Threats Rogue Allowed List
   cisco.catalystcenter.security_threats_rogue_allowed_list_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

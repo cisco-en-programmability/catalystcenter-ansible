@@ -69,11 +69,11 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     category: string
-    sortBy: string
-    order: string
+    sortBy: startDeviceHostName
+    order: asc
     siteId: string
   register: result
 """

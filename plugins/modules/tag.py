@@ -22,14 +22,15 @@ options:
     description: Description of the tag.
     type: str
   dynamicRules:
-    description: Tag's dynamicRules.
+    description: Dynamic rules details.
     elements: dict
     suboptions:
       memberType:
         description: MemberType of the tag (e.g. Networkdevice, interface).
         type: str
       rules:
-        description: Tag's rules.
+        description: Rules details (e.g. "rules" {"operation" "AND", "items" {"operation" "ILIKE", "name" "managementIpAddress",
+          "value" "%10%"}, {"operation" "ILIKE", "name" "hostname", "value" "%NA%"} }).
         suboptions:
           items:
             description: Items details,multiple rules can be defined by items(e.g. "items" {"operation" "ILIKE", "name" "managementIpAddress",
@@ -56,7 +57,7 @@ options:
         type: dict
     type: list
   id:
-    description: InstanceUuid generated for the tag.
+    description: Id path parameter. Tag ID.
     type: str
   instanceTenantId:
     description: InstanceTenantId generated for the tag.
@@ -65,7 +66,7 @@ options:
     description: Name of the tag.
     type: str
   systemTag:
-    description: true for system created tags, false for user defined tags.
+    description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -93,7 +94,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Delete by id
   cisco.catalystcenter.tag:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -102,22 +103,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    dynamicRules:
-      - memberType: string
-        rules:
-          items:
-            - string
-          name: string
-          operation: string
-          value: string
-          values:
-            - string
+    state: absent
     id: string
-    instanceTenantId: string
-    name: string
-    systemTag: true
 - name: Update all
   cisco.catalystcenter.tag:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -143,7 +130,7 @@ EXAMPLES = r"""
     instanceTenantId: string
     name: string
     systemTag: true
-- name: Delete by id
+- name: Create
   cisco.catalystcenter.tag:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -152,8 +139,22 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
+    state: present
+    description: string
+    dynamicRules:
+      - memberType: string
+        rules:
+          items:
+            - string
+          name: string
+          operation: string
+          value: string
+          values:
+            - string
     id: string
+    instanceTenantId: string
+    name: string
+    systemTag: true
 """
 RETURN = r"""
 catalystcenter_response:
@@ -164,7 +165,7 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }

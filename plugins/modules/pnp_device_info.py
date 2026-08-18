@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter.
+    type: str
   limit:
     description:
       - >
@@ -108,10 +112,6 @@ options:
     description:
       - SiteName query parameter. Device Site Name.
     type: str
-  id:
-    description:
-      - Id path parameter.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -143,7 +143,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
+    limit: 50
     offset: 0
     sort: []
     sortOrder: string
@@ -157,7 +157,7 @@ EXAMPLES = r"""
     workflowName: []
     smartAccountId: []
     virtualAccountId: []
-    lastContact: true
+    lastContact: True
     macAddress: string
     hostname: string
     siteName: string

@@ -29,7 +29,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         category=dict(type="str"),
-        managementAddress=dict(type="str"),
+        managementAddress=dict(type="dict"),
         credentials=dict(type="dict"),
         id=dict(type="str"),
     )

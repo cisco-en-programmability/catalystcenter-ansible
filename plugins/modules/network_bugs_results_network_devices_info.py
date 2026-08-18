@@ -23,7 +23,7 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanMode:
     description:
@@ -98,10 +98,10 @@ EXAMPLES = r"""
     scanMode: string
     scanStatus: string
     bugCount: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Network Bugs Results Network Devices by id
   cisco.catalystcenter.network_bugs_results_network_devices_info:

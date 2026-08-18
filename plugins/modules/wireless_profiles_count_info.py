@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfilesCount
-    description: Complete reference of the GetWirelessProfilesCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles-count
+  - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfileCount
+    description: Complete reference of the GetWirelessProfileCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-count
 notes:
   - SDK Method used are
-    wireless.Wireless.get_wireless_profiles_count,
+    wireless.Wireless.get_wireless_profile_count,
   - Paths used are
     get /dna/intent/api/v1/wirelessProfiles/count,
 """

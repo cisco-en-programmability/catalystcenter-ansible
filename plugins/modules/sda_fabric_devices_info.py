@@ -32,7 +32,8 @@ options:
       - >
         DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
         EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
-    type: str
+    elements: str
+    type: list
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -71,9 +72,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     networkDeviceId: string
-    deviceRoles: string
-    offset: 0
-    limit: 0
+    deviceRoles: []
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -86,18 +87,23 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "name": "string",
-          "siteId": "string",
-          "type": "string",
-          "ipTransitSettings": {
-            "routingProtocolName": "string",
-            "autonomousSystemNumber": "string"
-          },
-          "sdaTransitSettings": {
-            "isMulticastOverTransitEnabled": true,
-            "controlPlaneNetworkDeviceIds": [
+          "networkDeviceId": "string",
+          "fabricId": "string",
+          "deviceRoles": [
+            "string"
+          ],
+          "borderDeviceSettings": {
+            "borderTypes": [
               "string"
-            ]
+            ],
+            "layer3Settings": {
+              "localAutonomousSystemNumber": "string",
+              "isDefaultExit": true,
+              "importExternalRoutes": true,
+              "borderPriority": 0,
+              "prependAutonomousSystemCount": 0,
+              "customBgpRouterId": "string"
+            }
           }
         }
       ],

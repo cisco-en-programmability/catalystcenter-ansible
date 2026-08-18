@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="delete_sp_profile_v2",
+            function="delete_sp_profile",
             params=self.get_object(self._task.args),
         )
         self._result.update(

@@ -66,7 +66,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_the_spectrum_sensor_reports_sent_by_w_l_c_for_provided_ap_mac,
+    sensors.Sensors.retrieves_the_spectrum_sensor_reports_sent_by_wlc_for_provided_ap_mac,
   - Paths used are
     get /dna/data/api/v1/icap/spectrumSensorReports,
 """

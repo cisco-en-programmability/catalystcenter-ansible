@@ -87,7 +87,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="application_policy",
-            function="get_application_count_v2",
+            function="get_application_count",
             params=self.get_object(self._task.args),
         )
         self._result.update(

@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetsABuildingV2
-    description: Complete reference of the GetsABuildingV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-building-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetsABuilding
+    description: Complete reference of the GetsABuilding API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
 notes:
   - SDK Method used are
-    site_design.SiteDesign.gets_a_building_v2,
+    site_design.SiteDesign.gets_a_building,
   - Paths used are
     get /dna/intent/api/v2/buildings/{id},
 """
@@ -59,13 +59,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "parentId": "string",
-        "name": "string",
-        "latitude": 0,
-        "longitude": 0,
-        "address": "string",
-        "country": "string"
-      }
+      "response": {},
+      "version": "string"
     }
 """

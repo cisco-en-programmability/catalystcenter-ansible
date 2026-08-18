@@ -25,10 +25,10 @@ options:
         description: Description.
         type: str
       filter:
-        description: Event Subscription Rest's filter.
+        description: Filter.
         suboptions:
           categories:
-            description: Categories.
+            description: Event Subscription Rest's categories.
             elements: str
             type: list
           domainsSubdomains:
@@ -36,10 +36,10 @@ options:
             elements: dict
             suboptions:
               domain:
-                description: Domain.
+                description: Event Subscription Rest's domain.
                 type: str
               subDomains:
-                description: Sub Domains.
+                description: Event Subscription Rest's subDomains.
                 elements: str
                 type: list
             type: list
@@ -48,19 +48,19 @@ options:
             elements: str
             type: list
           severities:
-            description: Severities.
+            description: Event Subscription Rest's severities.
             elements: str
             type: list
           siteIds:
-            description: Site Ids.
+            description: Event Subscription Rest's siteIds.
             elements: str
             type: list
           sources:
-            description: Sources.
+            description: Event Subscription Rest's sources.
             elements: str
             type: list
           types:
-            description: Types.
+            description: Event Subscription Rest's types.
             elements: str
             type: list
         type: dict
@@ -68,14 +68,14 @@ options:
         description: Name.
         type: str
       subscriptionEndpoints:
-        description: Event Subscription Rest's subscriptionEndpoints.
+        description: Subscription Endpoints.
         elements: dict
         suboptions:
           instanceId:
             description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription Rest's subscriptionDetails.
+            description: Subscription Details.
             suboptions:
               connectorType:
                 description: Connector Type (Must be REST).

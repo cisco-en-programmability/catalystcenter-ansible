@@ -17,39 +17,39 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   cliId:
-    description: Cli Id.
+    description: CLI Credential Id.
     type: str
   headers:
     description: Additional headers.
     type: dict
   httpRead:
-    description: Http Read.
+    description: HTTP(S) Read Credential Id.
     type: str
   httpWrite:
-    description: Http Write.
+    description: HTTP(S) Write Credential Id.
     type: str
   siteId:
     description: SiteId path parameter. Site id to assign credential.
     type: str
   snmpV2ReadId:
-    description: Snmp V2 Read Id.
+    description: SNMPv2c Read Credential Id.
     type: str
   snmpV2WriteId:
-    description: Snmp V2 Write Id.
+    description: SNMPv2c Write Credential Id.
     type: str
   snmpV3Id:
-    description: Snmp V3 Id.
+    description: SNMPv3 Credential Id.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSite
-    description: Complete reference of the AssignDeviceCredentialToSite API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
+  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV1
+    description: Complete reference of the AssignDeviceCredentialToSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.assign_device_credential_to_site,
+    network_settings.NetworkSettings.assign_device_credential_to_site_v1,
   - Paths used are
     post /dna/intent/api/v1/credential-to-site/{siteId},
 """
@@ -69,7 +69,7 @@ EXAMPLES = r"""
     headers: '{{my_headers | from_json}}'
     httpRead: string
     httpWrite: string
-    siteId: string
+    siteId: application/json
     snmpV2ReadId: string
     snmpV2WriteId: string
     snmpV3Id: string

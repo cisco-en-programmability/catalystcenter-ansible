@@ -21,13 +21,17 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the IP address subpool to retrieve.
+    type: str
   offset:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   sortBy:
     description:
@@ -42,10 +46,6 @@ options:
       - >
         SiteId query parameter. The `id` of the site for which to retrieve IP address subpools. Only subpools
         whose `siteId` exactly matches will be fetched, parent or child site matches will not be included.
-    type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the IP address subpool to retrieve.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -78,10 +78,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
     sortBy: string
-    order: string
+    order: asc
     siteId: string
   register: result
 - name: Get Ipam Site Ip Address Pools by id
@@ -104,51 +104,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "id": "string",
-        "ipV4AddressSpace": {
-          "subnet": "string",
-          "prefixLength": 0,
-          "gatewayIpAddress": "string",
-          "dhcpServers": [
-            "string"
-          ],
-          "dnsServers": [
-            "string"
-          ],
-          "totalAddresses": "string",
-          "unassignableAddresses": "string",
-          "assignedAddresses": "string",
-          "defaultAssignedAddresses": "string",
-          "slaacSupport": true,
-          "globalPoolId": "string",
-          "overlapping": true,
-          "addressSpaceId": "string"
-        },
-        "ipV6AddressSpace": {
-          "subnet": "string",
-          "prefixLength": 0,
-          "gatewayIpAddress": "string",
-          "dhcpServers": [
-            "string"
-          ],
-          "dnsServers": [
-            "string"
-          ],
-          "totalAddresses": "string",
-          "unassignableAddresses": "string",
-          "assignedAddresses": "string",
-          "defaultAssignedAddresses": "string",
-          "slaacSupport": true,
-          "globalPoolId": "string",
-          "overlapping": true,
-          "addressSpaceId": "string"
-        },
-        "name": "string",
-        "poolType": "string",
-        "siteId": "string",
-        "siteName": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

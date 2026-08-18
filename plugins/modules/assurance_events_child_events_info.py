@@ -10,10 +10,7 @@ module: assurance_events_child_events_info
 short_description: Information module for Assurance Events Child Events
 description:
   - Get all Assurance Events Child Events.
-  - Wireless client event could have child events and this API can be used to fetch the same using parent event
-    `id` as the input.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceEvents-1.0.0-resolved.yaml.
+  - Wireless client event could have child events and this API can be used to.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

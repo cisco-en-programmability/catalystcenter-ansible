@@ -34,7 +34,7 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. Include values explicitly set for this site; when false, null values
+        _inherited query parameter. Include values explicitly set for this site; when `false`, `null` values
         indicate that the site inherits these values from the parent site or a higher level in the site
         hierarchy.
     type: bool
@@ -64,10 +64,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
-    policyId: string
-    siteId: string
-    ruleId: string
+    _inherited: True
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 """
 RETURN = r"""
@@ -77,18 +77,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "variableValues": [
-          {
-            "id": "string",
-            "values": [
-              "string"
-            ]
-          }
-        ],
-        "inheritedSiteId": "string",
-        "inheritedSiteName": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

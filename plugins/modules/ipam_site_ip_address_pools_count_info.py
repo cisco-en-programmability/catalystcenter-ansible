@@ -11,7 +11,7 @@ short_description: Information module for Ipam Site Ip Address Pools Count
 description:
   - Get all Ipam Site Ip Address Pools Count.
   - Counts IP address subpools, which reserve address space from a global pool or global pools .
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

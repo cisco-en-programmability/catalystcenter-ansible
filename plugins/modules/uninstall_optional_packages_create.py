@@ -17,10 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be uninstalled. Use the `/dna/system/api/v1/installedRelease`
-      API to obtain the optional package IDs. In the installedRelease API response, installed optional packages can be identified
-      by the attributes `packagesn.optional` is true. And `packagesn.status` is DEPLOYED. Provide the `packagesn.id` of these
-      optional packages.
+    description: Define the list of optional packages to be uninstalled.
     elements: str
     type: list
 requirements:

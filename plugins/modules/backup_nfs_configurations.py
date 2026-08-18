@@ -48,8 +48,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!delete-nfs-configuration
 notes:
   - SDK Method used are
-    backup.Backup.create_n_f_s_configuration,
-    backup.Backup.delete_n_f_s_configuration,
+    backup.Backup.create_nfs_configuration,
+    backup.Backup.delete_nfs_configuration,
   - Paths used are
     post /dna/system/api/v1/backupNfsConfigurations,
     delete /dna/system/api/v1/backupNfsConfigurations/{id},

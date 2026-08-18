@@ -10,9 +10,9 @@ module: feature_templates_wireless_advanced_ssid_configurations
 short_description: Resource module for Feature Templates Wireless Advanced Ssid Configurations
 description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Advanced Ssid Configurations.
-  - This API allows users to create a Advanced SSID configuration feature template.
+  - This API allows users to create a Advanced SSID configuration feature.
   - This API allows users to delete a specific Advanced SSID configuration feature template by Id.
-  - This API allows users to update the details of a specific Advanced SSID configuration feature template by ID.
+  - This API allows users to update the details of a specific Advanced SSID.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,7 @@ options:
     description: Design Name.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Advanced Ssid Configurations's featureAttributes.
+    description: Advanced SSID Configuration.
     suboptions:
       advertisePCAnalyticsSupport:
         description: Advertise PC Analytics Support.
@@ -301,17 +301,6 @@ EXAMPLES = r"""
       wmmPolicy: string
     unlockedAttributes:
       - string
-- name: Delete by id
-  cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -383,6 +372,17 @@ EXAMPLES = r"""
     id: string
     unlockedAttributes:
       - string
+- name: Delete by id
+  cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 """
 RETURN = r"""
 catalystcenter_response:

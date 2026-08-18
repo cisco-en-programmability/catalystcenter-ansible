@@ -23,11 +23,16 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. List of unique identifiers of the global credentials. Accepts comma separated values.
+      - Id path parameter. Unique identifier of the global credential.
     type: str
   type:
     description:
-      - Type query parameter. Returns global credentials for the given credential type.
+      - >
+        Type query parameter. Returns global credentials for the given credential type. |Type | Description |
+        |---------------|------------------------------------| | `CLI` | CLI credentials for TELNET/SSH. | |
+        `SNMPV2_READ_COMMUNITY` | SNMP V2 read credentials. | | `SNMPV2_WRITE_COMMUNITY` | SNMP V2 write
+        credentials. | | `SNMPV3` | SNMP V3 credentials. | | `HTTP_WRITE` | HTTP write credentials. |
+        |`HTTP_READ` | HTTP read credentials. | | `NETCONF` | NETCONF port. |.
     type: str
   offset:
     description:
@@ -76,12 +81,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
-    type: string
-    offset: 0
-    limit: 0
-    sortBy: string
-    order: string
+    id: ['3fa85f64-5717-4562-b3fc-2c963f66afa6', 'cfa85f64-5717-4562-b3fc-2c963f66afa6']
+    type: SNMPV2_READ_COMMUNITY
+    offset: 1
+    limit: 500
+    sortBy: id
+    order: asc
   register: result
 - name: Get Global Credentials by id
   cisco.catalystcenter.global_credentials_info:
@@ -93,7 +98,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
   register: result
 """
 RETURN = r"""
@@ -103,10 +108,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

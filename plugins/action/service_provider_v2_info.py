@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="get_service_provider_details_v2",
+            function="get_service_provider_details",
             params=self.get_object(self._task.args),
         )
         self._result.update(

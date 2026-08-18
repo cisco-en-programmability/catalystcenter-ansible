@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: swim_trigger_distribution
 short_description: Resource module for Swim Trigger Distribution
 description:
-  - Manage operation create of the resource Swim Trigger Distribution. - > Distributes a software image on a given device.
-    Software image must be imported successfully into Catalyst Center before it can be distributed.
+  - Manage operation create of the resource Swim Trigger Distribution.
+  - Distributes a software image on a given device. Software image must be.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -64,7 +64,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

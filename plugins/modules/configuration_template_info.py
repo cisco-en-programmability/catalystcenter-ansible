@@ -21,6 +21,14 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  templateId:
+    description:
+      - TemplateId path parameter. TemplateId(UUID) to get details of the template.
+    type: str
+  latestVersion:
+    description:
+      - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
+    type: bool
   projectId:
     description:
       - ProjectId query parameter. Filter template(s) based on project UUID.
@@ -67,14 +75,6 @@ options:
     description:
       - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
-  templateId:
-    description:
-      - TemplateId path parameter. TemplateId(UUID) to get details of the template.
-    type: str
-  latestVersion:
-    description:
-      - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
-    type: bool
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -82,13 +82,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate
     description: Complete reference of the GetsDetailsOfAGivenTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetsTheTemplatesAvailable
-    description: Complete reference of the GetsTheTemplatesAvailable API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetsTheTemplatesAvailableV1
+    description: Complete reference of the GetsTheTemplatesAvailableV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available-v-1
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,
-    configuration_templates.ConfigurationTemplates.gets_the_templates_available,
+    configuration_templates.ConfigurationTemplates.gets_the_templates_available_v1,
   - Paths used are
     get /dna/intent/api/v1/template-programmer/template,
     get /dna/intent/api/v1/template-programmer/template/{templateId},
@@ -112,11 +112,11 @@ EXAMPLES = r"""
     productFamily: string
     productSeries: string
     productType: string
-    filterConflictingTemplates: true
+    filterConflictingTemplates: True
     tags: []
     projectNames: []
-    unCommitted: true
-    sortOrder: string
+    unCommitted: True
+    sortOrder: ASC
   register: result
 - name: Get Configuration Template by id
   cisco.catalystcenter.configuration_template_info:
@@ -128,7 +128,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    latestVersion: true
+    latestVersion: True
     templateId: string
   register: result
 """

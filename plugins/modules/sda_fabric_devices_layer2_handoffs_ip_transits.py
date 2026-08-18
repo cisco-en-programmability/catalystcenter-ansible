@@ -12,8 +12,8 @@ description:
   - Manage operations create, update and delete of the resource Sda Fabric Devices Layer2 Handoffs Ip Transits.
   - Adds layer 3 handoffs with ip transit in fabric devices based on user input.
   - Deletes a layer 3 handoff with ip transit of a fabric device by id.
-  - Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
-  - Updates layer 3 handoffs with ip transit of fabric devices based on user input.
+  - Deletes layer 3 handoffs with ip transit of a fabric device based on user.
+  - Updates layer 3 handoffs with ip transit of fabric devices based on user.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -29,7 +29,7 @@ options:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   payload:
-    description: Sda Fabric Devices Layer2 Handoffs Ip Transits's payload.
+    description: Layer 3 handoff ip transit create request root element.
     elements: dict
     suboptions:
       externalConnectivityIpPoolName:

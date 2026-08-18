@@ -10,7 +10,7 @@ module: sda_transit_networks_count_info
 short_description: Information module for Sda Transit Networks Count
 description:
   - Get all Sda Transit Networks Count.
-  - Returns the count of transit networks that match the provided query parameters.
+  - Returns the count of transit networks that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,9 +21,7 @@ options:
     type: dict
   type:
     description:
-      - >
-        Type query parameter. Type of the transit network. Allowed values are IP_BASED_TRANSIT,
-        SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT.
+      - Type query parameter. Type of the transit network.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

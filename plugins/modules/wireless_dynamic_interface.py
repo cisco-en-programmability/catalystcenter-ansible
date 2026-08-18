@@ -21,7 +21,7 @@ options:
     description: Additional headers.
     type: dict
   interfaceName:
-    description: InterfaceName query parameter. Valid interface-name to be deleted.
+    description: Dynamic-interface name.
     type: str
   vlanId:
     description: Vlan Id.
@@ -47,18 +47,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.wireless_dynamic_interface:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    headers: '{{my_headers | from_json}}'
-    interfaceName: string
 - name: Create
   cisco.catalystcenter.wireless_dynamic_interface:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -72,6 +60,18 @@ EXAMPLES = r"""
     headers: '{{my_headers | from_json}}'
     interfaceName: string
     vlanId: 0
+- name: Delete all
+  cisco.catalystcenter.wireless_dynamic_interface:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    headers: '{{my_headers | from_json}}'
+    interfaceName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

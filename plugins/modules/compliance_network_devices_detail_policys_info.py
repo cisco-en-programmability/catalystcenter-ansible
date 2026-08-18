@@ -29,9 +29,7 @@ options:
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -59,9 +57,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
-    networkDeviceId: string
+    networkDeviceId: 0003e9dc-4eaf-41bc-a0e4-bcaaf78e6302
   register: result
 """
 RETURN = r"""
@@ -76,7 +74,7 @@ catalystcenter_response:
           "policyId": "string",
           "policyName": "string",
           "policyDescription": "string",
-          "maxSeverity": "string",
+          "maxSeverity": {},
           "violationsCount": 0,
           "errorCount": 0,
           "lastComplianceRunTime": 0

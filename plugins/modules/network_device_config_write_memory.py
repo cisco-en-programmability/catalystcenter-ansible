@@ -24,12 +24,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Archive CommitDeviceConfiguration
+  - name: Cisco Catalyst Center documentation for Compliance CommitDeviceConfiguration
     description: Complete reference of the CommitDeviceConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!commit-device-configuration
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.commit_device_configuration,
+    compliance.Compliance.commit_device_configuration,
   - Paths used are
     post /dna/intent/api/v1/network-device-config/write-memory,
 """

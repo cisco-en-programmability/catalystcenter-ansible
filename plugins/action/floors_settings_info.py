@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="get_floor_settings_v2",
+            function="get_floor_settings",
             params=self.get_object(self._task.args),
         )
         self._result.update(

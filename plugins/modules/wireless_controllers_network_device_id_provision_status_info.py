@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: wireless_controllers_network_device_id_provision_status_info
 short_description: Information module for Wireless Controllers Network Device Id Provision Status
 description:
-  - Get all Wireless Controllers Network Device Id Provision Status.
-  - Retrieves wireless controller's provision status.
+  - Get all Wireless Controllers Network Device Id Provision Status. - > API to get wireless controller's provision status.
+    This API allows you to get a wireless controller's provision status.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

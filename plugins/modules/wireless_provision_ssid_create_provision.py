@@ -20,7 +20,7 @@ options:
     description: Enable SSID for Fabric.
     type: bool
   flexConnect:
-    description: Wireless Provision Ssid Create Provision's flexConnect.
+    description: Flex Connect - Applicable for non fabric profile.
     suboptions:
       enableFlexConnect:
         description: Enable Flex Connect.
@@ -37,7 +37,7 @@ options:
     elements: str
     type: list
   ssidDetails:
-    description: Wireless Provision Ssid Create Provision's ssidDetails.
+    description: Ssid details.
     suboptions:
       authKeyMgmt:
         description: Takes string inputs for the AKMs that should be set true. Possible AKM values dot1x,dot1x_ft, dot1x_sha,

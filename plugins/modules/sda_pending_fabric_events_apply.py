@@ -11,13 +11,13 @@ short_description: Resource module for Sda Pending Fabric Events Apply
 description:
   - Manage operation create of the resource Sda Pending Fabric Events Apply.
   - Applies pending fabric events based on user input.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Sda Pending Fabric Events Apply's payload.
+    description: Apply pending fabrics events request root element.
     elements: dict
     suboptions:
       fabricId:

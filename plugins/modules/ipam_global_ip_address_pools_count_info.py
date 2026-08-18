@@ -11,7 +11,7 @@ short_description: Information module for Ipam Global Ip Address Pools Count
 description:
   - Get all Ipam Global Ip Address Pools Count. - > Counts global IP address pools. Global pools are not associated with any
     particular site, but may have portions of their address space reserved by site-specific subpools.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

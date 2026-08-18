@@ -29,7 +29,12 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   cdpGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's cdpGlobalConfig.
+    description: This feature is for configuring CDP. Cisco Discovery Protocol (CDP) is a device discovery protocol that runs
+      over Layer 2 on all Cisco devices and allows network management applications to discover Cisco devices that are neighbors
+      of already known devices. A CDP-enabled device sends periodic messages to a multicast address, advertising at least
+      one address at which it can receive SNMP messages. The advertisements also contain time-to-live, or holdtime information,
+      which is the length of time a receiving device holds CDP information before discarding it. Each device also listens
+      to the messages sent by other devices to learn about neighboring devices.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -60,7 +65,7 @@ options:
         type: list
     type: dict
   cdpInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's cdpInterfaceConfig.
+    description: Configure CDP settings of an interface.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -84,7 +89,8 @@ options:
         type: list
     type: dict
   dhcpSnoopingGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingGlobalConfig.
+    description: This feature is for configuring DHCP Snooping, which secures networks by monitoring DHCP traffic, blocking
+      unauthorized servers, and enhancing overall security.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -95,7 +101,7 @@ options:
               the global settings for DHCP snooping.
             type: str
           databaseAgent:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's databaseAgent.
+            description: Configure the settings for managing and maintaining the DHCP server's database remotely.
             suboptions:
               agentUrl:
                 description: Example tftp //192.168.1.100/db_backup Specify the URL for the database agent or the binding
@@ -110,7 +116,7 @@ options:
                   Corresponding CLI - ip dhcp snooping database timeout <0-86400>.
                 type: int
               writeDelay:
-                description: WriteDelay.
+                description: Wired Network Devices Id Config Features Intended Layer2 Feature's writeDelay.
                 type: int
             type: dict
           dhcpSnoopingVlans:
@@ -131,7 +137,8 @@ options:
         type: list
     type: dict
   dhcpSnoopingInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingInterfaceConfig.
+    description: This feature is for configuring DHCP Snooping on interfaces, ensuring secure and reliable IP address assignment
+      by controlling packet filtering, rate limiting, logging, and violation actions.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -157,7 +164,11 @@ options:
         type: list
     type: dict
   dot1xGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xGlobalConfig.
+    description: This feature is for configuring 802.1x. IEEE 802.1x is a standard which facilitates access control between
+      a client and a server. Before services can be provided to a client by a Local Access Network (LAN) or switch, the client
+      connected to the switch port has to be authenticated by the authentication server which runs Remote Authentication Dial-In
+      User Service (RADIUS). 802.1x authentication restricts unauthorized clients from connecting to a LAN through publicly-accessible
+      ports.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -181,17 +192,18 @@ options:
         type: list
     type: dict
   dot1xInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xInterfaceConfig.
+    description: This feature is for configuring 802.1x on interfaces.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
         elements: dict
         suboptions:
           authenticationOrder:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's authenticationOrder.
+            description: Set the order of authentication methods used on a port. Corresponding CLI - authentication order
+              dot1x | mab | webauth.
             suboptions:
               configType:
-                description: ConfigType.
+                description: Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
                 type: str
               items:
                 description: Array of Enums. DOT1X, MAB, WEBAUTH.
@@ -215,7 +227,8 @@ options:
     description: Id path parameter. Network device ID of the wired device to configure.
     type: str
   igmpSnoopingGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingGlobalConfig.
+    description: This feature is for configuring IGMP Snooping, which tracks which ports are attached to multicast-capable
+      routers to help the routers forward IGMP membership reports. By default, IGMP snooping is enabled on the device.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -226,13 +239,13 @@ options:
               global IGMP snooping settings on a device.
             type: str
           igmpSnoopingVlanSettings:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanSettings.
+            description: Configure IGMP Snooping characteristics for VLANs on a device.
             suboptions:
               configType:
-                description: ConfigType.
+                description: Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
                 type: str
               items:
-                description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+                description: IGMP Snooping per VLAN Configuration.
                 elements: dict
                 suboptions:
                   configType:
@@ -240,13 +253,13 @@ options:
                       IGMP snooping per VLAN.
                     type: str
                   igmpSnoopingVlanMrouters:
-                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanMrouters.
+                    description: IGMP Snooping VLAN Mrouter Configuration.
                     suboptions:
                       configType:
                         description: Type of IGMP Snooping Mrouter Settings.
                         type: str
                       items:
-                        description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+                        description: IGMP Snooping VLAN Mrouter Configuration.
                         elements: dict
                         suboptions:
                           configType:
@@ -331,7 +344,9 @@ options:
         type: list
     type: dict
   lldpGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's lldpGlobalConfig.
+    description: This feature is for configuring LLDP. Link Layer Discovery Protocol (LLDP) is a protocol used to advertise
+      and discover information about neighboring network devices on a local area network (LAN). LLDP allows devices to exchange
+      information such as device capabilities, system information, and network connectivity details.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -358,7 +373,7 @@ options:
         type: list
     type: dict
   lldpInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's lldpInterfaceConfig.
+    description: This feature is for configuring LLDP on an interface.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -382,7 +397,8 @@ options:
         type: list
     type: dict
   mabInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's mabInterfaceConfig.
+    description: This feature is for configuring MAC Authentication Bypass (MAB), an alternative for devices that don't support
+      802.1X. The switch checks the MAC address of an endpoint with RADIUS server.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -402,10 +418,13 @@ options:
         type: list
     type: dict
   mldSnoopingGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingGlobalConfig.
+    description: This feature is for configuring MLD Snooping. Multicast Listener Discovery(MLD) is a protocol used by IPv6
+      multicast routersto discover the presence of multicast listeners (nodes wishing to receive IPv6 multicast packets) on
+      the links that are directly attached to the routers and to discover which multicast packets are of interest to neighboring
+      nodes. MLD snooping allows the switch to examine MLD packets and make forwarding decisions based on their content.
     suboptions:
       items:
-        description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+        description: Configure MLD Snooping global characteristics on a device.
         elements: dict
         suboptions:
           configType:
@@ -423,13 +442,13 @@ options:
               router query. Corresponding CLI - ipv6 mld snooping listener-message-suppression.default true.
             type: bool
           mldSnoopingVlanSettings:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanSettings.
+            description: Configure MLD Snooping characteristics for VLANs on a device.
             suboptions:
               configType:
                 description: Type of MLD Snooping VLAN Settings.
                 type: str
               items:
-                description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+                description: MLD Snooping per VLAN Configuration.
                 elements: dict
                 suboptions:
                   configType:
@@ -447,13 +466,13 @@ options:
                     description: Enable MLD querier for this VLAN. Corresponding CLI - ipv6 mld snooping vlan <vlan-id> querier.
                     type: bool
                   mldSnoopingVlanMrouters:
-                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanMrouters.
+                    description: MLD Snooping VLAN Mrouter configuration.
                     suboptions:
                       configType:
                         description: Type of MLD Snooping Mrouter Settings.
                         type: str
                       items:
-                        description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+                        description: MLD Snooping VLAN Mrouter configuration.
                         elements: dict
                         suboptions:
                           configType:
@@ -505,7 +524,9 @@ options:
         type: list
     type: dict
   portChannelConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's portChannelConfig.
+    description: This feature is for configuring port-channels on a wired device. Portchannel allows grouping of several physical
+      Ethernet interfaces to create one logical Ethernet interface for the purpose of providing fault-tolerance and high-speed
+      links between switches, routers, and servers.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -525,7 +546,7 @@ options:
             description: Configures an EtherChannel load-balancing method. Corresponding CLI - port-channel load-balance .
             type: str
           portchannels:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's portchannels.
+            description: PortchannelConfig Portchannels.
             suboptions:
               configType:
                 description: Type of Portchannels.
@@ -535,16 +556,18 @@ options:
                 elements: dict
                 suboptions:
                   AnyOf:
-                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's AnyOf.
+                    description: Not a payload attribue, defined to represent anyOf structure.
                     suboptions:
                       EtherchannelConfig:
-                        description: Wired Network Devices Id Config Features Intended Layer2 Feature's EtherchannelConfig.
+                        description: Not a payload attribute, defined to represent EtherchannelConfig within anyOf.
                         suboptions:
                           configType:
                             description: Type of a Portchannel.
                             type: str
                           memberPorts:
-                            description: Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+                            description: Member ports of the Etherchannel. They must have compatible port characteristics,
+                              such as speed and duplex. Ports that are not compatible are suspended, even though they are
+                              configured in the Etherchannel on mode.
                             suboptions:
                               configType:
                                 description: Type of member ports.
@@ -558,10 +581,10 @@ options:
                                       ETHERCHANNEL_MEMBER_PORT_CONFIG.
                                     type: str
                                   interfaceName:
-                                    description: InterfaceName.
+                                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's interfaceName.
                                     type: str
                                   mode:
-                                    description: Mode.
+                                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's mode.
                                     type: str
                                 type: list
                             type: dict
@@ -575,13 +598,15 @@ options:
                             type: str
                         type: dict
                       LacpPortchannelConfig:
-                        description: Wired Network Devices Id Config Features Intended Layer2 Feature's LacpPortchannelConfig.
+                        description: Not a payload attribute, defined to represent LacpPortchannelConfig within anyOf. LACP
+                          (Link Aggregation Control Protocol) Portchannel is formed using LACP, a IEEE 802.3ad protocol that
+                          facilitates dynamically grouping similarly configured ports into a single logical port.
                         suboptions:
                           configType:
                             description: Type of a Portchannel.
                             type: str
                           memberPorts:
-                            description: Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+                            description: Member ports of the LACP Portchannel.
                             suboptions:
                               configType:
                                 description: Type of member ports.
@@ -620,19 +645,21 @@ options:
                             type: str
                         type: dict
                       PagpPortchannelConfig:
-                        description: Wired Network Devices Id Config Features Intended Layer2 Feature's PagpPortchannelConfig.
+                        description: Not a payload attribute, defined to represent LacpPortchannelConfig within anyOf. PAgP
+                          (Port Aggregation Protocol) Portchannel is formed using PAgP, a Cisco-proprietary protocol that
+                          facilitates dynamically grouping similarly configured ports into a single logical port.
                         suboptions:
                           configType:
                             description: Type of a Portchannel.
                             type: str
                           memberPorts:
-                            description: Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+                            description: Member ports of the PAgP Portchannel.
                             suboptions:
                               configType:
                                 description: Type of member ports.
                                 type: str
                               items:
-                                description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+                                description: Pagp PortChannel MemberPortConfig.
                                 elements: dict
                                 suboptions:
                                   configType:
@@ -647,7 +674,7 @@ options:
                                       port | physical port.
                                     type: str
                                   mode:
-                                    description: Mode.
+                                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's mode.
                                     type: str
                                   portPriority:
                                     description: Assigns a priority so that the selected port is chosen for packet transmission.
@@ -670,7 +697,8 @@ options:
         type: list
     type: dict
   stpGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's stpGlobalConfig.
+    description: This feature is for configuring Spanning Tree Protocol (STP), which provides path redundancy while preventing
+      loops in the network.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -722,7 +750,7 @@ options:
               the standard forward-time delay. Corresponding CLI - spanning-tree portfast default.
             type: str
           stpInstances:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's stpInstances.
+            description: Configure STP characteristics of a VLAN.
             suboptions:
               configType:
                 description: Type of STP VLAN instances.
@@ -740,7 +768,7 @@ options:
                       priority <0-61440>. Default 32768 multipleOf 4096.
                     type: int
                   timers:
-                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's timers.
+                    description: Configure max age, hello interval and forward delay of a VLAN.
                     suboptions:
                       configType:
                         description: Type of network functionality under a feature. Config type STP_TIMERS is for configuring
@@ -790,7 +818,7 @@ options:
         type: list
     type: dict
   stpInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's stpInterfaceConfig.
+    description: This feature is for configuring STP on interfaces.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -828,7 +856,8 @@ options:
               port.
             type: str
           portVlanCostSettings:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's portVlanCostSettings.
+            description: Configure the cost for VLANs. If a loop occurs, spanning tree uses the path cost when selecting an
+              interface to place into the forwarding state. A lower path cost represents higher-speed transmission.
             suboptions:
               configType:
                 description: Type of STP Cost Settings.
@@ -850,7 +879,7 @@ options:
                 type: list
             type: dict
           portVlanPrioritySettings:
-            description: Wired Network Devices Id Config Features Intended Layer2 Feature's portVlanPrioritySettings.
+            description: Configure the priority for VLANs.
             suboptions:
               configType:
                 description: Type of STP Priority Settings.
@@ -860,7 +889,7 @@ options:
                 elements: dict
                 suboptions:
                   configType:
-                    description: ConfigType.
+                    description: Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
                     type: str
                   priority:
                     description: Configures the port priority for the VLANs. Corresponding CLI - spanning-tree vlan port-priority
@@ -882,7 +911,7 @@ options:
         type: dict
     type: dict
   switchportInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's switchportInterfaceConfig.
+    description: This feature is for configuring switchport on interfaces.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -927,7 +956,7 @@ options:
         type: list
     type: dict
   trunkInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's trunkInterfaceConfig.
+    description: This feature is for trunk interface configurations on interfaces.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -962,7 +991,8 @@ options:
         type: list
     type: dict
   vlanConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's vlanConfig.
+    description: This feature is for configuring VLANs. VLANs are switched networks that are logically segmented by function
+      or application.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -986,7 +1016,13 @@ options:
         type: list
     type: dict
   vtpGlobalConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's vtpGlobalConfig.
+    description: This feature is for configuring VTP. VLAN Trunking Protocol (VTP) is a Layer 2 messaging protocol that maintains
+      VLAN configuration consistency by managing the addition, deletion, and renaming of VLANs on a network-wide basis. It
+      can be used to make vlan configuration changes centrally on one or more devices and have those changes automatically
+      communicated to all the other devices in the network. VTP does not work well in a situation where multiple updates to
+      the VLANs occur simultaneously on devices in the same domain, which would result in an inconsistency in the VLAN database.
+      With VTP, trunk ports must be configured on the device so that the device can send and receive VTP advertisements to
+      and from other devices in the domain.
     suboptions:
       items:
         description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
@@ -1041,10 +1077,10 @@ options:
         type: list
     type: dict
   vtpInterfaceConfig:
-    description: Wired Network Devices Id Config Features Intended Layer2 Feature's vtpInterfaceConfig.
+    description: Configure VTP settings on a per-port basis to control the VTP traffic on trunk interfaces.
     suboptions:
       items:
-        description: Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+        description: Configure VTP settings on a per-port basis to control the VTP traffic on trunk interfaces.
         elements: dict
         suboptions:
           configType:
@@ -1099,7 +1135,7 @@ EXAMPLES = r"""
     state: absent
     feature: string
     id: string
-- name: Create
+- name: Update by id
   cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -1353,7 +1389,7 @@ EXAMPLES = r"""
         - configType: string
           interfaceName: string
           isVtpEnabled: true
-- name: Update by id
+- name: Create
   cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

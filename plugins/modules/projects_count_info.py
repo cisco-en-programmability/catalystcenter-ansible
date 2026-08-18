@@ -11,7 +11,7 @@ short_description: Information module for Projects Count
 description:
   - Get all Projects Count.
   - Get the count of all template projects.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

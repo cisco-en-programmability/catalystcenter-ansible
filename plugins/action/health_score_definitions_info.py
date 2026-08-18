@@ -28,8 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        deviceType=dict(type="str"),
         id=dict(type="str"),
+        deviceType=dict(type="str"),
         includeForOverallHealth=dict(type="bool"),
         attribute=dict(type="str"),
         offset=dict(type="int"),
@@ -75,13 +75,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            device_type=params.get("deviceType"),
             id=params.get("id"),
+            headers=params.get("headers"),
+            device_type=params.get("deviceType"),
             include_for_overall_health=params.get("includeForOverallHealth"),
             attribute=params.get("attribute"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            headers=params.get("headers"),
         )
         return new_object
 

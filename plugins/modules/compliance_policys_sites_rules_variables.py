@@ -16,6 +16,12 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
+  inheritedSiteId:
+    description: The Site Id of the site that this setting is inherited from.
+    type: str
+  inheritedSiteName:
+    description: The name of the site that this setting is inherited from.
+    type: str
   policyId:
     description: PolicyId path parameter. The `id` of the compliance policy.
     type: str
@@ -26,16 +32,14 @@ options:
     description: SiteId path parameter. The `id` of the site to which compliance policy is associated.
     type: str
   variableValues:
-    description: Compliance Policys Sites Rules Variables's variableValues.
+    description: An array of variable value assignments.
     elements: dict
     suboptions:
       id:
         description: The `id` of the variable.
         type: str
       values:
-        description: List of variable values. The order of the list is preserved for compliance checks. The variable value
-          is formatted as a string. It must be a valid string representation of the data and conform to the specified type.
-          For variables with an input type of `SINGLE_SELECT` or `MULTI_SELECT`, pass the actual value, not the key.
+        description: List of variable values. The order of the list is preserved for compliance checks.
         elements: str
         type: list
     type: list
@@ -65,9 +69,11 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    policyId: string
-    ruleId: string
-    siteId: string
+    inheritedSiteId: string
+    inheritedSiteName: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
+    siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
     variableValues:
       - id: string
         values:

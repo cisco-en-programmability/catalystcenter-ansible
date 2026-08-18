@@ -9,11 +9,10 @@ DOCUMENTATION = r"""
 module: network_device_images_distribute_bulk
 short_description: Resource module for Network Device Images Distribute Bulk
 description:
-  - Manage operation create of the resource Network Device Images Distribute Bulk.
-  - This API initiates the process of distributing the software image on the given network devices.
-  - Providing value for the `distributedImages` will only trigger the distribution process.
-  - To monitor the progress and completion of the update task, call the GET API
-    `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`, where `taskId` is from the response.
+  - Manage operation create of the resource Network Device Images Distribute Bulk. - > This API initiates the process of distributing
+    the software image on the given network devices. Providing value for the `distributedImages` will only trigger the distribution
+    process. To monitor the progress and completion of the update task, please call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
+    where `taskId` is from the response of the current endpoint.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,8 +22,21 @@ options:
     description: Network Device Images Distribute Bulk's payload.
     elements: dict
     suboptions:
+      compatibleFeatures:
+        description: The list of functionalities or capabilities that are supported or compatible with a particular device.
+          For example, it determines whether ISSU, Rommon update, etc. Can be enabled on the device.
+        elements: dict
+        suboptions:
+          key:
+            description: Name of the compatible feature.
+            type: str
+          value:
+            description: Feature that can be enabled or disabled.
+            type: str
+        type: list
       distributedImages:
-        description: Network Device Images Distribute Bulk's distributedImages.
+        description: Initiate the distribution of the images that can be fetched from the GET API `/dna/intent/api/v1/images?imported=true`.
+          If there are no image ids available, they will be fetched from the golden bundle as part of the workflow.
         elements: dict
         suboptions:
           id:
@@ -65,7 +77,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     payload:
-      - distributedImages:
+      - compatibleFeatures:
+          - key: string
+            value: string
+        distributedImages:
           - id: string
         id: string
         networkValidationIds:

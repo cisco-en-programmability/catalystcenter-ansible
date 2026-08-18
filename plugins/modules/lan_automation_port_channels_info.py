@@ -11,7 +11,7 @@ short_description: Information module for Lan Automation Port Channels
 description:
   - Get all Lan Automation Port Channels.
   - Get Lan Automation Port Channels by id.
-  - Returns a list of Port Channel between the LAN Automation associated devices.
+  - Returns a list of Port Channel between the LAN Automation associated.
   - This API retrieves Port Channel information using its ID.
 version_added: '2.2.0'
 extends_documentation_fragment:
@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. ID of the port channel.
+    type: str
   device1ManagementIPAddress:
     description:
       - Device1ManagementIPAddress query parameter. The management IP address of the device1.
@@ -45,10 +49,6 @@ options:
     description:
       - Limit query parameter. Maximum number of Port Channel to return.
     type: int
-  id:
-    description:
-      - Id path parameter. ID of the port channel.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12

@@ -9,34 +9,34 @@ DOCUMENTATION = r"""
 module: network_devices_query_count
 short_description: Resource module for Network Devices Query Count
 description:
-  - Manage operation create of the resource Network Devices Query Count.
-  - Gets the total number Network Devices based on the provided complex filters and aggregation functions.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Query Count. - > Gets the total number Network Devices based on
+    the provided complex filters and aggregation functions. For detailed information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Network Devices Query Count's endTime.
     type: int
   filters:
     description: Network Devices Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Network Devices Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Network Devices Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Network Devices Query Count's value.
         type: str
     type: list
   startTime:
-    description: Start Time.
+    description: Network Devices Query Count's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

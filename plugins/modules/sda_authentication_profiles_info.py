@@ -10,7 +10,7 @@ module: sda_authentication_profiles_info
 short_description: Information module for Sda Authentication Profiles
 description:
   - Get all Sda Authentication Profiles.
-  - Returns a list of authentication profiles that match the provided query parameters.
+  - Returns a list of authentication profiles that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -74,9 +74,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     authenticationProfileName: string
-    isGlobalAuthenticationProfile: true
-    offset: 0
-    limit: 0
+    isGlobalAuthenticationProfile: True
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -97,18 +97,8 @@ catalystcenter_response:
           "numberOfHosts": "string",
           "isBpduGuardEnabled": true,
           "isVoiceVlanEnabled": true,
-          "preAuthAcl": {
-            "enabled": true,
-            "implicitAction": "string",
-            "description": "string",
-            "accessContracts": [
-              {
-                "action": "string",
-                "protocol": "string",
-                "port": "string"
-              }
-            ]
-          }
+          "preAuthAcl": {},
+          "preAuthAclIpV6": {}
         }
       ],
       "version": "string"

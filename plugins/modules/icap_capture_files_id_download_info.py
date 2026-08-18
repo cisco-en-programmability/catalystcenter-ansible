@@ -12,7 +12,7 @@ description:
   - Get all Icap Capture Files Id Download. - > Downloads a specific ICAP packet capture file. For detailed information about
     the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -33,7 +33,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!downloads-a-specific-icap-packet-capture-file
 notes:
   - SDK Method used are
-    sensors.Sensors.downloads_a_specific_i_cap_packet_capture_file,
+    sensors.Sensors.downloads_a_specific_icap_packet_capture_file,
   - Paths used are
     get /dna/data/api/v1/icap/captureFiles/{id}/download,
 """

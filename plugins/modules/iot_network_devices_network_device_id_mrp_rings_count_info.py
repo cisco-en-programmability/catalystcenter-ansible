@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: iot_network_devices_network_device_id_mrp_rings_count_info
-short_description: Information module for Iot Network Devices  Network Device Id Mrp Rings Count
+short_description: Information module for Iot Network Devices Network Device Id Mrp Rings Count
 description:
-  - Get all Iot Network Devices  Network Device Id Mrp Rings Count. - > This API returns the count of MRP rings for the given
+  - Get all Iot Network Devices Network Device Id Mrp Rings Count. - > This API returns the count of MRP rings for the given
     fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid attribute in
     the response of API - /dna/intent/api/v1/networkDevices .
-version_added: '2.2.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -33,14 +33,14 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-mrp-rings
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.retrieves_the_count_of_m_r_p_rings,
+    industrial_configuration.IndustrialConfiguration.retrieves_the_count_of_mrp_rings,
   - Paths used are
     get /dna/intent/api/v1/iot/networkDevices/{networkDeviceId}/mrpRings/count,
 """
 
 EXAMPLES = r"""
 ---
-- name: Get all Iot Network Devices  Network Device Id Mrp Rings Count
+- name: Get all Iot Network Devices Network Device Id Mrp Rings Count
   cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

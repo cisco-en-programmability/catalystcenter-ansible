@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: interfaces_id_trend_analytics
 short_description: Resource module for Interfaces Id Trend Analytics
 description:
-  - Manage operation create of the resource Interfaces Id Trend Analytics. - > The Trend analytcis data for the interface,
-    identified by its instanceUuid, in the specified time range. The data is grouped based on the trend time Interval, other
-    input parameters like attributes and aggregate attributes. The default time interval range is 3 hours when start and endTime
-    is not provided.
+  - Manage operation create of the resource Interfaces Id Trend Analytics.
+  - The Trend analytcis data for the interface, identified by its instanceUuid, in.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,44 +21,44 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Interfaces Id Trend Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Interfaces Id Trend Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Interfaces Id Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Interfaces Id Trend Analytics's endTime.
     type: int
   filters:
     description: Interfaces Id Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Interfaces Id Trend Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Interfaces Id Trend Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Interfaces Id Trend Analytics's value.
         type: str
     type: list
   id:
     description: Id path parameter. The interface instance Uuid.
     type: str
   startTime:
-    description: Start Time.
+    description: Interfaces Id Trend Analytics's startTime.
     type: int
   timestampOrder:
-    description: Timestamp Order.
+    description: Interfaces Id Trend Analytics's timestampOrder.
     type: str
   trendIntervalInMinutes:
-    description: Trend Interval In Minutes.
+    description: Interfaces Id Trend Analytics's trendIntervalInMinutes.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

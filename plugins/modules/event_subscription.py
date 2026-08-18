@@ -10,9 +10,9 @@ module: event_subscription
 short_description: Resource module for Event Subscription
 description:
   - Manage operations create, update and delete of the resource Event Subscription.
-  - Subscribe SubscriptionEndpoint to list of registered events.
+  - Subscribe SubscriptionEndpoint to a list of registered events.
   - Delete EventSubscriptions.
-  - Update SubscriptionEndpoint to list of registered events.
+  - Update SubscriptionEndpoint to a list of registered events.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,10 +26,10 @@ options:
         description: Description.
         type: str
       filter:
-        description: Event Subscription's filter.
+        description: Filter.
         suboptions:
           categories:
-            description: Categories.
+            description: Event Subscription's categories.
             elements: str
             type: list
           domainsSubdomains:
@@ -37,10 +37,10 @@ options:
             elements: dict
             suboptions:
               domain:
-                description: Domain.
+                description: Event Subscription's domain.
                 type: str
               subDomains:
-                description: Sub Domains.
+                description: Event Subscription's subDomains.
                 elements: str
                 type: list
             type: list
@@ -49,19 +49,19 @@ options:
             elements: str
             type: list
           severities:
-            description: Severities.
+            description: Event Subscription's severities.
             elements: str
             type: list
           siteIds:
-            description: Site Ids.
+            description: Event Subscription's siteIds.
             elements: str
             type: list
           sources:
-            description: Sources.
+            description: Event Subscription's sources.
             elements: str
             type: list
           types:
-            description: Types.
+            description: Event Subscription's types.
             elements: str
             type: list
         type: dict
@@ -69,14 +69,14 @@ options:
         description: Name.
         type: str
       subscriptionEndpoints:
-        description: Event Subscription's subscriptionEndpoints.
+        description: Subscription Endpoints.
         elements: dict
         suboptions:
           instanceId:
             description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription's subscriptionDetails.
+            description: Subscription Details.
             suboptions:
               connectorType:
                 description: Connector Type (Must be REST).
@@ -119,53 +119,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.event_subscription:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    subscriptions: string
-- name: Create
-  cisco.catalystcenter.event_subscription:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - description: string
-        filter:
-          categories:
-            - string
-          domainsSubdomains:
-            - domain: string
-              subDomains:
-                - string
-          eventIds:
-            - string
-          severities:
-            - string
-          siteIds:
-            - string
-          sources:
-            - string
-          types:
-            - string
-        name: string
-        subscriptionEndpoints:
-          - instanceId: string
-            subscriptionDetails:
-              connectorType: string
-        subscriptionId: string
-        version: string
 - name: Update all
   cisco.catalystcenter.event_subscription:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -202,6 +155,53 @@ EXAMPLES = r"""
               connectorType: string
         subscriptionId: string
         version: string
+- name: Create
+  cisco.catalystcenter.event_subscription:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - description: string
+        filter:
+          categories:
+            - string
+          domainsSubdomains:
+            - domain: string
+              subDomains:
+                - string
+          eventIds:
+            - string
+          severities:
+            - string
+          siteIds:
+            - string
+          sources:
+            - string
+          types:
+            - string
+        name: string
+        subscriptionEndpoints:
+          - instanceId: string
+            subscriptionDetails:
+              connectorType: string
+        subscriptionId: string
+        version: string
+- name: Delete all
+  cisco.catalystcenter.event_subscription:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    subscriptions: string
 """
 RETURN = r"""
 catalystcenter_response:

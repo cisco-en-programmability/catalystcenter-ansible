@@ -19,6 +19,24 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  siteId:
+    description:
+      - >
+        SiteId query parameter. SiteId to which network devices are assigned. See https
+        //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
+    type: str
+  role:
+    description:
+      - Role query parameter. Role assigned to the network device.
+    type: str
+  productName:
+    description:
+      - ProductName query parameter. Filter with network device product name. Supports partial case-insensitive search.
+    type: str
+  productId:
+    description:
+      - ProductId query parameter. Filter with product ID (PID).
+    type: str
   managementAddress:
     description:
       - ManagementAddress query parameter. IP address or DNS name used to access and manage network devices.
@@ -62,6 +80,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    siteId: string
+    role: DISTRIBUTION
+    productName: string
+    productId: string
     managementAddress: string
     networkDeviceImageStatus: string
     networkDeviceUpdateStatus: string
@@ -75,8 +97,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

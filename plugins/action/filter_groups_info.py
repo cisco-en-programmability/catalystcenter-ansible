@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        id=dict(type="str"),
-        name=dict(type="str"),
-        type=dict(type="str"),
+        id=dict(type="list"),
+        name=dict(type="list"),
+        type=dict(type="list"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),

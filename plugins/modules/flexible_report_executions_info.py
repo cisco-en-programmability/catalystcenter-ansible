@@ -10,7 +10,7 @@ module: flexible_report_executions_info
 short_description: Information module for Flexible Report Executions
 description:
   - Get all Flexible Report Executions.
-  - Get Execution Id by Report Id.
+  - Get Execution ID by Report ID.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -71,9 +71,7 @@ catalystcenter_response:
           "errors": [
             "string"
           ],
-          "warnings": [
-            "string"
-          ]
+          "warnings": []
         }
       ],
       "executionCount": 0,

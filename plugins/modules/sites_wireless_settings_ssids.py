@@ -11,9 +11,11 @@ short_description: Resource module for Sites Wireless Settings Ssids
 description:
   - Manage operations create, update and delete of the resource Sites Wireless Settings Ssids.
   - This API allows the user to create an SSID Service Set Identifier at the Global site. - > This API allows the user to
-    delete an SSID Service Set Identifier at the global level , if the SSID is not mapped to any Wireless Profile, Or remove
-    override from given site Id .
-  - This API allows the user to update an SSID Service Set Identifier at the given site.
+    delete an SSID Service Set Identifier at the global level, if the SSID is not mapped to any Wireless Profile or remove
+    override from a given non global siteId. - > This API allows the user to update an existing SSID Service Set Identifier
+    at the global site level.Note that, as per the HTTP standard, the PUT operation requires a complete payload, meaning all
+    fields must be included—not just the fields to be updated. Any missing fields will be set to their default or null values.
+    Use the GET operation to retrieve the current resource data, if needed, to ensure all fields are properly populated.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -39,7 +41,7 @@ options:
     type: list
   authType:
     description: L2 Authentication Type (If authType is not open , then atleast one RSN Cipher Suite and corresponding valid
-      AKM must be enabled). Default is L2 Authentication Type if exists else None.
+      AKM must be enabled).
     type: str
   basicServiceSetClientIdleTimeout:
     description: This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service
@@ -50,18 +52,18 @@ options:
     description: Activate the maximum idle feature for the Basic Service Set.
     type: bool
   cckmTsfTolerance:
-    description: He default value is the Cckm Timestamp Tolerance (in milliseconds, if specified); otherwise, it is 0.
+    description: CCKM Timestamp Tolerance(in milliseconds).
     type: int
   clientExclusionEnable:
     description: Activate the feature that allows for the exclusion of clients.
     type: bool
   clientExclusionTimeout:
     description: This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network
-      after a specified number of unsuccessful attempts. Default is Client Exclusion Timeout if exists else 180.
+      after a specified number of unsuccessful attempts.
     type: int
   clientRateLimit:
     description: This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted
-      to achieve. It should be in mutliples of 500. Default is Client Rate Limit if exists else 0.
+      to achieve.
     type: int
   coverageHoleDetectionEnable:
     description: Activate Coverage Hole Detection feature when set to true.
@@ -73,7 +75,7 @@ options:
     description: Egress QOS.
     type: str
   externalAuthIpAddress:
-    description: External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest, l3AuthType = web_auth and authServer
+    description: External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest , l3AuthType = web_auth and authServer
       = auth_external).
     type: str
   fastTransition:
@@ -86,13 +88,32 @@ options:
     description: 2.4 Ghz Band Policy value. Allowed only when 2.4 Radio Band is enabled in ssidRadioType.
     type: str
   ghz6PolicyClientSteering:
-    description: true if 6 GHz Policy Client Steering is enabled, else False.
+    description: True if 6 GHz Policy Client Steering is enabled, else False.
     type: bool
   id:
-    description: Id path parameter. SSID ID.
+    description: SSID ID.
     type: str
   ingressQos:
     description: Ingress QOS.
+    type: str
+  inheritedSiteName:
+    description: Name of the group ssid is inherited from.
+    type: str
+  inheritedSiteUUID:
+    description: UUID of the site from which the SSID is inherited from. - An empty inheritedSiteUUID signifies that the SSID
+      configuration is not inherited and is defined at the specified site level. - A non-empty inheritedSiteUUID indicates
+      that the SSID configuration is inherited from either the immediate parent site with an override or from the global site
+      level, if no such parent exists. - Example -Given the site hierarchy as Global/Area/BGL-1/FLR-1 and an SSID (SSID-1)
+      that is overridden at BGL-1 - If ${siteId} is the Global Site Identifier, the API will return SSID data associated with
+      the Global Site Identifier, and inheritedSiteUUID will be an empty string. - If ${siteId} is the Area Site Identifier,
+      the API will return SSID data associated with the Area Site Identifier, and inheritedSiteUUID will contain the Global
+      Site Identifier. - If ${siteId} is the BGL-1 Site Identifier, the API will return SSID data that has been overridden
+      at the BGL-1 Site Identifier level, and inheritedSiteUUID will be an empty string. - If ${siteId} is the FLR-1 Site
+      Identifier, the API will return SSID data that has been overridden at the BGL-1 Site Identifier level, and inheritedSiteUUID
+      will contain the BGL-1 Site Identifier.
+    type: str
+  ipv6AclName:
+    description: Pre-Auth IPv6 Access Control List (ACL) Name.
     type: str
   isApBeaconProtectionEnabled:
     description: When set to true, the Access Point (AP) Beacon Protection feature is activated, enhancing the security of
@@ -151,16 +172,27 @@ options:
       devices searching for available networks.
     type: bool
   isCckmEnabled:
-    description: true if CCKM is enabled, else False.
+    description: True if CCKM is enabled, else False.
+    type: bool
+  isCustomNasIdOptions:
+    description: Set to true if Custom NAS ID Options provided.
     type: bool
   isEnabled:
     description: Set SSID's admin status as 'Enabled' when set to true.
     type: bool
   isFastLaneEnabled:
-    description: true if FastLane is enabled, else False.
+    description: True if FastLane is enabled, else False.
     type: bool
   isHex:
-    description: true if passphrase is in Hex format, else False.
+    description: True if passphrase is in Hex format, else False.
+    type: bool
+  isLoadBalancingEnabledForAcctGroup:
+    description: Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when
+      more that one acctServers configured.
+    type: bool
+  isLoadBalancingEnabledForAuthGroup:
+    description: Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when
+      more that one authServers configured.
     type: bool
   isMacFilteringEnabled:
     description: When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC
@@ -178,29 +210,28 @@ options:
     description: Deny clients using randomized MAC addresses when set to true.
     type: bool
   l3AuthType:
-    description: "L3 Authentication Type. When 'wlanType' is 'Enterprise', 'l3AuthType' is optional and defaults to 'open'
+    description: "L3 Authentication Type. When 'wlanType' is 'Enterprise', ‘l3AuthType' is optional and defaults to 'open'
       if not specified. If 'wlanType' is 'Guest' then 'l3AuthType' is mandatory."
     type: str
   managementFrameProtectionClientprotection:
-    description: Default is Management Frame Protection Client if exists else Optional.
+    description: Management Frame Protection Client.
     type: str
   multiPSKSettings:
-    description: Sites Wireless Settings Ssids's multiPSKSettings.
+    description: Multi PSK Settings (Only applicable for SSID with PERSONAL auth type and PSK).
     elements: dict
     suboptions:
       passphrase:
         description: Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
         type: str
       passphraseType:
-        description: Passphrase Type(default ASCII).
+        description: Passphrase Type.
         type: str
       priority:
         description: Priority.
         type: int
     type: list
   nasOptions:
-    description: Pre-Defined NAS Options AP ETH Mac Address, AP IP address, AP Location , AP MAC Address, AP Name, AP Policy
-      Tag, AP Site Tag, SSID, System IP Address, System MAC Address, System Name.
+    description: NAS Options.
     elements: str
     type: list
   neighborListEnable:
@@ -210,23 +241,28 @@ options:
     description: Open SSID which is already created in the design and not associated to any other OPEN-SECURED SSID.
     type: str
   passphrase:
-    description: Passphrase (Only applicable for SSID with PERSONAL security level). Passphrase needs to be between 8 and
-      63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+    description: Passphrase (Only applicable for SSID with PERSONAL security level).
     type: str
   policyProfileName:
     description: "Policy Profile Name. If 'policyProfileName' is not provided, the value of 'profileName' will be assigned
       to it. If 'profileName' is also not provided, an autogenerated name will be used. Autogenerated name is generated by
-      appending 'ssid' field's value with '_profile' (Example If 'ssid' = 'ExampleSsid', then autogenerated name will be 'ExampleSsid_profile')."
+      appending ‘ssid’ field’s value with ‘_profile’ (Example If ‘ssid’ = ‘ExampleSsid’, then autogenerated name will be ‘ExampleSsid_profile’)."
     type: str
   profileName:
-    description: WLAN Profile Name, if not passed autogenerated profile name will be assigned.
+    description: WLAN Profile Name , if not passed autogenerated profile name will be assigned.
     type: str
   protectedManagementFrame:
     description: (REQUIRED is applicable for authType WPA3_PERSONAL, WPA3_ENTERPRISE, OPEN_SECURED) and (OPTIONAL/REQUIRED
       is applicable for authType WPA2_WPA3_PERSONAL and WPA2_WPA3_ENTERPRISE).
     type: str
   removeOverrideInHierarchy:
-    description: RemoveOverrideInHierarchy query parameter. Remove override in hierarchy. Refer Feature tab for details.
+    description: RemoveOverrideInHierarchy query parameter. - If `siteId` is of Global site - If `removeOverrideInHierarchy`
+      is `true`,then this API will delete the given SSID and remove all its override. - If `removeOverrideInHierarchy` is
+      `false`,then `HTTP 400` will be returned as deleting from 'Global' site is not allowed without deleting all its overridden
+      instances. - If `siteId` is of non-Global site(i.e.. Area,Building or Floor) - If `removeOverrideInHierarchy` is `true`,this
+      API will remove override from given `siteId` and will also remove any other override done for same SSID at any of the
+      its child sites. - If `removeOverrideInHierarchy` is `false`, this API will only remove override from given `siteId`
+      and any other override done for this SSID at any of the child sites will not be removed.
     type: bool
   rsnCipherSuiteCcmp128:
     description: When set to true, the Robust Security Network (RSN) Cipher Suite CCMP128 encryption protocol is activated.
@@ -242,7 +278,7 @@ options:
     type: bool
   sessionTimeOut:
     description: This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due
-      to inactivity. Default sessionTimeOut is 1800.
+      to inactivity.
     type: int
   sessionTimeOutEnable:
     description: Turn on the feature that imposes a time limit on user sessions.
@@ -255,7 +291,7 @@ options:
     type: bool
   sleepingClientTimeout:
     description: This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out
-      of the network. Default is Sleeping Client Timeout if exists else 720.
+      of the network.
     type: int
   ssid:
     description: Name of the SSID.
@@ -263,15 +299,18 @@ options:
   ssidRadioType:
     description: Radio Policy Enum (default Triple band operation(2.4GHz, 5GHz and 6GHz)).
     type: str
+  urlAclName:
+    description: Pre-Auth URL Access Control List (ACL) Name.
+    type: str
   webPassthrough:
     description: When set to true, the Web-Passthrough feature will be activated for the Guest SSID, allowing guests to bypass
       certain login requirements.
     type: bool
   wlanBandSelectEnable:
-    description: Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band else false.
+    description: Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band.
     type: bool
   wlanType:
-    description: Wlan Type.
+    description: WLAN type.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -280,12 +319,12 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateSSID
     description: Complete reference of the CreateSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!create-ssid
-  - name: Cisco Catalyst Center documentation for Wireless DeleteSSID
-    description: Complete reference of the DeleteSSID API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-ssid
-  - name: Cisco Catalyst Center documentation for Wireless UpdateSSID
-    description: Complete reference of the UpdateSSID API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-ssid
+  - name: Cisco Catalyst Center documentation for Wireless DELETESSID
+    description: Complete reference of the DELETESSID API.
+    link: https://developer.cisco.com/docs/dna-center/#!d-eletessid
+  - name: Cisco Catalyst Center documentation for Wireless UPDATESSID
+    description: Complete reference of the UPDATESSID API.
+    link: https://developer.cisco.com/docs/dna-center/#!u-pdatessid
 notes:
   - SDK Method used are
     wireless.Wireless.create_ssid,
@@ -331,7 +370,11 @@ EXAMPLES = r"""
     fastTransitionOverTheDistributedSystemEnable: true
     ghz24Policy: string
     ghz6PolicyClientSteering: true
+    id: string
     ingressQos: string
+    inheritedSiteName: string
+    inheritedSiteUUID: string
+    ipv6AclName: string
     isApBeaconProtectionEnabled: true
     isAuthKey8021x: true
     isAuthKey8021xPlusFT: true
@@ -349,9 +392,12 @@ EXAMPLES = r"""
     isAuthKeySuiteB1x: true
     isBroadcastSSID: true
     isCckmEnabled: true
+    isCustomNasIdOptions: true
     isEnabled: true
     isFastLaneEnabled: true
     isHex: true
+    isLoadBalancingEnabledForAcctGroup: true
+    isLoadBalancingEnabledForAuthGroup: true
     isMacFilteringEnabled: true
     isPosturingEnabled: true
     isRadiusProfilingEnabled: true
@@ -381,22 +427,10 @@ EXAMPLES = r"""
     sleepingClientTimeout: 0
     ssid: string
     ssidRadioType: string
+    urlAclName: string
     webPassthrough: true
     wlanBandSelectEnable: true
     wlanType: string
-- name: Delete by id
-  cisco.catalystcenter.sites_wireless_settings_ssids:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
-    removeOverrideInHierarchy: true
-    siteId: string
 - name: Update by id
   cisco.catalystcenter.sites_wireless_settings_ssids:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -431,6 +465,9 @@ EXAMPLES = r"""
     ghz6PolicyClientSteering: true
     id: string
     ingressQos: string
+    inheritedSiteName: string
+    inheritedSiteUUID: string
+    ipv6AclName: string
     isApBeaconProtectionEnabled: true
     isAuthKey8021x: true
     isAuthKey8021xPlusFT: true
@@ -448,9 +485,12 @@ EXAMPLES = r"""
     isAuthKeySuiteB1x: true
     isBroadcastSSID: true
     isCckmEnabled: true
+    isCustomNasIdOptions: true
     isEnabled: true
     isFastLaneEnabled: true
     isHex: true
+    isLoadBalancingEnabledForAcctGroup: true
+    isLoadBalancingEnabledForAuthGroup: true
     isMacFilteringEnabled: true
     isPosturingEnabled: true
     isRadiusProfilingEnabled: true
@@ -480,9 +520,23 @@ EXAMPLES = r"""
     sleepingClientTimeout: 0
     ssid: string
     ssidRadioType: string
+    urlAclName: string
     webPassthrough: true
     wlanBandSelectEnable: true
     wlanType: string
+- name: Delete by id
+  cisco.catalystcenter.sites_wireless_settings_ssids:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+    removeOverrideInHierarchy: true
+    siteId: string
 """
 RETURN = r"""
 catalystcenter_response:

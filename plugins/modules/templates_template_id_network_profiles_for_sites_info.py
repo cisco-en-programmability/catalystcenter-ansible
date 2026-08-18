@@ -11,7 +11,7 @@ short_description: Information module for Templates Template Id Network Profiles
 description:
   - Get all Templates Template Id Network Profiles For Sites.
   - Retrieves the list of network profiles that a CLI template is currently attached to by the template ID.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

@@ -9,11 +9,9 @@ DOCUMENTATION = r"""
 module: dns_services_top_n_analytics
 short_description: Resource module for Dns Services Top N Analytics
 description:
-  - Manage operation create of the resource Dns Services Top N Analytics. - > Gets the Top N analytics data related to DNS
-    Services based on given filters and group by field. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DNSServices-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Dns Services Top N Analytics.
+  - Gets the Top N analytics data related to DNS Services based on given filters.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -23,42 +21,42 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Dns Services Top N Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Dns Services Top N Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Dns Services Top N Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Dns Services Top N Analytics's endTime.
     type: int
   filters:
     description: Dns Services Top N Analytics's filters.
     elements: dict
     suboptions:
       filters:
-        description: Filters.
+        description: Dns Services Top N Analytics's filters.
         elements: str
         type: list
       key:
-        description: Key.
+        description: Dns Services Top N Analytics's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Dns Services Top N Analytics's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Dns Services Top N Analytics's operator.
         type: str
       value:
         description: Dns Services Top N Analytics's value.
         type: dict
     type: list
   groupBy:
-    description: Group By.
+    description: Dns Services Top N Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -68,31 +66,31 @@ options:
     description: Dns Services Top N Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Dns Services Top N Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Dns Services Top N Analytics's offset.
         type: int
       sortBy:
         description: Dns Services Top N Analytics's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Dns Services Top N Analytics's function.
             type: str
           name:
-            description: Name.
+            description: Dns Services Top N Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Dns Services Top N Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Dns Services Top N Analytics's startTime.
     type: int
   topN:
-    description: Top N.
+    description: Dns Services Top N Analytics's topN.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -103,7 +101,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-top-n-analytics-data-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.get_top_n_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters,
+    devices.Devices.get_top_n_analytics_data_of_dns_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dnsServices/topNAnalytics,
 """

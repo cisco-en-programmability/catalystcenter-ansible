@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="system_settings",
-            function="retrieves_configuration_details_of_the_external_ip_a_m_server",
+            function="retrieves_configuration_details_of_the_external_ipam_server",
             params=self.get_object(self._task.args),
         )
         self._result.update(

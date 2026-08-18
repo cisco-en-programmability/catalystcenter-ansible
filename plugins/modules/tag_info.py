@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Tag ID.
+    type: str
   name:
     description:
       - Name query parameter. Tag name is mandatory when filter operation is used.
@@ -69,10 +73,6 @@ options:
     description:
       - SystemTag query parameter.
     type: str
-  id:
-    description:
-      - Id path parameter. Tag ID.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -109,7 +109,7 @@ EXAMPLES = r"""
     additionalInfo_attributes: string
     level: string
     offset: 0
-    limit: 0
+    limit: 500
     size: string
     field: string
     sortBy: string

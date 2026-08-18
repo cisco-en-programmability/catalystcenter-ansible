@@ -51,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    interface_name: string
+    interface_name: application/json
   register: result
 """
 RETURN = r"""

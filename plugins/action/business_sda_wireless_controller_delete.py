@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="fabric_wireless",
-            function="remove_w_l_c_from_fabric_domain",
+            function="remove_wlc_from_fabric_domain",
             params=self.get_object(self._task.args),
         )
         self._result.update(

@@ -99,7 +99,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="get_access_points_positions_v2",
+            function="get_access_points_positions",
             params=self.get_object(self._task.args),
         )
         self._result.update(

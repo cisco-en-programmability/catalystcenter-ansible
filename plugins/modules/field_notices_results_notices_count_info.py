@@ -11,7 +11,7 @@ short_description: Information module for Field Notices Results Notices Count
 description:
   - Get all Field Notices Results Notices Count.
   - Get count of field notices.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

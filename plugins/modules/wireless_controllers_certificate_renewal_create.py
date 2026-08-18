@@ -21,27 +21,25 @@ options:
     elements: str
     type: list
   deviceId:
-    description:
-      - DeviceId path parameter. Network Device ID.
-      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   expiryTime:
     description: Expiry time with in which access points certificates are set to expire.
     type: int
   siteTagIds:
-    description: Site tag IDs on which LSC instantaneous certificate renewal has to be performed.
+    description: Site tag IDs.
     elements: str
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless AccessPointsLSCCertificateInstantaneousRenewal
-    description: Complete reference of the AccessPointsLSCCertificateInstantaneousRenewal API.
-    link: https://developer.cisco.com/docs/dna-center/#!access-points-lsc-certificate-instantaneous-renewal
+  - name: Cisco Catalyst Center documentation for Wireless RenewalOfLSCCertificateOnAccessPoints
+    description: Complete reference of the RenewalOfLSCCertificateOnAccessPoints API.
+    link: https://developer.cisco.com/docs/dna-center/#!renewal-of-lsc-certificate-on-access-points
 notes:
   - SDK Method used are
-    wireless.Wireless.access_points_l_s_c_certificate_instantaneous_renewal,
+    wireless.Wireless.renewal_of_lsc_certificate_on_access_points,
   - Paths used are
     post /dna/intent/api/v1/wirelessControllers/{deviceId}/certificateRenewal,
 """
@@ -59,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     accessPointMacs:
       - string
-    deviceId: string
+    deviceId: a7fdcfad-816a-43bc-bd0f-ff605ab3da6f
     expiryTime: 0
     siteTagIds:
       - string

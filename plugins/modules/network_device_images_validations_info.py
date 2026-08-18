@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Unique identifier of network device validation.
+    type: str
   productSeriesOrdinal:
     description:
       - ProductSeriesOrdinal query parameter. Unique identifier of product series.
@@ -53,10 +57,6 @@ options:
         Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
         and 500, respectively.
     type: int
-  id:
-    description:
-      - Id path parameter. Unique identifier of network device validation.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -91,9 +91,9 @@ EXAMPLES = r"""
     productSeriesOrdinal: 0
     operationType: string
     type: string
-    order: string
-    offset: 0
-    limit: 0
+    order: asc
+    offset: 1
+    limit: 500
   register: result
 - name: Get Network Device Images Validations by id
   cisco.catalystcenter.network_device_images_validations_info:

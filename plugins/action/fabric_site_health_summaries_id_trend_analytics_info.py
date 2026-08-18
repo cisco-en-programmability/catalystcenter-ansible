@@ -101,7 +101,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sda",
-            function="get_trend_analytics_data_for_a_fabric_site_in_the_specified_time_range",
+            function="the_trend_analytics_data_for_a_fabric_site_in_the_specified_time_range",
             params=self.get_object(self._task.args),
         )
         self._result.update(

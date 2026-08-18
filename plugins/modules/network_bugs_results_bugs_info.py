@@ -89,10 +89,10 @@ EXAMPLES = r"""
     id: string
     deviceCount: 0
     severity: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Network Bugs Results Bugs by id
   cisco.catalystcenter.network_bugs_results_bugs_info:

@@ -87,18 +87,19 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    authPassword: string
-    authType: string
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    privacyPassword: string
-    privacyType: string
-    snmpMode: string
-    username: string
+    payload:
+      - authPassword: string
+        authType: string
+        comments: string
+        credentialType: string
+        description: string
+        id: string
+        instanceTenantId: string
+        instanceUuid: string
+        privacyPassword: string
+        privacyType: string
+        snmpMode: string
+        username: string
 - name: Update all
   cisco.catalystcenter.snmpv3_credential:
     catalystcenter_host: "{{catalystcenter_host}}"

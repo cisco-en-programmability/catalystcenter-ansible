@@ -11,7 +11,7 @@ short_description: Information module for Assurance Issues Count
 description:
   - Get all Assurance Issues Count. - > Returns the total number issues for given set of filters. If there is no start and/or
     end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time.
-    Https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- IssuesList-1.0.0-resolved.yaml.
+    Https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- IssuesList-3.2.2-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -81,6 +81,13 @@ options:
         DeviceType query parameter. Device Type of the device to which this issue belongs to. Supports single
         device type and multiple device types. Examples deviceType=wireless controller (single device type
         requested) deviceType=wireless controller&deviceType=core (multiple device types requested).
+    type: str
+  deviceFamily:
+    description:
+      - >
+        DeviceFamily query parameter. Device Family of the device to which this issue belongs to. Supports
+        single device type and multiple device types. Examples deviceFamily=Unified AP (single device type
+        requested) deviceFamily=Unified AP&deviceFamily=Routers (multiple device types requested).
     type: str
   name:
     description:
@@ -218,12 +225,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFilters
-    description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFilters API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters
+  - name: Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork
+    description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
-    issues.Issues.get_the_total_number_of_issues_for_given_set_of_filters,
+    issues.Issues.get_the_total_number_of_issues_for_given_set_of_filters_know_your_network,
   - Paths used are
     get /dna/data/api/v1/assuranceIssues/count,
 """
@@ -242,13 +249,14 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
-    isGlobal: true
+    isGlobal: True
     priority: string
     severity: string
     status: string
     entityType: string
     category: string
     deviceType: string
+    deviceFamily: string
     name: string
     issueId: string
     entityId: string
@@ -263,11 +271,11 @@ EXAMPLES = r"""
     networkDeviceId: string
     networkDeviceIpAddress: string
     macAddress: string
-    aiDriven: true
-    fabricDriven: true
-    fabricSiteDriven: true
-    fabricVnDriven: true
-    fabricTransitDriven: true
+    aiDriven: True
+    fabricDriven: True
+    fabricSiteDriven: True
+    fabricVnDriven: True
+    fabricTransitDriven: True
   register: result
 """
 RETURN = r"""

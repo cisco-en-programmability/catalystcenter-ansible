@@ -25,14 +25,14 @@ options:
     elements: dict
     suboptions:
       apZones:
-        description: Ap Zones.
+        description: Wireless Profiles Id Policy Tags Bulk's apZones.
         elements: str
         type: list
       policyTagName:
         description: Use English letters, numbers, special characters except <, /, '.*', ? and leading/trailing space.
         type: str
       siteIds:
-        description: Site Ids.
+        description: Wireless Profiles Id Policy Tags Bulk's siteIds.
         elements: str
         type: list
     type: list

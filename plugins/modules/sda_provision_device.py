@@ -19,11 +19,10 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
-    description: DeviceManagementIpAddress query parameter. Valid IP address of the device currently provisioned in a fabric
-      site.
+    description: Management Ip Address of the device to be re-provisioned.
     type: str
   siteNameHierarchy:
-    description: Site Name Hierarchy for device location(only building / floor level).
+    description: SiteNameHierarchy of the provisioned device.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -51,29 +50,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_provision_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    deviceManagementIpAddress: string
-- name: Create
-  cisco.catalystcenter.sda_provision_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    deviceManagementIpAddress: string
-    siteNameHierarchy: string
 - name: Update all
   cisco.catalystcenter.sda_provision_device:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -86,6 +62,29 @@ EXAMPLES = r"""
     state: present
     deviceManagementIpAddress: string
     siteNameHierarchy: string
+- name: Create
+  cisco.catalystcenter.sda_provision_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    deviceManagementIpAddress: string
+    siteNameHierarchy: string
+- name: Delete all
+  cisco.catalystcenter.sda_provision_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    deviceManagementIpAddress: application/json
 """
 RETURN = r"""
 catalystcenter_response:

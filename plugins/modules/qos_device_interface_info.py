@@ -77,16 +77,10 @@ catalystcenter_response:
           "provisioningState": "string",
           "qualifier": "string",
           "resourceVersion": 0,
-          "targetIdList": [
-            "string"
-          ],
+          "targetIdList": [],
           "type": "string",
-          "cfsChangeInfo": [
-            "string"
-          ],
-          "customProvisions": [
-            "string"
-          ],
+          "cfsChangeInfo": [],
+          "customProvisions": [],
           "excludedInterfaces": [
             "string"
           ],

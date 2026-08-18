@@ -24,12 +24,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Platform Configuration CiscoCatalystCenterNodesConfigurationSummary
+  - name: Cisco Catalyst Center documentation for Platform CiscoCatalystCenterNodesConfigurationSummary
     description: Complete reference of the CiscoCatalystCenterNodesConfigurationSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-nodes-configuration-summary
 notes:
   - SDK Method used are
-    platform_configuration.PlatformConfiguration.nodes_configuration_summary,
+    platform.Platform.nodes_configuration_summary,
   - Paths used are
     get /dna/intent/api/v1/nodes-config,
 """
@@ -69,13 +69,9 @@ catalystcenter_response:
                 "intra_cluster_link": true,
                 "lacp_mode": true,
                 "inet": {
-                  "routes": [
-                    "string"
-                  ],
+                  "routes": [],
                   "gateway": "string",
-                  "dns_servers": [
-                    "string"
-                  ],
+                  "dns_servers": [],
                   "netmask": "string",
                   "host_ip": "string"
                 },

@@ -23,7 +23,7 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. Id of the advisory.
+      - Id path parameter. Id of the security advisory.
     type: str
   deviceCount:
     description:
@@ -96,10 +96,10 @@ EXAMPLES = r"""
     deviceCount: 0
     cvssBaseScore: string
     securityImpactRating: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Security Advisories Results Advisories by id
   cisco.catalystcenter.security_advisories_results_advisories_info:

@@ -119,7 +119,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="configuration_templates",
-            function="get_templates_details_v2",
+            function="get_templates_details",
             params=self.get_object(self._task.args),
         )
         self._result.update(

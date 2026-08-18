@@ -25,20 +25,24 @@ options:
     description: Applications V2's payload.
     elements: dict
     suboptions:
+      displayName:
+        description: Display name.
+        type: str
+      id:
+        description: Application id.
+        type: str
       indicativeNetworkIdentity:
-        description: Applications V2's indicativeNetworkIdentity.
+        description: Indicative network identity.
         elements: dict
         suboptions:
-          ipv4Subnet:
-            description: Ipv4 subnet.
-            elements: str
-            type: list
-          ipv6Subnet:
-            description: Ipv6 subnet.
-            elements: str
-            type: list
+          displayName:
+            description: Display name.
+            type: str
+          id:
+            description: Id.
+            type: str
           lowerPort:
-            description: The minimum port when used as a port range. For single port number, ports attribute should be used.
+            description: Lower port.
             type: float
           ports:
             description: Ports.
@@ -47,59 +51,97 @@ options:
             description: Protocol.
             type: str
           upperPort:
-            description: The maximum port when used as a port range. For single port number, ports attribute should be used.
+            description: Upper port.
             type: float
         type: list
+      instanceId:
+        description: Instance id.
+        type: int
+      instanceVersion:
+        description: Instance version.
+        type: float
       name:
         description: Application name.
         type: str
+      namespace:
+        description: Namespace.
+        type: str
       networkApplications:
-        description: Applications V2's networkApplications.
+        description: Network applications.
         elements: dict
         suboptions:
           appProtocol:
-            description: App protocol, in case of _servername should not be set, in case of _url should be set to TCP.
+            description: App protocol.
+            type: str
+          applicationSubType:
+            description: Application sub type, LEARNED discovered application, NONE nbar and custom application.
             type: str
           applicationType:
-            description: Application type.
+            description: Application type, DEFAULT nbar application, DEFAULT_MODIFIED nbar modified application, CUSTOM custom
+              application.
             type: str
           categoryId:
             description: Category id.
             type: str
+          displayName:
+            description: Display name.
+            type: str
           dscp:
-            description: Dscp, valid only in case of _server-ip custom application type.
+            description: Dscp.
             type: str
           engineId:
-            description: Engine id, should be set to 6.
-            type: int
+            description: Engine id.
+            type: str
           helpString:
             description: Help string.
+            type: str
+          id:
+            description: Id.
             type: str
           ignoreConflict:
             description: Ignore conflict, true or false.
             type: bool
+          longDescription:
+            description: Long description.
+            type: str
+          name:
+            description: Application name.
+            type: str
+          popularity:
+            description: Popularity.
+            type: float
           rank:
-            description: Rank, should be set to 1.
+            description: Rank, any value between 1 to 65535.
             type: int
+          selectorId:
+            description: Selector id.
+            type: str
           serverName:
-            description: Server name, should be set only in case of _servername.
+            description: Server name.
             type: str
           trafficClass:
             description: Traffic class.
             type: str
-          type:
-            description: Custom application type.
-            type: str
           url:
-            description: Url, should be set only in case of _url.
+            description: Url.
             type: str
         type: list
       networkIdentity:
-        description: Applications V2's networkIdentity.
+        description: Network identity.
         elements: dict
         suboptions:
+          displayName:
+            description: Display name.
+            type: str
+          id:
+            description: Id.
+            type: str
           ipv4Subnet:
             description: Ipv4 subnet.
+            elements: str
+            type: list
+          ipv6Subnet:
+            description: Ipv6 subnet.
             elements: str
             type: list
           lowerPort:
@@ -116,12 +158,18 @@ options:
             type: float
         type: list
       parentScalableGroup:
-        description: Applications V2's parentScalableGroup.
+        description: Parent scalable group.
         suboptions:
           idRef:
             description: Id reference to parent application set.
             type: str
         type: dict
+      qualifier:
+        description: Qualifier, valid value application.
+        type: str
+      scalableGroupExternalHandle:
+        description: Scalable group external handle, should be equal to Application name.
+        type: str
       scalableGroupType:
         description: Scalable group type, valid value APPLICATION.
         type: str
@@ -133,20 +181,20 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationsV2
-    description: Complete reference of the CreateApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
-  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationV2
-    description: Complete reference of the DeleteApplicationV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
-  - name: Cisco Catalyst Center documentation for Application Policy EditApplicationsV2
-    description: Complete reference of the EditApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplications
+    description: Complete reference of the CreateApplications API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-applications
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplication
+    description: Complete reference of the DeleteApplication API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application
+  - name: Cisco Catalyst Center documentation for Application Policy EditApplications
+    description: Complete reference of the EditApplications API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-applications
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_applications_v2,
-    application_policy.ApplicationPolicy.delete_application_v2,
-    application_policy.ApplicationPolicy.edit_applications_v2,
+    application_policy.ApplicationPolicy.create_applications,
+    application_policy.ApplicationPolicy.delete_application,
+    application_policy.ApplicationPolicy.edit_applications,
   - Paths used are
     post /dna/intent/api/v2/applications,
     delete /dna/intent/api/v2/applications/{id},
@@ -155,7 +203,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Delete by id
   cisco.catalystcenter.applications_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -164,42 +212,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - indicativeNetworkIdentity:
-          - ipv4Subnet:
-              - string
-            ipv6Subnet:
-              - string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-        name: string
-        networkApplications:
-          - appProtocol: string
-            applicationType: string
-            categoryId: string
-            dscp: string
-            engineId: 0
-            helpString: string
-            ignoreConflict: true
-            rank: 0
-            serverName: string
-            trafficClass: string
-            type: string
-            url: string
-        networkIdentity:
-          - ipv4Subnet:
-              - string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-        parentScalableGroup:
-          idRef: string
-        scalableGroupType: string
-        type: string
+    state: absent
+    id: string
 - name: Update all
   cisco.catalystcenter.applications_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -248,8 +262,7 @@ EXAMPLES = r"""
             id: string
             ipv4Subnet:
               - string
-            ipv6Subnet:
-              - string
+            ipv6Subnet: []
             lowerPort: 0
             ports: string
             protocol: string
@@ -260,7 +273,7 @@ EXAMPLES = r"""
         scalableGroupExternalHandle: string
         scalableGroupType: string
         type: string
-- name: Delete by id
+- name: Create
   cisco.catalystcenter.applications_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -269,8 +282,42 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
+    state: present
+    payload:
+      - indicativeNetworkIdentity:
+          - ipv4Subnet:
+              - string
+            ipv6Subnet:
+              - string
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        name: string
+        networkApplications:
+          - appProtocol: string
+            applicationType: string
+            categoryId: string
+            dscp: string
+            engineId: 0
+            helpString: string
+            ignoreConflict: true
+            rank: 0
+            serverName: string
+            trafficClass: string
+            type: string
+            url: string
+        networkIdentity:
+          - ipv4Subnet:
+              - string
+            lowerPort: 0
+            ports: string
+            protocol: string
+            upperPort: 0
+        parentScalableGroup:
+          idRef: string
+        scalableGroupType: string
+        type: string
 """
 RETURN = r"""
 catalystcenter_response:

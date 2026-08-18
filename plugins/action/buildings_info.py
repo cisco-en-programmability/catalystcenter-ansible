@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="site_design",
-                function="gets_a_building_v2",
+                function="gets_a_building",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

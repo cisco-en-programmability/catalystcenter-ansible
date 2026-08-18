@@ -28,13 +28,13 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sort=dict(type="list"),
         sortOrder=dict(type="str"),
         type=dict(type="list"),
         name=dict(type="list"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,13 +76,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort=params.get("sort"),
             sort_order=params.get("sortOrder"),
             type=params.get("type"),
             name=params.get("name"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object

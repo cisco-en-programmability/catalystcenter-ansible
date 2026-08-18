@@ -10,8 +10,8 @@ module: sites_site_id_wireless_settings_ssids_id_update
 short_description: Resource module for Sites Site Id Wireless Settings Ssids Id Update
 description:
   - Manage operation create of the resource Sites Site Id Wireless Settings Ssids Id Update.
-  - This API allows to either update SSID at global 'siteId' or override SSID at given non-global 'siteId'.
-version_added: '1.0.0'
+  - This API allows to either update SSID at global `siteId` or override SSID at non-global `siteId`.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -27,8 +27,7 @@ options:
     description: Pre-Auth Access Control List (ACL) Name.
     type: str
   authServer:
-    description: For Guest SSIDs ('wlanType' is 'Guest' and 'l3AuthType' is 'web_auth'), the Authentication Server('authServer')
-      is mandatory. Otherwise, it defaults to 'auth_external'.
+    description: Authentication Server, Mandatory for Guest SSIDs with wlanType=Guest and l3AuthType=web_auth.
     type: str
   authServers:
     description: List of Authentication/Authorization server IpAddresses.
@@ -47,7 +46,7 @@ options:
     description: Activate the maximum idle feature for the Basic Service Set.
     type: bool
   cckmTsfTolerance:
-    description: The default value is the Cckm Timestamp Tolerance (in milliseconds, if specified); otherwise, it is 0.
+    description: CCKM Timestamp Tolerance(in milliseconds).
     type: int
   clientExclusionEnable:
     description: Activate the feature that allows for the exclusion of clients.
@@ -70,7 +69,7 @@ options:
     description: Egress QOS.
     type: str
   externalAuthIpAddress:
-    description: External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest, l3AuthType = web_auth and authServer
+    description: External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest , l3AuthType = web_auth and authServer
       = auth_external).
     type: str
   fastTransition:
@@ -83,13 +82,32 @@ options:
     description: 2.4 Ghz Band Policy value. Allowed only when 2.4 Radio Band is enabled in ssidRadioType.
     type: str
   ghz6PolicyClientSteering:
-    description: true if 6 GHz Policy Client Steering is enabled, else False.
+    description: True if 6 GHz Policy Client Steering is enabled, else False.
     type: bool
   id:
-    description: Id path parameter. SSID ID.
+    description: SSID ID.
     type: str
   ingressQos:
     description: Ingress QOS.
+    type: str
+  inheritedSiteName:
+    description: Name of the group ssid is inherited from.
+    type: str
+  inheritedSiteUUID:
+    description: UUID of the site from which the SSID is inherited from. - An empty inheritedSiteUUID signifies that the SSID
+      configuration is not inherited and is defined at the specified site level. - A non-empty inheritedSiteUUID indicates
+      that the SSID configuration is inherited from either the immediate parent site with an override or from the global site
+      level, if no such parent exists. - Example -Given the site hierarchy as Global/Area/BGL-1/FLR-1 and an SSID (SSID-1)
+      that is overridden at BGL-1 - If ${siteId} is the Global Site Identifier, the API will return SSID data associated with
+      the Global Site Identifier, and inheritedSiteUUID will be an empty string. - If ${siteId} is the Area Site Identifier,
+      the API will return SSID data associated with the Area Site Identifier, and inheritedSiteUUID will contain the Global
+      Site Identifier. - If ${siteId} is the BGL-1 Site Identifier, the API will return SSID data that has been overridden
+      at the BGL-1 Site Identifier level, and inheritedSiteUUID will be an empty string. - If ${siteId} is the FLR-1 Site
+      Identifier, the API will return SSID data that has been overridden at the BGL-1 Site Identifier level, and inheritedSiteUUID
+      will contain the BGL-1 Site Identifier.
+    type: str
+  ipv6AclName:
+    description: Pre-Auth IPv6 Access Control List (ACL) Name.
     type: str
   isApBeaconProtectionEnabled:
     description: When set to true, the Access Point (AP) Beacon Protection feature is activated, enhancing the security of
@@ -148,16 +166,27 @@ options:
       devices searching for available networks.
     type: bool
   isCckmEnabled:
-    description: true if CCKM is enabled, else False.
+    description: True if CCKM is enabled, else False.
+    type: bool
+  isCustomNasIdOptions:
+    description: Set to true if Custom NAS ID Options provided.
     type: bool
   isEnabled:
     description: Set SSID's admin status as 'Enabled' when set to true.
     type: bool
   isFastLaneEnabled:
-    description: true if FastLane is enabled, else False.
+    description: True if FastLane is enabled, else False.
     type: bool
   isHex:
-    description: true if passphrase is in Hex format, else False.
+    description: True if passphrase is in Hex format, else False.
+    type: bool
+  isLoadBalancingEnabledForAcctGroup:
+    description: Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when
+      more that one acctServers configured.
+    type: bool
+  isLoadBalancingEnabledForAuthGroup:
+    description: Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when
+      more that one authServers configured.
     type: bool
   isMacFilteringEnabled:
     description: When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC
@@ -175,21 +204,20 @@ options:
     description: Deny clients using randomized MAC addresses when set to true.
     type: bool
   l3AuthType:
-    description: "L3 Authentication Type. When 'wlanType' is 'Enterprise', 'l3AuthType' is optional and defaults to 'open'
-      if not specified. If 'wlanType' is 'Guest' then 'l3AuthType' is mandatory."
+    description: L3 Authentication Type.
     type: str
   managementFrameProtectionClientprotection:
     description: Management Frame Protection Client.
     type: str
   multiPSKSettings:
-    description: Sites Site Id Wireless Settings Ssids Id Update's multiPSKSettings.
+    description: Multi PSK Settings (Only applicable for SSID with PERSONAL auth type and PSK).
     elements: dict
     suboptions:
       passphrase:
         description: Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
         type: str
       passphraseType:
-        description: Passphrase Type(default ASCII).
+        description: Passphrase Type.
         type: str
       priority:
         description: Priority.
@@ -207,14 +235,15 @@ options:
     description: Open SSID which is already created in the design and not associated to any other OPEN-SECURED SSID.
     type: str
   passphrase:
-    description: Passphrase (Only applicable for SSID with PERSONAL security level). Passphrase needs to be between 8 and
-      63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+    description: Passphrase (Only applicable for SSID with PERSONAL security level).
     type: str
   policyProfileName:
-    description: Policy Profile Name.
+    description: "Policy Profile Name. If 'policyProfileName' is not provided, the value of 'profileName' will be assigned
+      to it. If 'profileName' is also not provided, an autogenerated name will be used. Autogenerated name is generated by
+      appending ‘ssid’ field’s value with ‘_profile’ (Example If ‘ssid’ = ‘ExampleSsid’, then autogenerated name will be ‘ExampleSsid_profile’)."
     type: str
   profileName:
-    description: WLAN Profile Name, if not passed autogenerated profile name will be assigned.
+    description: WLAN Profile Name , if not passed autogenerated profile name will be assigned.
     type: str
   protectedManagementFrame:
     description: (REQUIRED is applicable for authType WPA3_PERSONAL, WPA3_ENTERPRISE, OPEN_SECURED) and (OPTIONAL/REQUIRED
@@ -234,7 +263,7 @@ options:
     type: bool
   sessionTimeOut:
     description: This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due
-      to inactivity. Default sessionTimeOut is 1800.
+      to inactivity.
     type: int
   sessionTimeOutEnable:
     description: Turn on the feature that imposes a time limit on user sessions.
@@ -255,6 +284,9 @@ options:
   ssidRadioType:
     description: Radio Policy Enum (default Triple band operation(2.4GHz, 5GHz and 6GHz)).
     type: str
+  urlAclName:
+    description: Pre-Auth URL Access Control List (ACL) Name.
+    type: str
   webPassthrough:
     description: When set to true, the Web-Passthrough feature will be activated for the Guest SSID, allowing guests to bypass
       certain login requirements.
@@ -263,7 +295,7 @@ options:
     description: Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band.
     type: bool
   wlanType:
-    description: Wlan Type.
+    description: WLAN type.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -314,6 +346,9 @@ EXAMPLES = r"""
     ghz6PolicyClientSteering: true
     id: string
     ingressQos: string
+    inheritedSiteName: string
+    inheritedSiteUUID: string
+    ipv6AclName: string
     isApBeaconProtectionEnabled: true
     isAuthKey8021x: true
     isAuthKey8021xPlusFT: true
@@ -331,9 +366,12 @@ EXAMPLES = r"""
     isAuthKeySuiteB1x: true
     isBroadcastSSID: true
     isCckmEnabled: true
+    isCustomNasIdOptions: true
     isEnabled: true
     isFastLaneEnabled: true
     isHex: true
+    isLoadBalancingEnabledForAcctGroup: true
+    isLoadBalancingEnabledForAuthGroup: true
     isMacFilteringEnabled: true
     isPosturingEnabled: true
     isRadiusProfilingEnabled: true
@@ -363,6 +401,7 @@ EXAMPLES = r"""
     sleepingClientTimeout: 0
     ssid: string
     ssidRadioType: string
+    urlAclName: string
     webPassthrough: true
     wlanBandSelectEnable: true
     wlanType: string

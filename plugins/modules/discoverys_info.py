@@ -24,17 +24,18 @@ options:
   id:
     description:
       - Id query parameter. Optional list of the discovery ids to filter by.
-    type: str
-  limit:
-    description:
-      - Limit query parameter. The number of records to show for this page.
-    type: int
+    elements: str
+    type: list
   name:
     description:
       - >
         Name query parameter. Optional name of the discovery to filter by. This supports partial search. For
         example, searching for "Disc" will match "Discovery1", "Discovery2", etc.
     type: str
+  limit:
+    description:
+      - Limit query parameter. The number of records to show for this page.
+    type: int
   offset:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
@@ -70,10 +71,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
-    limit: 0
+    id: [1, 2]
     name: string
-    offset: 0
+    limit: 0
+    offset: 1
   register: result
 - name: Get Discoverys by id
   cisco.catalystcenter.discoverys_info:
@@ -96,93 +97,20 @@ catalystcenter_response:
   sample: >
     {
       "response": {
+        "id": "string",
         "name": "string",
         "managementIpSelectionMethod": "string",
-        "discoveryTypeDetails": {
-          "type": "string",
-          "ipAddress": "string",
-          "range": [
-            {
-              "ipAddressStart": "string",
-              "ipAddressEnd": "string"
-            }
-          ],
-          "cidrAddress": {
-            "cidrPrefix": "string",
-            "cidrSuffix": 0
-          },
-          "subnetFilter": {
-            "ipAddress": "string",
-            "cidrAddress": {
-              "cidrPrefix": "string",
-              "cidrSuffix": 0
-            }
-          },
-          "hopCount": 0
-        },
+        "discoveryTypeDetails": {},
         "onlyNewDevice": true,
         "updateManagementIp": true,
         "credentials": {
-          "cli": {
-            "description": "string",
-            "username": "string",
-            "globalCredentialIdList": [
-              "string"
-            ],
-            "protocolOrder": "string"
-          },
-          "snmp": {
-            "snmpV2Read": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV2Write": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV3": {
-              "description": "string",
-              "mode": "string",
-              "username": "string",
-              "authType": "string",
-              "privacyType": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "retries": 0,
-            "timeout": 0
-          },
-          "httpRead": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "httpWrite": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "netconf": {
-            "port": 0,
-            "description": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          }
-        }
+          "cli": {},
+          "snmp": {},
+          "httpRead": {},
+          "httpWrite": {},
+          "netconf": {}
+        },
+        "siteId": "string"
       },
       "version": "string"
     }

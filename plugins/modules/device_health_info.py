@@ -25,11 +25,11 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. Catalyst Center site UUID.
+      - SiteId query parameter. DNAC site UUID.
     type: str
   health:
     description:
-      - Health query parameter. Catalyst Center health catagory POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
@@ -78,8 +78,8 @@ EXAMPLES = r"""
     health: string
     startTime: 0
     endTime: 0
-    limit: 0
-    offset: 0
+    limit: 50
+    offset: 1
   register: result
 """
 RETURN = r"""
@@ -161,7 +161,7 @@ catalystcenter_response:
           "interDeviceLinkAvailFabric": 0,
           "apCount": 0,
           "freeTimerScore": 0,
-          "freeTimer": 0,
+          "freeTimer": "string",
           "packetPoolHealth": 0,
           "packetPool": 0,
           "freeMemoryBufferHealth": 0,

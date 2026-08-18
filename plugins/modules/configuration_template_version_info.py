@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_versions,
+    configuration_templates.ConfigurationTemplates.gets_all_the_versions_of_a_given_template,
   - Paths used are
     get /dna/intent/api/v1/template-programmer/template/version/{templateId},
 """

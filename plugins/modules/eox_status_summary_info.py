@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary
 notes:
   - SDK Method used are
-    eox.Eox.get_eox_summary,
+    eox.EoX.get_eox_summary,
   - Paths used are
     get /dna/intent/api/v1/eox-status/summary,
 """

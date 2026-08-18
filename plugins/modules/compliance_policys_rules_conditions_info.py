@@ -29,20 +29,18 @@ options:
     description:
       - RuleId path parameter. The `id` of the rule within the compliance policy.
     type: str
+  id:
+    description:
+      - Id path parameter. The `id` of the condition.
+    type: str
   offset:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
-  id:
-    description:
-      - Id path parameter. The `id` of the condition.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -74,10 +72,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
-    policyId: string
-    ruleId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 - name: Get Compliance Policys Rules Conditions by id
   cisco.catalystcenter.compliance_policys_rules_conditions_info:
@@ -89,9 +87,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    ruleId: string
-    id: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
+    id: 1d78e50b-acd7-423b-bc5e-5f4c106eaa8f
   register: result
 """
 RETURN = r"""
@@ -102,8 +100,29 @@ catalystcenter_response:
   sample: >
     {
       "response": {
+        "id": "string",
+        "sequenceNumber": 0,
         "name": "string",
-        "description": "string"
+        "scope": "string",
+        "deviceProperty": "string",
+        "showCommand": "string",
+        "parseAsBlocks": true,
+        "blockStartExpression": "string",
+        "blockEndExpression": "string",
+        "blockViolationCriteria": "string",
+        "operator": "string",
+        "regexViolationCriteria": "string",
+        "value": "string",
+        "action": {
+          "matchAction": "string",
+          "matchViolationSeverity": {},
+          "matchViolationMessageType": "string",
+          "matchViolationMessage": "string",
+          "doesNotMatchAction": "string",
+          "doesNotMatchViolationSeverity": {},
+          "doesNotMatchViolationMessageType": "string",
+          "doesNotMatchViolationMessage": "string"
+        }
       },
       "version": "string"
     }

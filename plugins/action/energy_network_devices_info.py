@@ -28,20 +28,20 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
         limit=dict(type="int"),
         cursor=dict(type="str"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        id=dict(type="str"),
         siteId=dict(type="str"),
         siteHierarchy=dict(type="str"),
         siteHierarchyId=dict(type="str"),
         deviceCategory=dict(type="str"),
         deviceSubCategory=dict(type="str"),
-        view=dict(type="str"),
-        attribute=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -83,21 +83,21 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            view=params.get("view"),
+            attribute=params.get("attribute"),
+            headers=params.get("headers"),
             limit=params.get("limit"),
             cursor=params.get("cursor"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            id=params.get("id"),
             site_id=params.get("siteId"),
             site_hierarchy=params.get("siteHierarchy"),
             site_hierarchy_id=params.get("siteHierarchyId"),
             device_category=params.get("deviceCategory"),
             device_sub_category=params.get("deviceSubCategory"),
-            view=params.get("view"),
-            attribute=params.get("attribute"),
-            headers=params.get("headers"),
         )
         return new_object
 

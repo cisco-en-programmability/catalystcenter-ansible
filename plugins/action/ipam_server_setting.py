@@ -36,11 +36,12 @@ argument_spec.update(
         state=dict(type="str", default="present", choices=["present", "absent"]),
         serverName=dict(type="str"),
         serverUrl=dict(type="str"),
-        password=dict(type="str", no_log=True),
         userName=dict(type="str"),
-        provider=dict(type="str"),
+        password=dict(type="str", no_log=True),
         view=dict(type="str"),
         syncView=dict(type="bool"),
+        state_=dict(type="str"),
+        provider=dict(type="dict"),
     )
 )
 
@@ -56,11 +57,12 @@ class IpamServerSetting(object):
         self.new_object = dict(
             serverName=params.get("serverName"),
             serverUrl=params.get("serverUrl"),
-            password=params.get("password"),
             userName=params.get("userName"),
-            provider=params.get("provider"),
+            password=params.get("password"),
             view=params.get("view"),
             syncView=params.get("syncView"),
+            state=params.get("state_"),
+            provider=params.get("provider"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -71,11 +73,12 @@ class IpamServerSetting(object):
         new_object_params = {}
         new_object_params["serverName"] = self.new_object.get("serverName")
         new_object_params["serverUrl"] = self.new_object.get("serverUrl")
-        new_object_params["password"] = self.new_object.get("password")
         new_object_params["userName"] = self.new_object.get("userName")
-        new_object_params["provider"] = self.new_object.get("provider")
+        new_object_params["password"] = self.new_object.get("password")
         new_object_params["view"] = self.new_object.get("view")
         new_object_params["syncView"] = self.new_object.get("syncView")
+        new_object_params["state_"] = self.new_object.get("state_")
+        new_object_params["provider"] = self.new_object.get("provider")
         return new_object_params
 
     def delete_all_params(self):
@@ -86,10 +89,12 @@ class IpamServerSetting(object):
         new_object_params = {}
         new_object_params["serverName"] = self.new_object.get("serverName")
         new_object_params["serverUrl"] = self.new_object.get("serverUrl")
-        new_object_params["password"] = self.new_object.get("password")
         new_object_params["userName"] = self.new_object.get("userName")
+        new_object_params["password"] = self.new_object.get("password")
         new_object_params["view"] = self.new_object.get("view")
         new_object_params["syncView"] = self.new_object.get("syncView")
+        new_object_params["state_"] = self.new_object.get("state_")
+        new_object_params["provider"] = self.new_object.get("provider")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -98,7 +103,7 @@ class IpamServerSetting(object):
         try:
             items = self.catalystcenter.exec(
                 family="system_settings",
-                function="retrieves_configuration_details_of_the_external_ip_a_m_server",
+                function="retrieves_configuration_details_of_the_external_ipam_server",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -115,7 +120,7 @@ class IpamServerSetting(object):
         try:
             items = self.catalystcenter.exec(
                 family="system_settings",
-                function="retrieves_configuration_details_of_the_external_ip_a_m_server",
+                function="retrieves_configuration_details_of_the_external_ipam_server",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -156,11 +161,11 @@ class IpamServerSetting(object):
             ("serverName", "serverName"),
             ("serverUrl", "serverUrl"),
             ("userName", "userName"),
-            ("provider", "provider"),
             ("view", "view"),
             ("syncView", "syncView"),
+            ("state_", "state"),
+            ("provider", "provider"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -172,7 +177,7 @@ class IpamServerSetting(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="system_settings",
-            function="creates_configuration_details_of_the_external_ip_a_m_server",
+            function="creates_configuration_details_of_the_external_ipam_server",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -184,7 +189,7 @@ class IpamServerSetting(object):
         result = None
         result = self.catalystcenter.exec(
             family="system_settings",
-            function="updates_configuration_details_of_the_external_ip_a_m_server",
+            function="updates_configuration_details_of_the_external_ipam_server",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -196,7 +201,7 @@ class IpamServerSetting(object):
         result = None
         result = self.catalystcenter.exec(
             family="system_settings",
-            function="deletes_configuration_details_of_the_external_ip_a_m_server",
+            function="deletes_configuration_details_of_the_external_ipam_server",
             params=self.delete_all_params(),
         )
         return result

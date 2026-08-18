@@ -41,12 +41,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSite
+    description: Complete reference of the AssignDeviceCredentialToSite API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.assign_device_credential_to_site,
   - Paths used are
     post /dna/intent/api/v2/credential-to-site/{siteId},
 """

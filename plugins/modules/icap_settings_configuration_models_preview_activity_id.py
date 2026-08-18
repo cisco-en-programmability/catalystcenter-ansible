@@ -9,16 +9,16 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models_preview_activity_id
 short_description: Resource module for Icap Settings Configuration Models Preview Activity Id
 description:
-  - Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id. - > Discard the ICAP configuration
-    intent by activity ID, which was returned in TaskResponse's property "taskId" at the beginning of the preview-approve
-    workflow. Discarding the intent can only be applied to intent activities that have not been deployed.
-version_added: '1.0.0'
+  - Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id.
+  - Discard the ICAP configuration intent by preview activity ID.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   previewActivityId:
-    description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
+    description: PreviewActivityId path parameter. Activity ID value from the POST /dna/intent/api/v1/icapSettings/... task
+      response.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -29,7 +29,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id
 notes:
   - SDK Method used are
-    sensors.Sensors.discards_the_i_cap_configuration_intent_by_activity_id,
+    sensors.Sensors.discards_the_icap_configuration_intent_by_activity_id,
   - Paths used are
     delete /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId},
 """

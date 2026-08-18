@@ -21,11 +21,11 @@ options:
     type: dict
   releaseName:
     description:
-      - ReleaseName query parameter. The releaseName of the release to be retrieved.
+      - ReleaseName query parameter. The `releaseName` of the release to be retrieved.
     type: str
   releaseVersion:
     description:
-      - ReleaseVersion query parameter. The releaseVersion of the release to be retrieved.
+      - ReleaseVersion query parameter. The `releaseVersion` of the release to be retrieved.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

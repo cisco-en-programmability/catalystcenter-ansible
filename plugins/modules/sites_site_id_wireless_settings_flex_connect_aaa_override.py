@@ -38,7 +38,7 @@ options:
       unaffected.
     type: bool
   siteId:
-    description: SiteId path parameter. Site Id.
+    description: SiteId path parameter. Site UUID.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -61,18 +61,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    removeOverrideInHierarchy: true
-    siteId: string
 - name: Update all
   cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -86,6 +74,18 @@ EXAMPLES = r"""
     payload:
       - vlanId: 0
         vlanName: string
+    siteId: string
+- name: Delete all
+  cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    removeOverrideInHierarchy: true
     siteId: string
 """
 RETURN = r"""

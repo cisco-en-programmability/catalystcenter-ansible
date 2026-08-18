@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: path_trace
 short_description: Resource module for Path Trace
 description:
-  - Manage operations create and delete of the resource Path Trace. - > Initiates a new flow analysis with periodic refresh
-    and stat collection options. Returns a request id and a task id to get results and follow progress.
+  - Manage operations create and delete of the resource Path Trace.
+  - Initiates a new flow analysis with periodic refresh and stat collection.
   - Deletes a flow analysis request by its id.
 version_added: '1.0.0'
 extends_documentation_fragment:

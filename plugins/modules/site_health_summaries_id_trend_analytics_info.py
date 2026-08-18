@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: site_health_summaries_id_trend_analytics_info
 short_description: Information module for Site Health Summaries Id Trend Analytics
 description:
-  - Get all Site Health Summaries Id Trend Analytics. - > Retrieves the time series information of health and issue data for
-    a site specified by the path parameter. The data will be grouped based on the specified trend time interval.
+  - Get all Site Health Summaries Id Trend Analytics.
+  - Retrieves the time series information of health and issue data for a site.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

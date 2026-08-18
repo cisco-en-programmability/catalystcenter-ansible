@@ -11,7 +11,7 @@ short_description: Information module for Releases
 description:
   - Get all Releases.
   - This api is used to get all available release.
-version_added: '2.2.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

@@ -20,21 +20,18 @@ options:
   authenticateTemplateName:
     description: Authenticate TemplateName associated with siteNameHierarchy.
     type: str
-    version_added: 4.0.0
   dataIpAddressPoolName:
     description: Ip Pool Name, that is assigned to virtual network with traffic type as DATA(can't be empty if voiceIpAddressPoolName
       is empty).
     type: str
-    version_added: 4.0.0
   deviceManagementIpAddress:
-    description: DeviceManagementIpAddress query parameter.
+    description: Management Ip Address of the Edge Node Device.
     type: str
   interfaceDescription:
     description: User defined text message for port assignment.
     type: str
-    version_added: 4.0.0
   interfaceName:
-    description: InterfaceName query parameter.
+    description: Interface Name on the Edge Node Device.
     type: str
   interfaceNames:
     description: List of Interface Names on the Edge Node Device. E.g."GigabitEthernet1/0/3","GigabitEthernet1/0/4".
@@ -43,16 +40,13 @@ options:
   scalableGroupName:
     description: Scalable Group name associated with VN.
     type: str
-    version_added: 4.0.0
   siteNameHierarchy:
     description: Complete Path of SD-Access Fabric Site.
     type: str
-    version_added: 4.0.0
   voiceIpAddressPoolName:
     description: Ip Pool Name, that is assigned to virtual network with traffic type as VOICE(can't be empty if dataIpAddressPoolName
       is empty).
     type: str
-    version_added: 4.0.0
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -74,18 +68,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_port_assignment_for_user_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    deviceManagementIpAddress: string
-    interfaceName: string
 - name: Create
   cisco.catalystcenter.sda_port_assignment_for_user_device:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -106,6 +88,18 @@ EXAMPLES = r"""
     scalableGroupName: string
     siteNameHierarchy: string
     voiceIpAddressPoolName: string
+- name: Delete all
+  cisco.catalystcenter.sda_port_assignment_for_user_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    deviceManagementIpAddress: application/json
+    interfaceName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

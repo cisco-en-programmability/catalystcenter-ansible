@@ -38,8 +38,9 @@ argument_spec.update(
         siteTagName=dict(type="str"),
         flexProfileName=dict(type="str"),
         apProfileName=dict(type="str"),
-        id=dict(type="str"),
         siteTagId=dict(type="str"),
+        load=dict(type="int"),
+        id=dict(type="str"),
     )
 )
 
@@ -60,6 +61,8 @@ class WirelessProfilesIdSiteTags(object):
             siteTagName=params.get("siteTagName"),
             flexProfileName=params.get("flexProfileName"),
             apProfileName=params.get("apProfileName"),
+            siteTagId=params.get("siteTagId"),
+            load=params.get("load"),
             id=params.get("id"),
             site_tag_id=params.get("siteTagId"),
         )
@@ -86,8 +89,9 @@ class WirelessProfilesIdSiteTags(object):
         new_object_params["siteTagName"] = self.new_object.get("siteTagName")
         new_object_params["flexProfileName"] = self.new_object.get("flexProfileName")
         new_object_params["apProfileName"] = self.new_object.get("apProfileName")
-        new_object_params["id"] = self.new_object.get("id")
         new_object_params["siteTagId"] = self.new_object.get("siteTagId")
+        new_object_params["load"] = self.new_object.get("load")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -159,10 +163,11 @@ class WirelessProfilesIdSiteTags(object):
             ("siteTagName", "siteTagName"),
             ("flexProfileName", "flexProfileName"),
             ("apProfileName", "apProfileName"),
+            ("siteTagId", "siteTagId"),
+            ("load", "load"),
             ("id", "id"),
             ("siteTagId", "site_tag_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

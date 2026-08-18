@@ -34,6 +34,9 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
+        sequenceNumber=dict(type="int"),
+        name=dict(type="str"),
         scope=dict(type="str"),
         deviceProperty=dict(type="str"),
         showCommand=dict(type="str"),
@@ -47,13 +50,12 @@ argument_spec.update(
         action=dict(type="dict"),
         policyId=dict(type="str"),
         ruleId=dict(type="str"),
-        id=dict(type="str"),
     )
 )
 
 required_if = [
-    ("state", "present", ["id", "policyId", "ruleId"], True),
-    ("state", "absent", ["id", "policyId", "ruleId"], True),
+    ("state", "present", ["id", "name", "policyId", "ruleId"], True),
+    ("state", "absent", ["id", "name", "policyId", "ruleId"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -64,6 +66,9 @@ class CompliancePolicysRulesConditions(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
+            sequenceNumber=params.get("sequenceNumber"),
+            name=params.get("name"),
             scope=params.get("scope"),
             deviceProperty=params.get("deviceProperty"),
             showCommand=params.get("showCommand"),
@@ -77,7 +82,6 @@ class CompliancePolicysRulesConditions(object):
             action=params.get("action"),
             policy_id=params.get("policyId"),
             rule_id=params.get("ruleId"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -94,6 +98,9 @@ class CompliancePolicysRulesConditions(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["sequenceNumber"] = self.new_object.get("sequenceNumber")
+        new_object_params["name"] = self.new_object.get("name")
         new_object_params["scope"] = self.new_object.get("scope")
         new_object_params["deviceProperty"] = self.new_object.get("deviceProperty")
         new_object_params["showCommand"] = self.new_object.get("showCommand")
@@ -126,6 +133,9 @@ class CompliancePolicysRulesConditions(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["sequenceNumber"] = self.new_object.get("sequenceNumber")
+        new_object_params["name"] = self.new_object.get("name")
         new_object_params["scope"] = self.new_object.get("scope")
         new_object_params["deviceProperty"] = self.new_object.get("deviceProperty")
         new_object_params["showCommand"] = self.new_object.get("showCommand")
@@ -147,7 +157,6 @@ class CompliancePolicysRulesConditions(object):
         new_object_params["action"] = self.new_object.get("action")
         new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["ruleId"] = self.new_object.get("ruleId")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -212,6 +221,9 @@ class CompliancePolicysRulesConditions(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
+            ("sequenceNumber", "sequenceNumber"),
+            ("name", "name"),
             ("scope", "scope"),
             ("deviceProperty", "deviceProperty"),
             ("showCommand", "showCommand"),
@@ -225,9 +237,7 @@ class CompliancePolicysRulesConditions(object):
             ("action", "action"),
             ("policyId", "policy_id"),
             ("ruleId", "rule_id"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

@@ -23,7 +23,7 @@ options:
     elements: dict
     suboptions:
       anchoredSiteId:
-        description: Fabric ID of the fabric site this layer 3 virtual network is to be anchored at.
+        description: ID of the fabric site this layer 3 virtual network is to be anchored at.
         type: str
       fabricIds:
         description: IDs of the fabrics this layer 3 virtual network is to be assigned to.
@@ -62,17 +62,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_layer3_virtual_networks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    virtualNetworkName: string
 - name: Create
   cisco.catalystcenter.sda_layer3_virtual_networks:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -88,6 +77,17 @@ EXAMPLES = r"""
         fabricIds:
           - string
         virtualNetworkName: string
+- name: Delete all
+  cisco.catalystcenter.sda_layer3_virtual_networks:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    virtualNetworkName: string
 - name: Update all
   cisco.catalystcenter.sda_layer3_virtual_networks:
     catalystcenter_host: "{{catalystcenter_host}}"

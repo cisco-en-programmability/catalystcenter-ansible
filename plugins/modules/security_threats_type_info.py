@@ -11,7 +11,7 @@ short_description: Information module for Security Threats Type
 description:
   - Get all Security Threats Type.
   - Intent API to fetch all threat types defined.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

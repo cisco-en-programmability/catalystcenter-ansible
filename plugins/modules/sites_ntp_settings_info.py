@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_ntp_settings_info
 short_description: Information module for Sites Ntp Settings
 description:
-  - Get all Sites Ntp Settings. - > Retrieve NTP settings for a site; `null` values indicate that the setting will be inherited
-    from the parent site; empty objects `{}` indicate that the setting is unset at a site.
+  - Get all Sites Ntp Settings.
+  - Retrieves NTP settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -39,7 +39,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-ntp-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site,
+    network_settings.NetworkSettings.retrieve_ntp_settings_for_a_site,
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/ntpSettings,
 """
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
-    id: string
+    _inherited: True
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,13 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "ntp": {
-          "servers": [
-            "string"
-          ],
-          "inheritedSiteId": "string",
-          "inheritedSiteName": "string"
-        }
+        "ntp": {}
       },
       "version": "string"
     }

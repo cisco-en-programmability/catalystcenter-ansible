@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_wireless_containment_stop
-short_description: Resource module for Security Rogue Wireless-Containment Stop
+short_description: Resource module for Security Rogue Wireless Containment Stop
 description:
-  - Manage operation create of the resource Security Rogue Wireless-Containment Stop. - > Intent API to stop the wireless
+  - Manage operation create of the resource Security Rogue Wireless Containment Stop. - > Intent API to stop the wireless
     rogue access point containment. This API will stop the containment through single WLC. The response includes the details
     like WLC and BSSID on which the stop containment has been initiated.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

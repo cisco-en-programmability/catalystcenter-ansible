@@ -10,7 +10,7 @@ module: event_subscription_info
 short_description: Information module for Event Subscription
 description:
   - Get all Event Subscription.
-  - Gets the list of Subscriptions's based on provided offset and limit.
+  - Gets the list of subscriptions based on the provided offset and limit.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -67,7 +67,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result

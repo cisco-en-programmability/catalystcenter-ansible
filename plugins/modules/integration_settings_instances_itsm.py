@@ -25,13 +25,13 @@ options:
         description: Integration Settings Instances Itsm's ConnectionSettings.
         suboptions:
           Auth_Password:
-            description: Auth Password.
+            description: Integration Settings Instances Itsm's Auth_Password.
             type: str
           Auth_UserName:
-            description: Auth User Name.
+            description: Integration Settings Instances Itsm's Auth_UserName.
             type: str
           Url:
-            description: Url.
+            description: Integration Settings Instances Itsm's Url.
             type: str
         type: dict
     type: dict
@@ -39,7 +39,7 @@ options:
     description: Description of the setting instance.
     type: str
   dypName:
-    description: It can be ServiceNowConnection.
+    description: It can be either ServiceNowConnection or BMCRemedy.
     type: str
   instanceId:
     description: InstanceId path parameter. Instance Id of the Integration setting instance.
@@ -73,35 +73,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.integration_settings_instances_itsm:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    data:
-      ConnectionSettings:
-        Auth_Password: string
-        Auth_UserName: string
-        Url: string
-    description: string
-    dypName: string
-    name: string
-- name: Delete by id
-  cisco.catalystcenter.integration_settings_instances_itsm:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    instanceId: string
 - name: Update by id
   cisco.catalystcenter.integration_settings_instances_itsm:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -121,6 +92,35 @@ EXAMPLES = r"""
     dypName: string
     instanceId: string
     name: string
+- name: Delete by id
+  cisco.catalystcenter.integration_settings_instances_itsm:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    instanceId: string
+- name: Create
+  cisco.catalystcenter.integration_settings_instances_itsm:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    data:
+      ConnectionSettings:
+        Auth_Password: string
+        Auth_UserName: string
+        Url: string
+    description: string
+    dypName: string
+    name: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -129,12 +129,13 @@ catalystcenter_response:
   type: dict
   sample: >
     {
+      "_id": "string",
       "id": "string",
       "dypId": "string",
       "dypName": "string",
+      "dypMajorVersion": 0,
       "name": "string",
       "uniqueKey": "string",
-      "dypMajorVersion": 0,
       "description": "string",
       "data": {
         "ConnectionSettings": {
@@ -143,13 +144,8 @@ catalystcenter_response:
           "Auth_Password": "string"
         }
       },
-      "createdDate": 0,
-      "createdBy": "string",
+      "updatedDate": 0,
       "updatedBy": "string",
-      "softwareVersionLog": [
-        "string"
-      ],
-      "schemaVersion": 0,
       "tenantId": "string"
     }
 """

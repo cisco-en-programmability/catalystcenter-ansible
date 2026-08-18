@@ -10,7 +10,7 @@ module: discovery_count_info
 short_description: Information module for Discovery Count
 description:
   - Get all Discovery Count.
-  - Returns the count of all available discovery jobs.
+  - Returns the count of all available discovery jobs. Deprecated since Catalyst Center Release 3.2.1.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

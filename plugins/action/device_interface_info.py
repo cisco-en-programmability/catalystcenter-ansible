@@ -28,11 +28,11 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         lastInputTime=dict(type="str"),
         lastOutputTime=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -74,11 +74,11 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             last_input_time=params.get("lastInputTime"),
             last_output_time=params.get("lastOutputTime"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object

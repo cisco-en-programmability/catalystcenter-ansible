@@ -11,12 +11,8 @@ short_description: Information module for Dhcp Services
 description:
   - Get all Dhcp Services.
   - Get Dhcp Services by id.
-  - Retrieves the details of the DHCP Service matching the given id.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
-  - Retrieves the list of DHCP Services and offers basic filtering and sorting capabilities.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
+  - Retrieves the details of the DHCP Service matching the given id. For detailed.
+  - Retrieves the list of DHCP Services and offers basic filtering and sorting.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,6 +21,14 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - >
+        Id path parameter. Unique id of the DHCP Service. It is the combination of DHCP Server IP (`serverIp`)
+        and Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and
+        `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would be
+        `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
+    type: str
   startTime:
     description:
       - >
@@ -106,14 +110,6 @@ options:
         DeviceSiteId query parameter. The UUID of the site. (Ex. `flooruuid`) Examples `?deviceSiteIds=id1`
         (single id requested) `?deviceSiteIds=id1&deviceSiteIds=id2&siteId=id3` (multiple ids requested).
     type: str
-  id:
-    description:
-      - >
-        Id path parameter. Unique id of the DHCP Service. It is the combination of DHCP Server IP (`serverIp`)
-        and Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and
-        `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would be
-        `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -126,8 +122,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dhcp-services-for-given-parameters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_details_of_a_specific_d_h_c_p_service_matching_the_id_of_the_service,
-    devices.Devices.retrieves_the_list_of_d_h_c_p_services_for_given_parameters,
+    devices.Devices.retrieves_the_details_of_a_specific_dhcp_service_matching_the_id_of_the_service,
+    devices.Devices.retrieves_the_list_of_dhcp_services_for_given_parameters,
   - Paths used are
     get /dna/data/api/v1/dhcpServices,
     get /dna/data/api/v1/dhcpServices/{id},

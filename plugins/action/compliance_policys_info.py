@@ -28,7 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        policyId=dict(type="str"),
+        policyId=dict(type="list"),
         name=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),

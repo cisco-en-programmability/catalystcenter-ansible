@@ -18,14 +18,14 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Tags Network Devices Members Associations Bulk's payload.
+    description: Request body minItems 1 maxItems 500.
     elements: dict
     suboptions:
       id:
         description: Network device id.
         type: str
       tags:
-        description: Tags Network Devices Members Associations Bulk's tags.
+        description: List of associated tags minItems 0 maxItems 500.
         elements: dict
         suboptions:
           id:

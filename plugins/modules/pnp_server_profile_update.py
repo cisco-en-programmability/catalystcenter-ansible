@@ -17,13 +17,13 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   ccoUser:
-    description: Cco User.
+    description: Pnp Server Profile Update's ccoUser.
     type: str
   profile:
     description: Pnp Server Profile Update's profile.
     suboptions:
       addressFqdn:
-        description: Address Fqdn.
+        description: Pnp Server Profile Update's addressFqdn.
         type: str
       addressIpV4:
         description: Required when cluster is configured with IPv4.
@@ -32,29 +32,29 @@ options:
         description: Required when cluster is configured with IPv6.
         type: str
       cert:
-        description: Cert.
+        description: Pnp Server Profile Update's cert.
         type: str
       makeDefault:
-        description: Make Default.
+        description: MakeDefault flag.
         type: bool
       name:
-        description: Name.
+        description: Pnp Server Profile Update's name.
         type: str
       port:
-        description: Port.
+        description: Pnp Server Profile Update's port.
         type: float
       profileId:
-        description: Profile Id.
+        description: Pnp Server Profile Update's profileId.
         type: str
       proxy:
-        description: Proxy.
+        description: Proxy flag.
         type: bool
     type: dict
   smartAccountId:
-    description: Smart Account Id.
+    description: Pnp Server Profile Update's smartAccountId.
     type: str
   virtualAccountId:
-    description: Virtual Account Id.
+    description: Pnp Server Profile Update's virtualAccountId.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

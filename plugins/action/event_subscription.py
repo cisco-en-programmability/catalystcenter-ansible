@@ -103,7 +103,6 @@ class EventSubscription(object):
 
     def get_object_by_id(self, id):
         result = None
-        tmp_result = None
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.catalystcenter.exec(
@@ -162,7 +161,6 @@ class EventSubscription(object):
             ("filter", "filter"),
             ("subscriptions", "subscriptions"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

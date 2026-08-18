@@ -97,7 +97,7 @@ EXAMPLES = r"""
     http: string
     netconf: string
     limit: 0
-    offset: 0
+    offset: 1
     discoveryId: string
     jobId: string
   register: result
@@ -112,7 +112,7 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "managementIpAddress": "string",
+          "managementIpAddress": {},
           "hostname": "string",
           "discoveryStatus": "string",
           "status": "string",

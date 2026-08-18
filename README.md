@@ -29,7 +29,7 @@ Notes:
 
 ## Requirements
 
-- Python >= 3.10, <= 3.12 (matching the controller Python versions supported by ansible-core >= 2.16; later ansible-core releases may support newer Python versions)
+- Python >= 3.10, <= 3.14 (matching the controller Python versions supported by ansible-core >= 2.16; later ansible-core releases may support newer Python versions)
 - [catalystcentersdk](https://github.com/cisco-en-programmability/catalystcentersdk) (see Compatibility Matrix for tested versions)
 - ansible-core >= 2.16
 
@@ -266,7 +266,7 @@ This collection is validated against the following environments:
 
 - Cisco CATALYST Center: 2.3.7.6, 2.3.7.9, 3.1.3.0, 3.1.6.0
 - ansible-core: >= 2.16
-- Python: >= 3.10, <= 3.12
+- Python: >= 3.10, <= 3.14
 
 Known limitations and compatibility notes are documented in the [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml). For platform-specific issues, consult the official documentation or open a support case as appropriate.
 
@@ -305,7 +305,7 @@ Please consult your platform documentation for support eligibility and procedure
 
 ## Release Notes and Roadmap
 
-Release notes are maintained in the public [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml).
+Release notes are maintained in the public [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/CHANGELOG.rst) (generated from [changelog.yaml](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml)).
 
 This collection follows [Semantic Versioning](https://semver.org/). For roadmap information, refer to the repository or contact Cisco for enterprise roadmap details.
 

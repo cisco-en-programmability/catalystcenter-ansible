@@ -75,7 +75,7 @@ class SitesDhcpSettings(object):
         try:
             items = self.catalystcenter.exec(
                 family="network_settings",
-                function="retrieve_d_h_c_p_settings_for_a_site",
+                function="retrieve_dhcp_settings_for_a_site",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -121,7 +121,6 @@ class SitesDhcpSettings(object):
             ("dhcp", "dhcp"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

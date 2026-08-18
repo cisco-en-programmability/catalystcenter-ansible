@@ -7,11 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints_anc_policy_delete
-short_description: Resource module for Endpoint Analytics Endpoints Anc-Policy Delete
+short_description: Resource module for Endpoint Analytics Endpoints Anc Policy Delete
 description:
-  - Manage operation delete of the resource Endpoint Analytics Endpoints Anc-Policy Delete.
+  - Manage operation delete of the resource Endpoint Analytics Endpoints Anc Policy Delete.
   - Revokes given ANC policy from the endpoint.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.revoke_anc_policy,
+    ai_endpoint_analytics.AIEndpointAnalytics.revoke_anc_policy,
   - Paths used are
     delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
 """

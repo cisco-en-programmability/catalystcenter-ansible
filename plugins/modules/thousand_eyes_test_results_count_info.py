@@ -12,7 +12,7 @@ description:
   - Get all Thousand Eyes Test Results Count. - > Retrieves the total count of ThousandEyes test results for the given filters.
     If `startTime` and `endTime` are not provided, the API defaults to the last 24 hours. For detailed information about the
     usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-thousandEyesTestResults-1.0.0-resolved.yaml.
+    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-thousandEyesTestResults-1.0.1-resolved.yaml.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

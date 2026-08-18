@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="get_anchor_capable_devices",
+            function="get_all_anchor_capable_devices",
             params=self.get_object(self._task.args),
         )
         self._result.update(

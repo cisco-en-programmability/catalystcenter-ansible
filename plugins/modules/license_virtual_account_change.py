@@ -10,7 +10,7 @@ module: license_virtual_account_change
 short_description: Resource module for License Virtual Account Change
 description:
   - Manage operation create of the resource License Virtual Account Change.
-  - Transfer devices from one virtual account to another within same smart account.
+  - Transfer devices from one virtual account to another within same smart.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module

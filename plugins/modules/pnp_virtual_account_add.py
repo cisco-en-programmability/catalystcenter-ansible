@@ -64,7 +64,7 @@ options:
     description: Pnp Virtual Account Add's smartAccountId.
     type: str
   syncResult:
-    description: Pnp Virtual Account Add's syncResult.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     suboptions:
       syncList:
         description: Pnp Virtual Account Add's syncList.

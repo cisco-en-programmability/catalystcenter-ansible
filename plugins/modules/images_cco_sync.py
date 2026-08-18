@@ -9,11 +9,9 @@ DOCUMENTATION = r"""
 module: images_cco_sync
 short_description: Resource module for Images Cco Sync
 description:
-  - Manage operation create of the resource Images Cco Sync. - > Initiating the synchronization of the software images from
-    Cisco.com. The latest and suggested images will be retrieved, along with the corresponding product name and PIDs for imported
-    and retrieved images from Cisco.com. Once the task is completed, the API `/intent/api/v1/images?imported=false` will display
-    all the images fetched from Cisco.com.
-version_added: '1.0.0'
+  - Manage operation create of the resource Images Cco Sync.
+  - Initiating the synchronization of the software images from Cisco.com. The.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

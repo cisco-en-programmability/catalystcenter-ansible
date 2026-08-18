@@ -53,8 +53,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    virtualNetworkName: string
-    siteNameHierarchy: string
+    virtualNetworkName: application/json
+    siteNameHierarchy: application/json
   register: result
 """
 RETURN = r"""

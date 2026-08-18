@@ -43,12 +43,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetProjectsDetailsV2
-    description: Complete reference of the GetProjectsDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-projects-details-v-2
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetProjectsDetails
+    description: Complete reference of the GetProjectsDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-project-s-details
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_projects_details_v2,
+    configuration_templates.ConfigurationTemplates.get_projects_details,
   - Paths used are
     get /dna/intent/api/v2/template-programmer/project,
 """
@@ -68,8 +68,8 @@ EXAMPLES = r"""
     id: string
     name: string
     offset: 0
-    limit: 0
-    sortOrder: string
+    limit: 500
+    sortOrder: ASC
   register: result
 """
 RETURN = r"""

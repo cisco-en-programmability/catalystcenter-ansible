@@ -27,110 +27,34 @@ options:
   settings:
     description: Global Pool's settings.
     suboptions:
-      clientAndEndpoint_aaa:
-        description: Global Pool's clientAndEndpoint_aaa.
+      ippool:
+        description: Global Pool's ippool.
+        elements: dict
         suboptions:
-          ipAddress:
-            description: IP address for ISE serve (eg 1.1.1.4).
+          IpAddressSpace:
+            description: Global Pool's IpAddressSpace.
             type: str
-          network:
-            description: IP address for AAA or ISE server (eg 2.2.2.1).
-            type: str
-          protocol:
-            description: Protocol for AAA or ISE serve (eg RADIUS).
-            type: str
-          servers:
-            description: Server type AAA or ISE server (eg AAA).
-            type: str
-          sharedSecret:
-            description: Shared secret for ISE server.
-            type: str
-        type: dict
-      dhcpServer:
-        description: DHCP Server IP (eg 1.1.1.1).
-        elements: str
-        type: list
-      dnsServer:
-        description: Global Pool's dnsServer.
-        suboptions:
-          domainName:
-            description: Domain Name of DHCP (eg; cisco).
-            type: str
-          primaryIpAddress:
-            description: Primary IP Address for DHCP (eg 2.2.2.2).
-            type: str
-          secondaryIpAddress:
-            description: Secondary IP Address for DHCP (eg 3.3.3.3).
-            type: str
-        type: dict
-      messageOfTheday:
-        description: Global Pool's messageOfTheday.
-        suboptions:
-          bannerMessage:
-            description: Massage for Banner message (eg; Good day).
-            type: str
-          retainExistingBanner:
-            description: Retain existing Banner Message (eg "true" or "false").
-            type: str
-        type: dict
-      netflowcollector:
-        description: Global Pool's netflowcollector.
-        suboptions:
-          ipAddress:
-            description: IP Address for NetFlow collector (eg 3.3.3.1).
-            type: str
-          port:
-            description: Port for NetFlow Collector (eg; 443).
-            type: float
-        type: dict
-      network_aaa:
-        description: Global Pool's network_aaa.
-        suboptions:
-          ipAddress:
-            description: IP address for AAA and ISE server (eg 1.1.1.1).
-            type: str
-          network:
-            description: IP Address for AAA or ISE server (eg 2.2.2.2).
-            type: str
-          protocol:
-            description: Protocol for AAA or ISE serve (eg RADIUS).
-            type: str
-          servers:
-            description: Server type for AAA Network (eg AAA).
-            type: str
-          sharedSecret:
-            description: Shared secret for ISE Server.
-            type: str
-        type: dict
-      ntpServer:
-        description: IP address for NTP server (eg 1.1.1.2).
-        elements: str
-        type: list
-      snmpServer:
-        description: Global Pool's snmpServer.
-        suboptions:
-          configureDnacIP:
-            description: Configuration Catalyst Center IP for SNMP Server (eg true).
-            type: bool
-          ipAddresses:
-            description: IP Address for SNMP Server (eg 4.4.4.1).
+          dhcpServerIps:
+            description: Global Pool's dhcpServerIps.
             elements: str
             type: list
-        type: dict
-      syslogServer:
-        description: Global Pool's syslogServer.
-        suboptions:
-          configureDnacIP:
-            description: Configuration Catalyst Center IP for syslog server (eg true).
-            type: bool
-          ipAddresses:
-            description: IP Address for syslog server (eg 4.4.4.4).
+          dnsServerIps:
+            description: Global Pool's dnsServerIps.
             elements: str
             type: list
-        type: dict
-      timezone:
-        description: Input for time zone (eg Africa/Abidjan).
-        type: str
+          gateway:
+            description: Global Pool's gateway.
+            type: str
+          ipPoolCidr:
+            description: Global Pool's ipPoolCidr.
+            type: str
+          ipPoolName:
+            description: Global Pool's ipPoolName.
+            type: str
+          type:
+            description: Global Pool's type.
+            type: str
+        type: list
     type: dict
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -170,41 +94,16 @@ EXAMPLES = r"""
     state: present
     headers: '{{my_headers | from_json}}'
     settings:
-      clientAndEndpoint_aaa:
-        ipAddress: string
-        network: string
-        protocol: string
-        servers: string
-        sharedSecret: string
-      dhcpServer:
-        - string
-      dnsServer:
-        domainName: string
-        primaryIpAddress: string
-        secondaryIpAddress: string
-      messageOfTheday:
-        bannerMessage: string
-        retainExistingBanner: string
-      netflowcollector:
-        ipAddress: string
-        port: 0
-      network_aaa:
-        ipAddress: string
-        network: string
-        protocol: string
-        servers: string
-        sharedSecret: string
-      ntpServer:
-        - string
-      snmpServer:
-        configureDnacIP: true
-        ipAddresses:
-          - string
-      syslogServer:
-        configureDnacIP: true
-        ipAddresses:
-          - string
-      timezone: string
+      ippool:
+        - IpAddressSpace: string
+          dhcpServerIps:
+            - string
+          dnsServerIps:
+            - string
+          gateway: string
+          ipPoolCidr: string
+          ipPoolName: string
+          type: string
 - name: Update all
   cisco.catalystcenter.global_pool:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -234,7 +133,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    id: string
+    id: application/json
 """
 RETURN = r"""
 catalystcenter_response:

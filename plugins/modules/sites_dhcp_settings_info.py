@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_dhcp_settings_info
 short_description: Information module for Sites Dhcp Settings
 description:
-  - Get all Sites Dhcp Settings. - > Retrieve DHCP settings for a site; `null` values indicate that the setting will be inherited
-    from the parent site; empty objects `{}` indicate that the setting is unset at a site.
+  - Get all Sites Dhcp Settings.
+  - Retrieve DHCP settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -39,7 +39,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-dhcp-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.retrieve_d_h_c_p_settings_for_a_site,
+    network_settings.NetworkSettings.retrieve_dhcp_settings_for_a_site,
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/dhcpSettings,
 """
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: true
-    id: string
+    _inherited: True
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,13 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "ntp": {
-          "servers": [
-            "string"
-          ],
-          "inheritedSiteId": "string",
-          "inheritedSiteName": "string"
-        }
+        "dhcp": {}
       },
       "version": "string"
     }

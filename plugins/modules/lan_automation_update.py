@@ -20,7 +20,7 @@ options:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.
     type: str
   payload:
-    description: Lan Automation Update's payload.
+    description: List of Devices, identified by Management IP Address for Loopback0 IP Address update.
     elements: dict
     suboptions:
       deviceManagementIPAddress:
@@ -34,12 +34,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevices
-    description: Complete reference of the LANAutomationStopAndUpdateDevices API.
-    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
+  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV1
+    description: Complete reference of the LANAutomationStopAndUpdateDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-1
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices,
+    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v1,
   - Paths used are
     put /dna/intent/api/v1/lan-automation/{id},
 """

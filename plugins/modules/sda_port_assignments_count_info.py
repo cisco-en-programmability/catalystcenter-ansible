@@ -10,7 +10,7 @@ module: sda_port_assignments_count_info
 short_description: Information module for Sda Port Assignments Count
 description:
   - Get all Sda Port Assignments Count.
-  - Returns the count of port assignments that match the provided query parameters.
+  - Returns the count of port assignments that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

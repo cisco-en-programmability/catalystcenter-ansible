@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: site_health_summaries_summary_analytics_info
 short_description: Information module for Site Health Summaries Summary Analytics
 description:
-  - Get all Site Health Summaries Summary Analytics. - > Get an aggregated summary of all site health or use the query params
-    to get an aggregated summary of health for a subset of sites.
+  - Get all Site Health Summaries Summary Analytics.
+  - Get an aggregated summary of all site health or use the query params to get an.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -73,8 +73,8 @@ options:
       - >
         View query parameter. The specific summary view being requested. This is an optional parameter which can
         be passed to get one or more of the specific health data summaries associated with sites. ### Response
-        data proviced by each view 1. **site** id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude
-        2. **network** id, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
+        data proviced by each view 1. Site id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude 2.
+        Network id, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
         wirelessDeviceGoodHealthCount, accessDeviceCount, accessDeviceGoodHealthCount, coreDeviceCount,
         coreDeviceGoodHealthCount, distributionDeviceCount, distributionDeviceGoodHealthCount,
         routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount, apDeviceGoodHealthCount, wlcDeviceCount,
@@ -82,12 +82,12 @@ options:
         networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage, coreDeviceGoodHealthPercentage,
         distributionDeviceGoodHealthPercentage, routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
         wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage 3.
-        **client** id, clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount,
+        Client id, clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount,
         wiredClientGoodHealthCount, wirelessClientGoodHealthCount, clientGoodHealthPercentage,
-        wiredClientGoodHealthPercentage, wirelessClientGoodHealthPercentage, clientDataUsage 4. **issue** id,
+        wiredClientGoodHealthPercentage, wirelessClientGoodHealthPercentage, clientDataUsage 4. Issue id,
         p1IssueCount, p2IssueCount, p3IssueCount, p4IssueCount, issueCount When this query parameter is not
-        added the default summaries are **site,client,network,issue** Examples view=client (single view
-        requested) view=client&view=network&view=issue (multiple views requested).
+        added the default summaries are site,client,network,issue Examples view=client (single view requested)
+        view=client&view=network&view=issue (multiple views requested).
     type: str
   attribute:
     description:

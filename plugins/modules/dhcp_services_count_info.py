@@ -10,9 +10,7 @@ module: dhcp_services_count_info
 short_description: Information module for Dhcp Services Count
 description:
   - Get all Dhcp Services Count.
-  - Retrieves the total number of DHCP Services for given parameters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
+  - Retrieves the total number of DHCP Services for given parameters. For detailed.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -93,7 +91,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-parameters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_h_c_p_services_for_given_parameters,
+    devices.Devices.retrieves_the_total_number_of_dhcp_services_for_given_parameters,
   - Paths used are
     get /dna/data/api/v1/dhcpServices/count,
 """

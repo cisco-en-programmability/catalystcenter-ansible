@@ -75,7 +75,7 @@ class SitesNtpSettings(object):
         try:
             items = self.catalystcenter.exec(
                 family="network_settings",
-                function="retrieve_n_t_p_settings_for_a_site",
+                function="retrieve_ntp_settings_for_a_site",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -121,7 +121,6 @@ class SitesNtpSettings(object):
             ("ntp", "ntp"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -136,7 +135,7 @@ class SitesNtpSettings(object):
         result = None
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="set_n_t_p_settings_for_a_site",
+            function="set_ntp_settings_for_a_site",
             params=self.update_all_params(),
             op_modifies=True,
         )

@@ -48,12 +48,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sensors GetDeviceDeploymentStatus
-    description: Complete reference of the GetDeviceDeploymentStatus API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status
+  - name: Cisco Catalyst Center documentation for Sensors GetDeviceDeploymentStatusKnowYourNetwork
+    description: Complete reference of the GetDeviceDeploymentStatusKnowYourNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-know-your-network
 notes:
   - SDK Method used are
-    sensors.Sensors.get_device_deployment_status,
+    sensors.Sensors.get_device_deployment_status_know_your_network,
   - Paths used are
     get /dna/intent/api/v1/icapSettings/deviceDeployments,
 """

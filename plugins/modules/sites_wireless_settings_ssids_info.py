@@ -11,8 +11,8 @@ short_description: Information module for Sites Wireless Settings Ssids
 description:
   - Get all Sites Wireless Settings Ssids.
   - Get Sites Wireless Settings Ssids by id.
-  - This API allows the user to get all SSIDs Service Set Identifier at the given site.
-  - This API allows the user to get an SSID Service Set Identifier by ID at the given site.
+  - This API allows the user to get all SSIDs Service Set Identifier at the given `siteId`.
+  - This API allows the user to get specific SSID Service Set Identifier at the given `siteId` and `id`.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,7 +33,7 @@ options:
     type: int
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page, the first record is numbered 1.
     type: int
   ssid:
     description:
@@ -59,9 +59,9 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetSSIDByID
-    description: Complete reference of the GetSSIDByID API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id
+  - name: Cisco Catalyst Center documentation for Wireless GETSSIDBYID
+    description: Complete reference of the GETSSIDBYID API.
+    link: https://developer.cisco.com/docs/dna-center/#!g-etssidbyid
   - name: Cisco Catalyst Center documentation for Wireless GetSSIDBySite
     description: Complete reference of the GetSSIDBySite API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site
@@ -86,8 +86,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     ssid: string
     wlanType: string
     authType: string
@@ -115,96 +115,96 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "ssid": "string",
-          "authType": "string",
-          "passphrase": "string",
-          "isFastLaneEnabled": true,
-          "isMacFilteringEnabled": true,
-          "ssidRadioType": "string",
-          "isBroadcastSSID": true,
-          "fastTransition": "string",
-          "sessionTimeOutEnable": true,
-          "sessionTimeOut": 0,
-          "clientExclusionEnable": true,
-          "clientExclusionTimeout": 0,
-          "basicServiceSetMaxIdleEnable": true,
-          "basicServiceSetClientIdleTimeout": 0,
-          "directedMulticastServiceEnable": true,
-          "neighborListEnable": true,
-          "managementFrameProtectionClientprotection": "string",
-          "nasOptions": [
-            "string"
-          ],
-          "profileName": "string",
-          "policyProfileName": "string",
-          "aaaOverride": true,
-          "coverageHoleDetectionEnable": true,
-          "protectedManagementFrame": "string",
-          "multiPSKSettings": [
-            {
-              "priority": 0,
-              "passphraseType": "string",
-              "passphrase": "string"
-            }
-          ],
-          "clientRateLimit": 0,
-          "rsnCipherSuiteGcmp256": true,
-          "rsnCipherSuiteCcmp256": true,
-          "rsnCipherSuiteGcmp128": true,
-          "rsnCipherSuiteCcmp128": true,
-          "ghz6PolicyClientSteering": true,
-          "isAuthKey8021x": true,
-          "isAuthKey8021xPlusFT": true,
-          "isAuthKey8021x_SHA256": true,
-          "isAuthKeySae": true,
-          "isAuthKeySaePlusFT": true,
-          "isAuthKeyPSK": true,
-          "isAuthKeyPSKPlusFT": true,
-          "isAuthKeyOWE": true,
-          "isAuthKeyEasyPSK": true,
-          "isAuthKeyPSKSHA256": true,
-          "openSsid": "string",
-          "isCustomNasIdOptions": true,
-          "wlanBandSelectEnable": true,
-          "isEnabled": true,
-          "authServers": [
-            "string"
-          ],
-          "acctServers": [
-            "string"
-          ],
-          "egressQos": "string",
-          "ingressQos": "string",
-          "inheritedSiteId": "string",
-          "inheritedSiteName": "string",
-          "wlanType": "string",
-          "l3AuthType": "string",
-          "authServer": "string",
-          "externalAuthIpAddress": "string",
-          "webPassthrough": true,
-          "sleepingClientEnable": true,
-          "sleepingClientTimeout": 0,
-          "aclName": "string",
-          "isPosturingEnabled": true,
-          "isAuthKeySuiteB1x": true,
-          "isAuthKeySuiteB1921x": true,
-          "isAuthKeySaeExt": true,
-          "isAuthKeySaeExtPlusFT": true,
-          "isApBeaconProtectionEnabled": true,
-          "ghz24Policy": "string",
-          "cckmTsfTolerance": 0,
-          "isCckmEnabled": true,
-          "isHex": true,
-          "isSensorPnp": true,
-          "id": "string",
-          "isRandomMacFilterEnabled": true,
-          "fastTransitionOverTheDistributedSystemEnable": true,
-          "inheritedSiteNameHierarchy": "string",
-          "isRadiusProfilingEnabled": true
-        }
-      ],
+      "response": {
+        "id": "string",
+        "ssid": "string",
+        "wlanType": "string",
+        "authType": "string",
+        "profileName": "string",
+        "l3AuthType": "string",
+        "isFastLaneEnabled": true,
+        "authServers": [
+          "string"
+        ],
+        "isLoadBalancingEnabledForAuthGroup": true,
+        "acctServers": [
+          "string"
+        ],
+        "isLoadBalancingEnabledForAcctGroup": true,
+        "passphrase": "string",
+        "isMacFilteringEnabled": true,
+        "isEnabled": true,
+        "externalAuthIpAddress": "string",
+        "fastTransition": "string",
+        "authServer": "string",
+        "ghz6PolicyClientSteering": true,
+        "wlanBandSelectEnable": true,
+        "isBroadcastSSID": true,
+        "webPassthrough": true,
+        "sleepingClientEnable": true,
+        "sleepingClientTimeout": 0,
+        "nasOptions": [
+          "string"
+        ],
+        "isCustomNasIdOptions": true,
+        "sessionTimeOutEnable": true,
+        "sessionTimeOut": 0,
+        "clientExclusionEnable": true,
+        "clientExclusionTimeout": 0,
+        "basicServiceSetMaxIdleEnable": true,
+        "basicServiceSetClientIdleTimeout": 0,
+        "directedMulticastServiceEnable": true,
+        "neighborListEnable": true,
+        "managementFrameProtectionClientprotection": "string",
+        "fastTransitionOverTheDistributedSystemEnable": true,
+        "policyProfileName": "string",
+        "openSsid": "string",
+        "rsnCipherSuiteCcmp256": true,
+        "rsnCipherSuiteGcmp128": true,
+        "rsnCipherSuiteCcmp128": true,
+        "rsnCipherSuiteGcmp256": true,
+        "isAuthKey8021x": true,
+        "isAuthKey8021xPlusFT": true,
+        "isAuthKey8021x_SHA256": true,
+        "isAuthKeySuiteB1x": true,
+        "isAuthKeySuiteB1921x": true,
+        "isAuthKeySaeExt": true,
+        "isAuthKeySaeExtPlusFT": true,
+        "isApBeaconProtectionEnabled": true,
+        "isAuthKeySae": true,
+        "isAuthKeySaePlusFT": true,
+        "isAuthKeyPSK": true,
+        "isAuthKeyPSKPlusFT": true,
+        "isAuthKeyOWE": true,
+        "isAuthKeyEasyPSK": true,
+        "isAuthKeyPSKSHA256": true,
+        "egressQos": "string",
+        "ingressQos": "string",
+        "aaaOverride": true,
+        "coverageHoleDetectionEnable": true,
+        "protectedManagementFrame": "string",
+        "isRandomMacFilterEnabled": true,
+        "isRadiusProfilingEnabled": true,
+        "aclName": "string",
+        "ipv6AclName": "string",
+        "urlAclName": "string",
+        "multiPSKSettings": [
+          {
+            "priority": 0,
+            "passphraseType": "string",
+            "passphrase": "string"
+          }
+        ],
+        "clientRateLimit": 0,
+        "inheritedSiteUUID": "string",
+        "inheritedSiteName": "string",
+        "ssidRadioType": "string",
+        "isPosturingEnabled": true,
+        "isCckmEnabled": true,
+        "cckmTsfTolerance": 0,
+        "ghz24Policy": "string",
+        "isHex": true
+      },
       "version": "string"
     }
 """

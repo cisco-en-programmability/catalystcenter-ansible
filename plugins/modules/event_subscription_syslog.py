@@ -25,10 +25,10 @@ options:
         description: Description.
         type: str
       filter:
-        description: Event Subscription Syslog's filter.
+        description: Filter.
         suboptions:
           categories:
-            description: Categories.
+            description: Event Subscription Syslog's categories.
             elements: str
             type: list
           domainsSubdomains:
@@ -36,10 +36,10 @@ options:
             elements: dict
             suboptions:
               domain:
-                description: Domain.
+                description: Event Subscription Syslog's domain.
                 type: str
               subDomains:
-                description: Sub Domains.
+                description: Event Subscription Syslog's subDomains.
                 elements: str
                 type: list
             type: list
@@ -48,19 +48,19 @@ options:
             elements: str
             type: list
           severities:
-            description: Severities.
+            description: Event Subscription Syslog's severities.
             elements: str
             type: list
           siteIds:
-            description: Site Ids.
+            description: Event Subscription Syslog's siteIds.
             elements: str
             type: list
           sources:
-            description: Sources.
+            description: Event Subscription Syslog's sources.
             elements: str
             type: list
           types:
-            description: Types.
+            description: Event Subscription Syslog's types.
             elements: str
             type: list
         type: dict
@@ -68,17 +68,17 @@ options:
         description: Name.
         type: str
       subscriptionEndpoints:
-        description: Event Subscription Syslog's subscriptionEndpoints.
+        description: Subscription Endpoints.
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
+            description: (From Get Syslog Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription Syslog's subscriptionDetails.
+            description: Subscription Details.
             suboptions:
               connectorType:
-                description: Connector Type (Must be REST).
+                description: Connector Type (Must be SYSLOG).
                 type: str
             type: dict
         type: list
@@ -110,7 +110,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update all
   cisco.catalystcenter.event_subscription_syslog:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -146,7 +146,7 @@ EXAMPLES = r"""
               connectorType: string
         subscriptionId: string
         version: string
-- name: Update all
+- name: Create
   cisco.catalystcenter.event_subscription_syslog:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

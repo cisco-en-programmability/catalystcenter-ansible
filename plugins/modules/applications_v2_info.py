@@ -41,12 +41,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationsV2
-    description: Complete reference of the GetApplicationsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplications
+    description: Complete reference of the GetApplications API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications_v2,
+    application_policy.ApplicationPolicy.get_applications,
   - Paths used are
     get /dna/intent/api/v2/applications,
 """
@@ -63,10 +63,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    attributes: string
+    attributes: application
     name: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -126,9 +126,7 @@ catalystcenter_response:
               "ipv4Subnet": [
                 "string"
               ],
-              "ipv6Subnet": [
-                "string"
-              ],
+              "ipv6Subnet": [],
               "lowerPort": 0,
               "ports": "string",
               "protocol": "string",

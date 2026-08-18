@@ -12,7 +12,7 @@ description:
   - Manage operation create of the resource Security Rogue Additional Details. - > This API provides additional information
     of the rogue threats with details at BSSID level. The additional information includes Switch Port details in case of Rogue
     on Wire, first time when the rogue is seen in the network etc.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

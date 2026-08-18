@@ -18,8 +18,63 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
+  authPassword:
+    description: Authentication password for SNMP. Required if the authentication type is specified. Passwords must contain
+      minimum 8 characters and cannot contain spaces or angle brackets(<>). For wireless devices password of length 12 to
+      31 characters is required.
+    type: str
+  authType:
+    description: SNMP authentication type. Required if the SNMP security mode is `AUTHPRIV` or `AUTHNOPRIV`. | SNMP authentication
+      type| Description | |----------------------|-------------| |`SHA` | The device will be authenticated using SHA. | |`MD5`
+      | The device will be authenticated using MD5.| |`SHA256` | The device will be authenticated using SHA256.|.
+    type: str
+  description:
+    description: Description for NETCONF credential.
+    type: str
+  enablePassword:
+    description: CLI Enable Password. Passwords cannot contain spaces or angle brackets(<>).
+    type: str
   id:
-    description: Id path parameter. Unique identifier of the global credential. Accepts comma separated values.
+    description: Id path parameter. Unique identifier of the global credential.
+    type: str
+  mode:
+    description: Security level that an SNMP message requires. | Mode| Description | |----------------------|-------------|
+      |`AUTHPRIV` | The device will be authenticated using security mode AUTHPRIV. | |`AUTHNOPRIV` | The device will be authenticated
+      using security mode AUTHNOPRIV.| |`NOAUTHNOPRIV` | The device will be authenticated using security mode NOAUTHNOPRIV.|.
+    type: str
+  password:
+    description: HTTP(S) write password. Passwords cannot contain spaces or angle brackets(<>).
+    type: str
+  port:
+    description: NETCONF port of the device.
+    type: str
+  privacyPassword:
+    description: SNMP privacy password. Required if the privacy type is specified. Passwords must contain minimum 8 characters
+      and cannot contain spaces or angle brackets(<>). For wireless devices password of length 12 to 31 characters is required.
+    type: str
+  privacyType:
+    description: SNMP privacy type. Required if the SNMP mode is `AUTHPRIV`. | SNMP privacy type | Description | |------------------------------|--------------|
+      | `AES128` | AES128 algorithm used for encryption. | | `AES192`| AES192 algorithm used for encryption. | | `AES256`
+      | AES256 algorithm used for encryption.| | `CISCOAES192` | CISCOAES192 algorithm used for encryption.| | `CISCOAES256`
+      | CISCOAES256 algorithm used for encryption.|.
+    type: str
+  protocol:
+    description: HTTP protocol. Compute device require HTTPS.
+    type: str
+  readCommunity:
+    description: Read-only community string password used to view SNMP information on the device. Passwords cannot contain
+      spaces or angle brackets(<>).
+    type: str
+  type:
+    description: Type of the credential. This attribute should not be provided as part of PUT API call, as `type` cannot be
+      updated for credential.
+    type: str
+  username:
+    description: HTTP(S) write username.
+    type: str
+  writeCommunity:
+    description: Read-write community string used to read and write SNMP information. Passwords cannot contain spaces or angle
+      brackets(<>).
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -47,16 +102,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.global_credentials:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
 - name: Delete by id
   cisco.catalystcenter.global_credentials:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -67,7 +112,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    id: string
+    id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
 - name: Update by id
   cisco.catalystcenter.global_credentials:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -78,7 +123,46 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
+    authPassword: string
+    authType: string
+    description: string
+    enablePassword: string
     id: string
+    mode: string
+    password: string
+    port: string
+    privacyPassword: string
+    privacyType: string
+    protocol: string
+    readCommunity: string
+    type: string
+    username: string
+    writeCommunity: string
+- name: Create
+  cisco.catalystcenter.global_credentials:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    authPassword: string
+    authType: string
+    description: string
+    enablePassword: string
+    id: string
+    mode: string
+    password: string
+    port: string
+    privacyPassword: string
+    privacyType: string
+    protocol: string
+    readCommunity: string
+    type: string
+    username: string
+    writeCommunity: string
 """
 RETURN = r"""
 catalystcenter_response:

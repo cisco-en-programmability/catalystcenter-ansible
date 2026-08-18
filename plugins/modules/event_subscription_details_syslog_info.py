@@ -76,7 +76,7 @@ EXAMPLES = r"""
     name: string
     instanceId: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result
@@ -99,7 +99,7 @@ catalystcenter_response:
           "name": "string",
           "description": "string",
           "host": "string",
-          "port": "string",
+          "port": 0,
           "protocol": "string"
         }
       }

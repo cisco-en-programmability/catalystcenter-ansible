@@ -25,13 +25,13 @@ options:
         elements: dict
         suboptions:
           model:
-            description: Model.
+            description: Service Provider's model.
             type: str
           profileName:
-            description: Profile Name.
+            description: Service Provider's profileName.
             type: str
           wanProvider:
-            description: Wan Provider.
+            description: Service Provider's wanProvider.
             type: str
         type: list
     type: dict
@@ -39,16 +39,16 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings CreateSPProfile
-    description: Complete reference of the CreateSPProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
-  - name: Cisco Catalyst Center documentation for Network Settings UpdateSPProfile
-    description: Complete reference of the UpdateSPProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
+  - name: Cisco Catalyst Center documentation for Network Settings CreateSPProfileV1
+    description: Complete reference of the CreateSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-1
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateSPProfileV1
+    description: Complete reference of the UpdateSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile,
-    network_settings.NetworkSettings.update_sp_profile,
+    network_settings.NetworkSettings.create_sp_profile_v1,
+    network_settings.NetworkSettings.update_sp_profile_v1,
   - Paths used are
     post /dna/intent/api/v1/service-provider,
     put /dna/intent/api/v1/service-provider,

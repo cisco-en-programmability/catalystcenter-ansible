@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sites_banner_settings
 short_description: Resource module for Sites Banner Settings
 description:
-  - Manage operation update of the resource Sites Banner Settings. - > Set banner settings for a site; `null` values indicate
-    that the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Banner Settings.
+  - Sets banner settings for the given site.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -19,11 +19,11 @@ options:
   banner:
     description: Sites Banner Settings's banner.
     suboptions:
-      message:
-        description: Custom message that appears when logging into routers, switches, and hubs. Required for custom type.
+      inheritedSiteId:
+        description: The Site Id of the site that this setting is inherited from.
         type: str
-      type:
-        description: Type.
+      inheritedSiteName:
+        description: The name of the site that this setting is inherited from.
         type: str
     type: dict
   id:
@@ -55,10 +55,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    banner:
-      message: string
-      type: string
-    id: string
+    banner: {}
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
 """
 RETURN = r"""
 catalystcenter_response:
@@ -67,9 +65,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

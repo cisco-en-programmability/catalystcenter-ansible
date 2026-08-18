@@ -19,7 +19,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   id:
-    description: Id path parameter. Id of reserve ip subpool to be deleted.
+    description: Id query parameter. Id of subpool group.
     type: str
   ipv4DhcpServers:
     description: IPv4 input for dhcp server ip example "1.1.1.1".
@@ -32,7 +32,6 @@ options:
   ipv4GateWay:
     description: Gateway ip address details, example 175.175.0.1.
     type: str
-    version_added: 4.0.0
   ipv4GlobalPool:
     description: IP v4 Global pool address with cidr, example 175.175.0.0/16.
     type: str
@@ -51,7 +50,8 @@ options:
     description: IPv4 total host is required when ipv4prefix value is false.
     type: int
   ipv6AddressSpace:
-    description: If the value is omitted or false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.
+    description: If the value is false only ipv4 input are required. NOTE if value is false then any existing ipv6 subpool
+      in the group will be removed.
     type: bool
   ipv6DhcpServers:
     description: IPv6 format dhcp server as input example "2001 db8 1234".
@@ -69,27 +69,26 @@ options:
       85a3 /64.
     type: str
   ipv6Prefix:
-    description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled , if it is false ipv6 total Host
-      input is enable.
+    description: Ipv6 prefix value is true, the ip6 prefix length input field is enabled, if it is false ipv6 total Host input
+      is enable.
     type: bool
   ipv6PrefixLength:
     description: IPv6 prefix length is required when the ipv6prefix value is true.
     type: int
   ipv6Subnet:
-    description: IPv6 Subnet address, example 2001 db8 85a3 0 100. Either ipv6Subnet or ipv6TotalHost needs to be passed if
-      creating IPv6 subpool.
+    description: IPv6 Subnet address, example 2001 db8 85a3 0 100 .
     type: str
   ipv6TotalHost:
-    description: IPv6 total host is required when ipv6prefix value is false.
+    description: Size of pool in terms of number of IPs. IPv6 total host is required when ipv6prefix value is false.
     type: int
   name:
     description: Name of the reserve ip sub pool.
     type: str
   siteId:
-    description: SiteId path parameter. Site id to reserve the ip sub pool.
+    description: SiteId path parameter. Site id of site to update sub pool.
     type: str
   slaacSupport:
-    description: Slaac Support.
+    description: SlaacSupport flag.
     type: bool
   type:
     description: Type of the reserve ip sub pool.
@@ -120,7 +119,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete by id
+- name: Update by id
   cisco.catalystcenter.reserve_ip_subpool:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -129,8 +128,27 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
+    state: present
+    id: application/json
+    ipv4DhcpServers:
+      - string
+    ipv4DnsServers:
+      - string
+    ipv4GateWay: string
+    ipv6AddressSpace: true
+    ipv6DhcpServers:
+      - string
+    ipv6DnsServers:
+      - string
+    ipv6GateWay: string
+    ipv6GlobalPool: string
+    ipv6Prefix: true
+    ipv6PrefixLength: 0
+    ipv6Subnet: string
+    ipv6TotalHost: 0
+    name: string
+    siteId: application/json
+    slaacSupport: true
 - name: Create
   cisco.catalystcenter.reserve_ip_subpool:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -163,10 +181,10 @@ EXAMPLES = r"""
     ipv6Subnet: string
     ipv6TotalHost: 0
     name: string
-    siteId: string
+    siteId: application/json
     slaacSupport: true
     type: string
-- name: Update by id
+- name: Delete by id
   cisco.catalystcenter.reserve_ip_subpool:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -175,27 +193,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    id: string
-    ipv4DhcpServers:
-      - string
-    ipv4DnsServers:
-      - string
-    ipv4GateWay: string
-    ipv6AddressSpace: true
-    ipv6DhcpServers:
-      - string
-    ipv6DnsServers:
-      - string
-    ipv6GateWay: string
-    ipv6GlobalPool: string
-    ipv6Prefix: true
-    ipv6PrefixLength: 0
-    ipv6Subnet: string
-    ipv6TotalHost: 0
-    name: string
-    siteId: string
-    slaacSupport: true
+    state: absent
+    id: application/json
 """
 RETURN = r"""
 catalystcenter_response:

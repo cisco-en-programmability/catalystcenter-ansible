@@ -37,7 +37,7 @@ options:
     description: ProjectId path parameter. ProjectId(UUID) of project to be deleted.
     type: str
   tags:
-    description: Configuration Template Project's tags.
+    description: Tag object which needs to be applied on the project.
     elements: dict
     suboptions:
       id:
@@ -95,8 +95,7 @@ EXAMPLES = r"""
     tags:
       - id: string
         name: string
-    templates:
-      - string
+    templates: []
 - name: Update all
   cisco.catalystcenter.configuration_template_project:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -136,7 +135,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

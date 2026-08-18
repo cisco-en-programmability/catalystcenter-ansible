@@ -46,7 +46,7 @@ options:
         elements: str
         type: list
       dnsServer:
-        description: Network Update's dnsServer.
+        description: DNS Server detail.
         suboptions:
           domainName:
             description: Domain Name of DHCP (eg; cisco).
@@ -59,7 +59,7 @@ options:
             type: str
         type: dict
       messageOfTheday:
-        description: Network Update's messageOfTheday.
+        description: Message of the detail.
         suboptions:
           bannerMessage:
             description: Massage for Banner message (eg; Good day).
@@ -69,7 +69,7 @@ options:
             type: str
         type: dict
       netflowcollector:
-        description: Network Update's netflowcollector.
+        description: NetFlow Collector details.
         suboptions:
           ipAddress:
             description: IP Address for NetFlow collector (eg 3.3.3.1).
@@ -79,7 +79,7 @@ options:
             type: float
         type: dict
       network_aaa:
-        description: Network Update's network_aaa.
+        description: AAA Network Settings detail.
         suboptions:
           ipAddress:
             description: IP address for AAA and ISE server (eg 1.1.1.1).
@@ -102,10 +102,10 @@ options:
         elements: str
         type: list
       snmpServer:
-        description: Network Update's snmpServer.
+        description: Snmp Server details.
         suboptions:
           configureDnacIP:
-            description: Configuration Catalyst Center IP for SNMP Server (eg true).
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -113,10 +113,10 @@ options:
             type: list
         type: dict
       syslogServer:
-        description: Network Update's syslogServer.
+        description: Syslog Server detail.
         suboptions:
           configureDnacIP:
-            description: Configuration Catalyst Center IP for syslog server (eg true).
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for syslog server (eg 4.4.4.4).
@@ -134,12 +134,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings UpdateNetwork
-    description: Complete reference of the UpdateNetwork API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-network
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateNetworkV1
+    description: Complete reference of the UpdateNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-network-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_network,
+    network_settings.NetworkSettings.update_network_v1,
   - Paths used are
     put /dna/intent/api/v1/network/{siteId},
 """
@@ -192,7 +192,7 @@ EXAMPLES = r"""
         ipAddresses:
           - string
       timezone: string
-    siteId: string
+    siteId: application/json
 """
 RETURN = r"""
 catalystcenter_response:

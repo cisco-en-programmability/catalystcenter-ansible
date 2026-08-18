@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="uploads_floor_image_v2",
+            function="uploads_floor_image",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

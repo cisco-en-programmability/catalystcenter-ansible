@@ -194,7 +194,7 @@ class ConfigurationTemplate(object):
         try:
             items = self.catalystcenter.exec(
                 family="configuration_templates",
-                function="gets_the_templates_available",
+                function="gets_the_templates_available_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -281,7 +281,6 @@ class ConfigurationTemplate(object):
             ("version", "version"),
             ("templateId", "template_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

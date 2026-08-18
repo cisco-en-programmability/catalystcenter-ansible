@@ -11,7 +11,7 @@ short_description: Information module for Wireless Profiles Id Policy Tags Count
 description:
   - Get all Wireless Profiles Id Policy Tags Count. - > This endpoint retrieves the total count of `Policy Tags` associated
     with a specific `Wireless Profile`.This API requires the `id` of the `Wireless Profile` to be provided as a path parameter.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

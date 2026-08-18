@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -78,10 +78,11 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "siteId": "string",
-          "authenticationProfileName": "string",
-          "isPubSubEnabled": true
+          "id": {},
+          "siteId": {},
+          "authenticationProfileName": {},
+          "isPubSubEnabled": {},
+          "underlayTransport": {}
         }
       ],
       "version": "string"

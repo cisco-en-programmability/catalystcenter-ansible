@@ -11,7 +11,7 @@ short_description: Resource module for Network Devices Delete With Cleanup
 description:
   - Manage operation create of the resource Network Devices Delete With Cleanup.
   - This API endpoint facilitates the deletion of a network device after performing configuration cleanup on the device.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

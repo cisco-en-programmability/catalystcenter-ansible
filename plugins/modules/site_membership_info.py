@@ -67,9 +67,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
-    deviceFamily: string
-    serialNumber: string
-    siteId: string
+    deviceFamily: application/json
+    serialNumber: application/json
+    siteId: application/json
   register: result
 """
 RETURN = r"""

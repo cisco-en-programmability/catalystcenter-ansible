@@ -19,17 +19,17 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   isGuestVirtualNetwork:
-    description: Guest Virtual Network enablement flag, default value is False.
+    description: Indicates whether to set this as guest virtual network or not, default value is False.
     type: bool
   scalableGroupNames:
-    description: Scalable Group to be associated to virtual network.
+    description: Scalable Group Name to be associated to virtual network.
     elements: str
     type: list
   vManageVpnId:
     description: VManage vpn id for SD-WAN.
     type: str
   virtualNetworkName:
-    description: VirtualNetworkName query parameter.
+    description: Virtual Network Name to be assigned global level.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -57,7 +57,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
+- name: Update all
   cisco.catalystcenter.sda_virtual_network_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -66,7 +66,11 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
+    state: present
+    isGuestVirtualNetwork: true
+    scalableGroupNames:
+      - string
+    vManageVpnId: string
     virtualNetworkName: string
 - name: Create
   cisco.catalystcenter.sda_virtual_network_v2:
@@ -83,7 +87,7 @@ EXAMPLES = r"""
       - string
     vManageVpnId: string
     virtualNetworkName: string
-- name: Update all
+- name: Delete all
   cisco.catalystcenter.sda_virtual_network_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -92,12 +96,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    isGuestVirtualNetwork: true
-    scalableGroupNames:
-      - string
-    vManageVpnId: string
-    virtualNetworkName: string
+    state: absent
+    virtualNetworkName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

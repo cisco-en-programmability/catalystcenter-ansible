@@ -23,8 +23,9 @@ options:
     type: dict
   policyId:
     description:
-      - PolicyId query parameter. The IDs of the compliance policies. The number of policyId(s) must not exceed 25.
-    type: str
+      - PolicyId query parameter. The IDs of the compliance policies.
+    elements: str
+    type: list
   name:
     description:
       - Name query parameter. Filter with policy name. Supports partial case-insensitive search.
@@ -35,9 +36,7 @@ options:
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   id:
     description:
@@ -74,9 +73,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    name: string
-    offset: 0
+    policyId: ['e910e834-e35b-4800-9401-a40e22ce09f3', 'a910e834-e35b-4800-9401-a40e22ce09f4']
+    name: DNS
+    offset: 1
     limit: 0
   register: result
 - name: Get Compliance Policys by id
@@ -89,7 +88,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: c9eef5e2-1eab-426c-be77-97ee81dcba05
   register: result
 """
 RETURN = r"""
@@ -99,17 +98,15 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "rulesCount": 0,
-          "sitesCount": 0,
-          "source": "string",
-          "status": "string"
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "rulesCount": 0,
+        "sitesCount": 0,
+        "source": "string",
+        "status": "string"
+      },
       "version": "string"
     }
 """

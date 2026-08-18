@@ -78,15 +78,13 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "username": "string",
-          "serverAddress": "string",
-          "portNumber": 0,
-          "rootLocation": "string"
-        }
-      ],
+      "response": {
+        "id": "string",
+        "serverAddress": "string",
+        "portNumber": 0,
+        "rootLocation": "string",
+        "username": "string"
+      },
       "version": "string"
     }
 """

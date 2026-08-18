@@ -28,7 +28,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   sortBy:
     description:
@@ -73,10 +73,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Ipam Global Ip Address Pools by id
   cisco.catalystcenter.ipam_global_ip_address_pools_info:
@@ -99,24 +99,10 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "addressSpace": {
-          "subnet": "string",
-          "prefixLength": 0,
-          "gatewayIpAddress": "string",
-          "dhcpServers": [
-            "string"
-          ],
-          "dnsServers": [
-            "string"
-          ],
-          "totalAddresses": "string",
-          "unassignableAddresses": "string",
-          "assignedAddresses": "string",
-          "defaultAssignedAddresses": "string"
-        },
         "id": "string",
-        "name": "string",
-        "poolType": "string"
+        "name": {},
+        "poolType": "string",
+        "addressSpace": {}
       },
       "version": "string"
     }

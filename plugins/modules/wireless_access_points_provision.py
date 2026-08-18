@@ -20,7 +20,7 @@ options:
     description: AP Zone Name. A custom AP Zone should be passed if no rfProfileName is provided.
     type: str
   networkDevices:
-    description: Wireless Access Points Provision's networkDevices.
+    description: Network Device ID(s) and Roles of Access Point(s).
     elements: dict
     suboptions:
       beamState:
@@ -43,12 +43,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless APProvisionConnectivity
-    description: Complete reference of the APProvisionConnectivity API.
-    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
+  - name: Cisco Catalyst Center documentation for Wireless APProvision
+    description: Complete reference of the APProvision API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision_connectivity,
+    wireless.Wireless.ap_provision,
   - Paths used are
     post /dna/intent/api/v1/wirelessAccessPoints/provision,
 """

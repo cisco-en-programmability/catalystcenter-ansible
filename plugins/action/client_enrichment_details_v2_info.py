@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="clients",
-            function="get_client_enrichment_details_v2",
+            function="get_client_enrichment_details",
             params=self.get_object(self._task.args),
         )
         self._result.update(

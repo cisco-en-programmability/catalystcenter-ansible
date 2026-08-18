@@ -9,30 +9,28 @@ DOCUMENTATION = r"""
 module: dns_services_query
 short_description: Resource module for Dns Services Query
 description:
-  - Manage operation create of the resource Dns Services Query. - > Retrieves the list of DNS Services and offers complex
-    filtering and sorting capabilities. For detailed information about the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DNSServices-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Dns Services Query.
+  - Retrieves the list of DNS Services and offers complex filtering and sorting.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Dns Services Query's endTime.
     type: int
   filters:
     description: Dns Services Query's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Dns Services Query's key.
         type: str
       operator:
-        description: Operator.
+        description: Dns Services Query's operator.
         type: str
       value:
-        description: Value.
+        description: Dns Services Query's value.
         elements: str
         type: list
     type: list
@@ -43,25 +41,25 @@ options:
     description: Dns Services Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Dns Services Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Dns Services Query's offset.
         type: int
       sortBy:
         description: Dns Services Query's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Dns Services Query's name.
             type: str
           order:
-            description: Order.
+            description: Dns Services Query's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Dns Services Query's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -72,7 +70,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_list_of_d_n_s_services_for_given_set_of_complex_filters,
+    devices.Devices.retrieves_the_list_of_dns_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dnsServices/query,
 """

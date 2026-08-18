@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="get80211be_profiles_count",
+            function="get_count_of80211be_profiles",
             params=self.get_object(self._task.args),
         )
         self._result.update(

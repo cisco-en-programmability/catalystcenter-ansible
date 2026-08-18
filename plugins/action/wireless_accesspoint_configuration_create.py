@@ -137,7 +137,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="configure_access_points_v2",
+            function="configure_access_points_connectivity",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

@@ -27,7 +27,7 @@ options:
     type: str
   id:
     description:
-      - Id query parameter. Optional list of the port channel ids to filter by.
+      - Id path parameter. Unique identifier for the port channel.
     type: str
   name:
     description:

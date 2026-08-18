@@ -28,8 +28,11 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
@@ -37,7 +40,6 @@ argument_spec.update(
         siteHierarchy=dict(type="str"),
         siteHierarchyId=dict(type="str"),
         siteId=dict(type="str"),
-        id=dict(type="str"),
         managementIpAddress=dict(type="str"),
         macAddress=dict(type="str"),
         family=dict(type="str"),
@@ -47,13 +49,12 @@ argument_spec.update(
         maintenanceMode=dict(type="bool"),
         softwareVersion=dict(type="str"),
         healthScore=dict(type="str"),
-        view=dict(type="str"),
-        attribute=dict(type="str"),
         fabricSiteId=dict(type="str"),
         l2Vn=dict(type="str"),
         l3Vn=dict(type="str"),
         transitNetworkId=dict(type="str"),
         fabricRole=dict(type="str"),
+        secureMode=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -95,8 +96,11 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            view=params.get("view"),
+            attribute=params.get("attribute"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
@@ -104,7 +108,6 @@ class ActionModule(ActionBase):
             site_hierarchy=params.get("siteHierarchy"),
             site_hierarchy_id=params.get("siteHierarchyId"),
             site_id=params.get("siteId"),
-            id=params.get("id"),
             management_ip_address=params.get("managementIpAddress"),
             mac_address=params.get("macAddress"),
             family=params.get("family"),
@@ -114,13 +117,12 @@ class ActionModule(ActionBase):
             maintenance_mode=params.get("maintenanceMode"),
             software_version=params.get("softwareVersion"),
             health_score=params.get("healthScore"),
-            view=params.get("view"),
-            attribute=params.get("attribute"),
             fabric_site_id=params.get("fabricSiteId"),
             l2_vn=params.get("l2Vn"),
             l3_vn=params.get("l3Vn"),
             transit_network_id=params.get("transitNetworkId"),
             fabric_role=params.get("fabricRole"),
+            secure_mode=params.get("secureMode"),
             headers=params.get("headers"),
         )
         return new_object

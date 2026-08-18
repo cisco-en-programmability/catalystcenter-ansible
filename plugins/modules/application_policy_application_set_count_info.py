@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetCountV2
-    description: Complete reference of the GetApplicationSetCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetCount
+    description: Complete reference of the GetApplicationSetCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_set_count_v2,
+    application_policy.ApplicationPolicy.get_application_set_count,
   - Paths used are
     get /dna/intent/api/v2/application-policy-application-set-count,
 """
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    scalableGroupType: string
+    scalableGroupType: APPLICATION_GROUP
   register: result
 """
 RETURN = r"""

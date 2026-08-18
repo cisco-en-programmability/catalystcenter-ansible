@@ -61,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     adminStatus: string
-    deploymentMode: string
+    deploymentMode: Deploy
     description: string
     interfaceUuid: string
     vlanId: 0

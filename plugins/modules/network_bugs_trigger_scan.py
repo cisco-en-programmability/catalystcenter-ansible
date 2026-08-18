@@ -12,7 +12,7 @@ description:
   - Manage operation create of the resource Network Bugs Trigger Scan. - > Triggers a bugs scan for the supported network
     devices. The supported devices are switches and routers. If a device is not supported, the NetworkBugsDevice scanStatus
     will be Failed with appropriate comments.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -57,7 +57,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

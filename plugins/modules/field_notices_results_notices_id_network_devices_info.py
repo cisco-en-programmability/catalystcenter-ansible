@@ -27,7 +27,7 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanStatus:
     description:
@@ -90,10 +90,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
     scanStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     id: string
   register: result
 - name: Get Field Notices Results Notices Id Network Devices by id

@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="licenses",
-            function="retrieves_c_s_s_m_connection_mode",
+            function="retrieves_cssm_connection_mode",
             params=self.get_object(self._task.args),
         )
         self._result.update(

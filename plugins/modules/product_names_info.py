@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  productNameOrdinal:
+    description:
+      - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
+    type: float
   productName:
     description:
       - >
@@ -43,10 +47,6 @@ options:
         Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
         and 500, respectively.
     type: int
-  productNameOrdinal:
-    description:
-      - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
-    type: float
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -80,8 +80,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     productName: string
     productId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Product Names by name
   cisco.catalystcenter.product_names_info:
@@ -104,8 +104,12 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "id": "string",
+        "productName": "string",
+        "productNameOrdinal": 0,
+        "productIds": [
+          "string"
+        ]
       },
       "version": "string"
     }

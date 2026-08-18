@@ -7,13 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: iot_network_devices_network_device_id_mrp_rings_id_members_info
-short_description: Information module for Iot Network Devices  Network Device Id Mrp Rings Id Members
+short_description: Information module for Iot Network Devices Network Device Id Mrp Rings Id Members
 description:
-  - Get all Iot Network Devices  Network Device Id Mrp Rings Id Members. - > This API returns the list of MRP ring members
+  - Get all Iot Network Devices Network Device Id Mrp Rings Id Members. - > This API returns the list of MRP ring members
     for the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid
-    attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring. The id of the configured
-    MRP Ring can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings .
-version_added: '2.2.0'
+    attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring .
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -46,14 +45,14 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-devices-part-of-mrp-ring
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.retrieves_the_list_of_network_devices_part_of_m_r_p_ring,
+    industrial_configuration.IndustrialConfiguration.retrieves_the_list_of_network_devices_part_of_mrp_ring,
   - Paths used are
     get /dna/intent/api/v1/iot/networkDevices/{networkDeviceId}/mrpRings/{id}/members,
 """
 
 EXAMPLES = r"""
 ---
-- name: Get all Iot Network Devices  Network Device Id Mrp Rings Id Members
+- name: Get all Iot Network Devices Network Device Id Mrp Rings Id Members
   cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_id_members_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

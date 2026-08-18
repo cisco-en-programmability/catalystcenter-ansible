@@ -12,9 +12,6 @@ short_description: Information module for Icap Settings Configuration Models Pre
 description:
   - Get Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config by id.
   - Returns the device's CLIs of the ICAP intent.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,11 +22,13 @@ options:
     type: dict
   previewActivityId:
     description:
-      - PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
+      - >
+        PreviewActivityId path parameter. Activity ID value from the POST
+        /dna/intent/api/v1/icapSettings/deviceConfigugrationModels task response.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Device id from intent/api/v1/network-device.
+      - NetworkDeviceId path parameter. Network device UUID, used in ICAP configuration intent wlcId property.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -40,7 +39,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-devices-cl-is-of-the-icap-intent
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_the_devices_clis_of_the_i_capintent,
+    sensors.Sensors.retrieves_the_devices_clis_of_the_icapintent,
   - Paths used are
     get /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
 """

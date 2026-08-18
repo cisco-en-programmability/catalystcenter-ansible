@@ -46,7 +46,21 @@ argument_spec.update(
 )
 
 required_if = [
-    ("state", "present", ["userId"], True),
+    (
+        "state",
+        "present",
+        [
+            "userId",
+            "firstName",
+            "lastName",
+            "username",
+            "password",
+            "email",
+            "roleList",
+            "accessGroups",
+        ],
+        True,
+    ),
     ("state", "absent", ["userId"], True),
 ]
 required_one_of = []
@@ -175,7 +189,6 @@ class User(object):
             ("userId", "userId"),
             ("userId", "user_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

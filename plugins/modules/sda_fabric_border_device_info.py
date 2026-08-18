@@ -20,7 +20,6 @@ options:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description:
       - DeviceManagementIpAddress query parameter.
     type: str
@@ -50,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    deviceManagementIpAddress: string
+    deviceManagementIpAddress: application/json
   register: result
 """
 RETURN = r"""
@@ -81,20 +80,20 @@ catalystcenter_response:
         "provisioningState": "string",
         "resourceVersion": 0,
         "targetIdList": [
-          "string"
+          {}
         ],
         "type": "string",
         "cfsChangeInfo": [
-          "string"
+          {}
         ],
         "customProvisions": [
-          "string"
+          {}
         ],
         "configs": [
-          "string"
+          {}
         ],
         "managedSites": [
-          "string"
+          {}
         ],
         "networkDeviceId": "string",
         "roles": [
@@ -103,10 +102,10 @@ catalystcenter_response:
         "saveWanConnectivityDetailsOnly": true,
         "siteId": "string",
         "akcSettingsCfs": [
-          "string"
+          {}
         ],
         "deviceInterfaceInfo": [
-          "string"
+          {}
         ],
         "deviceSettings": {
           "id": "string",
@@ -116,7 +115,7 @@ catalystcenter_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "connectedTo": [
-            "string"
+            {}
           ],
           "cpu": 0,
           "dhcpEnabled": true,
@@ -141,7 +140,7 @@ catalystcenter_response:
               "policyPropagationEnabled": true,
               "policySgtTag": 0,
               "l2Handoff": [
-                "string"
+                {}
               ],
               "l3Handoff": [
                 {
@@ -170,10 +169,10 @@ catalystcenter_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "aaa": [
-            "string"
+            {}
           ],
           "cmx": [
-            "string"
+            {}
           ],
           "dhcp": [
             {
@@ -199,26 +198,26 @@ catalystcenter_response:
             }
           ],
           "ldap": [
-            "string"
+            {}
           ],
           "nativeVlan": [
-            "string"
+            {}
           ],
           "netflow": [
-            "string"
+            {}
           ],
           "ntp": [
-            "string"
+            {}
           ],
           "snmp": [
-            "string"
+            {}
           ],
           "syslogs": [
-            "string"
+            {}
           ]
         },
         "otherDevice": [
-          "string"
+          {}
         ],
         "transitNetworks": [
           {
@@ -226,10 +225,10 @@ catalystcenter_response:
           }
         ],
         "virtualNetwork": [
-          "string"
+          {}
         ],
         "wlan": [
-          "string"
+          {}
         ]
       }
     }

@@ -34,12 +34,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
-    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones-v-2
+  - name: Cisco Catalyst Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnes
+    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnes API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
 notes:
   - SDK Method used are
-    site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
+    site_design.SiteDesign.assign_planned_access_points_to_operations_ones,
   - Paths used are
     post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
 """
@@ -67,9 +67,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

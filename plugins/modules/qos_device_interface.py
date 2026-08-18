@@ -38,7 +38,7 @@ options:
         description: Network device id.
         type: str
       qosDeviceInterfaceInfo:
-        description: Qos Device Interface's qosDeviceInterfaceInfo.
+        description: Qos device interface info list.
         elements: dict
         suboptions:
           dmvpnRemoteSitesBw:

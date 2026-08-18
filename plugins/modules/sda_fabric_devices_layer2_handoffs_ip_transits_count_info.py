@@ -10,7 +10,7 @@ module: sda_fabric_devices_layer2_handoffs_ip_transits_count_info
 short_description: Information module for Sda Fabric Devices Layer2 Handoffs Ip Transits Count
 description:
   - Get all Sda Fabric Devices Layer2 Handoffs Ip Transits Count.
-  - Returns the count of layer 3 handoffs with ip transit of fabric devices that match the provided query parameters.
+  - Returns the count of layer 3 handoffs with ip transit of fabric devices that.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

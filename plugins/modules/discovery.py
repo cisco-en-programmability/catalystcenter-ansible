@@ -10,17 +10,17 @@ module: discovery
 short_description: Resource module for Discovery
 description:
   - Manage operations create, update and delete of the resource Discovery.
-  - Initiates discovery with the given parameters.
-  - Stops all the discoveries and removes them. - > Stops the discovery for the given Discovery ID and removes it. Discovery
-    ID can be obtained using the "Get Discoveries by range" API.
-  - Stops or starts an existing discovery.
+  - Initiates discovery with the given parameters. Deprecated since Catalyst Center Release 3.2.1.
+  - Stops all the discoveries and removes them.
+  - Stops the discovery for the given Discovery ID and removes it. Deprecated since Catalyst Center Release 3.2.1.
+  - Stops or starts an existing discovery. Deprecated since Catalyst Center Release 3.2.1.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   attributeInfo:
-    description: Discovery's attributeInfo.
+    description: Deprecated.
     type: dict
   cdpLevel:
     description: CDP level to which neighbor devices are to be discovered.
@@ -46,7 +46,7 @@ options:
     elements: str
     type: list
   httpReadCredential:
-    description: Discovery's httpReadCredential.
+    description: HTTP Read Credential of the devices to be discovered.
     suboptions:
       password:
         description: HTTP(S) password.
@@ -62,7 +62,7 @@ options:
         type: str
     type: dict
   httpWriteCredential:
-    description: Discovery's httpWriteCredential.
+    description: HTTP Write Credential of the devices to be discovered.
     suboptions:
       password:
         description: HTTP(S) password.
@@ -138,6 +138,18 @@ options:
   snmpPrivProtocol:
     description: SNMP privacy protocol. 'AES128'.
     type: str
+  snmpROCommunity:
+    description: SNMP RO community of the devices to be discovered.
+    type: str
+  snmpROCommunityDesc:
+    description: Description for SNMP RO community.
+    type: str
+  snmpRWCommunity:
+    description: SNMP RW community of the devices to be discovered.
+    type: str
+  snmpRWCommunityDesc:
+    description: Description for SNMP RW community.
+    type: str
   snmpRoCommunity:
     description: SNMP RO community of the devices to be discovered.
     type: str
@@ -156,6 +168,9 @@ options:
   snmpVersion:
     description: Version of SNMP. V2 or v3.
     type: str
+  timeOut:
+    description: Time to wait for device response.
+    type: int
   timeout:
     description: Time to wait for device response in seconds.
     type: int
@@ -249,10 +264,10 @@ EXAMPLES = r"""
     snmpMode: string
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
-    snmpRoCommunity: string
-    snmpRoCommunityDesc: string
-    snmpRwCommunity: string
-    snmpRwCommunityDesc: string
+    snmpROCommunity: string
+    snmpROCommunityDesc: string
+    snmpRWCommunity: string
+    snmpRWCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
     timeout: 0
@@ -322,7 +337,7 @@ EXAMPLES = r"""
     snmpRwCommunity: string
     snmpRwCommunityDesc: string
     snmpUserName: string
-    timeout: 0
+    timeOut: 0
     updateMgmtIp: true
     userNameList: string
 - name: Delete by id

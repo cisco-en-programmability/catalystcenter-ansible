@@ -10,7 +10,7 @@ module: device_family_identifiers_details_info
 short_description: Information module for Device Family Identifiers Details
 description:
   - Get all Device Family Identifiers Details.
-  - API to get Device Family Identifiers for all Device Families that can be used for tagging an image golden.
+  - API to get Device Family Identifiers for all Device Families that can be used.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

@@ -99,7 +99,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_top_n_analytics_data_of_d_h_c_p_services_for_given_set_of_complex_filters",
+            function="get_top_n_analytics_data_of_dhcp_services_for_given_set_of_complex_filters",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

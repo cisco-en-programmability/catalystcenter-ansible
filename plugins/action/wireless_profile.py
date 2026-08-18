@@ -22,6 +22,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     CatalystCenterSDK,
     catalystcenter_argument_spec,
     catalystcenter_compare_equality,
+    get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
@@ -33,8 +34,12 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
-        profileDetails=dict(type="dict"),
         wirelessProfileName=dict(type="str"),
+        ssidDetails=dict(type="list"),
+        apZones=dict(type="list"),
+        additionalInterfaces=dict(type="list"),
+        featureTemplates=dict(type="list"),
+        id=dict(type="str"),
     )
 )
 
@@ -51,7 +56,12 @@ class WirelessProfile(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
-            profileDetails=params.get("profileDetails"),
+            wirelessProfileName=params.get("wirelessProfileName"),
+            ssidDetails=params.get("ssidDetails"),
+            apZones=params.get("apZones"),
+            additionalInterfaces=params.get("additionalInterfaces"),
+            featureTemplates=params.get("featureTemplates"),
+            id=params.get("id"),
             wireless_profile_name=params.get("wirelessProfileName"),
         )
 
@@ -62,7 +72,16 @@ class WirelessProfile(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["profileDetails"] = self.new_object.get("profileDetails")
+        new_object_params["wirelessProfileName"] = self.new_object.get(
+            "wirelessProfileName"
+        )
+        new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
+        new_object_params["apZones"] = self.new_object.get("apZones")
+        new_object_params["additionalInterfaces"] = self.new_object.get(
+            "additionalInterfaces"
+        )
+        new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def delete_by_name_params(self):
@@ -74,7 +93,16 @@ class WirelessProfile(object):
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params["profileDetails"] = self.new_object.get("profileDetails")
+        new_object_params["wirelessProfileName"] = self.new_object.get(
+            "wirelessProfileName"
+        )
+        new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
+        new_object_params["apZones"] = self.new_object.get("apZones")
+        new_object_params["additionalInterfaces"] = self.new_object.get(
+            "additionalInterfaces"
+        )
+        new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -135,10 +163,14 @@ class WirelessProfile(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("profileDetails", "profileDetails"),
+            ("wirelessProfileName", "wirelessProfileName"),
+            ("ssidDetails", "ssidDetails"),
+            ("apZones", "apZones"),
+            ("additionalInterfaces", "additionalInterfaces"),
+            ("featureTemplates", "featureTemplates"),
+            ("id", "id"),
             ("wirelessProfileName", "wireless_profile_name"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -150,7 +182,7 @@ class WirelessProfile(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="wireless",
-            function="create_wireless_profile",
+            function="create_wireless_profile_connectivity",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -162,7 +194,7 @@ class WirelessProfile(object):
         result = None
         result = self.catalystcenter.exec(
             family="wireless",
-            function="update_wireless_profile",
+            function="update_wireless_profile_connectivity",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -183,7 +215,7 @@ class WirelessProfile(object):
                 self.new_object.update(dict(wireless_profile_name=name_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="delete_wireless_profile",
+            function="delete_wireless_profile_connectivity",
             params=self.delete_by_name_params(),
         )
         return result

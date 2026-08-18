@@ -13,7 +13,7 @@ description:
     given interface `ids`. Interfaces that don't have any tags associated will not be included in the response. A tag is a
     user-defined or system-defined construct to group resources. When an interface is tagged, it is called a member of the
     tag. `ids` can be fetched via `/dna/intent/api/v1/interface` API.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

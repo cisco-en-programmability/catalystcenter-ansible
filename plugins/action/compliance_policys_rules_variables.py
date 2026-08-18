@@ -34,6 +34,8 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
+        sequenceNumber=dict(type="int"),
         name=dict(type="str"),
         description=dict(type="str"),
         dataType=dict(type="str"),
@@ -46,9 +48,9 @@ argument_spec.update(
         minValue=dict(type="int"),
         maxValue=dict(type="int"),
         identifier=dict(type="str"),
+        usedByConditions=dict(type="list"),
         policyId=dict(type="str"),
         ruleId=dict(type="str"),
-        id=dict(type="str"),
     )
 )
 
@@ -65,6 +67,8 @@ class CompliancePolicysRulesVariables(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
+            sequenceNumber=params.get("sequenceNumber"),
             name=params.get("name"),
             description=params.get("description"),
             dataType=params.get("dataType"),
@@ -77,9 +81,9 @@ class CompliancePolicysRulesVariables(object):
             minValue=params.get("minValue"),
             maxValue=params.get("maxValue"),
             identifier=params.get("identifier"),
+            usedByConditions=params.get("usedByConditions"),
             policy_id=params.get("policyId"),
             rule_id=params.get("ruleId"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -96,6 +100,8 @@ class CompliancePolicysRulesVariables(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["sequenceNumber"] = self.new_object.get("sequenceNumber")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["dataType"] = self.new_object.get("dataType")
@@ -108,6 +114,7 @@ class CompliancePolicysRulesVariables(object):
         new_object_params["minValue"] = self.new_object.get("minValue")
         new_object_params["maxValue"] = self.new_object.get("maxValue")
         new_object_params["identifier"] = self.new_object.get("identifier")
+        new_object_params["usedByConditions"] = self.new_object.get("usedByConditions")
         new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["ruleId"] = self.new_object.get("ruleId")
         return new_object_params
@@ -121,6 +128,8 @@ class CompliancePolicysRulesVariables(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["sequenceNumber"] = self.new_object.get("sequenceNumber")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["dataType"] = self.new_object.get("dataType")
@@ -134,7 +143,6 @@ class CompliancePolicysRulesVariables(object):
         new_object_params["maxValue"] = self.new_object.get("maxValue")
         new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["ruleId"] = self.new_object.get("ruleId")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -199,6 +207,8 @@ class CompliancePolicysRulesVariables(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
+            ("sequenceNumber", "sequenceNumber"),
             ("name", "name"),
             ("description", "description"),
             ("dataType", "dataType"),
@@ -211,11 +221,10 @@ class CompliancePolicysRulesVariables(object):
             ("minValue", "minValue"),
             ("maxValue", "maxValue"),
             ("identifier", "identifier"),
+            ("usedByConditions", "usedByConditions"),
             ("policyId", "policy_id"),
             ("ruleId", "rule_id"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

@@ -24,6 +24,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Module id.
+    type: str
   deviceId:
     description:
       - DeviceId query parameter.
@@ -56,10 +60,6 @@ options:
       - OperationalStateCodeList query parameter.
     elements: str
     type: list
-  id:
-    description:
-      - Id path parameter. Module id.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -92,7 +92,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     deviceId: string
-    limit: 0
+    limit: 500
     offset: 0
     nameList: []
     vendorEquipmentTypeList: []

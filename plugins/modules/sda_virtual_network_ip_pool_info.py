@@ -20,7 +20,6 @@ options:
     description: Additional headers.
     type: dict
   siteNameHierarchy:
-    version_added: "4.0.0"
     description:
       - SiteNameHierarchy query parameter.
     type: str
@@ -29,7 +28,6 @@ options:
       - VirtualNetworkName query parameter.
     type: str
   ipPoolName:
-    version_added: "4.0.0"
     description:
       - >
         IpPoolName query parameter. IpPoolName. Note Use vlanName as a value for this parameter if same ip pool
@@ -61,9 +59,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteNameHierarchy: string
-    virtualNetworkName: string
-    ipPoolName: string
+    siteNameHierarchy: application/json
+    virtualNetworkName: application/json
+    ipPoolName: application/json
   register: result
 """
 RETURN = r"""

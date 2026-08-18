@@ -28,12 +28,12 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        discoveryId=dict(type="str"),
-        jobId=dict(type="str"),
         id=dict(type="str"),
+        jobId=dict(type="list"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         orderBy=dict(type="str"),
+        discoveryId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -75,12 +75,12 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            discovery_id=params.get("discoveryId"),
-            job_id=params.get("jobId"),
             id=params.get("id"),
+            job_id=params.get("jobId"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             order_by=params.get("orderBy"),
+            discovery_id=params.get("discoveryId"),
             headers=params.get("headers"),
         )
         return new_object

@@ -93,7 +93,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="application_policy",
-            function="get_applications_v2",
+            function="get_applications",
             params=self.get_object(self._task.args),
         )
         self._result.update(

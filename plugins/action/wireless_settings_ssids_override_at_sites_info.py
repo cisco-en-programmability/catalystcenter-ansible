@@ -29,8 +29,8 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         siteId=dict(type="str"),
-        offset=dict(type="int"),
         limit=dict(type="int"),
+        offset=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
@@ -73,8 +73,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             site_id=params.get("siteId"),
-            offset=params.get("offset"),
             limit=params.get("limit"),
+            offset=params.get("offset"),
             headers=params.get("headers"),
         )
         return new_object

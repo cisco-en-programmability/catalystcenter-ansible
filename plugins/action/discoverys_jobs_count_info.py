@@ -29,7 +29,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
-        jobId=dict(type="str"),
+        jobId=dict(type="list"),
         headers=dict(type="dict"),
     )
 )

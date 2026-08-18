@@ -61,10 +61,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    page_size: 0
-    page: 0
-    sortBy: string
-    order: string
+    page_size: 50
+    page: 1
+    sortBy: name
+    order: asc
   register: result
 """
 RETURN = r"""
@@ -88,9 +88,7 @@ catalystcenter_response:
           "dypName": "string",
           "name": "string",
           "schemaVersion": 0,
-          "softwareVersionLog": [
-            "string"
-          ],
+          "softwareVersionLog": [],
           "uniqueKey": "string",
           "updatedBy": "string",
           "updatedDate": 0

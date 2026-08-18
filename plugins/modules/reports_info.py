@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  reportId:
+    description:
+      - ReportId path parameter. ReportId of report.
+    type: str
   viewGroupId:
     description:
       - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
@@ -28,10 +32,6 @@ options:
   viewId:
     description:
       - ViewId query parameter. ViewId of view for report.
-    type: str
-  reportId:
-    description:
-      - ReportId path parameter. ReportId of report.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -91,9 +91,7 @@ catalystcenter_response:
         "string"
       ],
       "dataCategory": "string",
-      "deliveries": [
-        "string"
-      ],
+      "deliveries": [],
       "executionCount": 0,
       "executions": [
         {

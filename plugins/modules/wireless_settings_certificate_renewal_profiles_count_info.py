@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: wireless_settings_certificate_renewal_profiles_count_info
 short_description: Information module for Wireless Settings Certificate Renewal Profiles Count
 description:
-  - Get all Wireless Settings Certificate Renewal Profiles Count. - > Retrieves the count of access point certificate renewal
-    profiles that are created in the catalyst centre network design for wireless.
-version_added: '1.0.0'
+  - Get all Wireless Settings Certificate Renewal Profiles Count.
+  - This API allows the user to get the count of all access point certificate renewal profiles.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetLSCCertificateRenewalProfileCount
-    description: Complete reference of the GetLSCCertificateRenewalProfileCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-lsc-certificate-renewal-profile-count
+  - name: Cisco Catalyst Center documentation for Wireless GetAccessPointCertificateRenewalProfileCount
+    description: Complete reference of the GetAccessPointCertificateRenewalProfileCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-point-certificate-renewal-profile-count
 notes:
   - SDK Method used are
-    wireless.Wireless.get_l_s_c_certificate_renewal_profile_count,
+    wireless.Wireless.get_access_point_certificate_renewal_profile_count,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/count,
 """

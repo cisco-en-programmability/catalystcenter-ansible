@@ -10,7 +10,7 @@ module: sda_layer3_virtual_networks_count_info
 short_description: Information module for Sda Layer3 Virtual Networks Count
 description:
   - Get all Sda Layer3 Virtual Networks Count.
-  - Returns the count of layer 3 virtual networks that match the provided query parameters.
+  - Returns the count of layer 3 virtual networks that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

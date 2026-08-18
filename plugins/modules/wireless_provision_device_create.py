@@ -27,7 +27,7 @@ options:
         description: Controller Name.
         type: str
       dynamicInterfaces:
-        description: Wireless Provision Device Create's dynamicInterfaces.
+        description: Dynamic Interface Details. The required attributes depend on the device type.
         elements: dict
         suboptions:
           interfaceGateway:

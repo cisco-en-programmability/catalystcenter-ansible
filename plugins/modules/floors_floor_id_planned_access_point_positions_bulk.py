@@ -23,6 +23,9 @@ options:
     description: Floors Floor Id Planned Access Point Positions Bulk's payload.
     elements: dict
     suboptions:
+      id:
+        description: Planned Access Point Id.
+        type: str
       macAddress:
         description: Planned Access Point MAC address.
         type: str
@@ -33,13 +36,13 @@ options:
         description: Floors Floor Id Planned Access Point Positions Bulk's position.
         suboptions:
           x:
-            description: Planned Access Point X coordinate in feet.
+            description: Access Point X coordinate in feet.
             type: float
           y:
-            description: Planned Access Point Y coordinate in feet.
+            description: Access Point Y coordinate in feet.
             type: float
           z:
-            description: Planned Access Point Z coordinate in feet.
+            description: Access Point Z coordinate in feet.
             type: float
         type: dict
       radios:
@@ -54,23 +57,33 @@ options:
                   through 360.
                 type: int
               elevation:
-                description: Elevation of the antenna. The elevation range is from -90 through 90.
+                description: "Elevation of the antenna. The elevation range is from -180 through 180. For antennas designed
+                  to be horizontally mounted, 0° indicates mounted to ceiling pointed straight down to the floor, where 180°
+                  indicates mounted on floor (or mounted under a desk) pointed up to the ceiling. Positive elevation angles
+                  means AP is tilted in the direction of the configured azimuth, where negative elevation angles means tilted
+                  opposite the direction of the configured azimuth. For antennas designed to be vertically mounted (on wall,
+                  pole, etc.), 0° means the main lobe is pointed straight out from the wall, where -90° indicates mounted
+                  to wall and pointed straight down to the floor, and 90° indicates pointed up to the ceiling. Use `/dna/intent/api/v1/maps/supported-access-points`
+                  to find supported antennas for a particular Access Point type. Use `/dna/intent/api/v1/maps/antenna/{antennaName}`
+                  to lookup specific details about an antennas default mounting orientation."
                 type: int
               name:
-                description: Antenna type for this Planned Access Point. Use `/dna/intent/api/v1/maps/supported-acc... to
-                  find supported Antennas for a particualr Planned Access Point type.
+                description: Antenna type for this Access Point. Use `/dna/intent/api/v1/maps/supported-access-points` to
+                  find supported Antennas for a particular Access Point type.
                 type: str
             type: dict
           bands:
-            description: Radio frequencies in GHz. Radio frequencies are expected to be 2.4, 5, and 6. MinItems 1; MaxItems
-              3.
+            description: Radio frequency in GHz. Please note that once set, this field cannot be changed.
             elements: float
             type: list
           channel:
-            description: Channel to be used by the Planned Access Point. In the context of a Planned Access Point, the channel
-              have no bearing on what the real Access Point will actually be, they are just used for Maps visualization feature
+            description: Channel to be used by the Access Point. In the context of a Planned Access Point, the channel have
+              no bearing on what the real Access Point will actually be, they are just used for Maps visualization feature
               set.
             type: int
+          id:
+            description: Radio Id.
+            type: str
           txPower:
             description: Transmit power for the channel in Decibel milliwatts (dBm). In the context of a Planned Access Point,
               the txPower have no bearing on what the real Access Point will actually be, they are just used for Maps visualization
@@ -79,19 +92,19 @@ options:
         type: list
       type:
         description: Planned Access Point type. Use `dna/intent/api/v1/maps/supported-access-points` to find the supported
-          models.
+          types.
         type: str
     type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design AddPlannedAccessPointsPositionsV2
-    description: Complete reference of the AddPlannedAccessPointsPositionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions-v-2
+  - name: Cisco Catalyst Center documentation for Site Design AddPlannedAccessPointsPositions
+    description: Complete reference of the AddPlannedAccessPointsPositions API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions
 notes:
   - SDK Method used are
-    site_design.SiteDesign.add_planned_access_points_positions_v2,
+    site_design.SiteDesign.add_planned_access_points_positions,
   - Paths used are
     post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulk,
 """
@@ -109,7 +122,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     floorId: string
     payload:
-      - macAddress: string
+      - id: string
+        macAddress: string
         name: string
         position:
           x: 0
@@ -123,6 +137,7 @@ EXAMPLES = r"""
             bands:
               - 0
             channel: 0
+            id: string
             txPower: 0
         type: string
 """
@@ -133,9 +148,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

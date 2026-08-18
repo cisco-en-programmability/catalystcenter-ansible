@@ -24,6 +24,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Interface ID.
+    type: str
   offset:
     description:
       - Offset query parameter.
@@ -39,10 +43,6 @@ options:
   lastOutputTime:
     description:
       - LastOutputTime query parameter. Last Output Time.
-    type: str
-  id:
-    description:
-      - Id path parameter. Interface ID.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     lastInputTime: string
     lastOutputTime: string
   register: result

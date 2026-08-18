@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-all-nfs-configurations
 notes:
   - SDK Method used are
-    backup.Backup.get_all_n_f_s_configurations,
+    backup.Backup.get_all_nfs_configurations,
   - Paths used are
     get /dna/system/api/v1/backupNfsConfigurations,
 """

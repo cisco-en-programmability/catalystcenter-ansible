@@ -31,10 +31,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain,
+    fabric_wireless.FabricWireless.remove_wlc_from_fabric_domain,
   - Paths used are
     delete /dna/intent/api/v1/business/sda/wireless-controller,
-    - Removed 'deviceName' and 'siteNameHierarchy' options in v4.3.0.
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deviceIPAddress: string
+    deviceIPAddress: application/json
     headers: '{{my_headers | from_json}}'
 """
 RETURN = r"""

@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentials
-    description: Complete reference of the UpdateGlobalCredentials API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsOperationalTasks
+    description: Complete reference of the UpdateGlobalCredentialsOperationalTasks API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-operational-tasks
 notes:
   - SDK Method used are
-    discovery.Discovery.update_global_credentials,
+    discovery.Discovery.update_global_credentials_operational_tasks,
   - Paths used are
     put /dna/intent/api/v1/global-credential/{globalCredentialId},
 """

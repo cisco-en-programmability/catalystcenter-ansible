@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: clients_top_n_analytics
 short_description: Resource module for Clients Top N Analytics
 description:
-  - Manage operation create of the resource Clients Top N Analytics. - > Retrieves the top N analytics data related to clients
-    based on the provided input data. This API facilitates obtaining insights into the top-performing or most impacted clients.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Top N Analytics.
+  - Retrieves the top N analytics data related to clients based on the provided.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,35 +21,35 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Clients Top N Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Clients Top N Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Clients Top N Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Clients Top N Analytics's endTime.
     type: int
   filters:
     description: Clients Top N Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Clients Top N Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Clients Top N Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Clients Top N Analytics's value.
         type: int
     type: list
   groupBy:
-    description: Group By.
+    description: Clients Top N Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -61,28 +59,28 @@ options:
     description: Clients Top N Analytics's page.
     suboptions:
       cursor:
-        description: Cursor.
+        description: Clients Top N Analytics's cursor.
         type: str
       limit:
-        description: Limit.
+        description: Clients Top N Analytics's limit.
         type: int
       sortBy:
         description: Clients Top N Analytics's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Clients Top N Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Clients Top N Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Clients Top N Analytics's startTime.
     type: int
   topN:
-    description: Top N.
+    description: Clients Top N Analytics's topN.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="assign_planned_access_points_to_operations_ones_v2",
+            function="assign_planned_access_points_to_operations_ones",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

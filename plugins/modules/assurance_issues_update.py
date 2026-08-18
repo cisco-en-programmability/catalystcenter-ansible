@@ -27,7 +27,7 @@ options:
     description: Id path parameter. The issue Uuid.
     type: str
   notes:
-    description: Notes.
+    description: Assurance Issues Update's notes.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

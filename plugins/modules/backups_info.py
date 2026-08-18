@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the backup to be retrieved.
+    type: str
   query:
     description:
       - Query query parameter. Filter based on the provided text on predefined fields.
@@ -42,10 +46,6 @@ options:
       - >
         Order query parameter. Whether ascending or descending order should be used to sort the response.Use
         `asc` for ascending and `desc` for descending order .
-    type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the backup to be retrieved.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -79,8 +79,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     query: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 50
     sortBy: string
     order: string
   register: result

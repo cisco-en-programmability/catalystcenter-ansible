@@ -34,13 +34,13 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
-        ipV4AddressSpace=dict(type="dict"),
-        ipV6AddressSpace=dict(type="dict"),
-        name=dict(type="str"),
+        id=dict(type="str"),
+        name=dict(type="dict"),
         poolType=dict(type="str"),
         siteId=dict(type="str"),
         siteName=dict(type="str"),
-        id=dict(type="str"),
+        ipV4AddressSpace=dict(type="dict"),
+        ipV6AddressSpace=dict(type="dict"),
     )
 )
 
@@ -57,13 +57,13 @@ class IpamSiteIpAddressPools(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
-            ipV4AddressSpace=params.get("ipV4AddressSpace"),
-            ipV6AddressSpace=params.get("ipV6AddressSpace"),
+            id=params.get("id"),
             name=params.get("name"),
             poolType=params.get("poolType"),
             siteId=params.get("siteId"),
             siteName=params.get("siteName"),
-            id=params.get("id"),
+            ipV4AddressSpace=params.get("ipV4AddressSpace"),
+            ipV6AddressSpace=params.get("ipV6AddressSpace"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -81,12 +81,13 @@ class IpamSiteIpAddressPools(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["ipV4AddressSpace"] = self.new_object.get("ipV4AddressSpace")
-        new_object_params["ipV6AddressSpace"] = self.new_object.get("ipV6AddressSpace")
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["poolType"] = self.new_object.get("poolType")
         new_object_params["siteId"] = self.new_object.get("siteId")
         new_object_params["siteName"] = self.new_object.get("siteName")
+        new_object_params["ipV4AddressSpace"] = self.new_object.get("ipV4AddressSpace")
+        new_object_params["ipV6AddressSpace"] = self.new_object.get("ipV6AddressSpace")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -96,12 +97,13 @@ class IpamSiteIpAddressPools(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params["ipV4AddressSpace"] = self.new_object.get("ipV4AddressSpace")
-        new_object_params["ipV6AddressSpace"] = self.new_object.get("ipV6AddressSpace")
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["poolType"] = self.new_object.get("poolType")
         new_object_params["siteId"] = self.new_object.get("siteId")
-        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteName"] = self.new_object.get("siteName")
+        new_object_params["ipV4AddressSpace"] = self.new_object.get("ipV4AddressSpace")
+        new_object_params["ipV6AddressSpace"] = self.new_object.get("ipV6AddressSpace")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -166,15 +168,14 @@ class IpamSiteIpAddressPools(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("ipV4AddressSpace", "ipV4AddressSpace"),
-            ("ipV6AddressSpace", "ipV6AddressSpace"),
+            ("id", "id"),
             ("name", "name"),
             ("poolType", "poolType"),
             ("siteId", "siteId"),
             ("siteName", "siteName"),
-            ("id", "id"),
+            ("ipV4AddressSpace", "ipV4AddressSpace"),
+            ("ipV6AddressSpace", "ipV6AddressSpace"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

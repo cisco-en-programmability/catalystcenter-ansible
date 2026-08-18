@@ -76,7 +76,7 @@ EXAMPLES = r"""
     complianceStatus: string
     deviceUuid: string
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 """
 RETURN = r"""

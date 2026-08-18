@@ -44,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    siteId: string
+    siteId: application/json
 """
 RETURN = r"""
 catalystcenter_response:

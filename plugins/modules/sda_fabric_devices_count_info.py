@@ -32,7 +32,8 @@ options:
       - >
         DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
         EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
-    type: str
+    elements: str
+    type: list
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -61,7 +62,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     networkDeviceId: string
-    deviceRoles: string
+    deviceRoles: []
   register: result
 """
 RETURN = r"""

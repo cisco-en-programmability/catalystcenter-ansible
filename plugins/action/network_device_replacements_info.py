@@ -28,18 +28,19 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         family=dict(type="str"),
         faultyDeviceName=dict(type="str"),
         faultyDevicePlatform=dict(type="str"),
         faultyDeviceSerialNumber=dict(type="str"),
         replacementDevicePlatform=dict(type="str"),
         replacementDeviceSerialNumber=dict(type="str"),
+        outOfBand=dict(type="bool"),
         replacementStatus=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         sortBy=dict(type="str"),
         sortOrder=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -81,6 +82,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             family=params.get("family"),
             faulty_device_name=params.get("faultyDeviceName"),
             faulty_device_platform=params.get("faultyDevicePlatform"),
@@ -89,12 +91,12 @@ class ActionModule(ActionBase):
             replacement_device_serial_number=params.get(
                 "replacementDeviceSerialNumber"
             ),
+            out_of_band=params.get("outOfBand"),
             replacement_status=params.get("replacementStatus"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             sort_order=params.get("sortOrder"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object

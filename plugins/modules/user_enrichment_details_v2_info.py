@@ -11,7 +11,7 @@ short_description: Information module for User Enrichment Details V2
 description:
   - Get all User Enrichment Details V2. - > Enriches a given network End User context a network user-id or end user's device
     Mac Address with details about the user and devices that the user is connected to.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Users GetUserEnrichmentDetailsV2
-    description: Complete reference of the GetUserEnrichmentDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details-v-2
+  - name: Cisco Catalyst Center documentation for Users GetUserEnrichmentDetails
+    description: Complete reference of the GetUserEnrichmentDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
-    users.Users.get_user_enrichment_details_v2,
+    users.Users.get_user_enrichment_details,
   - Paths used are
     get /dna/intent/api/v2/user-enrichment-details,
 """
@@ -76,7 +76,7 @@ catalystcenter_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            "string"
+            {}
           ],
           "authType": {},
           "vlanId": "string",
@@ -87,7 +87,7 @@ catalystcenter_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            "string"
+            {}
           ],
           "issueCount": 0,
           "rssi": {},

@@ -9,30 +9,28 @@ DOCUMENTATION = r"""
 module: icap_radios_id_stats
 short_description: Resource module for Icap Radios Id Stats
 description:
-  - Manage operation create of the resource Icap Radios Id Stats. - > Retrieves the time series statistics of a specific radio
-    by applying complex filters. If startTime and endTime are not provided, the API defaults to the last 24 hours. For detailed
-    information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Icap Radios Id Stats.
+  - Retrieves the time series statistics of a specific radio by applying complex.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Icap Radios Id Stats's endTime.
     type: int
   filters:
     description: Icap Radios Id Stats's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Icap Radios Id Stats's key.
         type: str
       operator:
-        description: Operator.
+        description: Icap Radios Id Stats's operator.
         type: str
       value:
-        description: Value.
+        description: Icap Radios Id Stats's value.
         type: int
     type: list
   headers:
@@ -46,17 +44,17 @@ options:
     description: Icap Radios Id Stats's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Icap Radios Id Stats's limit.
         type: int
       offset:
-        description: Offset.
+        description: Icap Radios Id Stats's offset.
         type: int
       timeSortOrder:
-        description: Time Sort Order.
+        description: Icap Radios Id Stats's timeSortOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Icap Radios Id Stats's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

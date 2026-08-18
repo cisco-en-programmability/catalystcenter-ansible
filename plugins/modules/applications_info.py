@@ -35,12 +35,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplications
-    description: Complete reference of the GetApplications API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-applications
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationsV1
+    description: Complete reference of the GetApplicationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications,
+    application_policy.ApplicationPolicy.get_applications_v1,
   - Paths used are
     get /dna/intent/api/v1/applications,
 """
@@ -59,54 +59,83 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
-    name: string
+    name: application/json
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "name": "string",
-        "networkApplications": [
-          {
+    {
+      "response": [
+        {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceVersion": 0,
+          "identitySource": {
             "id": "string",
-            "appProtocol": "string",
-            "applicationSubType": "string",
-            "applicationType": "string",
-            "categoryId": "string",
-            "displayName": "string",
-            "engineId": "string",
-            "helpString": "string",
-            "longDescription": "string",
-            "name": "string",
-            "popularity": "string",
-            "rank": "string",
-            "trafficClass": "string",
-            "serverName": "string",
-            "url": "string",
-            "dscp": "string",
-            "ignoreConflict": "string"
-          }
-        ],
-        "networkIdentity": [
-          {
+            "type": "string"
+          },
+          "indicativeNetworkIdentity": [
+            {
+              "id": "string",
+              "displayName": "string",
+              "lowerPort": 0,
+              "ports": "string",
+              "protocol": "string",
+              "upperPort": 0
+            }
+          ],
+          "name": "string",
+          "namespace": "string",
+          "networkApplications": [
+            {
+              "id": "string",
+              "appProtocol": "string",
+              "applicationSubType": "string",
+              "applicationType": "string",
+              "categoryId": "string",
+              "displayName": "string",
+              "dscp": "string",
+              "engineId": "string",
+              "helpString": "string",
+              "longDescription": "string",
+              "name": "string",
+              "popularity": 0,
+              "rank": 0,
+              "selectorId": "string",
+              "serverName": "string",
+              "url": "string",
+              "trafficClass": "string"
+            }
+          ],
+          "networkIdentity": [
+            {
+              "id": "string",
+              "displayName": "string",
+              "ipv4Subnet": [
+                "string"
+              ],
+              "ipv6Subnet": [],
+              "lowerPort": 0,
+              "ports": "string",
+              "protocol": "string",
+              "upperPort": 0
+            }
+          ],
+          "parentScalableGroup": {
             "id": "string",
-            "displayName": "string",
-            "lowerPort": "string",
-            "ports": "string",
-            "protocol": "string",
-            "upperPort": "string"
-          }
-        ],
-        "applicationSet": {
-          "idRef": "string"
+            "idRef": "string"
+          },
+          "qualifier": "string",
+          "scalableGroupExternalHandle": "string",
+          "scalableGroupType": "string",
+          "type": "string"
         }
-      }
-    ]
+      ],
+      "version": "string"
+    }
 """

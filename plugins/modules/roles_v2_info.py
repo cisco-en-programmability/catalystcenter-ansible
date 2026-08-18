@@ -10,9 +10,12 @@ module: roles_v2_info
 short_description: Information module for Roles V2
 description:
   - Get all Roles V2.
-  - Get Roles V2 by id.
-  - Get a role in the system v2-.
-  - Get all roles in the system v2-.
+  - Get Roles V2 by id. - > Get a role in the system v2-.This API is the successor to the v1 get role API GET /dna/system/api/v1/role/${id}.
+    It can be used to get a role that exists in the system, regardless of whether it was created using the v1 Add role API
+    POST /dna/system/api/v1/role or the v2 Add role API POST /dna/system/api/v2/roles . - > Get all roles in the system v2-.This
+    API is the successor to the v1 Get roles API GET /dna/system/api/v1/role. It can be used to get all roles that exist in
+    the system, regardless of whether it was created using the v1 Add role API POST /dna/system/api/v1/role or the v2 Add
+    role API POST /dna/system/api/v2/roles .
 version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -29,16 +32,16 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for User and Roles GetRoleV2
-    description: Complete reference of the GetRoleV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-role-v-2
-  - name: Cisco Catalyst Center documentation for User and Roles GetRolesV2
-    description: Complete reference of the GetRolesV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-roles-v-2
+  - name: Cisco Catalyst Center documentation for User and Roles GetRole
+    description: Complete reference of the GetRole API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-role
+  - name: Cisco Catalyst Center documentation for User and Roles GetRoles
+    description: Complete reference of the GetRoles API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-roles
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_role_v2,
-    userand_roles.UserandRoles.get_roles_v2,
+    user_and_roles.UserAndRoles.get_role,
+    user_and_roles.UserAndRoles.get_roles,
   - Paths used are
     get /dna/system/api/v2/roles,
     get /dna/system/api/v2/roles/{id},
@@ -67,7 +70,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: application/json
   register: result
 """
 RETURN = r"""

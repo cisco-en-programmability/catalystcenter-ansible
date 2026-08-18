@@ -15,10 +15,7 @@ description:
     windows for network devices based on filter parameters. Each maintenance window is composed of a start schedule and end
     schedule, both of which have unique identifiers `startId` and `endId`. These identifiers can be used to fetch the status
     of the start schedule and end schedule using the `GET /dna/intent/api/v1/activities/{id}` API. Completed maintenance schedules
-    are automatically removed from the system after two weeks. The API returns a paginated response based on 'limit' and 'offset'
-    parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting
-    point using 1-based indexing. Use '/dna/intent/api/v1/networkDeviceMaintenanceSchedules/count' API to get the total record
-    count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+    are automatically removed from the system after two weeks.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,16 +27,21 @@ options:
   networkDeviceIds:
     description:
       - NetworkDeviceIds query parameter. List of network device ids.
-    type: str
+    elements: str
+    type: list
   status:
     description:
       - >
-        Status query parameter. The status of the maintenance schedule. Possible values are UPCOMING,
-        IN_PROGRESS, COMPLETED, FAILED. Refer features for more details.
+        Status query parameter. The status of the maintenance schedule. Possible values are - `UPCOMING` The
+        maintenance is scheduled and pending execution. - `IN_PROGRESS` The maintenance is currently in
+        progress. - `COMPLETED` The maintenance window has been fully completed (For recurring maintenance, this
+        indicates completion of the most recent occurrence). - `FAILED` Updating the device's management state
+        was not successful. For more information on failure use `GET /dna/intent/api/v1/activities/{id}` API
+        with `startId` and `endId` value.
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   offset:
     description:
@@ -88,12 +90,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    networkDeviceIds: string
+    networkDeviceIds: []
     status: string
     limit: 0
-    offset: 0
+    offset: 1
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Network Device Maintenance Schedules by id
   cisco.catalystcenter.network_device_maintenance_schedules_info:
@@ -115,26 +117,24 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "description": "string",
-          "maintenanceSchedule": {
-            "startId": "string",
-            "endId": "string",
-            "startTime": 0,
-            "endTime": 0,
-            "recurrence": {
-              "interval": 0,
-              "recurrenceEndTime": 0
-            },
-            "status": "string"
+      "response": {
+        "id": "string",
+        "description": "string",
+        "maintenanceSchedule": {
+          "startId": "string",
+          "endId": "string",
+          "startTime": {},
+          "endTime": {},
+          "recurrence": {
+            "interval": 0,
+            "recurrenceEndTime": {}
           },
-          "networkDeviceIds": [
-            "string"
-          ]
-        }
-      ],
+          "status": "string"
+        },
+        "networkDeviceIds": [
+          "string"
+        ]
+      },
       "version": "string"
     }
 """

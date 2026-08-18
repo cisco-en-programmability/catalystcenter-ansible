@@ -35,7 +35,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-users
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_users,
+    user_and_roles.UserAndRoles.get_users,
   - Paths used are
     get /dna/system/api/v1/user,
 """
@@ -74,7 +74,7 @@ catalystcenter_response:
           "userId": "string",
           "email": "string",
           "username": "string",
-          "rds": [
+          "accessGroups": [
             "string"
           ]
         }

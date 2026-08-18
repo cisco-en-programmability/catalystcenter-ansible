@@ -77,8 +77,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

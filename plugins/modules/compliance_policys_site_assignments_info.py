@@ -11,7 +11,7 @@ short_description: Information module for Compliance Policys Site Assignments
 description:
   - Get all Compliance Policys Site Assignments.
   - Retrieve the list of site IDs to which the compliance policy is assigned.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
   register: result
 """
 RETURN = r"""

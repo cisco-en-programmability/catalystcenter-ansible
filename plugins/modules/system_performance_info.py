@@ -29,7 +29,7 @@ options:
       - >
         Function query parameter. In this release this field has been deprecated and no longer supported.
         Previously supported functions were 'sum', 'average', and 'max'. Now, only the last 15 minutes average
-        of cluster key performance indicators (KPIs) is returned, regardless of the specified function. For
+        of cluster key performance indicators (KPIs) are returned, regardless of the specified function. For
         example, if 'sum', 'average', or 'max' is provided, it will be ignored and the 'average' of the last 15
         minutes will be returned.
     type: str
@@ -37,7 +37,7 @@ options:
     description:
       - >
         StartTime query parameter. In this release this field has been deprecated and no longer supported. Only
-        the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the
+        the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the
         provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and
         15 minutes before the current time will be considered.
     type: float
@@ -45,7 +45,7 @@ options:
     description:
       - >
         EndTime query parameter. In this release this field has been deprecated and no longer supported. Only
-        the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the
+        the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the
         provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and
         the current time will be considered.
     type: float
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    kpi: string
-    function: string
+    kpi: cpu,memory,network
+    function: average
     startTime: 0
     endTime: 0
   register: result

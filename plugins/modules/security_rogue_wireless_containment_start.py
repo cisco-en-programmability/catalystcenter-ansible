@@ -7,13 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_wireless_containment_start
-short_description: Resource module for Security Rogue Wireless-Containment Start
+short_description: Resource module for Security Rogue Wireless Containment Start
 description:
-  - Manage operation create of the resource Security Rogue Wireless-Containment Start. - > Intent API to start the wireless
+  - Manage operation create of the resource Security Rogue Wireless Containment Start. - > Intent API to start the wireless
     rogue access point containment. This API will initiate the containment operation on the strongest detecting WLC for the
     given Rogue AP. This is a resource intensive operation which has legal implications since the rogue access point on whom
     it is triggered, might be a valid neighbor access point.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

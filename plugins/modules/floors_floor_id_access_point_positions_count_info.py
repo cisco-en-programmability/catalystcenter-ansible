@@ -11,7 +11,7 @@ short_description: Information module for Floors Floor Id Access Point Positions
 description:
   - Get all Floors Floor Id Access Point Positions Count.
   - Retrieve Access Points positions count assigned for a specific floor.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -43,12 +43,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetAccessPointsPositionsCountV2
-    description: Complete reference of the GetAccessPointsPositionsCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-count-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetAccessPointsPositionsCount
+    description: Complete reference of the GetAccessPointsPositionsCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-count
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_access_points_positions_count_v2,
+    site_design.SiteDesign.get_access_points_positions_count,
   - Paths used are
     get /dna/intent/api/v2/floors/{floorId}/accessPointPositions/count,
 """
@@ -66,7 +66,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    macAddress: string
+    macAddress: 00:00:0C:15:C0:00
     type: string
     model: string
     floorId: string

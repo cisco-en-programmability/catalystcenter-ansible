@@ -10,12 +10,7 @@ module: icap_settings_deploy
 short_description: Resource module for Icap Settings Deploy
 description:
   - Manage operation create of the resource Icap Settings Deploy.
-  - Deploys the given ICAP intent without preview and approval.
-  - The response body contains a task object with a taskId and a URL for more information about the task.
-  - The deployment status of this ICAP intent can be found in the output of the URL.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Deploys the given ICAP configuration intent without preview and approve.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,32 +21,32 @@ options:
     elements: dict
     suboptions:
       apId:
-        description: Ap Id.
+        description: Icap Settings Deploy's apId.
         type: str
       captureType:
-        description: Capture Type.
+        description: Icap Settings Deploy's captureType.
         type: str
       clientMac:
-        description: Client Mac.
+        description: Icap Settings Deploy's clientMac.
         type: str
       durationInMins:
-        description: Duration In Mins.
+        description: Icap Settings Deploy's durationInMins.
         type: int
       otaBand:
-        description: Ota Band.
+        description: Icap Settings Deploy's otaBand.
         type: str
       otaChannel:
-        description: Ota Channel.
+        description: Icap Settings Deploy's otaChannel.
         type: int
       otaChannelWidth:
-        description: Ota Channel Width.
+        description: Icap Settings Deploy's otaChannelWidth.
         type: int
-      slot:
-        description: Slot.
+      slots:
+        description: Icap Settings Deploy's slots.
         elements: float
         type: list
       wlcId:
-        description: Wlc Id.
+        description: Icap Settings Deploy's wlcId.
         type: str
     type: list
   previewDescription:
@@ -66,7 +61,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!deploys-the-given-icap-configuration-intent-without-preview-and-approve
 notes:
   - SDK Method used are
-    sensors.Sensors.deploys_the_given_i_cap_configuration_intent_without_preview_and_approve,
+    sensors.Sensors.deploys_the_given_icap_configuration_intent_without_preview_and_approve,
   - Paths used are
     post /dna/intent/api/v1/icapSettings/deploy,
 """
@@ -90,7 +85,7 @@ EXAMPLES = r"""
         otaBand: string
         otaChannel: 0
         otaChannelWidth: 0
-        slot:
+        slots:
           - 0
         wlcId: string
     previewDescription: string

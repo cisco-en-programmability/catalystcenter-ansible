@@ -16,43 +16,42 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
+  apZoneName:
+    description: AP Zone Name. A custom AP Zone should be passed if no rfProfileName is provided.
+    type: str
   headers:
     description: Additional headers.
     type: dict
-  payload:
-    description: Wireless Provision Access Point's payload.
+  networkDevices:
+    description: Network Device ID(s) and Roles of Access Point(s).
     elements: dict
     suboptions:
-      customApGroupName:
-        description: Custom AP group name.
+      beamState:
+        description: Beam State (Applicable only for CW9179F AP models).
         type: str
-      customFlexGroupName:
-        description: '"Custom flex group name".'
-        elements: str
-        type: list
-      deviceName:
-        description: Device name.
+      deviceId:
+        description: Network device ID of access points.
         type: str
-      rfProfile:
-        description: Radio frequency profile name.
-        type: str
-      siteNameHierarchy:
-        description: Site name hierarchy(ex Global/...).
-        type: str
-      type:
-        description: ApWirelessConfiguration.
+      meshRole:
+        description: Mesh Role (Applicable only when AP is in Bridge Mode).
         type: str
     type: list
+  rfProfileName:
+    description: RF Profile Name. RF Profile is not allowed for custom AP Zones.
+    type: str
+  siteId:
+    description: Site ID.
+    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless APProvision
-    description: Complete reference of the APProvision API.
-    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+  - name: Cisco Catalyst Center documentation for Wireless APProvisionConnectivity
+    description: Complete reference of the APProvisionConnectivity API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision,
+    wireless.Wireless.ap_provision_connectivity,
   - Paths used are
     post /dna/intent/api/v1/wireless/ap-provision,
 """
@@ -68,15 +67,14 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
+    apZoneName: string
     headers: '{{my_headers | from_json}}'
-    payload:
-      - customApGroupName: string
-        customFlexGroupName:
-          - string
-        deviceName: string
-        rfProfile: string
-        siteNameHierarchy: string
-        type: string
+    networkDevices:
+      - beamState: string
+        deviceId: string
+        meshRole: string
+    rfProfileName: string
+    siteId: string
 """
 RETURN = r"""
 catalystcenter_response:

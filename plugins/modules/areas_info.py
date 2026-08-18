@@ -62,9 +62,9 @@ catalystcenter_response:
       "response": {
         "id": "string",
         "siteHierarchyId": "string",
+        "parentId": "string",
         "name": "string",
         "nameHierarchy": "string",
-        "parentId": "string",
         "type": "string"
       },
       "version": "string"

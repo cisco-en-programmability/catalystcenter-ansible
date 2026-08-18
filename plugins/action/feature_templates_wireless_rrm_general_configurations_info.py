@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="wireless",
-                function="get_r_r_m_general_configuration_feature_template",
+                function="get_rrm_general_configuration_feature_template",
                 params=self.get_object(self._task.args),
             )
             self._result.update(

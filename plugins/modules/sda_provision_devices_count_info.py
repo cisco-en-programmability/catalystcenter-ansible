@@ -21,7 +21,7 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId query parameter. ID of the site. This will fetch all the devices in this site hierarchy.
+      - SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

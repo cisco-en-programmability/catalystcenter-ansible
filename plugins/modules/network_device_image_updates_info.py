@@ -112,8 +112,8 @@ EXAMPLES = r"""
     endTime: 0
     sortBy: string
     order: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

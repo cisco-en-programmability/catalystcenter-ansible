@@ -12,7 +12,7 @@ description:
   - Get all Network Devices Members Associations. - > Fetches the tags associated with network devices. Devices that don't
     have any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to
     group resources. When a device is tagged, it is called a member of the tag.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -54,8 +54,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

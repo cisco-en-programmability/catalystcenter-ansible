@@ -17,14 +17,14 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   createList:
-    description: App Policy Intent Create's createList.
+    description: Create list of Group Based Policy.
     elements: dict
     suboptions:
       advancedPolicyScope:
-        description: App Policy Intent Create's advancedPolicyScope.
+        description: Advanced policy scope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's advancedPolicyScopeElement.
+            description: Advanced policy scope element.
             elements: dict
             suboptions:
               groupId:
@@ -41,10 +41,10 @@ options:
             type: str
         type: dict
       consumer:
-        description: App Policy Intent Create's consumer.
+        description: Consumer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -53,7 +53,7 @@ options:
             type: list
         type: dict
       contract:
-        description: App Policy Intent Create's contract.
+        description: Contract.
         suboptions:
           idRef:
             description: Id ref to Queueing profile.
@@ -63,10 +63,10 @@ options:
         description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
-        description: App Policy Intent Create's exclusiveContract.
+        description: Exclusive contract.
         suboptions:
           clause:
-            description: App Policy Intent Create's clause.
+            description: Clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -94,10 +94,10 @@ options:
         description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
-        description: App Policy Intent Create's producer.
+        description: Producer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -111,14 +111,14 @@ options:
     elements: str
     type: list
   updateList:
-    description: App Policy Intent Create's updateList.
+    description: Update list of Group Based Policy.
     elements: dict
     suboptions:
       advancedPolicyScope:
-        description: App Policy Intent Create's advancedPolicyScope.
+        description: Advanced policy scope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's advancedPolicyScopeElement.
+            description: Advanced policy scope element.
             elements: dict
             suboptions:
               groupId:
@@ -141,13 +141,13 @@ options:
             type: str
         type: dict
       consumer:
-        description: App Policy Intent Create's consumer.
+        description: Consumer.
         suboptions:
           id:
             description: Id of Consumer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -156,7 +156,7 @@ options:
             type: list
         type: dict
       contract:
-        description: App Policy Intent Create's contract.
+        description: Contract.
         suboptions:
           idRef:
             description: Id ref to Queueing profile.
@@ -166,10 +166,10 @@ options:
         description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
-        description: App Policy Intent Create's exclusiveContract.
+        description: Exclusive contract.
         suboptions:
           clause:
-            description: App Policy Intent Create's clause.
+            description: Clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -206,13 +206,13 @@ options:
         description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
-        description: App Policy Intent Create's producer.
+        description: Producer.
         suboptions:
           id:
             description: Id of Producer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:

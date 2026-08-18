@@ -63,7 +63,9 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "primaryManagedApLocationsCount": 0,
+        "secondaryManagedApLocationsCount": 0,
+        "anchorManagedApLocationsCount": 0
       },
       "version": "string"
     }

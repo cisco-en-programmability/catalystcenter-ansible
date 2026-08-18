@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetails
-    description: Complete reference of the GetDeviceEnrichmentDetails API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
+  - name: Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetailsV1
+    description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details-v-1
 notes:
   - SDK Method used are
-    devices.Devices.get_device_enrichment_details,
+    devices.Devices.get_device_enrichment_details_v1,
   - Paths used are
     get /dna/intent/api/v1/device-enrichment-details,
 """
@@ -123,7 +123,7 @@ catalystcenter_response:
                   "source": "string",
                   "linkStatus": "string",
                   "label": [
-                    "string"
+                    {}
                   ],
                   "target": "string",
                   "id": {},

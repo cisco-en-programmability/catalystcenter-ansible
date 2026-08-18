@@ -11,7 +11,7 @@ short_description: Information module for Network Bugs Results Trend Count
 description:
   - Get all Network Bugs Results Trend Count.
   - Get count of network bugs results trend over time.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

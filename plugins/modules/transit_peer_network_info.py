@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    transitPeerNetworkName: string
+    transitPeerNetworkName: application/json
   register: result
 """
 RETURN = r"""

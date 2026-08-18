@@ -51,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    ssidName: string
+    ssidName: application/json
   register: result
 """
 RETURN = r"""

@@ -91,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="assign_managed_ap_locations_for_w_l_c",
+            function="assign_managed_ap_locations_for_wlc",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

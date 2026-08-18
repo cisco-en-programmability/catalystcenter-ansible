@@ -95,10 +95,10 @@ EXAMPLES = r"""
     id: string
     cvssBaseScore: string
     securityImpactRating: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     networkDeviceId: string
   register: result
 - name: Get Security Advisories Results Network Devices Network Device Id Advisories by id

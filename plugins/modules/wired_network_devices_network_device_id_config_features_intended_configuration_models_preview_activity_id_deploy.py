@@ -42,8 +42,8 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy:
-    catalystcenter_host: "{{catalystcenter_host}}"
+  ? cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy
+  : catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"

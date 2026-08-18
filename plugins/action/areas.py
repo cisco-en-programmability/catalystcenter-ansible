@@ -34,9 +34,12 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
-        name=dict(type="str"),
-        parentId=dict(type="str"),
         id=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
+        parentId=dict(type="str"),
+        name=dict(type="str"),
+        nameHierarchy=dict(type="str"),
+        type=dict(type="str"),
     )
 )
 
@@ -53,15 +56,22 @@ class Areas(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
-            name=params.get("name"),
-            parentId=params.get("parentId"),
             id=params.get("id"),
+            siteHierarchyId=params.get("siteHierarchyId"),
+            parentId=params.get("parentId"),
+            name=params.get("name"),
+            nameHierarchy=params.get("nameHierarchy"),
+            type=params.get("type"),
         )
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
         new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -71,9 +81,12 @@ class Areas(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params["name"] = self.new_object.get("name")
-        new_object_params["parentId"] = self.new_object.get("parentId")
         new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
+        new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["name"] = self.new_object.get("name")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -125,11 +138,13 @@ class Areas(object):
         requested_obj = self.new_object
 
         obj_params = [
-            ("name", "name"),
-            ("parentId", "parentId"),
             ("id", "id"),
+            ("siteHierarchyId", "siteHierarchyId"),
+            ("parentId", "parentId"),
+            ("name", "name"),
+            ("nameHierarchy", "nameHierarchy"),
+            ("type", "type"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

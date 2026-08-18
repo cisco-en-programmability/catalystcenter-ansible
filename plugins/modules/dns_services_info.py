@@ -11,12 +11,8 @@ short_description: Information module for Dns Services
 description:
   - Get all Dns Services.
   - Get Dns Services by id.
-  - Retrieves the details of the DNS Service matching the given id.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DNSServices-1.0.0-resolved.yaml.
-  - Retrieves the list of DNS Services and offers basic filtering and sorting capabilities.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DNSServices-1.0.0-resolved.yaml.
+  - Retrieves the details of the DNS Service matching the given id. For detailed.
+  - Retrieves the list of DNS Services and offers basic filtering and sorting.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -117,8 +113,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-dns-services-for-given-parameters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_details_of_a_specific_d_n_s_service_matching_the_id_of_the_service,
-    devices.Devices.retrieves_the_list_of_d_n_s_services_for_given_parameters,
+    devices.Devices.retrieves_the_details_of_a_specific_dns_service_matching_the_id_of_the_service,
+    devices.Devices.retrieves_the_list_of_dns_services_for_given_parameters,
   - Paths used are
     get /dna/data/api/v1/dnsServices,
     get /dna/data/api/v1/dnsServices/{id},

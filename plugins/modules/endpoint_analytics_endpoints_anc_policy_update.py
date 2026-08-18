@@ -7,11 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints_anc_policy_update
-short_description: Resource module for Endpoint Analytics Endpoints Anc-Policy Update
+short_description: Resource module for Endpoint Analytics Endpoints Anc Policy Update
 description:
-  - Manage operation update of the resource Endpoint Analytics Endpoints Anc-Policy Update.
+  - Manage operation update of the resource Endpoint Analytics Endpoints Anc Policy Update.
   - Applies given ANC policy to the endpoint.
-version_added: '1.0.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -42,7 +42,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!apply-anc-policy
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.apply_anc_policy,
+    ai_endpoint_analytics.AIEndpointAnalytics.apply_anc_policy,
   - Paths used are
     put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
 """

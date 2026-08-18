@@ -41,7 +41,7 @@ argument_spec.update(
 )
 
 required_if = [
-    ("state", "present", ["name"], True),
+    ("state", "present", ["id", "name"], True),
     ("state", "absent", ["id", "name"], True),
 ]
 required_one_of = []
@@ -144,7 +144,6 @@ class Backups(object):
             ("scope", "scope"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

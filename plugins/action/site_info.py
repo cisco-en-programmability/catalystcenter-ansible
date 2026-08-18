@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sites",
-            function="get_site",
+            function="get_site_v1",
             params=self.get_object(self._task.args),
         )
         self._result.update(

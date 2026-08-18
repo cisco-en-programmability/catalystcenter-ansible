@@ -87,9 +87,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     category: string
     complianceType: string
-    diffList: true
+    diffList: True
     status: string
-    remediationSupported: true
+    remediationSupported: True
     deviceUuid: string
   register: result
 """

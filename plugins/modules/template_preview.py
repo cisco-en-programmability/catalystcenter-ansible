@@ -20,7 +20,7 @@ options:
     description: UUID of device to get template preview.
     type: str
   params:
-    description: Template Preview's params.
+    description: Params to render preview.
     type: dict
   resourceParams:
     description: Resource params to render preview.

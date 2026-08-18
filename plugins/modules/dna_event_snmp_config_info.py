@@ -67,7 +67,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     configId: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result

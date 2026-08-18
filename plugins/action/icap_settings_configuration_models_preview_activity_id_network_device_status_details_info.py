@@ -87,7 +87,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="get_i_cap_configuration_status_per_network_device",
+            function="get_icap_configuration_intent_status_per_network_device",
             params=self.get_object(self._task.args),
         )
         self._result.update(

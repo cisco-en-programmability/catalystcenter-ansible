@@ -12,7 +12,7 @@ description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Rrm Fra Configurations.
   - This API allows users to create a RRM FRA configuration feature template.
   - This API allows users to delete a specific RRM FRA configuration feature template by Id.
-  - This API allows users to update the details of a specific RRM FRA configuration feature template by ID.
+  - This API allows users to update the details of a specific RRM FRA.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,7 @@ options:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Rrm Fra Configurations's featureAttributes.
+    description: RRM-FRA Configuration Response Feature Attributes.
     suboptions:
       fraFreeze:
         description: Flexible Radio Assignment Freeze is supported only on Cisco IOS-XE based Wireless Controllers running
@@ -67,9 +67,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-rrmfra-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.create_r_r_m_f_r_a_configuration_feature_template,
-    wireless.Wireless.delete_r_r_m_f_r_a_configuration_feature_template,
-    wireless.Wireless.update_r_r_m_f_r_a_configuration_feature_template,
+    wireless.Wireless.create_rrm_fra_configuration_feature_template,
+    wireless.Wireless.delete_rrm_fra_configuration_feature_template,
+    wireless.Wireless.update_rrm_fra_configuration_feature_template,
   - Paths used are
     post /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations,
     delete /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations/{id},
@@ -78,25 +78,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      fraFreeze: true
-      fraInterval: 0
-      fraSensitivity: string
-      fraStatus: true
-      radioBand: string
-    unlockedAttributes:
-      - string
 - name: Delete by id
   cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -126,6 +107,25 @@ EXAMPLES = r"""
       fraStatus: true
       radioBand: string
     id: string
+    unlockedAttributes:
+      - string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      fraFreeze: true
+      fraInterval: 0
+      fraSensitivity: string
+      fraStatus: true
+      radioBand: string
     unlockedAttributes:
       - string
 """

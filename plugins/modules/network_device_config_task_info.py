@@ -27,12 +27,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Archive GetConfigTaskDetails
+  - name: Cisco Catalyst Center documentation for Compliance GetConfigTaskDetails
     description: Complete reference of the GetConfigTaskDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.get_config_task_details,
+    compliance.Compliance.get_config_task_details,
   - Paths used are
     get /dna/intent/api/v1/network-device-config/task,
 """

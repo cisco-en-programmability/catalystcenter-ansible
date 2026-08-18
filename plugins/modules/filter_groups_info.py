@@ -10,12 +10,9 @@ module: filter_groups_info
 short_description: Information module for Filter Groups
 description:
   - Get all Filter Groups.
-  - Get Filter Groups by id. - > Returns the details of filter group for the given id. For detailed information about the
-    usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml. - > Returns the details of filter
-    groups for given search criteria specified in query parameters. For detailed information about the usage of the API, please
-    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    FilterGroups-1.0.0-resolved.yaml.
+  - Get Filter Groups by id.
+  - Returns the details of filter group for the given id.
+  - Returns the details of filter groups for given search criteria specified in query parameters.
 version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,19 +27,22 @@ options:
         Id query parameter. Filter Group id. Examples `?id=2ee1b9f0-8036-443b-bad0-7692760af1b5`(single id
         requested) `?id=2ee1b9f0-8036-443b-bad0-7692760af1b5&id=ae368f0b-f4e3-4e8f-a914-011cbd19bb51` (multiple
         ids requested).
-    type: str
+    elements: str
+    type: list
   name:
     description:
       - >
         Name query parameter. Filter Group name. Examples `?name=SJC Wireless`(single name requested) `?name=SJC
         Wireless&name=Global Wired` (multiple names requested).
-    type: str
+    elements: str
+    type: list
   type:
     description:
       - >
         Type query parameter. Type of the filter group. Examples type=Generic (single Filter Group type
         requested) type=Generic&type=Site (multiple Filter Group types requested).
-    type: str
+    elements: str
+    type: list
   offset:
     description:
       - >
@@ -84,11 +84,11 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
-    name: string
-    type: string
-    offset: 0
-    limit: 0
+    id: []
+    name: []
+    type: []
+    offset: 1
+    limit: 100
   register: result
 - name: Get Filter Groups by id
   cisco.catalystcenter.filter_groups_info:
@@ -118,10 +118,11 @@ catalystcenter_response:
           {
             "key": "string",
             "operator": "string",
-            "value": "string",
-            "displayValue": "string"
+            "value": {},
+            "displayValue": {}
           }
         ]
-      }
+      },
+      "version": "string"
     }
 """

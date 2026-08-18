@@ -64,9 +64,6 @@ EXAMPLES = r"""
     id: string
     memberType:
       - string
-    payload:
-      networkinterface:
-        - string
 - name: Delete by id
   cisco.catalystcenter.tag_member:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -89,7 +86,7 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }

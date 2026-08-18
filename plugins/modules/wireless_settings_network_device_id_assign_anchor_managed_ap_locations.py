@@ -18,17 +18,13 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   anchorManagedAPLocationsSiteIds:
-    description:
-      - This API allows user to assign Anchor Managed AP Locations for WLC by device ID.
-      - The payload should always be a complete list.
-      - The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
+    description: This API allows user to assign Anchor Managed AP Locations for WLC by device ID. The payload should always
+      be a complete list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
       - When anchor managed location array present then it will add the anchor managed locations.
     elements: str
     type: list
   networkDeviceId:
-    description:
-      - NetworkDeviceId path parameter. Network Device ID.
-      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: NetworkDeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -39,7 +35,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!assign-anchor-managed-ap-locations-for-wlc
 notes:
   - SDK Method used are
-    wireless.Wireless.assign_anchor_managed_ap_locations_for_w_l_c,
+    wireless.Wireless.assign_anchor_managed_ap_locations_for_wlc,
   - Paths used are
     post /dna/intent/api/v1/wirelessSettings/{networkDeviceId}/assignAnchorManagedApLocations,
 """

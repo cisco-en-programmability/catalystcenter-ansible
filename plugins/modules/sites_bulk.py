@@ -10,10 +10,7 @@ module: sites_bulk
 short_description: Resource module for Sites Bulk
 description:
   - Manage operation create of the resource Sites Bulk. - > Create area/building/floor together in bulk. If site already exist,
-    then that will be ignored. Sites in the request payload need not to be ordered. Once the request is accepted, a task ID
-    is provided in the response, which you can use to check the status via the Get Task by ID API GET /dna/intent/api/v1/tasks/${id}.
-    If the task fails, use the Get Tasks API GET /dna/intent/api/v1/tasks with the parentId filter to check the status of
-    individual sites.
+    then that will be ignored. Sites in the request payload need not to be ordered.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,44 +20,35 @@ options:
     description: Sites Bulk's payload.
     elements: dict
     suboptions:
-      address:
-        description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States.
-        type: str
       country:
-        description: Country name. Required for building.
+        description: Country name.
         type: str
       floorNumber:
-        description: Floor number. Required for floor.
+        description: Floor number.
         type: int
       height:
-        description: Floor height. Required for floor. Example 10.1.
-        type: float
-      latitude:
-        description: Building Latitude. Example 37.403712.
+        description: Floor height.
         type: float
       length:
-        description: Floor length. Required for floor. Example 110.3.
-        type: float
-      longitude:
-        description: Building Longitude. Example -121.971063.
+        description: Floor length.
         type: float
       name:
-        description: Site name.
+        description: Floor name.
         type: str
       parentNameHierarchy:
-        description: Parent hierarchical name. Example Global/USA/San Jose/Building1.
+        description: Parent hierarchical name.
         type: str
       rfModel:
-        description: Floor RF Model. Required for floor.
+        description: RF Model.
         type: str
       type:
-        description: Type.
+        description: Site Type.
         type: str
       unitsOfMeasure:
-        description: Floor unit of measure. Required for floor.
+        description: Unit of measure for length, width, and height.
         type: str
       width:
-        description: Floor width. Required for floor. Example 100.5.
+        description: Floor width.
         type: float
     type: list
 requirements:
@@ -89,18 +77,15 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     payload:
-      - address: string
-        country: string
+      - country: string
         floorNumber: 0
         height: 0
-        latitude: 0
         length: 0
-        longitude: 0
         name: string
         parentNameHierarchy: string
         rfModel: string
         type: string
-        unitsOfMeasure: string
+        unitsOfMeasure: {}
         width: 0
 """
 RETURN = r"""
@@ -110,9 +95,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

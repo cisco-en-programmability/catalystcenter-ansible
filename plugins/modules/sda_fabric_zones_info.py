@@ -35,7 +35,7 @@ options:
     description:
       - >
         Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
-        single request is 500.
+        single request is 500. Required false.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

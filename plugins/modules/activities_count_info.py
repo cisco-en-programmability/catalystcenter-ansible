@@ -72,7 +72,7 @@ EXAMPLES = r"""
     description: string
     status: string
     type: string
-    recurring: true
+    recurring: True
     startTime: string
     endTime: string
   register: result

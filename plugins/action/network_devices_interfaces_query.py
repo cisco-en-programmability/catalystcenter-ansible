@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_device_interface_stats_info_v2",
+            function="get_device_interface_stats_info",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

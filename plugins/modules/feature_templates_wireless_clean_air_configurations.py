@@ -12,7 +12,7 @@ description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Clean Air Configurations.
   - This API allows users to create a CleanAir configuration feature template.
   - This API allows users to delete a specific CleanAir configuration feature template by ID.
-  - This API allows users to update the details of a specific CleanAir configuration feature template by ID.
+  - This API allows users to update the details of a specific CleanAir.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,7 @@ options:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Clean Air Configurations's featureAttributes.
+    description: CleanAir Configuration Feature Attributes.
     suboptions:
       cleanAir:
         description: Clean Air.
@@ -34,7 +34,7 @@ options:
         description: CleanAir Description.
         type: str
       interferersFeatures:
-        description: Feature Templates Wireless Clean Air Configurations's interferersFeatures.
+        description: Interferers Features.
         suboptions:
           bleBeacon:
             description: BLE Beacon is only applicable for Radio Band 2_4GHZ.

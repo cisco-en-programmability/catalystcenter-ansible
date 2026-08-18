@@ -9,11 +9,9 @@ DOCUMENTATION = r"""
 module: dns_services_summary_analytics
 short_description: Resource module for Dns Services Summary Analytics
 description:
-  - Manage operation create of the resource Dns Services Summary Analytics. - > Gets the summary analytics data related to
-    DNS Services based on given filters and group by field. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DNSServices-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Dns Services Summary Analytics.
+  - Gets the summary analytics data related to DNS Services based on given filters.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -23,18 +21,18 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Dns Services Summary Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Dns Services Summary Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Dns Services Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Dns Services Summary Analytics's endTime.
     type: int
   filters:
     description: Dns Services Summary Analytics's filters.
@@ -45,37 +43,37 @@ options:
         elements: dict
         suboptions:
           filters:
-            description: Filters.
+            description: Dns Services Summary Analytics's filters.
             elements: str
             type: list
           key:
-            description: Key.
+            description: Dns Services Summary Analytics's key.
             type: str
           logicalOperator:
-            description: Logical Operator.
+            description: Dns Services Summary Analytics's logicalOperator.
             type: str
           operator:
-            description: Operator.
+            description: Dns Services Summary Analytics's operator.
             type: str
           value:
             description: Dns Services Summary Analytics's value.
             type: dict
         type: list
       key:
-        description: Key.
+        description: Dns Services Summary Analytics's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Dns Services Summary Analytics's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Dns Services Summary Analytics's operator.
         type: str
       value:
         description: Dns Services Summary Analytics's value.
         type: dict
     type: list
   groupBy:
-    description: Group By.
+    description: Dns Services Summary Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -85,28 +83,28 @@ options:
     description: Dns Services Summary Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Dns Services Summary Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Dns Services Summary Analytics's offset.
         type: int
       sortBy:
         description: Dns Services Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Dns Services Summary Analytics's function.
             type: str
           name:
-            description: Name.
+            description: Dns Services Summary Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Dns Services Summary Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Dns Services Summary Analytics's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -117,7 +115,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.get_summary_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters,
+    devices.Devices.get_summary_analytics_data_of_dns_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dnsServices/summaryAnalytics,
 """

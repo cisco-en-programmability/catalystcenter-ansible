@@ -11,12 +11,8 @@ short_description: Information module for Clients
 description:
   - Get all Clients.
   - Get Clients by id.
-  - Retrieves specific client information matching the MAC address.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
-  - Retrieves the list of clients, while also offering basic filtering and sorting capabilities.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Retrieves specific client information matching the MAC address. For detailed.
+  - Retrieves the list of clients, while also offering basic filtering and sorting.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,6 +21,12 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - >
+        Id path parameter. Id is the client mac address. It can be specified is any notational conventions 01 23
+        45 67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
+    type: str
   startTime:
     description:
       - >
@@ -38,6 +40,21 @@ options:
         EndTime query parameter. End time to which API queries the data set related to the resource. It must be
         specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
+  view:
+    description:
+      - >
+        View query parameter. Client related Views Refer to ClientView schema for list of views supported
+        Examples `view=Wireless` (single view requested) `view=WirelessHealth&view=WirelessTraffic` (multiple
+        view requested).
+    type: str
+  attribute:
+    description:
+      - >
+        Attribute query parameter. List of attributes related to resource that can be requested to only be part
+        of the response along with the required attributes. Refer to ClientAttribute schema for list of
+        attributes supported Examples `attribute=band` (single attribute requested)
+        `attribute=band&attribute=ssid&attribute=overallScore` (multiple attribute requested).
+    type: str
   limit:
     description:
       - Limit query parameter. Maximum number of records to return.
@@ -163,27 +180,6 @@ options:
         Band query parameter. WiFi frequency band that client or Access Point operates. Band value is
         represented in Giga Hertz - GHz Examples `band=5GHZ` (single band requested) `band=2.4GHZ&band=6GHZ`
         (multiple band requested).
-    type: str
-  view:
-    description:
-      - >
-        View query parameter. Client related Views Refer to ClientView schema for list of views supported
-        Examples `view=Wireless` (single view requested) `view=WirelessHealth&view=WirelessTraffic` (multiple
-        view requested).
-    type: str
-  attribute:
-    description:
-      - >
-        Attribute query parameter. List of attributes related to resource that can be requested to only be part
-        of the response along with the required attributes. Refer to ClientAttribute schema for list of
-        attributes supported Examples `attribute=band` (single attribute requested)
-        `attribute=band&attribute=ssid&attribute=overallScore` (multiple attribute requested).
-    type: str
-  id:
-    description:
-      - >
-        Id path parameter. Id is the client mac address. It can be specified is any notational conventions 01 23
-        45 67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

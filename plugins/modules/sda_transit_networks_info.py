@@ -29,9 +29,7 @@ options:
     type: str
   type:
     description:
-      - >
-        Type query parameter. Type of the transit network. Allowed values are IP_BASED_TRANSIT,
-        SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT.
+      - Type query parameter. Type of the transit network.
     type: str
   offset:
     description:
@@ -72,8 +70,8 @@ EXAMPLES = r"""
     id: string
     name: string
     type: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -88,7 +86,9 @@ catalystcenter_response:
           "id": "string",
           "name": "string",
           "siteId": "string",
-          "type": "string",
+          "type": [
+            "string"
+          ],
           "ipTransitSettings": {
             "routingProtocolName": "string",
             "autonomousSystemNumber": "string"

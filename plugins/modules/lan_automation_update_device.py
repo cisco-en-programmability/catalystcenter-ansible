@@ -22,7 +22,7 @@ options:
       HOSTNAME_UPDATE, LINK_ADD, and LINK_DELETE.
     type: str
   hostnameUpdateDevices:
-    description: Lan Automation Update Device's hostnameUpdateDevices.
+    description: The list of Devices identified by its Management IP Address for Hostname Update.
     elements: dict
     suboptions:
       deviceManagementIPAddress:
@@ -33,7 +33,7 @@ options:
         type: str
     type: list
   linkUpdate:
-    description: Lan Automation Update Device's linkUpdate.
+    description: Link Update Details.
     suboptions:
       destinationDeviceInterfaceName:
         description: Destination Device Interface Name.
@@ -45,15 +45,21 @@ options:
         description: Name of the IP LAN Pool, required for Link Add should be from discovery site of source and destination
           device. It is optional for Link Delete.
         type: str
+      ipV6Only:
+        description: Flag to enable ipv6 for lan automation.
+        type: bool
       sourceDeviceInterfaceName:
         description: Source Device Interface Name.
         type: str
       sourceDeviceManagementIPAddress:
         description: Source Device Management IP Address.
         type: str
+      useP2PLinkLocalAddress:
+        description: Flag to enable local link ip enablement for ipv6, can be true only when ipv6 flag is set to true.
+        type: bool
     type: dict
   loopbackUpdateDeviceList:
-    description: Lan Automation Update Device's loopbackUpdateDeviceList.
+    description: The list of Devices identified by its Management IP Address for Loopback0 IP Address Update.
     elements: dict
     suboptions:
       deviceManagementIPAddress:
@@ -96,8 +102,10 @@ EXAMPLES = r"""
       destinationDeviceInterfaceName: string
       destinationDeviceManagementIPAddress: string
       ipPoolName: string
+      ipV6Only: true
       sourceDeviceInterfaceName: string
       sourceDeviceManagementIPAddress: string
+      useP2PLinkLocalAddress: true
     loopbackUpdateDeviceList:
       - deviceManagementIPAddress: string
         newLoopback0IPAddress: string

@@ -28,7 +28,10 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        payload=dict(type="list"),
+        networkDevices=dict(type="list"),
+        rfProfileName=dict(type="str"),
+        apZoneName=dict(type="str"),
+        siteId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -70,7 +73,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            payload=params.get("payload"),
+            networkDevices=params.get("networkDevices"),
+            rfProfileName=params.get("rfProfileName"),
+            apZoneName=params.get("apZoneName"),
+            siteId=params.get("siteId"),
             headers=params.get("headers"),
         )
         return new_object
@@ -85,7 +91,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="ap_provision",
+            function="ap_provision_connectivity",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

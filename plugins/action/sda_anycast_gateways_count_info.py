@@ -30,9 +30,9 @@ argument_spec.update(
     dict(
         fabricId=dict(type="str"),
         virtualNetworkName=dict(type="str"),
-        ipPoolName=dict(type="str"),
+        ipPoolName=dict(type="list"),
         vlanName=dict(type="str"),
-        vlanId=dict(type="float"),
+        vlanId=dict(type="int"),
         headers=dict(type="dict"),
     )
 )

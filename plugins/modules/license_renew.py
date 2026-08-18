@@ -10,8 +10,8 @@ module: license_renew
 short_description: Resource module for License Renew
 description:
   - Manage operation create of the resource License Renew.
-  - Renews license registration and authorization status of the system with Cisco Smart Software Manager CSSM .
-version_added: '1.0.0'
+  - Renews license registration and authorization status of the system with Cisco.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

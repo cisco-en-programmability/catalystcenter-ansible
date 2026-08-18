@@ -29,7 +29,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!updates-the-application-qo-s-policy-setting
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.updates_the_application_qo_s_policy_setting,
+    application_policy.ApplicationPolicy.updates_the_application_qos_policy_setting,
   - Paths used are
     put /dna/intent/api/v1/qosPolicySetting,
 """
@@ -52,7 +52,7 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: str
   sample: >
-    {}
+    "'string'"
 """

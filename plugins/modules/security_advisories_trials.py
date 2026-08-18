@@ -11,7 +11,7 @@ short_description: Resource module for Security Advisories Trials
 description:
   - Manage operation create of the resource Security Advisories Trials.
   - Creates a trial for security advisories detection on network devices. The.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -52,7 +52,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

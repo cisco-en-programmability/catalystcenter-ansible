@@ -10,7 +10,7 @@ module: sda_multicast_v1_info
 short_description: Information module for Sda Multicast V1
 description:
   - Get all Sda Multicast V1.
-  - Returns a list of multicast configurations at a fabric site level that match the provided query parameters.
+  - Returns a list of multicast configurations at a fabric site level that match.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -60,8 +60,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     fabricId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -73,8 +73,8 @@ catalystcenter_response:
     {
       "response": [
         {
-          "fabricId": "string",
-          "replicationMode": "string"
+          "fabricId": {},
+          "replicationMode": {}
         }
       ],
       "version": "string"

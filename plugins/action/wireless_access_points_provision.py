@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function="ap_provision_connectivity",
+            function="ap_provision",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

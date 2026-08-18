@@ -18,21 +18,21 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   cliCredentialsId:
-    description: Sites Device Credentials's cliCredentialsId.
+    description: CLI credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
         type: str
     type: dict
   httpReadCredentialsId:
-    description: Sites Device Credentials's httpReadCredentialsId.
+    description: HTTP(S) Read credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
         type: str
     type: dict
   httpWriteCredentialsId:
-    description: Sites Device Credentials's httpWriteCredentialsId.
+    description: HTTP(S) Write credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
@@ -42,21 +42,21 @@ options:
     description: Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
     type: str
   snmpv2cReadCredentialsId:
-    description: Sites Device Credentials's snmpv2cReadCredentialsId.
+    description: SNMPv2c Read credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
         type: str
     type: dict
   snmpv2cWriteCredentialsId:
-    description: Sites Device Credentials's snmpv2cWriteCredentialsId.
+    description: SNMPv2c Write credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
         type: str
     type: dict
   snmpv3CredentialsId:
-    description: Sites Device Credentials's snmpv3CredentialsId.
+    description: SNMPv3 credentials used to access devices assigned to the site.
     suboptions:
       credentialsId:
         description: The `id` of the credentials.
@@ -111,7 +111,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

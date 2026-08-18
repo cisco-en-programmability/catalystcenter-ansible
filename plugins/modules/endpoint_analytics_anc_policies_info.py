@@ -11,7 +11,7 @@ short_description: Information module for Endpoint Analytics Anc Policies
 description:
   - Get all Endpoint Analytics Anc Policies.
   - Fetches the list of ANC policies available in ISE.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.get_anc_policies,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_anc_policies,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/anc-policies,
 """

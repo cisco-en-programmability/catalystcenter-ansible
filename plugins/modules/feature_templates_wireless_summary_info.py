@@ -75,9 +75,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     type: string
     designName: string
-    limit: 0
-    offset: 0
-    systemTemplate: true
+    limit: 25
+    offset: 1
+    systemTemplate: True
   register: result
 """
 RETURN = r"""

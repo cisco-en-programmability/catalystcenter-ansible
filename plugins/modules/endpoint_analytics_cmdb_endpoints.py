@@ -11,7 +11,7 @@ short_description: Resource module for Endpoint Analytics Cmdb Endpoints
 description:
   - Manage operation create of the resource Endpoint Analytics Cmdb Endpoints.
   - Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -60,7 +60,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.process_cmdb_endpoints,
+    ai_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints,
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
 """

@@ -41,7 +41,7 @@ options:
             type: str
         type: list
       vlanName:
-        description: Vlan Name.
+        description: Sda Fabrics Vlan To Ssids Fabric Id's vlanName.
         type: str
     type: list
 requirements:

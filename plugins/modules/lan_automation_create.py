@@ -31,7 +31,7 @@ options:
         description: Host name prefix which shall be assigned to the discovered device.
         type: str
       ipPools:
-        description: Lan Automation Create's ipPools.
+        description: The list of IP pools with its name and role.
         elements: dict
         suboptions:
           ipPoolName:
@@ -65,12 +65,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStart
-    description: Complete reference of the LANAutomationStart API.
-    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
+  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStartV1
+    description: Complete reference of the LANAutomationStartV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start-v-1
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_start,
+    lan_automation.LanAutomation.lan_automation_start_v1,
   - Paths used are
     post /dna/intent/api/v1/lan-automation,
 """

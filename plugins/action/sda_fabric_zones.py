@@ -25,6 +25,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -141,11 +142,7 @@ class SdaFabricZones(object):
 
         obj_params = [
             ("id", "id"),
-            ("siteId", "siteId"),
-            ("authenticationProfileName", "authenticationProfileName"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

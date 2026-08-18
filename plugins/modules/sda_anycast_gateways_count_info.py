@@ -10,7 +10,7 @@ module: sda_anycast_gateways_count_info
 short_description: Information module for Sda Anycast Gateways Count
 description:
   - Get all Sda Anycast Gateways Count.
-  - Returns the count of anycast gateways that match the provided query parameters.
+  - Returns the count of anycast gateways that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -29,8 +29,12 @@ options:
     type: str
   ipPoolName:
     description:
-      - IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
-    type: str
+      - >
+        IpPoolName query parameter. Comma-separated list of IP pool names associated with the anycast gateways.
+        For an anycast gateway to be included in the response, it must be associated with all IP pools in this
+        list. However, the anycast gateway can be associated with other additional IP pools as well.
+    elements: str
+    type: list
   vlanName:
     description:
       - VlanName query parameter. VLAN name of the anycast gateways.
@@ -40,7 +44,7 @@ options:
       - >
         VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except
         for reserved VLANs 1002-1005, 2046, and 4094.
-    type: float
+    type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -69,7 +73,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     virtualNetworkName: string
-    ipPoolName: string
+    ipPoolName: []
     vlanName: string
     vlanId: 0
   register: result

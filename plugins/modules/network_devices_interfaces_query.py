@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_devices_interfaces_query
 short_description: Resource module for Network Devices Interfaces Query
 description:
-  - Manage operation create of the resource Network Devices Interfaces Query. - > This API returns the Interface Stats for
-    the given Device Id. Please refer to the Feature tab for the Request Body usage and the API filtering support.
+  - Manage operation create of the resource Network Devices Interfaces Query.
+  - This API returns the Interface Stats for the given Device Id. Please refer to.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -30,7 +30,7 @@ options:
         elements: str
         type: list
       filters:
-        description: Network Devices Interfaces Query's filters.
+        description: Helps to define the filter condition.
         elements: dict
         suboptions:
           key:
@@ -72,12 +72,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetDeviceInterfaceStatsInfoV2
-    description: Complete reference of the GetDeviceInterfaceStatsInfoV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info-v-2
+  - name: Cisco Catalyst Center documentation for Devices GetDeviceInterfaceStatsInfo
+    description: Complete reference of the GetDeviceInterfaceStatsInfo API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info
 notes:
   - SDK Method used are
-    devices.Devices.get_device_interface_stats_info_v2,
+    devices.Devices.get_device_interface_stats_info,
   - Paths used are
     post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,
 """
@@ -96,8 +96,7 @@ EXAMPLES = r"""
     deviceId: string
     endTime: 0
     query:
-      fields:
-        - string
+      fields: []
       filters:
         - key: string
           operator: string

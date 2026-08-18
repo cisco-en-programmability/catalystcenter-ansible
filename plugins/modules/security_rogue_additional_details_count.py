@@ -11,7 +11,7 @@ short_description: Resource module for Security Rogue Additional Details Count
 description:
   - Manage operation create of the resource Security Rogue Additional Details Count.
   - This API returns the count for the Rogue Additional Details.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)

@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
   register: result
 """
 RETURN = r"""
@@ -59,21 +59,9 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "count": 0
+      },
       "version": "string"
     }
 """

@@ -18,10 +18,9 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   fabricName:
-    description: Warning - Starting Catalyst Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
-      need it anymore. It will be removed in future Catalyst Center releases.
+    description: Warning - Starting DNA Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
+      need it anymore. It will be removed in future DNA Center releases.
     type: str
-    version_added: 4.0.0
   fabricType:
     description: Type of SD-Access Fabric. Allowed values are "FABRIC_SITE" or "FABRIC_ZONE". Default value is "FABRIC_SITE".
     type: str
@@ -59,7 +58,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
+    siteNameHierarchy: application/json
 - name: Create
   cisco.catalystcenter.sda_fabric_site:
     catalystcenter_host: "{{catalystcenter_host}}"

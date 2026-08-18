@@ -62,8 +62,6 @@ catalystcenter_response:
       "errors": [
         "string"
       ],
-      "warnings": [
-        "string"
-      ]
+      "warnings": []
     }
 """

@@ -10,8 +10,8 @@ module: discovery_job_info
 short_description: Information module for Discovery Job
 description:
   - Get all Discovery Job.
-  - Get Discovery Job by id. - > Returns the list of discovery jobs for the given Discovery ID. The results can be optionally
-    filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
+  - Get Discovery Job by id.
+  - Returns the list of discovery jobs for the given Discovery ID. Deprecated since Catalyst Center Release 3.2.1.
   - Returns the list of discovery jobs for the given IP.
 version_added: '1.0.0'
 extends_documentation_fragment:
@@ -21,25 +21,25 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Discovery ID.
+    type: str
   offset:
     description:
-      - Offset query parameter.
+      - Offset query parameter. Starting index for the records.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. Number of records to fetch from the starting index. Min 1, Max 500.
     type: int
   ipAddress:
     description:
-      - IpAddress query parameter.
+      - IpAddress query parameter. Filter records based on IP address.
     type: str
   name:
     description:
       - Name query parameter.
-    type: str
-  id:
-    description:
-      - Id path parameter. Discovery ID.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -73,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     offset: 0
-    limit: 0
+    limit: 500
     ipAddress: string
     name: string
   register: result
@@ -88,7 +88,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     offset: 0
-    limit: 0
+    limit: 500
     ipAddress: string
     id: string
   register: result

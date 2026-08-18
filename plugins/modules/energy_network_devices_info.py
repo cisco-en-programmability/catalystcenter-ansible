@@ -10,15 +10,12 @@ module: energy_network_devices_info
 short_description: Information module for Energy Network Devices
 description:
   - Get all Energy Network Devices.
-  - Get Energy Network Devices by id.
-  - Retrieves a list of network devices with energy data based on the specified query parameters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
-  - Retrieves network device energy data for a specified time range based on the device ID.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
+  - Get Energy Network Devices by id. - > Retrieves a list of network devices with energy data based on the specified query
+    parameters. For detailed information about the usage of the API, please refer to the Open API specification document - https
+    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- deviceEnergy_1.0-1.0.1-resolved.yaml.
+    - > Retrieves network device energy data for a specified time range based on the device ID. For detailed information about
+    the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    deviceEnergy_1.0-1.0.1-resolved.yaml.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,6 +24,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The UUID of the Network Device. (Ex. "6bef213c-19ca-4170-8375-b694e251101c").
+    type: str
   startTime:
     description:
       - >
@@ -42,6 +43,19 @@ options:
         default to one day after `startTime`. If `startTime` is not provided either, API will default to current
         time.
     type: float
+  view:
+    description:
+      - >
+        View query parameter. List of views. View and attribute work in union. Each view will include its
+        attributes. For example, view device includes all the attributes related to device. Please refer to
+        `NetworkDeviceEnergyView` model for supported list of views Examples `view=device&view=energy`.
+    type: str
+  attribute:
+    description:
+      - >
+        Attribute query parameter. List of attributes. Please refer to `NetworkDeviceEnergyAttribute` for
+        supported list of attributes Examples `attribute=id&attribute=energyConsumed`.
+    type: str
   limit:
     description:
       - Limit query parameter. Maximum number of records to return.
@@ -62,13 +76,6 @@ options:
   order:
     description:
       - Order query parameter. The sort order of the field ascending or descending.
-    type: str
-  id:
-    description:
-      - >
-        Id query parameter. The list of Device Uuids (e.g., `6bef213c-19ca-4170-8375-b694e251101c`). Examples
-        `id=6bef213c-19ca-4170-8375-b694e251101c` (single device requested)
-        `id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9`.
     type: str
   siteId:
     description:
@@ -110,19 +117,6 @@ options:
         DeviceSubCategory query parameter. The list of device sub categories. Examples `deviceSubCategory=Cisco
         Catalyst 9300 Series Switches` (single device family requested) `deviceSubCategory=Cisco Catalyst 9300
         Series Switches&deviceSubCategory=Cisco Catalyst 9400 Series Switches`.
-    type: str
-  view:
-    description:
-      - >
-        View query parameter. List of views. View and attribute work in union. Each view will include its
-        attributes. For example, view device includes all the attributes related to device. Please refer to
-        `NetworkDeviceEnergyView` model for supported list of views Examples `view=device&view=energy`.
-    type: str
-  attribute:
-    description:
-      - >
-        Attribute query parameter. List of attributes. Please refer to `NetworkDeviceEnergyAttribute` for
-        supported list of attributes Examples `attribute=id&attribute=energyConsumed`.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

@@ -9,41 +9,39 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_summary_analytics
 short_description: Resource module for Site Kpi Summaries Summary Analytics
 description:
-  - Manage operation create of the resource Site Kpi Summaries Summary Analytics. - > Submits the task to get summary analytics
-    data for a given site. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    SiteKpiSummaries-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Site Kpi Summaries Summary Analytics.
+  - Submits the task to get summary analytics data for a given site. For detailed.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Attributes.
+    description: Site Kpi Summaries Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Site Kpi Summaries Summary Analytics's endTime.
     type: int
   filters:
     description: Site Kpi Summaries Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Site Kpi Summaries Summary Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Site Kpi Summaries Summary Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Site Kpi Summaries Summary Analytics's value.
         type: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Site Kpi Summaries Summary Analytics's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

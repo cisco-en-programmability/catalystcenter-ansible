@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_permissions_api,
+    user_and_roles.UserAndRoles.get_permissions_api,
   - Paths used are
     get /dna/system/api/v1/role/permissions,
 """
@@ -51,23 +51,16 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "description": "string",
-        "displayName": "string",
-        "defaultPrivilege": "string",
-        "minimumPrivilege": "string",
-        "maximumPrivilege": "string",
-        "dependencies": [
-          {
-            "id": "string",
-            "privilege": "string"
-          }
-        ]
-      }
-    ]
+    {
+      "resource-types": [
+        {
+          "type": "string",
+          "displayName": "string",
+          "description": "string",
+          "defaultPermission": "string"
+        }
+      ]
+    }
 """

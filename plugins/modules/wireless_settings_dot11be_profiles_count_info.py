@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless Get80211beProfilesCount
-    description: Complete reference of the Get80211beProfilesCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count
+  - name: Cisco Catalyst Center documentation for Wireless GetCountOf80211beProfiles
+    description: Complete reference of the GetCountOf80211beProfiles API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-80-21-1be-profiles
 notes:
   - SDK Method used are
-    wireless.Wireless.get80211be_profiles_count,
+    wireless.Wireless.get_count_of80211be_profiles,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/count,
 """
@@ -55,7 +55,10 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "response": {
+          "count": 0
+        },
+        "version": "string"
       },
       "version": "string"
     }

@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="deploys_the_given_i_cap_configuration_intent_without_preview_and_approve",
+            function="deploys_the_given_icap_configuration_intent_without_preview_and_approve",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

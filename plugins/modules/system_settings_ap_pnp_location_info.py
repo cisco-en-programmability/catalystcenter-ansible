@@ -13,7 +13,7 @@ description:
     PnP Location Setting is enabled, the Access Point's assigned Site name will be configured as the AP Location during the
     PnP Claim process. This applies only during the PnP onboarding process and not during any subsequent provisioning dayN
     .
-version_added: '2.2.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

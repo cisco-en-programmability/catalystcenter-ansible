@@ -75,14 +75,14 @@ options:
     description: Management Frame Protection Client.
     type: str
   multiPSKSettings:
-    description: Wireless Enterprise Ssid's multiPSKSettings.
+    description: Multi PSK Settings (Only applicable for SSID with PERSONAL auth type and PSK).
     elements: dict
     suboptions:
       passphrase:
-        description: Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+        description: Passphrase.
         type: str
       passphraseType:
-        description: Passphrase Type(default ASCII).
+        description: Passphrase Type.
         type: str
       priority:
         description: Priority.
@@ -262,7 +262,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    ssidName: string
+    ssidName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

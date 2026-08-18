@@ -34,6 +34,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         apProfileName=dict(type="str"),
         description=dict(type="str"),
         remoteWorkerEnabled=dict(type="bool"),
@@ -45,17 +46,19 @@ argument_spec.update(
         meshEnabled=dict(type="bool"),
         meshSetting=dict(type="dict"),
         apPowerProfileName=dict(type="str"),
-        calendarPowerProfiles=dict(type="dict"),
+        calendarPowerProfiles=dict(type="list"),
         countryCode=dict(type="str"),
         timeZone=dict(type="str"),
         timeZoneOffsetHour=dict(type="int"),
         timeZoneOffsetMinutes=dict(type="int"),
         clientLimit=dict(type="int"),
-        id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -65,6 +68,7 @@ class WirelessSettingsApProfiles(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             apProfileName=params.get("apProfileName"),
             description=params.get("description"),
             remoteWorkerEnabled=params.get("remoteWorkerEnabled"),
@@ -82,20 +86,20 @@ class WirelessSettingsApProfiles(object):
             timeZoneOffsetHour=params.get("timeZoneOffsetHour"),
             timeZoneOffsetMinutes=params.get("timeZoneOffsetMinutes"),
             clientLimit=params.get("clientLimit"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["limit"] = self.new_object.get("limit")
-        new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["ap_profile_name"] = self.new_object.get(
             "apProfileName"
         ) or self.new_object.get("ap_profile_name")
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["apProfileName"] = self.new_object.get("apProfileName")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["remoteWorkerEnabled"] = self.new_object.get(
@@ -138,6 +142,7 @@ class WirelessSettingsApProfiles(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["apProfileName"] = self.new_object.get("apProfileName")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["remoteWorkerEnabled"] = self.new_object.get(
@@ -171,7 +176,6 @@ class WirelessSettingsApProfiles(object):
             "timeZoneOffsetMinutes"
         )
         new_object_params["clientLimit"] = self.new_object.get("clientLimit")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -234,6 +238,7 @@ class WirelessSettingsApProfiles(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("apProfileName", "apProfileName"),
             ("description", "description"),
             ("remoteWorkerEnabled", "remoteWorkerEnabled"),
@@ -251,9 +256,7 @@ class WirelessSettingsApProfiles(object):
             ("timeZoneOffsetHour", "timeZoneOffsetHour"),
             ("timeZoneOffsetMinutes", "timeZoneOffsetMinutes"),
             ("clientLimit", "clientLimit"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -284,7 +287,7 @@ class WirelessSettingsApProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="update_ap_profile_by_id",
+            function="update_approfile_by_id",
             params=self.update_by_id_params(),
             op_modifies=True,
         )

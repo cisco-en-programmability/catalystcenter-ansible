@@ -19,29 +19,29 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   defaultRfProfile:
-    description: true if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given
+    description: True if RF Profile is default, else False. Maximum of only 1 RF Profile can be marked as default at any given
       time.
     type: bool
   enableRadioType6GHz:
-    description: true if 6 GHz radio band is enabled in the RF Profile, else False.
+    description: True if 6 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   enableRadioTypeA:
-    description: true if 5 GHz radio band is enabled in the RF Profile, else False.
+    description: True if 5 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   enableRadioTypeB:
-    description: true if 2.4 GHz radio band is enabled in the RF Profile, else False.
+    description: True if 2.4 GHz radio band is enabled in the RF Profile, else False.
     type: bool
   id:
     description: Id path parameter. RF Profile ID.
     type: str
   radioType6GHzProperties:
-    description: Wireless Settings Rf Profiles's radioType6GHzProperties.
+    description: Properties of 6 GHz radio band.
     suboptions:
       broadcastProbeResponseInterval:
         description: Broadcast Probe Response Interval of 6 GHz radio band.
         type: int
       coverageHoleDetectionProperties:
-        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        description: Configure Coverage Hole Detection Properties.
         suboptions:
           chdClientLevel:
             description: Coverage Hole Detection Client Level.
@@ -67,10 +67,10 @@ options:
         description: Discovery Frames of 6 GHz radio band.
         type: str
       enableStandardPowerService:
-        description: true if Standard Power Service is enabled, else False.
+        description: True if Standard Power Service is enabled, else False.
         type: bool
       fraPropertiesC:
-        description: Wireless Settings Rf Profiles's fraPropertiesC.
+        description: Configure FRA 6 GHz Properties.
         suboptions:
           clientResetCount:
             description: Client Reset Count of 6 GHz radio band.
@@ -99,10 +99,10 @@ options:
         description: Minimum power level of 6 GHz radio band.
         type: int
       multiBssidProperties:
-        description: Wireless Settings Rf Profiles's multiBssidProperties.
+        description: Multi BSSID Properties.
         suboptions:
           dot11axParameters:
-            description: Wireless Settings Rf Profiles's dot11axParameters.
+            description: 802.11ax Parameters.
             suboptions:
               muMimoDownLink:
                 description: MU-MIMO Downlink.
@@ -118,7 +118,7 @@ options:
                 type: bool
             type: dict
           dot11beParameters:
-            description: Wireless Settings Rf Profiles's dot11beParameters.
+            description: 802.11be Parameters.
             suboptions:
               muMimoDownLink:
                 description: MU-MIMO Downlink.
@@ -166,7 +166,7 @@ options:
         description: RX-SOP threshold of 6 GHz radio band.
         type: str
       spatialReuseProperties:
-        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        description: Spatial Reuse Properties.
         suboptions:
           dot11axNonSrgObssPacketDetect:
             description: Dot11ax Non SRG OBSS PD.
@@ -186,13 +186,13 @@ options:
         type: dict
     type: dict
   radioTypeAProperties:
-    description: Wireless Settings Rf Profiles's radioTypeAProperties.
+    description: Properties of 5 GHz radio band.
     suboptions:
       channelWidth:
         description: Channel Width.
         type: str
       coverageHoleDetectionProperties:
-        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        description: Configure Coverage Hole Detection Properties.
         suboptions:
           chdClientLevel:
             description: Coverage Hole Detection Client Level.
@@ -215,7 +215,7 @@ options:
           6, 9, 12, 18, 24, 36, 48, 54.
         type: str
       fraPropertiesA:
-        description: Wireless Settings Rf Profiles's fraPropertiesA.
+        description: Configure FRA 5 GHzProperties.
         suboptions:
           clientAware:
             description: Client Aware of 5 GHz radio band.
@@ -241,7 +241,9 @@ options:
         description: Minimum power level of 5 GHz radio band.
         type: int
       parentProfile:
-        description: Parent profile of 5 GHz radio band.
+        description: Parent profile of 5 GHz radio band. In case of brownfield learnt RF Profile if the parent profile is
+          GLOBAL, any change in RF Profile configurations will not be provisioned to device. Existing parent profile with
+          values of HIGH, TYPICAL, LOW or CUSTOM cannot be modified to GLOBAL.
         type: str
       powerThresholdV1:
         description: Power threshold of 5 GHz radio band.
@@ -259,7 +261,7 @@ options:
         description: RX-SOP threshold of 5 GHz radio band.
         type: str
       spatialReuseProperties:
-        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        description: Spatial Reuse Properties.
         suboptions:
           dot11axNonSrgObssPacketDetect:
             description: Dot11ax Non SRG OBSS PD.
@@ -282,10 +284,10 @@ options:
         type: bool
     type: dict
   radioTypeBProperties:
-    description: Wireless Settings Rf Profiles's radioTypeBProperties.
+    description: Properties of 2.4 GHz radio band.
     suboptions:
       coverageHoleDetectionProperties:
-        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        description: Configure Coverage Hole Detection Properties.
         suboptions:
           chdClientLevel:
             description: Coverage Hole Detection Client Level.
@@ -322,7 +324,9 @@ options:
         description: Minimum power level of 2.4 GHz radio band.
         type: int
       parentProfile:
-        description: Parent profile of 2.4 GHz radio band.
+        description: Parent profile of 2.4 GHz radio band. In case of brownfield learnt RF Profile if the parent profile is
+          GLOBAL, any change in RF Profile configurations will not be provisioned to device. Existing parent profile with
+          values of HIGH, TYPICAL, LOW or CUSTOM cannot be modified to GLOBAL.
         type: str
       powerThresholdV1:
         description: Power threshold of 2.4 GHz radio band.
@@ -335,7 +339,7 @@ options:
         description: RX-SOP threshold of 2.4 GHz radio band.
         type: str
       spatialReuseProperties:
-        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        description: Spatial Reuse Properties.
         suboptions:
           dot11axNonSrgObssPacketDetect:
             description: Dot11ax Non SRG OBSS PD.
@@ -383,7 +387,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update by id
   cisco.catalystcenter.wireless_settings_rf_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -397,6 +401,7 @@ EXAMPLES = r"""
     enableRadioType6GHz: true
     enableRadioTypeA: true
     enableRadioTypeB: true
+    id: string
     radioType6GHzProperties:
       broadcastProbeResponseInterval: 0
       coverageHoleDetectionProperties:
@@ -506,7 +511,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
-- name: Update by id
+- name: Create
   cisco.catalystcenter.wireless_settings_rf_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -520,7 +525,6 @@ EXAMPLES = r"""
     enableRadioType6GHz: true
     enableRadioTypeA: true
     enableRadioTypeB: true
-    id: string
     radioType6GHzProperties:
       broadcastProbeResponseInterval: 0
       coverageHoleDetectionProperties:

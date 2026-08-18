@@ -24,12 +24,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
+  - name: Cisco Catalyst Center documentation for Licenses RetrievesSummaryOfNetworkDeviceLicenses
     description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-of-network-device-licenses
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.retrieves_summary_of_network_device_licenses,
+    licenses.Licenses.retrieves_summary_of_network_device_licenses,
   - Paths used are
     get /dna/intent/api/v1/networkDeviceLicenses/summary,
 """

@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the device is assigned to.
+      - FabricId query parameter. ID of the fabric this port channel belongs to.to.
     type: str
   networkDeviceId:
     description:
@@ -66,7 +66,7 @@ EXAMPLES = r"""
     fabricId: string
     networkDeviceId: string
     portChannelName: string
-    connectedDeviceType: string
+    connectedDeviceType: TRUNK
   register: result
 """
 RETURN = r"""

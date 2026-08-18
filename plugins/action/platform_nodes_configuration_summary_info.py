@@ -84,7 +84,7 @@ class ActionModule(ActionBase):
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
-            family="platform_configuration",
+            family="platform",
             function="nodes_configuration_summary",
             params=self.get_object(self._task.args),
         )

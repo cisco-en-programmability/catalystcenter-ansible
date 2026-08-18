@@ -73,10 +73,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    summary: true
+    summary: True
     domain: string
     subdomain: string
-    limit: 0
+    limit: 20
     offset: 0
   register: result
 """
@@ -89,7 +89,7 @@ catalystcenter_response:
     {
       "healthEvents": [
         {
-          "severity": "string",
+          "severity": 0,
           "hostname": "string",
           "instance": "string",
           "subDomain": "string",

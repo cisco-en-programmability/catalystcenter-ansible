@@ -29,6 +29,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         networkDeviceId=dict(type="str"),
+        deployActivityId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -71,6 +72,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             network_device_id=params.get("networkDeviceId"),
+            deploy_activity_id=params.get("deployActivityId"),
             headers=params.get("headers"),
         )
         return new_object
@@ -87,7 +89,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wired",
-            function="get_device_deployment_status_connectivity",
+            function="get_device_deployment_status_wired",
             params=self.get_object(self._task.args),
         )
         self._result.update(

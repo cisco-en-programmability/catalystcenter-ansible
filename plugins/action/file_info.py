@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
         if id:
             download_response = catalystcenter.exec(
                 family="file",
-                function="download_a_file_by_file_id",
+                function="download_a_file_by_fileid",
                 params=self.get_object(self._task.args),
             )
             response = dict(

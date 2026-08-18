@@ -30,6 +30,7 @@ argument_spec.update(
     dict(
         distributedImages=dict(type="list"),
         networkValidationIds=dict(type="list"),
+        compatibleFeatures=dict(type="list"),
         id=dict(type="str"),
     )
 )
@@ -73,6 +74,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             distributedImages=params.get("distributedImages"),
             networkValidationIds=params.get("networkValidationIds"),
+            compatibleFeatures=params.get("compatibleFeatures"),
             id=params.get("id"),
         )
         return new_object

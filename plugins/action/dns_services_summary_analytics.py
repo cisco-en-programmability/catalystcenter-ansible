@@ -97,7 +97,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_summary_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters",
+            function="get_summary_analytics_data_of_dns_services_for_given_set_of_complex_filters",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

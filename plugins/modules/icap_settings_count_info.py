@@ -49,7 +49,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-deployed-icap-configurations-while-supporting-basic-filtering
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_the_count_of_deployed_i_cap_configurations_while_supporting_basic_filtering,
+    sensors.Sensors.retrieves_the_count_of_deployed_icap_configurations_while_supporting_basic_filtering,
   - Paths used are
     get /dna/intent/api/v1/icapSettings/count,
 """

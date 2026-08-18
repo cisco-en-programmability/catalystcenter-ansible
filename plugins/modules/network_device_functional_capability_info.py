@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Functional Capability UUID.
+    type: str
   deviceId:
     description:
       - >
@@ -32,10 +36,6 @@ options:
       - FunctionName query parameter.
     elements: str
     type: list
-  id:
-    description:
-      - Id path parameter. Functional Capability UUID.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12

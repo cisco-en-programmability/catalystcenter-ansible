@@ -77,16 +77,10 @@ catalystcenter_response:
           "provisioningState": "string",
           "qualifier": "string",
           "resourceVersion": 0,
-          "targetIdList": [
-            "string"
-          ],
+          "targetIdList": [],
           "type": "string",
-          "cfsChangeInfo": [
-            "string"
-          ],
-          "customProvisions": [
-            "string"
-          ],
+          "cfsChangeInfo": [],
+          "customProvisions": [],
           "deletePolicyStatus": "string",
           "internal": true,
           "isDeleted": true,
@@ -116,15 +110,11 @@ catalystcenter_response:
                 "groupId": [
                   "string"
                 ],
-                "ssid": [
-                  "string"
-                ]
+                "ssid": []
               }
             ]
           },
-          "contractList": [
-            "string"
-          ],
+          "contractList": [],
           "exclusiveContract": {
             "id": "string",
             "instanceId": 0,

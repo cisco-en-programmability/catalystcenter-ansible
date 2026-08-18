@@ -18,12 +18,16 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
+  conditionsCount:
+    description: The total number of conditions present within the rule.
+    type: int
   description:
     description: A comprehensive description of the rule. This should provide detailed information about what the rule does,
       its scope, and any other pertinent details that explain its function and purpose.
     type: str
   deviceTypes:
-    description: Compliance Policys Rules's deviceTypes.
+    description: Defines device types by detailing their family, series, and model to enable the application of rules to targeted
+      devices.
     elements: dict
     suboptions:
       deviceFamily:
@@ -50,12 +54,15 @@ options:
     description: PolicyId path parameter. The `id` of the compliance policy.
     type: str
   softwareType:
-    description: Specifies the software type applicable to the rule. For detailed enum descriptions, refer to the `Features`
-      tab.
+    description: Specifies the software type applicable to the rule. The options include - `IOS` Cisco Internetwork Operating
+      System. - `IOS_XE` Cisco IOS-XE software. - `CISCO_CONTROLLER` AireOS operating system for Cisco wireless controllers.
     type: str
   suggestedFix:
     description: Suggestions on how to fix the issues detected by this rule.
     type: str
+  variablesCount:
+    description: The total number of variables present within the rule.
+    type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -82,26 +89,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.compliance_policys_rules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    deviceTypes:
-      - deviceFamily: string
-        deviceModel: string
-        deviceSeries: string
-    impact: string
-    name: string
-    policyId: string
-    softwareType: string
-    suggestedFix: string
 - name: Delete by id
   cisco.catalystcenter.compliance_policys_rules:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -112,8 +99,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    id: string
-    policyId: string
+    id: e8eef5e2-1eab-426c-be77-97ee81dcba06
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
 - name: Update by id
   cisco.catalystcenter.compliance_policys_rules:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -124,6 +111,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
+    conditionsCount: 0
     description: string
     deviceTypes:
       - deviceFamily: string
@@ -135,6 +123,30 @@ EXAMPLES = r"""
     policyId: string
     softwareType: string
     suggestedFix: string
+    variablesCount: 0
+- name: Create
+  cisco.catalystcenter.compliance_policys_rules:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    conditionsCount: 0
+    description: string
+    deviceTypes:
+      - deviceFamily: string
+        deviceModel: string
+        deviceSeries: string
+    id: string
+    impact: string
+    name: string
+    policyId: string
+    softwareType: string
+    suggestedFix: string
+    variablesCount: 0
 """
 RETURN = r"""
 catalystcenter_response:

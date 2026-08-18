@@ -26,18 +26,24 @@ options:
     elements: dict
     suboptions:
       clause:
-        description: App Policy Queuing Profile's clause.
+        description: The clause array can contain 'interfaceSpeedBandwidthClauses' and/or 'tcDscpSettings' objects, determined
+          based on the value of the 'type' attribute. To add data for 'interfaceSpeedBandwidthClauses', 'BANDWIDTH' type value
+          should be selected. While to add 'tcDscpSettings' data, 'DSCP_CUSTOMIZATION' type value should be selected. Note
+          that each data object in the clause array, should contain a 'type' attribute. Example {'clause' {'type' 'BANDWIDTH',
+          'interfaceSpeedBandwidthClauses' {...}}, {'type' 'DSCP_CUSTOMIZATION', 'tcDscpSettings' ...}}.
         elements: dict
         suboptions:
           interfaceSpeedBandwidthClauses:
-            description: App Policy Queuing Profile's interfaceSpeedBandwidthClauses.
+            description: Interface speed bandwidth settings.
             elements: dict
             suboptions:
               interfaceSpeed:
                 description: Interface speed.
                 type: str
               tcBandwidthSettings:
-                description: App Policy Queuing Profile's tcBandwidthSettings.
+                description: The Traffic Class bandwidth settings contain objects for traffic classes, each object holding
+                  the traffic class name and its bandwidth percentages. Note that the sum of all traffic class bandwidth percentages
+                  should be 100%.
                 elements: dict
                 suboptions:
                   bandwidthPercentage:
@@ -52,7 +58,8 @@ options:
             description: Is common between all interface speeds.
             type: bool
           tcDscpSettings:
-            description: App Policy Queuing Profile's tcDscpSettings.
+            description: The Traffic DSCP settings contain the traffic class DSCP settings. Note that duplicate traffic class
+              settings are not allowed.
             elements: dict
             suboptions:
               dscp:

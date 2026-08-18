@@ -11,7 +11,7 @@ short_description: Information module for Network Bugs Results Bugs Count
 description:
   - Get all Network Bugs Results Bugs Count.
   - Get count of network bugs.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

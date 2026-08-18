@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: clients_trend_analytics_id
 short_description: Resource module for Clients Trend Analytics Id
 description:
-  - Manage operation create of the resource Clients Trend Analytics Id. - > Retrieves the time series information of a specific
-    client by applying complex filters, aggregate functions, and grouping. The data will be grouped based on the specified
-    trend time interval. For detailed information about the usage of the API, please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Trend Analytics Id.
+  - Retrieves the time series information of a specific client by applying complex.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,35 +21,35 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Clients Trend Analytics Id's function.
         type: str
       name:
-        description: Name.
+        description: Clients Trend Analytics Id's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Clients Trend Analytics Id's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Clients Trend Analytics Id's endTime.
     type: int
   filters:
     description: Clients Trend Analytics Id's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Clients Trend Analytics Id's key.
         type: str
       operator:
-        description: Operator.
+        description: Clients Trend Analytics Id's operator.
         type: str
       value:
-        description: Value.
+        description: Clients Trend Analytics Id's value.
         type: int
     type: list
   groupBy:
-    description: Group By.
+    description: Clients Trend Analytics Id's groupBy.
     elements: str
     type: list
   headers:
@@ -65,20 +63,20 @@ options:
     description: Clients Trend Analytics Id's page.
     suboptions:
       cursor:
-        description: Cursor.
+        description: Clients Trend Analytics Id's cursor.
         type: str
       limit:
-        description: Limit.
+        description: Clients Trend Analytics Id's limit.
         type: int
       timeSortOrder:
-        description: Time Sort Order.
+        description: Clients Trend Analytics Id's timeSortOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Clients Trend Analytics Id's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Clients Trend Analytics Id's trendInterval.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

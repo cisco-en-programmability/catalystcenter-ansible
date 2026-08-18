@@ -9,14 +9,9 @@ DOCUMENTATION = r"""
 module: network_applications_id_trend_analytics
 short_description: Resource module for Network Applications Id Trend Analytics
 description:
-  - Manage operation create of the resource Network Applications Id Trend Analytics. - > Retrieves the trend analytics of
-    applications experience data to specific network application for the specified time range. The data will be grouped based
-    on the given trend time interval. This API facilitates obtaining consolidated insights into the performance and status
-    of the network applications over the specified start and end time. If startTime and endTime are not provided, the API
-    defaults to the last 24 hours.`siteId` and `trendInterval` are mandatory. `siteId` must be a site UUID of a building.For
-    detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- NetworkApplications-1.0.1-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Network Applications Id Trend Analytics.
+  - Retrieves the trend analytics of applications experience data to specific.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
@@ -26,31 +21,31 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Network Applications Id Trend Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Network Applications Id Trend Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Network Applications Id Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Network Applications Id Trend Analytics's endTime.
     type: int
   filters:
     description: Network Applications Id Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Network Applications Id Trend Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Network Applications Id Trend Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Network Applications Id Trend Analytics's value.
         type: str
     type: list
   headers:
@@ -63,24 +58,24 @@ options:
     description: Network Applications Id Trend Analytics's page.
     suboptions:
       cursor:
-        description: Cursor.
+        description: Network Applications Id Trend Analytics's cursor.
         type: str
       limit:
-        description: Limit.
+        description: Network Applications Id Trend Analytics's limit.
         type: int
       timeSortOrder:
-        description: Time Sort Order.
+        description: Network Applications Id Trend Analytics's timeSortOrder.
         type: str
     type: dict
   siteIds:
-    description: Site Ids.
+    description: Network Applications Id Trend Analytics's siteIds.
     elements: str
     type: list
   startTime:
-    description: Start Time.
+    description: Network Applications Id Trend Analytics's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Network Applications Id Trend Analytics's trendInterval.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

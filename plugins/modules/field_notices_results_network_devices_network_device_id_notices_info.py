@@ -27,7 +27,7 @@ options:
     type: str
   id:
     description:
-      - Id query parameter. Id of the field notice.
+      - Id path parameter. Id of the field notice.
     type: str
   type:
     description:
@@ -88,10 +88,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     type: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     networkDeviceId: string
   register: result
 - name: Get Field Notices Results Network Devices Network Device Id Notices by id

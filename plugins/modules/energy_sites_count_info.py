@@ -9,9 +9,8 @@ DOCUMENTATION = r"""
 module: energy_sites_count_info
 short_description: Information module for Energy Sites Count
 description:
-  - Get all Energy Sites Count. - > Retrieves the total count of sites that provide energy data, filtered according to the
-    specified query parameters. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
+  - Get all Energy Sites Count.
+  - Retrieves the total count of sites that provide energy data, filtered.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

@@ -12,7 +12,7 @@ description:
   - Get all Wireless Controllers Network Device Id Ap Authorization Lists. - > This API allows the user to get an AP Authorization
     List details configured for the given provisioned network device Id. Obtain the network device ID value by using the API
     GET call '/dna/intent/api/v1/network-device/ip- address/${ipAddress}'.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

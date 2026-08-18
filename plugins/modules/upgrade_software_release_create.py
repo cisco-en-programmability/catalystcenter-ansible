@@ -17,10 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be downloaded and upgraded. Use the `/dna/system/api/v1/releases/releaseSummary`
-      API to obtain the optional package IDs. The `releaseName` and `releaseVersion` should correspond to the downloaded release.In
-      the releases summary API response, optional packages can be identified by the attribute `packagesn.optional` is true.
-      Provide the `packagesn.id` of these optional packages.
+    description: Define the list of optional packages to be installed.
     elements: str
     type: list
   releaseName:

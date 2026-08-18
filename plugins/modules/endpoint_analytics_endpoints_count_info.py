@@ -11,7 +11,7 @@ short_description: Information module for Endpoint Analytics Endpoints Count
 description:
   - Get all Endpoint Analytics Endpoints Count.
   - Fetch the total count of endpoints that match the given filter criteria.
-version_added: '1.0.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -126,7 +126,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.fetch_the_count_of_endpoints,
+    ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints/count,
 """
@@ -151,8 +151,8 @@ EXAMPLES = r"""
     hardwareManufacturer: string
     hardwareModel: string
     operatingSystem: string
-    registered: true
-    randomMac: true
+    registered: True
+    randomMac: True
     trustScore: string
     authMethod: string
     postureStatus: string
@@ -160,9 +160,9 @@ EXAMPLES = r"""
     changedProfileTrustLevel: string
     natTrustLevel: string
     concurrentMacTrustLevel: string
-    ipBlocklistDetected: true
-    unauthPortDetected: true
-    weakCredDetected: true
+    ipBlocklistDetected: True
+    unauthPortDetected: True
+    weakCredDetected: True
     ancPolicy: string
   register: result
 """

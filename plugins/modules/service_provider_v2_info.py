@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings GetServiceProviderDetailsV2
-    description: Complete reference of the GetServiceProviderDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings GetServiceProviderDetails
+    description: Complete reference of the GetServiceProviderDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_service_provider_details_v2,
+    network_settings.NetworkSettings.get_service_provider_details,
   - Paths used are
     get /dna/intent/api/v2/service-provider,
 """

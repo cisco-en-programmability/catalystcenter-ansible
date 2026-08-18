@@ -29,18 +29,21 @@ options:
     description: NetworkDeviceId query parameter. ID of the network device.
     type: str
   payload:
-    description: Sda Provision Devices's payload.
+    description: Provision Devices put request (Only already provisioned devices can be reprovisioned).
     elements: dict
     suboptions:
+      id:
+        description: ID of the provisioned device.
+        type: str
       networkDeviceId:
-        description: ID of network device to be provisioned.
+        description: ID of the network device to be re-provisioned. (updating this field is not allowed).
         type: str
       siteId:
-        description: ID of the site this network device needs to be provisioned.
+        description: ID of the site this device is already provisioned to. (updating this field is not allowed).
         type: str
     type: list
   siteId:
-    description: SiteId query parameter. ID of the site hierarchy.
+    description: SiteId query parameter. ID of the site hierarchy. All Provisioned devices with this siteId will be deleted.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -85,19 +88,6 @@ EXAMPLES = r"""
     cleanUpConfig: true
     networkDeviceId: string
     siteId: string
-- name: Create
-  cisco.catalystcenter.sda_provision_devices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - networkDeviceId: string
-        siteId: string
 - name: Update all
   cisco.catalystcenter.sda_provision_devices:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -111,6 +101,19 @@ EXAMPLES = r"""
     payload:
       - id: string
         networkDeviceId: string
+        siteId: string
+- name: Create
+  cisco.catalystcenter.sda_provision_devices:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - networkDeviceId: string
         siteId: string
 - name: Delete by id
   cisco.catalystcenter.sda_provision_devices:

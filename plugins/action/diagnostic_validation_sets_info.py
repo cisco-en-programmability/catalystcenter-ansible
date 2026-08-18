@@ -28,8 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        view=dict(type="str"),
         id=dict(type="str"),
+        view=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -71,8 +71,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            view=params.get("view"),
             id=params.get("id"),
+            view=params.get("view"),
             headers=params.get("headers"),
         )
         return new_object

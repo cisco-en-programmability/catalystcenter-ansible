@@ -47,8 +47,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are
-    eox.Eox.get_eox_details_per_device,
-    eox.Eox.get_eox_status_for_all_devices,
+    eox.EoX.get_eox_details_per_device,
+    eox.EoX.get_eox_status_for_all_devices,
   - Paths used are
     get /dna/intent/api/v1/eox-status/device,
     get /dna/intent/api/v1/eox-status/device/{deviceId},
@@ -66,8 +66,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 - name: Get Eox Status Device by id
   cisco.catalystcenter.eox_status_device_info:

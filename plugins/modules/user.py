@@ -9,10 +9,13 @@ DOCUMENTATION = r"""
 module: user
 short_description: Resource module for User
 description:
-  - Manage operations create, update and delete of the resource User.
-  - Add a new user in the system.
-  - Delete a user in the system.
-  - Update a user in the system.
+  - Manage operations create, update and delete of the resource User. - > Add a new user in the system.This API provides the
+    ability create a user in the system. A user represents a human that desires to access and manage resources provided by
+    the system. It is recommended to use 'accessGroups' list of access group ids in the input instead of role's name in roleList
+    from the current release onwards.
+  - Delete a user in the system. - > Update a user in the system. It is recommended to use 'accessGroups' list of access group
+    ids in the input instead of role's name in roleList from the current release onwards. Please refer to the add user API
+    POST /dna/system/api/v1/user for more details about users.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -40,7 +43,7 @@ options:
     elements: str
     type: list
   userId:
-    description: User Id.
+    description: UserId path parameter. The id of the user to be deleted.
     type: str
   username:
     description: The username of the user.
@@ -60,9 +63,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-user
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_user,
-    userand_roles.UserandRoles.delete_user_api,
-    userand_roles.UserandRoles.update_user,
+    user_and_roles.UserAndRoles.add_user,
+    user_and_roles.UserAndRoles.delete_user_api,
+    user_and_roles.UserAndRoles.update_user,
   - Paths used are
     post /dna/system/api/v1/user,
     delete /dna/system/api/v1/user/{userId},
@@ -71,6 +74,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.user:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    userId: string
 - name: Create
   cisco.catalystcenter.user:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -108,17 +122,6 @@ EXAMPLES = r"""
     roleList:
       - string
     userId: string
-- name: Delete by id
-  cisco.catalystcenter.user:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    userId: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -127,7 +130,6 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "message": "string",
-      "userId": "string"
+      "message": "string"
     }
 """

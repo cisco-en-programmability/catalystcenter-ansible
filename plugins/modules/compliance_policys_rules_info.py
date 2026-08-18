@@ -25,20 +25,18 @@ options:
     description:
       - PolicyId path parameter. The `id` of the compliance policy.
     type: str
+  id:
+    description:
+      - Id path parameter. The `id` of the rule within the compliance policy.
+    type: str
   offset:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
-  id:
-    description:
-      - Id path parameter. The `id` of the rule within the compliance policy.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -70,9 +68,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
-    policyId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
   register: result
 - name: Get Compliance Policys Rules by id
   cisco.catalystcenter.compliance_policys_rules_info:
@@ -84,8 +82,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    id: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    id: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 """
 RETURN = r"""
@@ -96,8 +94,22 @@ catalystcenter_response:
   sample: >
     {
       "response": {
+        "id": "string",
+        "policyId": "string",
         "name": "string",
-        "description": "string"
+        "description": "string",
+        "impact": "string",
+        "suggestedFix": "string",
+        "softwareType": "string",
+        "deviceTypes": [
+          {
+            "deviceFamily": "string",
+            "deviceSeries": "string",
+            "deviceModel": "string"
+          }
+        ],
+        "variablesCount": 0,
+        "conditionsCount": 0
       },
       "version": "string"
     }

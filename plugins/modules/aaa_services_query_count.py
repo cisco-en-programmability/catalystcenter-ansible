@@ -9,30 +9,28 @@ DOCUMENTATION = r"""
 module: aaa_services_query_count
 short_description: Resource module for Aaa Services Query Count
 description:
-  - Manage operation create of the resource Aaa Services Query Count. - > Retrieves the total number of AAA Services and offers
-    complex filtering and sorting capabilities. For detailed information about the usage of the API, please refer to the Open
-    API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AAAServices-1.0.0-resolved.yaml.
-version_added: '1.0.0'
+  - Manage operation create of the resource Aaa Services Query Count.
+  - Retrieves the total number of AAA Services and offers complex filtering and.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Aaa Services Query Count's endTime.
     type: int
   filters:
     description: Aaa Services Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Aaa Services Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Aaa Services Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Aaa Services Query Count's value.
         elements: str
         type: list
     type: list
@@ -40,7 +38,7 @@ options:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Aaa Services Query Count's startTime.
     type: int
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

@@ -109,7 +109,7 @@ EXAMPLES = r"""
     workflowName: []
     smartAccountId: []
     virtualAccountId: []
-    lastContact: true
+    lastContact: True
   register: result
 """
 RETURN = r"""

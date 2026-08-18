@@ -33,7 +33,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. # of records to return in result set.
+      - Limit query parameter. Number of records to return in result set.
     type: int
   sortBy:
     description:
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     eventIds: string
     tags: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
     search: string
@@ -120,9 +120,7 @@ catalystcenter_response:
           },
           "additionalDetails": {}
         },
-        "eventTemplates": [
-          "string"
-        ],
+        "eventTemplates": [],
         "isTenantAware": true,
         "supportedConnectorTypes": [
           "string"
@@ -130,6 +128,14 @@ catalystcenter_response:
         "configs": {
           "isAlert": true,
           "isACKnowledgeable": true
+        },
+        "policy": {
+          "rate": {
+            "limits": {
+              "day": 0
+            }
+          },
+          "policyType": "string"
         },
         "tenantId": "string"
       }

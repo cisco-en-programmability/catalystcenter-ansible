@@ -32,6 +32,7 @@ argument_spec.update(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         trendInterval=dict(type="str"),
+        attribute=dict(type="str"),
         testId=dict(type="str"),
         testName=dict(type="str"),
         testType=dict(type="str"),
@@ -85,6 +86,7 @@ class ActionModule(ActionBase):
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             trend_interval=params.get("trendInterval"),
+            attribute=params.get("attribute"),
             test_id=params.get("testId"),
             test_name=params.get("testName"),
             test_type=params.get("testType"),
@@ -109,7 +111,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="applications",
-            function="get_trend_analytics_data_for_thousand_eyes_test_results_in_the_specified_time_range",
+            function="the_trend_analytics_data_for_thousand_eyes_test_results_in_the_specified_time_range",
             params=self.get_object(self._task.args),
         )
         self._result.update(

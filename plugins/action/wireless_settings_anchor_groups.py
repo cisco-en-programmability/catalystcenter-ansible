@@ -34,13 +34,16 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         anchorGroupName=dict(type="str"),
         mobilityAnchors=dict(type="list"),
-        id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -50,17 +53,20 @@ class WirelessSettingsAnchorGroups(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             anchorGroupName=params.get("anchorGroupName"),
             mobilityAnchors=params.get("mobilityAnchors"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
+        new_object_params["offset"] = self.new_object.get("offset")
+        new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["anchorGroupName"] = self.new_object.get("anchorGroupName")
         new_object_params["mobilityAnchors"] = self.new_object.get("mobilityAnchors")
         return new_object_params
@@ -72,9 +78,9 @@ class WirelessSettingsAnchorGroups(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["anchorGroupName"] = self.new_object.get("anchorGroupName")
         new_object_params["mobilityAnchors"] = self.new_object.get("mobilityAnchors")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -83,7 +89,7 @@ class WirelessSettingsAnchorGroups(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get_anchor_groups",
+                function="get_all_anchor_groups",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -137,11 +143,10 @@ class WirelessSettingsAnchorGroups(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("anchorGroupName", "anchorGroupName"),
             ("mobilityAnchors", "mobilityAnchors"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

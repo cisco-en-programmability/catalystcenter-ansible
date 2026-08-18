@@ -24,6 +24,9 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     catalystcenter_compare_equality,
     get_dict_result,
 )
+from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
+)
 
 # Get common arguments specification
 argument_spec = catalystcenter_argument_spec()
@@ -131,7 +134,6 @@ class BusinessSdaHostonboardingSsidIppool(object):
             ("ssidNames", "ssidNames"),
             ("siteNameHierarchy", "siteNameHierarchy"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

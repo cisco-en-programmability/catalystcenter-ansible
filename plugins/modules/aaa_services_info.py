@@ -11,12 +11,8 @@ short_description: Information module for Aaa Services
 description:
   - Get all Aaa Services.
   - Get Aaa Services by id.
-  - Retrieves the details of the AAA Service matching the given id.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AAAServices-1.0.0-resolved.yaml.
-  - Retrieves the list of AAA Services and offers basic filtering and sorting capabilities.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AAAServices-1.0.0-resolved.yaml.
+  - Retrieves the details of the AAA Service matching the given id. For detailed.
+  - Retrieves the list of AAA Services and offers basic filtering and sorting.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,12 +21,19 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - >
+        Id path parameter. Unique id of the AAA Service. It is the combination of AAA Server IP (`serverIp`) and
+        Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and
+        `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would be
+        `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
+    type: str
   startTime:
     description:
       - >
         StartTime query parameter. Start time from which API queries the data set related to the resource. It
-        must be specified in UNIX epochtime in milliseconds. Value is inclusive. If `startTime` is not provided,
-        API will default to current time.
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
@@ -106,14 +109,6 @@ options:
       - >
         SiteId query parameter. The UUID of the site. (Ex. `flooruuid`) Examples `?siteId=id1` (single id
         requested) `?siteId=id1&siteId=id2&siteId=id3` (multiple ids requested).
-    type: str
-  id:
-    description:
-      - >
-        Id path parameter. Unique id of the AAA Service. It is the combination of AAA Server IP (`serverIp`) and
-        Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and
-        `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would be
-        `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

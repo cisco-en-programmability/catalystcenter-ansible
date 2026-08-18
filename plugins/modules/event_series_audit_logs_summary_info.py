@@ -132,7 +132,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     parentInstanceId: string
-    isParentOnly: true
+    isParentOnly: True
     instanceId: string
     name: string
     eventId: string
@@ -146,7 +146,7 @@ EXAMPLES = r"""
     eventHierarchy: string
     siteId: string
     deviceId: string
-    isSystemEvents: true
+    isSystemEvents: True
     description: string
     startTime: 0
     endTime: 0

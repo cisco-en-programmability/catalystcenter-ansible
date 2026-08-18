@@ -12,7 +12,7 @@ description:
   - Manage operations create, update and delete of the resource Roles.
   - Add a new role in the system.
   - Delete a role in the system.
-  - Update a role in the system.
+  - Update a role in the system. Deprecated since release 3.1.3.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,7 +22,8 @@ options:
     description: Description of role.
     type: str
   resourceTypes:
-    description: Roles's resourceTypes.
+    description: Only include resourceTypes that you wish to grant one or more of the four operations mentioned below. Exclude
+      any resourceTypes that you do not want to grant permission to.
     elements: dict
     suboptions:
       operations:
@@ -55,9 +56,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_role_api,
-    userand_roles.UserandRoles.delete_role_api,
-    userand_roles.UserandRoles.update_role_api,
+    user_and_roles.UserAndRoles.add_role_api,
+    user_and_roles.UserAndRoles.delete_role_api,
+    user_and_roles.UserAndRoles.update_role_api,
   - Paths used are
     post /dna/system/api/v1/role,
     delete /dna/system/api/v1/role/{roleId},

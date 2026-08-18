@@ -10,7 +10,7 @@ module: sda_multicast_virtual_networks_info
 short_description: Information module for Sda Multicast Virtual Networks
 description:
   - Get all Sda Multicast Virtual Networks.
-  - Returns a list of multicast configurations for virtual networks that match the provided query parameters.
+  - Returns a list of multicast configurations for virtual networks that match the.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     virtualNetworkName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -78,29 +78,22 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "fabricId": "string",
-          "virtualNetworkName": "string",
-          "ipPoolName": "string",
-          "ipv4SsmRanges": [
-            "string"
-          ],
+          "id": {},
+          "fabricId": {},
+          "virtualNetworkName": {},
+          "ipPoolName": {},
+          "ipv4SsmRanges": {},
+          "enableSsmForV6OnlyPool": {},
           "multicastRPs": [
             {
-              "rpDeviceLocation": "string",
-              "ipv4Address": "string",
-              "ipv6Address": "string",
-              "isDefaultV4RP": true,
-              "isDefaultV6RP": true,
-              "networkDeviceIds": [
-                "string"
-              ],
-              "ipv4AsmRanges": [
-                "string"
-              ],
-              "ipv6AsmRanges": [
-                "string"
-              ]
+              "rpDeviceLocation": {},
+              "ipv4Address": {},
+              "ipv6Address": {},
+              "isDefaultV4RP": {},
+              "isDefaultV6RP": {},
+              "networkDeviceIds": {},
+              "ipv4AsmRanges": {},
+              "ipv6AsmRanges": {}
             }
           ]
         }

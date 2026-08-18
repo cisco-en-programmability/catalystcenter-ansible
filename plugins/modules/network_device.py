@@ -10,10 +10,9 @@ module: network_device
 short_description: Resource module for Network Device
 description:
   - Manage operations create, update and delete of the resource Network Device.
-  - Adds the device with given credential. - > This API allows any network device that is not currently provisioned to be
-    removed from the inventory. Important Devices currently provisioned cannot be deleted. To delete a provisioned device,
-    the device must be first deprovisioned. - > Update the credentials, management IP address of a given device or a set of
-    devices in Catalyst Center and trigger an inventory sync.
+  - Adds the device with given credential.
+  - This API allows any network device that is not currently provisioned to be. - > Update the credentials, management IP
+    address of a given device or a set of devices in Catalyst Center and trigger an inventory sync.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -24,7 +23,6 @@ options:
       that were configured during the addition of the device to the inventory and site assignment. Please note that this operation
       is different from deprovisioning. It does not remove configurations that were pushed during device provisioning.
     type: bool
-    version_added: 4.0.0
   cliTransport:
     description: CLI transport. Supported values telnet, ssh. Required if type is NETWORK_DEVICE.
     type: str
@@ -110,7 +108,7 @@ options:
     description: Type of device being added. Default is NETWORK_DEVICE.
     type: str
   updateMgmtIPaddressList:
-    description: Network Device's updateMgmtIPaddressList.
+    description: IPAddress of the device to be mapped to New IPAddress.
     elements: dict
     suboptions:
       existMgmtIpAddress:
@@ -145,7 +143,6 @@ notes:
     post /dna/intent/api/v1/network-device,
     delete /dna/intent/api/v1/network-device/{id},
     put /dna/intent/api/v1/network-device,
-    - Removed 'managementIpAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""

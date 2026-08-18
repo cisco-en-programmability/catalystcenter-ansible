@@ -79,9 +79,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     memberType: string
     offset: 0
-    limit: 0
+    limit: 500
     memberAssociationType: string
-    level: string
+    level: 0
     id: string
   register: result
 """

@@ -10,11 +10,7 @@ module: icap_settings_configuration_models_preview_activity_id_network_device_st
 short_description: Information module for Icap Settings Configuration Models Preview Activity Id Network Device Status Details
 description:
   - Get all Icap Settings Configuration Models Preview Activity Id Network Device Status Details.
-  - Get ICAP configuration status per network device using the activity ID.
-  - The activity ID was returned in property "taskId" of the TaskResponse of the POST.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Get ICAP configuration intent status per network device.
 version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,18 +21,20 @@ options:
     type: dict
   previewActivityId:
     description:
-      - PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
+      - >
+        PreviewActivityId path parameter. Activity ID value from the POST
+        /dna/intent/api/v1/icapSettings/configurationModels task response.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sensors GetICAPConfigurationStatusPerNetworkDevice
-    description: Complete reference of the GetICAPConfigurationStatusPerNetworkDevice API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-icap-configuration-status-per-network-device
+  - name: Cisco Catalyst Center documentation for Sensors GetICAPConfigurationIntentStatusPerNetworkDevice
+    description: Complete reference of the GetICAPConfigurationIntentStatusPerNetworkDevice API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-icap-configuration-intent-status-per-network-device
 notes:
   - SDK Method used are
-    sensors.Sensors.get_i_cap_configuration_status_per_network_device,
+    sensors.Sensors.get_icap_configuration_intent_status_per_network_device,
   - Paths used are
     get /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDeviceStatusDetails,
 """

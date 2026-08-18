@@ -71,7 +71,7 @@ class IcapSettingsConfigurationModelsPreviewActivityIdNetworkDevicesNetworkDevic
         try:
             items = self.catalystcenter.exec(
                 family="sensors",
-                function="retrieves_the_devices_clis_of_the_i_capintent",
+                function="retrieves_the_devices_clis_of_the_icapintent",
                 params={"network_device_id": id},
             )
             if isinstance(items, dict):
@@ -117,7 +117,6 @@ class IcapSettingsConfigurationModelsPreviewActivityIdNetworkDevicesNetworkDevic
             ("previewActivityId", "preview_activity_id"),
             ("networkDeviceId", "network_device_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -129,7 +128,7 @@ class IcapSettingsConfigurationModelsPreviewActivityIdNetworkDevicesNetworkDevic
     def create(self):
         result = self.catalystcenter.exec(
             family="sensors",
-            function="generates_the_devices_clis_of_the_i_cap_configuration_intent",
+            function="generates_the_devices_clis_of_the_icap_configuration_intent",
             params=self.create_params(),
             op_modifies=True,
         )

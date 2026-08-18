@@ -21,8 +21,9 @@ options:
     type: dict
   policyId:
     description:
-      - PolicyId query parameter. The IDs of the compliance policies.The number of policyId(s) must not exceed 25.
-    type: str
+      - PolicyId query parameter. The IDs of the compliance policies.
+    elements: str
+    type: list
   name:
     description:
       - Name query parameter. Filter with policy name. Supports partial case-insensitive search.
@@ -57,9 +58,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    name: string
-    siteId: string
+    policyId: ['e910e834-e35b-4800-9401-a40e22ce09f3', 'a910e834-e35b-4800-9401-a40e22ce09f4']
+    name: DNS
+    siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
   register: result
 """
 RETURN = r"""
@@ -69,21 +70,9 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "count": 0
+      },
       "version": "string"
     }
 """

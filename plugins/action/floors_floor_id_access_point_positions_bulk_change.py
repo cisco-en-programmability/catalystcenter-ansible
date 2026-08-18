@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="site_design",
-            function="edit_the_access_points_positions_v2",
+            function="edit_the_access_points_positions",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

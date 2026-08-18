@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Discovery GetAllGlobalCredentialsV2
-    description: Complete reference of the GetAllGlobalCredentialsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials-v-2
+  - name: Cisco Catalyst Center documentation for Discovery GetAllGlobalCredentials
+    description: Complete reference of the GetAllGlobalCredentials API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials
 notes:
   - SDK Method used are
-    discovery.Discovery.get_all_global_credentials_v2,
+    discovery.Discovery.get_all_global_credentials,
   - Paths used are
     get /dna/intent/api/v2/global-credential,
 """

@@ -17,10 +17,10 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   releaseName:
-    description: ReleaseName query parameter. The releaseName of the downloaded release to be deleted.
+    description: ReleaseName query parameter. The `releaseName` of the downloaded release to be deleted.
     type: str
   releaseVersion:
-    description: ReleaseVersion query parameter. The releaseVersion of the downloaded release to be deleted.
+    description: ReleaseVersion query parameter. The `releaseVersion` of the downloaded release to be deleted.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

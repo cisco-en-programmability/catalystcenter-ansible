@@ -85,8 +85,8 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
     runStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 50
   register: result
 - name: Get Diagnostic Validation Workflows by id
   cisco.catalystcenter.diagnostic_validation_workflows_info:
@@ -108,21 +108,35 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "runStatus": "string",
+        "submitTime": 0,
+        "validationSetIds": [
+          "string"
+        ],
+        "releaseVersion": "string",
+        "validationSetsRunDetails": [
+          {
+            "validationSetId": "string",
+            "startTime": 0,
+            "endTime": 0,
+            "validationStatus": "string",
+            "version": "string",
+            "validationRunDetails": [
+              {
+                "validationId": "string",
+                "validationName": "string",
+                "validationMessage": "string",
+                "validationStatus": "string"
+              }
+            ]
+          }
+        ],
+        "validationStatus": "string"
+      },
       "version": "string"
     }
 """

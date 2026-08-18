@@ -10,8 +10,8 @@ module: wireless_controllers_site_tags_info
 short_description: Information module for Wireless Controllers Site Tags
 description:
   - Get all Wireless Controllers Site Tags.
-  - Get all Site Tags from Wireless Controller.
-version_added: '1.0.0'
+  - Retrieves the site tags in the wireless conntroller by device ID.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)
@@ -29,12 +29,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetAllSiteTagsFromWirelessController
-    description: Complete reference of the GetAllSiteTagsFromWirelessController API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-all-site-tags-from-wireless-controller
+  - name: Cisco Catalyst Center documentation for Wireless GetAllTheSiteTagsInTheWirelessConntrollerByDeviceID
+    description: Complete reference of the GetAllTheSiteTagsInTheWirelessConntrollerByDeviceID API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-the-site-tags-in-the-wireless-conntroller-by-device-id
 notes:
   - SDK Method used are
-    wireless.Wireless.get_all_site_tags_from_wireless_controller,
+    wireless.Wireless.get_all_the_site_tags_in_the_wireless_conntroller_by_device_id,
   - Paths used are
     get /dna/intent/api/v1/wirelessControllers/{deviceId}/siteTags,
 """
@@ -58,13 +58,10 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "siteTagUuid": "string",
-        "siteTagName": "string"
-      }
-    ]
+    {
+      "siteTagUuid": "string",
+      "siteTagName": "string"
+    }
 """

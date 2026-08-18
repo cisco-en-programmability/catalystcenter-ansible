@@ -23,7 +23,7 @@ options:
     type: dict
   id:
     description:
-      - Id query parameter. Id of the field notice.
+      - Id path parameter. Id of the field notice.
     type: str
   deviceCount:
     description:
@@ -89,10 +89,10 @@ EXAMPLES = r"""
     id: string
     deviceCount: 0
     type: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Field Notices Results Notices by id
   cisco.catalystcenter.field_notices_results_notices_info:

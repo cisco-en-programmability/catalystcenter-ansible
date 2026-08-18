@@ -10,7 +10,7 @@ module: sda_extranet_policies_count_info
 short_description: Information module for Sda Extranet Policies Count
 description:
   - Get all Sda Extranet Policies Count.
-  - Returns the count of extranet policies that match the provided query parameters.
+  - Returns the count of extranet policies that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

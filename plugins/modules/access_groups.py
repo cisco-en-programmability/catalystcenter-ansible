@@ -9,8 +9,12 @@ DOCUMENTATION = r"""
 module: access_groups
 short_description: Resource module for Access Groups
 description:
-  - Manage operations create, update and delete of the resource Access Groups.
-  - Add an access group into the system.
+  - Manage operations create, update and delete of the resource Access Groups. - > Add an access group into the system.This
+    API provides the ability to create an access group. An access group is an entity that provides RBAC and site access to
+    users on the system. Each access group is associated with a role and a site. Each role must be based on the permissions
+    returned by the Get permissions v2 API GET /dna/system/api/v2/roles/permissions and must be created using the Add role
+    v2 API POST /dna/system/api/v2/roles. The site details can be obtained from the get sites API GET /dna/intent/api/v1/sites.
+    The full site hierarchy should a / delimited list of site ids.
   - Delete an access group from the system.
   - Update an access group in the system.
 version_added: '2.3.0'
@@ -28,7 +32,7 @@ options:
     description: Name of the access group.
     type: str
   resourceGroups:
-    description: Access Groups's resourceGroups.
+    description: List of sites to be associated with the access group.
     elements: dict
     suboptions:
       name:
@@ -36,11 +40,10 @@ options:
           this access group to.
         type: str
       srcResourceId:
-        description: Id of the resource. This should be the site hierarchy id of the site you wish to scope this access group
-          to. Please refer to the description for more details.
+        description: Id of the resource.
         type: str
       type:
-        description: The type of resource. Currently, the only supported value is "site".
+        description: The type of resource. In the case of Site-based RBAC, this should always be set to "site".
         type: str
     type: list
   role:
@@ -62,9 +65,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-access-group
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_access_group,
-    userand_roles.UserandRoles.delete_access_group,
-    userand_roles.UserandRoles.update_access_group,
+    user_and_roles.UserAndRoles.add_access_group,
+    user_and_roles.UserAndRoles.delete_access_group,
+    user_and_roles.UserAndRoles.update_access_group,
   - Paths used are
     post /dna/system/api/v1/accessGroups,
     delete /dna/system/api/v1/accessGroups/{id},
@@ -73,24 +76,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.access_groups:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    name: string
-    resourceGroups:
-      - name: string
-        srcResourceId: string
-        type: string
-    role:
-      - string
 - name: Delete by id
   cisco.catalystcenter.access_groups:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -120,34 +105,30 @@ EXAMPLES = r"""
         type: string
     role:
       - string
+- name: Create
+  cisco.catalystcenter.access_groups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    name: string
+    resourceGroups:
+      - name: string
+        srcResourceId: string
+        type: string
+    role:
+      - string
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: str
   sample: >
-    {
-      "id": "string",
-      "accessGroupInfo": {
-        "name": "string",
-        "description": "string",
-        "resourceGroups": [
-          {
-            "name": "string",
-            "srcResourceId": "string",
-            "type": "string"
-          }
-        ],
-        "role": [
-          "string"
-        ]
-      },
-      "meta": {
-        "created": "string",
-        "createdBy": "string",
-        "lastModified": "string",
-        "lastModifiedBy": "string"
-      }
-    }
+    "'string'"
 """

@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: system_issue_definitions_count_info
 short_description: Information module for System Issue Definitions Count
 description:
-  - Get all System Issue Definitions Count. - > Get the count of system defined issue definitions based on provided filters.
-    Supported filters are id, name, profileId and definition enable status. For detailed information about the usage of the
-    API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+  - Get all System Issue Definitions Count.
+  - Get the count of system defined issue definitions based on provided filters.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -91,7 +89,7 @@ EXAMPLES = r"""
     id: string
     name: string
     priority: string
-    issueEnabled: true
+    issueEnabled: True
   register: result
 """
 RETURN = r"""

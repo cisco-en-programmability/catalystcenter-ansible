@@ -23,12 +23,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for User and Roles GetRolesAPI
-    description: Complete reference of the GetRolesAPI API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
+  - name: Cisco Catalyst Center documentation for User and Roles GetRolesAPIV1
+    description: Complete reference of the GetRolesAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-roles-api-v-1
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_roles_api,
+    user_and_roles.UserAndRoles.get_roles_api_v1,
   - Paths used are
     get /dna/system/api/v1/roles,
 """

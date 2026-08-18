@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         deviceType=dict(type="str"),
         profileId=dict(type="str"),
-        id=dict(type="str"),
         name=dict(type="str"),
         priority=dict(type="str"),
         issueEnabled=dict(type="bool"),
@@ -80,9 +80,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
+            headers=params.get("headers"),
             device_type=params.get("deviceType"),
             profile_id=params.get("profileId"),
-            id=params.get("id"),
             name=params.get("name"),
             priority=params.get("priority"),
             issue_enabled=params.get("issueEnabled"),
@@ -91,7 +92,6 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            headers=params.get("headers"),
         )
         return new_object
 

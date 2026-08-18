@@ -21,6 +21,10 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Interface ID.
+    type: str
   limit:
     description:
       - >
@@ -39,10 +43,6 @@ options:
     description:
       - VlanId query parameter. Vlan Id.
     type: float
-  id:
-    description:
-      - Id path parameter. Interface ID.
-    type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
@@ -74,8 +74,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     interfaceName: string
     vlanId: 0
   register: result
@@ -99,13 +99,11 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "interfaceName": "string",
-          "vlanId": 0,
-          "id": "string"
-        }
-      ],
+      "response": {
+        "interfaceName": "string",
+        "vlanId": 0,
+        "id": "string"
+      },
       "version": "string"
     }
 """

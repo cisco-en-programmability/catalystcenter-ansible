@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: discovery_summary_info
 short_description: Information module for Discovery Summary
 description:
-  - Get all Discovery Summary. - > Returns the devices discovered in the given discovery based on given filters. Discovery
-    ID can be obtained using the "Get Discoveries by range" API.
+  - Get all Discovery Summary. - > Returns the devices discovered in the given discovery based on given filters. Deprecated
+    since Catalyst Center Release 3.2.1.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

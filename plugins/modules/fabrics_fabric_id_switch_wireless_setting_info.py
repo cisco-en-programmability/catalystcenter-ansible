@@ -23,8 +23,7 @@ options:
     description:
       - >
         FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The
-        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example
-        e290f1ee-6c54-4b01-90e6-d701748f0851.
+        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2
@@ -52,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    fabricId: string
+    fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
   register: result
 """
 RETURN = r"""
@@ -62,16 +61,13 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "enableWireless": true,
-          "rollingApUpgrade": {
-            "enableRollingApUpgrade": true,
-            "apRebootPercentage": 0
-          }
-        }
-      ],
-      "version": "string"
+      "id": "string",
+      "deviceRoles": "string",
+      "rollingApUpgrade": {
+        "enableRollingApUpgrade": true,
+        "apRebootPercentage": 0
+      },
+      "lscProfileName": "string",
+      "lscPercentage": 0
     }
 """

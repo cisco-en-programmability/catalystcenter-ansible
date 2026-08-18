@@ -45,7 +45,7 @@ options:
         NativeVlanId query parameter. Native VLAN of the port assignment, this option is only applicable to
         TRUNKING_DEVICE connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when
         connectedDeviceType is TRUNKING_DEVICE, default value will be '1').
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -88,8 +88,8 @@ EXAMPLES = r"""
     dataVlanName: string
     voiceVlanName: string
     nativeVlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -102,8 +102,17 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "siteId": "string",
-          "networkDeviceId": "string"
+          "fabricId": "string",
+          "networkDeviceId": "string",
+          "interfaceName": "string",
+          "connectedDeviceType": "string",
+          "dataVlanName": "string",
+          "voiceVlanName": "string",
+          "authenticateTemplateName": "string",
+          "securityGroupName": "string",
+          "interfaceDescription": "string",
+          "nativeVlanId": 0,
+          "allowedVlanRanges": "string"
         }
       ],
       "version": "string"

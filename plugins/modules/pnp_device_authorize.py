@@ -17,7 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   deviceIdList:
-    description: Device Id List.
+    description: Pnp Device Authorize's deviceIdList.
     elements: str
     type: list
 requirements:

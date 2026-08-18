@@ -12,7 +12,7 @@ description:
   - Get all Site Wise Images Summary. - > Returns aggregate counts of network device product names, golden and non-golden
     tagged products, imported images, golden images tagged, and advisor for a specific site provide, the default value of
     `siteId` is set to global.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

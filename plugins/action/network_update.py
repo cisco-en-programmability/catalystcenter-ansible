@@ -87,7 +87,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="network_settings",
-            function="update_network",
+            function="update_network_v1",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

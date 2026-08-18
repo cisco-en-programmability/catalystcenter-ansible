@@ -42,9 +42,19 @@ options:
   trendInterval:
     description:
       - >
-        TrendInterval query parameter. The time interval to aggregate the metrics. Recommendation |Time duration
-        |Recommended `trendInterval`| |--------------|---------------------------| |Up to 6 hr | `5MIN` | |6 hr
-        to 2 days| `1HR` | |More than 2 days| `3HR` |.
+        TrendInterval query parameter. The time interval to aggregate the metrics. Available values 5MIN, 30MIN,
+        1HR, 3HR Recommendation |Time duration |Recommended `trendInterval`|
+        |--------------|---------------------------| |Up to 6 hr | `5MIN` | |6 hr to 2 days| `1HR` | |More than
+        2 days| `3HR` |.
+    type: str
+  attribute:
+    description:
+      - >
+        Attribute query parameter. List of attributes related to resource that can be requested to only be part
+        of the response. Supported attributes are failurePercentage, averagePacketLoss, latestPacketLoss,
+        maxPacketLoss, averageJitter, latestJitter, maxJitter, averageLatency, latestLatency, maxLatency
+        Examples attribute=failurePercentage (single attribute requested)
+        attribute=failurePercentage&attribute=maxLatency (multiple attribute requested).
     type: str
   testId:
     description:
@@ -121,13 +131,14 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
     trendInterval: string
+    attribute: string
     testId: string
     testName: string
     testType: string
     agentId: string
     networkDeviceName: string
-    limit: 0
-    offset: 0
+    limit: 100
+    offset: 1
     order: string
   register: result
 """

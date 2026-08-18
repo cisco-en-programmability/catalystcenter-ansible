@@ -77,7 +77,7 @@ EXAMPLES = r"""
     name: string
     protocol: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result
@@ -99,21 +99,12 @@ catalystcenter_response:
         {
           "version": "string",
           "tenantId": "string",
-          "webhookId": "string",
+          "configId": "string",
           "name": "string",
           "description": "string",
-          "url": "string",
-          "method": "string",
-          "trustCert": true,
-          "headers": [
-            {
-              "name": "string",
-              "value": "string",
-              "defaultValue": "string",
-              "encrypt": true
-            }
-          ],
-          "isProxyRoute": true
+          "host": "string",
+          "port": 0,
+          "protocol": "string"
         }
       ]
     }

@@ -26,7 +26,8 @@ options:
     description: Id path parameter. AP Authorization List ID.
     type: str
   localAuthorization:
-    description: Wireless Settings Ap Authorization Lists's localAuthorization.
+    description: Local Authorization for Access Point(s) happens through MAC address, Serial Number or both against local
+      database.
     suboptions:
       apMacEntries:
         description: List of Access Point's Ethernet MAC addresses. Allowed formats are 0a0b.0c01.0211, 0a0b0c010211, 0a 0b
@@ -39,20 +40,19 @@ options:
         type: list
     type: dict
   remoteAuthorization:
-    description: Wireless Settings Ap Authorization Lists's remoteAuthorization.
+    description: For AAA Authorization, specify the list of AAA Servers for authorization. - Fallback to local machanism happens
+      if Access Point(s) cannot be authorized by the specified list of AAA Servers.
     suboptions:
       aaaServers:
-        description:
-          - List of Authorization server IpAddresses.
-          - Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
+        description: List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
         elements: str
         type: list
       authorizeApWithMac:
-        description: true if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access
+        description: True if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access
           Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
         type: bool
       authorizeApWithSerialNumber:
-        description: true if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers,
+        description: True if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers,
           else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to
           be set to true).
         type: bool
@@ -104,17 +104,6 @@ EXAMPLES = r"""
         - string
       authorizeApWithMac: true
       authorizeApWithSerialNumber: true
-- name: Delete by id
-  cisco.catalystcenter.wireless_settings_ap_authorization_lists:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.wireless_settings_ap_authorization_lists:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -137,6 +126,17 @@ EXAMPLES = r"""
         - string
       authorizeApWithMac: true
       authorizeApWithSerialNumber: true
+- name: Delete by id
+  cisco.catalystcenter.wireless_settings_ap_authorization_lists:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 """
 RETURN = r"""
 catalystcenter_response:

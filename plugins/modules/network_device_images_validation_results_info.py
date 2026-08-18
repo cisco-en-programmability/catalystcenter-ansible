@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_images_validation_results_info
 short_description: Information module for Network Device Images Validation Results
 description:
-  - Get all Network Device Images Validation Results. - > This API provides a comprehensive overview of the outcomes from
-    various tests and assessments defined by system and custom validations related to network device images. These results
-    are essential for identifying potential issues, verifying configurations, and ensuring that the network meets the requirement
-    for image update.
+  - Get all Network Device Images Validation Results.
+  - This API provides a comprehensive overview of the outcomes from various tests.
 version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -97,9 +95,9 @@ EXAMPLES = r"""
     status: string
     type: string
     sortBy: string
-    order: string
-    limit: 0
-    offset: 0
+    order: asc
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""

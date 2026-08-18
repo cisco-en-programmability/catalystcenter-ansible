@@ -33,7 +33,7 @@ argument_spec.update(
         interfaceName=dict(type="str"),
         dataVlanName=dict(type="str"),
         voiceVlanName=dict(type="str"),
-        nativeVlanId=dict(type="float"),
+        nativeVlanId=dict(type="int"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),

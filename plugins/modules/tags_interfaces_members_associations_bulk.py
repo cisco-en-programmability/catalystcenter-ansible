@@ -12,20 +12,20 @@ description:
   - Manage operation update of the resource Tags Interfaces Members Associations Bulk. - > Updates the tags associated with
     the interfaces. A tag is a user-defined or system-defined construct to group resources. When an interface is tagged, it
     is called a member of the tag. A tag can be created by using this POST `/dna/intent/api/v1/tag` API.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Tags Interfaces Members Associations Bulk's payload.
+    description: Request body minItems 1 maxItems 500.
     elements: dict
     suboptions:
       id:
         description: Interface id.
         type: str
       tags:
-        description: Tags Interfaces Members Associations Bulk's tags.
+        description: List of associated tags minItems 0 maxItems 500.
         elements: dict
         suboptions:
           id:

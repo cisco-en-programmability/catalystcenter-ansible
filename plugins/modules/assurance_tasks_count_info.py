@@ -10,8 +10,8 @@ module: assurance_tasks_count_info
 short_description: Information module for Assurance Tasks Count
 description:
   - Get all Assurance Tasks Count.
-  - returns a count of the number of assurance tasks that are not expired.
-version_added: '1.0.0'
+  - returns a count of the number of assurance tasks that are not expired For.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

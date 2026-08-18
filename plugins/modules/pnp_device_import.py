@@ -21,113 +21,113 @@ options:
     elements: dict
     suboptions:
       _id:
-        description: Id.
+        description: Pnp Device Import's _id.
         type: str
       deviceInfo:
         description: Pnp Device Import's deviceInfo.
         suboptions:
           description:
-            description: Description.
+            description: Pnp Device Import's description.
             type: str
           deviceSudiSerialNos:
-            description: Device Sudi Serial Nos.
+            description: Pnp Device Import's deviceSudiSerialNos.
             elements: str
             type: list
           hostname:
-            description: Hostname.
+            description: Pnp Device Import's hostname.
             type: str
           macAddress:
-            description: Mac Address.
+            description: Pnp Device Import's macAddress.
             type: str
           pid:
-            description: Pid.
+            description: Pnp Device Import's pid.
             type: str
           serialNumber:
-            description: Serial Number.
+            description: Pnp Device Import's serialNumber.
             type: str
           siteId:
-            description: Site Id.
+            description: Pnp Device Import's siteId.
             type: str
           stack:
-            description: Stack.
+            description: Stack flag.
             type: bool
           stackInfo:
             description: Pnp Device Import's stackInfo.
             suboptions:
               isFullRing:
-                description: Is Full Ring.
+                description: IsFullRing flag.
                 type: bool
               stackMemberList:
                 description: Pnp Device Import's stackMemberList.
                 elements: dict
                 suboptions:
                   hardwareVersion:
-                    description: Hardware Version.
+                    description: Pnp Device Import's hardwareVersion.
                     type: str
                   licenseLevel:
-                    description: License Level.
+                    description: Pnp Device Import's licenseLevel.
                     type: str
                   licenseType:
-                    description: License Type.
+                    description: Pnp Device Import's licenseType.
                     type: str
                   macAddress:
-                    description: Mac Address.
+                    description: Pnp Device Import's macAddress.
                     type: str
                   pid:
-                    description: Pid.
+                    description: Pnp Device Import's pid.
                     type: str
                   priority:
-                    description: Priority.
+                    description: Pnp Device Import's priority.
                     type: float
                   role:
-                    description: Role.
+                    description: Pnp Device Import's role.
                     type: str
                   serialNumber:
-                    description: Serial Number.
+                    description: Pnp Device Import's serialNumber.
                     type: str
                   softwareVersion:
-                    description: Software Version.
+                    description: Pnp Device Import's softwareVersion.
                     type: str
                   stackNumber:
-                    description: Stack Number.
+                    description: Pnp Device Import's stackNumber.
                     type: float
                   state:
-                    description: State.
+                    description: Pnp Device Import's state.
                     type: str
                   sudiSerialNumber:
-                    description: Sudi Serial Number.
+                    description: Pnp Device Import's sudiSerialNumber.
                     type: str
                 type: list
               stackRingProtocol:
-                description: Stack Ring Protocol.
+                description: Pnp Device Import's stackRingProtocol.
                 type: str
               supportsStackWorkflows:
-                description: Supports Stack Workflows.
+                description: SupportsStackWorkflows flag.
                 type: bool
               totalMemberCount:
-                description: Total Member Count.
+                description: Pnp Device Import's totalMemberCount.
                 type: float
               validLicenseLevels:
-                description: Valid License Levels.
+                description: Pnp Device Import's validLicenseLevels.
                 elements: str
                 type: list
             type: dict
           sudiRequired:
-            description: Is Sudi Required.
+            description: SudiRequired flag.
             type: bool
           userMicNumbers:
-            description: User Mic Numbers.
+            description: Pnp Device Import's userMicNumbers.
             elements: str
             type: list
           userSudiSerialNos:
-            description: User Sudi Serial Nos.
+            description: Pnp Device Import's userSudiSerialNos.
             elements: str
             type: list
           workflowId:
-            description: Workflow Id.
+            description: Pnp Device Import's workflowId.
             type: str
           workflowName:
-            description: Workflow Name.
+            description: Pnp Device Import's workflowName.
             type: str
         type: dict
     type: list

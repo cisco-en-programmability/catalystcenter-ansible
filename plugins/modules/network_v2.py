@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: network_v2
 short_description: Resource module for Network V2
 description:
-  - Manage operations create and update of the resource Network V2. - > API to create network settings for DHCP, Syslog, SNMP,
-    NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings. - > API to update network settings for DHCP,
-    Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
+  - Manage operations create and update of the resource Network V2.
+  - API to create network settings for DHCP, Syslog, SNMP, NTP, Network AAA,.
+  - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA,.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -44,7 +44,7 @@ options:
         elements: str
         type: list
       dnsServer:
-        description: Network V2's dnsServer.
+        description: DNS Server detail.
         suboptions:
           domainName:
             description: Domain Name of DHCP (eg; cisco).
@@ -57,7 +57,7 @@ options:
             type: str
         type: dict
       messageOfTheday:
-        description: Network V2's messageOfTheday.
+        description: Message of the detail.
         suboptions:
           bannerMessage:
             description: Massage for Banner message (eg; Good day).
@@ -67,7 +67,7 @@ options:
             type: str
         type: dict
       netflowcollector:
-        description: Network V2's netflowcollector.
+        description: NetFlow Collector details.
         suboptions:
           ipAddress:
             description: IP Address for NetFlow collector (eg 3.3.3.1).
@@ -77,7 +77,7 @@ options:
             type: float
         type: dict
       network_aaa:
-        description: Network V2's network_aaa.
+        description: AAA Network Settings detail.
         suboptions:
           ipAddress:
             description: IP address for AAA and ISE server (eg 1.1.1.1).
@@ -100,10 +100,10 @@ options:
         elements: str
         type: list
       snmpServer:
-        description: Network V2's snmpServer.
+        description: Snmp Server details.
         suboptions:
           configureDnacIP:
-            description: Configuration Catalyst Center IP for SNMP Server (eg true).
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -111,10 +111,10 @@ options:
             type: list
         type: dict
       syslogServer:
-        description: Network V2's syslogServer.
+        description: Syslog Server detail.
         suboptions:
           configureDnacIP:
-            description: Configuration Catalyst Center IP for syslog server (eg true).
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for syslog server (eg 4.4.4.4).
@@ -132,16 +132,16 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings CreateNetworkV2
-    description: Complete reference of the CreateNetworkV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
-  - name: Cisco Catalyst Center documentation for Network Settings UpdateNetworkV2
-    description: Complete reference of the UpdateNetworkV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings CreateNetwork
+    description: Complete reference of the CreateNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-network
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateNetwork
+    description: Complete reference of the UpdateNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_network_v2,
-    network_settings.NetworkSettings.update_network_v2,
+    network_settings.NetworkSettings.create_network,
+    network_settings.NetworkSettings.update_network,
   - Paths used are
     post /dna/intent/api/v2/network/{siteId},
     put /dna/intent/api/v2/network/{siteId},

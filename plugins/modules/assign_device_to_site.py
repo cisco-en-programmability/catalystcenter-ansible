@@ -17,7 +17,7 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   device:
-    description: Assign Device To Site's device.
+    description: Device IP array.
     elements: dict
     suboptions:
       ip:
@@ -59,7 +59,7 @@ EXAMPLES = r"""
     device:
       - ip: string
     headers: '{{my_headers | from_json}}'
-    siteId: string
+    siteId: application/json
 """
 RETURN = r"""
 catalystcenter_response:

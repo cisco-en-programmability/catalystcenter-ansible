@@ -34,10 +34,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain,
+    fabric_wireless.FabricWireless.add_wlc_to_fabric_domain,
   - Paths used are
     post /dna/intent/api/v1/business/sda/wireless-controller,
-    - Removed 'deviceIPAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""

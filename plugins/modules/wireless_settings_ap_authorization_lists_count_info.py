@@ -11,7 +11,7 @@ short_description: Information module for Wireless Settings Ap Authorization Lis
 description:
   - Get all Wireless Settings Ap Authorization Lists Count.
   - This API allows the user to get count of all AP Authorization lists.
-version_added: '1.0.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
 author: Bryan Vargas (@bvargasre)

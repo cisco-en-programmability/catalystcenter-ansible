@@ -88,62 +88,65 @@ EXAMPLES = r"""
     apModel: string
     meshRole: string
     provisioned: string
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "adminStatus": "string",
-      "apHeight": 0,
-      "apMode": "string",
-      "apName": "string",
-      "ethMac": "string",
-      "failoverPriority": "string",
-      "ledBrightnessLevel": 0,
-      "ledStatus": "string",
-      "location": "string",
-      "macAddress": "string",
-      "primaryControllerName": "string",
-      "primaryIpAddress": "string",
-      "secondaryControllerName": "string",
-      "secondaryIpAddress": "string",
-      "tertiaryControllerName": "string",
-      "tertiaryIpAddress": "string",
-      "meshDTOs": [
-        "string"
-      ],
-      "model": "string",
-      "wlcIpAddress": "string",
-      "reachabilityStatus": "string",
-      "managementIpAddress": "string",
-      "provisioningStatus": "string",
-      "radioDTOs": [
-        {
-          "ifType": 0,
-          "ifTypeValue": "string",
-          "slotId": 0,
-          "macAddress": "string",
-          "adminStatus": "string",
-          "powerAssignmentMode": "string",
-          "powerlevel": 0,
-          "channelAssignmentMode": "string",
-          "channelNumber": 0,
-          "channelWidth": "string",
-          "antennaPatternName": "string",
-          "antennaAngle": 0,
-          "antennaElevAngle": 0,
-          "antennaGain": 0,
-          "radioRoleAssignment": {},
-          "radioBand": {},
-          "cleanAirSI": "string",
-          "dualRadioMode": "string"
-        }
-      ]
-    }
+    [
+      {
+        "adminStatus": "string",
+        "apHeight": 0,
+        "apMode": "string",
+        "apName": "string",
+        "ethMac": "string",
+        "failoverPriority": "string",
+        "ledBrightnessLevel": 0,
+        "ledStatus": "string",
+        "location": "string",
+        "macAddress": "string",
+        "primaryControllerName": "string",
+        "primaryIpAddress": "string",
+        "secondaryControllerName": "string",
+        "secondaryIpAddress": "string",
+        "tertiaryControllerName": "string",
+        "tertiaryIpAddress": "string",
+        "meshDTOs": [
+          "string"
+        ],
+        "model": "string",
+        "wlcIpAddress": "string",
+        "reachabilityStatus": "string",
+        "managementIpAddress": "string",
+        "provisioningStatus": "string",
+        "radioDTOs": [
+          {
+            "ifType": 0,
+            "ifTypeValue": "string",
+            "slotId": 0,
+            "macAddress": "string",
+            "adminStatus": "string",
+            "powerAssignmentMode": "string",
+            "powerlevel": 0,
+            "channelAssignmentMode": "string",
+            "channelNumber": 0,
+            "channelWidth": "string",
+            "antennaPatternName": "string",
+            "antennaAngle": 0,
+            "antennaElevAngle": 0,
+            "antennaGain": 0,
+            "radioRoleAssignment": {},
+            "radioBand": {},
+            "cleanAirSI": "string",
+            "dualRadioMode": "string"
+          }
+        ]
+      }
+    ]
 """

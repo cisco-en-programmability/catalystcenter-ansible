@@ -101,9 +101,7 @@ catalystcenter_response:
       "maintenanceMode": true,
       "interference": "string",
       "softwareVersion": "string",
-      "tagIdList": [
-        "string"
-      ],
+      "tagIdList": [],
       "powerType": "string",
       "overallHealth": 0,
       "managementIpAddr": "string",

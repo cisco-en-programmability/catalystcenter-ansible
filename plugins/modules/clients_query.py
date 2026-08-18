@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: clients_query
 short_description: Resource module for Clients Query
 description:
-  - Manage operation create of the resource Clients Query. - > Retrieves the list of clients by applying complex filters while
-    also supporting aggregate attributes. For detailed information about the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Query.
+  - Retrieves the list of clients by applying complex filters while also.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,31 +21,31 @@ options:
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Clients Query's function.
         type: str
       name:
-        description: Name.
+        description: Clients Query's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Clients Query's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Clients Query's endTime.
     type: int
   filters:
     description: Clients Query's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Clients Query's key.
         type: str
       operator:
-        description: Operator.
+        description: Clients Query's operator.
         type: str
       value:
-        description: Value.
+        description: Clients Query's value.
         type: int
     type: list
   headers:
@@ -57,28 +55,28 @@ options:
     description: Clients Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Clients Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Clients Query's offset.
         type: int
       sortBy:
         description: Clients Query's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Clients Query's name.
             type: str
           order:
-            description: Order.
+            description: Clients Query's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Clients Query's startTime.
     type: int
   views:
-    description: Views.
+    description: Clients Query's views.
     elements: str
     type: list
 requirements:

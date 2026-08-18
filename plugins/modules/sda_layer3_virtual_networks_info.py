@@ -10,7 +10,7 @@ module: sda_layer3_virtual_networks_info
 short_description: Information module for Sda Layer3 Virtual Networks
 description:
   - Get all Sda Layer3 Virtual Networks.
-  - Returns a list of layer 3 virtual networks that match the provided query parameters.
+  - Returns a list of layer 3 virtual networks that match the provided query.
 version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -70,8 +70,8 @@ EXAMPLES = r"""
     virtualNetworkName: string
     fabricId: string
     anchoredSiteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

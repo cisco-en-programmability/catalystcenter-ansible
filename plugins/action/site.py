@@ -78,7 +78,7 @@ class Site(object):
         try:
             items = self.catalystcenter.exec(
                 family="sites",
-                function="get_site",
+                function="get_site_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -124,7 +124,6 @@ class Site(object):
             ("type", "type"),
             ("site", "site"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(

@@ -90,8 +90,8 @@ EXAMPLES = r"""
     productId: string
     recommended: string
     assigned: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     imageId: string
   register: result
 """
@@ -102,10 +102,20 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
+      "response": [
+        {
+          "id": "string",
+          "productName": "string",
+          "productNameOrdinal": 0,
+          "productIds": [
+            "string"
+          ],
+          "siteIds": [
+            "string"
+          ],
+          "recommended": "string"
+        }
+      ],
       "version": "string"
     }
 """
