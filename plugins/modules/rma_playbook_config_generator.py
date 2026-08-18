@@ -537,7 +537,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             transformation functions, and source key references for device replacement workflows.
         """
         self.log(
-            "Building specification for device replacement " "workflow transformation",
+            "Building specification for device replacement workflow transformation",
             "DEBUG",
         )
 
@@ -950,7 +950,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             self.log(
-                "No faulty device serial number found in workflow " "configuration",
+                "No faulty device serial number found in workflow configuration",
                 "DEBUG",
             )
             return None
@@ -1618,7 +1618,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         start_time = time.time()
         self.log(
-            "Starting YAML playbook generation workflow for " "RMA configurations",
+            "Starting YAML playbook generation workflow for RMA configurations",
             "INFO",
         )
         # Define workflow operations

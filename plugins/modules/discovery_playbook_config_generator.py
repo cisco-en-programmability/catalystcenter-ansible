@@ -576,7 +576,7 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # Extract response data
             if response is None:
                 self.log(
-                    "V1 API returned None response, " "attempting v2 fallback",
+                    "V1 API returned None response, attempting v2 fallback",
                     "WARNING",
                 )
                 # Jump directly to v2 fallback

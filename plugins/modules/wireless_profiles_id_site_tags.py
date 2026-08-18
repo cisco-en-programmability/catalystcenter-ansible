@@ -37,7 +37,7 @@ options:
     description: "Configure a `load` factor for this Site Tag. - The load factor is defined on a scale of 0 to 1000. As a
       starting point, you can set the load factor to match the number of APs, with adjustments made for any unusual or exceptional
       client loads. - This feature is supported in IOS-XE versions 17.9.3 and above. - The default `load` value is null. Leaving
-      it as `null` does not reset the controller’s existing value; any previously configured `load` value remains unchanged
+      it as `null` does not reset the controller's existing value; any previously configured `load` value remains unchanged
       on the controller. - All APs on controller must disconnect and reconnect for load balancing to take effect. - Examples
       - Custom Load - `load` is set to 10. - After provisioning, the `load` value (10) is pushed to the controller for the
       Site Tag. - Out Of Band (OOB) Load - For a Site Tag, `load` is configured as 10 directly on controller (Out-Of-Band).

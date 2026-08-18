@@ -22,10 +22,6 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     CatalystCenterSDK,
     catalystcenter_argument_spec,
     catalystcenter_compare_equality,
-    get_dict_result,
-)
-from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
 )
 
 # Get common arguments specification

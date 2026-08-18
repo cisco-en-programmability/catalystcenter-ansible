@@ -2001,7 +2001,7 @@ class UserandRole(CatalystCenterBase):
                 ag_exists, current_ag_config = self.get_access_group_by_name(ag_name)
             else:
                 self.log(
-                    "Version < 3.1.6.0, skipping " "access group lookup.",
+                    "Version < 3.1.6.0, skipping access group lookup.",
                     "DEBUG",
                 )
                 ag_exists = False
@@ -2215,7 +2215,7 @@ class UserandRole(CatalystCenterBase):
             version_check = self.check_access_group_version_support()
             if version_check is not None:
                 self.log(
-                    "Access group version " "check failed",
+                    "Access group version check failed",
                     "ERROR",
                 )
                 return version_check
@@ -2303,7 +2303,7 @@ class UserandRole(CatalystCenterBase):
             else:
                 # Create the access group
                 self.log(
-                    "Access group does " "not exist, proceeding with create.",
+                    "Access group does not exist, proceeding with create.",
                     "DEBUG",
                 )
                 self.valid_access_group_config_parameters(
@@ -2324,7 +2324,7 @@ class UserandRole(CatalystCenterBase):
                 )
                 if resource_group is None:
                     self.log(
-                        "Failed to resolve " "site hierarchy, returning.",
+                        "Failed to resolve site hierarchy, returning.",
                         "ERROR",
                     )
                     return self
@@ -5401,7 +5401,7 @@ class UserandRole(CatalystCenterBase):
 
         if not name:
             error_messages.append(
-                "name: The 'name' field is required for " "access group operations."
+                "name: The 'name' field is required for access group operations."
             )
         else:
             name_regex = re.compile(r"^[a-zA-Z0-9._\- ]{3,25}$")
@@ -5418,12 +5418,12 @@ class UserandRole(CatalystCenterBase):
             site_hierarchy = ag_config.get("site_hierarchy")
             if not site_hierarchy:
                 error_messages.append(
-                    "site_hierarchy: Required when creating " "a new access group."
+                    "site_hierarchy: Required when creating a new access group."
                 )
             role_name = ag_config.get("role_name")
             if not role_name:
                 error_messages.append(
-                    "role_name: Required when creating a " "new access group."
+                    "role_name: Required when creating a new access group."
                 )
 
         if error_messages:
@@ -5477,7 +5477,7 @@ class UserandRole(CatalystCenterBase):
                 update_payload["description"] = desired_desc
                 update_required = True
                 self.log(
-                    "access_group_requires_update: " "Description update required.",
+                    "access_group_requires_update: Description update required.",
                     "DEBUG",
                 )
 
@@ -5512,7 +5512,7 @@ class UserandRole(CatalystCenterBase):
                 update_payload["resourceGroups"] = [resource_group]
                 update_required = True
                 self.log(
-                    "access_group_requires_update: " "Site hierarchy update required.",
+                    "access_group_requires_update: Site hierarchy update required.",
                     "DEBUG",
                 )
 
@@ -5554,7 +5554,7 @@ class UserandRole(CatalystCenterBase):
                 update_payload["role"] = [role_id]
                 update_required = True
                 self.log(
-                    "access_group_requires_update: " "Role update required.",
+                    "access_group_requires_update: Role update required.",
                     "DEBUG",
                 )
 
