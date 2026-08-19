@@ -940,6 +940,16 @@
       ansible.builtin.set_fact:
         switch_refresh_hostname_finalizer_inner_tasks: >-
           {{ switch_refresh_hostname_finalizer_block.block }}
+        switch_refresh_hostname_serial_initializer: >-
+          {{
+            switch_refresh_hostname_finalizer_block.block |
+            selectattr(
+              'name',
+              'equalto',
+              'Derive hostname finalization inventory lookup values'
+            ) |
+            first
+          }}
         switch_refresh_hostname_manager_calls: >-
           {{
             switch_refresh_hostname_finalizer_block.block |
@@ -977,6 +987,17 @@
           - switch_refresh_hostname_manager_calls | length == 1
           - switch_refresh_hostname_async_status_calls | length == 1
           - switch_refresh_hostname_wait_tasks | length == 1
+          - >-
+            (
+              switch_refresh_hostname_serial_initializer[
+                'ansible.builtin.set_fact'
+              ].switch_refresh_hostname_old_serial_numbers |
+              type_debug
+            ) == 'list'
+          - >-
+            switch_refresh_hostname_serial_initializer[
+              'ansible.builtin.set_fact'
+            ].switch_refresh_hostname_old_serial_numbers | length == 0
           - >-
             switch_refresh_hostname_manager_calls[0][
               'cisco.catalystcenter.lan_automation_workflow_manager'

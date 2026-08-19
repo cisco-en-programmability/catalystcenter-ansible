@@ -171,8 +171,7 @@
             map('string') |
             list
           }}
-        switch_refresh_hostname_old_serial_numbers: >-
-          []
+        switch_refresh_hostname_old_serial_numbers: []
         switch_refresh_hostname_old_device_uuids: >-
           {{
             switch_refresh_hostname_finalize_entries |
