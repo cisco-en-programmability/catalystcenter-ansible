@@ -1152,6 +1152,76 @@
                       - deviceRoles:
                           - EDGE_NODE
 
+    - name: Validate replacement response with arbitrary informational strings
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_fabric_membership_result.yml
+      vars:
+        switch_refresh_fabric_validation_request:
+          site: Global/Test/Fabric
+          expected_ips:
+            - "192.0.2.20"
+            - "192.0.2.21"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: generic-informational-response-offline-test
+        switch_refresh_fabric_validation_raw_result:
+          status: "  SUCCESS  "
+          response:
+            - Controller informational prelude with no stable wording.
+            - - fabric_info:
+                  - device_ip: "192.0.2.20"
+                    fabric_details:
+                      - deviceRoles:
+                          - EDGE_NODE
+                  - device_ip: "192.0.2.21"
+                    fabric_details:
+                      - deviceRoles:
+                          - EDGE_NODE
+            - Additional informational detail after the data payload.
+
+    - name: Verify generic informational response normalization
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_fabric_validation_entries | length == 2
+          - >-
+            switch_refresh_fabric_validation_structured_fragment_count |
+            int == 1
+
+    - name: Reject an unsuccessful fabric result envelope
+      block:
+        - name: Validate unsuccessful fabric result envelope
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: unsuccessful-envelope-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              status: failed
+              response:
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+
+        - name: Fail when unsuccessful fabric result was accepted
+          ansible.builtin.fail:
+            msg: Unsuccessful fabric result envelope unexpectedly passed.
+      rescue:
+        - name: Verify unsuccessful fabric result failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate fabric membership evaluator inputs'
+
     - name: Reject partial replacement EDGE_NODE fixture coverage
       block:
         - name: Validate partial replacement EDGE_NODE coverage
@@ -1215,7 +1285,7 @@
                         fabric_details:
                           - deviceRoles:
                               - EDGE_NODE
-                - unexpected-extra-fragment
+                - - unexpected_fragment: []
 
         - name: Fail when malformed extra fabric fragment was accepted
           ansible.builtin.fail:
@@ -1230,6 +1300,111 @@
               - >-
                 'malformed or unexpected response fragment' in
                 (ansible_failed_result | string)
+
+    - name: Reject informational strings without structured payload
+      block:
+        - name: Validate informational-only fabric response
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: informational-only-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              response:
+                - Controller returned only informational text.
+
+        - name: Fail when informational-only fabric response was accepted
+          ansible.builtin.fail:
+            msg: Informational-only fabric response unexpectedly passed.
+      rescue:
+        - name: Verify informational-only fabric response failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Require canonical present fabric membership payload'
+              - >-
+                'exactly one structured fabric_info payload' in
+                (ansible_failed_result | string)
+
+    - name: Reject the absence sentinel in a present response
+      block:
+        - name: Validate present response containing the absence sentinel
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: present-absence-sentinel-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              response:
+                - No fabric devices found for the given filters.
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+
+        - name: Fail when presence accepted the absence sentinel
+          ansible.builtin.fail:
+            msg: Present fabric response accepted the absence sentinel.
+      rescue:
+        - name: Verify present-response absence sentinel failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate fabric membership response fragments'
+
+    - name: Reject duplicate structured fabric payloads
+      block:
+        - name: Validate fabric response with duplicate structured payloads
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+                - "192.0.2.21"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: duplicate-structured-payload-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              response:
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+                - - fabric_info:
+                      - device_ip: "192.0.2.21"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+
+        - name: Fail when duplicate structured fabric payloads were accepted
+          ansible.builtin.fail:
+            msg: Duplicate structured fabric payloads unexpectedly passed.
+      rescue:
+        - name: Verify duplicate structured fabric payloads failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Require canonical present fabric membership payload'
 
     - name: Validate query-filtered fabric record without explicit role check
       ansible.builtin.include_tasks: >-

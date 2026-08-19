@@ -41,6 +41,16 @@
           default(false) |
           bool
         )
+      - >-
+        switch_refresh_fabric_validation_raw_result.status is not defined or
+        (
+          (
+            switch_refresh_fabric_validation_raw_result.status | type_debug
+          ) == 'str' and
+          switch_refresh_fabric_validation_raw_result.status |
+          trim |
+          lower == 'success'
+        )
       - switch_refresh_fabric_validation_raw_result.response is defined
       - >-
         (switch_refresh_fabric_validation_raw_result.response | type_debug) ==
@@ -60,6 +70,7 @@
 - name: Initialize normalized fabric membership entries
   ansible.builtin.set_fact:
     switch_refresh_fabric_validation_entries: []
+    switch_refresh_fabric_validation_structured_fragment_count: 0
 
 - name: Validate fabric membership response fragments
   ansible.builtin.assert:
@@ -74,13 +85,22 @@
         (
           switch_refresh_fabric_validation_request.expected_state | string ==
           'present' and
-          (switch_refresh_fabric_response_item | type_debug) == 'list' and
-          switch_refresh_fabric_response_item | length > 0 and
-          switch_refresh_fabric_response_item[0] is mapping and
-          switch_refresh_fabric_response_item[0].fabric_info is defined and
           (
-            switch_refresh_fabric_response_item[0].fabric_info | type_debug
-          ) == 'list'
+            (
+              (switch_refresh_fabric_response_item | type_debug) == 'str' and
+              switch_refresh_fabric_response_item !=
+              'No fabric devices found for the given filters.'
+            ) or
+            (
+              (switch_refresh_fabric_response_item | type_debug) == 'list' and
+              switch_refresh_fabric_response_item | length == 1 and
+              switch_refresh_fabric_response_item[0] is mapping and
+              switch_refresh_fabric_response_item[0].fabric_info is defined and
+              (
+                switch_refresh_fabric_response_item[0].fabric_info | type_debug
+              ) == 'list'
+            )
+          )
         )
     fail_msg: >-
       Fabric membership validation received a malformed or unexpected response
@@ -97,18 +117,32 @@
         switch_refresh_fabric_validation_entries +
         switch_refresh_fabric_response_item[0].fabric_info
       }}
+    switch_refresh_fabric_validation_structured_fragment_count: >-
+      {{ switch_refresh_fabric_validation_structured_fragment_count | int + 1 }}
   loop: "{{ switch_refresh_fabric_validation_raw_result.response }}"
   loop_control:
     loop_var: switch_refresh_fabric_response_item
     label: fabric-membership-response
   when:
     - (switch_refresh_fabric_response_item | type_debug) == 'list'
-    - switch_refresh_fabric_response_item | length > 0
+    - switch_refresh_fabric_response_item | length == 1
     - switch_refresh_fabric_response_item[0] is mapping
     - switch_refresh_fabric_response_item[0].fabric_info is defined
     - >-
       (switch_refresh_fabric_response_item[0].fabric_info | type_debug) ==
       'list'
+
+- name: Require canonical present fabric membership payload
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_fabric_validation_structured_fragment_count | int == 1
+    fail_msg: >-
+      Fabric membership validation requires exactly one structured fabric_info
+      payload during {{ switch_refresh_fabric_validation_request.context }}.
+  when: >-
+    switch_refresh_fabric_validation_request.expected_state | string ==
+    'present'
 
 - name: Validate exact fabric membership coverage
   ansible.builtin.assert:
