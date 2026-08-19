@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedCalendarProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedCalendarProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-calendar-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-calendar-profile-feature-on-a-wireless-contro\
+        ller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForCalendarProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForCalendarProfileFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-calendar-profile-feature-on-a-wireless-controller

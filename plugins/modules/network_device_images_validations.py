@@ -19,7 +19,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   cli:
-    description: Edit the Command line interface (CLI). Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
+    description: Edit the Command line interface (CLI). Validate the CLI - Cisco DevNet https
+        //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
     type: str
   description:
     description: Details of the network device validation.

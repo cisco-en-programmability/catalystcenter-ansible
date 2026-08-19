@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfALocalAuthUserConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfALocalAuthUserConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-local-auth-user-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-local-auth-user-config-feature-on-a-wireless-controlle\
+        r-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForFlexFeatureOnAWirelessControllerWireless
     description: Complete reference of the GetConfigurationsForFlexFeatureOnAWirelessControllerWireless API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-flex-feature-on-a-wireless-controller-wireless

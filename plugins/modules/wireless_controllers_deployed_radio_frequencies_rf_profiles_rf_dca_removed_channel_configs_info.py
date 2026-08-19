@@ -42,10 +42,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfARfDcaRemovedChannelConfigFeatureOnAWirelessControllerConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless
+      GetConfigurationsForASpecificInstanceOfARfDcaRemovedChannelConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfARfDcaRemovedChannelConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-removed-channel-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-removed-channel-config-feature-on-a-wireless-co\
+        ntroller-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerRfDcaRemovedChannelConfigs
     description: Complete reference of the GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerRfDcaRemovedChannelConfigs
       API.

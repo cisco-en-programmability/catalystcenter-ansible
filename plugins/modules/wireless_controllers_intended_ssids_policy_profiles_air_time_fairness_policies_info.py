@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAAirTimeFairnessPolicyFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAAirTimeFairnessPolicyFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-air-time-fairness-policy-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-air-time-fairness-policy-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAirTimeFairnessPolicyFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForAirTimeFairnessPolicyFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-air-time-fairness-policy-feature-on-a-wireless-controller

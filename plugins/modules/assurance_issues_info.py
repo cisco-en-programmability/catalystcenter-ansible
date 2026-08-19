@@ -15,7 +15,8 @@ description:
     start time will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using
     *. For example siteHierarchy=Global/San Jose/* returns issues under all sites whole siteHierarchy starts with "Global/San
     Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-3.2.2-resolved.yaml.
-    - > Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    - > Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en-
+        programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     IssuesList-1.0.0-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:

@@ -39,10 +39,12 @@ seealso:
     description: Complete reference of the CreateANewInstanceOfAnIntendedIcapClientMacAddressConfigFeatureOnAWirelessController
       API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-instance-of-an-intended-icap-client-mac-address-config-feature-on-a-wireless-controller
-  - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedIcapClientMacAddressConfigFeatureOnAWirelessController
+  - name: Cisco Catalyst Center documentation for Wireless
+      DeleteConfigurationsForASpecificInstanceOfAnIntendedIcapClientMacAddressConfigFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedIcapClientMacAddressConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-icap-client-mac-address-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-icap-client-mac-address-config-feature-on\
+        -a-wireless-controller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_icap_client_mac_address_config_feature_on_a_wireless_controller,

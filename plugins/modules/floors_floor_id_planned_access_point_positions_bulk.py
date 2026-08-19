@@ -63,7 +63,8 @@ options:
                   means AP is tilted in the direction of the configured azimuth, where negative elevation angles means tilted
                   opposite the direction of the configured azimuth. For antennas designed to be vertically mounted (on wall,
                   pole, etc.), 0° means the main lobe is pointed straight out from the wall, where -90° indicates mounted
-                  to wall and pointed straight down to the floor, and 90° indicates pointed up to the ceiling. Use `/dna/intent/api/v1/maps/supported-access-points`
+                  to wall and pointed straight down to the floor, and 90° indicates pointed up to the ceiling. Use
+                      `/dna/intent/api/v1/maps/supported-access-points`
                   to find supported antennas for a particular Access Point type. Use `/dna/intent/api/v1/maps/antenna/{antennaName}`
                   to lookup specific details about an antennas default mounting orientation."
                 type: int

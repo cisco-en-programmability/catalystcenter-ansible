@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAPolicyTagRlanPolicyFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAPolicyTagRlanPolicyFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-tag-rlan-policy-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-tag-rlan-policy-feature-on-a-wireless-controlle\
+        r-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForSsidFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForSsidFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ssid-feature-on-a-wireless-controller

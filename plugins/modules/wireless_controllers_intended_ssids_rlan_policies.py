@@ -40,11 +40,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedRlanPolicyFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedRlanPolicyFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-rlan-policy-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-rlan-policy-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForASpecificInstanceOfAnIntendedRlanPolicyFeatureOnAWirelessController
     description: Complete reference of the UpdateConfigurationsForASpecificInstanceOfAnIntendedRlanPolicyFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-rlan-policy-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-rlan-policy-feature-on-a-wireless-control\
+        ler"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_configuration_for_an_intended_rlan_policy_feature_on_a_wireless_controller,

@@ -41,11 +41,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedApPowerProfileFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedApPowerProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-ap-power-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-ap-power-profile-feature-on-a-wireless-co\
+        ntroller"
   - name: Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForASpecificInstanceOfAnIntendedApPowerProfileFeatureOnAWirelessController
     description: Complete reference of the UpdateConfigurationsForASpecificInstanceOfAnIntendedApPowerProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-ap-power-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-ap-power-profile-feature-on-a-wireless-co\
+        ntroller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_configuration_for_an_intended_ap_power_profile_feature_on_a_wireless_controller,

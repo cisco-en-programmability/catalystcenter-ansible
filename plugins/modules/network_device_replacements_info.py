@@ -95,7 +95,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Device Replacement RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
     description: Complete reference of the RetrieveTheStatusOfDeviceReplacementWorkflowThatReplacesAFaultyDeviceWithAReplacementDevice
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-device
+    link: "https://developer.cisco.com/docs/dna-center/#!retrieve-the-status-of-device-replacement-workflow-that-replaces-a-faulty-device-with-a-replacement-de\
+        vice"
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.retrieve_the_status_of_all_the_device_replacement_workflows,

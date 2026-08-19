@@ -45,7 +45,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfARfDcaAllowedChannelConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfARfDcaAllowedChannelConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-allowed-channel-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-allowed-channel-config-feature-on-a-wireless-co\
+        ntroller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-radio-frequency-feature-on-a-wireless-controller-connectivity

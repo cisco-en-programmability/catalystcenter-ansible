@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAIfNameVlanIdConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAIfNameVlanIdConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-if-name-vlan-id-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-if-name-vlan-id-config-feature-on-a-wireless-controlle\
+        r-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForFlexFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForFlexFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-flex-feature-on-a-wireless-controller

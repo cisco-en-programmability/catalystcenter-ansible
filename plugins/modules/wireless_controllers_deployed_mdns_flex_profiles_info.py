@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedMdnsFlexProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedMdnsFlexProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-mdns-flex-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-mdns-flex-profile-feature-on-a-wireless-contr\
+        oller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForMdnsFlexProfileFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForMdnsFlexProfileFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-mdns-flex-profile-feature-on-a-wireless-controller-connectivity

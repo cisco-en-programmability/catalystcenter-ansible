@@ -18,7 +18,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
-    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   primaryManagedAPLocationsSiteIds:
     description: Site IDs of Primary Managed AP Locations. These values can be obtained by using the API call GET /dna/intent/api/v1/site.

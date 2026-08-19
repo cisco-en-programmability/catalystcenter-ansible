@@ -42,10 +42,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAIcapClientMacAddressConfigFeatureOnAWirelessControllerConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless
+      GetConfigurationsForASpecificInstanceOfAIcapClientMacAddressConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAIcapClientMacAddressConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-client-mac-address-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-client-mac-address-config-feature-on-a-wireless-c\
+        ontroller-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAccessPointFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForAccessPointFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-access-point-feature-on-a-wireless-controller-connectivity

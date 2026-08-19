@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedApPowerProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedApPowerProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-power-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-power-profile-feature-on-a-wireless-contro\
+        ller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForApPowerProfileFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForApPowerProfileFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ap-power-profile-feature-on-a-wireless-controller-connectivity

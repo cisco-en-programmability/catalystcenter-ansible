@@ -39,7 +39,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedAvcIpv6FMIngressFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedAvcIpv6FMIngressFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-avc-ipv-6-fm-ingress-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-avc-ipv-6-fm-ingress-feature-on-a-wireles\
+        s-controller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_avc_ipv6_fm_ingress_feature_on_a_wireless_controller,

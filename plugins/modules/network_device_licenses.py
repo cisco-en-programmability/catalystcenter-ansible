@@ -23,7 +23,8 @@ options:
       * `NA` - If authorization code is not applicable for device then status will be NA.
     type: str
   authorizationStatus:
-    description: Smart License authorization status. | Authorization status | Description | | ---------------------- | --------------------------------------------------------------------------------...
+    description: Smart License authorization status. | Authorization status | Description | | ---------------------- |
+        --------------------------------------------------------------------------------...
       | | `AUTHORIZED` | Registration has been completed with a valid Smart Account and license consumption has begun. The
       number of licenses consumed is less than the licenses available for use. This is an indication of being in compliance.
       | | `EVALUATION_MODE` | The network device is running in evaluation mode when it is not registered. | | `OUT_OF_COMPLIANCE`
@@ -108,7 +109,8 @@ options:
           controller managing 10 APs will show 10 air network licenses with owned set to false.
         type: bool
       status:
-        description: Status of license on the network device. | License Status | Description | |-------------------------|----------------------------------------------------------------------------...
+        description: Status of license on the network device. | License Status | Description |
+            |-------------------------|----------------------------------------------------------------------------...
           | `IN_USE` | A license is actively being used by a Cisco device and is currently authorized for features it enables.
           | | `NOT_IN_USE` | A license is available on the device but is not currently being used by device. | | `EXPIRED_IN_USE`
           | A license has expired but the device continues to use its features. | | `EXPIRED_NOT_IN_USE` | A license has expired
@@ -120,7 +122,8 @@ options:
           is only applicable for virtual wireless controllers. |.
         type: str
       type:
-        description: Type of license available on the network device. | License Type | Description | |-------------------------|--------------------------------------------------------------...
+        description: Type of license available on the network device. | License Type | Description |
+            |-------------------------|--------------------------------------------------------------...
           | `NETWORK_ESSENTIALS` | Network Essentials license | | `NETWORK_ADVANTAGE` | Network Advantage license | | `AIR_NETWORK_ESSENTIALS`
           | Air Network Essentials license. It is applicable for wireless controllers or switches having wireless capability.
           | | `AIR_NETWORK_ADVANTAGE` | Air Network Advantage license. It is applicable for wireless controllers or switches
@@ -138,7 +141,8 @@ options:
     description: A unique identifier for the network device.
     type: str
   registrationStatus:
-    description: Smart License registration status. | Registration status | Description | | ---------------------- | --------------------------------------------------------------------------------...
+    description: Smart License registration status. | Registration status | Description | | ---------------------- |
+        --------------------------------------------------------------------------------...
       | | `REGISTERED` | The network device instance is registered with CSSM.| | `UNREGISTERED` | Smart Licensing is enabled
       on the network device, but the network device is not registered with CSSM. | | `REGISTRATION_EXPIRED` | The registration
       has expired. | | `RESERVATION_IN_PROGRESS` | The license reservation is in progress on the network device. | | `REGISTERED_SLR`

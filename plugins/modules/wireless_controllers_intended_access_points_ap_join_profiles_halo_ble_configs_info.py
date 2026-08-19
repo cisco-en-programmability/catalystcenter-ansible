@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAHaloBleConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAHaloBleConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-halo-ble-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-halo-ble-config-feature-on-a-wireless-controller-conne\
+        ctivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForHaloBleConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForHaloBleConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-halo-ble-config-feature-on-a-wireless-controller

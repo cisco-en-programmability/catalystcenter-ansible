@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAIcapMacClientConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAIcapMacClientConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-mac-client-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-mac-client-config-feature-on-a-wireless-controlle\
+        r-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAccessPointFeatureOnAWirelessControllerIcapMacClientConfigs
     description: Complete reference of the GetConfigurationsForAccessPointFeatureOnAWirelessControllerIcapMacClientConfigs
       API.

@@ -40,11 +40,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedWlanProfileFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedWlanProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-wlan-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-wlan-profile-feature-on-a-wireless-contro\
+        ller"
   - name: Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForASpecificInstanceOfAnIntendedWlanProfileFeatureOnAWirelessController
     description: Complete reference of the UpdateConfigurationsForASpecificInstanceOfAnIntendedWlanProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-wlan-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-wlan-profile-feature-on-a-wireless-contro\
+        ller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_configuration_for_an_intended_wlan_profile_feature_on_a_wireless_controller,

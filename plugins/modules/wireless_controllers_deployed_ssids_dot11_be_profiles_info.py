@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedDot11BeProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedDot11BeProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-dot-11-be-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-dot-11-be-profile-feature-on-a-wireless-contr\
+        oller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForDot11BeProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForDot11BeProfileFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-dot-11-be-profile-feature-on-a-wireless-controller

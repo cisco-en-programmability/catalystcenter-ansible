@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfARfMcsConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfARfMcsConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-mcs-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-mcs-config-feature-on-a-wireless-controller-connect\
+        ivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForRfMcsConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForRfMcsConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-rf-mcs-config-feature-on-a-wireless-controller

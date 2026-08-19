@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAMobilityExportAnchorFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAMobilityExportAnchorFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-mobility-export-anchor-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-mobility-export-anchor-feature-on-a-wireless-controlle\
+        r-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForSsidFeatureOnAWirelessControllerMobilityExportAnchors
     description: Complete reference of the GetConfigurationsForSsidFeatureOnAWirelessControllerMobilityExportAnchors API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ssid-feature-on-a-wireless-controller-mobility-export-anchors

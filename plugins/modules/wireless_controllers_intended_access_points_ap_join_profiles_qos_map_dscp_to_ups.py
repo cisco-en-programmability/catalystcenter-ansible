@@ -43,11 +43,13 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedQosMapDscpToUPFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedQosMapDscpToUPFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-qos-map-dscp-to-up-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-qos-map-dscp-to-up-feature-on-a-wireless-\
+        controller"
   - name: Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForASpecificInstanceOfAnIntendedQosMapDscpToUPFeatureOnAWirelessController
     description: Complete reference of the UpdateConfigurationsForASpecificInstanceOfAnIntendedQosMapDscpToUPFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-qos-map-dscp-to-up-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-qos-map-dscp-to-up-feature-on-a-wireless-\
+        controller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_qos_map_dscp_to_up_feature_on_a_wireless_controller,

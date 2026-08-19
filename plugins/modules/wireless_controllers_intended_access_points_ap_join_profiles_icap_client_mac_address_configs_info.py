@@ -45,7 +45,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAIcapClientMacAddressConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAIcapClientMacAddressConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-client-mac-address-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-icap-client-mac-address-config-feature-on-a-wireless-c\
+        ontroller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForIcapClientMacAddressConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForIcapClientMacAddressConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-icap-client-mac-address-config-feature-on-a-wireless-controller

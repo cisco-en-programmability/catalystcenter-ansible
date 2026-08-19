@@ -17,7 +17,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   apAuthorizationListName:
-    description: AP Authorization List name. 'Obtain the AP Authorization List names by using the API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
+    description: AP Authorization List name. 'Obtain the AP Authorization List names by using the API call GET
+        /intent/api/v1/wirelessSettings/apAuthorizationLists.
       During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id using the
       API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev... (Mandatory for Mesh and Remote Teleworker enabled
       sites).
@@ -27,7 +28,8 @@ options:
       List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
-    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   featureTemplatesOverridenAttributes:
     description: Wireless Controllers Provision's featureTemplatesOverridenAttributes.

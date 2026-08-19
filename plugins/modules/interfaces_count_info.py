@@ -106,10 +106,13 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
-    description: Complete reference of the GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+  - name: Cisco Catalyst Center documentation for Devices
+      GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+    description: Complete reference of the
+        GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-when-there-is-no-start-and-end-time-specified-returns-the-latest-interfaces-total-count
+    link: "https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-when-there-is-no-start-and-\
+        end-time-specified-returns-the-latest-interfaces-total-count"
 notes:
   - SDK Method used are
     devices.Devices.gets_the_total_network_device_interface_counts_in_the_specified_time_range_when_there_is_no_start_and_end_time_specified_returns_the_latest_interfaces_total_count,

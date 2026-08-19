@@ -10,7 +10,8 @@ module: switches_configs_intended_network_settings_count_info
 short_description: Information module for Switches Configs Intended Network Settings Count
 description:
   - Get Switches Configs Intended Network Settings Count by id. - > Returns the number of intended configuration entries for
-    the specified layer 3 feature on the switch. The feature configuration entries can be retrieved using /dna/campus/api/v1/switches/{id}/configs/intended/networkSettings/{feature}.
+    the specified layer 3 feature on the switch. The feature configuration entries can be retrieved using
+        /dna/campus/api/v1/switches/{id}/configs/intended/networkSettings/{feature}.
 version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

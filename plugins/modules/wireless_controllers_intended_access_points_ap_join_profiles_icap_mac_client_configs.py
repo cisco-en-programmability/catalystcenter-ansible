@@ -40,7 +40,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedIcapMacClientConfigFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedIcapMacClientConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-icap-mac-client-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-icap-mac-client-config-feature-on-a-wirel\
+        ess-controller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_icap_mac_client_config_feature_on_a_wireless_controller,

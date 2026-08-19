@@ -69,6 +69,21 @@ jobs:
       - name: Move repository
         run: mv ./cisco-en-programmability/catalystcenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
+      - name: Create branches for change detection
+        if: github.event_name == 'pull_request'
+        env:
+          GHA_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GHA_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          # actions/checkout leaves us on a detached HEAD (the PR merge
+          # commit), and `ansible-test --changed` needs a real branch (it
+          # runs `git symbolic-ref --short HEAD` internally, which fails
+          # otherwise with "fatal: ref HEAD is not a symbolic ref").
+          git checkout -b "pull-request-${GHA_PR_NUMBER}"
+          git branch "${GHA_BASE_REF}" --track "origin/${GHA_BASE_REF}"
+          git branch -vv
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -111,8 +126,11 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             # Only sanity-test what actually changed vs. the PR base branch,
             # instead of the whole ~3000-file collection on every push.
+            # Uses the local tracking branch created in the step above, not
+            # "origin/<ref>" directly (ansible-test's --changed wants a
+            # local branch name here).
             ansible-test sanity --docker -v --color --changed \
-              --base-branch "origin/${{ github.event.pull_request.base.ref }}"
+              --base-branch "${{ github.event.pull_request.base.ref }}"
           else
             ansible-test sanity --docker -v --color
           fi

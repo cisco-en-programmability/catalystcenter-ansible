@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAMdnsServiceTypeFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAMdnsServiceTypeFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-mdns-service-type-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-mdns-service-type-feature-on-a-wireless-controller-con\
+        nectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForMdnsServiceTypeFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForMdnsServiceTypeFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-mdns-service-type-feature-on-a-wireless-controller

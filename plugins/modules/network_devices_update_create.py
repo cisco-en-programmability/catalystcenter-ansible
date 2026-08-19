@@ -18,7 +18,8 @@ author: Bryan Vargas (@bvargasre)
 options:
   category:
     description: Category of the device. Used to determine the type of the device being added. | Category | Description |
-      Required Credentials | Optional Credentials | | -------------------- | ----------------------------------------------------------------------------------...
+      Required Credentials | Optional Credentials | | -------------------- |
+          ----------------------------------------------------------------------------------...
       | -------------------- | -------------------- | | `NETWORK_DEVICE` | Standard Cisco network devices like switches, routers,
       controllers | CLI, SNMP | HTTP, Netconf | | `COMPUTE_DEVICE` | Server or computing system manufactured by Cisco such
       as Unified Computing System (UCS) | HTTP | CLI, SNMP | | `THIRD_PARTY_DEVICE` | Non-Cisco network devices that support

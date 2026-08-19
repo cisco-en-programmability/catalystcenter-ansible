@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAAvcIpv6FMEgressFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAAvcIpv6FMEgressFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-avc-ipv-6-fm-egress-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-avc-ipv-6-fm-egress-feature-on-a-wireless-controller-c\
+        onnectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForSsidFeatureOnAWirelessControllerAvcIpv6FMEgresses
     description: Complete reference of the GetConfigurationsForSsidFeatureOnAWirelessControllerAvcIpv6FMEgresses API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ssid-feature-on-a-wireless-controller-avc-ipv-6-fm-egresses

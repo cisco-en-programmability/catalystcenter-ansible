@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAAssociatedApConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAAssociatedApConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-associated-ap-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-associated-ap-config-feature-on-a-wireless-controller-\
+        connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForTagMappingFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForTagMappingFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-tag-mapping-feature-on-a-wireless-controller

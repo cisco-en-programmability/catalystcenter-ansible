@@ -42,14 +42,18 @@ seealso:
     description: Complete reference of the CreateANewInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
       API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-instance-of-an-intended-policy-profile-calendar-config-feature-on-a-wireless-controller
-  - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
+  - name: Cisco Catalyst Center documentation for Wireless
+      DeleteConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-policy-profile-calendar-config-feature-on-a-wireless-controller
-  - name: Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-policy-profile-calendar-config-feature-on\
+        -a-wireless-controller"
+  - name: Cisco Catalyst Center documentation for Wireless
+      UpdateConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
     description: Complete reference of the UpdateConfigurationsForASpecificInstanceOfAnIntendedPolicyProfileCalendarConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-policy-profile-calendar-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!update-configurations-for-a-specific-instance-of-an-intended-policy-profile-calendar-config-feature-on\
+        -a-wireless-controller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_policy_profile_calendar_config_feature_on_a_wireless_controller,

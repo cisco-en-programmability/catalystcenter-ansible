@@ -39,7 +39,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteConfigurationsForASpecificInstanceOfAnIntendedMonthlyConfigFeatureOnAWirelessController
     description: Complete reference of the DeleteConfigurationsForASpecificInstanceOfAnIntendedMonthlyConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-monthly-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!delete-configurations-for-a-specific-instance-of-an-intended-monthly-config-feature-on-a-wireless-cont\
+        roller"
 notes:
   - SDK Method used are
     wireless.Wireless.create_a_new_instance_of_an_intended_monthly_config_feature_on_a_wireless_controller,

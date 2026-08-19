@@ -27,7 +27,8 @@ options:
             description: The key to filter by.
             type: str
           operator:
-            description: The operator to use for filtering the values. | Operator | Description | |-----------|--------------------------------------------------------------------------...
+            description: The operator to use for filtering the values. | Operator | Description |
+                |-----------|--------------------------------------------------------------------------...
               | `eq` | The result will include entities whose attribute values have the network devices that match the exact
               value. | | `contains`| The result will include entities whose attribute values have the network devices that
               contain the value. | | `in` | The result will include entities whose attribute values match any of the values

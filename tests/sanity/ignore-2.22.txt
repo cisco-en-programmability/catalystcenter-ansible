@@ -1,0 +1,3 @@
+plugins/modules/discovery.py validate-modules:option-equal-up-to-casing
+plugins/modules/switches_configs_intended_port_create.py validate-modules:option-equal-up-to-casing
+plugins/modules/switches_configs_intended_port_update.py validate-modules:option-equal-up-to-casing

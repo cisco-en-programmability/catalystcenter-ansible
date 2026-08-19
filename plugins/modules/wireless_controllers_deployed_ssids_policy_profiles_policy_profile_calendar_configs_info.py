@@ -41,10 +41,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAPolicyProfileCalendarConfigFeatureOnAWirelessControllerConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless
+      GetConfigurationsForASpecificInstanceOfAPolicyProfileCalendarConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAPolicyProfileCalendarConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-profile-calendar-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-profile-calendar-config-feature-on-a-wireless-c\
+        ontroller-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForSsidFeatureOnAWirelessControllerWireless
     description: Complete reference of the GetConfigurationsForSsidFeatureOnAWirelessControllerWireless API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ssid-feature-on-a-wireless-controller-wireless

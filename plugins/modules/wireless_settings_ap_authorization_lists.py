@@ -44,7 +44,8 @@ options:
       if Access Point(s) cannot be authorized by the specified list of AAA Servers.
     suboptions:
       aaaServers:
-        description: List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
+        description: List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call
+            '/dna/intent/api/v1/authentication-policy-servers'.
         elements: str
         type: list
       authorizeApWithMac:

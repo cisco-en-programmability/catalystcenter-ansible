@@ -42,10 +42,12 @@ requirements:
   - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfARfDcaAllowedChannelConfigFeatureOnAWirelessControllerConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless
+      GetConfigurationsForASpecificInstanceOfARfDcaAllowedChannelConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfARfDcaAllowedChannelConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-allowed-channel-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-rf-dca-allowed-channel-config-feature-on-a-wireless-co\
+        ntroller-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForRfDcaAllowedChannelConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForRfDcaAllowedChannelConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-rf-dca-allowed-channel-config-feature-on-a-wireless-controller

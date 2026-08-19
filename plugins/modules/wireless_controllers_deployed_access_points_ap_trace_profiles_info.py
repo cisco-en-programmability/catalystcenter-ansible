@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedApTraceProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedApTraceProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-trace-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-trace-profile-feature-on-a-wireless-contro\
+        ller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForApTraceProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForApTraceProfileFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ap-trace-profile-feature-on-a-wireless-controller

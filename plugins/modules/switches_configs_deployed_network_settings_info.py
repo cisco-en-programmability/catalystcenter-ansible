@@ -10,7 +10,8 @@ module: switches_configs_deployed_network_settings_info
 short_description: Information module for Switches Configs Deployed Network Settings
 description:
   - Get Switches Configs Deployed Network Settings by id. - > Returns deployed configuration entries for the specified network
-    settings feature on the switch. The device config learning must have enabled for the switch using the API /dna/campus/api/v1/switches/configs/deployed/enable
+    settings feature on the switch. The device config learning must have enabled for the switch using the API
+        /dna/campus/api/v1/switches/configs/deployed/enable
     and Error code NCCO15475 can be observed if not enabled.
 version_added: '2.11.0'
 extends_documentation_fragment:

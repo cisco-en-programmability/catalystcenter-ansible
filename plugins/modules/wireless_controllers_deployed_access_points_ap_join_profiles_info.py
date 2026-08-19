@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedApJoinProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedApJoinProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-join-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-join-profile-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForApJoinProfileFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForApJoinProfileFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ap-join-profile-feature-on-a-wireless-controller-connectivity

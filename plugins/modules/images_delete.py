@@ -17,7 +17,8 @@ extends_documentation_fragment:
 author: Bryan Vargas (@bvargasre)
 options:
   id:
-    description: Id path parameter. The software image identifier that needs to be deleted can be obtained from the API `/dna/intent/api/v1/images?imported=true`.
+    description: Id path parameter. The software image identifier that needs to be deleted can be obtained from the API
+        `/dna/intent/api/v1/images?imported=true`.
       Use this API to obtain the `id` of the image.
     type: str
 requirements:

@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAUmbrellaProfileConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAUmbrellaProfileConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-umbrella-profile-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-umbrella-profile-config-feature-on-a-wireless-controll\
+        er-connectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForFlexFeatureOnAWirelessControllerUmbrellaProfileConfigs
     description: Complete reference of the GetConfigurationsForFlexFeatureOnAWirelessControllerUmbrellaProfileConfigs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-flex-feature-on-a-wireless-controller-umbrella-profile-configs

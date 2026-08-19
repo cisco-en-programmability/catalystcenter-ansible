@@ -10,7 +10,8 @@ module: switches_configs_deployed_layer2_count_info
 short_description: Information module for Switches Configs Deployed Layer2 Count
 description:
   - Get Switches Configs Deployed Layer2 Count by id. - > Returns the number of deployed configuration entries for the specified
-    layer 2 feature on the switch. The device config learning must have enabled for the switch using the API /dna/campus/api/v1/switches/configs/deployed/enable.
+    layer 2 feature on the switch. The device config learning must have enabled for the switch using the API
+        /dna/campus/api/v1/switches/configs/deployed/enable.
 version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

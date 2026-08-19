@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAUrwbEtherTypeFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAUrwbEtherTypeFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-urwb-ether-type-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-urwb-ether-type-feature-on-a-wireless-controller-conne\
+        ctivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerUrwbEtherTypes
     description: Complete reference of the GetConfigurationsForRadioFrequencyFeatureOnAWirelessControllerUrwbEtherTypes API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-radio-frequency-feature-on-a-wireless-controller-urwb-ether-types

@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAWeeklyConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAWeeklyConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-weekly-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-weekly-config-feature-on-a-wireless-controller-connect\
+        ivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForWeeklyConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForWeeklyConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-weekly-config-feature-on-a-wireless-controller

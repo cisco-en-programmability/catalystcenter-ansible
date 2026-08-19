@@ -45,7 +45,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAUrwbChannelListConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAUrwbChannelListConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-urwb-channel-list-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-urwb-channel-list-config-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForUrwbChannelListConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForUrwbChannelListConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-urwb-channel-list-config-feature-on-a-wireless-controller

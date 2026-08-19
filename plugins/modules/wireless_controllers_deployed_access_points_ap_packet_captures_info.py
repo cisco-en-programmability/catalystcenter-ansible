@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedApPacketCaptureFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedApPacketCaptureFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-packet-capture-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-packet-capture-feature-on-a-wireless-contr\
+        oller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForApPacketCaptureFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForApPacketCaptureFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ap-packet-capture-feature-on-a-wireless-controller

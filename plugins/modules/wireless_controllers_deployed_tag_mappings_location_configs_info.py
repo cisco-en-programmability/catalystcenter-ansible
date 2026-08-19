@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedLocationConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedLocationConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-location-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-location-config-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForLocationConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForLocationConfigFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-location-config-feature-on-a-wireless-controller-connectivity

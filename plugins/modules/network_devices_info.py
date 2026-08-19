@@ -12,10 +12,12 @@ description:
   - Get all Network Devices.
   - Get Network Devices by id. - > Gets the Network Device details based on the provided query parameters. When there is no
     start and end time specified returns the latest device details. For detailed information about the usage of the API, please
-    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+    refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+        specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
     - > Returns the device data for the given device Uuid in the specified start and end time range. When there is no start
     and end time specified returns the latest available data for the given Id. For detailed information about the usage of
-    the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    the API, please refer to the Open API specification document - https //github.com/cisco-en-
+        programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '1.0.0'
 extends_documentation_fragment:

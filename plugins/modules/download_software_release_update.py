@@ -11,7 +11,8 @@ short_description: Resource module for Download Software Release Update
 description:
   - Manage operation update of the resource Download Software Release Update. - > After the specified release has been downloaded
     successfully, users can download additional optional packages using this API. Provide the `releaseName` and `releaseVersion`
-    used for downloading the release and the list of `optionalPackages` to be downloaded in the request body. Use the `/dna/system/api/v1/releases/releaseSummary`
+    used for downloading the release and the list of `optionalPackages` to be downloaded in the request body. Use the
+        `/dna/system/api/v1/releases/releaseSummary`
     API to obtain the optional package IDs, where releaseName and releaseVersion are the one used during download process.
     From the API response, provide the `id` of the optional packages, which can be identified by the attribute `"optional"
     true`.

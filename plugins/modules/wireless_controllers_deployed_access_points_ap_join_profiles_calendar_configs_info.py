@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfACalendarConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfACalendarConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-calendar-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-calendar-config-feature-on-a-wireless-controller-conne\
+        ctivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAccessPointFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForAccessPointFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-access-point-feature-on-a-wireless-controller

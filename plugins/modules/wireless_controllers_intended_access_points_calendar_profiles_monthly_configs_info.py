@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAMonthlyConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAMonthlyConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-monthly-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-monthly-config-feature-on-a-wireless-controller-connec\
+        tivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForMonthlyConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForMonthlyConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-monthly-config-feature-on-a-wireless-controller

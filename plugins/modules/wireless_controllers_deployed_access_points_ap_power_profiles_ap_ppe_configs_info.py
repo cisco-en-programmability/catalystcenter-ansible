@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAApPpeConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAApPpeConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-ap-ppe-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-ap-ppe-config-feature-on-a-wireless-controller-connect\
+        ivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAccessPointFeatureOnAWirelessControllerApPpeConfigs
     description: Complete reference of the GetConfigurationsForAccessPointFeatureOnAWirelessControllerApPpeConfigs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-access-point-feature-on-a-wireless-controller-ap-ppe-configs

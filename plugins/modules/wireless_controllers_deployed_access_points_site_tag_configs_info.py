@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedSiteTagConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedSiteTagConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-site-tag-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-site-tag-config-feature-on-a-wireless-control\
+        ler"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForSiteTagConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForSiteTagConfigFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-site-tag-config-feature-on-a-wireless-controller

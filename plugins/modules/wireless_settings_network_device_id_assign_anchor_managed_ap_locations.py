@@ -24,7 +24,8 @@ options:
     elements: str
     type: list
   networkDeviceId:
-    description: NetworkDeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: NetworkDeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
   - catalystcentersdk >= 3.1.6.0.2

@@ -10,7 +10,8 @@ module: switches_configs_intended_security_count_info
 short_description: Information module for Switches Configs Intended Security Count
 description:
   - Get Switches Configs Intended Security Count by id. - > Returns the number of intended configuration feature entries for
-    the specified security feature on the switch. The feature entriesconfiguration can be retrieved using /dna/campus/api/v1/switches/{id}/configs/intended/security/{feature}.
+    the specified security feature on the switch. The feature entriesconfiguration can be retrieved using
+        /dna/campus/api/v1/switches/{id}/configs/intended/security/{feature}.
 version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info

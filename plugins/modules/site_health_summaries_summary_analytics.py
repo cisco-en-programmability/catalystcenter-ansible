@@ -34,7 +34,8 @@ options:
   siteHierarchy:
     description: SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global site
       name and ending with the specific site name. The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`)
-      This field supports wildcard asterisk (`*`) character search support. E.g. `*/San*, */San, /San*` Examples `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+      This field supports wildcard asterisk (`*`) character search support. E.g. `*/San*, */San, /San*` Examples
+          `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
       (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global/... (multiple
       siteHierarchies requested).
     type: str

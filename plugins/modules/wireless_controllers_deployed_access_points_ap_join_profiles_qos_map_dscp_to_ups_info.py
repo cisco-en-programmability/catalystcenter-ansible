@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAQosMapDscpToUPFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAQosMapDscpToUPFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-qos-map-dscp-to-up-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-qos-map-dscp-to-up-feature-on-a-wireless-controller-co\
+        nnectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForAccessPointFeatureOnAWirelessControllerQosMapDscpToUPs
     description: Complete reference of the GetConfigurationsForAccessPointFeatureOnAWirelessControllerQosMapDscpToUPs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-access-point-feature-on-a-wireless-controller-qos-map-dscp-to-u-ps

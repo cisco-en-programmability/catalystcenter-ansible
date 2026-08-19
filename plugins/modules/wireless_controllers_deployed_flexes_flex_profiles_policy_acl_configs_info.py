@@ -43,7 +43,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfAPolicyAclConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfAPolicyAclConfigFeatureOnAWirelessControllerConnectivity
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-acl-config-feature-on-a-wireless-controller-connectivity
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-policy-acl-config-feature-on-a-wireless-controller-con\
+        nectivity"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForFlexFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForFlexFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-flex-feature-on-a-wireless-controller-connectivity

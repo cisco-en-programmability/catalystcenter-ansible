@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedMultiBssidProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedMultiBssidProfileFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-multi-bssid-profile-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-multi-bssid-profile-feature-on-a-wireless-con\
+        troller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForMultiBssidProfileFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForMultiBssidProfileFeatureOnAWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-multi-bssid-profile-feature-on-a-wireless-controller

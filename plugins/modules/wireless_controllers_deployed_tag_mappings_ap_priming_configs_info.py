@@ -47,7 +47,8 @@ seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForASpecificInstanceOfADeployedApPrimingConfigFeatureOnAWirelessController
     description: Complete reference of the GetConfigurationsForASpecificInstanceOfADeployedApPrimingConfigFeatureOnAWirelessController
       API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-priming-config-feature-on-a-wireless-controller
+    link: "https://developer.cisco.com/docs/dna-center/#!get-configurations-for-a-specific-instance-of-a-deployed-ap-priming-config-feature-on-a-wireless-contr\
+        oller"
   - name: Cisco Catalyst Center documentation for Wireless GetConfigurationsForApPrimingConfigFeatureOnAWirelessControllerConnectivity
     description: Complete reference of the GetConfigurationsForApPrimingConfigFeatureOnAWirelessControllerConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-configurations-for-ap-priming-config-feature-on-a-wireless-controller-connectivity

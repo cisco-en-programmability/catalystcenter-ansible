@@ -11,7 +11,8 @@ short_description: Resource module for Network Device Images Id Distribute
 description:
   - Manage operation create of the resource Network Device Images Id Distribute. - > This API initiates the process of distributing
     the software image on the network device. Providing value for the `distributedImages` will only trigger the distribution
-    process. To monitor the progress and completion of the update task, please call the GET API `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
+    process. To monitor the progress and completion of the update task, please call the GET API
+        `/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}`,
     where `taskId` is from the response of the current endpoint.
 version_added: '2.2.0'
 extends_documentation_fragment:
