@@ -61,7 +61,12 @@ jobs:
           path: cisco-en-programmability/catalystcenter-ansible
           # Only pull real git history when we can use it (see the
           # --changed step below); a shallow checkout is enough otherwise.
-          fetch-depth: ${{ github.event_name == 'pull_request' && 0 || 1 }}
+          # Quoted '0'/'1', not bare 0/1: GitHub Actions expressions treat
+          # the number 0 as falsy, so `cond && 0 || 1` always evaluates to
+          # 1 regardless of cond (the `|| 1` masks the falsy 0). Quoted
+          # strings sidestep that trap -- this is the same pattern
+          # antsibull-nox's own reusable workflow uses.
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
 
       - name: Create directory
         run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
