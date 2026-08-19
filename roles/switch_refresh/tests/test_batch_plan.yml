@@ -1029,6 +1029,126 @@
                 'Expected exactly one old inventory device' in
                 (ansible_failed_result | string)
 
+    - name: Load old-device inventory record validation contract
+      ansible.builtin.set_fact:
+        switch_refresh_old_device_resolver_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/resolve_batch_old_devices.yml'
+            )
+          }}
+        switch_refresh_old_device_resolver_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/resolve_batch_old_devices.yml'
+            ) |
+            from_yaml
+          }}
+
+    - name: Select exact old-device inventory record validation contract
+      ansible.builtin.set_fact:
+        switch_refresh_old_device_record_validation_contract: >-
+          {{
+            switch_refresh_old_device_resolver_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Validate old switch batch inventory records'
+            ) |
+            first
+          }}
+
+    - name: Verify old-device record validation precedes mapping resolution
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_old_device_resolver_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Validate old switch batch inventory records'
+            ) |
+            list |
+            length == 1
+          - >-
+            switch_refresh_old_device_resolver_source.find(
+              '- name: Validate old switch batch inventory records'
+            ) <
+            switch_refresh_old_device_resolver_source.find(
+              '- name: Resolve management IP for every old-to-new batch mapping'
+            )
+          - >-
+            switch_refresh_old_device_resolver_source.find(
+              '- name: Validate old switch batch inventory records'
+            ) >= 0
+          - >-
+            "(switch_refresh_old_info_item.device_details | type_debug) == 'list'"
+            in
+            switch_refresh_old_device_record_validation_contract[
+              'ansible.builtin.assert'
+            ].that
+          - >-
+            'switch_refresh_old_info_item.device_details | length == 1' in
+            switch_refresh_old_device_record_validation_contract[
+              'ansible.builtin.assert'
+            ].that
+          - >-
+            'switch_refresh_old_info_item.device_details[0] is mapping' in
+            switch_refresh_old_device_record_validation_contract[
+              'ansible.builtin.assert'
+            ].that
+        fail_msg: >-
+          Old-device inventory records must be validated before any mapping is
+          resolved from the lookup response.
+
+    - name: Reject valid old-device match with malformed extra record
+      block:
+        - name: Set valid and malformed old-device inventory records
+          ansible.builtin.set_fact:
+            switch_refresh_old_device_record_validation_fixture:
+              - device_ip: "198.51.100.68"
+                device_details:
+                  - hostname: duplicate-old.example.test
+              - device_ip: "198.51.100.69"
+                device_details: "Error: simulated per-device lookup failure"
+
+        - name: Validate exact old switch batch inventory records fixture
+          ansible.builtin.assert:
+            that:
+              - switch_refresh_old_info_item is mapping
+              - switch_refresh_old_info_item.device_ip is defined
+              - (switch_refresh_old_info_item.device_ip | type_debug) == 'str'
+              - switch_refresh_old_info_item.device_ip | trim | length > 0
+              - switch_refresh_old_info_item.device_details is defined
+              - >-
+                (switch_refresh_old_info_item.device_details | type_debug) ==
+                'list'
+              - switch_refresh_old_info_item.device_details | length == 1
+              - switch_refresh_old_info_item.device_details[0] is mapping
+            fail_msg: >-
+              A malformed extra old-device record was accepted.
+          loop: "{{ switch_refresh_old_device_record_validation_fixture }}"
+          loop_control:
+            loop_var: switch_refresh_old_info_item
+            label: >-
+              {{ switch_refresh_old_info_item.device_ip | default('old-device') }}
+
+        - name: Fail when malformed extra old-device record was accepted
+          ansible.builtin.fail:
+            msg: Malformed extra old-device record unexpectedly passed validation.
+      rescue:
+        - name: Confirm malformed extra old-device record failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate exact old switch batch inventory records fixture'
+              - >-
+                'malformed extra old-device record was accepted' in
+                (ansible_failed_result | string | lower)
+
     - name: Set stacked serial inventory record
       ansible.builtin.set_fact:
         switch_refresh_device_info_lookup_enabled: true
@@ -1101,24 +1221,56 @@
       ansible.builtin.set_fact:
         refresh_item:
           fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
-        fabric_devices_info_result:
+        switch_refresh_fabric_validation_request:
+          site: Global/USA/San Jose/BLDG23
+          expected_ips:
+            - "198.51.100.66"
+          expected_state: absent
+          query_role: ""
+          response_role: ""
+          context: offline-test
+        switch_refresh_fabric_validation_raw_result:
           response:
             - No fabric devices found for the given filters.
 
     - name: Validate explicit old-fabric absence response
       ansible.builtin.include_tasks: >-
-        ../tasks/validate_cleanup_batch_fabric_absence.yml
+        ../tasks/validate_fabric_membership_result.yml
+
+    - name: Verify failed lookup cannot prove fabric absence
+      block:
+        - name: Set failed old-fabric absence response
+          ansible.builtin.set_fact:
+            switch_refresh_fabric_validation_raw_result:
+              failed: true
+              response:
+                - No fabric devices found for the given filters.
+
+        - name: Validate failed old-fabric absence response
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+
+        - name: Fail when failed fabric lookup proved absence
+          ansible.builtin.fail:
+            msg: A failed fabric lookup unexpectedly proved absence.
+      rescue:
+        - name: Confirm failed fabric lookup failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate fabric membership evaluator inputs'
 
     - name: Verify unexpected empty fabric response fails closed
       block:
         - name: Set unexpected empty fabric response
           ansible.builtin.set_fact:
-            fabric_devices_info_result:
+            switch_refresh_fabric_validation_raw_result:
               response: []
 
         - name: Validate unexpected empty fabric response
           ansible.builtin.include_tasks: >-
-            ../tasks/validate_cleanup_batch_fabric_absence.yml
+            ../tasks/validate_fabric_membership_result.yml
 
         - name: Fail when unexpected empty fabric response was accepted
           ansible.builtin.fail:
@@ -1135,14 +1287,14 @@
       block:
         - name: Set mixed fabric absence response
           ansible.builtin.set_fact:
-            fabric_devices_info_result:
+            switch_refresh_fabric_validation_raw_result:
               response:
                 - No fabric devices found for the given filters.
                 - Unexpected additional response
 
         - name: Validate mixed fabric absence response
           ansible.builtin.include_tasks: >-
-            ../tasks/validate_cleanup_batch_fabric_absence.yml
+            ../tasks/validate_fabric_membership_result.yml
 
         - name: Fail when mixed fabric absence response was accepted
           ansible.builtin.fail:
@@ -1152,7 +1304,10 @@
           ansible.builtin.assert:
             that:
               - >-
-                'explicit "No fabric devices found' in
+                ansible_failed_task.name ==
+                'Validate fabric membership response fragments'
+              - >-
+                'malformed or unexpected response fragment' in
                 (ansible_failed_result | string)
 
 - name: Validate v2-only batch role dispatch offline

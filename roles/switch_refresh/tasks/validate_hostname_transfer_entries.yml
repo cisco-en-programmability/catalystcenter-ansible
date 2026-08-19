@@ -1,0 +1,203 @@
+---
+# Validate the common durable hostname-transfer entry schema and publish the
+# normalized collections reused by capture, manifest loading, finalization,
+# and aggregate safety checks. Stage-specific policies stay with each caller.
+- name: Validate hostname-transfer entry request
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_transfer_entry_validation_request is mapping
+      - >-
+        switch_refresh_hostname_transfer_entry_validation_request.entries is
+        defined
+      - >-
+        (
+          switch_refresh_hostname_transfer_entry_validation_request.entries |
+          type_debug
+        ) == 'list'
+      - >-
+        switch_refresh_hostname_transfer_entry_validation_request.entries |
+        length > 0
+      - >-
+        (
+          switch_refresh_hostname_transfer_entry_validation_request.context |
+          default('hostname transfer entries') |
+          type_debug
+        ) == 'str'
+      - >-
+        switch_refresh_hostname_transfer_entry_validation_request.context |
+        default('hostname transfer entries') |
+        trim |
+        length > 0
+    fail_msg: >-
+      Hostname-transfer entry validation requires a non-empty entries list and
+      a non-empty string context.
+
+- name: Initialize normalized hostname-transfer entries
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_entry_validation_context: >-
+      {{
+        switch_refresh_hostname_transfer_entry_validation_request.context |
+        default('hostname transfer entries') |
+        trim
+      }}
+    switch_refresh_hostname_transfer_validated_entries: []
+
+- name: Validate common hostname-transfer entry schema
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_transfer_entry is mapping
+      - switch_refresh_hostname_transfer_entry.old_management_ip is defined
+      - >-
+        (switch_refresh_hostname_transfer_entry.old_management_ip | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.old_management_ip |
+        trim |
+        length > 0
+      - switch_refresh_hostname_transfer_entry.old_hostname is defined
+      - >-
+        (switch_refresh_hostname_transfer_entry.old_hostname | type_debug) ==
+        'str'
+      - switch_refresh_hostname_transfer_entry.old_hostname | trim | length > 0
+      - switch_refresh_hostname_transfer_entry.old_device_uuid is defined
+      - >-
+        (switch_refresh_hostname_transfer_entry.old_device_uuid | type_debug) ==
+        'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.old_device_uuid |
+        trim |
+        length > 0
+      - switch_refresh_hostname_transfer_entry.old_serial_number is defined
+      - >-
+        (
+          switch_refresh_hostname_transfer_entry.old_serial_number | type_debug
+        ) == 'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.old_serial_number |
+        trim |
+        length > 0
+      - switch_refresh_hostname_transfer_entry.new_management_ip is defined
+      - >-
+        (switch_refresh_hostname_transfer_entry.new_management_ip | type_debug)
+        == 'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.new_management_ip |
+        trim |
+        length > 0
+      - switch_refresh_hostname_transfer_entry.new_device_uuid is defined
+      - >-
+        (switch_refresh_hostname_transfer_entry.new_device_uuid | type_debug) ==
+        'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.new_device_uuid |
+        trim |
+        length > 0
+      - switch_refresh_hostname_transfer_entry.new_serial_number is defined
+      - >-
+        (
+          switch_refresh_hostname_transfer_entry.new_serial_number | type_debug
+        ) == 'str'
+      - >-
+        switch_refresh_hostname_transfer_entry.new_serial_number |
+        trim |
+        length > 0
+    fail_msg: >-
+      Every hostname-transfer entry for
+      {{ switch_refresh_hostname_transfer_entry_validation_context }} requires
+      non-empty string values for the old/new management IP, UUID, and serial
+      number plus the captured old hostname.
+  loop: >-
+    {{ switch_refresh_hostname_transfer_entry_validation_request.entries }}
+  loop_control:
+    loop_var: switch_refresh_hostname_transfer_entry
+    label: >-
+      {{
+        switch_refresh_hostname_transfer_entry.new_management_ip |
+        default('invalid-hostname-transfer-entry')
+        if (switch_refresh_hostname_transfer_entry is mapping)
+        else 'invalid-hostname-transfer-entry'
+      }}
+
+- name: Normalize hostname-transfer entries
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_validated_entries: >-
+      {{
+        switch_refresh_hostname_transfer_validated_entries + [
+          switch_refresh_hostname_transfer_entry |
+          combine(
+            {
+              'old_management_ip':
+                switch_refresh_hostname_transfer_entry.old_management_ip |
+                trim,
+              'old_hostname':
+                switch_refresh_hostname_transfer_entry.old_hostname | trim,
+              'old_device_uuid':
+                switch_refresh_hostname_transfer_entry.old_device_uuid | trim,
+              'old_serial_number':
+                switch_refresh_hostname_transfer_entry.old_serial_number |
+                trim,
+              'new_management_ip':
+                switch_refresh_hostname_transfer_entry.new_management_ip |
+                trim,
+              'new_device_uuid':
+                switch_refresh_hostname_transfer_entry.new_device_uuid | trim,
+              'new_serial_number':
+                switch_refresh_hostname_transfer_entry.new_serial_number |
+                trim
+            }
+          )
+        ]
+      }}
+  loop: >-
+    {{ switch_refresh_hostname_transfer_entry_validation_request.entries }}
+  loop_control:
+    loop_var: switch_refresh_hostname_transfer_entry
+    label: "{{ switch_refresh_hostname_transfer_entry.new_management_ip }}"
+  no_log: true
+
+- name: Publish normalized hostname-transfer entry collections
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_entry_validation_result:
+      context: "{{ switch_refresh_hostname_transfer_entry_validation_context }}"
+      entries: "{{ switch_refresh_hostname_transfer_validated_entries }}"
+      entry_count: >-
+        {{ switch_refresh_hostname_transfer_validated_entries | length }}
+      old_management_ips: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='old_management_ip') |
+          list
+        }}
+      old_hostnames: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='old_hostname') |
+          list
+        }}
+      old_device_uuids: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='old_device_uuid') |
+          list
+        }}
+      new_management_ips: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='new_management_ip') |
+          list
+        }}
+      new_device_uuids: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='new_device_uuid') |
+          list
+        }}
+      submission_labels: >-
+        {{
+          switch_refresh_hostname_transfer_validated_entries |
+          map(attribute='old_hostname') |
+          map('regex_replace', '\..*$', '') |
+          map('trim') |
+          list
+        }}
+  no_log: true

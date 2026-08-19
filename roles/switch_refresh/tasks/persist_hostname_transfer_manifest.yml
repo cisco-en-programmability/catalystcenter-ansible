@@ -36,44 +36,14 @@
       A validated hostname-enabled cleanup plan with an absolute manifest path,
       site, and non-empty transfer entries is required before persistence.
 
-- name: Preflight hostname transfer manifest parent
-  ansible.builtin.include_tasks: preflight_output_parent.yml
+- name: Preflight hostname transfer manifest path
+  ansible.builtin.include_tasks: preflight_output_path.yml
   vars:
     switch_refresh_output_path: >-
       {{
         switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
       }}
     switch_refresh_output_label: hostname transfer manifest
-
-- name: Inspect hostname transfer manifest path
-  ansible.builtin.stat:
-    path: >-
-      {{
-        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
-      }}
-    follow: false
-  register: switch_refresh_hostname_transfer_manifest_stat
-
-- name: Validate hostname transfer manifest path type
-  ansible.builtin.assert:
-    that:
-      - >-
-        not (switch_refresh_hostname_transfer_manifest_stat.stat.exists | bool)
-        or (
-          switch_refresh_hostname_transfer_manifest_stat.stat.isreg |
-          default(false)
-        )
-      - >-
-        not (
-          switch_refresh_hostname_transfer_manifest_stat.stat.islnk |
-          default(false)
-        )
-    fail_msg: >-
-      The hostname transfer manifest must be absent or an existing regular
-      file, never a directory, symlink, or special file:
-      {{
-        switch_refresh_hostname_transfer_plan.hostname_transfer_manifest_file
-      }}.
 
 - name: Build durable hostname transfer manifest
   ansible.builtin.set_fact:

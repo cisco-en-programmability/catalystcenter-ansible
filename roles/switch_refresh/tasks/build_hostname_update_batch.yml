@@ -34,62 +34,18 @@
         bool
       }}
 
-- name: Validate captured hostname transfer entries
-  ansible.builtin.assert:
-    that:
-      - switch_refresh_hostname_finalize_entry is mapping
-      - >-
-        switch_refresh_hostname_finalize_entry.old_management_ip is defined
-      - switch_refresh_hostname_finalize_entry.old_hostname is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.old_hostname |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_finalize_entry.old_device_uuid is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.old_device_uuid |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_finalize_entry.old_serial_number is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.old_serial_number |
-        string |
-        trim |
-        length > 0
-      - >-
-        switch_refresh_hostname_finalize_entry.new_management_ip is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.new_management_ip |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_finalize_entry.new_device_uuid is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.new_device_uuid |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_finalize_entry.new_serial_number is defined
-      - >-
-        switch_refresh_hostname_finalize_entry.new_serial_number |
-        string |
-        trim |
-        length > 0
-    fail_msg: >-
-      Each captured hostname transfer entry requires non-empty old hostname,
-      old/new management IP, UUID, and serial-number values.
-  loop: "{{ switch_refresh_hostname_finalize_entries }}"
-  loop_control:
-    loop_var: switch_refresh_hostname_finalize_entry
-    label: >-
-      {{
-        switch_refresh_hostname_finalize_entry.new_management_ip |
-        default('invalid-hostname-transfer-entry')
-        if (switch_refresh_hostname_finalize_entry is mapping)
-        else 'invalid-hostname-transfer-entry'
-      }}
+- name: Validate common hostname update planner entry schema
+  ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+  vars:
+    switch_refresh_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_hostname_finalize_entries }}"
+      context: hostname update planner entries
+
+- name: Use normalized hostname update planner entries
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_finalize_entries: >-
+      {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
+  no_log: true
 
 - name: Validate hostname transfer inventory record types
   ansible.builtin.assert:
@@ -115,18 +71,16 @@
   ansible.builtin.assert:
     that:
       - >-
-        switch_refresh_hostname_finalize_entries |
-        map(attribute='new_management_ip') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.new_management_ips |
         unique |
-        length == switch_refresh_hostname_finalize_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_finalize_entries |
-        map(attribute='old_hostname') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
         map('lower') |
         unique |
-        length == switch_refresh_hostname_finalize_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
     fail_msg: >-
       A hostname update batch requires unique replacement management IPs and
       case-insensitively unique captured hostnames.

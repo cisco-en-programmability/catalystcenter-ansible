@@ -159,23 +159,6 @@
         list
       }}
 
-- name: Validate resolved cleanup targets
-  ansible.builtin.assert:
-    that:
-      - >-
-        switch_refresh_cleanup_batch_old_management_ips | length ==
-        switch_refresh_batch_device_ips | length
-      - >-
-        switch_refresh_cleanup_batch_old_management_ips | unique | length ==
-        switch_refresh_cleanup_batch_old_management_ips | length
-      - >-
-        switch_refresh_cleanup_batch_old_management_ips |
-        intersect(switch_refresh_batch_device_ips) |
-        length == 0
-    fail_msg: >-
-      Every mapping must resolve to one unique old management IP, and an old
-      cleanup target must never also be a replacement IP.
-
 - name: Validate resolved old management IP syntax
   ansible.builtin.assert:
     that:
@@ -201,29 +184,48 @@
   when: switch_refresh_hostname_transfer_enabled | default(false) | bool
 
 - name: Validate replacement fabric targets for hostname transfer
-  ansible.builtin.include_tasks: >-
-    validate_hostname_transfer_replacement_fabric.yml
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
   vars:
-    switch_refresh_hostname_fabric_site: >-
-      {{ refresh_item.fabric_site_name_hierarchy }}
-    switch_refresh_hostname_fabric_expected_ips: >-
-      {{ switch_refresh_batch_device_ips }}
-    switch_refresh_hostname_fabric_validation_context: cleanup preflight
+    switch_refresh_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_batch_device_ips }}"
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: EDGE_NODE
+      context: cleanup preflight
+      timeout: "{{ switch_refresh_fabric_validation_timeout }}"
+      retries: "{{ switch_refresh_fabric_validation_retries }}"
+      interval: "{{ switch_refresh_fabric_validation_interval }}"
   when: switch_refresh_hostname_transfer_enabled | default(false) | bool
 
 - name: Validate old switches in the expected fabric before cleanup
-  ansible.builtin.include_tasks: validate_old_batch_fabric_presence.yml
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
   vars:
-    switch_refresh_old_fabric_expected_ips: >-
-      {{ switch_refresh_cleanup_batch_old_management_ips }}
-    switch_refresh_old_fabric_validation_context: Cleanup
+    switch_refresh_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: ""
+      context: Cleanup
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_fabric_validation_interval) }}"
   when: switch_refresh_cleanup_fabric_enabled | bool
 
 - name: Prove old switches are already absent for cleanup resume
-  ansible.builtin.include_tasks: validate_old_batch_fabric_absence.yml
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
   vars:
-    switch_refresh_old_fabric_expected_ips: >-
-      {{ switch_refresh_cleanup_batch_old_management_ips }}
+    switch_refresh_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_cleanup_batch_old_management_ips }}"
+      expected_state: absent
+      query_role: ""
+      response_role: ""
+      context: cleanup resume preflight
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_fabric_validation_interval) }}"
   when:
     - not (switch_refresh_cleanup_fabric_enabled | bool)
     - switch_refresh_fabric_validation_enabled | bool
@@ -256,30 +258,11 @@
       old_host_port_cleanup_file must be a non-empty, whitespace-trimmed path.
   when: switch_refresh_cleanup_host_onboarding_enabled | bool
 
-- name: Preflight cleanup host-port output parent
-  ansible.builtin.include_tasks: preflight_output_parent.yml
+- name: Preflight cleanup host-port output path
+  ansible.builtin.include_tasks: preflight_output_path.yml
   vars:
     switch_refresh_output_path: "{{ switch_refresh_cleanup_batch_host_port_file }}"
     switch_refresh_output_label: old_host_port_cleanup_file
-  when: switch_refresh_cleanup_host_onboarding_enabled | bool
-
-- name: Inspect cleanup host-port output path
-  ansible.builtin.stat:
-    path: "{{ switch_refresh_cleanup_batch_host_port_file }}"
-    follow: false
-  register: switch_refresh_cleanup_output_preflight_stat
-  when: switch_refresh_cleanup_host_onboarding_enabled | bool
-
-- name: Validate cleanup host-port output path type
-  ansible.builtin.assert:
-    that:
-      - >-
-        not (switch_refresh_cleanup_output_preflight_stat.stat.exists | bool) or
-        (switch_refresh_cleanup_output_preflight_stat.stat.isreg | default(false))
-    fail_msg: >-
-      old_host_port_cleanup_file must be absent or an existing regular file. The
-      role will not remove a directory, symlink, or special file:
-      {{ switch_refresh_cleanup_batch_host_port_file }}.
   when: switch_refresh_cleanup_host_onboarding_enabled | bool
 
 - name: Save validated switch refresh cleanup batch plan

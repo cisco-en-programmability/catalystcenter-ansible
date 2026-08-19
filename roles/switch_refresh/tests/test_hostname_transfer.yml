@@ -86,8 +86,30 @@
             ) |
             from_yaml
           }}
+        switch_refresh_hostname_entry_helper_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/validate_hostname_transfer_entries.yml'
+            ) |
+            from_yaml
+          }}
+        switch_refresh_hostname_manifest_loader_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/load_hostname_transfer_manifest.yml'
+            )
+          }}
+        switch_refresh_hostname_update_builder_source: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/build_hostname_update_batch.yml'
+            )
+          }}
 
-    - name: Verify hostname capture validations are inlined
+    - name: Verify hostname capture uses the common entry helper
       ansible.builtin.assert:
         that:
           - >-
@@ -113,13 +135,40 @@
             selectattr(
               'name',
               'equalto',
-              'Derive batched LAN Automation hostname labels'
+              'Validate common captured hostname transfer entry schema'
+            ) |
+            list |
+            length == 1
+          - >-
+            'validate_hostname_transfer_entries.yml' in
+            switch_refresh_hostname_capture_contract_source
+          - >-
+            switch_refresh_hostname_entry_helper_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Validate common hostname-transfer entry schema'
             ) |
             list |
             length == 1
           - >-
             'case-insensitively unique LAN Automation hostname labels' in
             switch_refresh_hostname_capture_contract_source
+          - >-
+            'Derive batched LAN Automation hostname labels' not in
+            switch_refresh_hostname_capture_contract_source
+          - >-
+            'validate_hostname_transfer_entries.yml' in
+            switch_refresh_hostname_manifest_loader_source
+          - >-
+            'Validate hostname transfer manifest device entries' not in
+            switch_refresh_hostname_manifest_loader_source
+          - >-
+            'validate_hostname_transfer_entries.yml' in
+            switch_refresh_hostname_update_builder_source
+          - >-
+            'Validate captured hostname transfer entries' not in
+            switch_refresh_hostname_update_builder_source
           - >-
             'validate_hostname_transfer_capture.yml' not in
             switch_refresh_hostname_capture_contract_source
@@ -144,6 +193,19 @@
       loop_control:
         loop_var: switch_refresh_hostname_mapping_to_build
 
+    - name: Validate common Discovery hostname capture entry schema
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_hostname_transfer_entries.yml
+      vars:
+        switch_refresh_hostname_transfer_entry_validation_request:
+          entries: "{{ switch_refresh_hostname_transfer_entries }}"
+          context: offline Discovery hostname capture
+
+    - name: Use normalized Discovery hostname capture entries
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_transfer_entries: >-
+          {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
+
     - name: Validate Discovery hostname capture
       ansible.builtin.assert:
         that:
@@ -151,25 +213,34 @@
             switch_refresh_hostname_transfer_enriched_mappings | length ==
             switch_refresh_batch_resolved_mappings | length
           - >-
-            switch_refresh_hostname_transfer_entries | length ==
+            switch_refresh_hostname_transfer_entry_validation_result.entry_count ==
             switch_refresh_batch_resolved_mappings | length
-          - switch_refresh_hostname_transfer_entries | length <= 100
           - >-
-            switch_refresh_hostname_transfer_entries |
-            map(attribute='old_hostname') |
+            switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
+            list ==
+            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
             map('lower') |
             unique |
-            length == switch_refresh_hostname_transfer_entries | length
+            length ==
+            switch_refresh_hostname_transfer_entry_validation_result.entry_count
           - >-
-            switch_refresh_hostname_transfer_entries |
-            map(attribute='old_device_uuid') |
+            switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
             unique |
-            length == switch_refresh_hostname_transfer_entries | length
+            length ==
+            switch_refresh_hostname_transfer_entry_validation_result.entry_count
           - >-
-            switch_refresh_hostname_transfer_entries |
-            map(attribute='new_device_uuid') |
+            switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids |
             unique |
-            length == switch_refresh_hostname_transfer_entries | length
+            length ==
+            switch_refresh_hostname_transfer_entry_validation_result.entry_count
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.new_management_ips
+            == ['192.0.2.20', '192.0.2.21']
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.submission_labels
+            == ['OLD-EDGE-01', 'old-edge-02']
 
     - name: Save enriched Discovery hostname mappings
       ansible.builtin.set_fact:
@@ -180,6 +251,70 @@
       ansible.builtin.set_fact:
         switch_refresh_hostname_test_discovery_entries: >-
           {{ switch_refresh_hostname_transfer_entries }}
+
+    - name: Normalize whitespace in a common hostname transfer entry
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_hostname_transfer_entries.yml
+      vars:
+        switch_refresh_hostname_transfer_entry_validation_request:
+          entries:
+            - >-
+              {{
+                switch_refresh_hostname_test_discovery_entries[0] |
+                combine(
+                  {
+                    'old_hostname': '  OLD-EDGE-01.example.test  ',
+                    'new_management_ip': '  192.0.2.20  '
+                  }
+                )
+              }}
+          context: whitespace normalization fixture
+
+    - name: Verify normalized entry values and preserved state
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.entries[0].old_hostname
+            == 'OLD-EDGE-01.example.test'
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.new_management_ips
+            == ['192.0.2.20']
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.submission_labels
+            == ['OLD-EDGE-01']
+          - >-
+            switch_refresh_hostname_transfer_entry_validation_result.entries[0].status
+            == 'captured'
+
+    - name: Reject an incomplete common hostname transfer entry
+      block:
+        - name: Validate an entry missing its replacement serial number
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_hostname_transfer_entries.yml
+          vars:
+            switch_refresh_hostname_transfer_entry_validation_request:
+              entries:
+                - old_management_ip: "198.51.100.20"
+                  old_hostname: OLD-EDGE-01.example.test
+                  old_device_uuid: old-uuid-01
+                  old_serial_number: OLD-SERIAL-01
+                  new_management_ip: "192.0.2.20"
+                  new_device_uuid: new-uuid-01
+              context: incomplete offline hostname entry
+
+        - name: Fail when an incomplete common entry was accepted
+          ansible.builtin.fail:
+            msg: Incomplete common hostname transfer entry unexpectedly passed.
+      rescue:
+        - name: Verify common entry schema failed before workflow submission
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate common hostname-transfer entry schema'
+              - >-
+                'requires non-empty string values' in
+                (ansible_failed_result | string)
 
     - name: Initialize captured hostname ownership fixtures
       ansible.builtin.set_fact:
@@ -391,6 +526,19 @@
       loop: "{{ switch_refresh_batch_resolved_mappings }}"
       loop_control:
         loop_var: switch_refresh_hostname_mapping_to_build
+
+    - name: Validate common LAN Automation hostname capture entry schema
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_hostname_transfer_entries.yml
+      vars:
+        switch_refresh_hostname_transfer_entry_validation_request:
+          entries: "{{ switch_refresh_hostname_transfer_entries }}"
+          context: offline LAN Automation hostname capture
+
+    - name: Use normalized LAN Automation hostname capture entries
+      ansible.builtin.set_fact:
+        switch_refresh_hostname_transfer_entries: >-
+          {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
 
     - name: Validate LAN Automation hostname capture
       ansible.builtin.assert:
@@ -981,14 +1129,18 @@
 
     - name: Validate exact replacement EDGE_NODE fixture coverage
       ansible.builtin.include_tasks: >-
-        ../tasks/validate_hostname_transfer_fabric_result.yml
+        ../tasks/validate_fabric_membership_result.yml
       vars:
-        switch_refresh_hostname_fabric_site: Global/Test/Fabric
-        switch_refresh_hostname_fabric_validation_context: offline-test
-        switch_refresh_hostname_fabric_expected_ips:
-          - "192.0.2.20"
-          - "192.0.2.21"
-        fabric_devices_info_result:
+        switch_refresh_fabric_validation_request:
+          site: Global/Test/Fabric
+          expected_ips:
+            - "192.0.2.20"
+            - "192.0.2.21"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: offline-test
+        switch_refresh_fabric_validation_raw_result:
           response:
             - - fabric_info:
                   - device_ip: "192.0.2.20"
@@ -1004,14 +1156,18 @@
       block:
         - name: Validate partial replacement EDGE_NODE coverage
           ansible.builtin.include_tasks: >-
-            ../tasks/validate_hostname_transfer_fabric_result.yml
+            ../tasks/validate_fabric_membership_result.yml
           vars:
-            switch_refresh_hostname_fabric_site: Global/Test/Fabric
-            switch_refresh_hostname_fabric_validation_context: offline-test
-            switch_refresh_hostname_fabric_expected_ips:
-              - "192.0.2.20"
-              - "192.0.2.21"
-            fabric_devices_info_result:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+                - "192.0.2.21"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: offline-test
+            switch_refresh_fabric_validation_raw_result:
               response:
                 - - fabric_info:
                       - device_ip: "192.0.2.20"
@@ -1028,9 +1184,106 @@
             that:
               - >-
                 ansible_failed_task.name ==
-                'Validate exact replacement EDGE_NODE fabric coverage'
+                'Validate exact fabric membership coverage'
               - >-
-                'did not find every replacement as an EDGE_NODE' in
+                'did not find exactly' in
+                (ansible_failed_result | string)
+
+    - name: Reject valid fabric coverage with a malformed extra fragment
+      block:
+        - name: Validate fabric coverage with malformed extra fragment
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+                - "192.0.2.21"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: malformed-fragment-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              response:
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+                      - device_ip: "192.0.2.21"
+                        fabric_details:
+                          - deviceRoles:
+                              - EDGE_NODE
+                - unexpected-extra-fragment
+
+        - name: Fail when malformed extra fabric fragment was accepted
+          ansible.builtin.fail:
+            msg: Malformed extra fabric response fragment unexpectedly passed.
+      rescue:
+        - name: Verify malformed extra fabric fragment failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate fabric membership response fragments'
+              - >-
+                'malformed or unexpected response fragment' in
+                (ansible_failed_result | string)
+
+    - name: Validate query-filtered fabric record without explicit role check
+      ansible.builtin.include_tasks: >-
+        ../tasks/validate_fabric_membership_result.yml
+      vars:
+        switch_refresh_fabric_validation_request:
+          site: Global/Test/Fabric
+          expected_ips:
+            - "192.0.2.20"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: ""
+          context: query-role-only-offline-test
+        switch_refresh_fabric_validation_raw_result:
+          response:
+            - - fabric_info:
+                  - device_ip: "192.0.2.20"
+                    fabric_details:
+                      - {}
+
+    - name: Reject hostname fabric record without explicit EDGE_NODE role
+      block:
+        - name: Validate hostname fabric record missing required role
+          ansible.builtin.include_tasks: >-
+            ../tasks/validate_fabric_membership_result.yml
+          vars:
+            switch_refresh_fabric_validation_request:
+              site: Global/Test/Fabric
+              expected_ips:
+                - "192.0.2.20"
+              expected_state: present
+              query_role: EDGE_NODE
+              response_role: EDGE_NODE
+              context: response-role-offline-test
+            switch_refresh_fabric_validation_raw_result:
+              response:
+                - - fabric_info:
+                      - device_ip: "192.0.2.20"
+                        fabric_details:
+                          - deviceRoles:
+                              - CONTROL_PLANE_NODE
+
+        - name: Fail when missing response role was accepted
+          ansible.builtin.fail:
+            msg: Missing explicit EDGE_NODE response role unexpectedly passed.
+      rescue:
+        - name: Verify missing response role failed closed
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate required fabric membership response role'
+              - >-
+                'without required role EDGE_NODE' in
                 (ansible_failed_result | string)
 
     - name: Build entries with a case-insensitive hostname collision
@@ -1264,6 +1517,12 @@
           - >-
             'plugins/modules/lan_automation_workflow_manager.py' not in
             switch_refresh_hostname_finalizer_source
+          - >-
+            'validate_hostname_transfer_entries.yml' in
+            switch_refresh_hostname_finalizer_source
+          - >-
+            'Validate captured hostname finalization entries' not in
+            switch_refresh_hostname_finalizer_source
 
     - name: Load public hostname-transfer phase contract offline
       ansible.builtin.set_fact:
@@ -1401,6 +1660,16 @@
             switch_refresh_hostname_cleanup_contract_source
           - >-
             'finalize_hostnames' not in
+            switch_refresh_hostname_main_contract_source
+          - >-
+            switch_refresh_hostname_main_contract_source.count(
+              'validate_hostname_transfer_entries.yml'
+            ) == 2
+          - >-
+            'Derive all-batch hostname transfer safety keys' not in
+            switch_refresh_hostname_main_contract_source
+          - >-
+            'Derive hostname-transfer resume safety keys' not in
             switch_refresh_hostname_main_contract_source
           - >-
             switch_refresh_hostname_normal_cleanup_task.when ==

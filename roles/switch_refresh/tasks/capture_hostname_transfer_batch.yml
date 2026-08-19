@@ -32,7 +32,6 @@
     switch_refresh_hostname_transfer_inventory_entries: []
     switch_refresh_hostname_transfer_enriched_mappings: []
     switch_refresh_hostname_transfer_entries: []
-    switch_refresh_hostname_transfer_submission_names: []
     switch_refresh_hostname_transfer_owner_entries: []
     switch_refresh_hostname_transfer_owner_uuids: []
     switch_refresh_hostname_transfer_owner_hostnames: []
@@ -102,18 +101,6 @@
       (switch_refresh_hostname_lookup_response_item[0].device_info | type_debug)
       == 'list'
 
-- name: Validate hostname transfer inventory response availability
-  ansible.builtin.assert:
-    that:
-      - network_devices_info_result.response is defined
-      - >-
-        switch_refresh_hostname_transfer_inventory_entries | length ==
-        switch_refresh_hostname_transfer_expected_ips | length
-    fail_msg: >-
-      Hostname transfer requires exactly one live Catalyst Center inventory
-      result for every old and replacement switch in batch
-      {{ switch_refresh_cleanup_batch_name }}. No cleanup changes were made.
-
 - name: Validate hostname transfer inventory result structure
   ansible.builtin.assert:
     that:
@@ -166,17 +153,14 @@
     label: >-
       {{ switch_refresh_hostname_mapping_to_build.new_device_management_ip }}
 
-- name: Derive batched LAN Automation hostname labels
-  ansible.builtin.set_fact:
-    switch_refresh_hostname_transfer_submission_names: >-
-      {{
-        switch_refresh_hostname_transfer_entries |
-        map(attribute='old_hostname') |
-        map('string') |
-        map('regex_replace', '\..*$', '') |
-        map('trim') |
-        list
-      }}
+- name: Validate common captured hostname transfer entry schema
+  ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+  vars:
+    switch_refresh_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_hostname_transfer_entries }}"
+      context: >-
+        captured hostname transfer batch
+        {{ switch_refresh_cleanup_batch_name }}
 
 - name: Validate hostname transfer mapping coverage and uniqueness
   ansible.builtin.assert:
@@ -185,39 +169,43 @@
         switch_refresh_hostname_transfer_enriched_mappings | length ==
         switch_refresh_batch_resolved_mappings | length
       - >-
-        switch_refresh_hostname_transfer_entries | length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count ==
         switch_refresh_batch_resolved_mappings | length
-      - switch_refresh_hostname_transfer_entries | length <= 100
       - >-
-        switch_refresh_hostname_transfer_entries |
-        map(attribute='old_hostname') |
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count <=
+        100
+      - >-
+        switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
         map('lower') |
         unique |
-        length == switch_refresh_hostname_transfer_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_transfer_entries |
-        map(attribute='old_device_uuid') |
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
         unique |
-        length == switch_refresh_hostname_transfer_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_transfer_entries |
-        map(attribute='new_device_uuid') |
+        switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids |
         unique |
-        length == switch_refresh_hostname_transfer_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_transfer_submission_names |
+        switch_refresh_hostname_transfer_entry_validation_result.submission_labels |
         reject('equalto', '') |
         list |
-        length == switch_refresh_hostname_transfer_entries | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_transfer_submission_names |
+        switch_refresh_hostname_transfer_entry_validation_result.submission_labels |
         map('length') |
         max <= 63
       - >-
-        switch_refresh_hostname_transfer_submission_names |
+        switch_refresh_hostname_transfer_entry_validation_result.submission_labels |
         map('lower') |
         unique |
-        length == switch_refresh_hostname_transfer_submission_names | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
     fail_msg: >-
       Hostname transfer requires no more than 100 complete mappings with unique
       old hostnames, old identities, replacement identities, and non-empty,
@@ -229,6 +217,8 @@
   ansible.builtin.set_fact:
     switch_refresh_batch_resolved_mappings: >-
       {{ switch_refresh_hostname_transfer_enriched_mappings }}
+    switch_refresh_hostname_transfer_entries: >-
+      {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
 
 - name: Resolve captured old-hostname ownership
   ansible.builtin.include_role:

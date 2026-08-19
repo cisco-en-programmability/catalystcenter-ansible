@@ -99,99 +99,35 @@
           }}
       no_log: true
 
-    - name: Validate captured hostname finalization entries
-      ansible.builtin.assert:
-        that:
-          - switch_refresh_hostname_finalize_entry is mapping
-          - >-
-            switch_refresh_hostname_finalize_entry.old_management_ip is defined
-          - switch_refresh_hostname_finalize_entry.old_hostname is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.old_hostname |
-            string |
-            trim |
-            length > 0
-          - >-
-            switch_refresh_hostname_finalize_entry.old_device_uuid is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.old_device_uuid |
-            string |
-            trim |
-            length > 0
-          - >-
-            switch_refresh_hostname_finalize_entry.old_serial_number is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.old_serial_number |
-            string |
-            trim |
-            length > 0
-          - >-
-            switch_refresh_hostname_finalize_entry.new_management_ip is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.new_management_ip |
-            string |
-            trim |
-            length > 0
-          - >-
-            switch_refresh_hostname_finalize_entry.new_device_uuid is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.new_device_uuid |
-            string |
-            trim |
-            length > 0
-          - >-
-            switch_refresh_hostname_finalize_entry.new_serial_number is defined
-          - >-
-            switch_refresh_hostname_finalize_entry.new_serial_number |
-            string |
-            trim |
-            length > 0
-        fail_msg: >-
-          The persisted hostname-transfer entry for
-          {{ switch_refresh_hostname_finalize_entry.new_management_ip |
-          default('unknown replacement') }} is incomplete. Finalization will
-          not rediscover identity from deleted old devices.
-      loop: "{{ switch_refresh_hostname_finalize_entries }}"
-      loop_control:
-        loop_var: switch_refresh_hostname_finalize_entry
-        label: >-
-          {{
-            switch_refresh_hostname_finalize_entry.new_management_ip |
-            default('invalid-hostname-transfer-entry')
-            if (switch_refresh_hostname_finalize_entry is mapping)
-            else 'invalid-hostname-transfer-entry'
-          }}
+    - name: Validate common hostname finalization entry schema
+      ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+      vars:
+        switch_refresh_hostname_transfer_entry_validation_request:
+          entries: "{{ switch_refresh_hostname_finalize_entries }}"
+          context: >-
+            hostname finalization batch
+            {{ switch_refresh_hostname_finalize_batch_name }}
 
     - name: Derive hostname finalization inventory lookup values
       ansible.builtin.set_fact:
+        switch_refresh_hostname_finalize_entries: >-
+          {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
         switch_refresh_hostname_old_management_ips: >-
           {{
-            switch_refresh_hostname_finalize_entries |
-            map(attribute='old_management_ip') |
-            map('string') |
-            list
+            switch_refresh_hostname_transfer_entry_validation_result.old_management_ips
           }}
         switch_refresh_hostname_old_serial_numbers: []
         switch_refresh_hostname_old_device_uuids: >-
           {{
-            switch_refresh_hostname_finalize_entries |
-            map(attribute='old_device_uuid') |
-            map('string') |
-            list
+            switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids
           }}
         switch_refresh_hostname_desired_names: >-
           {{
-            switch_refresh_hostname_finalize_entries |
-            map(attribute='old_hostname') |
-            map('string') |
-            list
+            switch_refresh_hostname_transfer_entry_validation_result.old_hostnames
           }}
         switch_refresh_hostname_new_management_ips: >-
           {{
-            switch_refresh_hostname_finalize_entries |
-            map(attribute='new_management_ip') |
-            map('string') |
-            list
+            switch_refresh_hostname_transfer_entry_validation_result.new_management_ips
           }}
       no_log: true
 
@@ -533,15 +469,18 @@
           their absence could not be proven. No hostname update was submitted.
 
     - name: Validate replacement EDGE_NODE targets before hostname update
-      ansible.builtin.include_tasks: >-
-        validate_hostname_transfer_replacement_fabric.yml
+      ansible.builtin.include_tasks: validate_fabric_membership.yml
       vars:
-        switch_refresh_hostname_fabric_site: >-
-          {{ switch_refresh_hostname_finalize_site }}
-        switch_refresh_hostname_fabric_expected_ips: >-
-          {{ switch_refresh_hostname_new_management_ips }}
-        switch_refresh_hostname_fabric_validation_context: >-
-          pre-update finalization
+        switch_refresh_fabric_validation_request:
+          site: "{{ switch_refresh_hostname_finalize_site }}"
+          expected_ips: "{{ switch_refresh_hostname_new_management_ips }}"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: pre-update finalization
+          timeout: "{{ switch_refresh_fabric_validation_timeout }}"
+          retries: "{{ switch_refresh_fabric_validation_retries }}"
+          interval: "{{ switch_refresh_fabric_validation_interval }}"
 
     - name: Resolve replacement inventory records before hostname update
       cisco.catalystcenter.network_device_info:
@@ -918,15 +857,18 @@
       no_log: true
 
     - name: Validate replacement EDGE_NODE targets after hostname update
-      ansible.builtin.include_tasks: >-
-        validate_hostname_transfer_replacement_fabric.yml
+      ansible.builtin.include_tasks: validate_fabric_membership.yml
       vars:
-        switch_refresh_hostname_fabric_site: >-
-          {{ switch_refresh_hostname_finalize_site }}
-        switch_refresh_hostname_fabric_expected_ips: >-
-          {{ switch_refresh_hostname_new_management_ips }}
-        switch_refresh_hostname_fabric_validation_context: >-
-          post-update finalization
+        switch_refresh_fabric_validation_request:
+          site: "{{ switch_refresh_hostname_finalize_site }}"
+          expected_ips: "{{ switch_refresh_hostname_new_management_ips }}"
+          expected_state: present
+          query_role: EDGE_NODE
+          response_role: EDGE_NODE
+          context: post-update finalization
+          timeout: "{{ switch_refresh_fabric_validation_timeout }}"
+          retries: "{{ switch_refresh_fabric_validation_retries }}"
+          interval: "{{ switch_refresh_fabric_validation_interval }}"
 
     - name: Build durable hostname transfer result manifest
       ansible.builtin.set_fact:

@@ -89,24 +89,21 @@
     - switch_refresh_old_lookup_response_item[0].device_info is defined
     - (switch_refresh_old_lookup_response_item[0].device_info | type_debug) == 'list'
 
-- name: Validate old switch batch inventory response
-  ansible.builtin.assert:
-    that:
-      - network_devices_info_result.response is defined
-      - switch_refresh_batch_old_device_info_entries | length > 0
-    fail_msg: >-
-      Catalyst Center did not return inventory details for any old switch in
-      batch {{ switch_refresh_batch_name }}.
-  when: switch_refresh_device_info_lookup_enabled | bool
-
 - name: Validate old switch batch inventory records
   ansible.builtin.assert:
     that:
+      - switch_refresh_old_info_item is mapping
+      - switch_refresh_old_info_item.device_ip is defined
+      - (switch_refresh_old_info_item.device_ip | type_debug) == 'str'
+      - switch_refresh_old_info_item.device_ip | trim | length > 0
+      - switch_refresh_old_info_item.device_details is defined
       - (switch_refresh_old_info_item.device_details | type_debug) == 'list'
       - switch_refresh_old_info_item.device_details | length == 1
+      - switch_refresh_old_info_item.device_details[0] is mapping
     fail_msg: >-
       Old switch {{ switch_refresh_old_info_item.device_ip | default('unknown') }}
-      did not resolve to exactly one inventory record.
+      did not resolve to exactly one structured inventory record. No switch
+      refresh target was resolved from this response.
   loop: "{{ switch_refresh_batch_old_device_info_entries }}"
   loop_control:
     loop_var: switch_refresh_old_info_item

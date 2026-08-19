@@ -22,18 +22,6 @@
         list
       }}
 
-- name: Validate exact hostname transfer mapping matches
-  ansible.builtin.assert:
-    that:
-      - switch_refresh_hostname_old_inventory_matches | length == 1
-      - switch_refresh_hostname_new_inventory_matches | length == 1
-    fail_msg: >-
-      Hostname transfer mapping from old switch
-      {{ switch_refresh_hostname_mapping_to_build.old_management_ip }} to
-      replacement
-      {{ switch_refresh_hostname_mapping_to_build.new_device_management_ip }}
-      did not resolve to exactly one record for each device.
-
 - name: Select hostname transfer device records
   ansible.builtin.set_fact:
     switch_refresh_hostname_old_device_record: >-

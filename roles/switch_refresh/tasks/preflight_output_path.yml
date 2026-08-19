@@ -36,6 +36,26 @@
     mode: "0750"
   when: not (switch_refresh_output_parent_stat.stat.exists | bool)
 
+- name: Inspect generated output target path
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_output_path }}"
+    follow: false
+  register: switch_refresh_output_path_stat
+
+- name: Validate generated output target path type
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_output_path_stat.stat.exists | bool) or
+        (switch_refresh_output_path_stat.stat.isreg | default(false))
+      - >-
+        not (switch_refresh_output_path_stat.stat.islnk | default(false))
+    fail_msg: >-
+      {{ switch_refresh_output_label }} must be absent or an existing regular
+      file. The role will not remove a directory, follow a symlink, or overwrite
+      a special path:
+      {{ switch_refresh_output_path }}.
+
 - name: Probe generated output parent writability
   block:
     - name: Create generated output parent writability probe

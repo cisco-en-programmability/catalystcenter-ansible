@@ -128,109 +128,67 @@
       Hostname transfer manifest metadata does not match controller, batch,
       site, or canonical input fingerprint for {{ refresh_item.name }}.
 
-- name: Validate hostname transfer manifest device entries
+- name: Validate common hostname transfer manifest entry schema
+  ansible.builtin.include_tasks: validate_hostname_transfer_entries.yml
+  vars:
+    switch_refresh_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_hostname_loaded_manifest.devices }}"
+      context: >-
+        hostname transfer manifest for {{ refresh_item.name }}
+
+- name: Validate hostname transfer manifest entry states
   ansible.builtin.assert:
     that:
-      - switch_refresh_hostname_manifest_device is mapping
-      - >-
-        switch_refresh_hostname_manifest_device.old_management_ip is defined
-      - switch_refresh_hostname_manifest_device.old_hostname is defined
-      - >-
-        switch_refresh_hostname_manifest_device.old_hostname |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_manifest_device.old_device_uuid is defined
-      - >-
-        switch_refresh_hostname_manifest_device.old_device_uuid |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_manifest_device.old_serial_number is defined
-      - >-
-        switch_refresh_hostname_manifest_device.old_serial_number |
-        string |
-        trim |
-        length > 0
-      - >-
-        switch_refresh_hostname_manifest_device.new_management_ip is defined
-      - >-
-        switch_refresh_hostname_manifest_device.new_management_ip |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_manifest_device.new_device_uuid is defined
-      - >-
-        switch_refresh_hostname_manifest_device.new_device_uuid |
-        string |
-        trim |
-        length > 0
-      - switch_refresh_hostname_manifest_device.new_serial_number is defined
-      - >-
-        switch_refresh_hostname_manifest_device.new_serial_number |
-        string |
-        trim |
-        length > 0
       - switch_refresh_hostname_manifest_device.status is defined
       - >-
-        switch_refresh_hostname_manifest_device.status | string in
+        (switch_refresh_hostname_manifest_device.status | type_debug) == 'str'
+      - >-
+        switch_refresh_hostname_manifest_device.status in
         ['captured', 'rename_pending', 'verified']
     fail_msg: >-
-      Hostname transfer manifest contains an incomplete or invalid device entry
-      for {{ switch_refresh_hostname_manifest_device.new_management_ip |
-      default('unknown replacement') }}.
-  loop: "{{ switch_refresh_hostname_loaded_manifest.devices }}"
+      Hostname transfer manifest contains an invalid device state for
+      {{ switch_refresh_hostname_manifest_device.new_management_ip }}.
+  loop: >-
+    {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
   loop_control:
     loop_var: switch_refresh_hostname_manifest_device
-    label: >-
-      {{
-        switch_refresh_hostname_manifest_device.new_management_ip |
-        default('invalid-hostname-transfer-entry')
-        if (switch_refresh_hostname_manifest_device is mapping)
-        else 'invalid-hostname-transfer-entry'
-      }}
+    label: "{{ switch_refresh_hostname_manifest_device.new_management_ip }}"
 
 - name: Validate hostname transfer manifest coverage and uniqueness
   ansible.builtin.assert:
     that:
       - >-
-        switch_refresh_hostname_loaded_manifest.devices |
-        map(attribute='new_management_ip') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.new_management_ips |
         sort ==
         refresh_item.new_devices.device_ips |
         map('string') |
         sort
       - >-
-        switch_refresh_hostname_loaded_manifest.devices |
-        map(attribute='new_management_ip') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.new_management_ips |
         unique |
-        length == switch_refresh_hostname_loaded_manifest.devices | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_loaded_manifest.devices |
-        map(attribute='old_hostname') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
         map('lower') |
         unique |
-        length == switch_refresh_hostname_loaded_manifest.devices | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_loaded_manifest.devices |
-        map(attribute='old_device_uuid') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
         unique |
-        length == switch_refresh_hostname_loaded_manifest.devices | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_hostname_loaded_manifest.devices |
-        map(attribute='new_device_uuid') |
-        map('string') |
+        switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids |
         unique |
-        length == switch_refresh_hostname_loaded_manifest.devices | length
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
         switch_refresh_hostname_loaded_manifest.status | string != 'verified'
         or
         (
-          switch_refresh_hostname_loaded_manifest.devices |
+          switch_refresh_hostname_transfer_entry_validation_result.entries |
           rejectattr('status', 'equalto', 'verified') |
           list |
           length == 0
@@ -257,7 +215,7 @@
           'hostname_transfer_input_fingerprint':
             switch_refresh_hostname_transfer_input_fingerprint,
           'hostname_transfer_entries':
-            switch_refresh_hostname_loaded_manifest.devices
+            switch_refresh_hostname_transfer_entry_validation_result.entries
         }
       }}
   no_log: true

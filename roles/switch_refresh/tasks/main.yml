@@ -361,18 +361,6 @@
   tags:
     - switch_refresh_prepare
 
-- name: Require explicit old-switch cleanup approval
-  ansible.builtin.fail:
-    msg: >-
-      Old-switch cleanup is gated. Set switch_refresh_cleanup_old=true or run
-      the dedicated switch_refresh_cleanup_old.yml playbook after validation.
-  when:
-    - switch_refresh_phase == 'cleanup_old'
-    - not (switch_refresh_hostname_transfer_resume_from_manifest | bool)
-    - not (switch_refresh_cleanup_old | bool)
-  tags:
-    - switch_refresh_cleanup_old
-
 - name: Initialize all-batch old-switch cleanup preflight
   ansible.builtin.set_fact:
     switch_refresh_cleanup_batch_plans: []
@@ -380,9 +368,6 @@
     switch_refresh_all_cleanup_output_files: []
     switch_refresh_all_hostname_transfer_entries: []
     switch_refresh_all_hostname_transfer_manifest_files: []
-    switch_refresh_all_hostname_transfer_names: []
-    switch_refresh_all_hostname_transfer_old_uuids: []
-    switch_refresh_all_hostname_transfer_new_uuids: []
   when:
     - switch_refresh_normal_cleanup_mode | bool
   tags:
@@ -441,30 +426,16 @@
   tags:
     - switch_refresh_cleanup_old
 
-- name: Derive all-batch hostname transfer safety keys
-  ansible.builtin.set_fact:
-    switch_refresh_all_hostname_transfer_names: >-
-      {{
-        switch_refresh_all_hostname_transfer_entries |
-        map(attribute='old_hostname') |
-        map('string') |
-        map('lower') |
-        list
-      }}
-    switch_refresh_all_hostname_transfer_old_uuids: >-
-      {{
-        switch_refresh_all_hostname_transfer_entries |
-        map(attribute='old_device_uuid') |
-        map('string') |
-        list
-      }}
-    switch_refresh_all_hostname_transfer_new_uuids: >-
-      {{
-        switch_refresh_all_hostname_transfer_entries |
-        map(attribute='new_device_uuid') |
-        map('string') |
-        list
-      }}
+- name: Validate common all-batch hostname transfer entry schema
+  ansible.builtin.include_tasks:
+    file: validate_hostname_transfer_entries.yml
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    switch_refresh_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_all_hostname_transfer_entries }}"
+      context: all-batch cleanup hostname transfer entries
   when:
     - switch_refresh_normal_cleanup_mode | bool
     - switch_refresh_hostname_transfer_enabled | bool
@@ -490,24 +461,33 @@
         not (switch_refresh_cleanup_host_onboarding_enabled | bool)
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
-        switch_refresh_all_hostname_transfer_entries | length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count ==
         switch_refresh_all_batch_device_ips | length
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
-        switch_refresh_all_hostname_transfer_names | unique | length ==
-        switch_refresh_all_hostname_transfer_names | length
+        switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
+        map('lower') |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
-        switch_refresh_all_hostname_transfer_old_uuids | unique | length ==
-        switch_refresh_all_hostname_transfer_old_uuids | length
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
-        switch_refresh_all_hostname_transfer_new_uuids | unique | length ==
-        switch_refresh_all_hostname_transfer_new_uuids | length
+        switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
-        switch_refresh_all_hostname_transfer_old_uuids |
-        intersect(switch_refresh_all_hostname_transfer_new_uuids) |
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
+        intersect(
+          switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids
+        ) |
         length == 0
       - >-
         not (switch_refresh_hostname_transfer_enabled | bool) or
@@ -532,7 +512,12 @@
         switch_refresh_hostname_conflict_item.new_current_hostname |
         default('') |
         string |
-        lower not in switch_refresh_all_hostname_transfer_names or
+        lower not in
+        (
+          switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
+          map('lower') |
+          list
+        ) or
         switch_refresh_hostname_conflict_item.new_current_hostname |
         default('') |
         string |
@@ -543,7 +528,8 @@
       currently owns another replacement's desired old hostname
       {{ switch_refresh_hostname_conflict_item.new_current_hostname }}. Resolve
       the collision before old-switch cleanup.
-  loop: "{{ switch_refresh_all_hostname_transfer_entries }}"
+  loop: >-
+    {{ switch_refresh_hostname_transfer_entry_validation_result.entries }}
   loop_control:
     loop_var: switch_refresh_hostname_conflict_item
     label: "{{ switch_refresh_hostname_conflict_item.new_management_ip }}"
@@ -594,9 +580,6 @@
     switch_refresh_hostname_finalize_plans: []
     switch_refresh_hostname_transfer_results: []
     switch_refresh_all_finalize_hostname_entries: []
-    switch_refresh_all_finalize_hostname_names: []
-    switch_refresh_all_finalize_old_uuids: []
-    switch_refresh_all_finalize_new_uuids: []
     switch_refresh_all_finalize_manifest_files: []
   when:
     - switch_refresh_manifest_resume_mode | bool
@@ -643,30 +626,16 @@
   tags:
     - switch_refresh_cleanup_old
 
-- name: Derive hostname-transfer resume safety keys
-  ansible.builtin.set_fact:
-    switch_refresh_all_finalize_hostname_names: >-
-      {{
-        switch_refresh_all_finalize_hostname_entries |
-        map(attribute='old_hostname') |
-        map('string') |
-        map('lower') |
-        list
-      }}
-    switch_refresh_all_finalize_old_uuids: >-
-      {{
-        switch_refresh_all_finalize_hostname_entries |
-        map(attribute='old_device_uuid') |
-        map('string') |
-        list
-      }}
-    switch_refresh_all_finalize_new_uuids: >-
-      {{
-        switch_refresh_all_finalize_hostname_entries |
-        map(attribute='new_device_uuid') |
-        map('string') |
-        list
-      }}
+- name: Validate common hostname-transfer resume entry schema
+  ansible.builtin.include_tasks:
+    file: validate_hostname_transfer_entries.yml
+    apply:
+      tags:
+        - switch_refresh_cleanup_old
+  vars:
+    switch_refresh_hostname_transfer_entry_validation_request:
+      entries: "{{ switch_refresh_all_finalize_hostname_entries }}"
+      context: manifest-resume hostname transfer entries
   when:
     - switch_refresh_manifest_resume_mode | bool
   no_log: true
@@ -680,20 +649,29 @@
         switch_refresh_hostname_finalize_plans | length ==
         switch_refresh_batches | length
       - >-
-        switch_refresh_all_finalize_hostname_entries | length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count ==
         switch_refresh_all_batch_device_ips | length
       - >-
-        switch_refresh_all_finalize_hostname_names | unique | length ==
-        switch_refresh_all_finalize_hostname_names | length
+        switch_refresh_hostname_transfer_entry_validation_result.old_hostnames |
+        map('lower') |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_all_finalize_old_uuids | unique | length ==
-        switch_refresh_all_finalize_old_uuids | length
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_all_finalize_new_uuids | unique | length ==
-        switch_refresh_all_finalize_new_uuids | length
+        switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids |
+        unique |
+        length ==
+        switch_refresh_hostname_transfer_entry_validation_result.entry_count
       - >-
-        switch_refresh_all_finalize_old_uuids |
-        intersect(switch_refresh_all_finalize_new_uuids) |
+        switch_refresh_hostname_transfer_entry_validation_result.old_device_uuids |
+        intersect(
+          switch_refresh_hostname_transfer_entry_validation_result.new_device_uuids
+        ) |
         length == 0
       - >-
         switch_refresh_all_finalize_manifest_files | unique | length ==

@@ -241,41 +241,18 @@
   when: switch_refresh_fabric_add_enabled | bool
 
 - name: Validate replacement switch batch is present in fabric
-  ansible.builtin.include_role:
-    name: fabric_devices_info
-    apply:
-      tags:
-        - switch_refresh_prepare
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
   vars:
-    fabric_devices_info_state: gathered
-    fabric_devices_info_config_verify: false
-    fabric_devices_info_config:
-      - fabric_devices:
-          - fabric_site_hierarchy: "{{ refresh_item.fabric_site_name_hierarchy }}"
-            fabric_device_role: EDGE_NODE
-            device_identifier:
-              - ip_address: "{{ switch_refresh_batch_device_ips }}"
-            timeout: >-
-              {{
-                refresh_item.fabric_validation_timeout |
-                default(switch_refresh_fabric_validation_timeout)
-              }}
-            retries: >-
-              {{
-                refresh_item.fabric_validation_retries |
-                default(switch_refresh_fabric_validation_retries)
-              }}
-            interval: >-
-              {{
-                refresh_item.fabric_validation_interval |
-                default(switch_refresh_fabric_validation_interval)
-              }}
-            requested_info:
-              - fabric_info
-  when: switch_refresh_fabric_validation_enabled | bool
-
-- name: Validate replacement switch batch fabric response
-  ansible.builtin.include_tasks: validate_batch_fabric_result.yml
+    switch_refresh_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_batch_device_ips }}"
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: ""
+      context: replacement fabric validation
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_fabric_validation_interval) }}"
   when: switch_refresh_fabric_validation_enabled | bool
 
 - name: Run batch host-port migration and onboarding
@@ -283,16 +260,24 @@
   when: switch_refresh_host_onboarding_enabled | bool
 
 - name: Revalidate old migration sources in the expected fabric
-  ansible.builtin.include_tasks: validate_old_batch_fabric_presence.yml
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
   vars:
-    switch_refresh_old_fabric_expected_ips: >-
-      {{
-        switch_refresh_batch_resolved_mappings |
-        map(attribute='old_management_ip') |
-        map('string') |
-        list
-      }}
-    switch_refresh_old_fabric_validation_context: Prepare execution
+    switch_refresh_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: >-
+        {{
+          switch_refresh_batch_resolved_mappings |
+          map(attribute='old_management_ip') |
+          map('string') |
+          list
+        }}
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: ""
+      context: Prepare execution
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_fabric_validation_interval) }}"
   when: switch_refresh_host_onboarding_enabled | bool
 
 - name: Run batch host-port migration and onboarding
