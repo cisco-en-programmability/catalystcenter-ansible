@@ -105,7 +105,10 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="gets_the_total_network_device_interface_counts_in_the_specified_time_range_when_there_is_no_start_and_end_time_specified_returns_the_latest_interfaces_total_count",
+            function=(
+                "gets_the_total_network_device_interface_counts_in_the_specified_time_range_when_there_is_no_start_"
+                + "and_end_time_specified_returns_the_latest_interfaces_total_count"
+            ),
             params=self.get_object(self._task.args),
         )
         self._result.update(
