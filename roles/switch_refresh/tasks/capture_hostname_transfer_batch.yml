@@ -32,6 +32,7 @@
     switch_refresh_hostname_transfer_inventory_entries: []
     switch_refresh_hostname_transfer_enriched_mappings: []
     switch_refresh_hostname_transfer_entries: []
+    switch_refresh_hostname_transfer_submission_names: []
     switch_refresh_hostname_transfer_owner_entries: []
     switch_refresh_hostname_transfer_owner_uuids: []
     switch_refresh_hostname_transfer_owner_hostnames: []
@@ -165,6 +166,18 @@
     label: >-
       {{ switch_refresh_hostname_mapping_to_build.new_device_management_ip }}
 
+- name: Derive batched LAN Automation hostname labels
+  ansible.builtin.set_fact:
+    switch_refresh_hostname_transfer_submission_names: >-
+      {{
+        switch_refresh_hostname_transfer_entries |
+        map(attribute='old_hostname') |
+        map('string') |
+        map('regex_replace', '\..*$', '') |
+        map('trim') |
+        list
+      }}
+
 - name: Validate hostname transfer mapping coverage and uniqueness
   ansible.builtin.assert:
     that:
@@ -191,10 +204,26 @@
         map(attribute='new_device_uuid') |
         unique |
         length == switch_refresh_hostname_transfer_entries | length
+      - >-
+        switch_refresh_hostname_transfer_submission_names |
+        reject('equalto', '') |
+        list |
+        length == switch_refresh_hostname_transfer_entries | length
+      - >-
+        switch_refresh_hostname_transfer_submission_names |
+        map('length') |
+        max <= 63
+      - >-
+        switch_refresh_hostname_transfer_submission_names |
+        map('lower') |
+        unique |
+        length == switch_refresh_hostname_transfer_submission_names | length
     fail_msg: >-
       Hostname transfer requires no more than 100 complete mappings with unique
-      old hostnames, old identities, and replacement identities within batch
-      {{ switch_refresh_cleanup_batch_name }}. No cleanup changes were made.
+      old hostnames, old identities, replacement identities, and non-empty,
+      case-insensitively unique LAN Automation hostname labels of at most 63
+      characters within batch {{ switch_refresh_cleanup_batch_name }}. No
+      cleanup changes were made.
 
 - name: Save enriched hostname transfer mappings
   ansible.builtin.set_fact:

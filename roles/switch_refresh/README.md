@@ -332,18 +332,26 @@ lan_automation_config:
   - lan_automated_device_update:
       hostname_update_devices:
         - device_management_ip_address: "192.0.2.20"
-          new_host_name: old-edge-01.example.test
+          new_host_name: old-edge-01
         - device_management_ip_address: "192.0.2.21"
-          new_host_name: old-edge-02.example.test
+          new_host_name: old-edge-02
 ```
 
 This payload is generated internally from the manifest. Do not add it to the
 replacement onboarding `new_devices.lan_automation_config`.
 
+The full captured hostname remains unchanged in the manifest, hostname
+ownership checks, and final convergence target. For the LAN Automation update,
+the role submits only the leftmost hostname label because Catalyst Center and
+the device domain configuration supply the DNS suffix. This prevents a captured
+FQDN such as `old-edge-01.example.test` from becoming
+`old-edge-01.example.test.example.test`.
+
 Hostname convergence is compared case-insensitively because network hostnames
-are case-insensitive and Catalyst Center may normalize their letter case. The
-captured spelling is still sent in the update request and retained in the
-manifest.
+are case-insensitive and Catalyst Center may normalize their letter case. If
+the replacement's configured DNS domain differs from the captured old-device
+domain, exact FQDN convergence fails safely; hostname transfer does not change
+device or site DNS-domain settings.
 
 Hostname transfer supports at most 100 mappings in one batch. Because the old
 hostname must be released before reuse, enabling it for normal cleanup also

@@ -150,6 +150,14 @@
         map('string') |
         unique |
         length == switch_refresh_hostname_update_devices | length
+      - >-
+        switch_refresh_hostname_update_devices |
+        map(attribute='new_host_name') |
+        map('string') |
+        map('lower') |
+        unique |
+        length == switch_refresh_hostname_update_devices | length
     fail_msg: >-
       Hostname update planning did not produce exact captured-entry coverage or
-      produced duplicate update targets.
+      produced duplicate update targets or case-insensitive LAN Automation
+      hostname labels.

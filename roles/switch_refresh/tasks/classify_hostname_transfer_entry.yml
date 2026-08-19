@@ -106,6 +106,15 @@
         default('') |
         string
       }}
+    switch_refresh_hostname_entry_submission_hostname: >-
+      {{
+        (
+          switch_refresh_hostname_finalize_entry.old_hostname |
+          string |
+          trim
+        ).split('.')[0] |
+        trim
+      }}
     switch_refresh_hostname_entry_observed_management_state: >-
       {{
         switch_refresh_hostname_entry_new_record.managementState |
@@ -253,6 +262,21 @@
         else 'hostname_not_converged'
       }}
 
+- name: Validate pending LAN Automation hostname label
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_hostname_entry_submission_hostname | length > 0
+      - switch_refresh_hostname_entry_submission_hostname | length <= 63
+    fail_msg: >-
+      The captured desired hostname
+      {{ switch_refresh_hostname_finalize_entry.old_hostname }} does not produce
+      a valid non-empty LAN Automation hostname label of at most 63 characters.
+      No hostname update was submitted.
+  when:
+    - switch_refresh_hostname_builder_build_payload | bool
+    - switch_refresh_hostname_entry_is_eligible | bool
+    - not (switch_refresh_hostname_entry_name_matches | bool)
+
 - name: Add pending hostname update payload entry
   ansible.builtin.set_fact:
     switch_refresh_hostname_update_devices: >-
@@ -262,7 +286,7 @@
             'device_management_ip_address':
               switch_refresh_hostname_finalize_entry.new_management_ip,
             'new_host_name':
-              switch_refresh_hostname_finalize_entry.old_hostname
+              switch_refresh_hostname_entry_submission_hostname
           }
         ]
       }}

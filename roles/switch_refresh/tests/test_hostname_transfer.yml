@@ -109,6 +109,18 @@
             list |
             length == 1
           - >-
+            switch_refresh_hostname_capture_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Derive batched LAN Automation hostname labels'
+            ) |
+            list |
+            length == 1
+          - >-
+            'case-insensitively unique LAN Automation hostname labels' in
+            switch_refresh_hostname_capture_contract_source
+          - >-
             'validate_hostname_transfer_capture.yml' not in
             switch_refresh_hostname_capture_contract_source
           - >-
@@ -310,6 +322,57 @@
             selectattr('new_host_name', 'defined') |
             list |
             length == 0
+
+    - name: Validate capture-time LAN Automation hostname label cases
+      ansible.builtin.assert:
+        that:
+          - >-
+            (
+              switch_refresh_hostname_capture_case_labels |
+              reject('equalto', '') |
+              list |
+              length == switch_refresh_hostname_capture_case.hostnames | length
+              and
+              switch_refresh_hostname_capture_case_labels |
+              map('length') |
+              max <= 63
+              and
+              switch_refresh_hostname_capture_case_labels |
+              map('lower') |
+              unique |
+              length == switch_refresh_hostname_capture_case_labels | length
+            ) == switch_refresh_hostname_capture_case.expected_valid
+      vars:
+        switch_refresh_hostname_capture_case_labels: >-
+          {{
+            switch_refresh_hostname_capture_case.hostnames |
+            map('regex_replace', '\..*$', '') |
+            map('trim') |
+            list
+          }}
+      loop:
+        - name: valid FQDN and short labels
+          hostnames:
+            - edge-one.example.test
+            - EDGE-TWO
+          expected_valid: true
+        - name: case-insensitive FQDN label collision
+          hostnames:
+            - shared-edge.a.example.test
+            - SHARED-EDGE.b.example.test
+          expected_valid: false
+        - name: empty leftmost label
+          hostnames:
+            - .example.test
+          expected_valid: false
+        - name: over-63-character leftmost label
+          hostnames:
+            - >-
+              {{ ('a' * 64) ~ '.example.test' }}
+          expected_valid: false
+      loop_control:
+        loop_var: switch_refresh_hostname_capture_case
+        label: "{{ switch_refresh_hostname_capture_case.name }}"
 
     - name: Initialize LAN Automation hostname capture facts
       ansible.builtin.set_fact:
@@ -533,8 +596,18 @@
             switch_refresh_hostname_update_devices[0] ==
             {
               'device_management_ip_address': '192.0.2.21',
-              'new_host_name': 'old-edge-02.example.test'
+              'new_host_name': 'old-edge-02'
             }
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            selectattr('status', 'equalto', 'verified') |
+            map(attribute='desired_hostname') |
+            list == ['OLD-EDGE-01.example.test']
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            selectattr('status', 'equalto', 'rename_pending') |
+            map(attribute='desired_hostname') |
+            list == ['old-edge-02.example.test']
 
     - name: Plan one aggregate update for two pending replacements
       ansible.builtin.include_tasks: >-
@@ -575,12 +648,156 @@
             switch_refresh_hostname_update_devices |
             map(attribute='new_host_name') |
             list ==
-            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+            ['OLD-EDGE-01', 'old-edge-02']
           - >-
             switch_refresh_hostname_runtime_entries |
             map(attribute='status') |
             unique |
             list == ['rename_pending']
+          - >-
+            switch_refresh_hostname_runtime_entries |
+            map(attribute='desired_hostname') |
+            list ==
+            ['OLD-EDGE-01.example.test', 'old-edge-02.example.test']
+
+    - name: Plan recovery from a doubled Catalyst Center domain suffix
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_update_batch.yml
+      vars:
+        switch_refresh_hostname_finalize_entries: >-
+          {{ switch_refresh_hostname_test_loaded_manifest.devices[0:1] }}
+        switch_refresh_hostname_new_inventory_records:
+          - managementIpAddress: "192.0.2.20"
+            hostname: OLD-EDGE-01.example.test.example.test
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+        switch_refresh_hostname_claim_inventory_records: []
+        switch_refresh_hostname_builder_strict: true
+        switch_refresh_hostname_builder_build_payload: true
+
+    - name: Verify doubled-domain recovery preserves the desired FQDN
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_update_devices | length == 1
+          - >-
+            switch_refresh_hostname_update_devices[0] ==
+            {
+              'device_management_ip_address': '192.0.2.20',
+              'new_host_name': 'OLD-EDGE-01'
+            }
+          - >-
+            switch_refresh_hostname_runtime_entries[0].desired_hostname ==
+            'OLD-EDGE-01.example.test'
+          - >-
+            switch_refresh_hostname_runtime_entries[0].observed_new_hostname ==
+            'OLD-EDGE-01.example.test.example.test'
+          - >-
+            switch_refresh_hostname_runtime_entries[0].status ==
+            'rename_pending'
+
+    - name: Plan a captured short hostname from a domain-qualified replacement
+      ansible.builtin.include_tasks: >-
+        ../tasks/build_hostname_update_batch.yml
+      vars:
+        switch_refresh_hostname_finalize_entries:
+          - old_management_ip: "198.51.100.20"
+            old_hostname: OLD-EDGE-01
+            old_device_uuid: old-uuid-01
+            old_serial_number: OLD-SERIAL-01
+            new_management_ip: "192.0.2.20"
+            new_device_uuid: new-uuid-01
+            new_serial_number: NEW-SERIAL-01
+            status: captured
+        switch_refresh_hostname_new_inventory_records:
+          - managementIpAddress: "192.0.2.20"
+            hostname: OLD-EDGE-01.example.test
+            instanceUuid: new-uuid-01
+            serialNumber: NEW-SERIAL-01
+            managementState: Managed
+            reachabilityStatus: Reachable
+            role: ACCESS
+        switch_refresh_hostname_claim_inventory_records: []
+        switch_refresh_hostname_builder_strict: true
+        switch_refresh_hostname_builder_build_payload: true
+
+    - name: Verify short desired hostname remains exact and pending
+      ansible.builtin.assert:
+        that:
+          - switch_refresh_hostname_update_devices | length == 1
+          - >-
+            switch_refresh_hostname_update_devices[0] ==
+            {
+              'device_management_ip_address': '192.0.2.20',
+              'new_host_name': 'OLD-EDGE-01'
+            }
+          - >-
+            switch_refresh_hostname_runtime_entries[0].desired_hostname ==
+            'OLD-EDGE-01'
+          - >-
+            switch_refresh_hostname_runtime_entries[0].observed_new_hostname ==
+            'OLD-EDGE-01.example.test'
+          - >-
+            switch_refresh_hostname_runtime_entries[0].status ==
+            'rename_pending'
+
+    - name: Reject colliding case-insensitive LAN Automation hostname labels
+      block:
+        - name: Plan two distinct FQDNs with one submission label
+          ansible.builtin.include_tasks: >-
+            ../tasks/build_hostname_update_batch.yml
+          vars:
+            switch_refresh_hostname_finalize_entries:
+              - old_management_ip: "198.51.100.20"
+                old_hostname: shared-edge.a.example.test
+                old_device_uuid: old-uuid-01
+                old_serial_number: OLD-SERIAL-01
+                new_management_ip: "192.0.2.20"
+                new_device_uuid: new-uuid-01
+                new_serial_number: NEW-SERIAL-01
+                status: captured
+              - old_management_ip: "198.51.100.21"
+                old_hostname: SHARED-EDGE.b.example.test
+                old_device_uuid: old-uuid-02
+                old_serial_number: OLD-SERIAL-02
+                new_management_ip: "192.0.2.21"
+                new_device_uuid: new-uuid-02
+                new_serial_number: NEW-SERIAL-02
+                status: captured
+            switch_refresh_hostname_new_inventory_records:
+              - managementIpAddress: "192.0.2.20"
+                hostname: temporary-edge-01
+                instanceUuid: new-uuid-01
+                serialNumber: NEW-SERIAL-01
+                managementState: Managed
+                reachabilityStatus: Reachable
+                role: ACCESS
+              - managementIpAddress: "192.0.2.21"
+                hostname: temporary-edge-02
+                instanceUuid: new-uuid-02
+                serialNumber: NEW-SERIAL-02
+                managementState: Managed
+                reachabilityStatus: Reachable
+                role: ACCESS
+            switch_refresh_hostname_claim_inventory_records: []
+            switch_refresh_hostname_builder_strict: true
+            switch_refresh_hostname_builder_build_payload: true
+
+        - name: Fail when colliding hostname labels were accepted
+          ansible.builtin.fail:
+            msg: Colliding LAN Automation hostname labels unexpectedly passed.
+      rescue:
+        - name: Verify colliding hostname labels failed before manager submission
+          ansible.builtin.assert:
+            that:
+              - >-
+                ansible_failed_task.name ==
+                'Validate hostname update planner coverage'
+              - >-
+                'case-insensitive LAN Automation hostname labels' in
+                (ansible_failed_result.msg | default(''))
 
     - name: Reject a desired hostname owned by a third device
       block:
