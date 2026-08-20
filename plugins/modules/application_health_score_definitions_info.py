@@ -86,7 +86,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     trafficClass: string
-    includeForHealthScore: True
+    includeForHealthScore: true
     attribute: string
     offset: 1
     limit: 100

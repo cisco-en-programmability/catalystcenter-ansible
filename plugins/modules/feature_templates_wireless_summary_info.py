@@ -77,7 +77,7 @@ EXAMPLES = r"""
     designName: string
     limit: 25
     offset: 1
-    systemTemplate: True
+    systemTemplate: true
   register: result
 """
 RETURN = r"""

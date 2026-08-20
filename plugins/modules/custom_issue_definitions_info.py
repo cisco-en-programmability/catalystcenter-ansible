@@ -121,7 +121,7 @@ EXAMPLES = r"""
     profileId: string
     name: string
     priority: string
-    isEnabled: True
+    isEnabled: true
     severity: 0
     facility: string
     mnemonic: string

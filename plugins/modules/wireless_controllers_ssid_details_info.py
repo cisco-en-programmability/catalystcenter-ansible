@@ -81,8 +81,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     ssidName: string
-    adminStatus: True
-    managed: True
+    adminStatus: true
+    managed: true
     limit: 500
     offset: 1
     networkDeviceId: string

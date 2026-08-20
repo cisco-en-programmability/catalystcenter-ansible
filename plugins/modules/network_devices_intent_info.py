@@ -160,7 +160,7 @@ EXAMPLES = r"""
     managementAddress: 1.1.1.1
     serialNumber: FDO20120QWY
     family: Switch
-    stackDevice: True
+    stackDevice: true
     role: ACCESS
     status: string
     reachabilityStatus: REACHABLE

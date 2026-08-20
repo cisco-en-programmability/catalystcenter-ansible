@@ -139,41 +139,42 @@ options:
     description: SNMP privacy protocol. 'AES128'.
     type: str
   snmpROCommunity:
-    description: SNMP RO community of the devices to be discovered.
+    description: SNMP RO community of the devices to be discovered. Catalyst Center's create/update
+      API and its get-by-id response use different casing for this same field (snmpROCommunity vs
+      snmpRoCommunity); snmpRoCommunity is kept as an alias so either spelling works.
     type: str
+    aliases:
+      - snmpRoCommunity
   snmpROCommunityDesc:
     description: Description for SNMP RO community.
     type: str
+    aliases:
+      - snmpRoCommunityDesc
   snmpRWCommunity:
-    description: SNMP RW community of the devices to be discovered.
+    description: SNMP RW community of the devices to be discovered. Catalyst Center's create/update
+      API and its get-by-id response use different casing for this same field (snmpRWCommunity vs
+      snmpRwCommunity); snmpRwCommunity is kept as an alias so either spelling works.
     type: str
+    aliases:
+      - snmpRwCommunity
   snmpRWCommunityDesc:
     description: Description for SNMP RW community.
     type: str
-  snmpRoCommunity:
-    description: SNMP RO community of the devices to be discovered.
-    type: str
-  snmpRoCommunityDesc:
-    description: Description for SNMP RO community.
-    type: str
-  snmpRwCommunity:
-    description: SNMP RW community of the devices to be discovered.
-    type: str
-  snmpRwCommunityDesc:
-    description: Description for SNMP RW community.
-    type: str
+    aliases:
+      - snmpRwCommunityDesc
   snmpUserName:
     description: SNMP username of the device.
     type: str
   snmpVersion:
     description: Version of SNMP. V2 or v3.
     type: str
-  timeOut:
-    description: Time to wait for device response.
-    type: int
   timeout:
-    description: Time to wait for device response in seconds.
+    description: Time to wait for device response in seconds. Catalyst Center's create/update API
+      and its get-by-id response use different casing for this same field (timeout vs timeOut);
+      timeOut is kept as an alias so either spelling works.
     type: int
+    aliases:
+      - timeOut
   updateMgmtIp:
     description: Updates Management IP if multiple IPs are available for a device. If set to true, when a device is rediscovered
       with a different IP, the management IP is updated. Default value is false.

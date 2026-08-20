@@ -64,7 +64,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: True
+    _inherited: true
     policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
     siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
     ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06

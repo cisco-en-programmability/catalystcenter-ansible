@@ -736,9 +736,6 @@ options:
             description: Enables IPv6 redirects on the port-channel interface, allowing the interface to send ICMPv6 redirect
               messages. Unconfigure Value - use true to revert to default settings.
             type: bool
-          isIpv6RedirectsEnabled:
-            description: Enable sending ICMP Redirect messages. Unconfigure Value - use true to revert to default settings.
-            type: bool
           isLacpFastSwitchoverEnabled:
             description: Enables fast switchover for LACP on the port-channel interface, improving failover times. Unconfigure
               Value - use false to unconfigure.
@@ -1061,7 +1058,6 @@ EXAMPLES = r"""
           isIpV6DhcpEnabled: true
           isIpV6Enabled: true
           isIpV6RedirectsEnabled: true
-          isIpv6RedirectsEnabled: true
           isLacpFastSwitchoverEnabled: true
           isProxyArpEnabled: true
           isRapidCommitEnabled: true

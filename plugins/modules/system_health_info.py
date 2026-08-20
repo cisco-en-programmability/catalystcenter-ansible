@@ -73,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    summary: True
+    summary: true
     domain: string
     subdomain: string
     limit: 20

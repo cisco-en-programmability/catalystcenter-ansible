@@ -126,7 +126,7 @@ EXAMPLES = r"""
     mode: string
     model: string
     meshRole: string
-    provisioningStatus: True
+    provisioningStatus: true
     siteTag: string
     accessPointJoinProfile: string
     flexProfile: string

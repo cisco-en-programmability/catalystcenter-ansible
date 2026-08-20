@@ -64,8 +64,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    adminStatus: True
-    managed: True
+    adminStatus: true
+    managed: true
     networkDeviceId: string
   register: result
 """

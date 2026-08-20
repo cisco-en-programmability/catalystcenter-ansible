@@ -91,11 +91,11 @@ EXAMPLES = r"""
     limit: 500
     offset: 1
     profileName: string
-    isOfDmaDownLink: True
-    isOfDmaUpLink: True
-    isMuMimoUpLink: True
-    isMuMimoDownLink: True
-    isOfDmaMultiRu: True
+    isOfDmaDownLink: true
+    isOfDmaUpLink: true
+    isMuMimoUpLink: true
+    isMuMimoDownLink: true
+    isOfDmaMultiRu: true
   register: result
 - name: Get Wireless Settings Dot11be Profiles by id
   cisco.catalystcenter.wireless_settings_dot11be_profiles_info:

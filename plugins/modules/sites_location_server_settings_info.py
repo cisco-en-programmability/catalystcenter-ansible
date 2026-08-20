@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: True
+    _inherited: true
     id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """

@@ -116,7 +116,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    periodicRefresh: True
+    periodicRefresh: true
     sourceIP: string
     destIP: string
     sourcePort: 0

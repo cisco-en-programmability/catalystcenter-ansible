@@ -59,7 +59,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     trafficClass: string
-    includeForHealthScore: True
+    includeForHealthScore: true
   register: result
 """
 RETURN = r"""

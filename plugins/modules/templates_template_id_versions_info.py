@@ -85,7 +85,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     versionNumber: 0
-    latestVersion: True
+    latestVersion: true
     order: asc
     limit: 500
     offset: 1

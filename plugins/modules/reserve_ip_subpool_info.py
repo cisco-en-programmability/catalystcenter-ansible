@@ -78,7 +78,7 @@ EXAMPLES = r"""
     siteId: application/json
     offset: 0
     limit: 0
-    ignoreInheritedGroups: True
+    ignoreInheritedGroups: true
     poolUsage: application/json
     groupName: application/json
   register: result

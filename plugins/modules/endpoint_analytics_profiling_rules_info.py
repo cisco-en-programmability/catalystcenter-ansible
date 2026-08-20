@@ -79,7 +79,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     ruleType: string
-    includeDeleted: True
+    includeDeleted: true
     limit: 0
     offset: 0
     sortBy: string

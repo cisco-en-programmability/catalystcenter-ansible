@@ -145,7 +145,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    periodicRefresh: True
+    periodicRefresh: true
     sourceIpAddress: 10.1.15.10
     sourceMacAddress: 00:1A:2B:3C:4D:5E
     destinationIpAddress: 10.1.25.10

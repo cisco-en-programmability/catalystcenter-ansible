@@ -177,8 +177,8 @@ EXAMPLES = r"""
     virtualAccount: string
     imageVersion: string
     contactedStatus: string
-    svlClaimable: True
-    svlDevice: True
+    svlClaimable: true
+    svlDevice: true
     offset: 1
     limit: 0
     sortBy: string

@@ -120,7 +120,7 @@ EXAMPLES = r"""
     duid: []
     description: string
     notificationModes: []
-    isPresentOnNetwork: True
+    isPresentOnNetwork: true
     randomizedMacAddresses: []
   register: result
 - name: Get Tracked Clients by id

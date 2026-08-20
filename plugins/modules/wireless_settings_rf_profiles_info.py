@@ -85,9 +85,9 @@ EXAMPLES = r"""
     limit: 500
     offset: 1
     rfProfileName: string
-    enableRadioTypeA: True
-    enableRadioTypeB: True
-    enableRadioType6GHz: True
+    enableRadioTypeA: true
+    enableRadioTypeB: true
+    enableRadioType6GHz: true
   register: result
 - name: Get Wireless Settings Rf Profiles by id
   cisco.catalystcenter.wireless_settings_rf_profiles_info:

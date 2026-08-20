@@ -61,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _inherited: True
+    _inherited: true
     siteId: string
   register: result
 """

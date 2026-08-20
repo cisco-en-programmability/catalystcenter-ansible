@@ -124,7 +124,7 @@ EXAMPLES = r"""
     faultyDeviceSerialNumber: string
     replacementDevicePlatform: string
     replacementDeviceSerialNumber: string
-    outOfBand: True
+    outOfBand: true
     replacementStatus: REPLACEMENT_IN_PROGRESS
     offset: 1
     limit: 0

@@ -54,13 +54,13 @@ argument_spec.update(
         snmpMode=dict(type="str"),
         snmpPrivPassphrase=dict(type="str"),
         snmpPrivProtocol=dict(type="str"),
-        snmpROCommunity=dict(type="str"),
-        snmpROCommunityDesc=dict(type="str"),
-        snmpRWCommunity=dict(type="str"),
-        snmpRWCommunityDesc=dict(type="str"),
+        snmpROCommunity=dict(type="str", aliases=["snmpRoCommunity"]),
+        snmpROCommunityDesc=dict(type="str", aliases=["snmpRoCommunityDesc"]),
+        snmpRWCommunity=dict(type="str", aliases=["snmpRwCommunity"]),
+        snmpRWCommunityDesc=dict(type="str", aliases=["snmpRwCommunityDesc"]),
         snmpUserName=dict(type="str"),
         snmpVersion=dict(type="str"),
-        timeout=dict(type="int"),
+        timeout=dict(type="int", aliases=["timeOut"]),
         userNameList=dict(type="list"),
         id=dict(type="str"),
         attributeInfo=dict(type="dict"),
@@ -71,11 +71,6 @@ argument_spec.update(
         numDevices=dict(type="int"),
         parentDiscoveryId=dict(type="str"),
         retryCount=dict(type="int"),
-        snmpRoCommunity=dict(type="str"),
-        snmpRoCommunityDesc=dict(type="str"),
-        snmpRwCommunity=dict(type="str"),
-        snmpRwCommunityDesc=dict(type="str"),
-        timeOut=dict(type="int"),
         updateMgmtIp=dict(type="bool"),
     )
 )
@@ -121,6 +116,16 @@ class Discovery(object):
             snmpVersion=params.get("snmpVersion"),
             timeout=params.get("timeout"),
             userNameList=params.get("userNameList"),
+            # snmpRoCommunity/snmpRwCommunity/timeOut are declared as aliases
+            # (see argument_spec above) of the options right above -- Catalyst
+            # Center's create/update API and its get-by-id response use
+            # different casing for the same field, so both internal keys are
+            # mirrored from the single user-facing value here.
+            snmpRoCommunity=params.get("snmpROCommunity"),
+            snmpRoCommunityDesc=params.get("snmpROCommunityDesc"),
+            snmpRwCommunity=params.get("snmpRWCommunity"),
+            snmpRwCommunityDesc=params.get("snmpRWCommunityDesc"),
+            timeOut=params.get("timeout"),
             id=params.get("id"),
             attributeInfo=params.get("attributeInfo"),
             deviceIds=params.get("deviceIds"),
@@ -130,11 +135,6 @@ class Discovery(object):
             numDevices=params.get("numDevices"),
             parentDiscoveryId=params.get("parentDiscoveryId"),
             retryCount=params.get("retryCount"),
-            snmpRoCommunity=params.get("snmpRoCommunity"),
-            snmpRoCommunityDesc=params.get("snmpRoCommunityDesc"),
-            snmpRwCommunity=params.get("snmpRwCommunity"),
-            snmpRwCommunityDesc=params.get("snmpRwCommunityDesc"),
-            timeOut=params.get("timeOut"),
             updateMgmtIp=params.get("updateMgmtIp"),
         )
 
@@ -342,13 +342,8 @@ class Discovery(object):
             ("snmpMode", "snmpMode"),
             ("snmpPrivPassphrase", "snmpPrivPassphrase"),
             ("snmpPrivProtocol", "snmpPrivProtocol"),
-            ("snmpROCommunity", "snmpROCommunity"),
-            ("snmpROCommunityDesc", "snmpROCommunityDesc"),
-            ("snmpRWCommunity", "snmpRWCommunity"),
-            ("snmpRWCommunityDesc", "snmpRWCommunityDesc"),
             ("snmpUserName", "snmpUserName"),
             ("snmpVersion", "snmpVersion"),
-            ("timeout", "timeout"),
             ("userNameList", "userNameList"),
             ("id", "id"),
             ("attributeInfo", "attributeInfo"),
