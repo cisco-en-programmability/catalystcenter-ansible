@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Execute Suggested Actions Commands. - > This API fetches the issue details and
     suggested actions for an issue, given the Issue Id, executes the commands associated with the suggested actions to remediate
     the issue.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   entity_type:
     description: Commands provided as part of the suggested actions for an issue can be executed based on issue id. The value
@@ -25,7 +25,7 @@ options:
     description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues ExecuteSuggestedActionsCommands

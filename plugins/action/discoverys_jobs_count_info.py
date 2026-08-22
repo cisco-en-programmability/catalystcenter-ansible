@@ -29,7 +29,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
-        jobId=dict(type="str"),
+        jobId=dict(type="list"),
         headers=dict(type="dict"),
     )
 )
@@ -92,6 +92,8 @@ class ActionModule(ActionBase):
             function="count_the_number_of_discovery_jobs_for_given_discovery_id",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

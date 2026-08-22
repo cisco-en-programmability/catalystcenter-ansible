@@ -12,23 +12,22 @@ description:
   - Manage operation delete of the resource Network Profiles For Sites Site Assignments Bulk Delete. - > Unassigns a given
     network profile for sites from multiple sites. The profile must be removed from the containing building first if this
     site is a floor.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
   siteId:
-    description:
-      - SiteId query parameter. The id or ids of the network profile, retrievable from /dna/intent/api/v1/sites.
-      - A list of profile ids can be passed as a queryParameter in two ways.
-      - 1. A comma-separated string (siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd,2726dc60-3a12...)
-      - 2. As separate query parameters with the same name (siteId=388a23e9...&siteId=...)
+    description: SiteId query parameter. The id or ids of the network profile, retrievable from /dna/intent/api/v1/sites..A
+      list of profile ids can be passed as a queryParameterin two ways 1. A comma-separated string (
+          siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd,2726dc60-3a12-451e-947a-d9...
+      or... 2. As separate query parameters with the same name ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd&siteId...
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSites
@@ -64,7 +63,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

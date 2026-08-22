@@ -28,16 +28,17 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         type=dict(type="str"),
         clientMac=dict(type="str"),
         apMac=dict(type="str"),
+        switchMac=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -79,17 +80,18 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
+            headers=params.get("headers"),
             type=params.get("type"),
             client_mac=params.get("clientMac"),
             ap_mac=params.get("apMac"),
+            switch_mac=params.get("switchMac"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            headers=params.get("headers"),
-            id=params.get("id"),
         )
         return new_object
 
@@ -107,18 +109,22 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="sensors",
-                function="retrieves_details_of_a_specific_i_cap_packet_capture_file",
+                function="retrieves_details_of_a_specific_icap_packet_capture_file",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
             response = catalystcenter.exec(
                 family="sensors",
-                function="lists_i_cap_packet_capture_files_matching_specified_criteria",
+                function="lists_icap_packet_capture_files_matching_specified_criteria",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

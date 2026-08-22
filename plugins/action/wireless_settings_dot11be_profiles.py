@@ -34,19 +34,23 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         profileName=dict(type="str"),
+        description=dict(type="str"),
         ofdmaDownLink=dict(type="bool"),
         ofdmaUpLink=dict(type="bool"),
-        muMimoDownLink=dict(type="bool"),
         muMimoUpLink=dict(type="bool"),
+        muMimoDownLink=dict(type="bool"),
         ofdmaMultiRu=dict(type="bool"),
         default=dict(type="bool"),
         mloGroup=dict(type="dict"),
-        id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -56,15 +60,16 @@ class WirelessSettingsDot11BeProfiles(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             profileName=params.get("profileName"),
+            description=params.get("description"),
             ofdmaDownLink=params.get("ofdmaDownLink"),
             ofdmaUpLink=params.get("ofdmaUpLink"),
-            muMimoDownLink=params.get("muMimoDownLink"),
             muMimoUpLink=params.get("muMimoUpLink"),
+            muMimoDownLink=params.get("muMimoDownLink"),
             ofdmaMultiRu=params.get("ofdmaMultiRu"),
             default=params.get("default"),
             mloGroup=params.get("mloGroup"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -93,11 +98,13 @@ class WirelessSettingsDot11BeProfiles(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["profileName"] = self.new_object.get("profileName")
+        new_object_params["description"] = self.new_object.get("description")
         new_object_params["ofdmaDownLink"] = self.new_object.get("ofdmaDownLink")
         new_object_params["ofdmaUpLink"] = self.new_object.get("ofdmaUpLink")
-        new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["muMimoUpLink"] = self.new_object.get("muMimoUpLink")
+        new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["ofdmaMultiRu"] = self.new_object.get("ofdmaMultiRu")
         new_object_params["default"] = self.new_object.get("default")
         new_object_params["mloGroup"] = self.new_object.get("mloGroup")
@@ -110,15 +117,16 @@ class WirelessSettingsDot11BeProfiles(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["profileName"] = self.new_object.get("profileName")
+        new_object_params["description"] = self.new_object.get("description")
         new_object_params["ofdmaDownLink"] = self.new_object.get("ofdmaDownLink")
         new_object_params["ofdmaUpLink"] = self.new_object.get("ofdmaUpLink")
-        new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["muMimoUpLink"] = self.new_object.get("muMimoUpLink")
+        new_object_params["muMimoDownLink"] = self.new_object.get("muMimoDownLink")
         new_object_params["ofdmaMultiRu"] = self.new_object.get("ofdmaMultiRu")
         new_object_params["default"] = self.new_object.get("default")
         new_object_params["mloGroup"] = self.new_object.get("mloGroup")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -127,7 +135,7 @@ class WirelessSettingsDot11BeProfiles(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get80211be_profiles",
+                function="get_all80211be_profiles",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -143,7 +151,7 @@ class WirelessSettingsDot11BeProfiles(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get80211be_profile_by_id",
+                function="get80211be_profiles_by_id",
                 params={"id": id},
             )
             if isinstance(items, dict):
@@ -183,17 +191,17 @@ class WirelessSettingsDot11BeProfiles(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("profileName", "profileName"),
+            ("description", "description"),
             ("ofdmaDownLink", "ofdmaDownLink"),
             ("ofdmaUpLink", "ofdmaUpLink"),
-            ("muMimoDownLink", "muMimoDownLink"),
             ("muMimoUpLink", "muMimoUpLink"),
+            ("muMimoDownLink", "muMimoDownLink"),
             ("ofdmaMultiRu", "ofdmaMultiRu"),
             ("default", "default"),
             ("mloGroup", "mloGroup"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -205,7 +213,7 @@ class WirelessSettingsDot11BeProfiles(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="wireless",
-            function="create_a80211be_profile",
+            function="create80211be_profile",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -243,7 +251,7 @@ class WirelessSettingsDot11BeProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="delete_a80211be_profile",
+            function="delete80211be_profile",
             params=self.delete_by_id_params(),
         )
         return result
@@ -312,6 +320,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

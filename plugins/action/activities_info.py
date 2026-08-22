@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         description=dict(type="str"),
         status=dict(type="str"),
         type=dict(type="str"),
@@ -79,6 +80,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             description=params.get("description"),
             status=params.get("status"),
             type=params.get("type"),
@@ -103,11 +105,26 @@ class ActionModule(ActionBase):
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
-        response = catalystcenter.exec(
-            family="task",
-            function="get_activities",
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
-        self._result.update(catalystcenter.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = catalystcenter.exec(
+                family="task",
+                function="get_activity_by_id",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
+            self._result.update(catalystcenter.exit_json())
+            return self._result
+        if not id:
+            response = catalystcenter.exec(
+                family="task",
+                function="get_activities",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
+            self._result.update(catalystcenter.exit_json())
+            return self._result

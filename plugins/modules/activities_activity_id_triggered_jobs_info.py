@@ -11,10 +11,10 @@ short_description: Information module for Activities Activity Id Triggered Jobs
 description:
   - Get all Activities Activity Id Triggered Jobs.
   - Returns the triggered jobs by the activity with the given activity id.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task GetTriggeredJobsByActivityId
@@ -65,10 +65,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     activityId: string
   register: result
 """

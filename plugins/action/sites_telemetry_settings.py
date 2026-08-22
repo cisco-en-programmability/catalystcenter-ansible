@@ -34,11 +34,11 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present"]),
+        applicationVisibility=dict(type="dict"),
         wiredDataCollection=dict(type="dict"),
         wirelessTelemetry=dict(type="dict"),
         snmpTraps=dict(type="dict"),
         syslogs=dict(type="dict"),
-        applicationVisibility=dict(type="dict"),
         id=dict(type="str"),
     )
 )
@@ -55,11 +55,11 @@ class SitesTelemetrySettings(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            applicationVisibility=params.get("applicationVisibility"),
             wiredDataCollection=params.get("wiredDataCollection"),
             wirelessTelemetry=params.get("wirelessTelemetry"),
             snmpTraps=params.get("snmpTraps"),
             syslogs=params.get("syslogs"),
-            applicationVisibility=params.get("applicationVisibility"),
             id=params.get("id"),
         )
 
@@ -73,6 +73,9 @@ class SitesTelemetrySettings(object):
 
     def update_all_params(self):
         new_object_params = {}
+        new_object_params["applicationVisibility"] = self.new_object.get(
+            "applicationVisibility"
+        )
         new_object_params["wiredDataCollection"] = self.new_object.get(
             "wiredDataCollection"
         )
@@ -81,9 +84,6 @@ class SitesTelemetrySettings(object):
         )
         new_object_params["snmpTraps"] = self.new_object.get("snmpTraps")
         new_object_params["syslogs"] = self.new_object.get("syslogs")
-        new_object_params["applicationVisibility"] = self.new_object.get(
-            "applicationVisibility"
-        )
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -106,7 +106,18 @@ class SitesTelemetrySettings(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
+        try:
+            items = self.catalystcenter.exec(
+                family="network_settings",
+                function="retrieve_telemetry_settings_for_a_site",
+                params=self.get_all_params(id=id),
+            )
+            if isinstance(items, dict):
+                if "response" in items:
+                    items = items.get("response")
+            result = get_dict_result(items, "id", id)
+        except Exception:
+            result = None
         return result
 
     def exists(self):
@@ -136,14 +147,13 @@ class SitesTelemetrySettings(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("applicationVisibility", "applicationVisibility"),
             ("wiredDataCollection", "wiredDataCollection"),
             ("wirelessTelemetry", "wirelessTelemetry"),
             ("snmpTraps", "snmpTraps"),
             ("syslogs", "syslogs"),
-            ("applicationVisibility", "applicationVisibility"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality2(
@@ -220,6 +230,8 @@ class ActionModule(ActionBase):
                     "Object does not exists, plugin only has update"
                 )
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

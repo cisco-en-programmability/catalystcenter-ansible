@@ -12,10 +12,10 @@ description:
   - Get all Interfaces Count. - > Gets the total Network device interface counts. For detailed information about the usage
     of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -103,15 +103,19 @@ options:
         names with & separator).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetInterfacesTotalCount
-    description: Complete reference of the GetInterfacesTotalCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-total-count
+  - name: Cisco Catalyst Center documentation for Devices
+      GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+    description: Complete reference of the
+        GetsTheTotalNetworkDeviceInterfaceCountsInTheSpecifiedTimeRangeWhenThereIsNoStartAndEndTimeSpecifiedReturnsTheLatestInterfacesTotalCount
+      API.
+    link: "https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-interface-counts-in-the-specified-time-range-when-there-is-no-start-and-\
+        end-time-specified-returns-the-latest-interfaces-total-count"
 notes:
   - SDK Method used are
-    devices.Devices.get_interfaces_total_count,
+    devices.Devices.gets_the_total_network_device_interface_counts_in_the_specified_time_range_when_there_is_no_start_and_end_time_specified_returns_the_latest_interfaces_total_count,
   - Paths used are
     get /dna/data/api/v1/interfaces/count,
 """

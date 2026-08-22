@@ -11,10 +11,10 @@ short_description: Information module for Site Wise Product Names
 description:
   - Get all Site Wise Product Names. - > Provides network device product names for a site. The default value of `siteId` is
     global. The response will include the network device count and image summary.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -44,7 +44,7 @@ options:
         and 500, respectively.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ReturnsNetworkDeviceProductNamesForASite
@@ -71,8 +71,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
     productName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

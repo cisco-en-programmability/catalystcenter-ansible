@@ -28,7 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        id=dict(type="str"),
+        id=dict(type="list"),
         name=dict(type="str"),
         headers=dict(type="dict"),
     )
@@ -92,6 +92,8 @@ class ActionModule(ActionBase):
             function="count_the_number_of_discoveries",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

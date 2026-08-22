@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        reportId=dict(type="str"),
         viewGroupId=dict(type="str"),
         viewId=dict(type="str"),
-        reportId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -72,9 +72,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            report_id=params.get("reportId"),
             view_group_id=params.get("viewGroupId"),
             view_id=params.get("viewId"),
-            report_id=params.get("reportId"),
             headers=params.get("headers"),
         )
         return new_object
@@ -96,7 +96,9 @@ class ActionModule(ActionBase):
                 function="get_a_scheduled_report",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -105,6 +107,8 @@ class ActionModule(ActionBase):
                 function="get_list_of_scheduled_reports",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

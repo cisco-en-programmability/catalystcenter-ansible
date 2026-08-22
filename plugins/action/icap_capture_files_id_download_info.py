@@ -87,9 +87,11 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="downloads_a_specific_i_cap_packet_capture_file",
+            function="downloads_a_specific_icap_packet_capture_file",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -41,7 +41,10 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id", "designName", "featureAttributes"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -96,7 +99,7 @@ class FeatureTemplatesWirelessRrmFraConfigurations(object):
         try:
             items = self.catalystcenter.exec(
                 family="wireless",
-                function="get_r_r_m_f_r_a_configuration_feature_template",
+                function="get_rrm_fra_configuration_feature_template",
                 params={"id": id},
             )
             if isinstance(items, dict):
@@ -141,7 +144,6 @@ class FeatureTemplatesWirelessRrmFraConfigurations(object):
             ("unlockedAttributes", "unlockedAttributes"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -153,7 +155,7 @@ class FeatureTemplatesWirelessRrmFraConfigurations(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="wireless",
-            function="create_r_r_m_f_r_a_configuration_feature_template",
+            function="create_rrm_fra_configuration_feature_template",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -172,7 +174,7 @@ class FeatureTemplatesWirelessRrmFraConfigurations(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="update_r_r_m_f_r_a_configuration_feature_template",
+            function="update_rrm_fra_configuration_feature_template",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -191,7 +193,7 @@ class FeatureTemplatesWirelessRrmFraConfigurations(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="delete_r_r_m_f_r_a_configuration_feature_template",
+            function="delete_rrm_fra_configuration_feature_template",
             params=self.delete_by_id_params(),
         )
         return result
@@ -262,6 +264,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

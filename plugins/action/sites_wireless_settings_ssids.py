@@ -34,14 +34,31 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
         ssid=dict(type="str"),
+        wlanType=dict(type="str"),
         authType=dict(type="str"),
-        passphrase=dict(type="str"),
+        profileName=dict(type="str"),
+        l3AuthType=dict(type="str"),
         isFastLaneEnabled=dict(type="bool"),
+        authServers=dict(type="list"),
+        isLoadBalancingEnabledForAuthGroup=dict(type="bool"),
+        acctServers=dict(type="list"),
+        isLoadBalancingEnabledForAcctGroup=dict(type="bool"),
+        passphrase=dict(type="str"),
         isMacFilteringEnabled=dict(type="bool"),
-        ssidRadioType=dict(type="str"),
-        isBroadcastSSID=dict(type="bool"),
+        isEnabled=dict(type="bool"),
+        externalAuthIpAddress=dict(type="str"),
         fastTransition=dict(type="str"),
+        authServer=dict(type="str"),
+        ghz6PolicyClientSteering=dict(type="bool"),
+        wlanBandSelectEnable=dict(type="bool"),
+        isBroadcastSSID=dict(type="bool"),
+        webPassthrough=dict(type="bool"),
+        sleepingClientEnable=dict(type="bool"),
+        sleepingClientTimeout=dict(type="int"),
+        nasOptions=dict(type="list"),
+        isCustomNasIdOptions=dict(type="bool"),
         sessionTimeOutEnable=dict(type="bool"),
         sessionTimeOut=dict(type="int"),
         clientExclusionEnable=dict(type="bool"),
@@ -51,21 +68,21 @@ argument_spec.update(
         directedMulticastServiceEnable=dict(type="bool"),
         neighborListEnable=dict(type="bool"),
         managementFrameProtectionClientprotection=dict(type="str"),
-        nasOptions=dict(type="list"),
-        profileName=dict(type="str"),
-        aaaOverride=dict(type="bool"),
-        coverageHoleDetectionEnable=dict(type="bool"),
-        protectedManagementFrame=dict(type="str"),
-        multiPSKSettings=dict(type="list"),
-        clientRateLimit=dict(type="int"),
-        rsnCipherSuiteGcmp256=dict(type="bool"),
+        fastTransitionOverTheDistributedSystemEnable=dict(type="bool"),
+        policyProfileName=dict(type="str"),
+        openSsid=dict(type="str"),
         rsnCipherSuiteCcmp256=dict(type="bool"),
         rsnCipherSuiteGcmp128=dict(type="bool"),
         rsnCipherSuiteCcmp128=dict(type="bool"),
-        ghz6PolicyClientSteering=dict(type="bool"),
+        rsnCipherSuiteGcmp256=dict(type="bool"),
         isAuthKey8021x=dict(type="bool"),
         isAuthKey8021xPlusFT=dict(type="bool"),
         isAuthKey8021x_SHA256=dict(type="bool"),
+        isAuthKeySuiteB1x=dict(type="bool"),
+        isAuthKeySuiteB1921x=dict(type="bool"),
+        isAuthKeySaeExt=dict(type="bool"),
+        isAuthKeySaeExtPlusFT=dict(type="bool"),
+        isApBeaconProtectionEnabled=dict(type="bool"),
         isAuthKeySae=dict(type="bool"),
         isAuthKeySaePlusFT=dict(type="bool"),
         isAuthKeyPSK=dict(type="bool"),
@@ -73,37 +90,27 @@ argument_spec.update(
         isAuthKeyOWE=dict(type="bool"),
         isAuthKeyEasyPSK=dict(type="bool"),
         isAuthKeyPSKSHA256=dict(type="bool"),
-        openSsid=dict(type="str"),
-        wlanBandSelectEnable=dict(type="bool"),
-        isEnabled=dict(type="bool"),
-        authServers=dict(type="list"),
-        acctServers=dict(type="list"),
         egressQos=dict(type="str"),
         ingressQos=dict(type="str"),
-        wlanType=dict(type="str"),
-        l3AuthType=dict(type="str"),
-        authServer=dict(type="str"),
-        externalAuthIpAddress=dict(type="str"),
-        webPassthrough=dict(type="bool"),
-        sleepingClientEnable=dict(type="bool"),
-        sleepingClientTimeout=dict(type="int"),
-        aclName=dict(type="str"),
-        isPosturingEnabled=dict(type="bool"),
-        isAuthKeySuiteB1x=dict(type="bool"),
-        isAuthKeySuiteB1921x=dict(type="bool"),
-        isAuthKeySaeExt=dict(type="bool"),
-        isAuthKeySaeExtPlusFT=dict(type="bool"),
-        isApBeaconProtectionEnabled=dict(type="bool"),
-        ghz24Policy=dict(type="str"),
-        cckmTsfTolerance=dict(type="int"),
-        isCckmEnabled=dict(type="bool"),
-        isHex=dict(type="bool"),
+        aaaOverride=dict(type="bool"),
+        coverageHoleDetectionEnable=dict(type="bool"),
+        protectedManagementFrame=dict(type="str"),
         isRandomMacFilterEnabled=dict(type="bool"),
-        fastTransitionOverTheDistributedSystemEnable=dict(type="bool"),
         isRadiusProfilingEnabled=dict(type="bool"),
-        policyProfileName=dict(type="str"),
+        aclName=dict(type="str"),
+        ipv6AclName=dict(type="str"),
+        urlAclName=dict(type="str"),
+        multiPSKSettings=dict(type="list"),
+        clientRateLimit=dict(type="int"),
+        inheritedSiteUUID=dict(type="str"),
+        inheritedSiteName=dict(type="str"),
+        ssidRadioType=dict(type="str"),
+        isPosturingEnabled=dict(type="bool"),
+        isCckmEnabled=dict(type="bool"),
+        cckmTsfTolerance=dict(type="int"),
+        ghz24Policy=dict(type="str"),
+        isHex=dict(type="bool"),
         siteId=dict(type="str"),
-        id=dict(type="str"),
         removeOverrideInHierarchy=dict(type="bool"),
     )
 )
@@ -121,14 +128,35 @@ class SitesWirelessSettingsSsids(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
             ssid=params.get("ssid"),
+            wlanType=params.get("wlanType"),
             authType=params.get("authType"),
-            passphrase=params.get("passphrase"),
+            profileName=params.get("profileName"),
+            l3AuthType=params.get("l3AuthType"),
             isFastLaneEnabled=params.get("isFastLaneEnabled"),
+            authServers=params.get("authServers"),
+            isLoadBalancingEnabledForAuthGroup=params.get(
+                "isLoadBalancingEnabledForAuthGroup"
+            ),
+            acctServers=params.get("acctServers"),
+            isLoadBalancingEnabledForAcctGroup=params.get(
+                "isLoadBalancingEnabledForAcctGroup"
+            ),
+            passphrase=params.get("passphrase"),
             isMacFilteringEnabled=params.get("isMacFilteringEnabled"),
-            ssidRadioType=params.get("ssidRadioType"),
-            isBroadcastSSID=params.get("isBroadcastSSID"),
+            isEnabled=params.get("isEnabled"),
+            externalAuthIpAddress=params.get("externalAuthIpAddress"),
             fastTransition=params.get("fastTransition"),
+            authServer=params.get("authServer"),
+            ghz6PolicyClientSteering=params.get("ghz6PolicyClientSteering"),
+            wlanBandSelectEnable=params.get("wlanBandSelectEnable"),
+            isBroadcastSSID=params.get("isBroadcastSSID"),
+            webPassthrough=params.get("webPassthrough"),
+            sleepingClientEnable=params.get("sleepingClientEnable"),
+            sleepingClientTimeout=params.get("sleepingClientTimeout"),
+            nasOptions=params.get("nasOptions"),
+            isCustomNasIdOptions=params.get("isCustomNasIdOptions"),
             sessionTimeOutEnable=params.get("sessionTimeOutEnable"),
             sessionTimeOut=params.get("sessionTimeOut"),
             clientExclusionEnable=params.get("clientExclusionEnable"),
@@ -142,21 +170,23 @@ class SitesWirelessSettingsSsids(object):
             managementFrameProtectionClientprotection=params.get(
                 "managementFrameProtectionClientprotection"
             ),
-            nasOptions=params.get("nasOptions"),
-            profileName=params.get("profileName"),
-            aaaOverride=params.get("aaaOverride"),
-            coverageHoleDetectionEnable=params.get("coverageHoleDetectionEnable"),
-            protectedManagementFrame=params.get("protectedManagementFrame"),
-            multiPSKSettings=params.get("multiPSKSettings"),
-            clientRateLimit=params.get("clientRateLimit"),
-            rsnCipherSuiteGcmp256=params.get("rsnCipherSuiteGcmp256"),
+            fastTransitionOverTheDistributedSystemEnable=params.get(
+                "fastTransitionOverTheDistributedSystemEnable"
+            ),
+            policyProfileName=params.get("policyProfileName"),
+            openSsid=params.get("openSsid"),
             rsnCipherSuiteCcmp256=params.get("rsnCipherSuiteCcmp256"),
             rsnCipherSuiteGcmp128=params.get("rsnCipherSuiteGcmp128"),
             rsnCipherSuiteCcmp128=params.get("rsnCipherSuiteCcmp128"),
-            ghz6PolicyClientSteering=params.get("ghz6PolicyClientSteering"),
+            rsnCipherSuiteGcmp256=params.get("rsnCipherSuiteGcmp256"),
             isAuthKey8021x=params.get("isAuthKey8021x"),
             isAuthKey8021xPlusFT=params.get("isAuthKey8021xPlusFT"),
             isAuthKey8021x_SHA256=params.get("isAuthKey8021x_SHA256"),
+            isAuthKeySuiteB1x=params.get("isAuthKeySuiteB1x"),
+            isAuthKeySuiteB1921x=params.get("isAuthKeySuiteB1921x"),
+            isAuthKeySaeExt=params.get("isAuthKeySaeExt"),
+            isAuthKeySaeExtPlusFT=params.get("isAuthKeySaeExtPlusFT"),
+            isApBeaconProtectionEnabled=params.get("isApBeaconProtectionEnabled"),
             isAuthKeySae=params.get("isAuthKeySae"),
             isAuthKeySaePlusFT=params.get("isAuthKeySaePlusFT"),
             isAuthKeyPSK=params.get("isAuthKeyPSK"),
@@ -164,39 +194,27 @@ class SitesWirelessSettingsSsids(object):
             isAuthKeyOWE=params.get("isAuthKeyOWE"),
             isAuthKeyEasyPSK=params.get("isAuthKeyEasyPSK"),
             isAuthKeyPSKSHA256=params.get("isAuthKeyPSKSHA256"),
-            openSsid=params.get("openSsid"),
-            wlanBandSelectEnable=params.get("wlanBandSelectEnable"),
-            isEnabled=params.get("isEnabled"),
-            authServers=params.get("authServers"),
-            acctServers=params.get("acctServers"),
             egressQos=params.get("egressQos"),
             ingressQos=params.get("ingressQos"),
-            wlanType=params.get("wlanType"),
-            l3AuthType=params.get("l3AuthType"),
-            authServer=params.get("authServer"),
-            externalAuthIpAddress=params.get("externalAuthIpAddress"),
-            webPassthrough=params.get("webPassthrough"),
-            sleepingClientEnable=params.get("sleepingClientEnable"),
-            sleepingClientTimeout=params.get("sleepingClientTimeout"),
-            aclName=params.get("aclName"),
-            isPosturingEnabled=params.get("isPosturingEnabled"),
-            isAuthKeySuiteB1x=params.get("isAuthKeySuiteB1x"),
-            isAuthKeySuiteB1921x=params.get("isAuthKeySuiteB1921x"),
-            isAuthKeySaeExt=params.get("isAuthKeySaeExt"),
-            isAuthKeySaeExtPlusFT=params.get("isAuthKeySaeExtPlusFT"),
-            isApBeaconProtectionEnabled=params.get("isApBeaconProtectionEnabled"),
-            ghz24Policy=params.get("ghz24Policy"),
-            cckmTsfTolerance=params.get("cckmTsfTolerance"),
-            isCckmEnabled=params.get("isCckmEnabled"),
-            isHex=params.get("isHex"),
+            aaaOverride=params.get("aaaOverride"),
+            coverageHoleDetectionEnable=params.get("coverageHoleDetectionEnable"),
+            protectedManagementFrame=params.get("protectedManagementFrame"),
             isRandomMacFilterEnabled=params.get("isRandomMacFilterEnabled"),
-            fastTransitionOverTheDistributedSystemEnable=params.get(
-                "fastTransitionOverTheDistributedSystemEnable"
-            ),
             isRadiusProfilingEnabled=params.get("isRadiusProfilingEnabled"),
-            policyProfileName=params.get("policyProfileName"),
+            aclName=params.get("aclName"),
+            ipv6AclName=params.get("ipv6AclName"),
+            urlAclName=params.get("urlAclName"),
+            multiPSKSettings=params.get("multiPSKSettings"),
+            clientRateLimit=params.get("clientRateLimit"),
+            inheritedSiteUUID=params.get("inheritedSiteUUID"),
+            inheritedSiteName=params.get("inheritedSiteName"),
+            ssidRadioType=params.get("ssidRadioType"),
+            isPosturingEnabled=params.get("isPosturingEnabled"),
+            isCckmEnabled=params.get("isCckmEnabled"),
+            cckmTsfTolerance=params.get("cckmTsfTolerance"),
+            ghz24Policy=params.get("ghz24Policy"),
+            isHex=params.get("isHex"),
             site_id=params.get("siteId"),
-            id=params.get("id"),
             remove_override_in_hierarchy=params.get("removeOverrideInHierarchy"),
         )
 
@@ -221,18 +239,51 @@ class SitesWirelessSettingsSsids(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["ssid"] = self.new_object.get("ssid")
+        new_object_params["wlanType"] = self.new_object.get("wlanType")
         new_object_params["authType"] = self.new_object.get("authType")
-        new_object_params["passphrase"] = self.new_object.get("passphrase")
+        new_object_params["profileName"] = self.new_object.get("profileName")
+        new_object_params["l3AuthType"] = self.new_object.get("l3AuthType")
         new_object_params["isFastLaneEnabled"] = self.new_object.get(
             "isFastLaneEnabled"
         )
+        new_object_params["authServers"] = self.new_object.get("authServers")
+        new_object_params["isLoadBalancingEnabledForAuthGroup"] = self.new_object.get(
+            "isLoadBalancingEnabledForAuthGroup"
+        )
+        new_object_params["acctServers"] = self.new_object.get("acctServers")
+        new_object_params["isLoadBalancingEnabledForAcctGroup"] = self.new_object.get(
+            "isLoadBalancingEnabledForAcctGroup"
+        )
+        new_object_params["passphrase"] = self.new_object.get("passphrase")
         new_object_params["isMacFilteringEnabled"] = self.new_object.get(
             "isMacFilteringEnabled"
         )
-        new_object_params["ssidRadioType"] = self.new_object.get("ssidRadioType")
-        new_object_params["isBroadcastSSID"] = self.new_object.get("isBroadcastSSID")
+        new_object_params["isEnabled"] = self.new_object.get("isEnabled")
+        new_object_params["externalAuthIpAddress"] = self.new_object.get(
+            "externalAuthIpAddress"
+        )
         new_object_params["fastTransition"] = self.new_object.get("fastTransition")
+        new_object_params["authServer"] = self.new_object.get("authServer")
+        new_object_params["ghz6PolicyClientSteering"] = self.new_object.get(
+            "ghz6PolicyClientSteering"
+        )
+        new_object_params["wlanBandSelectEnable"] = self.new_object.get(
+            "wlanBandSelectEnable"
+        )
+        new_object_params["isBroadcastSSID"] = self.new_object.get("isBroadcastSSID")
+        new_object_params["webPassthrough"] = self.new_object.get("webPassthrough")
+        new_object_params["sleepingClientEnable"] = self.new_object.get(
+            "sleepingClientEnable"
+        )
+        new_object_params["sleepingClientTimeout"] = self.new_object.get(
+            "sleepingClientTimeout"
+        )
+        new_object_params["nasOptions"] = self.new_object.get("nasOptions")
+        new_object_params["isCustomNasIdOptions"] = self.new_object.get(
+            "isCustomNasIdOptions"
+        )
         new_object_params["sessionTimeOutEnable"] = self.new_object.get(
             "sessionTimeOutEnable"
         )
@@ -258,20 +309,13 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["managementFrameProtectionClientprotection"] = (
             self.new_object.get("managementFrameProtectionClientprotection")
         )
-        new_object_params["nasOptions"] = self.new_object.get("nasOptions")
-        new_object_params["profileName"] = self.new_object.get("profileName")
-        new_object_params["aaaOverride"] = self.new_object.get("aaaOverride")
-        new_object_params["coverageHoleDetectionEnable"] = self.new_object.get(
-            "coverageHoleDetectionEnable"
+        new_object_params["fastTransitionOverTheDistributedSystemEnable"] = (
+            self.new_object.get("fastTransitionOverTheDistributedSystemEnable")
         )
-        new_object_params["protectedManagementFrame"] = self.new_object.get(
-            "protectedManagementFrame"
+        new_object_params["policyProfileName"] = self.new_object.get(
+            "policyProfileName"
         )
-        new_object_params["multiPSKSettings"] = self.new_object.get("multiPSKSettings")
-        new_object_params["clientRateLimit"] = self.new_object.get("clientRateLimit")
-        new_object_params["rsnCipherSuiteGcmp256"] = self.new_object.get(
-            "rsnCipherSuiteGcmp256"
-        )
+        new_object_params["openSsid"] = self.new_object.get("openSsid")
         new_object_params["rsnCipherSuiteCcmp256"] = self.new_object.get(
             "rsnCipherSuiteCcmp256"
         )
@@ -281,8 +325,8 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["rsnCipherSuiteCcmp128"] = self.new_object.get(
             "rsnCipherSuiteCcmp128"
         )
-        new_object_params["ghz6PolicyClientSteering"] = self.new_object.get(
-            "ghz6PolicyClientSteering"
+        new_object_params["rsnCipherSuiteGcmp256"] = self.new_object.get(
+            "rsnCipherSuiteGcmp256"
         )
         new_object_params["isAuthKey8021x"] = self.new_object.get("isAuthKey8021x")
         new_object_params["isAuthKey8021xPlusFT"] = self.new_object.get(
@@ -290,45 +334,6 @@ class SitesWirelessSettingsSsids(object):
         )
         new_object_params["isAuthKey8021x_SHA256"] = self.new_object.get(
             "isAuthKey8021x_SHA256"
-        )
-        new_object_params["isAuthKeySae"] = self.new_object.get("isAuthKeySae")
-        new_object_params["isAuthKeySaePlusFT"] = self.new_object.get(
-            "isAuthKeySaePlusFT"
-        )
-        new_object_params["isAuthKeyPSK"] = self.new_object.get("isAuthKeyPSK")
-        new_object_params["isAuthKeyPSKPlusFT"] = self.new_object.get(
-            "isAuthKeyPSKPlusFT"
-        )
-        new_object_params["isAuthKeyOWE"] = self.new_object.get("isAuthKeyOWE")
-        new_object_params["isAuthKeyEasyPSK"] = self.new_object.get("isAuthKeyEasyPSK")
-        new_object_params["isAuthKeyPSKSHA256"] = self.new_object.get(
-            "isAuthKeyPSKSHA256"
-        )
-        new_object_params["openSsid"] = self.new_object.get("openSsid")
-        new_object_params["wlanBandSelectEnable"] = self.new_object.get(
-            "wlanBandSelectEnable"
-        )
-        new_object_params["isEnabled"] = self.new_object.get("isEnabled")
-        new_object_params["authServers"] = self.new_object.get("authServers")
-        new_object_params["acctServers"] = self.new_object.get("acctServers")
-        new_object_params["egressQos"] = self.new_object.get("egressQos")
-        new_object_params["ingressQos"] = self.new_object.get("ingressQos")
-        new_object_params["wlanType"] = self.new_object.get("wlanType")
-        new_object_params["l3AuthType"] = self.new_object.get("l3AuthType")
-        new_object_params["authServer"] = self.new_object.get("authServer")
-        new_object_params["externalAuthIpAddress"] = self.new_object.get(
-            "externalAuthIpAddress"
-        )
-        new_object_params["webPassthrough"] = self.new_object.get("webPassthrough")
-        new_object_params["sleepingClientEnable"] = self.new_object.get(
-            "sleepingClientEnable"
-        )
-        new_object_params["sleepingClientTimeout"] = self.new_object.get(
-            "sleepingClientTimeout"
-        )
-        new_object_params["aclName"] = self.new_object.get("aclName")
-        new_object_params["isPosturingEnabled"] = self.new_object.get(
-            "isPosturingEnabled"
         )
         new_object_params["isAuthKeySuiteB1x"] = self.new_object.get(
             "isAuthKeySuiteB1x"
@@ -343,22 +348,53 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["isApBeaconProtectionEnabled"] = self.new_object.get(
             "isApBeaconProtectionEnabled"
         )
-        new_object_params["ghz24Policy"] = self.new_object.get("ghz24Policy")
-        new_object_params["cckmTsfTolerance"] = self.new_object.get("cckmTsfTolerance")
-        new_object_params["isCckmEnabled"] = self.new_object.get("isCckmEnabled")
-        new_object_params["isHex"] = self.new_object.get("isHex")
+        new_object_params["isAuthKeySae"] = self.new_object.get("isAuthKeySae")
+        new_object_params["isAuthKeySaePlusFT"] = self.new_object.get(
+            "isAuthKeySaePlusFT"
+        )
+        new_object_params["isAuthKeyPSK"] = self.new_object.get("isAuthKeyPSK")
+        new_object_params["isAuthKeyPSKPlusFT"] = self.new_object.get(
+            "isAuthKeyPSKPlusFT"
+        )
+        new_object_params["isAuthKeyOWE"] = self.new_object.get("isAuthKeyOWE")
+        new_object_params["isAuthKeyEasyPSK"] = self.new_object.get("isAuthKeyEasyPSK")
+        new_object_params["isAuthKeyPSKSHA256"] = self.new_object.get(
+            "isAuthKeyPSKSHA256"
+        )
+        new_object_params["egressQos"] = self.new_object.get("egressQos")
+        new_object_params["ingressQos"] = self.new_object.get("ingressQos")
+        new_object_params["aaaOverride"] = self.new_object.get("aaaOverride")
+        new_object_params["coverageHoleDetectionEnable"] = self.new_object.get(
+            "coverageHoleDetectionEnable"
+        )
+        new_object_params["protectedManagementFrame"] = self.new_object.get(
+            "protectedManagementFrame"
+        )
         new_object_params["isRandomMacFilterEnabled"] = self.new_object.get(
             "isRandomMacFilterEnabled"
-        )
-        new_object_params["fastTransitionOverTheDistributedSystemEnable"] = (
-            self.new_object.get("fastTransitionOverTheDistributedSystemEnable")
         )
         new_object_params["isRadiusProfilingEnabled"] = self.new_object.get(
             "isRadiusProfilingEnabled"
         )
-        new_object_params["policyProfileName"] = self.new_object.get(
-            "policyProfileName"
+        new_object_params["aclName"] = self.new_object.get("aclName")
+        new_object_params["ipv6AclName"] = self.new_object.get("ipv6AclName")
+        new_object_params["urlAclName"] = self.new_object.get("urlAclName")
+        new_object_params["multiPSKSettings"] = self.new_object.get("multiPSKSettings")
+        new_object_params["clientRateLimit"] = self.new_object.get("clientRateLimit")
+        new_object_params["inheritedSiteUUID"] = self.new_object.get(
+            "inheritedSiteUUID"
         )
+        new_object_params["inheritedSiteName"] = self.new_object.get(
+            "inheritedSiteName"
+        )
+        new_object_params["ssidRadioType"] = self.new_object.get("ssidRadioType")
+        new_object_params["isPosturingEnabled"] = self.new_object.get(
+            "isPosturingEnabled"
+        )
+        new_object_params["isCckmEnabled"] = self.new_object.get("isCckmEnabled")
+        new_object_params["cckmTsfTolerance"] = self.new_object.get("cckmTsfTolerance")
+        new_object_params["ghz24Policy"] = self.new_object.get("ghz24Policy")
+        new_object_params["isHex"] = self.new_object.get("isHex")
         new_object_params["siteId"] = self.new_object.get("siteId")
         return new_object_params
 
@@ -373,18 +409,51 @@ class SitesWirelessSettingsSsids(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
         new_object_params["ssid"] = self.new_object.get("ssid")
+        new_object_params["wlanType"] = self.new_object.get("wlanType")
         new_object_params["authType"] = self.new_object.get("authType")
-        new_object_params["passphrase"] = self.new_object.get("passphrase")
+        new_object_params["profileName"] = self.new_object.get("profileName")
+        new_object_params["l3AuthType"] = self.new_object.get("l3AuthType")
         new_object_params["isFastLaneEnabled"] = self.new_object.get(
             "isFastLaneEnabled"
         )
+        new_object_params["authServers"] = self.new_object.get("authServers")
+        new_object_params["isLoadBalancingEnabledForAuthGroup"] = self.new_object.get(
+            "isLoadBalancingEnabledForAuthGroup"
+        )
+        new_object_params["acctServers"] = self.new_object.get("acctServers")
+        new_object_params["isLoadBalancingEnabledForAcctGroup"] = self.new_object.get(
+            "isLoadBalancingEnabledForAcctGroup"
+        )
+        new_object_params["passphrase"] = self.new_object.get("passphrase")
         new_object_params["isMacFilteringEnabled"] = self.new_object.get(
             "isMacFilteringEnabled"
         )
-        new_object_params["ssidRadioType"] = self.new_object.get("ssidRadioType")
-        new_object_params["isBroadcastSSID"] = self.new_object.get("isBroadcastSSID")
+        new_object_params["isEnabled"] = self.new_object.get("isEnabled")
+        new_object_params["externalAuthIpAddress"] = self.new_object.get(
+            "externalAuthIpAddress"
+        )
         new_object_params["fastTransition"] = self.new_object.get("fastTransition")
+        new_object_params["authServer"] = self.new_object.get("authServer")
+        new_object_params["ghz6PolicyClientSteering"] = self.new_object.get(
+            "ghz6PolicyClientSteering"
+        )
+        new_object_params["wlanBandSelectEnable"] = self.new_object.get(
+            "wlanBandSelectEnable"
+        )
+        new_object_params["isBroadcastSSID"] = self.new_object.get("isBroadcastSSID")
+        new_object_params["webPassthrough"] = self.new_object.get("webPassthrough")
+        new_object_params["sleepingClientEnable"] = self.new_object.get(
+            "sleepingClientEnable"
+        )
+        new_object_params["sleepingClientTimeout"] = self.new_object.get(
+            "sleepingClientTimeout"
+        )
+        new_object_params["nasOptions"] = self.new_object.get("nasOptions")
+        new_object_params["isCustomNasIdOptions"] = self.new_object.get(
+            "isCustomNasIdOptions"
+        )
         new_object_params["sessionTimeOutEnable"] = self.new_object.get(
             "sessionTimeOutEnable"
         )
@@ -410,20 +479,13 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["managementFrameProtectionClientprotection"] = (
             self.new_object.get("managementFrameProtectionClientprotection")
         )
-        new_object_params["nasOptions"] = self.new_object.get("nasOptions")
-        new_object_params["profileName"] = self.new_object.get("profileName")
-        new_object_params["aaaOverride"] = self.new_object.get("aaaOverride")
-        new_object_params["coverageHoleDetectionEnable"] = self.new_object.get(
-            "coverageHoleDetectionEnable"
+        new_object_params["fastTransitionOverTheDistributedSystemEnable"] = (
+            self.new_object.get("fastTransitionOverTheDistributedSystemEnable")
         )
-        new_object_params["protectedManagementFrame"] = self.new_object.get(
-            "protectedManagementFrame"
+        new_object_params["policyProfileName"] = self.new_object.get(
+            "policyProfileName"
         )
-        new_object_params["multiPSKSettings"] = self.new_object.get("multiPSKSettings")
-        new_object_params["clientRateLimit"] = self.new_object.get("clientRateLimit")
-        new_object_params["rsnCipherSuiteGcmp256"] = self.new_object.get(
-            "rsnCipherSuiteGcmp256"
-        )
+        new_object_params["openSsid"] = self.new_object.get("openSsid")
         new_object_params["rsnCipherSuiteCcmp256"] = self.new_object.get(
             "rsnCipherSuiteCcmp256"
         )
@@ -433,8 +495,8 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["rsnCipherSuiteCcmp128"] = self.new_object.get(
             "rsnCipherSuiteCcmp128"
         )
-        new_object_params["ghz6PolicyClientSteering"] = self.new_object.get(
-            "ghz6PolicyClientSteering"
+        new_object_params["rsnCipherSuiteGcmp256"] = self.new_object.get(
+            "rsnCipherSuiteGcmp256"
         )
         new_object_params["isAuthKey8021x"] = self.new_object.get("isAuthKey8021x")
         new_object_params["isAuthKey8021xPlusFT"] = self.new_object.get(
@@ -442,45 +504,6 @@ class SitesWirelessSettingsSsids(object):
         )
         new_object_params["isAuthKey8021x_SHA256"] = self.new_object.get(
             "isAuthKey8021x_SHA256"
-        )
-        new_object_params["isAuthKeySae"] = self.new_object.get("isAuthKeySae")
-        new_object_params["isAuthKeySaePlusFT"] = self.new_object.get(
-            "isAuthKeySaePlusFT"
-        )
-        new_object_params["isAuthKeyPSK"] = self.new_object.get("isAuthKeyPSK")
-        new_object_params["isAuthKeyPSKPlusFT"] = self.new_object.get(
-            "isAuthKeyPSKPlusFT"
-        )
-        new_object_params["isAuthKeyOWE"] = self.new_object.get("isAuthKeyOWE")
-        new_object_params["isAuthKeyEasyPSK"] = self.new_object.get("isAuthKeyEasyPSK")
-        new_object_params["isAuthKeyPSKSHA256"] = self.new_object.get(
-            "isAuthKeyPSKSHA256"
-        )
-        new_object_params["openSsid"] = self.new_object.get("openSsid")
-        new_object_params["wlanBandSelectEnable"] = self.new_object.get(
-            "wlanBandSelectEnable"
-        )
-        new_object_params["isEnabled"] = self.new_object.get("isEnabled")
-        new_object_params["authServers"] = self.new_object.get("authServers")
-        new_object_params["acctServers"] = self.new_object.get("acctServers")
-        new_object_params["egressQos"] = self.new_object.get("egressQos")
-        new_object_params["ingressQos"] = self.new_object.get("ingressQos")
-        new_object_params["wlanType"] = self.new_object.get("wlanType")
-        new_object_params["l3AuthType"] = self.new_object.get("l3AuthType")
-        new_object_params["authServer"] = self.new_object.get("authServer")
-        new_object_params["externalAuthIpAddress"] = self.new_object.get(
-            "externalAuthIpAddress"
-        )
-        new_object_params["webPassthrough"] = self.new_object.get("webPassthrough")
-        new_object_params["sleepingClientEnable"] = self.new_object.get(
-            "sleepingClientEnable"
-        )
-        new_object_params["sleepingClientTimeout"] = self.new_object.get(
-            "sleepingClientTimeout"
-        )
-        new_object_params["aclName"] = self.new_object.get("aclName")
-        new_object_params["isPosturingEnabled"] = self.new_object.get(
-            "isPosturingEnabled"
         )
         new_object_params["isAuthKeySuiteB1x"] = self.new_object.get(
             "isAuthKeySuiteB1x"
@@ -495,24 +518,54 @@ class SitesWirelessSettingsSsids(object):
         new_object_params["isApBeaconProtectionEnabled"] = self.new_object.get(
             "isApBeaconProtectionEnabled"
         )
-        new_object_params["ghz24Policy"] = self.new_object.get("ghz24Policy")
-        new_object_params["cckmTsfTolerance"] = self.new_object.get("cckmTsfTolerance")
-        new_object_params["isCckmEnabled"] = self.new_object.get("isCckmEnabled")
-        new_object_params["isHex"] = self.new_object.get("isHex")
+        new_object_params["isAuthKeySae"] = self.new_object.get("isAuthKeySae")
+        new_object_params["isAuthKeySaePlusFT"] = self.new_object.get(
+            "isAuthKeySaePlusFT"
+        )
+        new_object_params["isAuthKeyPSK"] = self.new_object.get("isAuthKeyPSK")
+        new_object_params["isAuthKeyPSKPlusFT"] = self.new_object.get(
+            "isAuthKeyPSKPlusFT"
+        )
+        new_object_params["isAuthKeyOWE"] = self.new_object.get("isAuthKeyOWE")
+        new_object_params["isAuthKeyEasyPSK"] = self.new_object.get("isAuthKeyEasyPSK")
+        new_object_params["isAuthKeyPSKSHA256"] = self.new_object.get(
+            "isAuthKeyPSKSHA256"
+        )
+        new_object_params["egressQos"] = self.new_object.get("egressQos")
+        new_object_params["ingressQos"] = self.new_object.get("ingressQos")
+        new_object_params["aaaOverride"] = self.new_object.get("aaaOverride")
+        new_object_params["coverageHoleDetectionEnable"] = self.new_object.get(
+            "coverageHoleDetectionEnable"
+        )
+        new_object_params["protectedManagementFrame"] = self.new_object.get(
+            "protectedManagementFrame"
+        )
         new_object_params["isRandomMacFilterEnabled"] = self.new_object.get(
             "isRandomMacFilterEnabled"
-        )
-        new_object_params["fastTransitionOverTheDistributedSystemEnable"] = (
-            self.new_object.get("fastTransitionOverTheDistributedSystemEnable")
         )
         new_object_params["isRadiusProfilingEnabled"] = self.new_object.get(
             "isRadiusProfilingEnabled"
         )
-        new_object_params["policyProfileName"] = self.new_object.get(
-            "policyProfileName"
+        new_object_params["aclName"] = self.new_object.get("aclName")
+        new_object_params["ipv6AclName"] = self.new_object.get("ipv6AclName")
+        new_object_params["urlAclName"] = self.new_object.get("urlAclName")
+        new_object_params["multiPSKSettings"] = self.new_object.get("multiPSKSettings")
+        new_object_params["clientRateLimit"] = self.new_object.get("clientRateLimit")
+        new_object_params["inheritedSiteUUID"] = self.new_object.get(
+            "inheritedSiteUUID"
         )
+        new_object_params["inheritedSiteName"] = self.new_object.get(
+            "inheritedSiteName"
+        )
+        new_object_params["ssidRadioType"] = self.new_object.get("ssidRadioType")
+        new_object_params["isPosturingEnabled"] = self.new_object.get(
+            "isPosturingEnabled"
+        )
+        new_object_params["isCckmEnabled"] = self.new_object.get("isCckmEnabled")
+        new_object_params["cckmTsfTolerance"] = self.new_object.get("cckmTsfTolerance")
+        new_object_params["ghz24Policy"] = self.new_object.get("ghz24Policy")
+        new_object_params["isHex"] = self.new_object.get("isHex")
         new_object_params["siteId"] = self.new_object.get("siteId")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -575,14 +628,37 @@ class SitesWirelessSettingsSsids(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
             ("ssid", "ssid"),
+            ("wlanType", "wlanType"),
             ("authType", "authType"),
-            ("passphrase", "passphrase"),
+            ("profileName", "profileName"),
+            ("l3AuthType", "l3AuthType"),
             ("isFastLaneEnabled", "isFastLaneEnabled"),
+            ("authServers", "authServers"),
+            (
+                "isLoadBalancingEnabledForAuthGroup",
+                "isLoadBalancingEnabledForAuthGroup",
+            ),
+            ("acctServers", "acctServers"),
+            (
+                "isLoadBalancingEnabledForAcctGroup",
+                "isLoadBalancingEnabledForAcctGroup",
+            ),
+            ("passphrase", "passphrase"),
             ("isMacFilteringEnabled", "isMacFilteringEnabled"),
-            ("ssidRadioType", "ssidRadioType"),
-            ("isBroadcastSSID", "isBroadcastSSID"),
+            ("isEnabled", "isEnabled"),
+            ("externalAuthIpAddress", "externalAuthIpAddress"),
             ("fastTransition", "fastTransition"),
+            ("authServer", "authServer"),
+            ("ghz6PolicyClientSteering", "ghz6PolicyClientSteering"),
+            ("wlanBandSelectEnable", "wlanBandSelectEnable"),
+            ("isBroadcastSSID", "isBroadcastSSID"),
+            ("webPassthrough", "webPassthrough"),
+            ("sleepingClientEnable", "sleepingClientEnable"),
+            ("sleepingClientTimeout", "sleepingClientTimeout"),
+            ("nasOptions", "nasOptions"),
+            ("isCustomNasIdOptions", "isCustomNasIdOptions"),
             ("sessionTimeOutEnable", "sessionTimeOutEnable"),
             ("sessionTimeOut", "sessionTimeOut"),
             ("clientExclusionEnable", "clientExclusionEnable"),
@@ -595,21 +671,24 @@ class SitesWirelessSettingsSsids(object):
                 "managementFrameProtectionClientprotection",
                 "managementFrameProtectionClientprotection",
             ),
-            ("nasOptions", "nasOptions"),
-            ("profileName", "profileName"),
-            ("aaaOverride", "aaaOverride"),
-            ("coverageHoleDetectionEnable", "coverageHoleDetectionEnable"),
-            ("protectedManagementFrame", "protectedManagementFrame"),
-            ("multiPSKSettings", "multiPSKSettings"),
-            ("clientRateLimit", "clientRateLimit"),
-            ("rsnCipherSuiteGcmp256", "rsnCipherSuiteGcmp256"),
+            (
+                "fastTransitionOverTheDistributedSystemEnable",
+                "fastTransitionOverTheDistributedSystemEnable",
+            ),
+            ("policyProfileName", "policyProfileName"),
+            ("openSsid", "openSsid"),
             ("rsnCipherSuiteCcmp256", "rsnCipherSuiteCcmp256"),
             ("rsnCipherSuiteGcmp128", "rsnCipherSuiteGcmp128"),
             ("rsnCipherSuiteCcmp128", "rsnCipherSuiteCcmp128"),
-            ("ghz6PolicyClientSteering", "ghz6PolicyClientSteering"),
+            ("rsnCipherSuiteGcmp256", "rsnCipherSuiteGcmp256"),
             ("isAuthKey8021x", "isAuthKey8021x"),
             ("isAuthKey8021xPlusFT", "isAuthKey8021xPlusFT"),
             ("isAuthKey8021x_SHA256", "isAuthKey8021x_SHA256"),
+            ("isAuthKeySuiteB1x", "isAuthKeySuiteB1x"),
+            ("isAuthKeySuiteB1921x", "isAuthKeySuiteB1921x"),
+            ("isAuthKeySaeExt", "isAuthKeySaeExt"),
+            ("isAuthKeySaeExtPlusFT", "isAuthKeySaeExtPlusFT"),
+            ("isApBeaconProtectionEnabled", "isApBeaconProtectionEnabled"),
             ("isAuthKeySae", "isAuthKeySae"),
             ("isAuthKeySaePlusFT", "isAuthKeySaePlusFT"),
             ("isAuthKeyPSK", "isAuthKeyPSK"),
@@ -617,43 +696,29 @@ class SitesWirelessSettingsSsids(object):
             ("isAuthKeyOWE", "isAuthKeyOWE"),
             ("isAuthKeyEasyPSK", "isAuthKeyEasyPSK"),
             ("isAuthKeyPSKSHA256", "isAuthKeyPSKSHA256"),
-            ("openSsid", "openSsid"),
-            ("wlanBandSelectEnable", "wlanBandSelectEnable"),
-            ("isEnabled", "isEnabled"),
-            ("authServers", "authServers"),
-            ("acctServers", "acctServers"),
             ("egressQos", "egressQos"),
             ("ingressQos", "ingressQos"),
-            ("wlanType", "wlanType"),
-            ("l3AuthType", "l3AuthType"),
-            ("authServer", "authServer"),
-            ("externalAuthIpAddress", "externalAuthIpAddress"),
-            ("webPassthrough", "webPassthrough"),
-            ("sleepingClientEnable", "sleepingClientEnable"),
-            ("sleepingClientTimeout", "sleepingClientTimeout"),
-            ("aclName", "aclName"),
-            ("isPosturingEnabled", "isPosturingEnabled"),
-            ("isAuthKeySuiteB1x", "isAuthKeySuiteB1x"),
-            ("isAuthKeySuiteB1921x", "isAuthKeySuiteB1921x"),
-            ("isAuthKeySaeExt", "isAuthKeySaeExt"),
-            ("isAuthKeySaeExtPlusFT", "isAuthKeySaeExtPlusFT"),
-            ("isApBeaconProtectionEnabled", "isApBeaconProtectionEnabled"),
-            ("ghz24Policy", "ghz24Policy"),
-            ("cckmTsfTolerance", "cckmTsfTolerance"),
-            ("isCckmEnabled", "isCckmEnabled"),
-            ("isHex", "isHex"),
+            ("aaaOverride", "aaaOverride"),
+            ("coverageHoleDetectionEnable", "coverageHoleDetectionEnable"),
+            ("protectedManagementFrame", "protectedManagementFrame"),
             ("isRandomMacFilterEnabled", "isRandomMacFilterEnabled"),
-            (
-                "fastTransitionOverTheDistributedSystemEnable",
-                "fastTransitionOverTheDistributedSystemEnable",
-            ),
             ("isRadiusProfilingEnabled", "isRadiusProfilingEnabled"),
-            ("policyProfileName", "policyProfileName"),
+            ("aclName", "aclName"),
+            ("ipv6AclName", "ipv6AclName"),
+            ("urlAclName", "urlAclName"),
+            ("multiPSKSettings", "multiPSKSettings"),
+            ("clientRateLimit", "clientRateLimit"),
+            ("inheritedSiteUUID", "inheritedSiteUUID"),
+            ("inheritedSiteName", "inheritedSiteName"),
+            ("ssidRadioType", "ssidRadioType"),
+            ("isPosturingEnabled", "isPosturingEnabled"),
+            ("isCckmEnabled", "isCckmEnabled"),
+            ("cckmTsfTolerance", "cckmTsfTolerance"),
+            ("ghz24Policy", "ghz24Policy"),
+            ("isHex", "isHex"),
             ("siteId", "site_id"),
-            ("id", "id"),
             ("removeOverrideInHierarchy", "remove_override_in_hierarchy"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -772,6 +837,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+from ansible.plugins.action import ActionBase
+
+try:
+    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+        AnsibleArgSpecValidator,
+    )
+except ImportError:
+    ANSIBLE_UTILS_IS_INSTALLED = False
+else:
+    ANSIBLE_UTILS_IS_INSTALLED = True
+from ansible.errors import AnsibleActionFail
+from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
+    CatalystCenterSDK,
+    catalystcenter_argument_spec,
+)
+
+# Get common arguements specification
+argument_spec = catalystcenter_argument_spec()
+# Add arguments specific for this module
+argument_spec.update(
+    dict(
+        ntpGeneralConfig=dict(type="dict"),
+        ntpAuthenticationKeyConfig=dict(type="dict"),
+        ntpTrustedKeyConfig=dict(type="dict"),
+        ntpServerConfig=dict(type="dict"),
+        ntpPerVrfServerConfig=dict(type="dict"),
+        nameServerConfig=dict(type="dict"),
+        domainConfig=dict(type="dict"),
+        ipV4DhcpPoolConfig=dict(type="dict"),
+        ipV6DhcpPoolConfig=dict(type="dict"),
+        dhcpExcludedAddressConfig=dict(type="dict"),
+        dhcpGeneralConfig=dict(type="dict"),
+        id=dict(type="str"),
+        feature=dict(type="str"),
+    )
+)
+
+required_if = []
+required_one_of = []
+mutually_exclusive = []
+required_together = []
+
+
+class ActionModule(ActionBase):
+    def __init__(self, *args, **kwargs):
+        if not ANSIBLE_UTILS_IS_INSTALLED:
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
+        super(ActionModule, self).__init__(*args, **kwargs)
+        self._supports_async = False
+        self._supports_check_mode = False
+        self._result = None
+
+    # Checks the supplied parameters against the argument spec for this module
+    def _check_argspec(self):
+        aav = AnsibleArgSpecValidator(
+            data=self._task.args,
+            schema=dict(argument_spec=argument_spec),
+            schema_format="argspec",
+            schema_conditionals=dict(
+                required_if=required_if,
+                required_one_of=required_one_of,
+                mutually_exclusive=mutually_exclusive,
+                required_together=required_together,
+            ),
+            name=self._task.action,
+        )
+        valid, errors, self._task.args = aav.validate()
+        if not valid:
+            raise AnsibleActionFail(errors)
+
+    def get_object(self, params):
+        new_object = dict(
+            ntpGeneralConfig=params.get("ntpGeneralConfig"),
+            ntpAuthenticationKeyConfig=params.get("ntpAuthenticationKeyConfig"),
+            ntpTrustedKeyConfig=params.get("ntpTrustedKeyConfig"),
+            ntpServerConfig=params.get("ntpServerConfig"),
+            ntpPerVrfServerConfig=params.get("ntpPerVrfServerConfig"),
+            nameServerConfig=params.get("nameServerConfig"),
+            domainConfig=params.get("domainConfig"),
+            ipV4DhcpPoolConfig=params.get("ipV4DhcpPoolConfig"),
+            ipV6DhcpPoolConfig=params.get("ipV6DhcpPoolConfig"),
+            dhcpExcludedAddressConfig=params.get("dhcpExcludedAddressConfig"),
+            dhcpGeneralConfig=params.get("dhcpGeneralConfig"),
+            id=params.get("id"),
+            feature=params.get("feature"),
+        )
+        return new_object
+
+    def run(self, tmp=None, task_vars=None):
+        self._task.diff = False
+        self._result = super(ActionModule, self).run(tmp, task_vars)
+        self._result["changed"] = False
+        self._check_argspec()
+
+        catalystcenter = CatalystCenterSDK(params=self._task.args)
+
+        response = catalystcenter.exec(
+            family="wired",
+            function="update_intended_network_settings_configurations",
+            op_modifies=True,
+            params=self.get_object(self._task.args),
+        )
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
+        self._result.update(catalystcenter.exit_json())
+        return self._result

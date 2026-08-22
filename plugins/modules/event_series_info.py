@@ -11,10 +11,10 @@ short_description: Information module for Event Series
 description:
   - Get all Event Series.
   - Get the list of Published Notifications.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -42,7 +42,7 @@ options:
   severity:
     description:
       - Severity query parameter.
-    type: str
+    type: int
   domain:
     description:
       - Domain query parameter.
@@ -61,7 +61,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. # of records.
+      - Limit query parameter. \# of records.
     type: int
   sortBy:
     description:
@@ -84,7 +84,7 @@ options:
       - SiteId query parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management GetNotifications
@@ -109,17 +109,17 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    eventIds: string
+    eventIds:
     startTime: 0
     endTime: 0
     category: string
     type: string
-    severity: string
+    severity: 0
     domain: string
     subDomain: string
     source: string
     offset: 0
-    limit: 0
+    limit: 20
     sortBy: string
     order: string
     tags: string
@@ -146,7 +146,7 @@ catalystcenter_response:
         "domain": "string",
         "subDomain": "string",
         "type": "string",
-        "severity": "string",
+        "severity": 0,
         "source": "string",
         "timestamp": "string",
         "details": "string",

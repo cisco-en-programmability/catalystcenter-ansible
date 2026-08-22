@@ -30,9 +30,9 @@ argument_spec.update(
     dict(
         fabricId=dict(type="str"),
         virtualNetworkName=dict(type="str"),
-        ipPoolName=dict(type="str"),
+        ipPoolName=dict(type="list"),
         vlanName=dict(type="str"),
-        vlanId=dict(type="float"),
+        vlanId=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
@@ -98,6 +98,8 @@ class ActionModule(ActionBase):
             function="get_anycast_gateway_count",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

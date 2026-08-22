@@ -7,14 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list_info
-short_description: Information module for Security Threats Rogue Allowed-List
+short_description: Information module for Security Threats Rogue Allowed List
 description:
-  - Get all Security Threats Rogue Allowed-List.
+  - Get all Security Threats Rogue Allowed List.
   - Intent API to fetch all the allowed mac addresses in the system.
-version_added: '6.16.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -30,7 +30,7 @@ options:
         then the maximum entries will be returned.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetAllowedMacAddress
@@ -45,7 +45,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Security Threats Rogue Allowed-List
+- name: Get all Security Threats Rogue Allowed List
   cisco.catalystcenter.security_threats_rogue_allowed_list_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

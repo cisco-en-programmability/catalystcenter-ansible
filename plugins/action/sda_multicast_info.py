@@ -90,6 +90,8 @@ class ActionModule(ActionBase):
             function="get_multicast_details_from_sda_fabric",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

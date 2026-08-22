@@ -99,9 +99,11 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="retrieves_the_spectrum_sensor_reports_sent_by_w_l_c_for_provided_ap_mac",
+            function="retrieves_the_spectrum_sensor_reports_sent_by_wlc_for_provided_ap_mac",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

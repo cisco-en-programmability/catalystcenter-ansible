@@ -84,10 +84,12 @@ class ActionModule(ActionBase):
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
-            family="software_image_management_swim",
+            family="licenses",
             function="retrieves_summary_of_network_device_licenses",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

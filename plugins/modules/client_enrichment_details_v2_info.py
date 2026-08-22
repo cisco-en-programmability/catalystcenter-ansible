@@ -12,24 +12,24 @@ description:
   - Get all Client Enrichment Details V2. - > Enriches a given network End User context a network user-id or end user's device
     Mac Address with details about the user, the devices that the user is connected to and the assurance issues that the user
     is impacted by.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Clients GetClientEnrichmentDetailsV2
-    description: Complete reference of the GetClientEnrichmentDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details-v-2
+  - name: Cisco Catalyst Center documentation for Clients GetClientEnrichmentDetails
+    description: Complete reference of the GetClientEnrichmentDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
 notes:
   - SDK Method used are
-    clients.Clients.get_client_enrichment_details_v2,
+    clients.Clients.get_client_enrichment_details,
   - Paths used are
     get /dna/intent/api/v2/client-enrichment-details,
 """
@@ -77,7 +77,7 @@ catalystcenter_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            "string"
+            {}
           ],
           "authType": {},
           "vlanId": "string",
@@ -85,7 +85,7 @@ catalystcenter_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            "string"
+            {}
           ],
           "issueCount": 0,
           "rssi": {},
@@ -161,7 +161,7 @@ catalystcenter_response:
                       "source": "string",
                       "linkStatus": "string",
                       "label": [
-                        "string"
+                        {}
                       ],
                       "target": "string",
                       "id": {},
@@ -192,7 +192,7 @@ catalystcenter_response:
                 {
                   "message": "string",
                   "steps": [
-                    "string"
+                    {}
                   ]
                 }
               ],
@@ -212,7 +212,7 @@ catalystcenter_response:
                     "building": "string",
                     "floor": {},
                     "apsImpacted": [
-                      "string"
+                      {}
                     ]
                   },
                   "timestamp": 0

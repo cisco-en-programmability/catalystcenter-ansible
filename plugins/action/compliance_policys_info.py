@@ -28,7 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        policyId=dict(type="str"),
+        policyId=dict(type="list"),
         name=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
@@ -100,7 +100,9 @@ class ActionModule(ActionBase):
                 function="retrieve_a_specific_policy",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -109,6 +111,8 @@ class ActionModule(ActionBase):
                 function="retrieve_the_policies",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

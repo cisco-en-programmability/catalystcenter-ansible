@@ -28,7 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        deviceId=dict(type="str"),
+        response=dict(type="list"),
+        version=dict(type="str"),
         fabricId=dict(type="str"),
     )
 )
@@ -70,7 +71,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            deviceId=params.get("deviceId"),
+            response=params.get("response"),
+            version=params.get("version"),
             fabric_id=params.get("fabricId"),
         )
         return new_object
@@ -89,6 +91,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

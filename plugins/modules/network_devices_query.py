@@ -10,71 +10,69 @@ module: network_devices_query
 short_description: Resource module for Network Devices Query
 description:
   - Manage operation create of the resource Network Devices Query.
-  - Gets the list of Network Devices based on the provided complex filters and aggregation functions.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
-version_added: '6.15.0'
+  - Gets the list of Network Devices based on the provided complex filters and.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Network Devices Query's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Network Devices Query's function.
         type: str
       name:
-        description: Name.
+        description: Network Devices Query's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Network Devices Query's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Network Devices Query's endTime.
     type: int
   filters:
     description: Network Devices Query's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Network Devices Query's key.
         type: str
       operator:
-        description: Operator.
+        description: Network Devices Query's operator.
         type: str
       value:
-        description: Value.
+        description: Network Devices Query's value.
         type: str
     type: list
   page:
     description: Network Devices Query's page.
     suboptions:
       count:
-        description: Count.
+        description: Network Devices Query's count.
         type: int
       limit:
-        description: Limit.
+        description: Network Devices Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Network Devices Query's offset.
         type: int
       sortBy:
-        description: Sort By.
+        description: Network Devices Query's sortBy.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Network Devices Query's startTime.
     type: int
   views:
-    description: Views.
+    description: Network Devices Query's views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
@@ -143,6 +141,7 @@ catalystcenter_response:
           "reachabilityHealthStatus": "string",
           "collectionStatus": "string",
           "haStatus": "string",
+          "secureMode": "string",
           "lastBootTime": 0,
           "siteHierarchyId": "string",
           "siteHierarchy": "string",

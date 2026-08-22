@@ -13,28 +13,40 @@ description:
   - Add default authentication template in SDA Fabric.
   - Delete default authentication profile in SDA Fabric.
   - Update default authentication profile in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Sda Fabric Authentication Profile's payload.
+    description: Update Default Authentication profile template (will be applied to all Fabric Edge host ports, unless overridden
+      by a static port assignment.) in SDA Fabric.
     elements: dict
     suboptions:
       authenticateTemplateName:
         description: Authenticate Template Name.
         type: str
-        version_added: 4.0.0
+      authenticationOrder:
+        description: Authentication Order.
+        type: str
+      dot1xToMabFallbackTimeout:
+        description: Dot1x To MabFallback Timeout( Allowed range is 3-120).
+        type: str
+      numberOfHosts:
+        description: Number Of Hosts.
+        type: str
       siteNameHierarchy:
         description: Path of sda Fabric Site.
         type: str
+      wakeOnLan:
+        description: Wake On Lan.
+        type: bool
     type: list
   siteNameHierarchy:
     description: SiteNameHierarchy query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddDefaultAuthenticationTemplateInSDAFabric
@@ -69,20 +81,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
-- name: Create
-  cisco.catalystcenter.sda_fabric_authentication_profile:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - authenticateTemplateName: string
-        siteNameHierarchy: string
+    siteNameHierarchy: application/json
 - name: Update all
   cisco.catalystcenter.sda_fabric_authentication_profile:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -100,6 +99,19 @@ EXAMPLES = r"""
         numberOfHosts: string
         siteNameHierarchy: string
         wakeOnLan: true
+- name: Create
+  cisco.catalystcenter.sda_fabric_authentication_profile:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - authenticateTemplateName: string
+        siteNameHierarchy: string
 """
 RETURN = r"""
 catalystcenter_response:

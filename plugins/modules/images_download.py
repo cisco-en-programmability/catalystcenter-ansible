@@ -11,16 +11,16 @@ short_description: Resource module for Images Download
 description:
   - Manage operation create of the resource Images Download. - > Initiates download of the software image from Cisco.com on
     the disk for the given `id`. Refer to `/dna/intent/api/v1/images` for obtaining `id`.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Software image identifier. Check API `/dna/intent/api/v1/images` for `id` from response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) DownloadTheSoftwareImage

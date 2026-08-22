@@ -92,6 +92,8 @@ class ActionModule(ActionBase):
             function="returns_the_count_of_network_device_product_names_for_a_site",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

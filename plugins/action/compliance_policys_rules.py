@@ -34,14 +34,16 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
+        policyId=dict(type="str"),
         name=dict(type="str"),
         description=dict(type="str"),
         impact=dict(type="str"),
         suggestedFix=dict(type="str"),
         softwareType=dict(type="str"),
         deviceTypes=dict(type="list"),
-        policyId=dict(type="str"),
-        id=dict(type="str"),
+        variablesCount=dict(type="int"),
+        conditionsCount=dict(type="int"),
     )
 )
 
@@ -58,14 +60,17 @@ class CompliancePolicysRules(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
+            policyId=params.get("policyId"),
             name=params.get("name"),
             description=params.get("description"),
             impact=params.get("impact"),
             suggestedFix=params.get("suggestedFix"),
             softwareType=params.get("softwareType"),
             deviceTypes=params.get("deviceTypes"),
+            variablesCount=params.get("variablesCount"),
+            conditionsCount=params.get("conditionsCount"),
             policy_id=params.get("policyId"),
-            id=params.get("id"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -79,13 +84,16 @@ class CompliancePolicysRules(object):
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["impact"] = self.new_object.get("impact")
         new_object_params["suggestedFix"] = self.new_object.get("suggestedFix")
         new_object_params["softwareType"] = self.new_object.get("softwareType")
         new_object_params["deviceTypes"] = self.new_object.get("deviceTypes")
-        new_object_params["policyId"] = self.new_object.get("policyId")
+        new_object_params["variablesCount"] = self.new_object.get("variablesCount")
+        new_object_params["conditionsCount"] = self.new_object.get("conditionsCount")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -96,14 +104,16 @@ class CompliancePolicysRules(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["impact"] = self.new_object.get("impact")
         new_object_params["suggestedFix"] = self.new_object.get("suggestedFix")
         new_object_params["softwareType"] = self.new_object.get("softwareType")
         new_object_params["deviceTypes"] = self.new_object.get("deviceTypes")
-        new_object_params["policyId"] = self.new_object.get("policyId")
-        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["variablesCount"] = self.new_object.get("variablesCount")
+        new_object_params["conditionsCount"] = self.new_object.get("conditionsCount")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -168,16 +178,18 @@ class CompliancePolicysRules(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
+            ("policyId", "policyId"),
             ("name", "name"),
             ("description", "description"),
             ("impact", "impact"),
             ("suggestedFix", "suggestedFix"),
             ("softwareType", "softwareType"),
             ("deviceTypes", "deviceTypes"),
+            ("variablesCount", "variablesCount"),
+            ("conditionsCount", "conditionsCount"),
             ("policyId", "policy_id"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -296,6 +308,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

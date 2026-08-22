@@ -11,10 +11,10 @@ short_description: Information module for Users External Servers
 description:
   - Get all Users External Servers.
   - Get external users authentication servers.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
         be set to "external".
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for User and Roles GetExternalAuthenticationServersAPI
@@ -34,7 +34,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_external_authentication_servers_api,
+    user_and_roles.UserAndRoles.get_external_authentication_servers_api,
   - Paths used are
     get /dna/system/api/v1/users/external-servers,
 """
@@ -51,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    invokeSource: string
+    invokeSource: external
   register: result
 """
 RETURN = r"""

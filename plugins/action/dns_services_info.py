@@ -111,18 +111,22 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="devices",
-                function="retrieves_the_details_of_a_specific_d_n_s_service_matching_the_id_of_the_service",
+                function="retrieves_the_details_of_a_specific_dns_service_matching_the_id_of_the_service",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
             response = catalystcenter.exec(
                 family="devices",
-                function="retrieves_the_list_of_d_n_s_services_for_given_parameters",
+                function="retrieves_the_list_of_dns_services_for_given_parameters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

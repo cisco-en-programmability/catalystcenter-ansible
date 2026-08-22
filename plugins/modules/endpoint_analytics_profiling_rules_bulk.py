@@ -7,14 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules_bulk
-short_description: Resource module for Endpoint Analytics Profiling-Rules Bulk
+short_description: Resource module for Endpoint Analytics Profiling Rules Bulk
 description:
-  - Manage operation create of the resource Endpoint Analytics Profiling-Rules Bulk.
+  - Manage operation create of the resource Endpoint Analytics Profiling Rules Bulk.
   - This API imports the given list of profiling rules. For each record,.
-version_added: '6.16.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profilingRules:
     description: Endpoint Analytics Profiling Rules Bulk's profilingRules.
@@ -114,11 +114,11 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.import_profiling_rules_in_bulk,
+    ai_endpoint_analytics.AIEndpointAnalytics.import_profiling_rules_in_bulk,
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk,
 """

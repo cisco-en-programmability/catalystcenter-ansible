@@ -154,6 +154,7 @@ class ImagesSiteWiseProductNames(object):
             _name = _name or prev_obj.get("productNameOrdinal")
             if _name:
                 self.new_object.update(dict(product_name_ordinal=_name))
+                self.new_object.update(dict(product_name_ordinal=_name))
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
@@ -174,7 +175,6 @@ class ImagesSiteWiseProductNames(object):
             ("imageId", "image_id"),
             ("productNameOrdinal", "product_name_ordinal"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -297,6 +297,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

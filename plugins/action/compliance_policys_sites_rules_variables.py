@@ -35,6 +35,8 @@ argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present"]),
         variableValues=dict(type="list"),
+        inheritedSiteId=dict(type="str"),
+        inheritedSiteName=dict(type="str"),
         policyId=dict(type="str"),
         siteId=dict(type="str"),
         ruleId=dict(type="str"),
@@ -54,6 +56,8 @@ class CompliancePolicysSitesRulesVariables(object):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
             variableValues=params.get("variableValues"),
+            inheritedSiteId=params.get("inheritedSiteId"),
+            inheritedSiteName=params.get("inheritedSiteName"),
             policy_id=params.get("policyId"),
             site_id=params.get("siteId"),
             rule_id=params.get("ruleId"),
@@ -78,6 +82,10 @@ class CompliancePolicysSitesRulesVariables(object):
     def update_all_params(self):
         new_object_params = {}
         new_object_params["variableValues"] = self.new_object.get("variableValues")
+        new_object_params["inheritedSiteId"] = self.new_object.get("inheritedSiteId")
+        new_object_params["inheritedSiteName"] = self.new_object.get(
+            "inheritedSiteName"
+        )
         new_object_params["policyId"] = self.new_object.get("policyId")
         new_object_params["siteId"] = self.new_object.get("siteId")
         new_object_params["ruleId"] = self.new_object.get("ruleId")
@@ -133,11 +141,12 @@ class CompliancePolicysSitesRulesVariables(object):
 
         obj_params = [
             ("variableValues", "variableValues"),
+            ("inheritedSiteId", "inheritedSiteId"),
+            ("inheritedSiteName", "inheritedSiteName"),
             ("policyId", "policy_id"),
             ("siteId", "site_id"),
             ("ruleId", "rule_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -214,6 +223,8 @@ class ActionModule(ActionBase):
                     "Object does not exists, plugin only has update"
                 )
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

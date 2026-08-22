@@ -37,8 +37,6 @@ argument_spec.update(
         snmp=dict(type="str"),
         http=dict(type="str"),
         netconf=dict(type="str"),
-        limit=dict(type="int"),
-        offset=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
@@ -89,8 +87,6 @@ class ActionModule(ActionBase):
             snmp=params.get("snmp"),
             http=params.get("http"),
             netconf=params.get("netconf"),
-            limit=params.get("limit"),
-            offset=params.get("offset"),
             headers=params.get("headers"),
         )
         return new_object
@@ -110,6 +106,8 @@ class ActionModule(ActionBase):
             function="count_the_number_of_discovered_network_devices_by_discovery_id",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

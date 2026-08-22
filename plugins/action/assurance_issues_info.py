@@ -41,6 +41,7 @@ argument_spec.update(
         entityType=dict(type="str"),
         category=dict(type="str"),
         deviceType=dict(type="str"),
+        deviceFamily=dict(type="str"),
         name=dict(type="str"),
         issueId=dict(type="str"),
         entityId=dict(type="str"),
@@ -117,6 +118,7 @@ class ActionModule(ActionBase):
             entity_type=params.get("entityType"),
             category=params.get("category"),
             device_type=params.get("deviceType"),
+            device_family=params.get("deviceFamily"),
             name=params.get("name"),
             issue_id=params.get("issueId"),
             entity_id=params.get("entityId"),
@@ -160,7 +162,9 @@ class ActionModule(ActionBase):
                 function="get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -169,6 +173,8 @@ class ActionModule(ActionBase):
                 function="get_the_details_of_issues_for_given_set_of_filters_know_your_network",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

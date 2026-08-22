@@ -33,9 +33,10 @@ argument_spec.update(
         rollingApUpgrade=dict(type="dict"),
         apAuthorizationListName=dict(type="str"),
         authorizeMeshAndNonMeshAccessPoints=dict(type="bool"),
-        featureTemplatesOverridenAttributes=dict(type="dict"),
         lscProfileName=dict(type="str"),
         lscPercentage=dict(type="int"),
+        featureTemplatesOverridenAttributes=dict(type="dict"),
+        natIpAddress=dict(type="str"),
         deviceId=dict(type="str"),
     )
 )
@@ -84,11 +85,12 @@ class ActionModule(ActionBase):
             authorizeMeshAndNonMeshAccessPoints=params.get(
                 "authorizeMeshAndNonMeshAccessPoints"
             ),
+            lscProfileName=params.get("lscProfileName"),
+            lscPercentage=params.get("lscPercentage"),
             featureTemplatesOverridenAttributes=params.get(
                 "featureTemplatesOverridenAttributes"
             ),
-            lscProfileName=params.get("lscProfileName"),
-            lscPercentage=params.get("lscPercentage"),
+            natIpAddress=params.get("natIpAddress"),
             device_id=params.get("deviceId"),
         )
         return new_object
@@ -107,6 +109,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

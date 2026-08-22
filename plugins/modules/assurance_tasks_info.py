@@ -11,16 +11,20 @@ short_description: Information module for Assurance Tasks
 description:
   - Get all Assurance Tasks.
   - Get Assurance Tasks by id.
-  - returns a task given a specific task id.
-  - returns all existing tasks in a paginated list.
-version_added: '6.17.0'
+  - returns a task given a specific task id For detailed information about the.
+  - returns all existing tasks in a paginated list default sorting of list is.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Unique task id.
+    type: str
   limit:
     description:
       - Limit query parameter. Maximum number of records to return.
@@ -43,12 +47,8 @@ options:
     description:
       - Status query parameter. Used to get a subset of tasks by their status.
     type: str
-  id:
-    description:
-      - Id path parameter. Unique task id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task RetrieveAListOfAssuranceTasks

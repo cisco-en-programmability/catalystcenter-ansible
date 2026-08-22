@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Snmpv2 Read Community Credential.
   - Adds global SNMP read community.
   - Updates global SNMP read community.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   comments:
     description: Comments to identify the credential.
@@ -33,7 +33,7 @@ options:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery CreateSNMPReadCommunity
@@ -53,20 +53,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.snmpv2_read_community_credential:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    comments: string
-    credentialType: string
-    description: string
-    readCommunity: string
 - name: Update all
   cisco.catalystcenter.snmpv2_read_community_credential:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -82,6 +68,21 @@ EXAMPLES = r"""
     description: string
     instanceUuid: string
     readCommunity: string
+- name: Create
+  cisco.catalystcenter.snmpv2_read_community_credential:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - comments: string
+        credentialType: string
+        description: string
+        readCommunity: string
 """
 RETURN = r"""
 catalystcenter_response:

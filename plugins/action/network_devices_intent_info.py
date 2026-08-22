@@ -29,15 +29,16 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
+        views=dict(type="list"),
         managementAddress=dict(type="str"),
         serialNumber=dict(type="str"),
         family=dict(type="str"),
-        stackDevice=dict(type="str"),
+        stackDevice=dict(type="bool"),
         role=dict(type="str"),
         status=dict(type="str"),
         reachabilityStatus=dict(type="str"),
         managementState=dict(type="str"),
-        views=dict(type="str"),
+        secureMode=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
@@ -84,6 +85,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             id=params.get("id"),
+            views=params.get("views"),
             management_address=params.get("managementAddress"),
             serial_number=params.get("serialNumber"),
             family=params.get("family"),
@@ -92,7 +94,7 @@ class ActionModule(ActionBase):
             status=params.get("status"),
             reachability_status=params.get("reachabilityStatus"),
             management_state=params.get("managementState"),
-            views=params.get("views"),
+            secure_mode=params.get("secureMode"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
@@ -118,7 +120,9 @@ class ActionModule(ActionBase):
                 function="get_details_of_a_single_network_device",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -127,6 +131,8 @@ class ActionModule(ActionBase):
                 function="retrieve_network_devices",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

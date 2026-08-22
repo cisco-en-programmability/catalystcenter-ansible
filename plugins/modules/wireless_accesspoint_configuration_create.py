@@ -10,18 +10,18 @@ module: wireless_accesspoint_configuration_create
 short_description: Resource module for Wireless Accesspoint Configuration Create
 description:
   - Manage operation create of the resource Wireless Accesspoint Configuration Create.
-  - User can configure multiple access points with required options using this intent API.
-version_added: '6.14.0'
+  - User can configure multiple access points with required options using this.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   adminStatus:
     description: Configure the access point's admin status. Set this parameter's value to "true" to enable it and "false"
       to disable it.
     type: bool
   apList:
-    description: Wireless Accesspoint Configuration Create's apList.
+    description: The list of access points to configure.
     elements: dict
     suboptions:
       apName:
@@ -101,14 +101,14 @@ options:
     description: Configure the hostname for an access point's primary controller.
     type: str
   primaryIpAddress:
-    description: Wireless Accesspoint Configuration Create's primaryIpAddress.
+    description: The list of IP address for an access point's primary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's primary controller.
         type: str
     type: dict
   radioConfigurations:
-    description: Wireless Accesspoint Configuration Create's radioConfigurations.
+    description: Radio parameters configuration for the selected access points.
     elements: dict
     suboptions:
       adminStatus:
@@ -194,7 +194,7 @@ options:
     description: Configure the hostname for an access point's secondary controller.
     type: str
   secondaryIpAddress:
-    description: Wireless Accesspoint Configuration Create's secondaryIpAddress.
+    description: The list of IP address for an access point's secondary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's secondary controller.
@@ -204,22 +204,22 @@ options:
     description: Configure the hostname for an access point's tertiary controller.
     type: str
   tertiaryIpAddress:
-    description: Wireless Accesspoint Configuration Create's tertiaryIpAddress.
+    description: The list of IP address for an access point's tertiary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's tertiary controller.
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless ConfigureAccessPointsV2
-    description: Complete reference of the ConfigureAccessPointsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-2
+  - name: Cisco Catalyst Center documentation for Wireless ConfigureAccessPointsConnectivity
+    description: Complete reference of the ConfigureAccessPointsConnectivity API.
+    link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-connectivity
 notes:
   - SDK Method used are
-    wireless.Wireless.configure_access_points_v2,
+    wireless.Wireless.configure_access_points_connectivity,
   - Paths used are
     post /dna/intent/api/v2/wireless/accesspoint-configuration,
 """

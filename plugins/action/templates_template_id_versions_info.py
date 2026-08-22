@@ -29,12 +29,12 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         templateId=dict(type="str"),
+        versionId=dict(type="str"),
         versionNumber=dict(type="int"),
         latestVersion=dict(type="bool"),
         order=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
-        versionId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -77,12 +77,12 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             template_id=params.get("templateId"),
+            version_id=params.get("versionId"),
             version_number=params.get("versionNumber"),
             latest_version=params.get("latestVersion"),
             order=params.get("order"),
             limit=params.get("limit"),
             offset=params.get("offset"),
-            version_id=params.get("versionId"),
             headers=params.get("headers"),
         )
         return new_object
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="get_template_version",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="get_template_versions",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

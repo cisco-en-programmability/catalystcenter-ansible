@@ -11,10 +11,10 @@ short_description: Resource module for Business Sda Wireless Controller Delete
 description:
   - Manage operation delete of the resource Business Sda Wireless Controller Delete.
   - Remove WLC from Fabric Domain.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIPAddress:
     description: DeviceIPAddress query parameter. Device Management IP Address.
@@ -23,7 +23,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless RemoveWLCFromFabricDomain
@@ -31,10 +31,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain,
+    fabric_wireless.FabricWireless.remove_wlc_from_fabric_domain,
   - Paths used are
     delete /dna/intent/api/v1/business/sda/wireless-controller,
-    - Removed 'deviceName' and 'siteNameHierarchy' options in v4.3.0.
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deviceIPAddress: string
+    deviceIPAddress: application/json
     headers: '{{my_headers | from_json}}'
 """
 RETURN = r"""

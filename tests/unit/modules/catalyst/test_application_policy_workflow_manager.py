@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import application_policy_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    application_policy_workflow_manager,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -33,22 +35,42 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
     playbook_create_profile = test_data.get("playbook_create_profile")
     playbook_update_profile = test_data.get("playbook_update_profile")
     playbook_create_profile_1 = test_data.get("playbook_create_profile_1")
-    playbook_all_speed_update_profile = test_data.get("playbook_all_speed_update_profile")
-    playbook_for_application_policy_delete = test_data.get("playbook_for_application_policy_delete")
-    playbook_create_policy_wired_error = test_data.get("playbook_create_policy_wired_error")
-    playbook_for_application_queuing_profile_delete = test_data.get("playbook_for_application_queuing_profile_delete")
-    playbook_for_application_policy_update = test_data.get("playbook_for_application_policy_update")
+    playbook_all_speed_update_profile = test_data.get(
+        "playbook_all_speed_update_profile"
+    )
+    playbook_for_application_policy_delete = test_data.get(
+        "playbook_for_application_policy_delete"
+    )
+    playbook_create_policy_wired_error = test_data.get(
+        "playbook_create_policy_wired_error"
+    )
+    playbook_for_application_queuing_profile_delete = test_data.get(
+        "playbook_for_application_queuing_profile_delete"
+    )
+    playbook_for_application_policy_update = test_data.get(
+        "playbook_for_application_policy_update"
+    )
     playbook_delete_application = test_data.get("playbook_delete_application")
-    playbook_for_queuing_profiletrue_noupdate = test_data.get("playbook_for_queuing_profiletrue_noupdate")
+    playbook_for_queuing_profiletrue_noupdate = test_data.get(
+        "playbook_for_queuing_profiletrue_noupdate"
+    )
     playbook_for_profile_dscp = test_data.get("playbook_for_profile_dscp")
     playbook_dscp_update = test_data.get("playbook_dscp_update")
     playbook_noprofname = test_data.get("playbook_noprofname")
     playbook_failure_profile = test_data.get("playbook_failure_profile")
     playbook_profile_namedesc_update = test_data.get("playbook_profile_namedesc_update")
-    playbook_create_application_servername = test_data.get("playbook_create_application_servername")
-    playbook_create_application_serverip = test_data.get("playbook_create_application_serverip")
-    playbook_update_application_serveriptoname = test_data.get("playbook_update_application_serveriptoname")
-    playbook_update_application_nametourl = test_data.get("playbook_update_application_nametourl")
+    playbook_create_application_servername = test_data.get(
+        "playbook_create_application_servername"
+    )
+    playbook_create_application_serverip = test_data.get(
+        "playbook_create_application_serverip"
+    )
+    playbook_update_application_serveriptoname = test_data.get(
+        "playbook_update_application_serveriptoname"
+    )
+    playbook_update_application_nametourl = test_data.get(
+        "playbook_update_application_nametourl"
+    )
     playbook_multiple_profile_delete = test_data.get("playbook_multiple_profile_delete")
     playbook_application_delete = test_data.get("playbook_application_delete")
     playbook_error_1 = test_data.get("playbook_error_1")
@@ -57,7 +79,9 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
     playbook_application_noupdate = test_data.get("playbook_application_noupdate")
     playbook_policy_noupdate = test_data.get("playbook_policy_noupdate")
     playbook_policy_alreadydeleted = test_data.get("playbook_policy_alreadydeleted")
-    playbook_application_alreadydeleted = test_data.get("playbook_application_alreadydeleted")
+    playbook_application_alreadydeleted = test_data.get(
+        "playbook_application_alreadydeleted"
+    )
     playbook_profile_alreadydeleted = test_data.get("playbook_profile_alreadydeleted")
     playbook_error_4 = test_data.get("playbook_error_4")
     playbook_error_5 = test_data.get("playbook_error_5")
@@ -80,12 +104,8 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
     def _build_application_policy_for_update_check(
         self, current_application_policy, wanted_set_names, policy_name="MyPolicy"
     ):
-        manager = self.module.ApplicationPolicy.__new__(
-            self.module.ApplicationPolicy
-        )
-        manager.have = {
-            "current_application_policy": current_application_policy
-        }
+        manager = self.module.ApplicationPolicy.__new__(self.module.ApplicationPolicy)
+        manager.have = {"current_application_policy": current_application_policy}
         manager.want = {"application_policy": {"name": policy_name}}
         manager.config = {
             "application_policy": {
@@ -124,7 +144,8 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
         super(TestCatalystCenterApplicationPolicyWorkflowManager, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -149,7 +170,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details"),
                 self.test_data.get("task_details_1"),
                 self.test_data.get("get_application_policy_queuing_profile_1"),
-                self.test_data.get("create_profile_response")
+                self.test_data.get("create_profile_response"),
             ]
 
         elif "playbook_for_profile_dscp" in self._testMethodName:
@@ -159,7 +180,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_70"),
                 self.test_data.get("task_details_71"),
                 self.test_data.get("get_application_policy_queuing_profile_71"),
-                self.test_data.get("dcsp_profile_response")
+                self.test_data.get("dcsp_profile_response"),
             ]
 
         elif "playbook_for_application_queuing_profile_delete" in self._testMethodName:
@@ -169,7 +190,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_5"),
                 self.test_data.get("task_details_6"),
                 self.test_data.get("get_application_policy_queuing_profile_6"),
-                self.test_data.get("app_queuing_profile_delete_response")
+                self.test_data.get("app_queuing_profile_delete_response"),
             ]
 
         elif "playbook_create_profile_1" in self._testMethodName:
@@ -179,16 +200,22 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_10"),
                 self.test_data.get("task_details_11"),
                 self.test_data.get("get_application_policy_queuing_profile_11"),
-                self.test_data.get("create_profile_response_1")
+                self.test_data.get("create_profile_response_1"),
             ]
 
         elif "playbook_all_speed_update_profile" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_application_policy_queuing_profile_all_speed_15"),
-                self.test_data.get("update_application_policy_queuing_profile_all_speed_15"),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_all_speed_15"
+                ),
+                self.test_data.get(
+                    "update_application_policy_queuing_profile_all_speed_15"
+                ),
                 self.test_data.get("task_details_for_all_speed_15"),
                 self.test_data.get("task_details_for_all_speed_16"),
-                self.test_data.get("get_application_policy_queuing_profile_all_speed_16"),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_all_speed_16"
+                ),
                 self.test_data.get("update_profile_response_1"),
             ]
 
@@ -199,7 +226,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_20"),
                 self.test_data.get("task_details_21"),
                 self.test_data.get("get_application_policy_queuing_profile_21"),
-                self.test_data.get("update_profile_response")
+                self.test_data.get("update_profile_response"),
             ]
 
         elif "playbook_dscp_update" in self._testMethodName:
@@ -209,7 +236,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_75"),
                 self.test_data.get("task_details_76"),
                 self.test_data.get("get_application_policy_queuing_profile_76"),
-                self.test_data.get("dscp_update_response")
+                self.test_data.get("dscp_update_response"),
             ]
 
         elif "playbook_for_application_policy_update" in self._testMethodName:
@@ -223,7 +250,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_31"),
                 self.test_data.get("get_application_policy_queuing_profile_31"),
                 self.test_data.get("get_application_policy_12"),
-                self.test_data.get("update_application_policy_response")
+                self.test_data.get("update_application_policy_response"),
             ]
 
         elif "playbook_for_application_policy_delete" in self._testMethodName:
@@ -257,7 +284,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_80"),
                 self.test_data.get("task_details_81"),
                 self.test_data.get("get_applications_1"),
-                self.test_data.get("delete_application_response")
+                self.test_data.get("delete_application_response"),
             ]
 
         elif "playbook_failure_profile" in self._testMethodName:
@@ -293,7 +320,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_details_100"),
                 self.test_data.get("task_details_101"),
                 self.test_data.get("get_application_policy_queuing_profile_101"),
-                self.test_data.get("namedesc_update_response")
+                self.test_data.get("namedesc_update_response"),
             ]
 
         elif "playbook_create_application_servername" in self._testMethodName:
@@ -406,7 +433,9 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
         elif "playbook_policy_alreadydeleted" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_alreadydeleted"
+                ),
                 self.test_data.get("get_application_policy_alreadydeleted"),
                 self.test_data.get("get_application_policy_alreadydeleted1"),
                 self.test_data.get("get_application_policy_queuing_profile_delete1"),
@@ -416,15 +445,21 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
         elif "playbook_application_alreadydeleted" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_alreadydeleted"
+                ),
                 self.test_data.get("get_applications_v2_alreadydeleted"),
                 self.test_data.get("response8"),
             ]
 
         elif "playbook_profile_alreadydeleted" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted1"),
-                self.test_data.get("get_application_policy_queuing_profile_alreadydeleted2"),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_alreadydeleted1"
+                ),
+                self.test_data.get(
+                    "get_application_policy_queuing_profile_alreadydeleted2"
+                ),
                 self.test_data.get("response9"),
             ]
 
@@ -507,14 +542,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_create_profile
+                config=self.playbook_create_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c2' created successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c2' created successfully in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_for_profile_dscp(self):
@@ -533,17 +568,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_for_profile_dscp
+                config=self.playbook_for_profile_dscp,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c8' created successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c8' created successfully in Cisco Catalyst Center.",
         )
 
-    def test_application_policy_workflow_manager_playbook_for_application_queuing_profile_delete(self):
+    def test_application_policy_workflow_manager_playbook_for_application_queuing_profile_delete(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's application queuing profile deletion.
 
@@ -559,14 +596,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_for_application_queuing_profile_delete
+                config=self.playbook_for_application_queuing_profile_delete,
             )
         )
-        result = self.execute_module(changed=False , failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The requested application queuing profile c2 is not present in the Cisco Catalyst Center and its deletion has been verified."
+            "The requested application queuing profile c2 is not present in the Cisco Catalyst Center and its deletion has been verified.",
         )
 
     def test_application_policy_workflow_manager_playbook_create_profile_1(self):
@@ -585,17 +622,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_create_profile_1
+                config=self.playbook_create_profile_1,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c3' created successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c3' created successfully in Cisco Catalyst Center.",
         )
 
-    def test_application_policy_workflow_manager_playbook_all_speed_update_profile(self):
+    def test_application_policy_workflow_manager_playbook_all_speed_update_profile(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's profile update process.
 
@@ -611,14 +650,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_all_speed_update_profile
+                config=self.playbook_all_speed_update_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c3' updated successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c3' updated successfully in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_update_profile(self):
@@ -637,14 +676,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_update_profile
+                config=self.playbook_update_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c2' updated successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c2' updated successfully in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_dscp_update(self):
@@ -663,17 +702,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_dscp_update
+                config=self.playbook_dscp_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c8' updated successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c8' updated successfully in Cisco Catalyst Center.",
         )
 
-    def test_application_policy_workflow_manager_playbook_for_application_policy_update(self):
+    def test_application_policy_workflow_manager_playbook_for_application_policy_update(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's application policy update process.
 
@@ -689,17 +730,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.6",
                 config_verify=True,
-                config=self.playbook_for_application_policy_update
+                config=self.playbook_for_application_policy_update,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occurred while updating the application policy: 'list' object has no attribute 'get'"
+            "An exception occurred while updating the application policy: 'list' object has no attribute 'get'",
         )
 
-    def test_application_policy_workflow_manager_playbook_for_application_policy_delete(self):
+    def test_application_policy_workflow_manager_playbook_for_application_policy_delete(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's application policy deletion process.
 
@@ -715,17 +758,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_for_application_policy_delete
+                config=self.playbook_for_application_policy_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application Policy(ies) 'policy_1' deleted successfully from Cisco Catalyst Center."
+            "Application Policy(ies) 'policy_1' deleted successfully from Cisco Catalyst Center.",
         )
 
-    def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(self):
+    def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's handling of a queuing profile without updates.
 
@@ -741,14 +786,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_for_queuing_profiletrue_noupdate
+                config=self.playbook_for_queuing_profiletrue_noupdate,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c2' need no update in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c2' need no update in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_noprofname(self):
@@ -768,17 +813,19 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_noprofname
+                config=self.playbook_noprofname,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The following parameter(s): 'profile_name' could not be found and are mandatory to create or update application queuing profile."
+            "The following parameter(s): 'profile_name' could not be found and are mandatory to create or update application queuing profile.",
         )
 
-    def test_application_policy_workflow_manager_playbook_create_policy_wired_error(self):
+    def test_application_policy_workflow_manager_playbook_create_policy_wired_error(
+        self,
+    ):
         """
         Test the Application Policy Workflow Manager's wired policy creation error handling.
 
@@ -795,14 +842,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_create_policy_wired_error
+                config=self.playbook_create_policy_wired_error,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occurred while creating the application policy: 'list' object has no attribute 'get'"
+            "An exception occurred while creating the application policy: 'list' object has no attribute 'get'",
         )
 
     def test_application_policy_workflow_manager_playbook_failure_profile(self):
@@ -822,7 +869,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_failure_profile
+                config=self.playbook_failure_profile,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -832,7 +879,7 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
             (
                 "The following parameter(s): 'interface_speed' could not be found and are mandatory "
                 "to create application queuing profile when 'is_common_between_all_interface_speeds' is true."
-            )
+            ),
         )
 
     def test_application_policy_workflow_manager_playbook_profile_namedesc_update(self):
@@ -851,14 +898,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_profile_namedesc_update
+                config=self.playbook_profile_namedesc_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'new' updated successfully in Cisco Catalyst Center."
+            "Queuing Profile(s) 'new' updated successfully in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_multiple_profile_delete(self):
@@ -877,14 +924,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_multiple_profile_delete
+                config=self.playbook_multiple_profile_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'b5' deleted successfully from Cisco Catalyst Center."
+            "Queuing Profile(s) 'b5' deleted successfully from Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_error_1(self):
@@ -903,14 +950,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_1
+                config=self.playbook_error_1,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "'queuing_profile' should be a list, found: <class 'dict'>"
+            "'queuing_profile' should be a list, found: <class 'dict'>",
         )
 
     def test_application_policy_workflow_manager_playbook_error_2(self):
@@ -929,14 +976,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_2
+                config=self.playbook_error_2,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "At least one of the following parameters must be specified in the playbook: queuing_profile, application, application_policy."
+            "At least one of the following parameters must be specified in the playbook: queuing_profile, application, application_policy.",
         )
 
     def test_application_policy_workflow_manager_playbook_error_3(self):
@@ -955,14 +1002,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_3
+                config=self.playbook_error_3,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "'application_policy' should be a list, found: <class 'dict'>"
+            "'application_policy' should be a list, found: <class 'dict'>",
         )
 
     def test_application_policy_workflow_manager_playbook_policy_noupdate(self):
@@ -981,14 +1028,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_policy_noupdate
+                config=self.playbook_policy_noupdate,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application Policy(ies) 'policy_1' need no update in Cisco Catalyst Center."
+            "Application Policy(ies) 'policy_1' need no update in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_policy_alreadydeleted(self):
@@ -1007,14 +1054,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_policy_alreadydeleted
+                config=self.playbook_policy_alreadydeleted,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application Policy(ies) 'policy_1' do not exist or are already deleted in Cisco Catalyst Center."
+            "Application Policy(ies) 'policy_1' do not exist or are already deleted in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_profile_alreadydeleted(self):
@@ -1033,14 +1080,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_profile_alreadydeleted
+                config=self.playbook_profile_alreadydeleted,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Queuing Profile(s) 'c8' do not exist or are already deleted in Cisco Catalyst Center."
+            "Queuing Profile(s) 'c8' do not exist or are already deleted in Cisco Catalyst Center.",
         )
 
     def test_application_policy_workflow_manager_playbook_error_4(self):
@@ -1059,14 +1106,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_4
+                config=self.playbook_error_4,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid clause_type: BUSINESS_RELEVANCEE. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']."
+            "Invalid clause_type: BUSINESS_RELEVANCEE. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE'].",
         )
 
     def test_application_policy_workflow_manager_playbook_error_5(self):
@@ -1085,14 +1132,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_5
+                config=self.playbook_error_5,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy operation failed. The following mandatory parameters are missing or empty: site_names, application_queuing_profile_name."
+            "Application policy operation failed. The following mandatory parameters are missing or empty: site_names, application_queuing_profile_name.",
         )
 
     def test_application_policy_workflow_manager_playbook_error_6(self):
@@ -1111,14 +1158,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_6
+                config=self.playbook_error_6,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid clause_type: None or empty. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']."
+            "Invalid clause_type: None or empty. Must be one of ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE'].",
         )
 
     def test_application_policy_workflow_manager_playbook_error_7(self):
@@ -1137,14 +1184,14 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_7
+                config=self.playbook_error_7,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "no extra application sets can be added to the application policy"
+            "no extra application sets can be added to the application policy",
         )
 
     def test_application_policy_workflow_manager_playbook_error_8(self):
@@ -1163,12 +1210,11 @@ class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_error_8
+                config=self.playbook_error_8,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("response"),
-            "SSID is required for wireless devices"
+            result.get("response"), "SSID is required for wireless devices"
         )

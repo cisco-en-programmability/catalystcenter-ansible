@@ -30,7 +30,7 @@ argument_spec.update(
     dict(
         fabricId=dict(type="str"),
         networkDeviceId=dict(type="str"),
-        deviceRoles=dict(type="str"),
+        deviceRoles=dict(type="list"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),
@@ -98,6 +98,8 @@ class ActionModule(ActionBase):
             function="get_fabric_devices",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

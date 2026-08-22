@@ -9,32 +9,30 @@ DOCUMENTATION = r"""
 module: energy_sites_query
 short_description: Resource module for Energy Sites Query
 description:
-  - Manage operation create of the resource Energy Sites Query. - > Submits a request to retrieve a list of sites along with
-    their energy data for a specified time range, based on the filters provided in the request body. For detailed information
-    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
-version_added: '6.18.0'
+  - Manage operation create of the resource Energy Sites Query.
+  - Submits a request to retrieve a list of sites along with their energy data for.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Energy Sites Query's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Energy Sites Query's function.
         type: str
       name:
-        description: Name.
+        description: Energy Sites Query's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Energy Sites Query's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Energy Sites Query's endTime.
     type: int
   filters:
     description: Energy Sites Query's filters.
@@ -45,18 +43,18 @@ options:
         elements: dict
         suboptions:
           key:
-            description: Key.
+            description: Energy Sites Query's key.
             type: str
           operator:
-            description: Operator.
+            description: Energy Sites Query's operator.
             type: str
           value:
-            description: Value.
+            description: Energy Sites Query's value.
             elements: str
             type: list
         type: list
       logicalOperator:
-        description: Logical Operator.
+        description: Energy Sites Query's logicalOperator.
         type: str
     type: list
   headers:
@@ -66,39 +64,39 @@ options:
     description: Energy Sites Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Energy Sites Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Energy Sites Query's offset.
         type: int
       sortBy:
         description: Energy Sites Query's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Energy Sites Query's function.
             type: str
           name:
-            description: Name.
+            description: Energy Sites Query's name.
             type: str
           order:
-            description: Order.
+            description: Energy Sites Query's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Energy Sites Query's startTime.
     type: int
   taskId:
     description: TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is used,
       the rest of the request params will be ignored.
     type: str
   views:
-    description: Views.
+    description: Energy Sites Query's views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites SubmitRequestToQuerySitesEnergy

@@ -28,13 +28,13 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         device1ManagementIPAddress=dict(type="str"),
         device1Uuid=dict(type="str"),
         device2ManagementIPAddress=dict(type="str"),
         device2Uuid=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,13 +76,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             device1_management_ipaddress=params.get("device1ManagementIPAddress"),
             device1_uuid=params.get("device1Uuid"),
             device2_management_ipaddress=params.get("device2ManagementIPAddress"),
             device2_uuid=params.get("device2Uuid"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="get_port_channel_information_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="get_port_channels",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -34,15 +34,18 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
         parentId=dict(type="str"),
+        nameHierarchy=dict(type="str"),
+        type=dict(type="str"),
         name=dict(type="str"),
         floorNumber=dict(type="int"),
         rfModel=dict(type="str"),
         width=dict(type="float"),
         length=dict(type="float"),
         height=dict(type="float"),
-        unitsOfMeasure=dict(type="str"),
-        id=dict(type="str"),
+        unitsOfMeasure=dict(type="dict"),
     )
 )
 
@@ -59,7 +62,11 @@ class Floors(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
+            siteHierarchyId=params.get("siteHierarchyId"),
             parentId=params.get("parentId"),
+            nameHierarchy=params.get("nameHierarchy"),
+            type=params.get("type"),
             name=params.get("name"),
             floorNumber=params.get("floorNumber"),
             rfModel=params.get("rfModel"),
@@ -67,12 +74,15 @@ class Floors(object):
             length=params.get("length"),
             height=params.get("height"),
             unitsOfMeasure=params.get("unitsOfMeasure"),
-            id=params.get("id"),
         )
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
         new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["floorNumber"] = self.new_object.get("floorNumber")
         new_object_params["rfModel"] = self.new_object.get("rfModel")
@@ -89,7 +99,11 @@ class Floors(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
         new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["floorNumber"] = self.new_object.get("floorNumber")
         new_object_params["rfModel"] = self.new_object.get("rfModel")
@@ -97,7 +111,6 @@ class Floors(object):
         new_object_params["length"] = self.new_object.get("length")
         new_object_params["height"] = self.new_object.get("height")
         new_object_params["unitsOfMeasure"] = self.new_object.get("unitsOfMeasure")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -110,7 +123,7 @@ class Floors(object):
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="site_design", function="gets_a_floor_v2", params={"id": id}
+                family="site_design", function="gets_a_floor", params={"id": id}
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -149,7 +162,11 @@ class Floors(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
+            ("siteHierarchyId", "siteHierarchyId"),
             ("parentId", "parentId"),
+            ("nameHierarchy", "nameHierarchy"),
+            ("type", "type"),
             ("name", "name"),
             ("floorNumber", "floorNumber"),
             ("rfModel", "rfModel"),
@@ -157,9 +174,7 @@ class Floors(object):
             ("length", "length"),
             ("height", "height"),
             ("unitsOfMeasure", "unitsOfMeasure"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -171,7 +186,7 @@ class Floors(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="site_design",
-            function="creates_a_floor_v2",
+            function="creates_a_floor",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -190,7 +205,7 @@ class Floors(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="site_design",
-            function="updates_a_floor_v2",
+            function="updates_a_floor",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -209,7 +224,7 @@ class Floors(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="site_design",
-            function="deletes_a_floor_v2",
+            function="deletes_a_floor",
             params=self.delete_by_id_params(),
         )
         return result
@@ -278,6 +293,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -13,17 +13,17 @@ description:
     instances. The retry request payload can be given as a list of strings "instance1","instance2","instance3",.. A minimum
     of one instance Id is mandatory. The list of failed event instance Ids can be retrieved using the 'Get Failed ITSM Events'
     API in the 'instanceId' attribute.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Itsm Integration Events Failed's payload.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for ITSM RetryIntegrationEvents

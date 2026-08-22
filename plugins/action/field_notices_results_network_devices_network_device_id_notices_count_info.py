@@ -94,6 +94,8 @@ class ActionModule(ActionBase):
             function="get_count_of_field_notices_affecting_the_network_device",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

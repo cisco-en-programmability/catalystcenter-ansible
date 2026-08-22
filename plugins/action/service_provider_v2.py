@@ -73,7 +73,7 @@ class ServiceProviderV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="network_settings",
-                function="get_service_provider_details_v2",
+                function="get_service_provider_details",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -118,7 +118,6 @@ class ServiceProviderV2(object):
         obj_params = [
             ("settings", "settings"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -130,7 +129,7 @@ class ServiceProviderV2(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="create_sp_profile_v2",
+            function="create_sp_profile",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -142,7 +141,7 @@ class ServiceProviderV2(object):
         result = None
         result = self.catalystcenter.exec(
             family="network_settings",
-            function="update_sp_profile_v2",
+            function="update_sp_profile",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -203,6 +202,8 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 catalystcenter.object_created()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

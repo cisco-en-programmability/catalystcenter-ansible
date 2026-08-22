@@ -9,23 +9,23 @@ DOCUMENTATION = r"""
 module: install_optional_packages_create
 short_description: Resource module for Install Optional Packages Create
 description:
-  - Manage operation create of the resource Install Optional Packages Create.
-  - This API is used to trigger the workflow for installing optional packages.
-version_added: '6.46.0'
+  - Manage operation create of the resource Install Optional Packages Create. - > This API is used to trigger the workflow
+    for installing optional packages. Provide the list of `optionalPackages` to be installed in the request body. Use the
+    `/dna/system/api/v1/releases/releaseSummary` API to obtain the optional package IDs. The releaseName and releaseVersion
+    should correspond to the installed release name and version, which can be obtained from the `name` and `version` attributes
+    in the response of the `/dna/system/api/v1/installedRelease` API. In the releaseSummary API response, optional packages
+    can be identified by the attribute `"optional" true`. Provide the IDs of these optional packages.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be installed .Use the /dna/system/api/v1/releases/releaseSummary
-      API to obtain the optional package IDs. The `releaseName` and `releaseVersion` should correspond to the installed release
-      name and version, which can be obtained from the `name` and `version` attributes in the response of the `/dna/system/api/v1/installedRelease`
-      API. In the releaseSummary API response, optional packages can be identified by the attribute `packagesn.optional` is
-      true. Provide the `packagesn.id` of these optional packages.
+    description: Define the list of optional packages to be installed.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade InstallOptionalPackages

@@ -28,10 +28,10 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         profileName=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -73,10 +73,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             profile_name=params.get("profileName"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -98,7 +98,9 @@ class ActionModule(ActionBase):
                 function="get_power_profile_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -107,6 +109,8 @@ class ActionModule(ActionBase):
                 function="get_power_profiles",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

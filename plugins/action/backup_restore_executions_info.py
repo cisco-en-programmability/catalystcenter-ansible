@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         backupId=dict(type="str"),
         jobType=dict(type="str"),
         status=dict(type="str"),
@@ -35,7 +36,6 @@ argument_spec.update(
         limit=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -77,6 +77,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             backup_id=params.get("backupId"),
             job_type=params.get("jobType"),
             status=params.get("status"),
@@ -84,7 +85,6 @@ class ActionModule(ActionBase):
             limit=params.get("limit"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -106,7 +106,9 @@ class ActionModule(ActionBase):
                 function="get_backup_and_restore_execution",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -115,6 +117,8 @@ class ActionModule(ActionBase):
                 function="get_backup_and_restore_executions",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

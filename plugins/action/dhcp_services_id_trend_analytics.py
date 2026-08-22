@@ -101,10 +101,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_trend_analytics_data_for_a_given_d_h_c_p_service_matching_the_id_of_the_service",
+            function="get_trend_analytics_data_for_a_given_dhcp_service_matching_the_id_of_the_service",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

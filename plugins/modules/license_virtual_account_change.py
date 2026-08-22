@@ -10,11 +10,11 @@ module: license_virtual_account_change
 short_description: Resource module for License Virtual Account Change
 description:
   - Manage operation create of the resource License Virtual Account Change.
-  - Transfer devices from one virtual account to another within same smart account.
-version_added: '3.1.0'
+  - Transfer devices from one virtual account to another within same smart.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   device_uuids:
     description: Comma separated device ids.
@@ -27,7 +27,7 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses ChangeVirtualAccount

@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         deviceId=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
@@ -35,7 +36,6 @@ argument_spec.update(
         vendorEquipmentTypeList=dict(type="list"),
         partNumberList=dict(type="list"),
         operationalStateCodeList=dict(type="list"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -77,6 +77,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             device_id=params.get("deviceId"),
             limit=params.get("limit"),
             offset=params.get("offset"),
@@ -84,7 +85,6 @@ class ActionModule(ActionBase):
             vendor_equipment_type_list=params.get("vendorEquipmentTypeList"),
             part_number_list=params.get("partNumberList"),
             operational_state_code_list=params.get("operationalStateCodeList"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -106,7 +106,9 @@ class ActionModule(ActionBase):
                 function="get_module_info_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -115,6 +117,8 @@ class ActionModule(ActionBase):
                 function="get_modules",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -83,10 +83,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="device_onboarding_pnp",
-            function="unclaim_device",
+            function="un_claim_device",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

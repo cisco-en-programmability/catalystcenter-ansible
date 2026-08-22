@@ -13,14 +13,18 @@ description:
   - Get Diagnostic Validation Sets by id.
   - Retrieves all the validation sets and optionally the contained validations.
   - Retrieves validation details for the given validation set id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Validation set id.
+    type: str
   view:
     description:
       - >
@@ -28,12 +32,8 @@ options:
         associated validations will be returned. When the query parameter `view=DEFAULT` is passed, only
         validation sets metadata will be returned.
     type: str
-  id:
-    description:
-      - Id path parameter. Validation set id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance RetrievesAllTheValidationSets
@@ -63,7 +63,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    view: string
+    view: DEFAULT
   register: result
 - name: Get Diagnostic Validation Sets by id
   cisco.catalystcenter.diagnostic_validation_sets_info:
@@ -85,21 +85,25 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "version": "string",
+        "validationGroups": [
+          {
+            "name": "string",
+            "id": "string",
+            "description": "string",
+            "validations": [
+              {
+                "id": "string",
+                "name": "string"
+              }
+            ]
+          }
+        ]
+      },
       "version": "string"
     }
 """

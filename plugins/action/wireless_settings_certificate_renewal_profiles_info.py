@@ -97,18 +97,22 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="wireless",
-                function="get_l_s_c_certificate_renewal_profile_by_id",
+                function="retrieve_the_access_point_certificate_renewal_profile_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
             response = catalystcenter.exec(
                 family="wireless",
-                function="get_l_s_c_certificate_renewal_profiles",
+                function="get_access_point_certificate_renewal_profile",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

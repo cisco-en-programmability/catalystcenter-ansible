@@ -11,24 +11,24 @@ short_description: Information module for Roles Permissions
 description:
   - Get all Roles Permissions.
   - Get all v2 permissions that can be used to create or update a custom role in the system.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for User and Roles GetPermissionsV2
-    description: Complete reference of the GetPermissionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-permissions-v-2
+  - name: Cisco Catalyst Center documentation for User and Roles GetPermissions
+    description: Complete reference of the GetPermissions API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-permissions
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_permissions_v2,
+    user_and_roles.UserAndRoles.get_permissions,
   - Paths used are
     get /dna/system/api/v2/roles/permissions,
 """

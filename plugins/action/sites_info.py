@@ -28,13 +28,13 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         name=dict(type="str"),
         nameHierarchy=dict(type="str"),
         type=dict(type="str"),
         _unitsOfMeasure=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,13 +76,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             name=params.get("name"),
             name_hierarchy=params.get("nameHierarchy"),
             type=params.get("type"),
             units_of_measure=params.get("_unitsOfMeasure"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="get_a_site",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="get_sites",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

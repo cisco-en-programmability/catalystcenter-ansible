@@ -28,7 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        networkDeviceIds=dict(type="str"),
+        networkDeviceIds=dict(type="list"),
         status=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="retrieves_the_maintenance_schedule_information",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="retrieve_scheduled_maintenance_windows_for_network_devices",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

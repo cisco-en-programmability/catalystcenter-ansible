@@ -84,10 +84,12 @@ class ActionModule(ActionBase):
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
-            family="platform_configuration",
+            family="platform",
             function="nodes_configuration_summary",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

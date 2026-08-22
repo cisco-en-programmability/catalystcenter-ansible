@@ -28,6 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        templateId=dict(type="str"),
+        latestVersion=dict(type="bool"),
         projectId=dict(type="str"),
         softwareType=dict(type="str"),
         softwareVersion=dict(type="str"),
@@ -39,8 +41,6 @@ argument_spec.update(
         projectNames=dict(type="list"),
         unCommitted=dict(type="bool"),
         sortOrder=dict(type="str"),
-        templateId=dict(type="str"),
-        latestVersion=dict(type="bool"),
         headers=dict(type="dict"),
     )
 )
@@ -82,6 +82,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            template_id=params.get("templateId"),
+            latest_version=params.get("latestVersion"),
             project_id=params.get("projectId"),
             software_type=params.get("softwareType"),
             software_version=params.get("softwareVersion"),
@@ -93,8 +95,6 @@ class ActionModule(ActionBase):
             project_names=params.get("projectNames"),
             un_committed=params.get("unCommitted"),
             sort_order=params.get("sortOrder"),
-            template_id=params.get("templateId"),
-            latest_version=params.get("latestVersion"),
             headers=params.get("headers"),
         )
         return new_object
@@ -116,15 +116,19 @@ class ActionModule(ActionBase):
                 function="get_template_details",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
             response = catalystcenter.exec(
                 family="configuration_templates",
-                function="gets_the_templates_available",
+                function="gets_the_templates_available_v1",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -91,10 +91,12 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="sensors",
-                function="retrieves_the_devices_clis_of_the_i_capintent",
+                function="retrieves_the_devices_clis_of_the_icapintent",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -104,6 +106,8 @@ class ActionModule(ActionBase):
                 changed=False,
                 result="Module does not have get all, check arguments of module",
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

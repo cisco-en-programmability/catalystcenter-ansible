@@ -89,10 +89,12 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="site_design",
-                function="gets_a_building_v2",
+                function="gets_a_building",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -102,6 +104,8 @@ class ActionModule(ActionBase):
                 changed=False,
                 result="Module does not have get all, check arguments of module",
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

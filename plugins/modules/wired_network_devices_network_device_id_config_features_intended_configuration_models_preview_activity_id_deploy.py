@@ -13,10 +13,10 @@ description:
   - Manage operation create of the resource Wired Network Devices Network Device Id Config Features Intended Configuration
     Models Preview Activity Id Deploy. - > This API deploys the configuration model on the network device. This is the final
     step 'Step 4' of the following workflow.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkDeviceId:
     description: NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API /intent/api/v1/network-device
@@ -26,7 +26,7 @@ options:
     description: PreviewActivityId path parameter. Activity id from intent/api/v1/activity.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wired DeployTheConfigurationModelOnTheNetworkDevice
@@ -42,8 +42,8 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy:
-    catalystcenter_host: "{{catalystcenter_host}}"
+  ? cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy
+  : catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"

@@ -7,14 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_archive_info
-short_description: Information module for Network Device Config
+short_description: Information module for Network Device Config Archive
 description:
-  - Get all Network Device Config . - > Returns the historical device configurations running configuration , startup configuration
-    , vlan if applicable by specified criteria.
-version_added: '6.14.0'
+  - Get all Network Device Config Archive.
+  - Returns the historical device configurations running configuration , startup.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -51,7 +51,7 @@ options:
         specified, with a maximum limit of 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Archive GetConfigurationArchiveDetails
@@ -66,7 +66,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Device Config
+- name: Get all Network Device Config Archive
   cisco.catalystcenter.network_device_config_archive_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -81,7 +81,7 @@ EXAMPLES = r"""
     createdTime: string
     createdBy: string
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 """
 RETURN = r"""

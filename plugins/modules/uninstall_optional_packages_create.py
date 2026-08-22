@@ -11,20 +11,17 @@ short_description: Resource module for Uninstall Optional Packages Create
 description:
   - Manage operation create of the resource Uninstall Optional Packages Create.
   - This API is used to trigger the workflow for uninstalling optional packages.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be uninstalled. Use the `/dna/system/api/v1/installedRelease`
-      API to obtain the optional package IDs. In the installedRelease API response, installed optional packages can be identified
-      by the attributes `packagesn.optional` is true. And `packagesn.status` is DEPLOYED. Provide the `packagesn.id` of these
-      optional packages.
+    description: Define the list of optional packages to be uninstalled.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade UninstallOptionalPackages

@@ -85,9 +85,11 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="user_and_roles",
-            function="get_roles_api",
+            function="get_roles_api_v1",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -13,34 +13,32 @@ description:
   - Get Wireless Profiles by id.
   - This API allows the user to get a Wireless Network Profile by ID.
   - This API allows the user to get all Wireless Network Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Wireless Profile ID.
+    type: str
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter.
     type: int
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter.
     type: int
   wirelessProfileName:
     description:
       - WirelessProfileName query parameter. Wireless Profile Name.
     type: str
-  id:
-    description:
-      - Id path parameter. Wireless Profile Id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfileByID
@@ -70,9 +68,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
-    wirelessProfileName: string
+    limit: 500
+    offset: 1
+    wirelessProfileName: sample-profile
   register: result
 - name: Get Wireless Profiles by id
   cisco.catalystcenter.wireless_profiles_info:
@@ -94,48 +92,46 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "wirelessProfileName": "string",
-          "ssidDetails": [
-            {
-              "ssidName": "string",
-              "flexConnect": {
-                "enableFlexConnect": true,
-                "localToVlan": 0
-              },
-              "enableFabric": true,
-              "wlanProfileName": "string",
-              "interfaceName": "string",
-              "policyProfileName": "string",
-              "dot11beProfileId": "string",
-              "anchorGroupName": "string",
-              "vlanGroupName": "string"
-            }
-          ],
-          "id": "string",
-          "additionalInterfaces": [
-            "string"
-          ],
-          "apZones": [
-            {
-              "apZoneName": "string",
-              "rfProfileName": "string",
-              "ssids": [
-                "string"
-              ]
-            }
-          ],
-          "featureTemplates": [
-            {
-              "id": "string",
-              "ssids": [
-                "string"
-              ]
-            }
-          ]
-        }
-      ],
+      "response": {
+        "wirelessProfileName": "string",
+        "ssidDetails": [
+          {
+            "ssidName": "string",
+            "enableFabric": true,
+            "flexConnect": {
+              "enableFlexConnect": true,
+              "localToVlan": 0
+            },
+            "interfaceName": "string",
+            "wlanProfileName": "string",
+            "policyProfileName": "string",
+            "dot11beProfileId": "string",
+            "vlanGroupName": "string",
+            "anchorGroupName": "string"
+          }
+        ],
+        "apZones": [
+          {
+            "apZoneName": "string",
+            "rfProfileName": "string",
+            "ssids": [
+              "string"
+            ]
+          }
+        ],
+        "additionalInterfaces": [
+          "string"
+        ],
+        "featureTemplates": [
+          {
+            "id": "string",
+            "ssids": [
+              "string"
+            ]
+          }
+        ],
+        "id": "string"
+      },
       "version": "string"
     }
 """

@@ -99,9 +99,11 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="sensors",
-            function="retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering",
+            function="retrieves_deployed_icap_configurations_while_supporting_basic_filtering",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -26,7 +26,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import accesspoint_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    accesspoint_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -34,22 +36,32 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
     """
     Docstring for TestBrownfieldAccesspointLocationPlaybookGenerator
     """
+
     module = accesspoint_playbook_config_generator
     test_data = loadPlaybookData("accesspoint_playbook_config_generator")
 
     # Load all playbook configurations
-    playbook_config_generate_all_config = test_data.get("playbook_config_generate_all_config")
-    playbook_global_filter_apconfig_base = test_data.get("playbook_global_filter_apconfig_base")
-    playbook_global_filter_provision_base = test_data.get("playbook_global_filter_provision_base")
+    playbook_config_generate_all_config = test_data.get(
+        "playbook_config_generate_all_config"
+    )
+    playbook_global_filter_apconfig_base = test_data.get(
+        "playbook_global_filter_apconfig_base"
+    )
+    playbook_global_filter_provision_base = test_data.get(
+        "playbook_global_filter_provision_base"
+    )
     playbook_global_filter_site_base = test_data.get("playbook_global_filter_site_base")
-    playbook_global_filter_hostname_base = test_data.get("playbook_global_filter_hostname_base")
+    playbook_global_filter_hostname_base = test_data.get(
+        "playbook_global_filter_hostname_base"
+    )
     playbook_global_filter_mac_base = test_data.get("playbook_global_filter_mac_base")
 
     def setUp(self):
         super(TestAccesspointPlaybookConfigGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -134,9 +146,11 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("ap_configuration_3"),
             ]
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_all_configurations(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_all_configurations(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for accesspoint playbook config generator when generating all profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
@@ -154,15 +168,20 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 file_path="tmp/test_access_point_demo.yaml",
-                file_mode="overwrite"
+                file_mode="overwrite",
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_global_filter_apconfig(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_global_filter_apconfig(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for the access point playbook config generator when the global
         filter is based on real access points.
@@ -184,15 +203,20 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/accesspoint_workflow_playbook_apconfig_base.yml",
                 file_mode="overwrite",
-                config=self.playbook_global_filter_apconfig_base
+                config=self.playbook_global_filter_apconfig_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_global_filter_provision(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_global_filter_provision(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for the access point playbook config generator when the global
         filter is based on planned access points.
@@ -213,15 +237,20 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/accesspoint_workflow_playbook_hostname_provision_base.yml",
                 file_mode="append",
-                config=self.playbook_global_filter_provision_base
+                config=self.playbook_global_filter_provision_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_global_filter_site(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_global_filter_site(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for the access point playbook config generator when the global
         filter is based on floors.
@@ -243,15 +272,20 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/accesspoint_workflow_playbook_site_base.yml",
                 file_mode="append",
-                config=self.playbook_global_filter_site_base
+                config=self.playbook_global_filter_site_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_global_filter_provision_config(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_global_filter_provision_config(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for the access point playbook config generator when the global
         filter is based on access point models.
@@ -273,15 +307,20 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/accesspoint_workflow_playbook_accesspoint_host_provision_base.yml",
                 file_mode="append",
-                config=self.playbook_global_filter_hostname_base
+                config=self.playbook_global_filter_hostname_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_accesspoint_playbook_generate_global_filter_mac(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_accesspoint_playbook_generate_global_filter_mac(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for the access point playbook config generator when the global
         filter is based on access point mac address.
@@ -303,8 +342,11 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/accesspoint_workflow_playbook_mac_address_base.yml",
                 file_mode="overwrite",
-                config=self.playbook_global_filter_mac_base
+                config=self.playbook_global_filter_mac_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )

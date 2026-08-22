@@ -14,10 +14,10 @@ description:
   - Deletes a port assignment based on id.
   - Deletes port assignments based on user input.
   - Updates port assignments based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataVlanName:
     description: DataVlanName query parameter. Data VLAN name of the port assignment.
@@ -47,30 +47,33 @@ options:
         description: Authenticate template name of the port assignment.
         type: str
       connectedDeviceType:
-        description: Connected device type of the port assignment.
+        description: Connected device type of the port assignment (updating this field is not allowed).
         type: str
       dataVlanName:
         description: Data VLAN name of the port assignment.
         type: str
       fabricId:
-        description: ID of the fabric the device is assigned to.
+        description: ID of the fabric this device belongs to (updating this filed is not allowed).
+        type: str
+      id:
+        description: ID of the port assignment.
         type: str
       interfaceDescription:
         description: Interface description of the port assignment.
         type: str
       interfaceName:
-        description: Interface name of the port assignment.
+        description: Interface name of the port assignment (updating this field is not allowed).
         type: str
       nativeVlanId:
-        description: Integer example 1 Native VLAN of the port assignment, this option is only applicable to TRUNKING_DEVICE
-          connectedDeviceType. (VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING_DEVICE,
-          default value will be 1).
+        description: Native VLAN of the port assignment, this option is only applicable to TRUNKING_DEVICE connectedDeviceType.
+          (VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING_DEVICE, default value
+          will be 1).
         type: int
       networkDeviceId:
-        description: Network device ID of the port assignment.
+        description: Network device ID of the port assignment (updating this field is not allowed).
         type: str
       securityGroupName:
-        description: Security group name of the port assignment.
+        description: Scalable group name of the port assignment.
         type: str
       voiceVlanName:
         description: Voice VLAN name of the port assignment.
@@ -80,7 +83,7 @@ options:
     description: VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddPortAssignments
@@ -109,6 +112,29 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Update all
+  cisco.catalystcenter.sda_port_assignments:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - allowedVlanRanges: string
+        authenticateTemplateName: string
+        connectedDeviceType: string
+        dataVlanName: string
+        fabricId: string
+        id: string
+        interfaceDescription: string
+        interfaceName: string
+        nativeVlanId: 0
+        networkDeviceId: string
+        securityGroupName: string
+        voiceVlanName: string
 - name: Delete all
   cisco.catalystcenter.sda_port_assignments:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -145,29 +171,6 @@ EXAMPLES = r"""
         nativeVlanId: 0
         networkDeviceId: string
         securityGroupName: string
-        voiceVlanName: string
-- name: Update all
-  cisco.catalystcenter.sda_port_assignments:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - allowedVlanRanges: string
-        authenticateTemplateName: string
-        connectedDeviceType: string
-        dataVlanName: string
-        fabricId: string
-        id: string
-        interfaceDescription: string
-        interfaceName: string
-        nativeVlanId: 0
-        networkDeviceId: string
-        scalableGroupName: string
         voiceVlanName: string
 - name: Delete by id
   cisco.catalystcenter.sda_port_assignments:

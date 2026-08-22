@@ -9,17 +9,16 @@ DOCUMENTATION = r"""
 module: download_software_release_create
 short_description: Resource module for Download Software Release Create
 description:
-  - Manage operation create of the resource Download Software Release Create.
-  - This api is used to trigger download workflow of a specific release.
-version_added: '6.46.0'
+  - Manage operation create of the resource Download Software Release Create. - > This api is used to trigger download workflow
+    of a specific release. To monitor the progress and completion of the download , please call `/dna/system/api/v1/softwareManagementExecutions/{id}`
+    api , where id is the `taskId` attribute from the response of the current endpoint.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be downloaded.Obtain the `id` from the `packagesn.id` attribute
-      where `packagesn.optional` is true from the `/dna/system/api/v1/releases/releaseSummary` API where the `releaseName`
-      and `releaseVersion` is the requested download version.
+    description: Define the list of optional packages to be downloaded.
     elements: str
     type: list
   releaseName:
@@ -31,7 +30,7 @@ options:
       in the response of the `/dna/system/api/v1/releases` API.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade DownloadRelease

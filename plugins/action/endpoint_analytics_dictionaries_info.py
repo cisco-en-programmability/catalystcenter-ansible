@@ -90,6 +90,8 @@ class ActionModule(ActionBase):
             function="get_ai_endpoint_analytics_attribute_dictionaries",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

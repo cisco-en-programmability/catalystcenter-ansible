@@ -11,82 +11,74 @@ short_description: Resource module for Pnp Device Claim To Site
 description:
   - Manage operation create of the resource Pnp Device Claim To Site. - > Claim a device based on Catalyst Center Site-based
     design process. Some required parameters differ based on device platform.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   configInfo:
-    description: Pnp Device Claim To Site's configInfo.
+    description: For Default/StackSwitch.
     suboptions:
       configId:
-        description: Config Id.
+        description: Pnp Device Claim To Site's configId.
         type: str
       configParameters:
         description: Pnp Device Claim To Site's configParameters.
         elements: dict
         suboptions:
           key:
-            description: Key.
+            description: Pnp Device Claim To Site's key.
             type: str
           value:
-            description: Value.
+            description: Pnp Device Claim To Site's value.
             type: str
         type: list
     type: dict
-    version_added: 4.2.0
   deviceId:
-    description: Device Id.
+    description: Pnp Device Claim To Site's deviceId.
     type: str
   gateway:
     description: For CatalystWLC/MobilityExpress.
     type: str
-    version_added: 6.4.0
   hostname:
     description: Hostname to configure on Device.
     type: str
-    version_added: 4.2.0
   imageInfo:
-    description: Pnp Device Claim To Site's imageInfo.
+    description: For Default/StackSwitch.
     suboptions:
       imageId:
-        description: Image Id.
+        description: Pnp Device Claim To Site's imageId.
         type: str
       skip:
-        description: Skip.
+        description: Skip flag.
         type: bool
     type: dict
-    version_added: 4.2.0
   ipInterfaceName:
     description: For Catalyst 9800 WLC.
     type: str
-    version_added: 6.4.0
   rfProfile:
     description: For Access Points.
     type: str
-    version_added: 6.1.0
   sensorProfile:
     description: For Sensors.
     type: str
   siteId:
-    description: Site Id.
+    description: Pnp Device Claim To Site's siteId.
     type: str
   staticIP:
     description: For CatalystWLC/MobilityExpress.
     type: str
-    version_added: 6.4.0
   subnetMask:
     description: For CatalystWLC/MobilityExpress.
     type: str
   type:
-    description: Type.
+    description: Pnp Device Claim To Site's type.
     type: str
   vlanId:
     description: For Catalyst 9800 WLC.
     type: str
-    version_added: 6.4.0
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) ClaimADeviceToASite

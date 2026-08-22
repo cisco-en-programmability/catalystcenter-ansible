@@ -124,7 +124,9 @@ class ActionModule(ActionBase):
                 function="get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_and_poe_data",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -133,6 +135,8 @@ class ActionModule(ActionBase):
                 function="gets_interfaces_along_with_statistics_and_poe_data_from_all_network_devices",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

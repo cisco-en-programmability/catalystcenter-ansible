@@ -11,10 +11,10 @@ short_description: Information module for Activities Activity Id Triggered Jobs 
 description:
   - Get all Activities Activity Id Triggered Jobs Count.
   - Retrieves the count of triggered jobs by activity id.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - ActivityId path parameter. The id of the activity.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task RetrievesTheCountOfTriggeredJobsByActivityId

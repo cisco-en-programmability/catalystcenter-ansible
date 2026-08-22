@@ -35,9 +35,11 @@ argument_spec.update(
         sortBy=dict(type="str"),
         order=dict(type="str"),
         siteId=dict(type="str"),
+        exporterNetworkDeviceId=dict(type="str"),
         ssid=dict(type="str"),
         applicationName=dict(type="str"),
         businessRelevance=dict(type="str"),
+        healthScore=dict(type="float"),
         attribute=dict(type="str"),
         headers=dict(type="dict"),
     )
@@ -87,9 +89,11 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             site_id=params.get("siteId"),
+            exporter_network_device_id=params.get("exporterNetworkDeviceId"),
             ssid=params.get("ssid"),
             application_name=params.get("applicationName"),
             business_relevance=params.get("businessRelevance"),
+            health_score=params.get("healthScore"),
             attribute=params.get("attribute"),
             headers=params.get("headers"),
         )
@@ -110,6 +114,8 @@ class ActionModule(ActionBase):
             function="retrieves_the_list_of_network_applications_along_with_experience_and_health_metrics",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

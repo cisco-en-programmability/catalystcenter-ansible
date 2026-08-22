@@ -66,7 +66,7 @@ class FloorsSettings(object):
         try:
             items = self.catalystcenter.exec(
                 family="site_design",
-                function="get_floor_settings_v2",
+                function="get_floor_settings",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -111,7 +111,6 @@ class FloorsSettings(object):
         obj_params = [
             ("unitsOfMeasure", "unitsOfMeasure"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -126,7 +125,7 @@ class FloorsSettings(object):
         result = None
         result = self.catalystcenter.exec(
             family="site_design",
-            function="updates_floor_settings_v2",
+            function="updates_floor_settings",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -188,6 +187,8 @@ class ActionModule(ActionBase):
                     "Object does not exists, plugin only has update"
                 )
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

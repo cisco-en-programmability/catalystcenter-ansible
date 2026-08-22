@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Service Provider V2.
   - API to create Service Provider Profile QOS .
   - API to update Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   settings:
     description: Service Provider V2's settings.
@@ -25,30 +25,33 @@ options:
         elements: dict
         suboptions:
           model:
-            description: Model.
+            description: Service Provider V2's model.
+            type: str
+          oldProfileName:
+            description: Service Provider V2's oldProfileName.
             type: str
           profileName:
-            description: Profile Name.
+            description: Service Provider V2's profileName.
             type: str
           wanProvider:
-            description: Wan Provider.
+            description: Service Provider V2's wanProvider.
             type: str
         type: list
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings CreateSPProfileV2
-    description: Complete reference of the CreateSPProfileV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-2
-  - name: Cisco Catalyst Center documentation for Network Settings UpdateSPProfileV2
-    description: Complete reference of the UpdateSPProfileV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings CreateSPProfile
+    description: Complete reference of the CreateSPProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateSPProfile
+    description: Complete reference of the UpdateSPProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile_v2,
-    network_settings.NetworkSettings.update_sp_profile_v2,
+    network_settings.NetworkSettings.create_sp_profile,
+    network_settings.NetworkSettings.update_sp_profile,
   - Paths used are
     post /dna/intent/api/v2/service-provider,
     put /dna/intent/api/v2/service-provider,
@@ -56,21 +59,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.service_provider_v2:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    settings:
-      qos:
-        - model: string
-          profileName: string
-          wanProvider: string
 - name: Update all
   cisco.catalystcenter.service_provider_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -85,6 +73,21 @@ EXAMPLES = r"""
       qos:
         - model: string
           oldProfileName: string
+          profileName: string
+          wanProvider: string
+- name: Create
+  cisco.catalystcenter.service_provider_v2:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    settings:
+      qos:
+        - model: string
           profileName: string
           wanProvider: string
 """

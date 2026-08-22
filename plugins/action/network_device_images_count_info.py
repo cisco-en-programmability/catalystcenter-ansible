@@ -28,6 +28,10 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        siteId=dict(type="str"),
+        role=dict(type="str"),
+        productName=dict(type="str"),
+        productId=dict(type="str"),
         managementAddress=dict(type="str"),
         networkDeviceImageStatus=dict(type="str"),
         networkDeviceUpdateStatus=dict(type="str"),
@@ -72,6 +76,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            site_id=params.get("siteId"),
+            role=params.get("role"),
+            product_name=params.get("productName"),
+            product_id=params.get("productId"),
             management_address=params.get("managementAddress"),
             network_device_image_status=params.get("networkDeviceImageStatus"),
             network_device_update_status=params.get("networkDeviceUpdateStatus"),
@@ -94,6 +102,8 @@ class ActionModule(ActionBase):
             function="count_of_network_devices_for_the_given_status_filters",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

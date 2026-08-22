@@ -28,13 +28,13 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         productSeriesOrdinal=dict(type="float"),
         operationType=dict(type="str"),
         type=dict(type="str"),
         order=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,13 +76,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             product_series_ordinal=params.get("productSeriesOrdinal"),
             operation_type=params.get("operationType"),
             type=params.get("type"),
             order=params.get("order"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="get_custom_network_device_validation_details",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="get_the_list_of_custom_network_device_validations",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

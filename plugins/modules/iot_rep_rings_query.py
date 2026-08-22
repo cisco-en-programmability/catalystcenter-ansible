@@ -14,10 +14,10 @@ description:
     REP ring member networkDeviceId can be provided. In case of failed REP ring creation, provide only root node networkDeviceId.
     The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevice and deploymentMode
     FABRIC/NON_FABRIC .
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: Deployment mode of the configured REP ring.
@@ -33,15 +33,15 @@ options:
     description: The first record to show for this page; the first record is numbered 1.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Industrial Configuration RetrievesTheListOfREPRings
-    description: Complete reference of the RetrievesTheListOfREPRings API.
-    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-rep-rings
+  - name: Cisco Catalyst Center documentation for Industrial Configuration RetrieveTheListREPRings
+    description: Complete reference of the RetrieveTheListREPRings API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-list-rep-rings
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.retrieves_the_list_of_r_e_p_rings,
+    industrial_configuration.IndustrialConfiguration.retrieve_the_list_rep_rings,
   - Paths used are
     post /dna/intent/api/v1/iot/repRings/query,
 """
@@ -70,29 +70,20 @@ catalystcenter_response:
   sample: >
     [
       {
-        "response": [
+        "name": "string",
+        "displayName": "string",
+        "subDomains": [
           {
-            "id": "string",
-            "rootNetworkDeviceId": "string",
-            "rootNeighbourNetworkDeviceIds": [
-              "string"
-            ],
-            "status": "string",
-            "repSegmentId": 0,
-            "deploymentMode": "string",
-            "ringName": "string",
-            "ringMembers": [
-              {
-                "networkDeviceId": "string",
-                "nodeName": "string",
-                "portName1": "string",
-                "portName2": "string",
-                "ringOrder": 0
-              }
-            ]
+            "name": "string",
+            "displayName": "string",
+            "description": "string",
+            "deprecated": true,
+            "deprecationMessage": "string"
           }
         ],
-        "version": 0
+        "description": "string",
+        "deprecated": true,
+        "deprecationMessage": "string"
       }
     ]
 """

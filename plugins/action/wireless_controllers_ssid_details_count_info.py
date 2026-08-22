@@ -94,6 +94,8 @@ class ActionModule(ActionBase):
             function="get_ssid_count_for_specific_wireless_controller",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Summary
 description:
   - Get all Feature Templates Wireless Summary.
   - This API allows users to retrieve the feature template summary.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -48,7 +48,7 @@ options:
         denotes a user-modifiable template.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetFeatureTemplateSummary
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     type: string
     designName: string
-    limit: 0
-    offset: 0
+    limit: 25
+    offset: 1
     systemTemplate: true
   register: result
 """

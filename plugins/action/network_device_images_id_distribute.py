@@ -30,6 +30,7 @@ argument_spec.update(
     dict(
         distributedImages=dict(type="list"),
         networkValidationIds=dict(type="list"),
+        compatibleFeatures=dict(type="list"),
         id=dict(type="str"),
     )
 )
@@ -73,6 +74,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             distributedImages=params.get("distributedImages"),
             networkValidationIds=params.get("networkValidationIds"),
+            compatibleFeatures=params.get("compatibleFeatures"),
             id=params.get("id"),
         )
         return new_object
@@ -91,6 +93,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

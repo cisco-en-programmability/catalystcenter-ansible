@@ -90,7 +90,7 @@ class RolesV2(object):
         try:
             items = self.catalystcenter.exec(
                 family="user_and_roles",
-                function="get_roles_v2",
+                function="get_roles",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -105,7 +105,7 @@ class RolesV2(object):
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="user_and_roles", function="get_role_v2", params={"id": id}
+                family="user_and_roles", function="get_role", params={"id": id}
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -149,7 +149,6 @@ class RolesV2(object):
             ("permissions", "permissions"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -161,7 +160,7 @@ class RolesV2(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="user_and_roles",
-            function="add_role_v2",
+            function="add_role",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -180,7 +179,7 @@ class RolesV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="user_and_roles",
-            function="update_role_v2",
+            function="update_role",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -199,7 +198,7 @@ class RolesV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="user_and_roles",
-            function="delete_role_v2",
+            function="delete_role",
             params=self.delete_by_id_params(),
         )
         return result
@@ -268,6 +267,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

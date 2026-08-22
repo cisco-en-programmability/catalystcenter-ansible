@@ -29,6 +29,8 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         nameSpace=dict(type="str"),
+        toEncrypt=dict(type="bool"),
+        restrictedAccess=dict(type="bool"),
         filePath=dict(type="str"),
     )
 )
@@ -71,6 +73,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             name_space=params.get("nameSpace"),
+            to_encrypt=params.get("toEncrypt"),
+            restricted_access=params.get("restrictedAccess"),
             file_path=params.get("filePath"),
         )
         return new_object
@@ -89,6 +93,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

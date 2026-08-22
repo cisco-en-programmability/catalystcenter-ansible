@@ -11,10 +11,10 @@ short_description: Resource module for Global Credential Update
 description:
   - Manage operation update of the resource Global Credential Update.
   - Update global credential for network devices in sites.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   globalCredentialId:
     description: GlobalCredentialId path parameter. Global credential Uuid.
@@ -24,15 +24,15 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentials
-    description: Complete reference of the UpdateGlobalCredentials API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsOperationalTasks
+    description: Complete reference of the UpdateGlobalCredentialsOperationalTasks API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-operational-tasks
 notes:
   - SDK Method used are
-    discovery.Discovery.update_global_credentials,
+    discovery.Discovery.update_global_credentials_operational_tasks,
   - Paths used are
     put /dna/intent/api/v1/global-credential/{globalCredentialId},
 """

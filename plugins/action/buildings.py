@@ -34,13 +34,16 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         state=dict(type="str", default="present", choices=["present", "absent"]),
+        id=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
         parentId=dict(type="str"),
+        nameHierarchy=dict(type="str"),
+        type=dict(type="str"),
         name=dict(type="str"),
+        country=dict(type="str"),
         latitude=dict(type="float"),
         longitude=dict(type="float"),
         address=dict(type="str"),
-        country=dict(type="str"),
-        id=dict(type="str"),
     )
 )
 
@@ -57,23 +60,30 @@ class Buildings(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
+            id=params.get("id"),
+            siteHierarchyId=params.get("siteHierarchyId"),
             parentId=params.get("parentId"),
+            nameHierarchy=params.get("nameHierarchy"),
+            type=params.get("type"),
             name=params.get("name"),
+            country=params.get("country"),
             latitude=params.get("latitude"),
             longitude=params.get("longitude"),
             address=params.get("address"),
-            country=params.get("country"),
-            id=params.get("id"),
         )
 
     def create_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
         new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         new_object_params["name"] = self.new_object.get("name")
+        new_object_params["country"] = self.new_object.get("country")
         new_object_params["latitude"] = self.new_object.get("latitude")
         new_object_params["longitude"] = self.new_object.get("longitude")
         new_object_params["address"] = self.new_object.get("address")
-        new_object_params["country"] = self.new_object.get("country")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -83,13 +93,16 @@ class Buildings(object):
 
     def update_by_id_params(self):
         new_object_params = {}
+        new_object_params["id"] = self.new_object.get("id")
+        new_object_params["siteHierarchyId"] = self.new_object.get("siteHierarchyId")
         new_object_params["parentId"] = self.new_object.get("parentId")
+        new_object_params["nameHierarchy"] = self.new_object.get("nameHierarchy")
+        new_object_params["type"] = self.new_object.get("type")
         new_object_params["name"] = self.new_object.get("name")
+        new_object_params["country"] = self.new_object.get("country")
         new_object_params["latitude"] = self.new_object.get("latitude")
         new_object_params["longitude"] = self.new_object.get("longitude")
         new_object_params["address"] = self.new_object.get("address")
-        new_object_params["country"] = self.new_object.get("country")
-        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -102,7 +115,7 @@ class Buildings(object):
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="site_design", function="gets_a_building_v2", params={"id": id}
+                family="site_design", function="gets_a_building", params={"id": id}
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -141,15 +154,17 @@ class Buildings(object):
         requested_obj = self.new_object
 
         obj_params = [
+            ("id", "id"),
+            ("siteHierarchyId", "siteHierarchyId"),
             ("parentId", "parentId"),
+            ("nameHierarchy", "nameHierarchy"),
+            ("type", "type"),
             ("name", "name"),
+            ("country", "country"),
             ("latitude", "latitude"),
             ("longitude", "longitude"),
             ("address", "address"),
-            ("country", "country"),
-            ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -161,7 +176,7 @@ class Buildings(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="site_design",
-            function="creates_a_building_v2",
+            function="creates_a_building",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -180,7 +195,7 @@ class Buildings(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="site_design",
-            function="updates_a_building_v2",
+            function="updates_a_building",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -199,7 +214,7 @@ class Buildings(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="site_design",
-            function="deletes_a_building_v2",
+            function="deletes_a_building",
             params=self.delete_by_id_params(),
         )
         return result
@@ -268,6 +283,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

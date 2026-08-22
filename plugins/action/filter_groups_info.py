@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        id=dict(type="str"),
-        name=dict(type="str"),
-        type=dict(type="str"),
+        id=dict(type="list"),
+        name=dict(type="list"),
+        type=dict(type="list"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),
@@ -100,7 +100,9 @@ class ActionModule(ActionBase):
                 function="get_the_filter_group_details_for_the_given_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -109,6 +111,8 @@ class ActionModule(ActionBase):
                 function="get_the_filter_groups_for_given_search_criteria",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

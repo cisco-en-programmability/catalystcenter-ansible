@@ -10,31 +10,31 @@ module: wireless_settings_ssids_override_at_sites_info
 short_description: Information module for Wireless Settings Ssids Override At Sites
 description:
   - Get all Wireless Settings Ssids Override At Sites.
-  - Retrieve list of siteIds with information of SSIDs which are overridden.
-version_added: '6.17.0'
+  - Retrieve list of `siteId`s with information of SSIDs which are overridden.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   siteId:
     description:
-      - SiteId query parameter. Site UUID.
+      - SiteId query parameter. Site Id.
     type: str
-  offset:
-    description:
-      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
-    type: int
   limit:
     description:
       - >
         Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
         Maximum allowed limit is 500.
     type: int
+  offset:
+    description:
+      - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless RetrieveSitesWithOverriddenSSIDs
@@ -60,8 +60,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
-    offset: 0
-    limit: 0
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""

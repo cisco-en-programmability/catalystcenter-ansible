@@ -28,13 +28,13 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         rfProfileName=dict(type="str"),
         enableRadioTypeA=dict(type="bool"),
         enableRadioTypeB=dict(type="bool"),
         enableRadioType6GHz=dict(type="bool"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -76,13 +76,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             rf_profile_name=params.get("rfProfileName"),
             enable_radio_type_a=params.get("enableRadioTypeA"),
             enable_radio_type_b=params.get("enableRadioTypeB"),
             enable_radio_type6_g_hz=params.get("enableRadioType6GHz"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 function="get_rf_profile_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -113,6 +115,8 @@ class ActionModule(ActionBase):
                 function="get_rf_profiles",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

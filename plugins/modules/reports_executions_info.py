@@ -13,10 +13,10 @@ description:
   - Get Reports Executions by id.
   - Get details of all executions for a given report. - > Returns report content. Save the response to a file by converting
     the response data as a blob and setting the file format available from content-disposition response header.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -42,7 +42,7 @@ options:
       - The filename used to save the download file.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports DownloadReportContent

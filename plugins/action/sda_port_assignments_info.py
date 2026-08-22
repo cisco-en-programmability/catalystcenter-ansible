@@ -33,7 +33,7 @@ argument_spec.update(
         interfaceName=dict(type="str"),
         dataVlanName=dict(type="str"),
         voiceVlanName=dict(type="str"),
-        nativeVlanId=dict(type="float"),
+        nativeVlanId=dict(type="int"),
         offset=dict(type="int"),
         limit=dict(type="int"),
         headers=dict(type="dict"),
@@ -104,6 +104,8 @@ class ActionModule(ActionBase):
             function="get_port_assignments",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

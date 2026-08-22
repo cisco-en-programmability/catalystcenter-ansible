@@ -11,10 +11,10 @@ short_description: Resource module for Security Threats Summary
 description:
   - Manage operation create of the resource Security Threats Summary.
   - The Threat Summary for the Rogues and aWIPS.
-version_added: '6.16.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
     description: End Time.
@@ -35,7 +35,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - SDK Method used are

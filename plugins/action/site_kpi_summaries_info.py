@@ -28,24 +28,24 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         taskId=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
-        siteHierarchy=dict(type="str"),
-        siteHierarchyId=dict(type="str"),
-        siteId=dict(type="str"),
-        siteType=dict(type="str"),
         ssid=dict(type="str"),
         band=dict(type="str"),
         failureCategory=dict(type="str"),
         failureReason=dict(type="str"),
         view=dict(type="str"),
         attribute=dict(type="str"),
+        siteHierarchy=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
+        siteId=dict(type="str"),
+        siteType=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
         order=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -87,25 +87,25 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             task_id=params.get("taskId"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
-            site_hierarchy=params.get("siteHierarchy"),
-            site_hierarchy_id=params.get("siteHierarchyId"),
-            site_id=params.get("siteId"),
-            site_type=params.get("siteType"),
             ssid=params.get("ssid"),
             band=params.get("band"),
             failure_category=params.get("failureCategory"),
             failure_reason=params.get("failureReason"),
             view=params.get("view"),
             attribute=params.get("attribute"),
+            headers=params.get("headers"),
+            site_hierarchy=params.get("siteHierarchy"),
+            site_hierarchy_id=params.get("siteHierarchyId"),
+            site_id=params.get("siteId"),
+            site_type=params.get("siteType"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
             order=params.get("order"),
-            headers=params.get("headers"),
-            id=params.get("id"),
         )
         return new_object
 
@@ -126,7 +126,9 @@ class ActionModule(ActionBase):
                 function="get_site_analytics_for_one_site",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -135,6 +137,8 @@ class ActionModule(ActionBase):
                 function="get_site_analytics_for_the_child_sites_of_given_parent_site_and_other_query_parameters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

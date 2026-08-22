@@ -85,10 +85,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="lan_automation",
-            function="lan_automation_stop_and_update_devices_v2",
+            function="lan_automation_stop_and_update_devices",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

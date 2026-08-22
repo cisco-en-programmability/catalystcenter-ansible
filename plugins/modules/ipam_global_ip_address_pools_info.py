@@ -14,10 +14,10 @@ description:
     particular site, but may have portions of their address space reserved by site-specific subpools. - > Retrieves global
     IP address pools. Global pools are not associated with any particular site, but may have portions of their address space
     reserved by site-specific subpools.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   sortBy:
     description:
@@ -43,7 +43,7 @@ options:
       - Id path parameter. The `id` of the global IP address pool to retrieve.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings RetrievesAGlobalIPAddressPool
@@ -73,10 +73,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Ipam Global Ip Address Pools by id
   cisco.catalystcenter.ipam_global_ip_address_pools_info:
@@ -99,24 +99,10 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "addressSpace": {
-          "subnet": "string",
-          "prefixLength": 0,
-          "gatewayIpAddress": "string",
-          "dhcpServers": [
-            "string"
-          ],
-          "dnsServers": [
-            "string"
-          ],
-          "totalAddresses": "string",
-          "unassignableAddresses": "string",
-          "assignedAddresses": "string",
-          "defaultAssignedAddresses": "string"
-        },
         "id": "string",
-        "name": "string",
-        "poolType": "string"
+        "name": {},
+        "poolType": "string",
+        "addressSpace": {}
       },
       "version": "string"
     }

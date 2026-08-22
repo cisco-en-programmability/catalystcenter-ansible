@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for SD-Access Fabric Sites Zones Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the fabric sites and fabric zones
   configured on the Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -102,7 +103,7 @@ options:
                 type: str
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -375,17 +376,14 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -432,7 +430,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 - "global_filters": An empty list reserved for global filters applicable across all network elements.
         """
 
-        self.log("Building workflow filters schema for sda fabric sites and zones module", "DEBUG")
+        self.log(
+            "Building workflow filters schema for sda fabric sites and zones module",
+            "DEBUG",
+        )
 
         schema = {
             "network_elements": {
@@ -478,7 +479,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             if response is None:
                 self.log(
                     "No response from get_site with site_name: {0}".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return response
 
@@ -486,23 +487,25 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             if not site_response:
                 self.log(
                     "No site response found in the response: {0}".format(site_response),
-                    "WARNING"
+                    "WARNING",
                 )
                 return site_response
 
             site_id = site_response[0].get("id")
             self.log(
-                "Site details retrieved for site '{0}'': {1}. Retrieved site id: {2}."
-                .format(site_name, str(response), site_id),
-                "DEBUG"
+                "Site details retrieved for site '{0}'': {1}. Retrieved site id: {2}.".format(
+                    site_name, str(response), site_id
+                ),
+                "DEBUG",
             )
             return site_id
 
         except Exception as e:
             self.log(
-                "An exception occurred while retrieving site details for site '{0}'. Error: {1}"
-                .format(site_name, e),
-                "ERROR"
+                "An exception occurred while retrieving site details for site '{0}'. Error: {1}".format(
+                    site_name, e
+                ),
+                "ERROR",
             )
             return None
 
@@ -519,26 +522,36 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         """
 
         self.log(
-            "Starting site name hierarchy transformation for given site id: {0}"
-            .format(site_details.get("siteId", "Unknown")),
-            "DEBUG"
+            "Starting site name hierarchy transformation for given site id: {0}".format(
+                site_details.get("siteId", "Unknown")
+            ),
+            "DEBUG",
         )
         site_id = site_details.get("siteId", None)
 
         if not site_id:
-            self.log("No site ID found in site details: {0}".format(site_details), "WARNING")
+            self.log(
+                "No site ID found in site details: {0}".format(site_details), "WARNING"
+            )
             return site_id
 
-        self.log("Processing site name hierarchy for site ID: {0}".format(site_id), "DEBUG")
+        self.log(
+            "Processing site name hierarchy for site ID: {0}".format(site_id), "DEBUG"
+        )
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
 
         if not site_name_hierarchy:
-            self.log("Site name hierarchy not found for site ID: {0}".format(site_id), "WARNING")
+            self.log(
+                "Site name hierarchy not found for site ID: {0}".format(site_id),
+                "WARNING",
+            )
             return site_name_hierarchy
 
         self.log(
-            "Completed site name hierarchy transformation for site ID: {0}, transformed site name hierarchy: {1}"
-            .format(site_id, site_name_hierarchy), "DEBUG"
+            "Completed site name hierarchy transformation for site ID: {0}, transformed site name hierarchy: {1}".format(
+                site_id, site_name_hierarchy
+            ),
+            "DEBUG",
         )
 
         return site_name_hierarchy
@@ -563,7 +576,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 },
                 "fabric_type": {"fixed_value": "fabric_site"},
                 "is_pub_sub_enabled": {"type": "bool", "source_key": "isPubSubEnabled"},
-                "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
+                "authentication_profile": {
+                    "type": "str",
+                    "source_key": "authenticationProfileName",
+                },
             }
         )
         return fabric_sites
@@ -587,12 +603,17 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "transform": self.transform_fabric_site_name,
                 },
                 "fabric_type": {"fixed_value": "fabric_zone"},
-                "authentication_profile": {"type": "str", "source_key": "authenticationProfileName"}
+                "authentication_profile": {
+                    "type": "str",
+                    "source_key": "authenticationProfileName",
+                },
             }
         )
         return fabric_zones
 
-    def get_fabric_sites_from_ccc(self, network_element, component_specific_filters=None):
+    def get_fabric_sites_from_ccc(
+        self, network_element, component_specific_filters=None
+    ):
         """
         Retrieves fabric sites from Catalyst Center with pagination support.
 
@@ -620,8 +641,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return []
 
@@ -631,7 +654,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting sda fabric sites using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -640,7 +663,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for fabric sites retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -649,9 +672,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     site_id = self.get_site_id(value)
                     if not site_id:
                         self.log(
-                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
-                            .format(value),
-                            "WARNING"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing.".format(
+                                value
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -659,20 +683,21 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
                             value, site_id
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     params["siteId"] = site_id
 
                 unsupported_keys = set(filter_param.keys()) - {"site_name_hierarchy"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for fabric sites: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for fabric sites: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching fabric sites with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching fabric sites with parameters: {0}".format(params), "DEBUG"
                 )
                 fabric_sites_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -684,12 +709,12 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Retrieved {0} fabric site(s): {1}".format(
                             len(fabric_sites_details), fabric_sites_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No fabric sites found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -697,7 +722,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for fabric sites retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log("Fetching all fabric sites details from Catalyst Center", "DEBUG")
@@ -712,7 +737,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} fabric site(s) from Catalyst Center".format(
                         len(fabric_sites_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No fabric sites found in Catalyst Center", "DEBUG")
@@ -722,22 +747,22 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} fabric site(s) using fabric sites temp spec".format(
                 len(final_fabric_sites)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         fabric_site_temp_spec = self.fabric_site_temp_spec()
         modified_site_details = self.modify_parameters(
             fabric_site_temp_spec, final_fabric_sites
         )
         self.log(
-            "Completed retrieving fabric site(s): {0}".format(
-                modified_site_details
-            ),
+            "Completed retrieving fabric site(s): {0}".format(modified_site_details),
             "INFO",
         )
 
         return modified_site_details
 
-    def get_fabric_zones_from_ccc(self, network_element, component_specific_filters=None):
+    def get_fabric_zones_from_ccc(
+        self, network_element, component_specific_filters=None
+    ):
         """
         Retrieves fabric zones from Catalyst Center with pagination support.
 
@@ -765,8 +790,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return []
 
@@ -776,7 +803,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Getting sda fabric zones using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -785,7 +812,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Started Processing {0} filter(s) for fabric zones retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -794,9 +821,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     site_id = self.get_site_id(value)
                     if not site_id:
                         self.log(
-                            "The site '{0}' does not exist in the Catalyst Center, skipping processing."
-                            .format(value),
-                            "WARNING"
+                            "The site '{0}' does not exist in the Catalyst Center, skipping processing.".format(
+                                value
+                            ),
+                            "WARNING",
                         )
                         continue
 
@@ -804,20 +832,21 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Mapped site name hierarchy '{0}' to site ID '{1}'.".format(
                             value, site_id
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     params["siteId"] = site_id
 
                 unsupported_keys = set(filter_param.keys()) - {"site_name_hierarchy"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for fabric zones: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for fabric zones: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching fabric zones with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching fabric zones with parameters: {0}".format(params), "DEBUG"
                 )
                 fabric_zones_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -829,12 +858,12 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                         "Retrieved {0} fabric zone(s): {1}".format(
                             len(fabric_zones_details), fabric_zones_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No fabric zones found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -842,7 +871,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Completed Processing {0} filter(s) for fabric zones retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log("Fetching all fabric zones details from Catalyst Center", "DEBUG")
@@ -857,7 +886,7 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     "Retrieved {0} fabric zone(s) from Catalyst Center".format(
                         len(fabric_zones_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No fabric zones found in Catalyst Center", "DEBUG")
@@ -867,16 +896,14 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             "Transforming {0} fabric zone(s) using fabric zones temp spec".format(
                 len(final_fabric_zones)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         fabric_zone_temp_spec = self.fabric_zone_temp_spec()
         final_fabric_zones = self.modify_parameters(
             fabric_zone_temp_spec, final_fabric_zones
         )
         self.log(
-            "Completed retrieving fabric zone(s): {0}".format(
-                final_fabric_zones
-            ),
+            "Completed retrieving fabric zone(s): {0}".format(final_fabric_zones),
             "INFO",
         )
 
@@ -905,28 +932,38 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         # Check if generate_all_configurations mode is enabled
         generate_all = yaml_config_generator.get("generate_all_configurations", False)
         if generate_all:
-            self.log("Auto-discovery mode enabled - will process all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode enabled - will process all devices and all features",
+                "INFO",
+            )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
 
         # Get file_path and file_mode from self.params (top-level parameters)
         file_path = self.params.get("file_path")
         if not file_path:
-            self.log("No file_path provided by user, generating default filename", "DEBUG")
+            self.log(
+                "No file_path provided by user, generating default filename", "DEBUG"
+            )
             file_path = self.generate_filename()
         else:
             self.log("Using user-provided file_path: {0}".format(file_path), "DEBUG")
 
         file_mode = self.params.get("file_mode", "overwrite")
         self.log(
-            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
-            "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
         )
 
         self.log("Initializing filter dictionaries", "DEBUG")
         if generate_all:
             # In generate_all_configurations mode, override any provided filters to ensure we get ALL configurations
-            self.log("Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features", "INFO")
+            self.log(
+                "Auto-discovery mode: Overriding any provided filters to retrieve all devices and all features",
+                "INFO",
+            )
             # Set empty filters to retrieve everything
             component_specific_filters = {}
         else:
@@ -934,14 +971,18 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "Normal mode: Using provided component_specific_filters from input",
                 "DEBUG",
             )
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
             self.log(
                 f"Component specific filters initialized: {self.pprint(component_specific_filters)}",
                 "DEBUG",
             )
 
         self.log("Retrieving supported network elements schema for the module", "DEBUG")
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
 
         self.log("Determining components list for processing", "DEBUG")
         components_list = component_specific_filters.get(
@@ -950,7 +991,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
 
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
-        self.log("Initializing final configuration list and operation summary tracking", "DEBUG")
+        self.log(
+            "Initializing final configuration list and operation summary tracking",
+            "DEBUG",
+        )
         final_config_list = []
         processed_count = 0
         skipped_count = 0
@@ -960,7 +1004,9 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             network_element = module_supported_network_elements.get(component)
             if not network_element:
                 self.log(
-                    "Component {0} not supported by module, skipping processing".format(component),
+                    "Component {0} not supported by module, skipping processing".format(
+                        component
+                    ),
                     "WARNING",
                 )
                 skipped_count += 1
@@ -970,8 +1016,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             operation_func = network_element.get("get_function_name")
             if not callable(operation_func):
                 self.log(
-                    "No retrieval function defined for component: {0}".format(component),
-                    "ERROR"
+                    "No retrieval function defined for component: {0}".format(
+                        component
+                    ),
+                    "ERROR",
                 )
                 skipped_count += 1
                 continue
@@ -980,13 +1028,13 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
             # Validate retrieval success
             if not component_data:
                 self.log(
-                    "No data retrieved for component: {0}".format(component),
-                    "DEBUG"
+                    "No data retrieved for component: {0}".format(component), "DEBUG"
                 )
                 continue
 
             self.log(
-                "Details retrieved for {0}: {1}".format(component, component_data), "DEBUG"
+                "Details retrieved for {0}: {1}".format(component, component_data),
+                "DEBUG",
             )
             processed_count += 1
             final_config_list.extend(component_data)
@@ -996,25 +1044,29 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                 "No configurations retrieved. Processed: {0}, Skipped: {1}, Components: {2}".format(
                     processed_count, skipped_count, components_list
                 ),
-                "WARNING"
+                "WARNING",
             )
             self.msg = {
                 "status": "ok",
                 "message": (
                     "No configurations found for module '{0}'. Verify filters and component availability. "
-                    "Components attempted: {1}".format(self.module_name, components_list)
+                    "Components attempted: {1}".format(
+                        self.module_name, components_list
+                    )
                 ),
                 "components_attempted": len(components_list),
                 "components_processed": processed_count,
-                "components_skipped": skipped_count
+                "components_skipped": skipped_count,
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
 
         yaml_config_dict = {"config": [{"fabric_sites": final_config_list}]}
         self.log(
-            "Final config dictionary created: {0}".format(self.pprint(yaml_config_dict)),
-            "DEBUG"
+            "Final config dictionary created: {0}".format(
+                self.pprint(yaml_config_dict)
+            ),
+            "DEBUG",
         )
 
         additional_config_headers = [
@@ -1101,7 +1153,10 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1125,17 +1180,20 @@ class FabricSiteZonePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1162,20 +1220,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {
@@ -1213,21 +1323,15 @@ def main():
     # Check if the state is valid
     if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = "State {0} is invalid".format(
-            state
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()
 
     config = config_generator.validated_config
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

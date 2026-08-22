@@ -36,14 +36,17 @@ argument_spec.update(
         state=dict(type="str", default="present", choices=["present", "absent"]),
         wirelessProfileName=dict(type="str"),
         ssidDetails=dict(type="list"),
-        additionalInterfaces=dict(type="list"),
         apZones=dict(type="list"),
+        additionalInterfaces=dict(type="list"),
         featureTemplates=dict(type="list"),
         id=dict(type="str"),
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -55,8 +58,8 @@ class WirelessProfiles(object):
         self.new_object = dict(
             wirelessProfileName=params.get("wirelessProfileName"),
             ssidDetails=params.get("ssidDetails"),
-            additionalInterfaces=params.get("additionalInterfaces"),
             apZones=params.get("apZones"),
+            additionalInterfaces=params.get("additionalInterfaces"),
             featureTemplates=params.get("featureTemplates"),
             id=params.get("id"),
         )
@@ -76,11 +79,12 @@ class WirelessProfiles(object):
             "wirelessProfileName"
         )
         new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
+        new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["additionalInterfaces"] = self.new_object.get(
             "additionalInterfaces"
         )
-        new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
+        new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -94,10 +98,10 @@ class WirelessProfiles(object):
             "wirelessProfileName"
         )
         new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
+        new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["additionalInterfaces"] = self.new_object.get(
             "additionalInterfaces"
         )
-        new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
@@ -166,12 +170,11 @@ class WirelessProfiles(object):
         obj_params = [
             ("wirelessProfileName", "wirelessProfileName"),
             ("ssidDetails", "ssidDetails"),
-            ("additionalInterfaces", "additionalInterfaces"),
             ("apZones", "apZones"),
+            ("additionalInterfaces", "additionalInterfaces"),
             ("featureTemplates", "featureTemplates"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -183,7 +186,7 @@ class WirelessProfiles(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="wireless",
-            function="create_wireless_profile_connectivity",
+            function="create_wireless_profile",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -202,7 +205,7 @@ class WirelessProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="update_wireless_profile_connectivity",
+            function="update_wireless_profile",
             params=self.update_by_id_params(),
             op_modifies=True,
         )
@@ -221,7 +224,7 @@ class WirelessProfiles(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="wireless",
-            function="delete_wireless_profile_connectivity",
+            function="delete_wireless_profile",
             params=self.delete_by_id_params(),
         )
         return result
@@ -290,6 +293,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

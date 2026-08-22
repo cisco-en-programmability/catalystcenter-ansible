@@ -28,8 +28,11 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         sortBy=dict(type="str"),
@@ -37,9 +40,6 @@ argument_spec.update(
         siteHierarchy=dict(type="str"),
         siteHierarchyId=dict(type="str"),
         siteType=dict(type="str"),
-        id=dict(type="str"),
-        view=dict(type="str"),
-        attribute=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -81,8 +81,12 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            view=params.get("view"),
+            attribute=params.get("attribute"),
+            headers=params.get("headers"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
@@ -90,10 +94,6 @@ class ActionModule(ActionBase):
             site_hierarchy=params.get("siteHierarchy"),
             site_hierarchy_id=params.get("siteHierarchyId"),
             site_type=params.get("siteType"),
-            id=params.get("id"),
-            view=params.get("view"),
-            attribute=params.get("attribute"),
-            headers=params.get("headers"),
         )
         return new_object
 
@@ -114,7 +114,9 @@ class ActionModule(ActionBase):
                 function="read_site_health_summary_data_by_site_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -123,6 +125,8 @@ class ActionModule(ActionBase):
                 function="read_list_of_site_health_summaries",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

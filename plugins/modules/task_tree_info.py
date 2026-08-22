@@ -11,10 +11,10 @@ short_description: Information module for Task Tree
 description:
   - Get all Task Tree.
   - Returns a task with its children tasks by based on their id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task GetTaskTree

@@ -14,6 +14,7 @@ site-based filters for targeted extraction, resolves device IDs to management IP
 and generates formatted YAML files for configuration documentation, port onboarding auditing,
 disaster recovery, and multi-fabric deployment standardization workflows.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -36,7 +37,7 @@ description:
   port channels, wireless SSIDs).
 - Transforms camelCase API responses to snake_case YAML format with comprehensive
   header comments and metadata.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -362,7 +363,7 @@ options:
                 required: false
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 - PyYAML >= 5.1
 notes:
@@ -707,16 +708,18 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             """
@@ -735,7 +738,9 @@ else:
     OrderedDumper = None
 
 
-class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class SdaHostPortOnboardingPlaybookConfigGenerator(
+    CatalystCenterBase, BrownFieldHelper
+):
     """
     Brownfield playbook generator for Cisco Catalyst Center SDA host port onboarding.
 
@@ -804,7 +809,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - catalystcentersdk: 3.1.6.0.2 or higher
+        - catalystcentersdk: 3.2.3.0.0 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -874,12 +879,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
@@ -888,7 +888,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         self.log(
             "Schema validation passed successfully. All parameters conform to expected "
             "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log("Validating invalid parameters against provided config", "DEBUG")
@@ -1168,7 +1168,9 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         )
         return matched_fabric_site_names
 
-    def get_fabric_site_names_and_device_details_mapping(self, component_specific_filters):
+    def get_fabric_site_names_and_device_details_mapping(
+        self, component_specific_filters
+    ):
         """
         Extracts fabric site name hierarchies and per-site device detail
         mappings from component-specific filter entries.
@@ -1227,7 +1229,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             "component-specific filters for targeted configuration extraction. This process "
             "enables downstream methods to apply precise fabric site and device-based "
             "filtering during API data retrieval and transformation workflows.",
-            "DEBUG"
+            "DEBUG",
         )
         fabric_site_name_hierarchies = []
         fabric_site_name_device_ip_mapping = {}
@@ -1243,16 +1245,22 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 f"Processing filter {filter_index}/{len(component_specific_filters)} — "
                 f"fabric_site_name_hierarchy='{fabric_site_name}', device_ips={device_ips}, "
                 f"serial_numbers={serial_numbers}, hostnames={hostnames}.",
-                "DEBUG"
+                "DEBUG",
             )
             fabric_site_names = self.get_fabric_site_names_with_descendant_zones(
                 fabric_site_name
             )
             for matched_fabric_site_name in fabric_site_names:
                 fabric_site_name_hierarchies.append(matched_fabric_site_name)
-                fabric_site_name_device_ip_mapping[matched_fabric_site_name] = set(device_ips)
-                fabric_site_name_serial_number_mapping[matched_fabric_site_name] = set(serial_numbers)
-                fabric_site_name_hostname_mapping[matched_fabric_site_name] = set(hostnames)
+                fabric_site_name_device_ip_mapping[matched_fabric_site_name] = set(
+                    device_ips
+                )
+                fabric_site_name_serial_number_mapping[matched_fabric_site_name] = set(
+                    serial_numbers
+                )
+                fabric_site_name_hostname_mapping[matched_fabric_site_name] = set(
+                    hostnames
+                )
 
         self.log(
             f"Completed extraction of fabric site name hierarchies and device detail mappings. "
@@ -1260,10 +1268,15 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             f"Fabric site name to device IP mapping: {fabric_site_name_device_ip_mapping}. "
             f"Fabric site name to serial number mapping: {fabric_site_name_serial_number_mapping}. "
             f"Fabric site name to hostname mapping: {fabric_site_name_hostname_mapping}.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        return fabric_site_name_hierarchies, fabric_site_name_device_ip_mapping, fabric_site_name_serial_number_mapping, fabric_site_name_hostname_mapping
+        return (
+            fabric_site_name_hierarchies,
+            fabric_site_name_device_ip_mapping,
+            fabric_site_name_serial_number_mapping,
+            fabric_site_name_hostname_mapping,
+        )
 
     def get_port_assignments_configuration(self, network_element, filters):
         """
@@ -1297,41 +1310,44 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             "workflow. Workflow includes API query for all port assignments, optional "
             "fabric site filtering, device grouping, IP address resolution, and YAML "
             "structure transformation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             f"Extracting component_specific_filters from filters dictionary: {filters}. "
             "Filters determine which fabric sites to process for port assignment "
             "retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         component_specific_filters = filters.get("component_specific_filters")
         if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to port assignments.",
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No component_specific_filters provided. Will retrieve port assignments "
                 "for all fabric sites without filtering.",
-                "DEBUG"
+                "DEBUG",
             )
-        self.log(f"component_specific_filters for port assignments: {component_specific_filters}", "DEBUG")
+        self.log(
+            f"component_specific_filters for port assignments: {component_specific_filters}",
+            "DEBUG",
+        )
 
         self.log(
             "Extracting API family and function from network_element configuration "
             "for port assignments retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
             f"API configuration extracted - family: {api_family}, function: {api_function}. "
             f"Executing API call to retrieve all port assignments from Catalyst Center.",
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -1341,7 +1357,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 op_modifies=False,
             )
         except Exception as e:
-            self.log(f"Failed to retrieve port assignments using {api_family}.{api_function}: {e}", "ERROR")
+            self.log(
+                f"Failed to retrieve port assignments using {api_family}.{api_function}: {e}",
+                "ERROR",
+            )
             raise RuntimeError(
                 f"Port assignments API call failed for {api_family}.{api_function}: {e}"
             ) from e
@@ -1349,14 +1368,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         all_port_assignments = response.get("response", [])
         self.log(
             f"Port assignments API call completed successfully. Retrieved {len(all_port_assignments)} port assignment(s) from Catalyst Center.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Initializing data structures for port assignment processing. "
             "all_fabric_port_assignments_details will contain final transformed data, "
             "fabric_ids will store target fabric site IDs.",
-            "DEBUG"
+            "DEBUG",
         )
         all_fabric_port_assignments_details = []
         fabric_ids = []
@@ -1364,7 +1383,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         self.log(
             "Determining fabric site IDs to process based on filter presence. "
             "Building fabric_ids list from filters or using all cached fabric sites.",
-            "DEBUG"
+            "DEBUG",
         )
 
         fabric_site_name_device_ip_mapping = {}
@@ -1375,45 +1394,51 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             self.log(
                 "Building fabric name to site or zone ID mapping from cached "
                 "fabric_site_and_zone_id_to_name_mapping for filter-based fabric ID resolution.",
-                "DEBUG"
+                "DEBUG",
             )
             (
                 fabric_site_name_hierarchies,
                 fabric_site_name_device_ip_mapping,
                 fabric_site_name_serial_number_mapping,
-                fabric_site_name_hostname_mapping
-            ) = self.get_fabric_site_names_and_device_details_mapping(component_specific_filters)
+                fabric_site_name_hostname_mapping,
+            ) = self.get_fabric_site_names_and_device_details_mapping(
+                component_specific_filters
+            )
 
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
                 f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
-                "DEBUG"
+                "DEBUG",
             )
 
             seen_fabric_ids = set()
-            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(
+                fabric_site_name_hierarchies, start=1
+            ):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}: "
                     f"'{fabric_site_name_hierarchy}' for port assignments.",
-                    "DEBUG"
+                    "DEBUG",
                 )
-                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(
+                    fabric_site_name_hierarchy
+                )
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
                         f"(hierarchy {hierarchy_index}/"
                         f"{len(fabric_site_name_hierarchies)}) not found in cached "
                         "mapping. Skipping this fabric site for port assignments.",
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
                 if fabric_id in seen_fabric_ids:
                     self.log(
                         f"Fabric ID '{fabric_id}' already added for port assignments. "
                         f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
                 seen_fabric_ids.add(fabric_id)
@@ -1423,47 +1448,49 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"(hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}) to fabric ID "
                     f"'{fabric_id}'. Added to port assignments processing list.",
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 "No fabric site filters provided. Using all "
                 f"{len(self.fabric_site_and_zone_id_to_name_mapping)} cached fabric site and zone IDs for "
                 "complete port assignment retrieval.",
-                "DEBUG"
+                "DEBUG",
             )
             fabric_ids = list(self.fabric_site_and_zone_id_to_name_mapping.keys())
         self.log(
             "fabric_site_and_zone_id_to_name_mapping: {0}".format(
                 self.fabric_site_and_zone_id_to_name_mapping
             ),
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             f"Grouping {len(all_port_assignments)} port assignment(s) by fabric ID for organized processing. Building fabric_port_assignments_dict.",
-            "DEBUG"
+            "DEBUG",
         )
         # Group port assignments by fabric_id
         # Convert to set for O(1) membership checks
         fabric_ids_set = set(fabric_ids)
         fabric_port_assignments_dict = {}
-        for port_assignment_index, port_assignment in enumerate(all_port_assignments, start=1):
+        for port_assignment_index, port_assignment in enumerate(
+            all_port_assignments, start=1
+        ):
             fabric_id = port_assignment.get("fabricId")
             self.log(
                 f"Processing port assignment {port_assignment_index}/{len(all_port_assignments)} with fabric ID '{fabric_id}'.",
-                "DEBUG"
+                "DEBUG",
             )
             if fabric_id in fabric_ids_set:
                 self.log(
                     f"Fabric ID '{fabric_id}' matches filter criteria. Adding port "
                     f"assignment {port_assignment_index}/"
                     f"{len(all_port_assignments)} to fabric group.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if fabric_id not in fabric_port_assignments_dict:
                     fabric_port_assignments_dict[fabric_id] = []
@@ -1471,27 +1498,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             else:
                 self.log(
                     f"Fabric ID '{fabric_id}' does not match filter criteria. Skipping port assignment {port_assignment_index}/{len(all_port_assignments)}.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         # Process each fabric's port assignments
         self.log(
             f"Starting fabric site iteration loop. Processing {len(fabric_port_assignments_dict)} fabric site(s) with port assignments.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        for fabric_index, (fabric_id, port_assignments) in enumerate(fabric_port_assignments_dict.items(), start=1):
+        for fabric_index, (fabric_id, port_assignments) in enumerate(
+            fabric_port_assignments_dict.items(), start=1
+        ):
             self.log(
                 f"Processing fabric site {fabric_index}/"
                 f"{len(fabric_port_assignments_dict)} with ID '{fabric_id}'. "
                 f"Contains {len(port_assignments)} port assignment(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             self.log(
                 "Retrieving reverse mapping specification for port assignments "
                 "transformation. Specification defines field mappings and YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
             port_assignments_temp_spec = self.port_assignments_temp_spec()
 
@@ -1500,20 +1529,20 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 f"{len(port_assignments)} port assignment(s) using "
                 "modify_parameters(). Transformation converts API format to "
                 "user-friendly YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
             modified_port_assignments = self.modify_parameters(
                 port_assignments_temp_spec, port_assignments
             )
             self.log(
                 f"Reverse mapping transformation completed for {len(modified_port_assignments)} port assignment(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Group port assignments by network device
             self.log(
                 f"Grouping {len(port_assignments)} port assignment(s) by network device ID for device-based organization.",
-                "DEBUG"
+                "DEBUG",
             )
             device_port_assignments = {}
             for idx, port_assignment in enumerate(port_assignments):
@@ -1522,35 +1551,39 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"Processing port assignment {idx + 1}/{len(port_assignments)} "
                     f"for network device ID '{network_device_id}' in fabric ID "
                     f"'{fabric_id}'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if network_device_id not in device_port_assignments:
                     device_port_assignments[network_device_id] = []
                     self.log(
                         f"Initialized new device group for network device ID "
                         f"'{network_device_id}' in port assignments grouping.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-                device_port_assignments[network_device_id].append(modified_port_assignments[idx])
+                device_port_assignments[network_device_id].append(
+                    modified_port_assignments[idx]
+                )
                 self.log(
                     f"Added port assignment {idx + 1} to device group. Device ID "
                     f"'{network_device_id}' now has "
                     f"{len(device_port_assignments[network_device_id])} port "
                     "assignment(s).",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Build the final structure with device IP addresses
             self.log(
                 f"Building final device configuration structures with management IP address resolution for {len(device_port_assignments)} device(s).",
-                "DEBUG"
+                "DEBUG",
             )
-            for device_index, (network_device_id, device_ports) in enumerate(device_port_assignments.items(), start=1):
+            for device_index, (network_device_id, device_ports) in enumerate(
+                device_port_assignments.items(), start=1
+            ):
                 self.log(
                     f"Processing device {device_index}/{len(device_port_assignments)} "
                     f"with ID '{network_device_id}'. Fetching device details to "
                     "resolve management IP address.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Get device details to fetch management IP address
                 try:
@@ -1561,16 +1594,24 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         params={"id": network_device_id},
                     )
                 except Exception as e:
-                    self.log(f"Failed to resolve device details for device ID '{network_device_id}': {e}", "ERROR")
+                    self.log(
+                        f"Failed to resolve device details for device ID '{network_device_id}': {e}",
+                        "ERROR",
+                    )
                     raise RuntimeError(
                         f"Device lookup failed for device ID '{network_device_id}': {e}"
                     ) from e
-                self.log(f"Device details response for device ID {network_device_id}: {device_response}", "DEBUG")
+                self.log(
+                    f"Device details response for device ID {network_device_id}: {device_response}",
+                    "DEBUG",
+                )
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
                 serial_number = device_info.get("serialNumber", "")
                 hostname = device_info.get("hostname", "")
-                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(fabric_id)
+                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(
+                    fabric_id
+                )
 
                 # ----------------------------------------------------------
                 # Device filter evaluation (AND logic across filter types).
@@ -1585,19 +1626,23 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 # ----------------------------------------------------------
 
                 if fabric_site_name_device_ip_mapping:
-                    expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
+                    expected_ips = fabric_site_name_device_ip_mapping.get(
+                        fabric_site_name, set()
+                    )
                     if expected_ips and management_ip not in expected_ips:
                         self.log(
                             f"Warning: Resolved management IP '{management_ip}' for "
                             f"device ID '{network_device_id}' does not match expected "
                             f"IPs {expected_ips} from filters for fabric site "
                             f"'{fabric_site_name}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
                 if fabric_site_name_serial_number_mapping:
-                    expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
+                    expected_serials = fabric_site_name_serial_number_mapping.get(
+                        fabric_site_name, set()
+                    )
                     matched, device_serials = self._device_matches_serial_filter(
                         serial_number, expected_serials
                     )
@@ -1612,26 +1657,28 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         continue
 
                 if fabric_site_name_hostname_mapping:
-                    expected_hostnames = fabric_site_name_hostname_mapping.get(fabric_site_name, set())
+                    expected_hostnames = fabric_site_name_hostname_mapping.get(
+                        fabric_site_name, set()
+                    )
                     if expected_hostnames and hostname not in expected_hostnames:
                         self.log(
                             f"Warning: Resolved hostname '{hostname}' for device ID "
                             f"'{network_device_id}' does not match expected hostnames "
                             f"{expected_hostnames} from filters for fabric site "
                             f"'{fabric_site_name}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
                 self.log(
                     f"Resolved device ID '{network_device_id}' to management IP address '{management_ip}'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 device_dict = {
-                    'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': fabric_site_name,
-                    'port_assignments': device_ports
+                    "ip_address": management_ip,
+                    "fabric_site_name_hierarchy": fabric_site_name,
+                    "port_assignments": device_ports,
                 }
                 all_fabric_port_assignments_details.append(device_dict)
                 self.log(
@@ -1639,14 +1686,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"{management_ip}, Fabric: "
                     f"{fabric_site_name}, Port "
                     f"assignments: {len(device_ports)}.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
             "Port assignments configuration retrieval completed successfully. "
             f"Retrieved {len(all_fabric_port_assignments_details)} device "
             "configuration(s) with port assignments.",
-            "INFO"
+            "INFO",
         )
         return all_fabric_port_assignments_details
 
@@ -1682,33 +1729,36 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             "workflow. Workflow includes API query for all port channels, optional "
             "fabric site filtering, device grouping, IP address resolution, and YAML "
             "structure transformation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             f"Extracting component_specific_filters from filters dictionary: {filters}. "
             "Filters determine which fabric sites to process for port channel retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         component_specific_filters = filters.get("component_specific_filters")
         if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to port channels.",
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No component_specific_filters provided. Will retrieve port channels "
                 "for all fabric sites without filtering.",
-                "DEBUG"
+                "DEBUG",
             )
-        self.log(f"component_specific_filters for port channels: {component_specific_filters}", "DEBUG")
+        self.log(
+            f"component_specific_filters for port channels: {component_specific_filters}",
+            "DEBUG",
+        )
 
         self.log(
             "Extracting API family and function from network_element configuration "
             "for port channels retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
@@ -1716,7 +1766,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             f"API configuration extracted - family: {api_family}, function: "
             f"{api_function}. Executing API call to retrieve all port channels "
             "from Catalyst Center.",
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -1726,7 +1776,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 op_modifies=False,
             )
         except Exception as e:
-            self.log(f"Failed to retrieve port channels using {api_family}.{api_function}: {e}", "ERROR")
+            self.log(
+                f"Failed to retrieve port channels using {api_family}.{api_function}: {e}",
+                "ERROR",
+            )
             raise RuntimeError(
                 f"Port channels API call failed for {api_family}.{api_function}: {e}"
             ) from e
@@ -1734,14 +1787,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         all_port_channels = response.get("response", [])
         self.log(
             f"Port channels API call completed successfully. Retrieved {len(all_port_channels)} port channel(s) from Catalyst Center.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Initializing data structures for port channel processing. "
             "all_fabric_port_channels_details will contain final transformed data, "
             "fabric_ids will store target fabric site IDs.",
-            "DEBUG"
+            "DEBUG",
         )
         all_fabric_port_channels_details = []
         fabric_ids = []
@@ -1749,7 +1802,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         self.log(
             "Determining fabric site IDs to process based on filter presence. "
             "Building fabric_ids list from filters or using all cached fabric sites.",
-            "DEBUG"
+            "DEBUG",
         )
 
         fabric_site_name_device_ip_mapping = {}
@@ -1760,45 +1813,51 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             self.log(
                 "Building fabric name to site or zone ID mapping from cached "
                 "fabric_site_and_zone_id_to_name_mapping for filter-based fabric ID resolution.",
-                "DEBUG"
+                "DEBUG",
             )
             (
                 fabric_site_name_hierarchies,
                 fabric_site_name_device_ip_mapping,
                 fabric_site_name_serial_number_mapping,
-                fabric_site_name_hostname_mapping
-            ) = self.get_fabric_site_names_and_device_details_mapping(component_specific_filters)
+                fabric_site_name_hostname_mapping,
+            ) = self.get_fabric_site_names_and_device_details_mapping(
+                component_specific_filters
+            )
 
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
                 f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
-                "DEBUG"
+                "DEBUG",
             )
 
             seen_fabric_ids = set()
-            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(
+                fabric_site_name_hierarchies, start=1
+            ):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}: "
                     f"'{fabric_site_name_hierarchy}' for port channels.",
-                    "DEBUG"
+                    "DEBUG",
                 )
-                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_and_zone_name_to_id_mapping.get(
+                    fabric_site_name_hierarchy
+                )
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
                         f"(hierarchy {hierarchy_index}/"
                         f"{len(fabric_site_name_hierarchies)}) not found in cached "
                         "mapping. Skipping this fabric site for port channels.",
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
                 if fabric_id in seen_fabric_ids:
                     self.log(
                         f"Fabric ID '{fabric_id}' already added for port channels. "
                         f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
                 seen_fabric_ids.add(fabric_id)
@@ -1808,24 +1867,24 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"(hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}) to fabric ID "
                     f"'{fabric_id}'. Added to port channels processing list.",
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 f"No fabric site filters provided. Using all {len(self.fabric_site_and_zone_id_to_name_mapping)} "
                 f"cached fabric site and zone IDs for complete port channel retrieval.",
-                "DEBUG"
+                "DEBUG",
             )
             fabric_ids = list(self.fabric_site_and_zone_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             f"Grouping {len(all_port_channels)} port channel(s) by fabric ID for organized processing. Building fabric_port_channels_dict.",
-            "DEBUG"
+            "DEBUG",
         )
         # Group port channels by fabric_id
         # Convert to set for O(1) membership checks
@@ -1835,12 +1894,12 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             fabric_id = port_channel.get("fabricId")
             self.log(
                 f"Processing port channel {port_channel_index}/{len(all_port_channels)} with fabric ID '{fabric_id}'.",
-                "DEBUG"
+                "DEBUG",
             )
             if fabric_id in fabric_ids_set:
                 self.log(
                     f"Fabric ID '{fabric_id}' matches filter criteria. Adding port channel {port_channel_index}/{len(all_port_channels)} to fabric group.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if fabric_id not in fabric_port_channels_dict:
                     fabric_port_channels_dict[fabric_id] = []
@@ -1848,27 +1907,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             else:
                 self.log(
                     f"Fabric ID '{fabric_id}' does not match filter criteria. Skipping port channel {port_channel_index}/{len(all_port_channels)}.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         # Process each fabric's port channels
         self.log(
             f"Starting fabric site iteration loop. Processing {len(fabric_port_channels_dict)} fabric site(s) with port channels.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        for fabric_index, (fabric_id, port_channels) in enumerate(fabric_port_channels_dict.items(), start=1):
+        for fabric_index, (fabric_id, port_channels) in enumerate(
+            fabric_port_channels_dict.items(), start=1
+        ):
             self.log(
                 f"Processing fabric site {fabric_index}/"
                 f"{len(fabric_port_channels_dict)} with ID '{fabric_id}'. "
                 f"Contains {len(port_channels)} port channel(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             self.log(
                 "Retrieving reverse mapping specification for port channels "
                 "transformation. Specification defines field mappings and YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
             port_channels_temp_spec = self.port_channels_temp_spec()
 
@@ -1876,20 +1937,20 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 "Applying reverse mapping transformation to "
                 f"{len(port_channels)} port channel(s) using modify_parameters(). "
                 "Transformation converts API format to user-friendly YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
             modified_port_channels = self.modify_parameters(
                 port_channels_temp_spec, port_channels
             )
             self.log(
                 f"Reverse mapping transformation completed for {len(modified_port_channels)} port channel(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Group port channels by network device
             self.log(
                 f"Grouping {len(port_channels)} port channel(s) by network device ID for device-based organization.",
-                "DEBUG"
+                "DEBUG",
             )
             device_port_channels = {}
             for idx, port_channel in enumerate(port_channels):
@@ -1898,35 +1959,40 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"Processing port channel {idx + 1}/{len(port_channels)} "
                     f"for network device ID '{network_device_id}' in fabric ID "
                     f"'{fabric_id}'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 if network_device_id not in device_port_channels:
                     device_port_channels[network_device_id] = []
                     self.log(
                         f"Initialized new device group for network device ID "
                         f"'{network_device_id}' in port channels grouping.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-                device_port_channels[network_device_id].append(modified_port_channels[idx])
+                device_port_channels[network_device_id].append(
+                    modified_port_channels[idx]
+                )
                 self.log(
                     f"Added port channel {idx + 1} to device group. Device ID "
                     f"'{network_device_id}' now has "
                     f"{len(device_port_channels[network_device_id])} port "
                     "channel(s).",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Build the final structure with device IP addresses
             self.log(
                 f"Building final device configuration structures with management IP address resolution for {len(device_port_channels)} device(s).",
-                "DEBUG"
+                "DEBUG",
             )
-            for device_index, (network_device_id, device_port_channels_list) in enumerate(device_port_channels.items(), start=1):
+            for device_index, (
+                network_device_id,
+                device_port_channels_list,
+            ) in enumerate(device_port_channels.items(), start=1):
                 self.log(
                     f"Processing device {device_index}/{len(device_port_channels)} "
                     f"with ID '{network_device_id}'. Fetching device details to "
                     "resolve management IP address.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Get device details to fetch management IP address
                 try:
@@ -1937,19 +2003,24 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         params={"id": network_device_id},
                     )
                 except Exception as e:
-                    self.log(f"Failed to resolve device details for device ID '{network_device_id}': {e}", "ERROR")
+                    self.log(
+                        f"Failed to resolve device details for device ID '{network_device_id}': {e}",
+                        "ERROR",
+                    )
                     raise RuntimeError(
                         f"Device lookup failed for device ID '{network_device_id}': {e}"
                     ) from e
                 self.log(
                     f"Device API response received for device ID '{network_device_id}'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 device_info = device_response.get("response", {})
                 management_ip = device_info.get("managementIpAddress", "")
                 serial_number = device_info.get("serialNumber", "")
                 hostname = device_info.get("hostname", "")
-                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(fabric_id)
+                fabric_site_name = self.fabric_site_and_zone_id_to_name_mapping.get(
+                    fabric_id
+                )
 
                 # ----------------------------------------------------------
                 # Device filter evaluation (AND logic across filter types).
@@ -1964,19 +2035,23 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 # ----------------------------------------------------------
 
                 if fabric_site_name_device_ip_mapping:
-                    expected_ips = fabric_site_name_device_ip_mapping.get(fabric_site_name, set())
+                    expected_ips = fabric_site_name_device_ip_mapping.get(
+                        fabric_site_name, set()
+                    )
                     if expected_ips and management_ip not in expected_ips:
                         self.log(
                             f"Warning: Resolved management IP '{management_ip}' for "
                             f"device ID '{network_device_id}' does not match expected "
                             f"IPs {expected_ips} from filters for fabric site "
                             f"'{fabric_site_name}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
                 if fabric_site_name_serial_number_mapping:
-                    expected_serials = fabric_site_name_serial_number_mapping.get(fabric_site_name, set())
+                    expected_serials = fabric_site_name_serial_number_mapping.get(
+                        fabric_site_name, set()
+                    )
                     matched, device_serials = self._device_matches_serial_filter(
                         serial_number, expected_serials
                     )
@@ -1991,26 +2066,28 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         continue
 
                 if fabric_site_name_hostname_mapping:
-                    expected_hostnames = fabric_site_name_hostname_mapping.get(fabric_site_name, set())
+                    expected_hostnames = fabric_site_name_hostname_mapping.get(
+                        fabric_site_name, set()
+                    )
                     if expected_hostnames and hostname not in expected_hostnames:
                         self.log(
                             f"Warning: Resolved hostname '{hostname}' for device ID "
                             f"'{network_device_id}' does not match expected hostnames "
                             f"{expected_hostnames} from filters for fabric site "
                             f"'{fabric_site_name}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
                 self.log(
                     f"Resolved device ID '{network_device_id}' to management IP address '{management_ip}'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 device_dict = {
-                    'ip_address': management_ip,
-                    'fabric_site_name_hierarchy': fabric_site_name,
-                    'port_channels': device_port_channels_list
+                    "ip_address": management_ip,
+                    "fabric_site_name_hierarchy": fabric_site_name,
+                    "port_channels": device_port_channels_list,
                 }
                 all_fabric_port_channels_details.append(device_dict)
                 self.log(
@@ -2018,14 +2095,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"{management_ip}, Fabric: "
                     f"{fabric_site_name}, Port channels: "
                     f"{len(device_port_channels_list)}.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
             "Port channels configuration retrieval completed successfully. "
             f"Retrieved {len(all_fabric_port_channels_details)} device "
             "configuration(s) with port channels.",
-            "INFO"
+            "INFO",
         )
         return all_fabric_port_channels_details
 
@@ -2087,46 +2164,46 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             "Starting wireless SSIDs configuration retrieval and transformation "
             "workflow. Workflow includes per-fabric API queries for VLAN/SSID mappings, "
             "optional fabric site filtering, and YAML structure transformation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             f"Extracting component_specific_filters from filters dictionary: {filters}. "
             "Filters determine which fabric sites to process for wireless SSID "
             "retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         component_specific_filters = filters.get("component_specific_filters")
         if component_specific_filters:
             self.log(
                 "Component-specific filters found with fabric site filters. "
                 "Will apply fabric_site_name_hierarchy filtering to wireless SSIDs.",
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No component_specific_filters provided. Will retrieve wireless SSIDs "
                 "for all fabric sites without filtering.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Extracting API family and function from network_element configuration "
             "for wireless SSIDs retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
         self.log(
             f"API configuration extracted - family: {api_family}, function: {api_function}. Will execute per-fabric API calls to retrieve VLAN/SSID mappings.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Initializing data structures for wireless SSID processing. "
             "all_fabric_wireless_ssids_details will contain final transformed data, "
             "fabric_ids will store target fabric site IDs.",
-            "DEBUG"
+            "DEBUG",
         )
         all_fabric_wireless_ssids_details = []
         fabric_ids = []
@@ -2134,13 +2211,13 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         self.log(
             "Determining fabric site IDs to process based on filter presence. "
             "Building fabric_ids list from filters or using all cached fabric sites.",
-            "DEBUG"
+            "DEBUG",
         )
         if component_specific_filters:
             self.log(
                 "Building fabric name to site ID mapping from cached "
                 "fabric_site_id_to_name_mapping for filter-based fabric ID resolution.",
-                "DEBUG"
+                "DEBUG",
             )
 
             fabric_site_name_hierarchies = []
@@ -2150,23 +2227,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     fabric_site_names = [fabric_site_names]
                 for fabric_site_name in fabric_site_names:
                     if fabric_site_name:
-                        fabric_site_name_hierarchies.append(str(fabric_site_name).rstrip("/"))
+                        fabric_site_name_hierarchies.append(
+                            str(fabric_site_name).rstrip("/")
+                        )
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
                 f"{fabric_site_name_hierarchies}. Resolving to fabric IDs.",
-                "DEBUG"
+                "DEBUG",
             )
 
             seen_fabric_ids = set()
-            for hierarchy_index, fabric_site_name_hierarchy in enumerate(fabric_site_name_hierarchies, start=1):
+            for hierarchy_index, fabric_site_name_hierarchy in enumerate(
+                fabric_site_name_hierarchies, start=1
+            ):
                 self.log(
                     f"Resolving fabric site name hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}: "
                     f"'{fabric_site_name_hierarchy}' for wireless SSIDs.",
-                    "DEBUG"
+                    "DEBUG",
                 )
-                fabric_id = self.fabric_site_name_to_id_mapping.get(fabric_site_name_hierarchy)
+                fabric_id = self.fabric_site_name_to_id_mapping.get(
+                    fabric_site_name_hierarchy
+                )
                 if not fabric_id:
                     self.log(
                         f"Warning: Fabric site name '{fabric_site_name_hierarchy}' "
@@ -2174,14 +2257,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                         f"{len(fabric_site_name_hierarchies)}) not found in cached "
                         "fabric site mapping. Fabric zones are not supported for "
                         "wireless SSID extraction. Skipping this hierarchy.",
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
                 if fabric_id in seen_fabric_ids:
                     self.log(
                         f"Fabric ID '{fabric_id}' already added for wireless SSIDs. "
                         f"Skipping duplicate hierarchy '{fabric_site_name_hierarchy}'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
                 seen_fabric_ids.add(fabric_id)
@@ -2191,29 +2274,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"(hierarchy {hierarchy_index}/"
                     f"{len(fabric_site_name_hierarchies)}) to fabric ID "
                     f"'{fabric_id}'. Added to wireless SSIDs processing list.",
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 f"No fabric site filters provided. Using all {len(self.fabric_site_id_to_name_mapping)} "
                 f"cached fabric site IDs for complete wireless SSID retrieval.",
-                "DEBUG"
+                "DEBUG",
             )
             fabric_ids = list(self.fabric_site_id_to_name_mapping.keys())
 
         self.log(
             f"Fabric site ID resolution completed. Will process {len(fabric_ids)} fabric site(s): {fabric_ids}.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             f"Starting fabric site iteration loop for per-fabric wireless SSID retrieval. Processing {len(fabric_ids)} fabric site(s).",
-            "DEBUG"
+            "DEBUG",
         )
         for fabric_index, fabric_id in enumerate(fabric_ids, start=1):
             self.log(
                 f"Processing fabric site {fabric_index}/{len(fabric_ids)} with ID '{fabric_id}'. Executing API call to retrieve VLAN/SSID mappings.",
-                "DEBUG"
+                "DEBUG",
             )
             try:
                 response = self.catalystcenter._exec(
@@ -2223,7 +2306,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     params={"fabric_id": fabric_id},
                 )
             except Exception as e:
-                self.log(f"Failed to retrieve wireless SSIDs for fabric ID '{fabric_id}' using {api_family}.{api_function}: {e}", "ERROR")
+                self.log(
+                    f"Failed to retrieve wireless SSIDs for fabric ID '{fabric_id}' using {api_family}.{api_function}: {e}",
+                    "ERROR",
+                )
                 raise RuntimeError(
                     f"Wireless SSIDs API call failed for fabric ID '{fabric_id}': {e}"
                 ) from e
@@ -2231,7 +2317,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             response = response.get("response", [])
             self.log(
                 f"Wireless SSID API call completed for fabric ID '{fabric_id}'. Retrieved {len(response)} VLAN/SSID mapping(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             if not response:
@@ -2239,14 +2325,14 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     f"No wireless SSIDs found for fabric ID '{fabric_id}' (fabric "
                     f"name: '{self.fabric_site_id_to_name_mapping.get(fabric_id)}'). "
                     "Skipping this fabric site.",
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
             self.log(
                 "Retrieving reverse mapping specification for wireless SSIDs "
                 "transformation. Specification defines field mappings and YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
             wireless_ssids_temp_spec = self.wireless_ssids_temp_spec()
 
@@ -2255,33 +2341,33 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 f"{len(response)} wireless SSID mapping(s) using "
                 "modify_parameters(). Transformation converts API format to "
                 "user-friendly YAML structure.",
-                "DEBUG"
+                "DEBUG",
             )
-            wireless_ssids = self.modify_parameters(
-                wireless_ssids_temp_spec, response
-            )
+            wireless_ssids = self.modify_parameters(wireless_ssids_temp_spec, response)
             self.log(
                 f"Reverse mapping transformation completed for {len(wireless_ssids)} wireless SSID mapping(s).",
-                "DEBUG"
+                "DEBUG",
             )
 
             modified_wireless_ssids_details = {
-                'fabric_site_name_hierarchy': self.fabric_site_id_to_name_mapping.get(fabric_id),
-                'wireless_ssids': wireless_ssids
+                "fabric_site_name_hierarchy": self.fabric_site_id_to_name_mapping.get(
+                    fabric_id
+                ),
+                "wireless_ssids": wireless_ssids,
             }
             all_fabric_wireless_ssids_details.append(modified_wireless_ssids_details)
             self.log(
                 "Added wireless SSID configuration to final list. Fabric: "
                 f"{self.fabric_site_id_to_name_mapping.get(fabric_id)}, Wireless SSIDs: "
                 f"{len(wireless_ssids)}.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Wireless SSIDs configuration retrieval completed successfully. "
             f"Retrieved {len(all_fabric_wireless_ssids_details)} fabric site "
             "configuration(s) with wireless SSIDs.",
-            "INFO"
+            "INFO",
         )
         return all_fabric_wireless_ssids_details
 
@@ -2354,17 +2440,34 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             - Specification is immutable; runtime modifications have no effect on
               transformation behavior
         """
-        port_assignments = OrderedDict({
-            "interface_name": {"type": "str", "source_key": "interfaceName"},
-            "connected_device_type": {"type": "str", "source_key": "connectedDeviceType"},
-            "data_vlan_name": {"type": "str", "source_key": "dataVlanName"},
-            "voice_vlan_name": {"type": "str", "source_key": "voiceVlanName"},
-            "security_group_name": {"type": "str", "source_key": "securityGroupName"},
-            "authentication_template_name": {"type": "str", "source_key": "authenticateTemplateName"},
-            "interface_description": {"type": "str", "source_key": "interfaceDescription"},
-            "native_vlan_id": {"type": "int", "source_key": "nativeVlanId"},
-            "allowed_vlan_ranges": {"type": "str", "source_key": "allowedVlanRanges"},
-        })
+        port_assignments = OrderedDict(
+            {
+                "interface_name": {"type": "str", "source_key": "interfaceName"},
+                "connected_device_type": {
+                    "type": "str",
+                    "source_key": "connectedDeviceType",
+                },
+                "data_vlan_name": {"type": "str", "source_key": "dataVlanName"},
+                "voice_vlan_name": {"type": "str", "source_key": "voiceVlanName"},
+                "security_group_name": {
+                    "type": "str",
+                    "source_key": "securityGroupName",
+                },
+                "authentication_template_name": {
+                    "type": "str",
+                    "source_key": "authenticateTemplateName",
+                },
+                "interface_description": {
+                    "type": "str",
+                    "source_key": "interfaceDescription",
+                },
+                "native_vlan_id": {"type": "int", "source_key": "nativeVlanId"},
+                "allowed_vlan_ranges": {
+                    "type": "str",
+                    "source_key": "allowedVlanRanges",
+                },
+            }
+        )
         return port_assignments
 
     def port_channels_temp_spec(self):
@@ -2431,14 +2534,29 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             - Specification is immutable; runtime modifications have no effect on
               transformation behavior
         """
-        port_channels = OrderedDict({
-            "interface_names": {"type": "list", "elements": "str", "source_key": "interfaceNames"},
-            "connected_device_type": {"type": "str", "source_key": "connectedDeviceType"},
-            "protocol": {"type": "str", "source_key": "protocol"},
-            "port_channel_description": {"type": "str", "source_key": "description"},
-            "native_vlan_id": {"type": "int", "source_key": "nativeVlanId"},
-            "allowed_vlan_ranges": {"type": "str", "source_key": "allowedVlanRanges"},
-        })
+        port_channels = OrderedDict(
+            {
+                "interface_names": {
+                    "type": "list",
+                    "elements": "str",
+                    "source_key": "interfaceNames",
+                },
+                "connected_device_type": {
+                    "type": "str",
+                    "source_key": "connectedDeviceType",
+                },
+                "protocol": {"type": "str", "source_key": "protocol"},
+                "port_channel_description": {
+                    "type": "str",
+                    "source_key": "description",
+                },
+                "native_vlan_id": {"type": "int", "source_key": "nativeVlanId"},
+                "allowed_vlan_ranges": {
+                    "type": "str",
+                    "source_key": "allowedVlanRanges",
+                },
+            }
+        )
         return port_channels
 
     def wireless_ssids_temp_spec(self):
@@ -2511,18 +2629,23 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
             - Multiple SSIDs can map to single VLAN enabling shared VLAN infrastructure
               with differentiated access policies via security_group_name
         """
-        wireless_ssids = OrderedDict({
-            "vlan_name": {"type": "str", "source_key": "vlanName"},
-            "ssid_details": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "ssidDetails",
-                "options": {
-                    "ssid_name": {"type": "str", "source_key": "name"},
-                    "security_group_name": {"type": "str", "source_key": "securityGroupTag"},
+        wireless_ssids = OrderedDict(
+            {
+                "vlan_name": {"type": "str", "source_key": "vlanName"},
+                "ssid_details": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "ssidDetails",
+                    "options": {
+                        "ssid_name": {"type": "str", "source_key": "name"},
+                        "security_group_name": {
+                            "type": "str",
+                            "source_key": "securityGroupTag",
+                        },
+                    },
                 },
-            },
-        })
+            }
+        )
         return wireless_ssids
 
     def get_diff_gathered(self):
@@ -2549,7 +2672,10 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -2568,18 +2694,18 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                     operation_func(params).check_return_status()
                     operations_executed += 1
                     self.log(
-                        f"{operation_name} operation completed successfully",
-                        "DEBUG"
+                        f"{operation_name} operation completed successfully", "DEBUG"
                     )
                 except Exception as e:
                     self.log(
                         f"{operation_name} operation failed with error: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         f"{operation_name} operation failed: {str(e)}",
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -2750,7 +2876,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -2769,11 +2894,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -2802,7 +2923,6 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
@@ -2817,36 +2937,31 @@ def main():
         "file_mode": {
             "type": "str",
             "default": "overwrite",
-            "choices": ["overwrite", "append"]
+            "choices": ["overwrite", "append"],
         },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the SdaHostPortOnboardingPlaybookConfigGenerator object
     # This creates the main orchestrator for SDA host port onboarding playbook config generator extraction
-    catc_sda_host_port_onboarding_playbook_config_generator = SdaHostPortOnboardingPlaybookConfigGenerator(module)
+    catc_sda_host_port_onboarding_playbook_config_generator = (
+        SdaHostPortOnboardingPlaybookConfigGenerator(module)
+    )
 
     # Log module initialization after object creation (now logging is available)
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Starting Ansible module execution for SDA host port onboarding playbook config generator generator at timestamp {initialization_timestamp}",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2856,12 +2971,13 @@ def main():
         "Validating Catalyst Center version compatibility - checking if version "
         f"{catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()} "
         "meets minimum requirement of 2.3.7.9 for SDA host port onboarding APIs",
-        "INFO"
+        "INFO",
     )
 
     if (
         catc_sda_host_port_onboarding_playbook_config_generator.compare_catalystcenter_versions(
-            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(), "2.3.7.9"
+            catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(),
+            "2.3.7.9",
         )
         < 0
     ):
@@ -2877,19 +2993,21 @@ def main():
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"Version compatibility check failed: {error_msg}",
-            "ERROR"
+            f"Version compatibility check failed: {error_msg}", "ERROR"
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.msg = error_msg
         catc_sda_host_port_onboarding_playbook_config_generator.set_operation_result(
-            "failed", False, catc_sda_host_port_onboarding_playbook_config_generator.msg, "ERROR"
+            "failed",
+            False,
+            catc_sda_host_port_onboarding_playbook_config_generator.msg,
+            "ERROR",
         ).check_return_status()
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Version compatibility check passed - Catalyst Center version {catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version()}"
         f" supports all required SDA host port onboarding APIs",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2900,18 +3018,20 @@ def main():
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Validating requested state parameter: '{state}' against "
         f"supported states: {catc_sda_host_port_onboarding_playbook_config_generator.supported_states}",
-        "DEBUG"
+        "DEBUG",
     )
 
-    if state not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states:
+    if (
+        state
+        not in catc_sda_host_port_onboarding_playbook_config_generator.supported_states
+    ):
         error_msg = (
             f"State '{state}' is invalid for this module. Supported states are: {catc_sda_host_port_onboarding_playbook_config_generator.supported_states}. "
             f"Please update your playbook to use one of the supported states."
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.log(
-            f"State validation failed: {error_msg}",
-            "ERROR"
+            f"State validation failed: {error_msg}", "ERROR"
         )
 
         catc_sda_host_port_onboarding_playbook_config_generator.status = "invalid"
@@ -2920,7 +3040,7 @@ def main():
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"State validation passed - using state '{state}' for workflow execution",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2928,7 +3048,7 @@ def main():
     # ============================================
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     catc_sda_host_port_onboarding_playbook_config_generator.validate_input().check_return_status()
@@ -2936,17 +3056,19 @@ def main():
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
     # Configuration Processing Loop
     # ============================================
-    config_list = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
+    config_list = (
+        catc_sda_host_port_onboarding_playbook_config_generator.validated_config
+    )
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Starting configuration processing loop - will process {len(config_list)} configuration item(s) from playbook",
-        "INFO"
+        "INFO",
     )
 
     config = catc_sda_host_port_onboarding_playbook_config_generator.validated_config
@@ -2964,8 +3086,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     catc_sda_host_port_onboarding_playbook_config_generator.log(
@@ -2973,14 +3094,14 @@ def main():
         f"Total execution time: {module_duration:.2f} seconds. Processed "
         f"{len(config_list)} configuration item(s) with final status: "
         f"{catc_sda_host_port_onboarding_playbook_config_generator.status}",
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     catc_sda_host_port_onboarding_playbook_config_generator.log(
         f"Exiting Ansible module with result: {catc_sda_host_port_onboarding_playbook_config_generator.result}",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**catc_sda_host_port_onboarding_playbook_config_generator.result)

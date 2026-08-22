@@ -11,16 +11,16 @@ short_description: Resource module for Lan Automation Update V2
 description:
   - Manage operation update of the resource Lan Automation Update V2. - > Invoke this API to stop LAN Automation and update
     device parameters such as Loopback0 IP address and/or hostname discovered in the current session.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.
     type: str
   payload:
-    description: Lan Automation Update V2's payload.
+    description: List of Devices, identified by Management IP Address for device update.
     elements: dict
     suboptions:
       deviceManagementIPAddress:
@@ -34,15 +34,15 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
-    description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-2
+  - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevices
+    description: Complete reference of the LANAutomationStopAndUpdateDevices API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,
+    lan_automation.LanAutomation.lan_automation_stop_and_update_devices,
   - Paths used are
     put /dna/intent/api/v2/lan-automation/{id},
 """

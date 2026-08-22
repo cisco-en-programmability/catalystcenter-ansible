@@ -31,6 +31,7 @@ argument_spec.update(
         type=dict(type="str"),
         clientMac=dict(type="str"),
         apMac=dict(type="str"),
+        switchMac=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         headers=dict(type="dict"),
@@ -77,6 +78,7 @@ class ActionModule(ActionBase):
             type=params.get("type"),
             client_mac=params.get("clientMac"),
             ap_mac=params.get("apMac"),
+            switch_mac=params.get("switchMac"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             headers=params.get("headers"),
@@ -98,6 +100,8 @@ class ActionModule(ActionBase):
             function="retrieves_the_total_number_of_packet_capture_files_matching_specified_criteria",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

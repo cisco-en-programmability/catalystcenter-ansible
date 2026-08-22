@@ -9,26 +9,26 @@ DOCUMENTATION = r"""
 module: floors_settings
 short_description: Resource module for Floors Settings
 description:
-  - Manage operation update of the resource Floors Settings.
-  - Updates UI user preference for floor unit system. Unit sytem change will effect for all floors across all sites.
-version_added: '6.15.0'
+  - Manage operation update of the resource Floors Settings. - > Updates UI user preference for floor unit system. Unit sytem
+    change will effect for all floors and outdoor areas across all sites.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   unitsOfMeasure:
-    description: Floor units of measure.
+    description: Unit of measure for length, width, and height.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design UpdatesFloorSettingsV2
-    description: Complete reference of the UpdatesFloorSettingsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!updates-floor-settings-v-2
+  - name: Cisco Catalyst Center documentation for Site Design UpdatesFloorSettings
+    description: Complete reference of the UpdatesFloorSettings API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-floor-settings
 notes:
   - SDK Method used are
-    site_design.SiteDesign.updates_floor_settings_v2,
+    site_design.SiteDesign.updates_floor_settings,
   - Paths used are
     put /dna/intent/api/v2/floors/settings,
 """
@@ -54,9 +54,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
-      "response": {
-        "count": 0
-      }
+      "response": {},
+      "version": "string"
     }
 """

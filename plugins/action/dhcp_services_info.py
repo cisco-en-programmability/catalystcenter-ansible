@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         limit=dict(type="int"),
@@ -40,7 +41,6 @@ argument_spec.update(
         deviceSiteHierarchy=dict(type="str"),
         deviceSiteHierarchyId=dict(type="str"),
         deviceSiteId=dict(type="str"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -82,8 +82,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
+            headers=params.get("headers"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             sort_by=params.get("sortBy"),
@@ -94,8 +96,6 @@ class ActionModule(ActionBase):
             device_site_hierarchy=params.get("deviceSiteHierarchy"),
             device_site_hierarchy_id=params.get("deviceSiteHierarchyId"),
             device_site_id=params.get("deviceSiteId"),
-            headers=params.get("headers"),
-            id=params.get("id"),
         )
         return new_object
 
@@ -113,18 +113,22 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="devices",
-                function="retrieves_the_details_of_a_specific_d_h_c_p_service_matching_the_id_of_the_service",
+                function="retrieves_the_details_of_a_specific_dhcp_service_matching_the_id_of_the_service",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
             response = catalystcenter.exec(
                 family="devices",
-                function="retrieves_the_list_of_d_h_c_p_services_for_given_parameters",
+                function="retrieves_the_list_of_dhcp_services_for_given_parameters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

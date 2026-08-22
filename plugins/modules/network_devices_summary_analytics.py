@@ -10,77 +10,74 @@ module: network_devices_summary_analytics
 short_description: Resource module for Network Devices Summary Analytics
 description:
   - Manage operation create of the resource Network Devices Summary Analytics.
-  - Gets the summary analytics data related to network devices based on the provided input data.
-  - This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
-version_added: '6.15.0'
+  - Gets the summary analytics data related to network devices based on the.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Network Devices Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Network Devices Summary Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Network Devices Summary Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Network Devices Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Network Devices Summary Analytics's endTime.
     type: int
   filters:
     description: Network Devices Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Network Devices Summary Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Network Devices Summary Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Network Devices Summary Analytics's value.
         type: str
     type: list
   groupBy:
-    description: Group By.
+    description: Network Devices Summary Analytics's groupBy.
     elements: str
     type: list
   page:
     description: Network Devices Summary Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Network Devices Summary Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Network Devices Summary Analytics's offset.
         type: int
       sortBy:
         description: Network Devices Summary Analytics's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Network Devices Summary Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Network Devices Summary Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Network Devices Summary Analytics's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetsTheSummaryAnalyticsDataRelatedToNetworkDevices
@@ -132,12 +129,8 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "attributes": [
-          "string"
-        ],
-        "aggregateAttributes": [
-          "string"
-        ],
+        "attributes": [],
+        "aggregateAttributes": [],
         "groups": [
           {
             "id": "string",

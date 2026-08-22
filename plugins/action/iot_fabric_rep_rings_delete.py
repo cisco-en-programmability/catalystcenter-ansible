@@ -28,6 +28,7 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        forceDelete=dict(type="bool"),
         id=dict(type="str"),
     )
 )
@@ -69,6 +70,7 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            force_delete=params.get("forceDelete"),
             id=params.get("id"),
         )
         return new_object
@@ -86,6 +88,8 @@ class ActionModule(ActionBase):
             function="delete_rep_ring_configured_in_the_fabric_deployment",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

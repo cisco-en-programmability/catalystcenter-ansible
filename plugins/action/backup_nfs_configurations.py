@@ -43,7 +43,10 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    ("state", "present", ["id", "nfsVersion", "server", "sourcePath"], True),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -85,7 +88,7 @@ class BackupNfsConfigurations(object):
         try:
             items = self.catalystcenter.exec(
                 family="backup",
-                function="get_all_n_f_s_configurations",
+                function="get_all_nfs_configurations",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -135,7 +138,6 @@ class BackupNfsConfigurations(object):
             ("sourcePath", "sourcePath"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -147,7 +149,7 @@ class BackupNfsConfigurations(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="backup",
-            function="create_n_f_s_configuration",
+            function="create_nfs_configuration",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -166,7 +168,7 @@ class BackupNfsConfigurations(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="backup",
-            function="delete_n_f_s_configuration",
+            function="delete_nfs_configuration",
             params=self.delete_by_id_params(),
         )
         return result
@@ -233,6 +235,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -28,8 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        deviceType=dict(type="str"),
         id=dict(type="str"),
+        deviceType=dict(type="str"),
         includeForOverallHealth=dict(type="bool"),
         attribute=dict(type="str"),
         offset=dict(type="int"),
@@ -75,13 +75,13 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            device_type=params.get("deviceType"),
             id=params.get("id"),
+            headers=params.get("headers"),
+            device_type=params.get("deviceType"),
             include_for_overall_health=params.get("includeForOverallHealth"),
             attribute=params.get("attribute"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            headers=params.get("headers"),
         )
         return new_object
 
@@ -102,7 +102,9 @@ class ActionModule(ActionBase):
                 function="get_health_score_definition_for_the_given_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -111,6 +113,8 @@ class ActionModule(ActionBase):
                 function="get_all_health_score_definitions_for_given_filters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

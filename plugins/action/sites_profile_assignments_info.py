@@ -94,6 +94,8 @@ class ActionModule(ActionBase):
             function="retrieves_the_list_of_network_profiles_that_the_given_site_has_been_assigned",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

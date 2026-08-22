@@ -10,11 +10,11 @@ module: flexible_report_executions_info
 short_description: Information module for Flexible Report Executions
 description:
   - Get all Flexible Report Executions.
-  - Get Execution Id by Report Id.
-version_added: '6.14.0'
+  - Get Execution ID by Report ID.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - ReportId path parameter. Id of the report.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports GetExecutionIdByReportId
@@ -71,9 +71,7 @@ catalystcenter_response:
           "errors": [
             "string"
           ],
-          "warnings": [
-            "string"
-          ]
+          "warnings": []
         }
       ],
       "executionCount": 0,

@@ -131,7 +131,6 @@ class BusinessSdaHostonboardingSsidIppool(object):
             ("ssidNames", "ssidNames"),
             ("siteNameHierarchy", "siteNameHierarchy"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -216,6 +215,8 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 catalystcenter.object_created()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

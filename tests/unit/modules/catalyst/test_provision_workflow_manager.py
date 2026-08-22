@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import provision_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    provision_workflow_manager,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -31,25 +33,42 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
     test_data = loadPlaybookData("provision_workflow_manager")
 
     playbook_provision_wired_device = test_data.get("playbook_provision_wired_device")
-    playbook_reprovision_wired_device = test_data.get("playbook_reprovision_wired_device")
+    playbook_reprovision_wired_device = test_data.get(
+        "playbook_reprovision_wired_device"
+    )
     playbook_provision_device = test_data.get("playbook_provision_device")
-    playbook_provision_wireless_device = test_data.get("playbook_provision_wireless_device")
-    playbook_application_telemetry_disable = test_data.get("playbook_application_telemetry_disable")
-    playbook_application_telemetry_enable = test_data.get("playbook_application_telemetry_enable")
+    playbook_provision_wireless_device = test_data.get(
+        "playbook_provision_wireless_device"
+    )
+    playbook_application_telemetry_disable = test_data.get(
+        "playbook_application_telemetry_disable"
+    )
+    playbook_application_telemetry_enable = test_data.get(
+        "playbook_application_telemetry_enable"
+    )
     playbook_delete_provision = test_data.get("playbook_delete_provision")
     playbook_enable = test_data.get("playbook_enable")
     playbook_disable = test_data.get("playbook_disable")
-    playbook_delete_non_provision_device = test_data.get("playbook_delete_non_provision_device")
-    playbook_invalid_ap_reboot_percentage = test_data.get("playbook_invalid_ap_reboot_percentage")
-    playbook_wireless_site_assign_only = test_data.get("playbook_wireless_site_assign_only")
-    playbook_wireless_provisioned_site_assign_fail = test_data.get("playbook_wireless_provisioned_site_assign_fail")
+    playbook_delete_non_provision_device = test_data.get(
+        "playbook_delete_non_provision_device"
+    )
+    playbook_invalid_ap_reboot_percentage = test_data.get(
+        "playbook_invalid_ap_reboot_percentage"
+    )
+    playbook_wireless_site_assign_only = test_data.get(
+        "playbook_wireless_site_assign_only"
+    )
+    playbook_wireless_provisioned_site_assign_fail = test_data.get(
+        "playbook_wireless_provisioned_site_assign_fail"
+    )
     playbook_disable_idempotent = test_data.get("playbook_disable_idempotent")
 
     def setUp(self):
         super(TestCatalystCenterProvisionWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -220,7 +239,6 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 self.test_data.get("Task Details"),
                 self.test_data.get("Task Details1"),
                 self.test_data.get("delete_provision_response"),
-
             ]
 
     def test_provision_workflow_manager_playbook_provision_wired_device(self):
@@ -238,14 +256,13 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_provision_wired_device
+                config=self.playbook_provision_wired_device,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Wired device(s) '204.1.2.6' already provisioned."
+            result.get("msg"), "Wired device(s) '204.1.2.6' already provisioned."
         )
 
     def test_provision_workflow_manager_playbook_reprovision_wired_device(self):
@@ -264,14 +281,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 config_verify=True,
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_reprovision_wired_device
+                config=self.playbook_reprovision_wired_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Wired device(s) '['204.1.2.6']' re-provisioned successfully."
+            result.get("msg"),
+            "Wired device(s) '['204.1.2.6']' re-provisioned successfully.",
         )
 
     def test_provision_workflow_manager_playbook_provision_device(self):
@@ -290,14 +307,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 config_verify=True,
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_provision_device
+                config=self.playbook_provision_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Wired device(s) '['204.1.2.6']' provisioned successfully."
+            result.get("msg"),
+            "Wired device(s) '['204.1.2.6']' provisioned successfully.",
         )
 
     def test_provision_workflow_manager_playbook_provision_wireless_device(self):
@@ -315,17 +332,19 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_provision_wireless_device
+                config=self.playbook_provision_wireless_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Wireless device(s) '204.192.13.1' provisioned successfully."
+            result.get("msg"),
+            "Wireless device(s) '204.192.13.1' provisioned successfully.",
         )
 
-    def test_provision_workflow_manager_playbook_application_telemetry_disable_no_site_assigned(self):
+    def test_provision_workflow_manager_playbook_application_telemetry_disable_no_site_assigned(
+        self,
+    ):
         """
         Test disabling of application telemetry using the playbook workflow.
 
@@ -340,17 +359,19 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_application_telemetry_disable
+                config=self.playbook_application_telemetry_disable,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled."
+            result.get("msg"),
+            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled.",
         )
 
-    def test_provision_workflow_manager_playbook_application_telemetry_enable_no_site_assigned(self):
+    def test_provision_workflow_manager_playbook_application_telemetry_enable_no_site_assigned(
+        self,
+    ):
         """
         Test enabling of application telemetry using the playbook workflow.
 
@@ -365,14 +386,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_application_telemetry_enable
+                config=self.playbook_application_telemetry_enable,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled."
+            result.get("msg"),
+            "Device with IP 204.1.1.2 is not assigned to any site. Telemetry cannot be enabled/disabled.",
         )
 
     def test_provision_workflow_manager_playbook_delete_provision(self):
@@ -391,14 +412,13 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_delete_provision
+                config=self.playbook_delete_provision,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response'),
-            "Device(s) '204.192.3.40' deleted successfully."
+            result.get("response"), "Device(s) '204.192.3.40' deleted successfully."
         )
 
     def test_provision_workflow_manager_playbook_enable(self):
@@ -416,14 +436,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_enable
+                config=self.playbook_enable,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Application telemetry enabled successfully for 204.1.2.2"
+            result.get("msg"),
+            "Application telemetry enabled successfully for 204.1.2.2",
         )
 
     def test_provision_workflow_manager_playbook_disable_idempotent(self):
@@ -443,14 +463,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_disable_idempotent
+                config=self.playbook_disable_idempotent,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Application telemetry already disabled on device(s) '204.1.1.6'."
+            result.get("msg"),
+            "Application telemetry already disabled on device(s) '204.1.1.6'.",
         )
 
     def test_provision_workflow_manager_playbook_disable(self):
@@ -468,14 +488,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_disable
+                config=self.playbook_disable,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Application telemetry disabled successfully for 204.1.2.2"
+            result.get("msg"),
+            "Application telemetry disabled successfully for 204.1.2.2",
         )
 
     def test_provision_workflow_manager_playbook_delete_non_provision_device(self):
@@ -493,14 +513,14 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_delete_non_provision_device
+                config=self.playbook_delete_non_provision_device,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "No provisioning operations were executed for these IPs: 1.1.1.1"
+            result.get("msg"),
+            "No provisioning operations were executed for these IPs: 1.1.1.1",
         )
 
     def test_provision_workflow_manager_playbook_invalid_ap_reboot_percentage(self):
@@ -518,15 +538,15 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_invalid_ap_reboot_percentage
+                config=self.playbook_invalid_ap_reboot_percentage,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             "Invalid 'ap_reboot_percentage' value '30'. "
-            "Supported values are 5, 15, and 25."
+            "Supported values are 5, 15, and 25.",
         )
 
     def test_provision_workflow_manager_playbook_provision_device_not_found(self):
@@ -549,16 +569,18 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                         "site_name_hierarchy": "Global/USA/SAN JOSE/BLD23",
                         "management_ip_address": "1.2.3.4",
                     }
-                ]
+                ],
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Device with IP 1.2.3.4 not found in Cisco Catalyst Center."
+            result.get("msg"),
+            "Device with IP 1.2.3.4 not found in Cisco Catalyst Center.",
         )
 
-    def test_provision_workflow_manager_playbook_wireless_provisioned_site_assign_fail(self):
+    def test_provision_workflow_manager_playbook_wireless_provisioned_site_assign_fail(
+        self,
+    ):
         """
         Test guard-rail: wireless device already provisioned with provisioning=false.
 
@@ -574,13 +596,12 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_wireless_provisioned_site_assign_fail
+                config=self.playbook_wireless_provisioned_site_assign_fail,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "Cannot assign a provisioned wireless device to the site",
-            result.get('msg')
+            "Cannot assign a provisioned wireless device to the site", result.get("msg")
         )
 
     def test_provision_workflow_manager_playbook_wireless_site_assign_only(self):
@@ -599,11 +620,8 @@ class TestCatalystCenterProvisionWorkflow(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_wireless_site_assign_only
+                config=self.playbook_wireless_site_assign_only,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn(
-            "already assigned to site",
-            result.get('msg')
-        )
+        self.assertIn("already assigned to site", result.get("msg"))

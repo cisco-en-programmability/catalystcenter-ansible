@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
         if id:
             download_response = catalystcenter.exec(
                 family="file",
-                function="download_a_file_by_file_id",
+                function="download_a_file_by_fileid",
                 params=self.get_object(self._task.args),
             )
             response = dict(
@@ -104,7 +104,9 @@ class ActionModule(ActionBase):
                 dirpath=download_response.dirpath,
                 path=download_response.path,
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -114,6 +116,8 @@ class ActionModule(ActionBase):
                 changed=False,
                 result="Module does not have get all, check arguments of module",
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -33,7 +33,7 @@ argument_spec.update(
         endTime=dict(type="float"),
         category=dict(type="str"),
         type=dict(type="str"),
-        severity=dict(type="str"),
+        severity=dict(type="int"),
         domain=dict(type="str"),
         subDomain=dict(type="str"),
         source=dict(type="str"),
@@ -120,6 +120,8 @@ class ActionModule(ActionBase):
             function="get_notifications",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

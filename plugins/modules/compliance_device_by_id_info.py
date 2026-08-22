@@ -11,10 +11,10 @@ short_description: Information module for Compliance Device By Id
 description:
   - Get all Compliance Device By Id.
   - Return compliance detailed report for a device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -60,7 +60,7 @@ options:
         'false'. The result will be a combination of both values if it is not provided.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance ComplianceDetailsOfDevice

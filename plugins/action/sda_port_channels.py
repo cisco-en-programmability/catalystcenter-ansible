@@ -38,7 +38,7 @@ argument_spec.update(
         fabricId=dict(type="str"),
         networkDeviceId=dict(type="str"),
         portChannelName=dict(type="str"),
-        portChannelIds=dict(type="str"),
+        portChannelIds=dict(type="list"),
         connectedDeviceType=dict(type="str"),
         id=dict(type="str"),
     )
@@ -178,7 +178,6 @@ class SdaPortChannels(object):
             ("connectedDeviceType", "connected_device_type"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -311,6 +310,8 @@ class ActionModule(ActionBase):
                     "Could not get object to be delete {e}".format(e=e._response)
                 )
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

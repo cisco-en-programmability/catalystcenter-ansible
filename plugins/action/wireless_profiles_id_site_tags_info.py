@@ -29,10 +29,10 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         id=dict(type="str"),
+        siteTagId=dict(type="str"),
         limit=dict(type="int"),
         offset=dict(type="int"),
         siteTagName=dict(type="str"),
-        siteTagId=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -75,10 +75,10 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             id=params.get("id"),
+            site_tag_id=params.get("siteTagId"),
             limit=params.get("limit"),
             offset=params.get("offset"),
             site_tag_name=params.get("siteTagName"),
-            site_tag_id=params.get("siteTagId"),
             headers=params.get("headers"),
         )
         return new_object
@@ -100,7 +100,9 @@ class ActionModule(ActionBase):
                 function="retrieve_a_specific_site_tag_for_a_wireless_profile",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -109,6 +111,8 @@ class ActionModule(ActionBase):
                 function="retrieve_all_site_tags_for_a_wireless_profile",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

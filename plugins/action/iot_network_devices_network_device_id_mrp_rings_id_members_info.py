@@ -93,9 +93,11 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="industrial_configuration",
-            function="retrieves_the_list_of_network_devices_part_of_m_r_p_ring",
+            function="retrieves_the_list_of_network_devices_part_of_mrp_ring",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

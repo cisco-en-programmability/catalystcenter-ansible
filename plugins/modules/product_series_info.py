@@ -13,10 +13,10 @@ description:
   - Get Product Series by id.
   - Get the list of network device product series and their ordinal on filter criteria.
   - Get the network device product series, its ordinal.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -44,7 +44,7 @@ options:
       - ProductSeriesOrdinal path parameter. Unique identifier of product series.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductSeries
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Product Series by id
   cisco.catalystcenter.product_series_info:
@@ -99,8 +99,9 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "id": "string",
+        "productSeries": "string",
+        "productNameOrdinal": 0
       },
       "version": "string"
     }

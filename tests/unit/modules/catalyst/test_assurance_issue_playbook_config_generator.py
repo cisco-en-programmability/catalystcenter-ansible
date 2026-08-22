@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_issue_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    assurance_issue_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -27,8 +29,12 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
     test_data = loadPlaybookData("assurance_issue_playbook_config_generator")
 
     playbook_config_generate_all = test_data.get("playbook_config_generate_all")
-    playbook_config_specific_components = test_data.get("playbook_config_specific_components")
-    playbook_config_user_defined_only = test_data.get("playbook_config_user_defined_only")
+    playbook_config_specific_components = test_data.get(
+        "playbook_config_specific_components"
+    )
+    playbook_config_user_defined_only = test_data.get(
+        "playbook_config_user_defined_only"
+    )
     playbook_config_system_only = test_data.get("playbook_config_system_only")
     playbook_config_with_file_path = test_data.get("playbook_config_with_file_path")
 
@@ -36,7 +42,8 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
         super(TestCatalystCenterAssuranceIssuePlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
@@ -59,7 +66,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
         if "generate_all_configurations_success" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response"),
-                self.test_data.get("get_system_issues_response")
+                self.test_data.get("get_system_issues_response"),
             ]
 
         elif "specific_components_success" in self._testMethodName:
@@ -75,7 +82,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
         elif "system_only_success" in self._testMethodName:
             # Mock multiple API calls for system issues (enabled/disabled for different device types)
             system_response = self.test_data.get("get_system_issues_filtered_response")
-            self.run_catalystcenter_exec.side_effect = [system_response] * 12  # Cover all device type/enabled combinations
+            self.run_catalystcenter_exec.side_effect = [
+                system_response
+            ] * 12  # Cover all device type/enabled combinations
 
         elif "with_file_path_success" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -83,17 +92,24 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
             ]
 
         elif "api_error" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = Exception("API connection failed")
+            self.run_catalystcenter_exec.side_effect = Exception(
+                "API connection failed"
+            )
 
         elif "empty_response" in self._testMethodName:
             # Use empty response for all API calls
             empty_response = self.test_data.get("empty_response")
-            self.run_catalystcenter_exec.side_effect = [empty_response] * 15  # Cover all possible API calls
+            self.run_catalystcenter_exec.side_effect = [
+                empty_response
+            ] * 15  # Cover all possible API calls
 
         elif "severity_integer_conversion" in self._testMethodName:
             # Test response with string severity values that need conversion
             import copy
-            response_data = copy.deepcopy(self.test_data.get("get_user_defined_issues_response"))
+
+            response_data = copy.deepcopy(
+                self.test_data.get("get_user_defined_issues_response")
+            )
             # Modify severity to be string for testing conversion
             for issue in response_data["response"]:
                 for rule in issue.get("rules", []):
@@ -109,7 +125,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
             # Test with actual data for default file path scenario
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_user_defined_issues_response"),
-                self.test_data.get("get_system_issues_response")
+                self.test_data.get("get_system_issues_response"),
             ]
 
         else:
@@ -119,7 +135,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_generate_all_configurations_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_generate_all_configurations_success(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator when generate_all_configurations is True.
 
@@ -137,27 +155,29 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         # Verify the response structure
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), True)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), True)
 
         # Check that the response contains the expected structure
-        response = result.get('response', {})
-        self.assertIn('message', response)
-        self.assertIn('file_path', response)
-        self.assertIn('operation_summary', response)
+        response = result.get("response", {})
+        self.assertIn("message", response)
+        self.assertIn("file_path", response)
+        self.assertIn("operation_summary", response)
 
         # Verify file write operations occurred
         mock_file.assert_called()
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_specific_components_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_specific_components_success(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with specific components.
 
@@ -174,23 +194,25 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_specific_components
+                config=self.playbook_config_specific_components,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), True)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), True)
 
         # Verify that components were processed
-        response = result.get('response', {})
-        self.assertIn('operation_summary', response)
-        self.assertIn('total_components_processed', response['operation_summary'])
+        response = result.get("response", {})
+        self.assertIn("operation_summary", response)
+        self.assertIn("total_components_processed", response["operation_summary"])
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_user_defined_only_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_user_defined_only_success(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with user-defined issues only.
 
@@ -207,18 +229,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_user_defined_only
+                config=self.playbook_config_user_defined_only,
             )
         )
         result = self.execute_module(changed=False, failed=False)
 
         # Verify successful execution
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), False)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_system_only_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_system_only_success(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with system issues only.
 
@@ -236,18 +260,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_system_only
+                config=self.playbook_config_system_only,
             )
         )
         result = self.execute_module(changed=False, failed=True)
 
         # Verify that the module fails with invalid component error
-        self.assertIn('msg', result)
-        self.assertIn('Invalid components', result.get('msg', ''))
+        self.assertIn("msg", result)
+        self.assertIn("Invalid components", result.get("msg", ""))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_with_file_path_success(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_with_file_path_success(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with custom file path.
 
@@ -266,18 +292,18 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.5.3",
                 file_path="/tmp/test_issues.yml",
                 file_mode="overwrite",
-                config=self.playbook_config_with_file_path
+                config=self.playbook_config_with_file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), True)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), True)
 
         # Verify custom file path is used
-        response = result.get('response', {})
-        self.assertIn('file_path', response)
+        response = result.get("response", {})
+        self.assertIn("file_path", response)
 
         # Verify file was attempted to be written to custom path
         mock_file.assert_called()
@@ -297,7 +323,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -307,7 +333,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_empty_response(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_empty_response(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with empty API response.
 
@@ -324,22 +352,24 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=False)
 
         # Should succeed with empty data but changed=False
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), False)
 
         # Verify that no configurations were generated
-        response = result.get('response', {})
-        self.assertEqual(response.get('configurations_generated', 0), 0)
+        response = result.get("response", {})
+        self.assertEqual(response.get("configurations_generated", 0), 0)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_severity_integer_conversion(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_severity_integer_conversion(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator severity integer conversion.
 
@@ -356,7 +386,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_user_defined_only
+                config=self.playbook_config_user_defined_only,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -383,18 +413,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=invalid_config
+                config=invalid_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
 
         # Verify that the module fails with invalid parameters error
-        self.assertIn('msg', result)
-        self.assertIn('Invalid parameters', result.get('msg', ''))
+        self.assertIn("msg", result)
+        self.assertIn("Invalid parameters", result.get("msg", ""))
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_file_creation_directory_check(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_file_creation_directory_check(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator directory creation.
 
@@ -404,18 +436,19 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
         # Mock directory doesn't exist initially
         mock_exists.return_value = False
 
-        with patch('os.makedirs') as mock_makedirs:
+        with patch("os.makedirs") as mock_makedirs:
             # Mock the log directory validation to prevent FileNotFoundError
-            with patch('os.path.dirname') as mock_dirname:
-                with patch('os.path.abspath') as mock_abspath:
-                    mock_dirname.return_value = '/tmp'
-                    mock_abspath.return_value = '/tmp/catalystcenter.log'
+            with patch("os.path.dirname") as mock_dirname:
+                with patch("os.path.abspath") as mock_abspath:
+                    mock_dirname.return_value = "/tmp"
+                    mock_abspath.return_value = "/tmp/catalystcenter.log"
                     # Override exists check for log directory to return True
 
                     def side_effect_exists(path):
-                        if 'catalystcenter.log' in str(path) or path == '/tmp':
+                        if "catalystcenter.log" in str(path) or path == "/tmp":
                             return True
                         return False
+
                     mock_exists.side_effect = side_effect_exists
 
                     set_module_args(
@@ -428,18 +461,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                             catalystcenter_version="2.3.5.3",
                             file_path="/tmp/test_issues.yml",
                             file_mode="overwrite",
-                            config=self.playbook_config_with_file_path
+                            config=self.playbook_config_with_file_path,
                         )
                     )
                     result = self.execute_module(changed=False, failed=False)
 
                     # Verify successful execution
-                    self.assertIn('response', result)
-                    self.assertEqual(result.get('changed'), False)
+                    self.assertIn("response", result)
+                    self.assertEqual(result.get("changed"), False)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_operation_summary(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_operation_summary(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator operation summary.
 
@@ -456,18 +491,18 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_specific_components
+                config=self.playbook_config_specific_components,
             )
         )
         result = self.execute_module(changed=False, failed=False)
 
         # Verify execution succeeds even when no matching data is found.
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), False)
 
         # In no-data scenarios, operation_summary should not be returned.
-        response = result.get('response', {})
-        self.assertNotIn('operation_summary', response)
+        response = result.get("response", {})
+        self.assertNotIn("operation_summary", response)
 
     def test_assurance_issue_playbook_generator_missing_config(self):
         """
@@ -482,7 +517,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="gathered",
-                catalystcenter_version="2.3.5.3"
+                catalystcenter_version="2.3.5.3",
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -490,7 +525,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
         self.assertIn("msg", result)
         self.assertIn("No configurations found", result.get("msg", ""))
 
-    def test_assurance_issue_playbook_generator_config_without_component_specific_filters(self):
+    def test_assurance_issue_playbook_generator_config_without_component_specific_filters(
+        self,
+    ):
         """
         Test case for assurance issue playbook generator with config provided but
         component_specific_filters missing.
@@ -503,7 +540,7 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config={}
+                config={},
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -522,11 +559,13 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config={"generate_all_configurations": True}
+                config={"generate_all_configurations": True},
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters found in configuration", result.get("msg", ""))
+        self.assertIn(
+            "Invalid parameters found in configuration", result.get("msg", "")
+        )
 
     def test_assurance_issue_playbook_generator_empty_components_list_rejected(self):
         """
@@ -541,22 +580,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config={
-                    "component_specific_filters": {
-                        "components_list": []
-                    }
-                }
+                config={"component_specific_filters": {"components_list": []}},
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "component_specific_filters must include a non-empty components_list",
-            result.get("msg", "")
+            result.get("msg", ""),
         )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_components_list_deduplicated(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_components_list_deduplicated(
+        self, mock_exists, mock_file
+    ):
         """
         Test case to verify duplicate entries in components_list are deduplicated.
         """
@@ -581,20 +618,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                             "assurance_user_defined_issue_settings",
                         ]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
 
         self.assertIn("response", result)
         self.assertNotIn("operation_summary", result["response"])
-        self.assertEqual(
-            result["response"].get("configurations_generated"), 0
-        )
+        self.assertEqual(result["response"].get("configurations_generated"), 0)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_user_defined_filter_deduplicated(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_user_defined_filter_deduplicated(
+        self, mock_exists, mock_file
+    ):
         """
         Test case to verify duplicate user-defined issue filters are deduplicated.
         """
@@ -619,9 +656,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                             {"name": "Shut lc fangone", "is_enabled": True},
                             {"name": "Shut fangone", "is_enabled": True},
                             {"name": "Shut fangone", "is_enabled": True},
-                        ]
+                        ],
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -632,7 +669,9 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_default_file_path(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_default_file_path(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with default file path.
 
@@ -652,18 +691,20 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=config_without_path
+                config=config_without_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         # Verify successful execution with default file path
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), True)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), True)
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_assurance_issue_playbook_generator_debug_logging(self, mock_exists, mock_file):
+    def test_assurance_issue_playbook_generator_debug_logging(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for assurance issue playbook generator with debug logging.
 
@@ -681,11 +722,11 @@ class TestCatalystCenterAssuranceIssuePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log_level="DEBUG",
                 state="gathered",
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=False)
 
         # Verify successful execution with debug logging
-        self.assertIn('response', result)
-        self.assertEqual(result.get('changed'), False)
+        self.assertIn("response", result)
+        self.assertEqual(result.get("changed"), False)

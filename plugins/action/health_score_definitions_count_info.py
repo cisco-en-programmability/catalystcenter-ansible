@@ -94,6 +94,8 @@ class ActionModule(ActionBase):
             function="get_the_count_of_health_score_definitions_based_on_provided_filters",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

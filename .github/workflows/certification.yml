@@ -28,14 +28,19 @@ concurrency:
 # for each affected version of ansible-core (for example, `tests/sanity/ignore-2.18.txt`) and add corresponding entries.
 jobs:
   call:
-    uses: ansible-collections/partner-certification-checker/.github/workflows/certification-reusable.yml@v2.0.0 # zizmor: ignore[unpinned-uses]
+    uses: ansible-collections/partner-certification-checker/.github/workflows/certification-reusable.yml@v4.0.0 # zizmor: ignore[unpinned-uses]
     # If the minimal Ansible Core version your collection supports Ansible
     # is greater than 2.16.0, specify it below.
     # You might also have to specify Python version supported by that version,
     # see https://docs.ansible.com/projects/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
+    # Note: the sanity job's ansible-core matrix (stable-2.16, stable-2.18,
+    # stable-2.20) is fixed by this reusable workflow to match Red Hat Ansible
+    # Automation Platform's Execution Environments and is not affected by
+    # ansible-core-version below, which only applies to the build-import and
+    # lint jobs.
     # with:
     #   ansible-core-version: '2.17.0'
-    #   python-versions: '["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]'
+    #   origin-python-version: '3.12'
     #   collection-root: 'ansible_collections/junipernetworks/junos'
     #   automation-hub: true
     # Uncomment the lines below if you have 'automation-hub: true' and need to install collections from Red Hat Ansible Automation Hub.

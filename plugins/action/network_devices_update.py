@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        credentials=dict(type="dict"),
-        managementAddress=dict(type="str"),
         category=dict(type="str"),
+        managementAddress=dict(type="dict"),
+        credentials=dict(type="dict"),
         id=dict(type="str"),
     )
 )
@@ -72,9 +72,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            credentials=params.get("credentials"),
-            managementAddress=params.get("managementAddress"),
             category=params.get("category"),
+            managementAddress=params.get("managementAddress"),
+            credentials=params.get("credentials"),
             id=params.get("id"),
         )
         return new_object
@@ -93,6 +93,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

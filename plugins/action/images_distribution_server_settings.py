@@ -43,7 +43,15 @@ argument_spec.update(
     )
 )
 
-required_if = []
+required_if = [
+    (
+        "state",
+        "present",
+        ["id", "serverAddress", "username", "portNumber", "rootLocation", "password"],
+        True,
+    ),
+    ("state", "absent", ["id"], True),
+]
 required_one_of = []
 mutually_exclusive = []
 required_together = []
@@ -155,7 +163,6 @@ class ImagesDistributionServerSettings(object):
             ("rootLocation", "rootLocation"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -274,6 +281,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

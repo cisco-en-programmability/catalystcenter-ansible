@@ -9,33 +9,104 @@ DOCUMENTATION = r"""
 module: iot_non_fabric_rep_rings
 short_description: Resource module for Iot Non Fabric Rep Rings
 description:
-  - Manage operation create of the resource Iot Non Fabric Rep Rings. - > This API configures a REP ring on NON-FABRIC deployment.
-    The input payload contains the following fields - ringName unique ring name , rootNetworkDeviceId Network device ID of
-    the root node of the REP Ring and rootNeighbourNetworkDeviceIds Network device IDs of the two immediate neighbour devices
-    of the root node of the REP Ring. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices.
-version_added: '6.18.0'
+  - Manage operation create of the resource Iot Non Fabric Rep Rings.
+  - This API configures a REP ring on NON-FABRIC deployment. The input payload contains the following fields-.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
-    description: Deployment mode of the configured REP ring.
+    description: FABRIC as well as NON_FABRIC deployments.
     type: str
+  id:
+    description: REP ring identifier.
+    type: str
+  macsecConfig:
+    description: MACsec configuration for REP Ring create requests (PSK / SHOULD_SECURE only).
+    suboptions:
+      accessControlMode:
+        description: MACsec access control mode. Only `SHOULD_SECURE` is currently supported for PSK Encryption mode.
+        type: str
+      ciphersuite:
+        description: MACsec cipher suite - `GCM_AES_128` or `GCM_AES_256`.
+        type: str
+      encryptionMode:
+        description: MACsec encryption mode. Only `PSK` (Pre-Shared Key) is currently supported.
+        type: str
+      keys:
+        description: List of MACsec keys for the keychain (maximum 12 keys).
+        elements: dict
+        suboptions:
+          cryptoAlgo:
+            description: Cryptographic algorithm `AES_128_CMAC` (requires 32 hex digit passPhrase) or `AES_256_CMAC`.
+            type: str
+          id:
+            description: Unique integer identifier for the key in the keychain.
+            type: int
+          passPhrase:
+            description: MACsec pre-shared key in cleartext hex. Must be exactly 32 hex digits for `AES_128_CMAC` or 64 hex
+              digits for `AES_256_CMAC`.
+            type: str
+          startTime:
+            description: Activation date/time for this key in HH mm ss dd MMM yyyy format (e.g., 00 00 00 09 Apr 2026). Lifetime
+              is set to infinite.
+            type: str
+        type: list
+    type: dict
+  networkDeviceId:
+    description: Network device id of the REP ring member. It is the `instanceUuid` attribute in the response of `/dna/intent/api/v1/networkDevices`
+      API.
+    type: str
+  repSegmentId:
+    description: REP segment is a chain of ports connected to each other and configured with a segment ID.
+    type: int
+  repZtpMsg:
+    description: Summary of REP ring members that either do not have REP ZTP supported and those that have REP ZTP supported
+      but not enabled.
+    type: str
+  ringMembers:
+    description: Discovered member nodes in the REP ring.
+    elements: dict
+    suboptions:
+      networkDeviceId:
+        description: Network device id of the ring member.
+        type: str
+      nodeName:
+        description: Name of the ring member.
+        type: str
+      portName1:
+        description: Interface name of the node.
+        type: str
+      portName2:
+        description: Interface name of the node.
+        type: str
+      portRepZtpStatus1:
+        description: REP ZTP status for Port 1.
+        type: str
+      portRepZtpStatus2:
+        description: REP ZTP status for Port 2.
+        type: str
+      ringOrder:
+        description: Order of the node in the REP ring.
+        type: int
+    type: list
   ringName:
-    description: Unique name of REP ring to be configured.
+    description: Unique name of REP ring configured.
     type: str
   rootNeighbourNetworkDeviceIds:
-    description: It contains the network device IDs of the immediate neighboring ring members of the root node. API `/dna/intent/api/v1/networkDevices`
-      can be used to get the list of networkDeviceIds of the neighbors , `instanceUuid` attribute in the response contains
-      rootNeighbourNetworkDeviceIds.
+    description: Hostname of the root node neighbor device.
     elements: str
     type: list
   rootNetworkDeviceId:
-    description: RootNetworkDeviceId is the network device ID of the root node in the REP ring. API `/dna/intent/api/v1/networkDevices`
-      can be used to get the rootNetworkDeviceId , `instanceUuid` attribute in the response contains rootNetworkDeviceId.
+    description: Root node network device id of the REP ring member. It is the `instanceUuid` attribute in the response of
+      `/dna/intent/api/v1/networkDevices` API.
+    type: str
+  status:
+    description: Status of the previous REP ring operation.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Industrial Configuration ConfigureAREPRingOnNONFABRICDeployment
@@ -43,7 +114,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!configure-arep-ring-on-nonfabric-deployment
 notes:
   - SDK Method used are
-    industrial_configuration.IndustrialConfiguration.configure_a_r_e_p_ring_on_n_o_n_f_a_b_r_i_c_deployment,
+    industrial_configuration.IndustrialConfiguration.configure_a_rep_ring_on_non_fabric_deployment,
   - Paths used are
     post /dna/intent/api/v1/iot/nonFabric/repRings,
 """
@@ -60,10 +131,32 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     deploymentMode: string
+    id: string
+    macsecConfig:
+      accessControlMode: string
+      ciphersuite: string
+      encryptionMode: string
+      keys:
+        - cryptoAlgo: string
+          id: 0
+          passPhrase: string
+          startTime: string
+    networkDeviceId: string
+    repSegmentId: 0
+    repZtpMsg: string
+    ringMembers:
+      - networkDeviceId: string
+        nodeName: string
+        portName1: string
+        portName2: string
+        portRepZtpStatus1: string
+        portRepZtpStatus2: string
+        ringOrder: 0
     ringName: string
     rootNeighbourNetworkDeviceIds:
       - string
     rootNetworkDeviceId: string
+    status: string
 """
 RETURN = r"""
 catalystcenter_response:

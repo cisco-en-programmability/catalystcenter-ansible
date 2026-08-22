@@ -106,7 +106,9 @@ class ActionModule(ActionBase):
                 dirpath=download_response.dirpath,
                 path=download_response.path,
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -115,6 +117,8 @@ class ActionModule(ActionBase):
                 function="get_all_execution_details_for_a_given_report",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

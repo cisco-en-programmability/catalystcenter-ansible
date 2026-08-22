@@ -97,10 +97,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="devices",
-            function="get_trend_analytics_data_for_the_interfaces_in_the_specified_time_range",
+            function="the_trend_analytcis_data_for_the_interfaces_in_the_specified_time_range",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

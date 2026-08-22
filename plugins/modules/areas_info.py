@@ -11,10 +11,10 @@ short_description: Information module for Areas
 description:
   - Get Areas by id.
   - Gets an area in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Id path parameter. Area Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design GetsAnArea
@@ -62,9 +62,9 @@ catalystcenter_response:
       "response": {
         "id": "string",
         "siteHierarchyId": "string",
+        "parentId": "string",
         "name": "string",
         "nameHierarchy": "string",
-        "parentId": "string",
         "type": "string"
       },
       "version": "string"

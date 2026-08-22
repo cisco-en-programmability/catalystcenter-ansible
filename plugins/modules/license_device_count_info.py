@@ -10,11 +10,11 @@ module: license_device_count_info
 short_description: Information module for License Device Count
 description:
   - Get all License Device Count.
-  - Get total number of managed devices.
-version_added: '3.1.0'
+  - Get total number of managed devices based on the given filters.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses DeviceCountDetails

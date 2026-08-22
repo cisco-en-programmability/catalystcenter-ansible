@@ -29,7 +29,7 @@ argument_spec = catalystcenter_argument_spec()
 argument_spec.update(
     dict(
         category=dict(type="str"),
-        managementAddress=dict(type="str"),
+        managementAddress=dict(type="dict"),
         credentials=dict(type="dict"),
         id=dict(type="str"),
     )
@@ -93,6 +93,8 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

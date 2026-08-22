@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        filterGroupId=dict(type="str"),
-        entityId=dict(type="str"),
-        entityType=dict(type="str"),
+        filterGroupId=dict(type="list"),
+        entityId=dict(type="list"),
+        entityType=dict(type="list"),
         headers=dict(type="dict"),
     )
 )
@@ -94,6 +94,8 @@ class ActionModule(ActionBase):
             function="get_the_filter_group_associations",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

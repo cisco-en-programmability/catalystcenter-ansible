@@ -28,8 +28,8 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        view=dict(type="str"),
         id=dict(type="str"),
+        view=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -71,8 +71,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            view=params.get("view"),
             id=params.get("id"),
+            view=params.get("view"),
             headers=params.get("headers"),
         )
         return new_object
@@ -94,7 +94,9 @@ class ActionModule(ActionBase):
                 function="retrieves_validation_details_for_a_validation_set",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -103,6 +105,8 @@ class ActionModule(ActionBase):
                 function="retrieves_all_the_validation_sets",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

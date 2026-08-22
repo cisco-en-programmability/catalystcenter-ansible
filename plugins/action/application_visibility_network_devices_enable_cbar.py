@@ -83,10 +83,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="application_policy",
-            function="enable_c_b_a_r_feature_on_multiple_network_devices",
+            function="enable_cbar_feature_on_multiple_network_devices",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

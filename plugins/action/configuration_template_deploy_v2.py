@@ -93,10 +93,12 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="configuration_templates",
-            function="deploy_template_v2",
+            function="deploy_template",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

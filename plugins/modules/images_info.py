@@ -9,13 +9,12 @@ DOCUMENTATION = r"""
 module: images_info
 short_description: Information module for Images
 description:
-  - Get all Images. - > A list of available images for the specified site is provided. The default value of the site is set
-    to global. The list includes images that have been imported onto the disk, as well as the latest and suggested images
-    from Cisco.com.
-version_added: '6.15.0'
+  - Get all Images.
+  - A list of available images for the specified site is provided. The default.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -96,7 +95,7 @@ options:
         and 500, respectively.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ReturnsListOfSoftwareImages
@@ -131,8 +130,8 @@ EXAMPLES = r"""
     integrity: string
     hasAddonImages: true
     isAddonImages: true
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

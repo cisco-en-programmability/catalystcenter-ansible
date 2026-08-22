@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
-        id=dict(type="str"),
-        limit=dict(type="int"),
+        id=dict(type="list"),
         name=dict(type="str"),
+        limit=dict(type="int"),
         offset=dict(type="int"),
         headers=dict(type="dict"),
     )
@@ -74,8 +74,8 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             id=params.get("id"),
-            limit=params.get("limit"),
             name=params.get("name"),
+            limit=params.get("limit"),
             offset=params.get("offset"),
             headers=params.get("headers"),
         )
@@ -98,7 +98,9 @@ class ActionModule(ActionBase):
                 function="fetches_discovery_details_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -107,6 +109,8 @@ class ActionModule(ActionBase):
                 function="fetches_all_discovery_details",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

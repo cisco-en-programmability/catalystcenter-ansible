@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Interface Operation Create. - > Clear mac-address on an individual port. In request
     body, operation needs to be specified as 'ClearMacAddress'. In the future more possible operations will be added to this
     API.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deploymentMode:
     description: DeploymentMode query parameter. Preview/Deploy 'Preview' means the configuration is not pushed to the device.
@@ -28,10 +28,10 @@ options:
     description: Operation needs to be specified as 'ClearMacAddress'.
     type: str
   payload:
-    description: Interface Operation Create's payload.
+    description: Payload is not applicable.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices ClearMacAddressTable
@@ -55,7 +55,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deploymentMode: string
+    deploymentMode: Deploy
     interfaceUuid: string
     operation: string
     payload: {}

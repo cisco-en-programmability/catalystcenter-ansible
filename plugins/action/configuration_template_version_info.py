@@ -89,10 +89,12 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="configuration_templates",
-                function="get_template_versions",
+                function="gets_all_the_versions_of_a_given_template",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -102,6 +104,8 @@ class ActionModule(ActionBase):
                 changed=False,
                 result="Module does not have get all, check arguments of module",
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

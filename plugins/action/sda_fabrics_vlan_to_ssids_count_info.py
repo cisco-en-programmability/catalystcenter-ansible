@@ -88,6 +88,8 @@ class ActionModule(ActionBase):
             function="return_the_count_of_all_the_fabric_site_which_has_ssid_to_ip_pool_mapping",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

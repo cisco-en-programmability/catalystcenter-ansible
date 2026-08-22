@@ -153,7 +153,6 @@ class SdaPortAssignmentForAccessPoint(object):
             ("deviceManagementIpAddress", "device_management_ip_address"),
             ("interfaceName", "interface_name"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -259,6 +258,8 @@ class ActionModule(ActionBase):
                     "Could not get object to be delete {e}".format(e=e._response)
                 )
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

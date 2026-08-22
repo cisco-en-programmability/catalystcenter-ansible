@@ -32,11 +32,12 @@ argument_spec.update(
         managementAddress=dict(type="str"),
         serialNumber=dict(type="str"),
         family=dict(type="str"),
-        stackDevice=dict(type="str"),
+        stackDevice=dict(type="bool"),
         role=dict(type="str"),
         status=dict(type="str"),
         reachabilityStatus=dict(type="str"),
         managementState=dict(type="str"),
+        secureMode=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -87,6 +88,7 @@ class ActionModule(ActionBase):
             status=params.get("status"),
             reachability_status=params.get("reachabilityStatus"),
             management_state=params.get("managementState"),
+            secure_mode=params.get("secureMode"),
             headers=params.get("headers"),
         )
         return new_object
@@ -106,6 +108,8 @@ class ActionModule(ActionBase):
             function="count_the_number_of_network_devices",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

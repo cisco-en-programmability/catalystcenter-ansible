@@ -9,49 +9,47 @@ DOCUMENTATION = r"""
 module: assurance_issues_trend_analytics
 short_description: Resource module for Assurance Issues Trend Analytics
 description:
-  - Manage operation create of the resource Assurance Issues Trend Analytics. - > Gets the trend analytics data related to
-    issues based on given filters and group by field. This data can be used to find issue counts in different intervals over
-    a period of time. For detailed information about the usage of the API, please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- IssuesList-1.0.1-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Assurance Issues Trend Analytics.
+  - Gets the trend analytics data related to issues based on given filters and.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Assurance Issues Trend Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Assurance Issues Trend Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Assurance Issues Trend Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Assurance Issues Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Assurance Issues Trend Analytics's endTime.
     type: int
   filters:
     description: Assurance Issues Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Assurance Issues Trend Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Assurance Issues Trend Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Assurance Issues Trend Analytics's value.
         type: str
     type: list
   groupBy:
-    description: Group By.
+    description: Assurance Issues Trend Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -61,23 +59,23 @@ options:
     description: Assurance Issues Trend Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Assurance Issues Trend Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Assurance Issues Trend Analytics's offset.
         type: int
       timestampOrder:
-        description: Timestamp Order.
+        description: Assurance Issues Trend Analytics's timestampOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Assurance Issues Trend Analytics's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Assurance Issues Trend Analytics's trendInterval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetTrendAnalyticsDataOfIssues

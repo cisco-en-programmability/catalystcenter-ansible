@@ -82,7 +82,7 @@ class ApplicationPolicyApplicationSet(object):
         try:
             items = self.catalystcenter.exec(
                 family="application_policy",
-                function="get_application_sets_v2",
+                function="get_application_sets",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -139,7 +139,6 @@ class ApplicationPolicyApplicationSet(object):
             ("scalableGroupExternalHandle", "scalableGroupExternalHandle"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
@@ -151,7 +150,7 @@ class ApplicationPolicyApplicationSet(object):
     def create(self):
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="create_application_sets_v2",
+            function="create_application_sets",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -173,7 +172,7 @@ class ApplicationPolicyApplicationSet(object):
                 self.new_object.update(dict(id=id_))
         result = self.catalystcenter.exec(
             family="application_policy",
-            function="delete_application_set_v2",
+            function="delete_application_set",
             params=self.delete_by_id_params(),
         )
         return result
@@ -240,6 +239,8 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

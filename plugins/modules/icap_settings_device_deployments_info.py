@@ -12,10 +12,10 @@ description:
   - Get all Icap Settings Device Deployments. - > Retrieves ICAP configuration deployment statuss per device based on filter
     criteria. For detailed information about the usage of the API, please refer to the Open API specification document - https
     //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -45,15 +45,15 @@ options:
       - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sensors GetDeviceDeploymentStatus
-    description: Complete reference of the GetDeviceDeploymentStatus API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status
+  - name: Cisco Catalyst Center documentation for Sensors GetDeviceDeploymentStatusKnowYourNetwork
+    description: Complete reference of the GetDeviceDeploymentStatusKnowYourNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-know-your-network
 notes:
   - SDK Method used are
-    sensors.Sensors.get_device_deployment_status,
+    sensors.Sensors.get_device_deployment_status_know_your_network,
   - Paths used are
     get /dna/intent/api/v1/icapSettings/deviceDeployments,
 """

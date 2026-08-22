@@ -13,14 +13,18 @@ description:
   - Get Backup Restore Executions by id.
   - This api is used to get all the backup and restore executions.
   - This api is used to get the execution detail of a specific backup or restore worflow process.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the backup execution to be retrieved.
+    type: str
   backupId:
     description:
       - >
@@ -59,12 +63,8 @@ options:
         Order query parameter. Whether ascending or descending order should be used to sort the response.Use
         `asc` for ascending and `desc` for descending order .
     type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the backup execution to be retrieved.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup GetBackupAndRestoreExecution
@@ -97,9 +97,9 @@ EXAMPLES = r"""
     backupId: string
     jobType: string
     status: string
-    offset: 0
-    limit: 0
-    sortBy: string
+    offset: 1
+    limit: 50
+    sortBy: executionDate
     order: string
   register: result
 - name: Get Backup Restore Executions by id

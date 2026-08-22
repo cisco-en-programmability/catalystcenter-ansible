@@ -28,9 +28,9 @@ argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
+        id=dict(type="str"),
         offset=dict(type="int"),
         limit=dict(type="int"),
-        id=dict(type="str"),
         headers=dict(type="dict"),
     )
 )
@@ -72,9 +72,9 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            id=params.get("id"),
             offset=params.get("offset"),
             limit=params.get("limit"),
-            id=params.get("id"),
             headers=params.get("headers"),
         )
         return new_object
@@ -96,7 +96,9 @@ class ActionModule(ActionBase):
                 function="lan_automation_log_by_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -105,6 +107,8 @@ class ActionModule(ActionBase):
                 function="lan_automation_log",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
             self._result.update(catalystcenter.exit_json())
             return self._result

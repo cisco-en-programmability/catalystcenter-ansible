@@ -11,10 +11,10 @@ short_description: Information module for Images Site Wise Product Names
 description:
   - Get all Images Site Wise Product Names. - > Returns a list of network device product names and associated sites for a
     given image identifier. Refer `/dna/intent/api/v1/images` API for obtaining `imageId`.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -61,7 +61,7 @@ options:
         and 500, respectively.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImage
@@ -90,8 +90,8 @@ EXAMPLES = r"""
     productId: string
     recommended: string
     assigned: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     imageId: string
   register: result
 """
@@ -102,10 +102,20 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
+      "response": [
+        {
+          "id": "string",
+          "productName": "string",
+          "productNameOrdinal": 0,
+          "productIds": [
+            "string"
+          ],
+          "siteIds": [
+            "string"
+          ],
+          "recommended": "string"
+        }
+      ],
       "version": "string"
     }
 """

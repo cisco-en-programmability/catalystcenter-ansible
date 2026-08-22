@@ -31,9 +31,11 @@ argument_spec.update(
         startTime=dict(type="float"),
         endTime=dict(type="float"),
         siteId=dict(type="str"),
+        exporterNetworkDeviceId=dict(type="str"),
         ssid=dict(type="str"),
         applicationName=dict(type="str"),
         businessRelevance=dict(type="str"),
+        healthScore=dict(type="float"),
         headers=dict(type="dict"),
     )
 )
@@ -78,9 +80,11 @@ class ActionModule(ActionBase):
             start_time=params.get("startTime"),
             end_time=params.get("endTime"),
             site_id=params.get("siteId"),
+            exporter_network_device_id=params.get("exporterNetworkDeviceId"),
             ssid=params.get("ssid"),
             application_name=params.get("applicationName"),
             business_relevance=params.get("businessRelevance"),
+            health_score=params.get("healthScore"),
             headers=params.get("headers"),
         )
         return new_object
@@ -100,6 +104,8 @@ class ActionModule(ActionBase):
             function="retrieves_the_total_count_of_network_applications_by_applying_basic_filtering",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
+        self._result.update(
+            dict(catalystcenter_response=response, dnac_response=response)
+        )
         self._result.update(catalystcenter.exit_json())
         return self._result

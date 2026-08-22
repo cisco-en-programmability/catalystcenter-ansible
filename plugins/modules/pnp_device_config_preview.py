@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Device Config Preview
 description:
   - Manage operation create of the resource Pnp Device Config Preview.
   - Triggers a preview for site-based Day 0 Configuration.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: Pnp Device Config Preview's deviceId.
@@ -26,7 +26,7 @@ options:
     description: Pnp Device Config Preview's type.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) PreviewConfig
