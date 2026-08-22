@@ -140,7 +140,7 @@ options:
                 choices: ['NFS', 'PHYSICAL_DISK']
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - SDK Methods used are

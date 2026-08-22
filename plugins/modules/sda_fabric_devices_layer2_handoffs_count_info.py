@@ -28,7 +28,7 @@ options:
       - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetFabricDevicesLayer2HandoffsCount

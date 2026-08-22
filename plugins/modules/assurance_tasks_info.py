@@ -48,7 +48,7 @@ options:
       - Status query parameter. Used to get a subset of tasks by their status.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task RetrieveAListOfAssuranceTasks

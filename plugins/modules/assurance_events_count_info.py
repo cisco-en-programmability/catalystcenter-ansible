@@ -108,7 +108,7 @@ options:
         2B B8 D2 01 56&clientMac=DC A6 32 F5 5A 89` (multiple clientMac requested).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CountTheNumberOfEvents

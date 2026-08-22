@@ -55,7 +55,7 @@ options:
         ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS, ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) CountOfNetworkDevicesForTheGivenStatusFilters

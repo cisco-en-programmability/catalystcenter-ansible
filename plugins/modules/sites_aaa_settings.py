@@ -26,7 +26,7 @@ options:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings SetAAASettingsForASite

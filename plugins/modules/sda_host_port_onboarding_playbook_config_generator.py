@@ -363,7 +363,7 @@ options:
                 required: false
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 - PyYAML >= 5.1
 notes:
@@ -809,7 +809,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - catalystcentersdk: 3.1.6.0.2 or higher
+        - catalystcentersdk: 3.2.3.0.0 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 

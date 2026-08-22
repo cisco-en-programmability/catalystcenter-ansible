@@ -24,7 +24,7 @@ options:
     description: If it is true, device controllability is enabled. If it is false, device controllability is disabled.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design UpdateDeviceControllabilitySettings

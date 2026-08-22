@@ -59,7 +59,7 @@ options:
     description: Source port for the path trace. Must be between 1-65535.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Path Trace InitiateANewPathTrace

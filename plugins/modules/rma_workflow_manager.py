@@ -139,7 +139,7 @@ options:
           Example: FCW2225C020
         type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - SDK Method used is - devices.get_device_detail -

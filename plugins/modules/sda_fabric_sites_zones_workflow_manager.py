@@ -270,7 +270,7 @@ options:
                           in the Access Contract list.
                         type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - To ensure the module operates correctly for scaled

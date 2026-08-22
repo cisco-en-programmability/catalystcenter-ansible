@@ -22,7 +22,7 @@ options:
       from the GET network device API /dna/intent/api/v1/network-device response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wired ValidateIntendedFeatures

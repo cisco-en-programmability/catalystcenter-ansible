@@ -143,7 +143,7 @@ options:
                 required: false
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 - Cisco Catalyst Center >= 2.3.7.9
 

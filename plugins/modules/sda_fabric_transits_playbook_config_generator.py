@@ -105,7 +105,7 @@ options:
                 - SDA_LISP_BGP_TRANSIT
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9

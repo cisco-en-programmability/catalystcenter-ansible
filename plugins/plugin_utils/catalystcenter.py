@@ -238,13 +238,27 @@ class CatalystCenterSDK(object):
         self.changed()
         self.result["result"] = "Object deleted"
 
+    def _clear_stale_failure(self):
+        """Existence checks (get-by-id/get-by-name) swallow real API errors
+        and treat them as "not found" so callers can decide create vs.
+        update vs. no-op. Once that decision has settled on a definitive,
+        non-mutating outcome, any such error left behind by exec() must not
+        leak into the final task result.
+        """
+        self.result["failed"] = False
+        self.result["msg"] = None
+        self.result["status"] = ANSIBLE_SUCCESS_STATUS
+
     def object_already_absent(self):
+        self._clear_stale_failure()
         self.result["result"] = "Object already absent"
 
     def object_already_present(self):
+        self._clear_stale_failure()
         self.result["result"] = "Object already present"
 
     def object_present_and_different(self):
+        self._clear_stale_failure()
         self.result["result"] = (
             "Object already present, but it has different values to the requested"
         )
