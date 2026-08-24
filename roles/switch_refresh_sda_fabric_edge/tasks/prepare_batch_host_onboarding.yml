@@ -1,0 +1,165 @@
+---
+- name: Initialize host-port migration batch filters
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_port_assignment_filters: []
+    switch_refresh_sda_fabric_edge_batch_port_channel_filters: []
+
+- name: Build host-port migration batch filters
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_port_assignment_filters: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_port_assignment_filters + [
+          {
+            'fabric_site_name_hierarchy': refresh_item.fabric_site_name_hierarchy,
+            'source_device_ip': switch_refresh_sda_fabric_edge_migration_mapping.old_management_ip,
+            'destination_device_ip':
+              switch_refresh_sda_fabric_edge_migration_mapping.new_device_management_ip,
+            'interface_mappings':
+              switch_refresh_sda_fabric_edge_migration_mapping.port_assignment_interface_mappings
+          }
+        ]
+      }}
+    switch_refresh_sda_fabric_edge_batch_port_channel_filters: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_port_channel_filters + [
+          {
+            'fabric_site_name_hierarchy': refresh_item.fabric_site_name_hierarchy,
+            'source_device_ip': switch_refresh_sda_fabric_edge_migration_mapping.old_management_ip,
+            'destination_device_ip':
+              switch_refresh_sda_fabric_edge_migration_mapping.new_device_management_ip,
+            'interface_mappings':
+              switch_refresh_sda_fabric_edge_migration_mapping.port_channel_interface_mappings
+          }
+        ]
+      }}
+  loop: "{{ switch_refresh_sda_fabric_edge_batch_resolved_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_migration_mapping
+    label: "{{ switch_refresh_sda_fabric_edge_migration_mapping.new_device_management_ip }}"
+
+- name: Build host-port migration batch generator configuration
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_migration_config:
+      component_specific_filters:
+        port_assignments: "{{ switch_refresh_sda_fabric_edge_batch_port_assignment_filters }}"
+        port_channels: "{{ switch_refresh_sda_fabric_edge_batch_port_channel_filters }}"
+
+- name: Inspect host-port migration batch output before overwrite
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}"
+    follow: false
+  register: switch_refresh_sda_fabric_edge_batch_migration_predelete_stat
+
+- name: Validate host-port migration batch output before overwrite
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (switch_refresh_sda_fabric_edge_batch_migration_predelete_stat.stat.exists | bool) or
+        (switch_refresh_sda_fabric_edge_batch_migration_predelete_stat.stat.isreg |
+        default(false))
+    fail_msg: >-
+      Refusing to overwrite a migration output path that is not a regular file:
+      {{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}.
+
+- name: Remove stale host-port migration batch output
+  ansible.builtin.file:
+    path: "{{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}"
+    state: absent
+
+- name: Generate replacement host-port onboarding batch payload
+  ansible.builtin.include_role:
+    name: sda_host_port_migration_config_generator
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_prepare
+  vars:
+    sda_host_port_migration_config_generator_state: gathered
+    sda_host_port_migration_config_generator_file_path: >-
+      {{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}
+    sda_host_port_migration_config_generator_file_mode: overwrite
+    sda_host_port_migration_config_generator_config: >-
+      {{ switch_refresh_sda_fabric_edge_batch_migration_config }}
+
+- name: Check generated replacement host-port onboarding batch payload
+  ansible.builtin.stat:
+    path: "{{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}"
+  register: switch_refresh_sda_fabric_edge_batch_migration_output_stat
+
+- name: Validate generated host-port onboarding batch file
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_allow_empty_host_port_config | bool or
+        (
+          switch_refresh_sda_fabric_edge_batch_migration_output_stat.stat.exists and
+          (switch_refresh_sda_fabric_edge_batch_migration_output_stat.stat.isreg | default(false))
+        )
+    fail_msg: >-
+      Host-port migration did not generate a fresh output file for batch
+      {{ switch_refresh_sda_fabric_edge_batch_name }}.
+
+- name: Load generated replacement host-port onboarding batch payload
+  ansible.builtin.include_vars:
+    file: "{{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}"
+    name: switch_refresh_sda_fabric_edge_batch_generated_host_onboarding
+  when: switch_refresh_sda_fabric_edge_batch_migration_output_stat.stat.exists
+
+- name: Set empty replacement host-port onboarding batch payload
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_generated_host_onboarding:
+      config: []
+  when:
+    - not (switch_refresh_sda_fabric_edge_batch_migration_output_stat.stat.exists | bool)
+    - switch_refresh_sda_fabric_edge_allow_empty_host_port_config | bool
+
+- name: Validate generated replacement host-port onboarding batch payload
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_batch_generated_host_onboarding is mapping
+      - switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config is defined
+      - (switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config | type_debug) == 'list'
+      - >-
+        switch_refresh_sda_fabric_edge_allow_empty_host_port_config | bool or
+        (switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config | length > 0)
+    fail_msg: >-
+      Host-port migration did not generate an onboarding config for batch
+      {{ switch_refresh_sda_fabric_edge_batch_name }}.
+
+- name: Validate generated host-port onboarding batch target coverage
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config | length == 0 or
+        (
+          switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config |
+          map(attribute='ip_address') |
+          map('string') |
+          unique |
+          list |
+          length == switch_refresh_sda_fabric_edge_batch_device_ips | length
+          and
+          switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config |
+          map(attribute='ip_address') |
+          map('string') |
+          list |
+          sort == switch_refresh_sda_fabric_edge_batch_device_ips | sort
+        )
+    fail_msg: >-
+      A non-empty generated host onboarding payload must exactly cover the
+      batch device IPs; partial or duplicate targets are not allowed.
+
+- name: Push replacement host-port onboarding batch configuration
+  ansible.builtin.include_role:
+    name: sda_host_port_onboarding
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_prepare
+  vars:
+    sda_host_port_onboarding_state: merged
+    sda_host_port_onboarding_config_verify: >-
+      {{ switch_refresh_sda_fabric_edge_sda_host_port_onboarding_config_verify }}
+    sda_host_port_onboarding_sda_fabric_port_channel_limit: >-
+      {{ switch_refresh_sda_fabric_edge_sda_fabric_port_channel_limit }}
+    sda_host_port_onboarding_config: >-
+      {{ switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config }}
+  when: switch_refresh_sda_fabric_edge_batch_generated_host_onboarding.config | length > 0

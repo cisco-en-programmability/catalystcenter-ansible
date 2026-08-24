@@ -1,0 +1,133 @@
+---
+# Resolve and validate exact fabric membership for one switch-refresh target set.
+# The response evaluator remains separate so it can be tested without a live
+# Catalyst Center controller.
+- name: Validate fabric membership lookup request
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_fabric_validation_request is mapping
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.site is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_fabric_validation_request.site | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.site | trim | length > 0
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips | type_debug) ==
+        'list'
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips |
+        map('string') |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips | length
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.expected_state is defined
+      - >-
+        switch_refresh_sda_fabric_edge_fabric_validation_request.expected_state | string in
+        ['present', 'absent']
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.context is defined
+      - >-
+        switch_refresh_sda_fabric_edge_fabric_validation_request.context |
+        string |
+        trim |
+        length > 0
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.timeout is defined
+      - (switch_refresh_sda_fabric_edge_fabric_validation_request.timeout | int) > 0
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.retries is defined
+      - (switch_refresh_sda_fabric_edge_fabric_validation_request.retries | int) > 0
+      - switch_refresh_sda_fabric_edge_fabric_validation_request.interval is defined
+      - (switch_refresh_sda_fabric_edge_fabric_validation_request.interval | int) > 0
+      - >-
+        switch_refresh_sda_fabric_edge_fabric_validation_request.expected_state | string ==
+        'present' or
+        switch_refresh_sda_fabric_edge_fabric_validation_request.query_role |
+        default('') |
+        string |
+        trim |
+        length == 0
+      - >-
+        switch_refresh_sda_fabric_edge_fabric_validation_request.response_role |
+        default('') |
+        string |
+        trim |
+        length == 0 or
+        switch_refresh_sda_fabric_edge_fabric_validation_request.expected_state | string ==
+        'present'
+    fail_msg: >-
+      Fabric membership validation requires a non-empty site, a non-empty and
+      unique management-IP list, present or absent state, positive polling
+      controls, and role filters only for presence checks.
+
+- name: Validate fabric membership management IP values
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_fabric_validation_ip | string | trim | length > 0
+    fail_msg: >-
+      Fabric membership validation received an empty management IP during
+      {{ switch_refresh_sda_fabric_edge_fabric_validation_request.context }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_fabric_validation_ip
+    label: "{{ switch_refresh_sda_fabric_edge_fabric_validation_ip | default('fabric-device') }}"
+
+- name: Normalize fabric membership lookup request
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_fabric_membership_query_role: >-
+      {{
+        switch_refresh_sda_fabric_edge_fabric_validation_request.query_role |
+        default('') |
+        string |
+        trim |
+        upper
+      }}
+    switch_refresh_sda_fabric_edge_fabric_membership_query:
+      fabric_site_hierarchy: >-
+        {{ switch_refresh_sda_fabric_edge_fabric_validation_request.site }}
+      device_identifier:
+        - ip_address: >-
+            {{ switch_refresh_sda_fabric_edge_fabric_validation_request.expected_ips }}
+      timeout: >-
+        {{ switch_refresh_sda_fabric_edge_fabric_validation_request.timeout | int }}
+      retries: >-
+        {{ switch_refresh_sda_fabric_edge_fabric_validation_request.retries | int }}
+      interval: >-
+        {{ switch_refresh_sda_fabric_edge_fabric_validation_request.interval | int }}
+      requested_info:
+        - fabric_info
+
+- name: Add optional role to fabric membership lookup
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_fabric_membership_query: >-
+      {{
+        switch_refresh_sda_fabric_edge_fabric_membership_query |
+        combine(
+          {
+            'fabric_device_role': switch_refresh_sda_fabric_edge_fabric_membership_query_role
+          }
+        )
+      }}
+  when: switch_refresh_sda_fabric_edge_fabric_membership_query_role | length > 0
+
+- name: Reset fabric membership role result
+  ansible.builtin.set_fact:
+    fabric_devices_info_result: {}
+
+- name: Resolve fabric membership
+  ansible.builtin.include_role:
+    name: fabric_devices_info
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_prepare
+        - switch_refresh_sda_fabric_edge_cleanup_old
+  vars:
+    fabric_devices_info_state: gathered
+    fabric_devices_info_config_verify: false
+    fabric_devices_info_config:
+      - fabric_devices:
+          - "{{ switch_refresh_sda_fabric_edge_fabric_membership_query }}"
+
+- name: Validate fabric membership response
+  ansible.builtin.include_tasks: validate_fabric_membership_result.yml
+  vars:
+    switch_refresh_sda_fabric_edge_fabric_validation_raw_result: >-
+      {{ fabric_devices_info_result | default({}) }}

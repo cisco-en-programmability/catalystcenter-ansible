@@ -1,0 +1,69 @@
+---
+- name: Build read-only switch refresh prepare batch plan
+  ansible.builtin.include_tasks: build_batch_plan.yml
+
+- name: Resolve all old switches during prepare preflight
+  ansible.builtin.include_tasks: resolve_batch_old_devices.yml
+  when: switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool
+
+- name: Validate old migration sources in the expected fabric
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
+  vars:
+    switch_refresh_sda_fabric_edge_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: >-
+        {{
+          switch_refresh_sda_fabric_edge_batch_resolved_mappings |
+          map(attribute='old_management_ip') |
+          map('string') |
+          list
+        }}
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: ""
+      context: Prepare
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_sda_fabric_edge_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_sda_fabric_edge_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_sda_fabric_edge_fabric_validation_interval) }}"
+  when: switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool
+
+- name: Preflight prepare migration output path
+  ansible.builtin.include_tasks: preflight_output_path.yml
+  vars:
+    switch_refresh_sda_fabric_edge_output_path: "{{ switch_refresh_sda_fabric_edge_batch_migration_output_file }}"
+    switch_refresh_sda_fabric_edge_output_label: migration_output_file
+  when: switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool
+
+- name: Save validated switch refresh prepare batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_prepare_preflight_plans: >-
+      {{
+        switch_refresh_sda_fabric_edge_prepare_preflight_plans + [
+          {
+            'name': switch_refresh_sda_fabric_edge_batch_name,
+            'file_safe_name': switch_refresh_sda_fabric_edge_batch_file_safe_name,
+            'onboarding_method': switch_refresh_sda_fabric_edge_batch_onboarding_method,
+            'new_devices': switch_refresh_sda_fabric_edge_batch_new_devices,
+            'new_management_ips': switch_refresh_sda_fabric_edge_batch_device_ips,
+            'device_mappings': switch_refresh_sda_fabric_edge_batch_device_mappings,
+            'resolved_mappings': switch_refresh_sda_fabric_edge_batch_resolved_mappings,
+            'discovery_config': switch_refresh_sda_fabric_edge_batch_discovery_config,
+            'lan_automation_serial_numbers':
+              switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers,
+            'inventory_execution_config':
+              switch_refresh_sda_fabric_edge_batch_inventory_execution_config,
+            'provision_config': switch_refresh_sda_fabric_edge_batch_provision_config,
+            'fabric_devices_config':
+              switch_refresh_sda_fabric_edge_batch_fabric_devices_config,
+            'migration_output_file':
+              switch_refresh_sda_fabric_edge_batch_migration_output_file,
+            'old_management_ips': (
+              switch_refresh_sda_fabric_edge_batch_resolved_mappings |
+              map(attribute='old_management_ip') |
+              map('string') |
+              list
+            ) if (switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool) else []
+          }
+        ]
+      }}
+  no_log: true

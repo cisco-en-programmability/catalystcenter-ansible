@@ -1,0 +1,296 @@
+---
+- name: Validate switch refresh cleanup batch input
+  ansible.builtin.assert:
+    that:
+      - refresh_item is mapping
+      - refresh_item.name is defined
+      - (refresh_item.name | type_debug) == 'str'
+      - refresh_item.name | trim | length > 0
+      - refresh_item.name == (refresh_item.name | trim)
+      - refresh_item.fabric_site_name_hierarchy is defined
+      - (refresh_item.fabric_site_name_hierarchy | type_debug) == 'str'
+      - refresh_item.fabric_site_name_hierarchy | trim | length > 0
+      - >-
+        refresh_item.fabric_site_name_hierarchy ==
+        (refresh_item.fabric_site_name_hierarchy | trim)
+      - refresh_item.new_devices is defined
+      - refresh_item.new_devices is mapping
+      - refresh_item.new_devices.device_ips is defined
+      - (refresh_item.new_devices.device_ips | type_debug) == 'list'
+      - refresh_item.new_devices.device_ips | length > 0
+      - refresh_item.device_mapping is defined
+      - (refresh_item.device_mapping | type_debug) == 'list'
+      - refresh_item.device_mapping | length > 0
+    fail_msg: >-
+      Every switch_refresh_sda_fabric_edge_batches cleanup entry requires a non-empty name,
+      fabric_site_name_hierarchy, new_devices.device_ips list, and
+      device_mapping list.
+
+- name: Validate cleanup fabric safety controls
+  ansible.builtin.assert:
+    that:
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_cleanup_unprovision_enabled | bool or
+          switch_refresh_sda_fabric_edge_cleanup_inventory_enabled | bool
+        ) or
+        switch_refresh_sda_fabric_edge_cleanup_fabric_enabled | bool or
+        switch_refresh_sda_fabric_edge_fabric_validation_enabled | bool
+    fail_msg: >-
+      Cleanup must remove old switches from fabric or validate that they are
+      already absent before unprovisioning or inventory deletion.
+
+- name: Initialize switch refresh cleanup batch preflight
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_batch_device_ips: >-
+      {{ refresh_item.new_devices.device_ips | map('string') | list }}
+    switch_refresh_sda_fabric_edge_batch_device_mappings: []
+    switch_refresh_sda_fabric_edge_cleanup_batch_old_identifier_keys: []
+    switch_refresh_sda_fabric_edge_batch_name: "{{ refresh_item.name | string }}"
+    switch_refresh_sda_fabric_edge_cleanup_batch_name: "{{ refresh_item.name | string }}"
+    switch_refresh_sda_fabric_edge_cleanup_batch_file_safe_name: >-
+      {{ refresh_item.name | string | regex_replace('[^A-Za-z0-9_.-]', '_') }}
+    switch_refresh_sda_fabric_edge_hostname_transfer_manifest_file: ""
+    switch_refresh_sda_fabric_edge_hostname_transfer_entries: []
+    switch_refresh_sda_fabric_edge_hostname_transfer_input_fingerprint: ""
+
+- name: Validate replacement IP values for cleanup
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_cleanup_new_ip | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_cleanup_new_ip |
+        regex_search('^(?:0|[1-9][0-9]{0,2})(?:\\.(?:0|[1-9][0-9]{0,2})){3}$') is not none
+    fail_msg: >-
+      Every new_devices.device_ips value must be non-empty in cleanup batch
+      {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_batch_device_ips }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_cleanup_new_ip
+    label: "{{ switch_refresh_sda_fabric_edge_cleanup_new_ip | default('replacement-device') }}"
+
+- name: Validate replacement IP octets for cleanup
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_cleanup_new_ip.split('.') | map('int') | max <= 255
+      - switch_refresh_sda_fabric_edge_cleanup_new_ip.split('.') | map('int') | min >= 0
+    fail_msg: >-
+      new_devices.device_ips contains an invalid IPv4 management address in
+      cleanup batch {{ switch_refresh_sda_fabric_edge_cleanup_batch_name }}:
+      {{ switch_refresh_sda_fabric_edge_cleanup_new_ip }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_batch_device_ips }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_cleanup_new_ip
+    label: "{{ switch_refresh_sda_fabric_edge_cleanup_new_ip }}"
+
+- name: Normalize switch refresh cleanup mappings
+  ansible.builtin.include_tasks: normalize_batch_mapping.yml
+  loop: "{{ refresh_item.device_mapping }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_input_mapping
+    label: >-
+      {{
+        switch_refresh_sda_fabric_edge_input_mapping.new_device_management_ip |
+        default('device-mapping')
+      }}
+
+- name: Build normalized old-device identifier keys
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_cleanup_batch_old_identifier_keys: >-
+      {{
+        switch_refresh_sda_fabric_edge_cleanup_batch_old_identifier_keys + [
+          ('management_ip:' ~
+            (switch_refresh_sda_fabric_edge_cleanup_mapping.old.management_ip |
+            string | trim | lower))
+          if (switch_refresh_sda_fabric_edge_cleanup_mapping.old.management_ip is defined)
+          else ('hostname:' ~
+            (switch_refresh_sda_fabric_edge_cleanup_mapping.old.hostname |
+            string | trim | lower))
+          if (switch_refresh_sda_fabric_edge_cleanup_mapping.old.hostname is defined)
+          else ('serial_number:' ~
+            (switch_refresh_sda_fabric_edge_cleanup_mapping.old.serial_number |
+            string | trim | upper))
+          if (switch_refresh_sda_fabric_edge_cleanup_mapping.old.serial_number is defined)
+          else ('mac_address:' ~
+            (switch_refresh_sda_fabric_edge_cleanup_mapping.old.mac_address |
+            string | trim | lower | regex_replace('[:-]', '')))
+        ]
+      }}
+  loop: "{{ switch_refresh_sda_fabric_edge_batch_device_mappings }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_cleanup_mapping
+    label: "{{ switch_refresh_sda_fabric_edge_cleanup_mapping.new_device_management_ip }}"
+
+- name: Validate cleanup mapping coverage and uniqueness
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_batch_device_ips | unique | length ==
+        switch_refresh_sda_fabric_edge_batch_device_ips | length
+      - >-
+        switch_refresh_sda_fabric_edge_batch_device_mappings |
+        map(attribute='new_device_management_ip') |
+        list |
+        unique |
+        length == switch_refresh_sda_fabric_edge_batch_device_mappings | length
+      - >-
+        switch_refresh_sda_fabric_edge_batch_device_mappings |
+        map(attribute='new_device_management_ip') |
+        list |
+        sort == switch_refresh_sda_fabric_edge_batch_device_ips | sort
+      - >-
+        switch_refresh_sda_fabric_edge_cleanup_batch_old_identifier_keys | unique | length ==
+        switch_refresh_sda_fabric_edge_cleanup_batch_old_identifier_keys | length
+    fail_msg: >-
+      Cleanup mappings must identify unique old devices and exactly cover the
+      unique new_devices.device_ips set once each.
+
+# This read-only lookup resolves the full batch before any cleanup mutation.
+- name: Resolve every old switch during cleanup preflight
+  ansible.builtin.include_tasks: resolve_batch_old_devices.yml
+
+- name: Derive resolved old switch management IPs
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips: >-
+      {{
+        switch_refresh_sda_fabric_edge_batch_resolved_mappings |
+        map(attribute='old_management_ip') |
+        map('string') |
+        list
+      }}
+
+- name: Validate resolved old management IP syntax
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_cleanup_old_ip | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_cleanup_old_ip |
+        regex_search('^(?:0|[1-9][0-9]{0,2})(?:\\.(?:0|[1-9][0-9]{0,2})){3}$') is not none
+      - switch_refresh_sda_fabric_edge_cleanup_old_ip.split('.') | map('int') | max <= 255
+      - switch_refresh_sda_fabric_edge_cleanup_old_ip.split('.') | map('int') | min >= 0
+    fail_msg: >-
+      An old device resolved to an invalid management IP; no cleanup changes
+      were made: {{ switch_refresh_sda_fabric_edge_cleanup_old_ip }}.
+  loop: "{{ switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips }}"
+  loop_control:
+    loop_var: switch_refresh_sda_fabric_edge_cleanup_old_ip
+    label: "{{ switch_refresh_sda_fabric_edge_cleanup_old_ip }}"
+
+# Hostname transfer deliberately performs a fresh inventory lookup even when
+# the role's general device-info lookup is disabled. The old hostname must be
+# captured from Catalyst Center before inventory cleanup makes it unavailable.
+- name: Capture immutable hostname transfer identities
+  ansible.builtin.include_tasks: capture_hostname_transfer_batch.yml
+  when: switch_refresh_sda_fabric_edge_hostname_transfer_enabled | default(false) | bool
+
+- name: Validate replacement fabric targets for hostname transfer
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
+  vars:
+    switch_refresh_sda_fabric_edge_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_sda_fabric_edge_batch_device_ips }}"
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: EDGE_NODE
+      context: cleanup preflight
+      timeout: "{{ switch_refresh_sda_fabric_edge_fabric_validation_timeout }}"
+      retries: "{{ switch_refresh_sda_fabric_edge_fabric_validation_retries }}"
+      interval: "{{ switch_refresh_sda_fabric_edge_fabric_validation_interval }}"
+  when: switch_refresh_sda_fabric_edge_hostname_transfer_enabled | default(false) | bool
+
+- name: Validate old switches in the expected fabric before cleanup
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
+  vars:
+    switch_refresh_sda_fabric_edge_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips }}"
+      expected_state: present
+      query_role: EDGE_NODE
+      response_role: ""
+      context: Cleanup
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_sda_fabric_edge_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_sda_fabric_edge_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_sda_fabric_edge_fabric_validation_interval) }}"
+  when: switch_refresh_sda_fabric_edge_cleanup_fabric_enabled | bool
+
+- name: Prove old switches are already absent for cleanup resume
+  ansible.builtin.include_tasks: validate_fabric_membership.yml
+  vars:
+    switch_refresh_sda_fabric_edge_fabric_validation_request:
+      site: "{{ refresh_item.fabric_site_name_hierarchy }}"
+      expected_ips: "{{ switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips }}"
+      expected_state: absent
+      query_role: ""
+      response_role: ""
+      context: cleanup resume preflight
+      timeout: "{{ refresh_item.fabric_validation_timeout | default(switch_refresh_sda_fabric_edge_fabric_validation_timeout) }}"
+      retries: "{{ refresh_item.fabric_validation_retries | default(switch_refresh_sda_fabric_edge_fabric_validation_retries) }}"
+      interval: "{{ refresh_item.fabric_validation_interval | default(switch_refresh_sda_fabric_edge_fabric_validation_interval) }}"
+  when:
+    - not (switch_refresh_sda_fabric_edge_cleanup_fabric_enabled | bool)
+    - switch_refresh_sda_fabric_edge_fabric_validation_enabled | bool
+
+- name: Derive immutable cleanup host-port output path
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file: >-
+      {{
+        (
+          refresh_item.old_host_port_cleanup_file |
+          default(
+            switch_refresh_sda_fabric_edge_work_dir ~ '/' ~
+            switch_refresh_sda_fabric_edge_cleanup_batch_file_safe_name ~
+            '_old_host_port_cleanup.yml'
+          )
+        )
+        if (switch_refresh_sda_fabric_edge_cleanup_host_onboarding_enabled | bool)
+        else ''
+      }}
+
+- name: Validate cleanup host-port output path value
+  ansible.builtin.assert:
+    that:
+      - (switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file | type_debug) == 'str'
+      - switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file | trim | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file ==
+        (switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file | trim)
+    fail_msg: >-
+      old_host_port_cleanup_file must be a non-empty, whitespace-trimmed path.
+  when: switch_refresh_sda_fabric_edge_cleanup_host_onboarding_enabled | bool
+
+- name: Preflight cleanup host-port output path
+  ansible.builtin.include_tasks: preflight_output_path.yml
+  vars:
+    switch_refresh_sda_fabric_edge_output_path: "{{ switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file }}"
+    switch_refresh_sda_fabric_edge_output_label: old_host_port_cleanup_file
+  when: switch_refresh_sda_fabric_edge_cleanup_host_onboarding_enabled | bool
+
+- name: Save validated switch refresh cleanup batch plan
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_cleanup_batch_plans: >-
+      {{
+        switch_refresh_sda_fabric_edge_cleanup_batch_plans + [
+          {
+            'name': switch_refresh_sda_fabric_edge_cleanup_batch_name,
+            'file_safe_name': switch_refresh_sda_fabric_edge_cleanup_batch_file_safe_name,
+            'fabric_site_name_hierarchy':
+              refresh_item.fabric_site_name_hierarchy,
+            'device_ips': switch_refresh_sda_fabric_edge_batch_device_ips,
+            'device_mappings': switch_refresh_sda_fabric_edge_batch_device_mappings,
+            'resolved_mappings': switch_refresh_sda_fabric_edge_batch_resolved_mappings,
+            'old_management_ips':
+              switch_refresh_sda_fabric_edge_cleanup_batch_old_management_ips,
+            'host_port_file': switch_refresh_sda_fabric_edge_cleanup_batch_host_port_file,
+            'hostname_transfer_enabled':
+              switch_refresh_sda_fabric_edge_hostname_transfer_enabled |
+              default(false) |
+              bool,
+            'hostname_transfer_manifest_file':
+              switch_refresh_sda_fabric_edge_hostname_transfer_manifest_file,
+            'hostname_transfer_input_fingerprint':
+              switch_refresh_sda_fabric_edge_hostname_transfer_input_fingerprint,
+            'hostname_transfer_entries':
+              switch_refresh_sda_fabric_edge_hostname_transfer_entries
+          }
+        ]
+      }}

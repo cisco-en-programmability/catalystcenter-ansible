@@ -19,7 +19,7 @@ docs/_build/
 changelogs/.plugin-cache.yaml
 playbooks/vars/credentials.yml
 playbooks/device_details.template
-playbooks/switch_refresh_testing_guide.md
+playbooks/switch_refresh_sda_fabric_edge_testing_guide.md
 .DS_Store
 test.yml
 test.yaml
