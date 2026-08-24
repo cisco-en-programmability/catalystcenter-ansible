@@ -23617,6 +23617,14 @@
       }
     }
   ],
+  "playbook_image_activation_device": [
+    {
+      "image_activation_details": {
+        "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+        "device_ip_address": "204.1.2.4"
+      }
+    }
+  ],
   "get_software_image_details_100": {
     "response": [
       {
@@ -47841,6 +47849,14 @@
       "status": "SUCCESS",
       "startTime": 1780000000000,
       "endTime": 1780000001000
+    },
+    "version": "1.0"
+  },
+  "task_pending_golden_idempotence": {
+    "response": {
+      "id": "01aa0000-bbbb-cccc-dddd-000000000001",
+      "status": "IN_PROGRESS",
+      "startTime": 1780000000000
     },
     "version": "1.0"
   },

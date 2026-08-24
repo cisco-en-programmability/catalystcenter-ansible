@@ -49,6 +49,24 @@ options:
       Center config after applying the playbook config.
     type: bool
     default: false
+  distribution_poll_interval:
+    description:
+      - Interval in seconds between successive status polls of an image
+        distribution task.
+      - Also applies to the distribution phase that runs implicitly during an
+        activation when C(distribute_if_needed) is set.
+      - Increase this value to lower the API request frequency and help avoid
+        rate-limiting (HTTP 429) during large or long-running distributions.
+    type: int
+    default: 30
+  activation_poll_interval:
+    description:
+      - Interval in seconds between successive status polls of an image
+        activation task.
+      - Increase this value to lower the API request frequency and help avoid
+        rate-limiting (HTTP 429) during activations that involve device reboots.
+    type: int
+    default: 30
   state:
     description: The state of Catalyst Center after
       module completion.
@@ -1223,6 +1241,8 @@ class Swim(CatalystCenterBase):
         self.supported_states = ["merged", "deleted"]
         self.images_to_import, self.existing_images = [], []
         self.state = self.params.get("state")
+        # Seconds between SWIM task-status polls; overridden per distribution/activation config.
+        self.swim_poll_interval = 30
 
     def validate_input(self):
         """
@@ -4026,35 +4046,42 @@ class Swim(CatalystCenterBase):
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
         self.max_timeout = distribution_details.get("image_distribution_timeout", 1800)
+        self.swim_poll_interval = self.params.get("distribution_poll_interval", 30)
         convert_to_wlc = distribution_details.get("convert_to_wlc", False)
-        self.log(
-            "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
-                site_name, device_family, device_role, device_series_name
-            ),
-            "DEBUG",
-        )
-
-        device_uuid_list = self.get_device_uuids(
-            site_name, device_family, device_role, device_series_name
-        )
-
-        self.log(
-            "Initial device UUIDs retrieved for distribution: {0}".format(
-                device_uuid_list
-            ),
-            "DEBUG",
-        )
-        if device_tag:
-            device_uuid_list = self.filter_device_uuids_by_tag(
-                device_uuid_list, device_tag
-            )
-            self.log(
-                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
-                "DEBUG",
-            )
 
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
+
+        # A specific device (IP/hostname/serial/MAC) takes precedence over site filters.
+        if distribution_device_id:
+            device_uuid_list = []
+            self.log(
+                "Specific device (ID: {0}) provided; skipping site-wide device enumeration.".format(distribution_device_id),
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
+                    site_name, device_family, device_role, device_series_name
+                ),
+                "DEBUG",
+            )
+            device_uuid_list = self.get_device_uuids(
+                site_name, device_family, device_role, device_series_name
+            )
+            self.log(
+                "Initial device UUIDs retrieved for distribution: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+            if device_tag:
+                device_uuid_list = self.filter_device_uuids_by_tag(
+                    device_uuid_list, device_tag
+                )
+                self.log(
+                    "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
+                    "DEBUG",
+                )
+
         device_ip = self.get_device_ip_from_id(distribution_device_id)
         image_name = self.want.get("distribution_details").get("image_name")
         sub_package_images = self.want.get("distribution_details").get(
@@ -4248,6 +4275,14 @@ class Swim(CatalystCenterBase):
                             failed_distribution_list.append(image_name)
                             self.log(failed_msg, "ERROR")
                             break
+
+                        self.log(
+                            "Distribution task '{0}' still in progress; next poll in {1} seconds.".format(
+                                task_id, self.swim_poll_interval
+                            ),
+                            "DEBUG",
+                        )
+                        time.sleep(self.swim_poll_interval)
             else:
                 self.log(
                     "Distribution device ID provided. Starting image distribution for device IP {0} (ID: {1}) with software version >= 3.1.3.0.".format(
@@ -4739,36 +4774,42 @@ class Swim(CatalystCenterBase):
         device_series_name = activation_details.get("device_series_name")
         device_tag = activation_details.get("device_tag")
         self.max_timeout = activation_details.get("image_activation_timeout", 1800)
+        self.swim_poll_interval = self.params.get("activation_poll_interval", 30)
         convert_to_wlc = activation_details.get("convert_to_wlc", False)
-
-        self.log(
-            "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
-                site_name, device_family, device_role, device_series_name
-            ),
-            "DEBUG",
-        )
-
-        device_uuid_list = self.get_device_uuids(
-            site_name, device_family, device_role, device_series_name
-        )
-
-        self.log(
-            "Initial device UUIDs retrieved for distribution: {0}".format(
-                device_uuid_list
-            ),
-            "DEBUG",
-        )
-        if device_tag:
-            device_uuid_list = self.filter_device_uuids_by_tag(
-                device_uuid_list, device_tag
-            )
-            self.log(
-                "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
-                "DEBUG",
-            )
 
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
+
+        # A specific device (IP/hostname/serial/MAC) takes precedence over site filters.
+        if activation_device_id:
+            device_uuid_list = []
+            self.log(
+                "Specific device (ID: {0}) provided; skipping site-wide device enumeration.".format(activation_device_id),
+                "DEBUG",
+            )
+        else:
+            self.log(
+                "Fetching device UUIDs for site '{0}', family '{1}', role '{2}', and series '{3}'.".format(
+                    site_name, device_family, device_role, device_series_name
+                ),
+                "DEBUG",
+            )
+            device_uuid_list = self.get_device_uuids(
+                site_name, device_family, device_role, device_series_name
+            )
+            self.log(
+                "Initial device UUIDs retrieved for activation: {0}".format(device_uuid_list),
+                "DEBUG",
+            )
+            if device_tag:
+                device_uuid_list = self.filter_device_uuids_by_tag(
+                    device_uuid_list, device_tag
+                )
+                self.log(
+                    "Retrieved device UUIDs for activation: {0}".format(device_uuid_list),
+                    "DEBUG",
+                )
+
         device_ip = self.get_device_ip_from_id(activation_device_id)
         image_name = self.want.get("activation_details").get("image_name")
         sub_package_images = self.want.get("activation_details").get(
@@ -4932,6 +4973,14 @@ class Swim(CatalystCenterBase):
                             failed_activation_list.append(image_name)
                             self.log(failed_msg, "ERROR")
                             break
+
+                        self.log(
+                            "Activation task '{0}' still in progress; next poll in {1} seconds.".format(
+                                task_id, self.swim_poll_interval
+                            ),
+                            "DEBUG",
+                        )
+                        time.sleep(self.swim_poll_interval)
 
             # NEW FLOW (for Catalyst Center >= 3.1.3.0)
             else:
@@ -5456,6 +5505,14 @@ class Swim(CatalystCenterBase):
 
             self.log("Progress is {0} for task ID: {1}"
                      .format(task_status, task_id), "DEBUG")
+
+            self.log(
+                "Task '{0}' still in progress; next poll in {1} seconds.".format(
+                    task_id, self.swim_poll_interval
+                ),
+                "DEBUG",
+            )
+            time.sleep(self.swim_poll_interval)
 
     def check_swim_tasks_response_status(self, response, api_name):
         """Monitor a SWIM task and update the shared workflow status."""
@@ -6218,6 +6275,8 @@ def main():
                     'config_verify': {'type': 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200, "aliases": ["dnac_api_task_timeout"]},
                     'catalystcenter_task_poll_interval': {'type': 'int', "default": 2, "aliases": ["dnac_task_poll_interval"]},
+                    'distribution_poll_interval': {'type': 'int', "default": 30},
+                    'activation_poll_interval': {'type': 'int', "default": 30},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
