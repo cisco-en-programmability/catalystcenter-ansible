@@ -110,19 +110,16 @@ jobs:
             echo "Running targeted sanity tests on $file_count files..."
             ansible-test sanity --docker -v --color yes $testable_files
           else
-            # A large changeset here pays the same per-file ansible.*/
-            # ansible_collections.* reimport cost that made full devel runs
-            # hang and climb past 3GB of memory on this collection (traced
-            # with py-spy to ansible.constants re-parsing its own config
-            # YAML on every file). --skip-test import avoids the one test
-            # category confirmed to trigger it, while still running
-            # everything else (pep8, pylint, validate-modules, compile,
-            # no-smart-quotes, etc). If it still times out, compile is the
-            # next thing to try skipping here.
-            echo "Large changeset ($file_count files). Running full sanity tests (skipping import)..."
+            # The full suite runs every test, import included. The action
+            # plugins defer their ansible-core imports (PEP 562 __getattr__ in
+            # plugins/action/*.py), so the import test no longer re-executes
+            # the ansible-core import graph once per file. The keepalive and
+            # the timeout stay: a full-collection run is still long enough for
+            # the runner to look idle.
+            echo "Large changeset ($file_count files). Running full sanity tests..."
             while true; do echo "Sanity tests still running..."; sleep 60; done &
             KEEPALIVE_PID=$!
-            timeout 55m ansible-test sanity --docker -v --color --skip-test import
+            timeout 55m ansible-test sanity --docker -v --color
             EXIT_CODE=$?
             kill $KEEPALIVE_PID 2>/dev/null
             exit $EXIT_CODE

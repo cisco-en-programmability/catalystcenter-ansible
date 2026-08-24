@@ -7,333 +7,351 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from ansible.plugins.action import ActionBase
-
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
-from ansible.errors import AnsibleActionFail
-from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK,
-    catalystcenter_argument_spec,
-    catalystcenter_compare_equality,
-    get_dict_result,
-)
-from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
-)
-
-# Get common arguments specification
-argument_spec = catalystcenter_argument_spec()
-# Add arguments specific for this module
-argument_spec.update(
-    dict(
-        state=dict(type="str", default="present", choices=["present", "absent"]),
-        id=dict(type="str"),
-        type=dict(type="str"),
-        description=dict(type="str"),
-        username=dict(type="str"),
-        password=dict(type="str", no_log=True),
-        enablePassword=dict(type="str", no_log=True),
-        readCommunity=dict(type="str"),
-        writeCommunity=dict(type="str"),
-        mode=dict(type="str"),
-        authType=dict(type="str"),
-        authPassword=dict(type="str", no_log=True),
-        privacyType=dict(type="str"),
-        privacyPassword=dict(type="str", no_log=True),
-        port=dict(type="str"),
-        protocol=dict(type="str"),
-    )
-)
-
-required_if = [
-    ("state", "present", ["id"], True),
-    ("state", "absent", ["id"], True),
-]
-required_one_of = []
-mutually_exclusive = []
-required_together = []
 
 
-class GlobalCredentials(object):
-    def __init__(self, params, catalystcenter):
-        self.catalystcenter = catalystcenter
-        self.new_object = dict(
-            id=params.get("id"),
-            type=params.get("type"),
-            description=params.get("description"),
-            username=params.get("username"),
-            password=params.get("password"),
-            enablePassword=params.get("enablePassword"),
-            readCommunity=params.get("readCommunity"),
-            writeCommunity=params.get("writeCommunity"),
-            mode=params.get("mode"),
-            authType=params.get("authType"),
-            authPassword=params.get("authPassword"),
-            privacyType=params.get("privacyType"),
-            privacyPassword=params.get("privacyPassword"),
-            port=params.get("port"),
-            protocol=params.get("protocol"),
+def _build_action_module():
+    from ansible.plugins.action import ActionBase
+
+    try:
+        from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+            AnsibleArgSpecValidator,
         )
+    except ImportError:
+        ANSIBLE_UTILS_IS_INSTALLED = False
+    else:
+        ANSIBLE_UTILS_IS_INSTALLED = True
+    from ansible.errors import AnsibleActionFail
+    from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
+        CatalystCenterSDK,
+        catalystcenter_argument_spec,
+        catalystcenter_compare_equality,
+        get_dict_result,
+    )
+    from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
+        InconsistentParameters,
+    )
 
-    def get_all_params(self, name=None, id=None):
-        new_object_params = {}
-        new_object_params["id"] = id or self.new_object.get("id")
-        new_object_params["type"] = self.new_object.get("type")
-        new_object_params["offset"] = self.new_object.get("offset")
-        new_object_params["limit"] = self.new_object.get("limit")
-        new_object_params["sort_by"] = self.new_object.get(
-            "sortBy"
-        ) or self.new_object.get("sort_by")
-        new_object_params["order"] = self.new_object.get("order")
-        return new_object_params
+    # Get common arguments specification
+    argument_spec = catalystcenter_argument_spec()
+    # Add arguments specific for this module
+    argument_spec.update(
+        dict(
+            state=dict(type="str", default="present", choices=["present", "absent"]),
+            id=dict(type="str"),
+            type=dict(type="str"),
+            description=dict(type="str"),
+            username=dict(type="str"),
+            password=dict(type="str", no_log=True),
+            enablePassword=dict(type="str", no_log=True),
+            readCommunity=dict(type="str"),
+            writeCommunity=dict(type="str"),
+            mode=dict(type="str"),
+            authType=dict(type="str"),
+            authPassword=dict(type="str", no_log=True),
+            privacyType=dict(type="str"),
+            privacyPassword=dict(type="str", no_log=True),
+            port=dict(type="str"),
+            protocol=dict(type="str"),
+        )
+    )
 
-    def create_params(self):
-        new_object_params = {}
-        new_object_params["id"] = self.new_object.get("id")
-        new_object_params["type"] = self.new_object.get("type")
-        new_object_params["description"] = self.new_object.get("description")
-        new_object_params["username"] = self.new_object.get("username")
-        new_object_params["password"] = self.new_object.get("password")
-        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
-        new_object_params["readCommunity"] = self.new_object.get("readCommunity")
-        new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
-        new_object_params["mode"] = self.new_object.get("mode")
-        new_object_params["authType"] = self.new_object.get("authType")
-        new_object_params["authPassword"] = self.new_object.get("authPassword")
-        new_object_params["privacyType"] = self.new_object.get("privacyType")
-        new_object_params["privacyPassword"] = self.new_object.get("privacyPassword")
-        new_object_params["port"] = self.new_object.get("port")
-        new_object_params["protocol"] = self.new_object.get("protocol")
-        return new_object_params
+    required_if = [
+        ("state", "present", ["id"], True),
+        ("state", "absent", ["id"], True),
+    ]
+    required_one_of = []
+    mutually_exclusive = []
+    required_together = []
 
-    def delete_by_id_params(self):
-        new_object_params = {}
-        new_object_params["id"] = self.new_object.get("id")
-        return new_object_params
-
-    def update_by_id_params(self):
-        new_object_params = {}
-        new_object_params["id"] = self.new_object.get("id")
-        new_object_params["type"] = self.new_object.get("type")
-        new_object_params["description"] = self.new_object.get("description")
-        new_object_params["username"] = self.new_object.get("username")
-        new_object_params["password"] = self.new_object.get("password")
-        new_object_params["enablePassword"] = self.new_object.get("enablePassword")
-        new_object_params["readCommunity"] = self.new_object.get("readCommunity")
-        new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
-        new_object_params["mode"] = self.new_object.get("mode")
-        new_object_params["authType"] = self.new_object.get("authType")
-        new_object_params["authPassword"] = self.new_object.get("authPassword")
-        new_object_params["privacyType"] = self.new_object.get("privacyType")
-        new_object_params["privacyPassword"] = self.new_object.get("privacyPassword")
-        new_object_params["port"] = self.new_object.get("port")
-        new_object_params["protocol"] = self.new_object.get("protocol")
-        return new_object_params
-
-    def get_object_by_name(self, name):
-        result = None
-        # NOTE: Does not have a get by name method or it is in another action
-        try:
-            items = self.catalystcenter.exec(
-                family="network_settings",
-                function="retrieves_global_credentials",
-                params=self.get_all_params(name=name),
+    class GlobalCredentials(object):
+        def __init__(self, params, catalystcenter):
+            self.catalystcenter = catalystcenter
+            self.new_object = dict(
+                id=params.get("id"),
+                type=params.get("type"),
+                description=params.get("description"),
+                username=params.get("username"),
+                password=params.get("password"),
+                enablePassword=params.get("enablePassword"),
+                readCommunity=params.get("readCommunity"),
+                writeCommunity=params.get("writeCommunity"),
+                mode=params.get("mode"),
+                authType=params.get("authType"),
+                authPassword=params.get("authPassword"),
+                privacyType=params.get("privacyType"),
+                privacyPassword=params.get("privacyPassword"),
+                port=params.get("port"),
+                protocol=params.get("protocol"),
             )
-            if isinstance(items, dict):
-                if "response" in items:
-                    items = items.get("response")
-            result = get_dict_result(items, "name", name)
-        except Exception:
-            result = None
-        return result
 
-    def get_object_by_id(self, id):
-        result = None
-        try:
-            items = self.catalystcenter.exec(
-                family="network_settings",
-                function="get_details_of_a_single_global_credential",
-                params={"id": id},
+        def get_all_params(self, name=None, id=None):
+            new_object_params = {}
+            new_object_params["id"] = id or self.new_object.get("id")
+            new_object_params["type"] = self.new_object.get("type")
+            new_object_params["offset"] = self.new_object.get("offset")
+            new_object_params["limit"] = self.new_object.get("limit")
+            new_object_params["sort_by"] = self.new_object.get(
+                "sortBy"
+            ) or self.new_object.get("sort_by")
+            new_object_params["order"] = self.new_object.get("order")
+            return new_object_params
+
+        def create_params(self):
+            new_object_params = {}
+            new_object_params["id"] = self.new_object.get("id")
+            new_object_params["type"] = self.new_object.get("type")
+            new_object_params["description"] = self.new_object.get("description")
+            new_object_params["username"] = self.new_object.get("username")
+            new_object_params["password"] = self.new_object.get("password")
+            new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+            new_object_params["readCommunity"] = self.new_object.get("readCommunity")
+            new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
+            new_object_params["mode"] = self.new_object.get("mode")
+            new_object_params["authType"] = self.new_object.get("authType")
+            new_object_params["authPassword"] = self.new_object.get("authPassword")
+            new_object_params["privacyType"] = self.new_object.get("privacyType")
+            new_object_params["privacyPassword"] = self.new_object.get(
+                "privacyPassword"
             )
-            if isinstance(items, dict):
-                if "response" in items:
-                    items = items.get("response")
-            result = get_dict_result(items, "id", id)
-        except Exception:
-            result = None
-        return result
+            new_object_params["port"] = self.new_object.get("port")
+            new_object_params["protocol"] = self.new_object.get("protocol")
+            return new_object_params
 
-    def exists(self):
-        id_exists = False
-        name_exists = False
-        prev_obj = None
-        o_id = self.new_object.get("id")
-        name = self.new_object.get("name")
-        if o_id:
-            prev_obj = self.get_object_by_id(o_id)
-            id_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if not id_exists and name:
-            prev_obj = self.get_object_by_name(name)
-            name_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        if name_exists:
-            _id = prev_obj.get("id")
-            if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object"
+        def delete_by_id_params(self):
+            new_object_params = {}
+            new_object_params["id"] = self.new_object.get("id")
+            return new_object_params
+
+        def update_by_id_params(self):
+            new_object_params = {}
+            new_object_params["id"] = self.new_object.get("id")
+            new_object_params["type"] = self.new_object.get("type")
+            new_object_params["description"] = self.new_object.get("description")
+            new_object_params["username"] = self.new_object.get("username")
+            new_object_params["password"] = self.new_object.get("password")
+            new_object_params["enablePassword"] = self.new_object.get("enablePassword")
+            new_object_params["readCommunity"] = self.new_object.get("readCommunity")
+            new_object_params["writeCommunity"] = self.new_object.get("writeCommunity")
+            new_object_params["mode"] = self.new_object.get("mode")
+            new_object_params["authType"] = self.new_object.get("authType")
+            new_object_params["authPassword"] = self.new_object.get("authPassword")
+            new_object_params["privacyType"] = self.new_object.get("privacyType")
+            new_object_params["privacyPassword"] = self.new_object.get(
+                "privacyPassword"
+            )
+            new_object_params["port"] = self.new_object.get("port")
+            new_object_params["protocol"] = self.new_object.get("protocol")
+            return new_object_params
+
+        def get_object_by_name(self, name):
+            result = None
+            # NOTE: Does not have a get by name method or it is in another action
+            try:
+                items = self.catalystcenter.exec(
+                    family="network_settings",
+                    function="retrieves_global_credentials",
+                    params=self.get_all_params(name=name),
                 )
-            if _id:
-                self.new_object.update(dict(id=_id))
-            if _id:
-                prev_obj = self.get_object_by_id(_id)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict)
-        return (it_exists, prev_obj)
+                if isinstance(items, dict):
+                    if "response" in items:
+                        items = items.get("response")
+                result = get_dict_result(items, "name", name)
+            except Exception:
+                result = None
+            return result
 
-    def requires_update(self, current_obj):
-        requested_obj = self.new_object
+        def get_object_by_id(self, id):
+            result = None
+            try:
+                items = self.catalystcenter.exec(
+                    family="network_settings",
+                    function="get_details_of_a_single_global_credential",
+                    params={"id": id},
+                )
+                if isinstance(items, dict):
+                    if "response" in items:
+                        items = items.get("response")
+                result = get_dict_result(items, "id", id)
+            except Exception:
+                result = None
+            return result
 
-        obj_params = [
-            ("id", "id"),
-            ("type", "type"),
-            ("description", "description"),
-            ("username", "username"),
-            ("enablePassword", "enablePassword"),
-            ("readCommunity", "readCommunity"),
-            ("writeCommunity", "writeCommunity"),
-            ("mode", "mode"),
-            ("authType", "authType"),
-            ("authPassword", "authPassword"),
-            ("privacyType", "privacyType"),
-            ("privacyPassword", "privacyPassword"),
-            ("port", "port"),
-            ("protocol", "protocol"),
-        ]
-        # If any does not have eq params, it requires update
-        return any(
-            not catalystcenter_compare_equality(
-                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
+        def exists(self):
+            id_exists = False
+            name_exists = False
+            prev_obj = None
+            o_id = self.new_object.get("id")
+            name = self.new_object.get("name")
+            if o_id:
+                prev_obj = self.get_object_by_id(o_id)
+                id_exists = prev_obj is not None and isinstance(prev_obj, dict)
+            if not id_exists and name:
+                prev_obj = self.get_object_by_name(name)
+                name_exists = prev_obj is not None and isinstance(prev_obj, dict)
+            if name_exists:
+                _id = prev_obj.get("id")
+                if id_exists and name_exists and o_id != _id:
+                    raise InconsistentParameters(
+                        "The 'id' and 'name' params don't refer to the same object"
+                    )
+                if _id:
+                    self.new_object.update(dict(id=_id))
+                if _id:
+                    prev_obj = self.get_object_by_id(_id)
+            it_exists = prev_obj is not None and isinstance(prev_obj, dict)
+            return (it_exists, prev_obj)
+
+        def requires_update(self, current_obj):
+            requested_obj = self.new_object
+
+            obj_params = [
+                ("id", "id"),
+                ("type", "type"),
+                ("description", "description"),
+                ("username", "username"),
+                ("enablePassword", "enablePassword"),
+                ("readCommunity", "readCommunity"),
+                ("writeCommunity", "writeCommunity"),
+                ("mode", "mode"),
+                ("authType", "authType"),
+                ("authPassword", "authPassword"),
+                ("privacyType", "privacyType"),
+                ("privacyPassword", "privacyPassword"),
+                ("port", "port"),
+                ("protocol", "protocol"),
+            ]
+            # If any does not have eq params, it requires update
+            return any(
+                not catalystcenter_compare_equality(
+                    current_obj.get(catalystcenter_param),
+                    requested_obj.get(ansible_param),
+                )
+                for (catalystcenter_param, ansible_param) in obj_params
             )
-            for (catalystcenter_param, ansible_param) in obj_params
-        )
 
-    def create(self):
-        result = self.catalystcenter.exec(
-            family="network_settings",
-            function="adds_new_global_credential",
-            params=self.create_params(),
-            op_modifies=True,
-        )
-        return result
-
-    def update(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
-        result = None
-        if not id:
-            prev_obj_name = self.get_object_by_name(name)
-            id_ = None
-            if prev_obj_name:
-                id_ = prev_obj_name.get("id")
-            if id_:
-                self.new_object.update(dict(id=id_))
-        result = self.catalystcenter.exec(
-            family="network_settings",
-            function="update_global_credential_by_the_given_identifer",
-            params=self.update_by_id_params(),
-            op_modifies=True,
-        )
-        return result
-
-    def delete(self):
-        id = self.new_object.get("id")
-        name = self.new_object.get("name")
-        result = None
-        if not id:
-            prev_obj_name = self.get_object_by_name(name)
-            id_ = None
-            if prev_obj_name:
-                id_ = prev_obj_name.get("id")
-            if id_:
-                self.new_object.update(dict(id=id_))
-        result = self.catalystcenter.exec(
-            family="network_settings",
-            function="delete_global_credential_by_the_given_identifier",
-            params=self.delete_by_id_params(),
-        )
-        return result
-
-
-class ActionModule(ActionBase):
-    def __init__(self, *args, **kwargs):
-        if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+        def create(self):
+            result = self.catalystcenter.exec(
+                family="network_settings",
+                function="adds_new_global_credential",
+                params=self.create_params(),
+                op_modifies=True,
             )
-        super(ActionModule, self).__init__(*args, **kwargs)
-        self._supports_async = False
-        self._supports_check_mode = False
-        self._result = None
+            return result
 
-    # Checks the supplied parameters against the argument spec for this module
-    def _check_argspec(self):
-        aav = AnsibleArgSpecValidator(
-            data=self._task.args,
-            schema=dict(argument_spec=argument_spec),
-            schema_format="argspec",
-            schema_conditionals=dict(
-                required_if=required_if,
-                required_one_of=required_one_of,
-                mutually_exclusive=mutually_exclusive,
-                required_together=required_together,
-            ),
-            name=self._task.action,
-        )
-        valid, errors, self._task.args = aav.validate()
-        if not valid:
-            raise AnsibleActionFail(errors)
+        def update(self):
+            id = self.new_object.get("id")
+            name = self.new_object.get("name")
+            result = None
+            if not id:
+                prev_obj_name = self.get_object_by_name(name)
+                id_ = None
+                if prev_obj_name:
+                    id_ = prev_obj_name.get("id")
+                if id_:
+                    self.new_object.update(dict(id=id_))
+            result = self.catalystcenter.exec(
+                family="network_settings",
+                function="update_global_credential_by_the_given_identifer",
+                params=self.update_by_id_params(),
+                op_modifies=True,
+            )
+            return result
 
-    def run(self, tmp=None, task_vars=None):
-        self._task.diff = False
-        self._result = super(ActionModule, self).run(tmp, task_vars)
-        self._result["changed"] = False
-        self._check_argspec()
+        def delete(self):
+            id = self.new_object.get("id")
+            name = self.new_object.get("name")
+            result = None
+            if not id:
+                prev_obj_name = self.get_object_by_name(name)
+                id_ = None
+                if prev_obj_name:
+                    id_ = prev_obj_name.get("id")
+                if id_:
+                    self.new_object.update(dict(id=id_))
+            result = self.catalystcenter.exec(
+                family="network_settings",
+                function="delete_global_credential_by_the_given_identifier",
+                params=self.delete_by_id_params(),
+            )
+            return result
 
-        catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = GlobalCredentials(self._task.args, catalystcenter)
+    class ActionModule(ActionBase):
+        def __init__(self, *args, **kwargs):
+            if not ANSIBLE_UTILS_IS_INSTALLED:
+                raise AnsibleActionFail(
+                    "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+                )
+            super(ActionModule, self).__init__(*args, **kwargs)
+            self._supports_async = False
+            self._supports_check_mode = False
+            self._result = None
 
-        state = self._task.args.get("state")
+        # Checks the supplied parameters against the argument spec for this module
+        def _check_argspec(self):
+            aav = AnsibleArgSpecValidator(
+                data=self._task.args,
+                schema=dict(argument_spec=argument_spec),
+                schema_format="argspec",
+                schema_conditionals=dict(
+                    required_if=required_if,
+                    required_one_of=required_one_of,
+                    mutually_exclusive=mutually_exclusive,
+                    required_together=required_together,
+                ),
+                name=self._task.action,
+            )
+            valid, errors, self._task.args = aav.validate()
+            if not valid:
+                raise AnsibleActionFail(errors)
 
-        response = None
+        def run(self, tmp=None, task_vars=None):
+            self._task.diff = False
+            self._result = super(ActionModule, self).run(tmp, task_vars)
+            self._result["changed"] = False
+            self._check_argspec()
 
-        if state == "present":
-            obj_exists, prev_obj = obj.exists()
-            if obj_exists:
-                if obj.requires_update(prev_obj):
-                    response = obj.update()
-                    catalystcenter.object_updated()
+            catalystcenter = CatalystCenterSDK(self._task.args)
+            obj = GlobalCredentials(self._task.args, catalystcenter)
+
+            state = self._task.args.get("state")
+
+            response = None
+
+            if state == "present":
+                obj_exists, prev_obj = obj.exists()
+                if obj_exists:
+                    if obj.requires_update(prev_obj):
+                        response = obj.update()
+                        catalystcenter.object_updated()
+                    else:
+                        response = prev_obj
+                        catalystcenter.object_already_present()
                 else:
-                    response = prev_obj
-                    catalystcenter.object_already_present()
-            else:
-                response = obj.create()
-                catalystcenter.object_created()
+                    response = obj.create()
+                    catalystcenter.object_created()
 
-        elif state == "absent":
-            obj_exists, prev_obj = obj.exists()
-            if obj_exists:
-                response = obj.delete()
-                catalystcenter.object_deleted()
-            else:
-                catalystcenter.object_already_absent()
+            elif state == "absent":
+                obj_exists, prev_obj = obj.exists()
+                if obj_exists:
+                    response = obj.delete()
+                    catalystcenter.object_deleted()
+                else:
+                    catalystcenter.object_already_absent()
 
-        self._result.update(
-            dict(catalystcenter_response=response, dnac_response=response)
-        )
-        self._result.update(catalystcenter.exit_json())
-        return self._result
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
+            self._result.update(catalystcenter.exit_json())
+            return self._result
+
+    return ActionModule
+
+
+def __getattr__(name):
+    # PEP 562: ActionModule is built on first access. See
+    # tests/unit/plugins/action/test_action_plugins_loadable.py
+    if name == "ActionModule":
+        cls = _build_action_module()
+        globals()["ActionModule"] = cls
+        return cls
+    raise AttributeError(name)

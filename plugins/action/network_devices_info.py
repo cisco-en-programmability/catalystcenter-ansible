@@ -7,156 +7,170 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from ansible.plugins.action import ActionBase
-
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
-from ansible.errors import AnsibleActionFail
-from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK,
-    catalystcenter_argument_spec,
-)
-
-# Get common arguments specification
-argument_spec = catalystcenter_argument_spec()
-# Add arguments specific for this module
-argument_spec.update(
-    dict(
-        id=dict(type="str"),
-        startTime=dict(type="float"),
-        endTime=dict(type="float"),
-        view=dict(type="str"),
-        attribute=dict(type="str"),
-        limit=dict(type="int"),
-        offset=dict(type="int"),
-        sortBy=dict(type="str"),
-        order=dict(type="str"),
-        siteHierarchy=dict(type="str"),
-        siteHierarchyId=dict(type="str"),
-        siteId=dict(type="str"),
-        managementIpAddress=dict(type="str"),
-        macAddress=dict(type="str"),
-        family=dict(type="str"),
-        type=dict(type="str"),
-        role=dict(type="str"),
-        serialNumber=dict(type="str"),
-        maintenanceMode=dict(type="bool"),
-        softwareVersion=dict(type="str"),
-        healthScore=dict(type="str"),
-        fabricSiteId=dict(type="str"),
-        l2Vn=dict(type="str"),
-        l3Vn=dict(type="str"),
-        transitNetworkId=dict(type="str"),
-        fabricRole=dict(type="str"),
-        secureMode=dict(type="str"),
-        headers=dict(type="dict"),
-    )
-)
-
-required_if = []
-required_one_of = []
-mutually_exclusive = []
-required_together = []
 
 
-class ActionModule(ActionBase):
-    def __init__(self, *args, **kwargs):
-        if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
-            )
-        super(ActionModule, self).__init__(*args, **kwargs)
-        self._supports_async = False
-        self._supports_check_mode = True
-        self._result = None
+def _build_action_module():
+    from ansible.plugins.action import ActionBase
 
-    # Checks the supplied parameters against the argument spec for this module
-    def _check_argspec(self):
-        aav = AnsibleArgSpecValidator(
-            data=self._task.args,
-            schema=dict(argument_spec=argument_spec),
-            schema_format="argspec",
-            schema_conditionals=dict(
-                required_if=required_if,
-                required_one_of=required_one_of,
-                mutually_exclusive=mutually_exclusive,
-                required_together=required_together,
-            ),
-            name=self._task.action,
+    try:
+        from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+            AnsibleArgSpecValidator,
         )
-        valid, errors, self._task.args = aav.validate()
-        if not valid:
-            raise AnsibleActionFail(errors)
+    except ImportError:
+        ANSIBLE_UTILS_IS_INSTALLED = False
+    else:
+        ANSIBLE_UTILS_IS_INSTALLED = True
+    from ansible.errors import AnsibleActionFail
+    from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
+        CatalystCenterSDK,
+        catalystcenter_argument_spec,
+    )
 
-    def get_object(self, params):
-        new_object = dict(
-            id=params.get("id"),
-            start_time=params.get("startTime"),
-            end_time=params.get("endTime"),
-            view=params.get("view"),
-            attribute=params.get("attribute"),
-            limit=params.get("limit"),
-            offset=params.get("offset"),
-            sort_by=params.get("sortBy"),
-            order=params.get("order"),
-            site_hierarchy=params.get("siteHierarchy"),
-            site_hierarchy_id=params.get("siteHierarchyId"),
-            site_id=params.get("siteId"),
-            management_ip_address=params.get("managementIpAddress"),
-            mac_address=params.get("macAddress"),
-            family=params.get("family"),
-            type=params.get("type"),
-            role=params.get("role"),
-            serial_number=params.get("serialNumber"),
-            maintenance_mode=params.get("maintenanceMode"),
-            software_version=params.get("softwareVersion"),
-            health_score=params.get("healthScore"),
-            fabric_site_id=params.get("fabricSiteId"),
-            l2_vn=params.get("l2Vn"),
-            l3_vn=params.get("l3Vn"),
-            transit_network_id=params.get("transitNetworkId"),
-            fabric_role=params.get("fabricRole"),
-            secure_mode=params.get("secureMode"),
-            headers=params.get("headers"),
+    # Get common arguments specification
+    argument_spec = catalystcenter_argument_spec()
+    # Add arguments specific for this module
+    argument_spec.update(
+        dict(
+            id=dict(type="str"),
+            startTime=dict(type="float"),
+            endTime=dict(type="float"),
+            view=dict(type="str"),
+            attribute=dict(type="str"),
+            limit=dict(type="int"),
+            offset=dict(type="int"),
+            sortBy=dict(type="str"),
+            order=dict(type="str"),
+            siteHierarchy=dict(type="str"),
+            siteHierarchyId=dict(type="str"),
+            siteId=dict(type="str"),
+            managementIpAddress=dict(type="str"),
+            macAddress=dict(type="str"),
+            family=dict(type="str"),
+            type=dict(type="str"),
+            role=dict(type="str"),
+            serialNumber=dict(type="str"),
+            maintenanceMode=dict(type="bool"),
+            softwareVersion=dict(type="str"),
+            healthScore=dict(type="str"),
+            fabricSiteId=dict(type="str"),
+            l2Vn=dict(type="str"),
+            l3Vn=dict(type="str"),
+            transitNetworkId=dict(type="str"),
+            fabricRole=dict(type="str"),
+            secureMode=dict(type="str"),
+            headers=dict(type="dict"),
         )
-        return new_object
+    )
 
-    def run(self, tmp=None, task_vars=None):
-        self._task.diff = False
-        self._result = super(ActionModule, self).run(tmp, task_vars)
-        self._result["changed"] = False
-        self._check_argspec()
+    required_if = []
+    required_one_of = []
+    mutually_exclusive = []
+    required_together = []
 
-        self._result.update(dict(catalystcenter_response={}, dnac_response={}))
+    class ActionModule(ActionBase):
+        def __init__(self, *args, **kwargs):
+            if not ANSIBLE_UTILS_IS_INSTALLED:
+                raise AnsibleActionFail(
+                    "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+                )
+            super(ActionModule, self).__init__(*args, **kwargs)
+            self._supports_async = False
+            self._supports_check_mode = True
+            self._result = None
 
-        catalystcenter = CatalystCenterSDK(params=self._task.args)
+        # Checks the supplied parameters against the argument spec for this module
+        def _check_argspec(self):
+            aav = AnsibleArgSpecValidator(
+                data=self._task.args,
+                schema=dict(argument_spec=argument_spec),
+                schema_format="argspec",
+                schema_conditionals=dict(
+                    required_if=required_if,
+                    required_one_of=required_one_of,
+                    mutually_exclusive=mutually_exclusive,
+                    required_together=required_together,
+                ),
+                name=self._task.action,
+            )
+            valid, errors, self._task.args = aav.validate()
+            if not valid:
+                raise AnsibleActionFail(errors)
 
-        id = self._task.args.get("id")
-        if id:
-            response = catalystcenter.exec(
-                family="devices",
-                function="get_the_device_data_for_the_given_device_id_uuid",
-                params=self.get_object(self._task.args),
+        def get_object(self, params):
+            new_object = dict(
+                id=params.get("id"),
+                start_time=params.get("startTime"),
+                end_time=params.get("endTime"),
+                view=params.get("view"),
+                attribute=params.get("attribute"),
+                limit=params.get("limit"),
+                offset=params.get("offset"),
+                sort_by=params.get("sortBy"),
+                order=params.get("order"),
+                site_hierarchy=params.get("siteHierarchy"),
+                site_hierarchy_id=params.get("siteHierarchyId"),
+                site_id=params.get("siteId"),
+                management_ip_address=params.get("managementIpAddress"),
+                mac_address=params.get("macAddress"),
+                family=params.get("family"),
+                type=params.get("type"),
+                role=params.get("role"),
+                serial_number=params.get("serialNumber"),
+                maintenance_mode=params.get("maintenanceMode"),
+                software_version=params.get("softwareVersion"),
+                health_score=params.get("healthScore"),
+                fabric_site_id=params.get("fabricSiteId"),
+                l2_vn=params.get("l2Vn"),
+                l3_vn=params.get("l3Vn"),
+                transit_network_id=params.get("transitNetworkId"),
+                fabric_role=params.get("fabricRole"),
+                secure_mode=params.get("secureMode"),
+                headers=params.get("headers"),
             )
-            self._result.update(
-                dict(catalystcenter_response=response, dnac_response=response)
-            )
-            self._result.update(catalystcenter.exit_json())
-            return self._result
-        if not id:
-            response = catalystcenter.exec(
-                family="devices",
-                function="gets_the_network_device_details_based_on_the_provided_query_parameters",
-                params=self.get_object(self._task.args),
-            )
-            self._result.update(
-                dict(catalystcenter_response=response, dnac_response=response)
-            )
-            self._result.update(catalystcenter.exit_json())
-            return self._result
+            return new_object
+
+        def run(self, tmp=None, task_vars=None):
+            self._task.diff = False
+            self._result = super(ActionModule, self).run(tmp, task_vars)
+            self._result["changed"] = False
+            self._check_argspec()
+
+            self._result.update(dict(catalystcenter_response={}, dnac_response={}))
+
+            catalystcenter = CatalystCenterSDK(params=self._task.args)
+
+            id = self._task.args.get("id")
+            if id:
+                response = catalystcenter.exec(
+                    family="devices",
+                    function="get_the_device_data_for_the_given_device_id_uuid",
+                    params=self.get_object(self._task.args),
+                )
+                self._result.update(
+                    dict(catalystcenter_response=response, dnac_response=response)
+                )
+                self._result.update(catalystcenter.exit_json())
+                return self._result
+            if not id:
+                response = catalystcenter.exec(
+                    family="devices",
+                    function="gets_the_network_device_details_based_on_the_provided_query_parameters",
+                    params=self.get_object(self._task.args),
+                )
+                self._result.update(
+                    dict(catalystcenter_response=response, dnac_response=response)
+                )
+                self._result.update(catalystcenter.exit_json())
+                return self._result
+
+    return ActionModule
+
+
+def __getattr__(name):
+    # PEP 562: ActionModule is built on first access. See
+    # tests/unit/plugins/action/test_action_plugins_loadable.py
+    if name == "ActionModule":
+        cls = _build_action_module()
+        globals()["ActionModule"] = cls
+        return cls
+    raise AttributeError(name)

@@ -7,118 +7,132 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-from ansible.plugins.action import ActionBase
-
-try:
-    from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
-except ImportError:
-    ANSIBLE_UTILS_IS_INSTALLED = False
-else:
-    ANSIBLE_UTILS_IS_INSTALLED = True
-from ansible.errors import AnsibleActionFail
-from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK,
-    catalystcenter_argument_spec,
-)
-
-# Get common arguments specification
-argument_spec = catalystcenter_argument_spec()
-# Add arguments specific for this module
-argument_spec.update(
-    dict(
-        networkDeviceId=dict(type="str"),
-        startTime=dict(type="int"),
-        endTime=dict(type="int"),
-        limit=dict(type="int"),
-        offset=dict(type="int"),
-        sortBy=dict(type="str"),
-        order=dict(type="str"),
-        id=dict(type="str"),
-        headers=dict(type="dict"),
-    )
-)
-
-required_if = []
-required_one_of = []
-mutually_exclusive = []
-required_together = []
 
 
-class ActionModule(ActionBase):
-    def __init__(self, *args, **kwargs):
-        if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
-            )
-        super(ActionModule, self).__init__(*args, **kwargs)
-        self._supports_async = False
-        self._supports_check_mode = True
-        self._result = None
+def _build_action_module():
+    from ansible.plugins.action import ActionBase
 
-    # Checks the supplied parameters against the argument spec for this module
-    def _check_argspec(self):
-        aav = AnsibleArgSpecValidator(
-            data=self._task.args,
-            schema=dict(argument_spec=argument_spec),
-            schema_format="argspec",
-            schema_conditionals=dict(
-                required_if=required_if,
-                required_one_of=required_one_of,
-                mutually_exclusive=mutually_exclusive,
-                required_together=required_together,
-            ),
-            name=self._task.action,
+    try:
+        from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+            AnsibleArgSpecValidator,
         )
-        valid, errors, self._task.args = aav.validate()
-        if not valid:
-            raise AnsibleActionFail(errors)
+    except ImportError:
+        ANSIBLE_UTILS_IS_INSTALLED = False
+    else:
+        ANSIBLE_UTILS_IS_INSTALLED = True
+    from ansible.errors import AnsibleActionFail
+    from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
+        CatalystCenterSDK,
+        catalystcenter_argument_spec,
+    )
 
-    def get_object(self, params):
-        new_object = dict(
-            network_device_id=params.get("networkDeviceId"),
-            start_time=params.get("startTime"),
-            end_time=params.get("endTime"),
-            limit=params.get("limit"),
-            offset=params.get("offset"),
-            sort_by=params.get("sortBy"),
-            order=params.get("order"),
-            headers=params.get("headers"),
-            id=params.get("id"),
+    # Get common arguments specification
+    argument_spec = catalystcenter_argument_spec()
+    # Add arguments specific for this module
+    argument_spec.update(
+        dict(
+            networkDeviceId=dict(type="str"),
+            startTime=dict(type="int"),
+            endTime=dict(type="int"),
+            limit=dict(type="int"),
+            offset=dict(type="int"),
+            sortBy=dict(type="str"),
+            order=dict(type="str"),
+            id=dict(type="str"),
+            headers=dict(type="dict"),
         )
-        return new_object
+    )
 
-    def run(self, tmp=None, task_vars=None):
-        self._task.diff = False
-        self._result = super(ActionModule, self).run(tmp, task_vars)
-        self._result["changed"] = False
-        self._check_argspec()
+    required_if = []
+    required_one_of = []
+    mutually_exclusive = []
+    required_together = []
 
-        self._result.update(dict(catalystcenter_response={}, dnac_response={}))
+    class ActionModule(ActionBase):
+        def __init__(self, *args, **kwargs):
+            if not ANSIBLE_UTILS_IS_INSTALLED:
+                raise AnsibleActionFail(
+                    "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+                )
+            super(ActionModule, self).__init__(*args, **kwargs)
+            self._supports_async = False
+            self._supports_check_mode = True
+            self._result = None
 
-        catalystcenter = CatalystCenterSDK(params=self._task.args)
+        # Checks the supplied parameters against the argument spec for this module
+        def _check_argspec(self):
+            aav = AnsibleArgSpecValidator(
+                data=self._task.args,
+                schema=dict(argument_spec=argument_spec),
+                schema_format="argspec",
+                schema_conditionals=dict(
+                    required_if=required_if,
+                    required_one_of=required_one_of,
+                    mutually_exclusive=mutually_exclusive,
+                    required_together=required_together,
+                ),
+                name=self._task.action,
+            )
+            valid, errors, self._task.args = aav.validate()
+            if not valid:
+                raise AnsibleActionFail(errors)
 
-        id = self._task.args.get("id")
-        if id:
-            response = catalystcenter.exec(
-                family="devices",
-                function="retrieves_the_process_kpis_for_a_given_process_of_wireless_controller",
-                params=self.get_object(self._task.args),
+        def get_object(self, params):
+            new_object = dict(
+                network_device_id=params.get("networkDeviceId"),
+                start_time=params.get("startTime"),
+                end_time=params.get("endTime"),
+                limit=params.get("limit"),
+                offset=params.get("offset"),
+                sort_by=params.get("sortBy"),
+                order=params.get("order"),
+                headers=params.get("headers"),
+                id=params.get("id"),
             )
-            self._result.update(
-                dict(catalystcenter_response=response, dnac_response=response)
-            )
-            self._result.update(catalystcenter.exit_json())
-            return self._result
-        if not id:
-            response = catalystcenter.exec(
-                family="devices",
-                function="retrieves_the_list_of_process_cpu_and_memory_kpis_for_a_given_network_device",
-                params=self.get_object(self._task.args),
-            )
-            self._result.update(
-                dict(catalystcenter_response=response, dnac_response=response)
-            )
-            self._result.update(catalystcenter.exit_json())
-            return self._result
+            return new_object
+
+        def run(self, tmp=None, task_vars=None):
+            self._task.diff = False
+            self._result = super(ActionModule, self).run(tmp, task_vars)
+            self._result["changed"] = False
+            self._check_argspec()
+
+            self._result.update(dict(catalystcenter_response={}, dnac_response={}))
+
+            catalystcenter = CatalystCenterSDK(params=self._task.args)
+
+            id = self._task.args.get("id")
+            if id:
+                response = catalystcenter.exec(
+                    family="devices",
+                    function="retrieves_the_process_kpis_for_a_given_process_of_wireless_controller",
+                    params=self.get_object(self._task.args),
+                )
+                self._result.update(
+                    dict(catalystcenter_response=response, dnac_response=response)
+                )
+                self._result.update(catalystcenter.exit_json())
+                return self._result
+            if not id:
+                response = catalystcenter.exec(
+                    family="devices",
+                    function="retrieves_the_list_of_process_cpu_and_memory_kpis_for_a_given_network_device",
+                    params=self.get_object(self._task.args),
+                )
+                self._result.update(
+                    dict(catalystcenter_response=response, dnac_response=response)
+                )
+                self._result.update(catalystcenter.exit_json())
+                return self._result
+
+    return ActionModule
+
+
+def __getattr__(name):
+    # PEP 562: ActionModule is built on first access. See
+    # tests/unit/plugins/action/test_action_plugins_loadable.py
+    if name == "ActionModule":
+        cls = _build_action_module()
+        globals()["ActionModule"] = cls
+        return cls
+    raise AttributeError(name)

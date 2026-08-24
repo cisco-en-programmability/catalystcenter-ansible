@@ -1,0 +1,101 @@
+---
+name: Action plugin tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ (github.head_ref && github.event.number) || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: catalystcenter
+
+jobs:
+  action-plugins:
+    name: Action plugins (Ⓐ${{ matrix.ansible }})
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Same ansible-core / python pairs as the sanity workflow: the
+          # contract this exercises is the plugin loader's, so it has to hold
+          # on every ansible-core the collection supports.
+          - ansible: stable-2.16
+            python: '3.12'
+          - ansible: stable-2.17
+            python: '3.12'
+          - ansible: stable-2.18
+            python: '3.13'
+          - ansible: stable-2.19
+            python: '3.13'
+          - ansible: stable-2.20
+            python: '3.14'
+          - ansible: stable-2.21
+            python: '3.14'
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          path: cisco-en-programmability/catalystcenter-ansible
+          fetch-depth: 1
+
+      - name: Create directory
+        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+
+      - name: Move repository
+        run: mv ./cisco-en-programmability/catalystcenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Set cache date key
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache ansible-core (${{ matrix.ansible }}) install
+        id: ansible_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ansible-${{ matrix.ansible }}-${{ matrix.python }}-${{ steps.date.outputs.today }}
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        if: steps.ansible_cache.outputs.cache-hit != 'true'
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Run action plugin loadable tests
+        run: |
+          # plugins/action/*.py defer their ansible-core imports and their
+          # class body into _build_action_module(), exposed through a PEP 562
+          # module __getattr__. `ansible-test sanity --test import` therefore
+          # only sees their module-level code; this test performs the deferred
+          # imports, builds every ActionModule and instantiates it.
+          #
+          # Kept out of the sanity workflow on purpose: it must report
+          # independently, and it must still run when sanity fails.
+          #
+          # --color needs an explicit value here: without one it swallows the
+          # target path as its argument.
+          ansible-test units --docker -v --color yes \
+            tests/unit/plugins/action/test_action_plugins_loadable.py
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Dump docker logs (if any)
+        if: failure()
+        run: |
+          echo "🧪 Collecting logs from Docker containers..."
+          docker ps -a
+          docker logs $(docker ps -aq --filter name=ansible-test-controller || true) || true

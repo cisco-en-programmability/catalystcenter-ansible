@@ -58,6 +58,7 @@ build_ignore:
   - .vscode
   - .pytest_cache
   - .yamlfmt
+  - .nox
 
   - Dockerfile.ansible-test
   - Makefile
