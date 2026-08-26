@@ -14,6 +14,9 @@
             'source_device_ip': switch_refresh_sda_fabric_edge_migration_mapping.old_management_ip,
             'destination_device_ip':
               switch_refresh_sda_fabric_edge_migration_mapping.new_device_management_ip,
+            'only_mapped_interfaces':
+              switch_refresh_sda_fabric_edge_migration_mapping.only_mapped_interfaces |
+              default(false),
             'interface_mappings':
               switch_refresh_sda_fabric_edge_migration_mapping.port_assignment_interface_mappings
           }
@@ -27,6 +30,9 @@
             'source_device_ip': switch_refresh_sda_fabric_edge_migration_mapping.old_management_ip,
             'destination_device_ip':
               switch_refresh_sda_fabric_edge_migration_mapping.new_device_management_ip,
+            'only_mapped_interfaces':
+              switch_refresh_sda_fabric_edge_migration_mapping.only_mapped_interfaces |
+              default(false),
             'interface_mappings':
               switch_refresh_sda_fabric_edge_migration_mapping.port_channel_interface_mappings
           }

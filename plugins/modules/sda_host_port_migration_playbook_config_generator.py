@@ -28,7 +28,8 @@ description:
 - Supports partial interface remap with C(interface_mappings). Source interfaces
   listed in mappings are remapped only when they exist in the source device's
   extracted port assignments or port channel member interfaces. Unmapped
-  interfaces keep the same interface name.
+  interfaces keep the same interface name unless C(only_mapped_interfaces) is
+  enabled.
 version_added: 6.44.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
@@ -111,8 +112,9 @@ options:
                   exist in the source device port assignment payload.
                 - The module fails when a mapped source interface is not present
                   in the source device port assignment payload.
-                - Source interfaces not listed here keep their original
-                  interface name for 1:1 migration.
+                - When C(only_mapped_interfaces) is C(false), source interfaces
+                  not listed here keep their original interface name for 1:1
+                  migration.
                 type: list
                 elements: dict
                 required: false
@@ -129,6 +131,16 @@ options:
                       assignment payload.
                     type: str
                     required: true
+              only_mapped_interfaces:
+                description:
+                - Controls whether generated port assignments are limited to
+                  source interfaces listed in C(interface_mappings).
+                - When C(true), only mapped interfaces are included.
+                - When C(false), unmapped source interfaces retain their
+                  original interface name for 1:1 migration.
+                type: bool
+                default: false
+                required: false
           port_channels:
             description:
             - Source-to-destination migration filters for SDA host port channels.
@@ -165,8 +177,9 @@ options:
                   exist in the source device port channel member interface list.
                 - The module fails when a mapped source interface is not present
                   in the source device port channel member interface list.
-                - Source interfaces not listed here keep their original
-                  interface name for 1:1 migration.
+                - When C(only_mapped_interfaces) is C(false), source member
+                  interfaces not listed here keep their original interface name
+                  for 1:1 migration.
                 type: list
                 elements: dict
                 required: false
@@ -183,6 +196,16 @@ options:
                       port channel payload.
                     type: str
                     required: true
+              only_mapped_interfaces:
+                description:
+                - Controls whether generated port channel member interfaces are
+                  limited to source interfaces listed in C(interface_mappings).
+                - When C(true), only mapped member interfaces are included.
+                - When C(false), unmapped source member interfaces retain their
+                  original interface name for 1:1 migration.
+                type: bool
+                default: false
+                required: false
 """
 
 EXAMPLES = r"""
@@ -206,6 +229,7 @@ EXAMPLES = r"""
             interface_mappings:
               - source_interface_name: "GigabitEthernet1/0/1"
                 destination_interface_name: "GigabitEthernet1/0/25"
+            only_mapped_interfaces: true
         port_channels:
           - fabric_site_name_hierarchy: "Global/California/23"
             source_device_ip: "10.0.0.1"
@@ -311,9 +335,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                     Required filters are fabric_site_name_hierarchy,
                     source_device_ip, and destination_device_ip. Optional
                     interface_mappings remap selected assignment interfaces.
+                    only_mapped_interfaces limits output to those mappings.
                 - port_channels: Source device port channel migration. Required
                     filters match port_assignments. Optional interface_mappings
-                    remap selected member interfaces.
+                    remap selected member interfaces. only_mapped_interfaces
+                    limits output to those mappings.
 
         Workflow Integration:
             BrownFieldHelper.yaml_config_generator iterates the supported
@@ -334,6 +360,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                             "elements": "dict",
                             "required": False,
                         },
+                        "only_mapped_interfaces": {
+                            "type": "bool",
+                            "default": False,
+                            "required": False,
+                        },
                     },
                     "reverse_mapping_function": self.port_assignments_temp_spec,
                     "api_function": "get_port_assignments",
@@ -348,6 +379,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                         "interface_mappings": {
                             "type": "list",
                             "elements": "dict",
+                            "required": False,
+                        },
+                        "only_mapped_interfaces": {
+                            "type": "bool",
+                            "default": False,
                             "required": False,
                         },
                     },
@@ -579,6 +615,8 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             - Rejects entries where source and destination IPs are identical.
             - Validates interface_mappings as a list of dictionaries with
               source_interface_name and destination_interface_name.
+            - Validates only_mapped_interfaces as a boolean and defaults it to
+              false so existing migration behavior is retained.
             - Rejects duplicate source or destination interface names within one
               mapping list to avoid ambiguous remaps.
         """
@@ -612,6 +650,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             source_device_ip = entry.get("source_device_ip")
             destination_device_ip = entry.get("destination_device_ip")
             interface_mappings = entry.get("interface_mappings") or []
+            only_mapped_interfaces = entry.get("only_mapped_interfaces", False)
 
             for key, value in (
                 ("fabric_site_name_hierarchy", fabric_site),
@@ -642,6 +681,13 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                     )
                 )
                 interface_mappings = []
+
+            if not isinstance(only_mapped_interfaces, bool):
+                validation_errors.append(
+                    "component '{0}' entry {1}: 'only_mapped_interfaces' must be "
+                    "a boolean when provided".format(component_name, index)
+                )
+                only_mapped_interfaces = False
 
             normalized_mappings = []
             source_names = []
@@ -709,6 +755,7 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                     ("fabric_site_name_hierarchy", fabric_site),
                     ("source_device_ip", source_device_ip),
                     ("destination_device_ip", destination_device_ip),
+                    ("only_mapped_interfaces", only_mapped_interfaces),
                 ]
             )
             if normalized_mappings:
@@ -906,10 +953,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 port_assignments from the source device.
 
         Returns:
-            list: Destination port assignment dictionaries. All source
-            assignments are retained. Interfaces listed in interface_mappings are
-            renamed when the source interface exists; unmapped interfaces keep
-            their original source name for 1:1 migration.
+            list: Destination port assignment dictionaries. Interfaces listed in
+            interface_mappings are renamed when the source interface exists. By
+            default, unmapped interfaces keep their original source name for 1:1
+            migration. When only_mapped_interfaces is true, unmapped interfaces
+            are omitted.
 
         Raises:
             SystemExit: Via fail_and_exit when a mapped source interface does
@@ -942,6 +990,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
         for assignment in source_assignments:
             destination_assignment = OrderedDict(assignment)
             interface_name = destination_assignment.get("interface_name")
+            if (
+                migration_entry.get("only_mapped_interfaces", False)
+                and interface_name not in mapping_lookup
+            ):
+                continue
             if interface_name in mapping_lookup:
                 destination_assignment["interface_name"] = mapping_lookup[interface_name]
             destination_assignments.append(destination_assignment)
@@ -980,10 +1033,11 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
                 port_channels from the source device.
 
         Returns:
-            list: Destination port channel dictionaries. All source port channels
-            are retained. Member interfaces listed in interface_mappings are
-            renamed when the source member interface exists; unmapped members
-            keep their original source name for 1:1 migration.
+            list: Destination port channel dictionaries. Member interfaces listed
+            in interface_mappings are renamed when the source member interface
+            exists. By default, unmapped members keep their original source name
+            for 1:1 migration. When only_mapped_interfaces is true, unmapped
+            members and empty port channels are omitted.
 
         Raises:
             SystemExit: Via fail_and_exit when a mapped source interface does
@@ -1022,8 +1076,14 @@ class SdaHostPortMigrationPlaybookConfigGenerator(CatalystCenterBase, BrownField
             destination_channel["interface_names"] = [
                 mapping_lookup.get(interface_name, interface_name)
                 for interface_name in channel.get("interface_names", [])
+                if not migration_entry.get("only_mapped_interfaces", False)
+                or interface_name in mapping_lookup
             ]
-            destination_channels.append(destination_channel)
+            if (
+                destination_channel["interface_names"]
+                or not migration_entry.get("only_mapped_interfaces", False)
+            ):
+                destination_channels.append(destination_channel)
 
         destination_interface_names = [
             interface_name

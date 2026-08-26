@@ -87,6 +87,7 @@ switch_refresh_sda_fabric_edge_batches:
       - old:
           hostname: old-edge-01.example.test
         new_device_management_ip: "192.0.2.20"
+        only_mapped_interfaces: true
         port_assignment_interface_mappings:
           - source_interface_name: GigabitEthernet1/0/5
             destination_interface_name: GigabitEthernet1/0/4
@@ -95,6 +96,7 @@ switch_refresh_sda_fabric_edge_batches:
       - old:
           serial_number: OLD-SERIAL-0002
         new_device_management_ip: "192.0.2.21"
+        only_mapped_interfaces: false
         port_assignment_interface_mappings: []
         port_channel_interface_mappings:
           - source_interface_name: GigabitEthernet1/0/47
@@ -107,6 +109,7 @@ switch_refresh_sda_fabric_edge_batches:
 - use `old` with exactly one non-empty `management_ip`, `hostname`,
   `serial_number`, or `mac_address`;
 - use a unique `new_device_management_ip` from `new_devices.device_ips`; and
+- optionally set `only_mapped_interfaces` to a boolean; and
 - use lists of unique source/destination pairs for
   `port_assignment_interface_mappings` and `port_channel_interface_mappings`
   when supplied.
@@ -120,6 +123,21 @@ mapping keys and unknown keys inside `old` are rejected so spelling mistakes
 cannot silently change cleanup targets.
 MAC addresses accept colon- or hyphen-separated hexadecimal octets and are
 normalized before lookup; serial-number matching is case-insensitive.
+
+`only_mapped_interfaces` is evaluated per old-to-new device mapping and applies
+to both migration components for that mapping. It defaults to `false`, which
+preserves the existing behavior: explicitly mapped interfaces are renamed and
+all other source interfaces retain their names for a 1:1 migration. When it is
+`true`, generated port assignments contain only interfaces listed in
+`port_assignment_interface_mappings`, and generated port channels contain only
+members listed in `port_channel_interface_mappings`; port channels with no
+remaining mapped members are omitted. An empty mapping list therefore excludes
+that component for the device. When the option is `true`, at least one of the
+two interface-mapping lists must be non-empty.
+
+This option limits the replacement payload generated during `prepare`. It does
+not make `cleanup_old` selective: cleanup continues to snapshot and delete all
+host-port configuration from each old switch before the switch is removed.
 
 When host onboarding is enabled, mappings must exactly cover the replacement
 IP set. Prepare may omit `device_mapping` only when
@@ -431,6 +449,9 @@ submitted.
   replacement inventory/role postcondition is skipped
 - `switch_refresh_sda_fabric_edge_allow_empty_host_port_config`: permit a completely empty
   generated migration or cleanup payload
+- Per-device `only_mapped_interfaces`: migrate only explicitly listed port
+  assignments and port-channel members for that old-to-new mapping; default
+  `false`
 - Per-batch `migration_output_file`: optional absolute prepare payload path
 - Per-batch `old_host_port_cleanup_file`: optional absolute cleanup payload
   path

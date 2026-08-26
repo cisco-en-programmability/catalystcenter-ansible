@@ -19,6 +19,58 @@
     switch_refresh_sda_fabric_edge_fabric_add_enabled: true
     switch_refresh_sda_fabric_edge_host_onboarding_enabled: true
   tasks:
+    - name: Load host-port migration filter construction contract
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_migration_filter_contract_tasks: >-
+          {{
+            lookup(
+              'ansible.builtin.file',
+              playbook_dir ~ '/../tasks/prepare_batch_host_onboarding.yml'
+            ) |
+            from_yaml
+          }}
+
+    - name: Select host-port migration filter construction task
+      ansible.builtin.set_fact:
+        switch_refresh_sda_fabric_edge_migration_filter_contract_task: >-
+          {{
+            switch_refresh_sda_fabric_edge_migration_filter_contract_tasks |
+            selectattr(
+              'name',
+              'equalto',
+              'Build host-port migration batch filters'
+            ) |
+            first
+          }}
+
+    - name: Verify only-mapped control is forwarded to both migration components
+      ansible.builtin.assert:
+        that:
+          - >-
+            'only_mapped_interfaces' in
+            switch_refresh_sda_fabric_edge_migration_filter_contract_task[
+              'ansible.builtin.set_fact'
+            ].switch_refresh_sda_fabric_edge_batch_port_assignment_filters |
+            string
+          - >-
+            'only_mapped_interfaces' in
+            switch_refresh_sda_fabric_edge_migration_filter_contract_task[
+              'ansible.builtin.set_fact'
+            ].switch_refresh_sda_fabric_edge_batch_port_channel_filters |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_migration_mapping.only_mapped_interfaces' in
+            switch_refresh_sda_fabric_edge_migration_filter_contract_task[
+              'ansible.builtin.set_fact'
+            ].switch_refresh_sda_fabric_edge_batch_port_assignment_filters |
+            string
+          - >-
+            'switch_refresh_sda_fabric_edge_migration_mapping.only_mapped_interfaces' in
+            switch_refresh_sda_fabric_edge_migration_filter_contract_task[
+              'ansible.builtin.set_fact'
+            ].switch_refresh_sda_fabric_edge_batch_port_channel_filters |
+            string
+
     - name: Set valid two-device Discovery batch
       ansible.builtin.set_fact:
         refresh_item:
@@ -37,6 +89,7 @@
                 - source_interface_name: GigabitEthernet1/0/5
                   destination_interface_name: GigabitEthernet1/0/4
               port_channel_interface_mappings: []
+              only_mapped_interfaces: true
             - old:
                 serial_number: OLD-SERIAL-0002
               new_device_management_ip: "192.0.2.21"
@@ -90,6 +143,12 @@
           - >-
             switch_refresh_sda_fabric_edge_batch_device_mappings[1].port_channel_interface_mappings |
             length == 1
+          - >-
+            switch_refresh_sda_fabric_edge_batch_device_mappings[0].only_mapped_interfaces is
+            sameas true
+          - >-
+            switch_refresh_sda_fabric_edge_batch_device_mappings[1].only_mapped_interfaces is
+            sameas false
 
     - name: Set generated Discovery chunking batch
       ansible.builtin.set_fact:
@@ -560,6 +619,76 @@
               - >-
                 'Unknown mapping keys' in
                 (ansible_failed_result | string)
+
+    - name: Verify non-boolean only-mapped control is rejected
+      block:
+        - name: Set non-boolean only-mapped input
+          ansible.builtin.set_fact:
+            refresh_item:
+              name: non-boolean-only-mapped-interfaces
+              fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+              onboarding_method: discovery
+              new_devices:
+                device_ips:
+                  - "192.0.2.58"
+              device_mapping:
+                - old:
+                    management_ip: "198.51.100.58"
+                  new_device_management_ip: "192.0.2.58"
+                  port_assignment_interface_mappings:
+                    - source_interface_name: GigabitEthernet1/0/1
+                      destination_interface_name: GigabitEthernet1/0/2
+                  port_channel_interface_mappings: []
+                  only_mapped_interfaces: "true"
+
+        - name: Build non-boolean only-mapped input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when non-boolean only-mapped input was accepted
+          ansible.builtin.fail:
+            msg: Non-boolean only_mapped_interfaces unexpectedly passed validation.
+      rescue:
+        - name: Confirm non-boolean only-mapped input failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                'only_mapped_interfaces' in (ansible_failed_result | string)
+              - >-
+                'boolean' in (ansible_failed_result | string | lower)
+
+    - name: Verify only-mapped control requires a provided interface mapping
+      block:
+        - name: Set empty only-mapped input
+          ansible.builtin.set_fact:
+            refresh_item:
+              name: empty-only-mapped-interfaces
+              fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+              onboarding_method: discovery
+              new_devices:
+                device_ips:
+                  - "192.0.2.59"
+              device_mapping:
+                - old:
+                    management_ip: "198.51.100.59"
+                  new_device_management_ip: "192.0.2.59"
+                  port_assignment_interface_mappings: []
+                  port_channel_interface_mappings: []
+                  only_mapped_interfaces: true
+
+        - name: Build empty only-mapped input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when empty only-mapped input was accepted
+          ansible.builtin.fail:
+            msg: Empty only_mapped_interfaces unexpectedly passed validation.
+      rescue:
+        - name: Confirm empty only-mapped input failed
+          ansible.builtin.assert:
+            that:
+              - >-
+                'only_mapped_interfaces' in (ansible_failed_result | string)
+              - >-
+                'interface mapping' in (ansible_failed_result | string | lower)
 
     - name: Verify duplicate replacement IPs are rejected
       block:

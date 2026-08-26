@@ -33,6 +33,9 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
         "playbook_config_port_channels_only"
     )
     playbook_config_partial_remap = test_data.get("playbook_config_partial_remap")
+    playbook_config_only_mapped_interfaces = test_data.get(
+        "playbook_config_only_mapped_interfaces"
+    )
     playbook_config_missing_port_assignment_interface = test_data.get(
         "playbook_config_missing_port_assignment_interface"
     )
@@ -132,6 +135,28 @@ class TestSdaHostPortMigrationPlaybookConfigGenerator(TestCatalystModule):
         self.assertEqual(
             destination_interfaces,
             ["GigabitEthernet1/0/25", "GigabitEthernet1/0/2"],
+        )
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_only_mapped_interfaces_omits_unmapped_assignments_and_members(
+        self, mock_file
+    ):
+        set_module_args(
+            self._base_config_args(self.playbook_config_only_mapped_interfaces)
+        )
+
+        result = self.execute_module(changed=True)
+
+        self.assertEqual(result["changed"], True)
+        data = yaml.safe_load(self._get_written_yaml(mock_file))
+        self.assertEqual(len(data["config"]), 1)
+        self.assertEqual(
+            [item["interface_name"] for item in data["config"][0]["port_assignments"]],
+            ["GigabitEthernet1/0/25"],
+        )
+        self.assertEqual(
+            data["config"][0]["port_channels"][0]["interface_names"],
+            ["GigabitEthernet1/0/26"],
         )
 
     @patch("builtins.open", new_callable=mock_open)

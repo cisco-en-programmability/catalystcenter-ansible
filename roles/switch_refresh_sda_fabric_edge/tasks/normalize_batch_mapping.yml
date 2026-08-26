@@ -34,6 +34,7 @@
           [
             'old',
             'new_device_management_ip',
+            'only_mapped_interfaces',
             'port_assignment_interface_mappings',
             'port_channel_interface_mappings'
           ]
@@ -111,14 +112,18 @@
       - >-
         (switch_refresh_sda_fabric_edge_input_mapping.port_channel_interface_mappings |
         default([]) | type_debug) == 'list'
+      - >-
+        (switch_refresh_sda_fabric_edge_input_mapping.only_mapped_interfaces |
+        default(false) | type_debug) == 'bool'
     fail_msg: >-
       Each device_mapping entry must target one IP from new_devices.device_ips,
       identify one non-empty old device with the nested old mapping, and use
-      lists for interface mappings. The old mapping must contain exactly one of
-      management_ip, hostname, serial_number, or mac_address. Unknown mapping
-      keys are not accepted. An old management IP cannot target any
-      replacement device in the batch and must be valid IPv4. An old MAC
-      address must use six colon- or hyphen-separated hexadecimal octets.
+      lists for interface mappings. only_mapped_interfaces must be a boolean
+      when provided. The old mapping must contain exactly one of management_ip,
+      hostname, serial_number, or mac_address. Unknown mapping keys are not
+      accepted. An old management IP cannot target any replacement device in
+      the batch and must be valid IPv4. An old MAC address must use six colon-
+      or hyphen-separated hexadecimal octets.
 
 - name: Normalize old device identifier value
   ansible.builtin.set_fact:
@@ -159,6 +164,28 @@
         switch_refresh_sda_fabric_edge_input_mapping.port_channel_interface_mappings |
         default([])
       }}
+    switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces: >-
+      {{
+        switch_refresh_sda_fabric_edge_input_mapping.only_mapped_interfaces |
+        default(false)
+      }}
+
+- name: Validate mapping-only interface selection
+  ansible.builtin.assert:
+    that:
+      - >-
+        not switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces or
+        (
+          switch_refresh_sda_fabric_edge_effective_port_assignment_mappings |
+          length > 0
+        ) or
+        (
+          switch_refresh_sda_fabric_edge_effective_port_channel_mappings |
+          length > 0
+        )
+    fail_msg: >-
+      A device_mapping with only_mapped_interfaces set to true must provide at
+      least one port-assignment or port-channel interface mapping.
 
 - name: Validate batch interface mapping entry types
   ansible.builtin.assert:
@@ -287,6 +314,8 @@
             'new_device_management_ip':
               switch_refresh_sda_fabric_edge_input_mapping.new_device_management_ip | string,
             'old': switch_refresh_sda_fabric_edge_mapping_normalized_old_identifier,
+            'only_mapped_interfaces':
+              switch_refresh_sda_fabric_edge_effective_only_mapped_interfaces,
             'port_assignment_interface_mappings':
               switch_refresh_sda_fabric_edge_effective_port_assignment_mappings,
             'port_channel_interface_mappings':

@@ -133,6 +133,9 @@ switch_refresh_sda_fabric_edge_batches:
       - old:
           hostname: old-edge-01.example.test
         new_device_management_ip: "192.0.2.20"
+        # Restrict both migration components for this device to the mappings
+        # listed below. Port channels with no mapped members are omitted.
+        only_mapped_interfaces: true
         port_assignment_interface_mappings:
           - source_interface_name: GigabitEthernet1/0/5
             destination_interface_name: GigabitEthernet1/0/4
@@ -145,6 +148,9 @@ switch_refresh_sda_fabric_edge_batches:
       - old:
           serial_number: OLD-SERIAL-0002
         new_device_management_ip: "192.0.2.21"
+        # false is the default: mapped interfaces are renamed while unmapped
+        # source interfaces retain their names for 1:1 migration.
+        only_mapped_interfaces: false
         port_assignment_interface_mappings:
           - source_interface_name: GigabitEthernet2/0/6
             destination_interface_name: GigabitEthernet2/0/5
