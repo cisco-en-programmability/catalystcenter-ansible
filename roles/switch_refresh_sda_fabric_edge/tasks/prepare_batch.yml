@@ -34,6 +34,8 @@
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].resolved_mappings }}
     switch_refresh_sda_fabric_edge_batch_discovery_config: >-
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].discovery_config }}
+    switch_refresh_sda_fabric_edge_batch_swim_config: >-
+      {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].swim_config }}
     switch_refresh_sda_fabric_edge_batch_inventory_execution_config: >-
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].inventory_execution_config }}
     switch_refresh_sda_fabric_edge_batch_provision_config: >-
@@ -62,6 +64,28 @@
   when:
     - switch_refresh_sda_fabric_edge_batch_onboarding_method == 'discovery'
     - switch_refresh_sda_fabric_edge_discovery_enabled | bool
+  no_log: true
+
+- name: Import and golden-tag replacement image before LAN Automation
+  ansible.builtin.include_role:
+    name: swim
+    apply:
+      tags:
+        - switch_refresh_sda_fabric_edge_prepare
+      no_log: true
+  vars:
+    # Import URLs can contain credentials. Suppress both module debug output
+    # and Catalyst Center logging while establishing this prerequisite.
+    catalystcenter_debug: false
+    catalystcenter_log: false
+    swim_state: merged
+    swim_config_verify: "{{ switch_refresh_sda_fabric_edge_swim_config_verify }}"
+    swim_config: "{{ switch_refresh_sda_fabric_edge_batch_swim_config }}"
+  when:
+    - switch_refresh_sda_fabric_edge_batch_onboarding_method == 'lan_automation'
+    - switch_refresh_sda_fabric_edge_swim_enabled | bool
+    - switch_refresh_sda_fabric_edge_lan_automation_enabled | bool
+    - switch_refresh_sda_fabric_edge_batch_swim_config | length > 0
   no_log: true
 
 - name: Run LAN Automation for replacement switch batch

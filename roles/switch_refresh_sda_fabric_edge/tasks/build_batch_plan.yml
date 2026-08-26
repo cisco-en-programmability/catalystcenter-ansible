@@ -46,6 +46,8 @@
     switch_refresh_sda_fabric_edge_batch_mapping_old_keys: []
     switch_refresh_sda_fabric_edge_batch_device_results: []
     switch_refresh_sda_fabric_edge_batch_discovery_config: []
+    switch_refresh_sda_fabric_edge_batch_swim_config: []
+    switch_refresh_sda_fabric_edge_batch_golden_image_claims: []
     switch_refresh_sda_fabric_edge_batch_lan_automation_target_ips: []
     switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers: []
     switch_refresh_sda_fabric_edge_batch_inventory_credentials: {}
@@ -167,6 +169,35 @@
       merged; and device_mapping is required when host onboarding is enabled.
       A batch must configure only its selected onboarding method. A custom
       inventory_config must contain exactly one aggregate entry.
+
+- name: Validate replacement golden image stage selection
+  ansible.builtin.assert:
+    that:
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is not defined or
+        switch_refresh_sda_fabric_edge_batch_onboarding_method == 'lan_automation'
+      - >-
+        not (
+          switch_refresh_sda_fabric_edge_batch_onboarding_method == 'lan_automation' and
+          switch_refresh_sda_fabric_edge_swim_enabled | default(false) | bool and
+          switch_refresh_sda_fabric_edge_lan_automation_enabled | default(true) | bool
+        ) or
+        switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is defined
+    fail_msg: >-
+      new_devices.golden_image is supported only for LAN Automation batches and
+      is required when both the SWIM prerequisite and LAN Automation launch
+      stages are enabled. Disable either stage only for an intentional resume.
+  no_log: >-
+    {{
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is defined and
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is mapping and
+      switch_refresh_sda_fabric_edge_batch_new_devices.golden_image.import_image_details
+      is defined
+    }}
+
+- name: Build replacement golden image prerequisite plan
+  ansible.builtin.include_tasks: build_golden_image_plan.yml
+  when: switch_refresh_sda_fabric_edge_batch_new_devices.golden_image is defined
 
 - name: Validate replacement management IP syntax
   ansible.builtin.assert:

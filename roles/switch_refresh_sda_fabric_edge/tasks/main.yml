@@ -46,6 +46,21 @@
   tags:
     - always
 
+- name: Validate replacement image execution controls
+  ansible.builtin.assert:
+    that:
+      - >-
+        (switch_refresh_sda_fabric_edge_swim_enabled |
+        default(false) | type_debug) == 'bool'
+      - >-
+        (switch_refresh_sda_fabric_edge_swim_config_verify |
+        default(true) | type_debug) == 'bool'
+    fail_msg: >-
+      switch_refresh_sda_fabric_edge_swim_enabled and
+      switch_refresh_sda_fabric_edge_swim_config_verify must be booleans.
+  tags:
+    - always
+
 - name: Validate hostname transfer controls
   ansible.builtin.assert:
     that:
@@ -155,7 +170,8 @@
         switch_refresh_sda_fabric_edge_batch_input.new_devices.inventory_credentials
         is defined or
         switch_refresh_sda_fabric_edge_batch_input.new_devices.inventory_config is defined or
-        switch_refresh_sda_fabric_edge_batch_input.new_devices.discovery_config is defined
+        switch_refresh_sda_fabric_edge_batch_input.new_devices.discovery_config is defined or
+        switch_refresh_sda_fabric_edge_batch_input.new_devices.golden_image is defined
       )
     }}
   tags:
@@ -243,6 +259,7 @@
     switch_refresh_sda_fabric_edge_all_prepare_old_management_ips: []
     switch_refresh_sda_fabric_edge_all_prepare_discovery_names: []
     switch_refresh_sda_fabric_edge_all_prepare_lan_automation_serial_numbers: []
+    switch_refresh_sda_fabric_edge_all_prepare_golden_image_claims: []
   when: switch_refresh_sda_fabric_edge_phase == 'prepare'
   no_log: true
   tags:
@@ -298,6 +315,13 @@
         map('upper') |
         list
       }}
+    switch_refresh_sda_fabric_edge_all_prepare_golden_image_claims: >-
+      {{
+        switch_refresh_sda_fabric_edge_prepare_preflight_plans |
+        map(attribute='golden_image_claims') |
+        list |
+        flatten
+      }}
   when: switch_refresh_sda_fabric_edge_phase == 'prepare'
   no_log: true
   tags:
@@ -324,11 +348,22 @@
         unique |
         length ==
         switch_refresh_sda_fabric_edge_all_prepare_lan_automation_serial_numbers | length
+      - >-
+        switch_refresh_sda_fabric_edge_all_prepare_golden_image_claims |
+        map(attribute='scope_key') |
+        unique |
+        length ==
+        switch_refresh_sda_fabric_edge_all_prepare_golden_image_claims |
+        map(attribute='scope_image_key') |
+        unique |
+        length
     fail_msg: >-
       Prepare preflight must resolve unique old switches across every batch,
       no old migration source may match a replacement management IP, and
       Discovery names and LAN Automation serial numbers must be globally
-      unique. No replacement workflow changes were made.
+      unique. A site, image family, and ALL-role golden scope cannot request
+      different images across batches. No replacement workflow changes were
+      made.
   when: switch_refresh_sda_fabric_edge_phase == 'prepare'
   tags:
     - switch_refresh_sda_fabric_edge_prepare

@@ -48,6 +48,9 @@
             'device_mappings': switch_refresh_sda_fabric_edge_batch_device_mappings,
             'resolved_mappings': switch_refresh_sda_fabric_edge_batch_resolved_mappings,
             'discovery_config': switch_refresh_sda_fabric_edge_batch_discovery_config,
+            'swim_config': switch_refresh_sda_fabric_edge_batch_swim_config,
+            'golden_image_claims':
+              switch_refresh_sda_fabric_edge_batch_golden_image_claims,
             'lan_automation_serial_numbers':
               switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers,
             'inventory_execution_config':

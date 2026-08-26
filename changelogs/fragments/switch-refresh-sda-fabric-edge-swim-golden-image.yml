@@ -1,0 +1,5 @@
+---
+minor_changes:
+  - >-
+    switch_refresh_sda_fabric_edge role - add an optional, preflight-validated
+    SWIM image import and golden-tag prerequisite before LAN Automation.

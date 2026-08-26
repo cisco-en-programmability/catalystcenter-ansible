@@ -29,6 +29,7 @@ then executes each immutable batch plan through these barriers:
 
 ```text
 validate all batches and old-device sources
+  -> optional SWIM import/golden tag for the batch site and image family
   -> Discovery or LAN Automation for all replacements in one batch
   -> inventory and ACCESS role for all replacements
   -> provision all replacements
@@ -60,15 +61,19 @@ do not supply a replacement hostname for this phase.
 - Python 3.9 or later
 - LAN Automation additionally requires `ansible.utils`, Catalyst Center SDK
   3.1.6.0.2 or later, and Python 3.12 or later on the Ansible controller
+- Golden-image preparation requires the requested image to be available in the
+  Catalyst Center image repository, or a valid SWIM `import_image_details`
+  source, and the exact Catalyst Center device-image family name
 - Old devices must remain in Catalyst Center until host migration and cleanup
   complete
 - Device credentials and Catalyst Center credentials should come from Ansible
   Vault or another secret store
 
-Discovery, LAN Automation, and replacement-inventory calls suppress Ansible
-task output and manager file/debug logging because their nested configurations
-can contain device, SNMP, HTTP, or IS-IS secrets. This protection applies even
-when global Catalyst Center debug or file logging is enabled.
+SWIM image preparation, Discovery, LAN Automation, and replacement-inventory
+calls suppress Ansible task output and manager file/debug logging because their
+nested configurations can contain image-source, device, SNMP, HTTP, or IS-IS
+secrets. This protection applies even when global Catalyst Center debug or file
+logging is enabled.
 
 ## Batch schema
 
@@ -232,6 +237,92 @@ For a resume run, `switch_refresh_sda_fabric_edge_lan_automation_enabled: false`
 launch. The complete launch-only configuration, including `launch_and_wait:
 true` and the exact serial/IP target set, is still required, and the same
 two-poll inactivity barrier still runs before inventory.
+
+### Optional golden-image preparation
+
+For LAN Automation batches, the role can call the existing `swim` role before
+launching LAN Automation. Enable it explicitly and describe the desired image
+under `new_devices`:
+
+```yaml
+switch_refresh_sda_fabric_edge_swim_enabled: true
+switch_refresh_sda_fabric_edge_swim_config_verify: true
+
+switch_refresh_sda_fabric_edge_batches:
+  - name: sjc-bldg23-edge-refresh
+    fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+    onboarding_method: lan_automation
+    new_devices:
+      device_ips:
+        - "192.0.2.30"
+      golden_image:
+        image_name: cat9k_iosxe.17.12.04.SPA.bin
+        device_image_family_name: Cisco Catalyst 9300 Switch
+      lan_automation_config:
+        - lan_automation:
+            discovered_device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+            discovery_devices:
+              - device_serial_number: NEW-SERIAL-0001
+                device_management_ip_address: "192.0.2.30"
+            launch_and_wait: true
+```
+
+This tag-only form requires the image to exist in the Catalyst Center image
+repository. To import and tag in one SWIM operation, add the module's existing
+`import_image_details` structure:
+
+```yaml
+golden_image:
+  image_name: cat9k_iosxe.17.12.04.SPA.bin
+  device_image_family_name: Cisco Catalyst 9300 Switch
+  import_image_details:
+    type: remote
+    url_details:
+      payload:
+        - source_url:
+            - "{{ vault_switch_golden_image_url }}"
+          is_third_party: false
+```
+
+The switch-refresh wrapper accepts one first-party image per batch: one remote
+URL payload or one CCO image name. The selected source filename/image name must
+equal `golden_image.image_name`. A remote URL must end with that exact filename
+and cannot contain a query string or fragment because the existing SWIM module
+treats those suffixes as filename text. Local-file, multi-image, scheduled,
+third-party, distribution, activation, deletion, and untagging operations are
+outside this role's input contract. A scalar CCO `image_name` is normalized to
+the one-item list expected by the existing SWIM module.
+
+The role derives `site_name` from `fabric_site_name_hierarchy` and always
+generates `device_role: ALL` and `tagging: true`; those fields cannot be
+overridden. It passes one direct configuration entry to the existing `swim`
+role, not the workflow example's `import_images`/`golden_tag_images` wrapper.
+It does not distribute or activate an image against a replacement device before
+that device is managed in inventory. LAN Automation performs the supported
+day-zero image installation after the golden assignment is established.
+
+Golden-image input is rejected for Discovery batches. Every LAN Automation
+batch must declare `golden_image` when both SWIM support and the LAN Automation
+launch are enabled. If either toggle is false, `golden_image` is optional; a
+retained declaration is still validated and preserved for a resume, but it is
+not executed. Batches may share the same site/family/image claim, but
+conflicting images for the same site and device-image family are rejected
+during all-batch preflight, before any controller mutation.
+
+SWIM runs only when both
+`switch_refresh_sda_fabric_edge_swim_enabled` and
+`switch_refresh_sda_fabric_edge_lan_automation_enabled` are true. Disabling the
+LAN Automation launch for a resume therefore skips SWIM too. A SWIM failure
+stops the batch before LAN Automation. A later LAN Automation failure can be
+rerun safely; the golden assignment is persistent desired state and is not
+removed by cleanup.
+
+This role trusts a successful SWIM call and does not accept or validate a
+separate expected software version. Actual day-zero installation still depends
+on Catalyst Center and platform prerequisites, including a platform supported
+for LAN Automation image upgrade and the required device install mode. Use a
+post-onboarding day-N SWIM workflow for platforms that do not support the
+LAN Automation image-upgrade path.
 
 ## Generated and custom workflow input
 
@@ -424,6 +515,11 @@ submitted.
 - `switch_refresh_sda_fabric_edge_batches`: non-empty list of batch entries
 - `switch_refresh_sda_fabric_edge_onboarding_method`: default per-batch method; `discovery` or
   `lan_automation`
+- `switch_refresh_sda_fabric_edge_swim_enabled`: require and establish the
+  requested golden image before each enabled LAN Automation launch; default
+  `false`
+- `switch_refresh_sda_fabric_edge_swim_config_verify`: pass configuration
+  verification to the existing `swim` role; default `true`
 - `switch_refresh_sda_fabric_edge_cleanup_old`: explicit destructive cleanup approval
 - `switch_refresh_sda_fabric_edge_hostname_transfer_enabled`: capture old hostnames and apply
   them to their replacements; default `false`
@@ -458,6 +554,7 @@ submitted.
 
 Stage toggles:
 
+- `switch_refresh_sda_fabric_edge_swim_enabled`
 - `switch_refresh_sda_fabric_edge_discovery_enabled`
 - `switch_refresh_sda_fabric_edge_lan_automation_enabled`
 - `switch_refresh_sda_fabric_edge_inventory_enabled`

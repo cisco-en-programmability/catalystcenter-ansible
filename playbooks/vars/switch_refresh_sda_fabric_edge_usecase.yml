@@ -37,6 +37,11 @@ switch_refresh_sda_fabric_edge_inventory_credentials:
 
 switch_refresh_sda_fabric_edge_device_info_lookup_enabled: true
 switch_refresh_sda_fabric_edge_fabric_validation_enabled: true
+# Opt in to preparing the requested golden image before each enabled LAN
+# Automation launch. This does not distribute or activate the image directly;
+# LAN Automation performs the supported day-zero installation.
+switch_refresh_sda_fabric_edge_swim_enabled: true
+switch_refresh_sda_fabric_edge_swim_config_verify: true
 switch_refresh_sda_fabric_edge_lan_automation_completion_timeout: 604800
 switch_refresh_sda_fabric_edge_lan_automation_completion_poll_interval: 30
 switch_refresh_sda_fabric_edge_inventory_config_verify: true
@@ -55,6 +60,25 @@ switch_refresh_sda_fabric_edge_batches:
       device_ips:
         - "192.0.2.20"
         - "192.0.2.21"
+
+      # Required for a LAN Automation batch when both SWIM preparation and the
+      # LAN Automation launch are enabled. Use the exact Catalyst Center
+      # image-family label. Site, device_role: ALL, and tagging: true are
+      # derived/enforced by the refresh role. Keep each batch homogeneous by
+      # image family.
+      golden_image:
+        image_name: cat9k_iosxe.17.12.04.SPA.bin
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        # Omit import_image_details when the image already exists in the
+        # Catalyst Center image repository. Remote URL credentials, if any,
+        # must come from Ansible Vault or another secret store.
+        # import_image_details:
+        #   type: remote
+        #   url_details:
+        #     payload:
+        #       - source_url:
+        #           - "{{ vault_switch_golden_image_url }}"
+        #         is_third_party: false
 
       lan_automation_config:
         - lan_automation:
