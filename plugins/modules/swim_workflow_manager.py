@@ -69,6 +69,22 @@ options:
         rate-limiting (HTTP 429) during activations that involve device reboots.
     type: int
     default: 30
+  distribution_batch_size:
+    description:
+      - Number of devices included in each bulk image distribution API request.
+      - The Cisco Catalyst Center bulk API accepts at most 500 devices per
+        request, so this value must be between 1 and 500.
+      - Lower this value to reduce the load per request on very large jobs.
+    type: int
+    default: 50
+  activation_batch_size:
+    description:
+      - Number of devices included in each bulk image activation API request.
+      - The Cisco Catalyst Center bulk API accepts at most 500 devices per
+        request, so this value must be between 1 and 500.
+      - Lower this value to reduce the load per request on very large jobs.
+    type: int
+    default: 50
   state:
     description: The state of Catalyst Center after
       module completion.
@@ -531,6 +547,13 @@ options:
             description: Device IP address where the
               image needs to be distributed
             type: str
+          device_ip_addresses:
+            description: |
+              List of device IP addresses for bulk image distribution. When provided, it takes
+              precedence over site-based selection and reuses the bulk distribution path. Any value
+              in 'device_ip_address' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_hostname:
             description: Device hostname where the image
               needs to be distributed
@@ -693,6 +716,13 @@ options:
             description: Device IP address where the
               image needs to be activated
             type: str
+          device_ip_addresses:
+            description: |
+              List of device IP addresses for bulk image activation. When provided, it takes
+              precedence over site-based selection and reuses the bulk activation path. Any value
+              in 'device_ip_address' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_hostname:
             description: Device hostname where the image
               needs to be activated
@@ -1744,6 +1774,72 @@ class Swim(CatalystCenterBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return poll_interval
 
+    def resolve_device_ids_from_ips(self, ip_addresses):
+        """
+        Resolve a list of management IP addresses to unique device IDs.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            ip_addresses (list): A list of device management IP addresses.
+        Returns:
+            tuple: (resolved_ids, not_found_ips) where 'resolved_ids' is an order-preserving,
+            de-duplicated list of device IDs and 'not_found_ips' lists IPs that could not be resolved.
+        Description:
+            Iterates the provided IP addresses, skipping blanks and duplicates, and resolves each
+            to a unique device ID via 'get_device_id'. Duplicate device IDs are collapsed so the
+            same physical device targeted by different IP entries is processed only once.
+        """
+        resolved_ids = []
+        not_found_ips = []
+        seen_ips = set()
+        seen_ids = set()
+
+        for ip in ip_addresses or []:
+            if not ip or not isinstance(ip, str):
+                continue
+            normalized_ip = ip.strip()
+            if not normalized_ip or normalized_ip in seen_ips:
+                continue
+            seen_ips.add(normalized_ip)
+
+            device_id = self.get_device_id({"managementIpAddress": normalized_ip})
+            if not device_id:
+                not_found_ips.append(normalized_ip)
+                continue
+            if device_id not in seen_ids:
+                seen_ids.add(device_id)
+                resolved_ids.append(device_id)
+
+        self.log(
+            "Resolved {0} unique device ID(s) from {1} provided IP address(es); unresolved: {2}.".format(
+                len(resolved_ids), len(seen_ips), not_found_ips or "None"
+            ),
+            "DEBUG",
+        )
+        return resolved_ids, not_found_ips
+
+    def get_validated_batch_size(self, param_name, operation):
+        """
+        Read and validate a configurable bulk batch size module parameter.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            param_name (str): The module parameter name holding the batch size.
+            operation (str): Human-readable operation name used in the failure message.
+        Returns:
+            int: The validated batch size, guaranteed to be between 1 and BULK_REQUEST_LIMIT.
+        Description:
+            Fails the module if the provided batch size is outside the supported range, as the
+            Cisco Catalyst Center bulk API accepts at most BULK_REQUEST_LIMIT devices per request.
+        """
+        batch_size = self.params.get(param_name, 50)
+        if batch_size < 1 or batch_size > self.BULK_REQUEST_LIMIT:
+            self.msg = (
+                "The '{0}' value '{1}' is invalid for {2}. It must be between 1 and {3}.".format(
+                    param_name, batch_size, operation, self.BULK_REQUEST_LIMIT
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        return batch_size
+
     def get_device_uuids(
         self, site_name, device_family, device_role, device_series_name=None
     ):
@@ -2385,40 +2481,64 @@ class Swim(CatalystCenterBase):
                     "ERROR",
                 )
 
-            device_params = {
-                "hostname": distribution_details.get("device_hostname"),
-                "serialNumber": distribution_details.get("device_serial_number"),
-                "managementIpAddress": distribution_details.get("device_ip_address"),
-                "macAddress": distribution_details.get("device_mac_address"),
-            }
+            # Bulk targeting: a list of IPs takes precedence and reuses the bulk distribution path.
+            device_ip_addresses = distribution_details.get("device_ip_addresses")
+            if device_ip_addresses:
+                combined_ips = list(device_ip_addresses)
+                single_ip = distribution_details.get("device_ip_address")
+                if single_ip:
+                    combined_ips.append(single_ip)
 
-            if any(device_params.values()):
-                device_id = self.get_device_id(device_params)
-
-                if device_id is None:
-                    params_list = []
-                    for key, value in device_params.items():
-                        if value:
-                            formatted_param = "{0}: {1}".format(key, value)
-                            params_list.append(formatted_param)
-
-                    params_message = ", ".join(params_list)
-                    self.status = "failed"
-                    self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(
-                        params_message
+                resolved_ids, not_found_ips = self.resolve_device_ids_from_ips(combined_ips)
+                if not_found_ips:
+                    self.msg = (
+                        "The following device IP address(es) for distribution could not be found "
+                        "in the Cisco Catalyst Center: {0}.".format(", ".join(not_found_ips))
                     )
-                    self.log(self.msg, "ERROR")
-                    self.result["response"] = self.msg
-                    self.check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                else:
-                    self.log(
-                        "Device with ID {0} found and added to distribution details.".format(
-                            device_id
-                        ),
-                        "DEBUG",
-                    )
-                    have["distribution_device_id"] = device_id
+                have["distribution_device_ids"] = resolved_ids
+                self.log(
+                    "Resolved {0} device ID(s) from provided IP list for distribution.".format(
+                        len(resolved_ids)
+                    ),
+                    "INFO",
+                )
+            else:
+                device_params = {
+                    "hostname": distribution_details.get("device_hostname"),
+                    "serialNumber": distribution_details.get("device_serial_number"),
+                    "managementIpAddress": distribution_details.get("device_ip_address"),
+                    "macAddress": distribution_details.get("device_mac_address"),
+                }
+
+                if any(device_params.values()):
+                    device_id = self.get_device_id(device_params)
+
+                    if device_id is None:
+                        params_list = []
+                        for key, value in device_params.items():
+                            if value:
+                                formatted_param = "{0}: {1}".format(key, value)
+                                params_list.append(formatted_param)
+
+                        params_message = ", ".join(params_list)
+                        self.status = "failed"
+                        self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(
+                            params_message
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.result["response"] = self.msg
+                        self.check_return_status()
+
+                    else:
+                        self.log(
+                            "Device with ID {0} found and added to distribution details.".format(
+                                device_id
+                            ),
+                            "DEBUG",
+                        )
+                        have["distribution_device_id"] = device_id
 
             self.have.update(have)
 
@@ -2434,9 +2554,10 @@ class Swim(CatalystCenterBase):
             elif self.have.get("imported_image_id"):
                 have["activation_image_id"] = self.have.get("imported_image_id")
             else:
+                # No explicit image provided; proceed with the golden-tagged image.
                 self.log(
-                    "Image details required for activation have not been provided",
-                    "ERROR",
+                    "No image details provided for activation; will proceed with the golden image",
+                    "INFO",
                 )
 
             site_name = activation_details.get("site_name")
@@ -2452,49 +2573,73 @@ class Swim(CatalystCenterBase):
                         "INFO",
                     )
 
-            device_params = {
-                "hostname": activation_details.get("device_hostname"),
-                "serialNumber": activation_details.get("device_serial_number"),
-                "managementIpAddress": activation_details.get("device_ip_address"),
-                "macAddress": activation_details.get("device_mac_address"),
-            }
+            # Bulk targeting: a list of IPs takes precedence and reuses the bulk activation path.
+            device_ip_addresses = activation_details.get("device_ip_addresses")
+            if device_ip_addresses:
+                combined_ips = list(device_ip_addresses)
+                single_ip = activation_details.get("device_ip_address")
+                if single_ip:
+                    combined_ips.append(single_ip)
 
-            # Check if any device parameters are provided
-            if any(device_params.values()):
-                device_id = self.get_device_id(device_params)
-
-                if device_id is None:
-                    desired_keys = {
-                        "hostname",
-                        "serialNumber",
-                        "managementIpAddress",
-                        "macAddress",
-                    }
-                    params_list = []
-
-                    # Format only the parameters that are present
-                    for key, value in device_params.items():
-                        if value and key in desired_keys:
-                            formatted_param = "{0}: {1}".format(key, value)
-                            params_list.append(formatted_param)
-
-                    params_message = ", ".join(params_list)
-                    self.status = "failed"
-                    self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(
-                        params_message
+                resolved_ids, not_found_ips = self.resolve_device_ids_from_ips(combined_ips)
+                if not_found_ips:
+                    self.msg = (
+                        "The following device IP address(es) for activation could not be found "
+                        "in the Cisco Catalyst Center: {0}.".format(", ".join(not_found_ips))
                     )
-                    self.log(self.msg, "ERROR")
-                    self.result["response"] = self.msg
-                    self.check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                else:
-                    have["activation_device_id"] = device_id
-                    self.log(
-                        "Device with ID {0} found and added to activation details.".format(
-                            device_id
-                        ),
-                        "DEBUG",
-                    )
+                have["activation_device_ids"] = resolved_ids
+                self.log(
+                    "Resolved {0} device ID(s) from provided IP list for activation.".format(
+                        len(resolved_ids)
+                    ),
+                    "INFO",
+                )
+            else:
+                device_params = {
+                    "hostname": activation_details.get("device_hostname"),
+                    "serialNumber": activation_details.get("device_serial_number"),
+                    "managementIpAddress": activation_details.get("device_ip_address"),
+                    "macAddress": activation_details.get("device_mac_address"),
+                }
+
+                # Check if any device parameters are provided
+                if any(device_params.values()):
+                    device_id = self.get_device_id(device_params)
+
+                    if device_id is None:
+                        desired_keys = {
+                            "hostname",
+                            "serialNumber",
+                            "managementIpAddress",
+                            "macAddress",
+                        }
+                        params_list = []
+
+                        # Format only the parameters that are present
+                        for key, value in device_params.items():
+                            if value and key in desired_keys:
+                                formatted_param = "{0}: {1}".format(key, value)
+                                params_list.append(formatted_param)
+
+                        params_message = ", ".join(params_list)
+                        self.status = "failed"
+                        self.msg = "The device with the following parameter(s): {0} could not be found in the Cisco Catalyst Center.".format(
+                            params_message
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.result["response"] = self.msg
+                        self.check_return_status()
+
+                    else:
+                        have["activation_device_id"] = device_id
+                        self.log(
+                            "Device with ID {0} found and added to activation details.".format(
+                                device_id
+                            ),
+                            "DEBUG",
+                        )
 
             self.have.update(have)
 
@@ -4075,13 +4220,24 @@ class Swim(CatalystCenterBase):
             "distribution_poll_interval",
             "image distribution",
         )
+        self.swim_batch_size = self.get_validated_batch_size("distribution_batch_size", "image distribution")
         convert_to_wlc = distribution_details.get("convert_to_wlc", False)
 
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
+        distribution_device_ids = self.have.get("distribution_device_ids")
 
-        # A specific device (IP/hostname/serial/MAC) takes precedence over site filters.
-        if distribution_device_id:
+        # A list of IPs takes precedence and reuses the bulk distribution path.
+        if distribution_device_ids:
+            device_uuid_list = distribution_device_ids
+            self.log(
+                "Bulk device list ({0} device(s)) provided via IP addresses; skipping site-wide enumeration.".format(
+                    len(distribution_device_ids)
+                ),
+                "DEBUG",
+            )
+        # A single specific device (IP/hostname/serial/MAC) takes precedence over site filters.
+        elif distribution_device_id:
             device_uuid_list = []
             self.log(
                 "Specific device (ID: {0}) provided; skipping site-wide device enumeration.".format(distribution_device_id),
@@ -4566,7 +4722,7 @@ class Swim(CatalystCenterBase):
                 return self
 
             # -------- Bulk API Call --------
-            bulk_request_limit = self.BULK_REQUEST_LIMIT
+            bulk_request_limit = self.swim_batch_size
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
@@ -4810,13 +4966,24 @@ class Swim(CatalystCenterBase):
             "activation_poll_interval",
             "image activation",
         )
+        self.swim_batch_size = self.get_validated_batch_size("activation_batch_size", "image activation")
         convert_to_wlc = activation_details.get("convert_to_wlc", False)
 
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
+        activation_device_ids = self.have.get("activation_device_ids")
 
-        # A specific device (IP/hostname/serial/MAC) takes precedence over site filters.
-        if activation_device_id:
+        # A list of IPs takes precedence and reuses the bulk activation path.
+        if activation_device_ids:
+            device_uuid_list = activation_device_ids
+            self.log(
+                "Bulk device list ({0} device(s)) provided via IP addresses; skipping site-wide enumeration.".format(
+                    len(activation_device_ids)
+                ),
+                "DEBUG",
+            )
+        # A single specific device (IP/hostname/serial/MAC) takes precedence over site filters.
+        elif activation_device_id:
             device_uuid_list = []
             self.log(
                 "Specific device (ID: {0}) provided; skipping site-wide device enumeration.".format(activation_device_id),
@@ -5313,7 +5480,7 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
 
-            bulk_request_limit = self.BULK_REQUEST_LIMIT
+            bulk_request_limit = self.swim_batch_size
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
@@ -6323,6 +6490,8 @@ def main():
                     'catalystcenter_task_poll_interval': {'type': 'int', "default": 2, "aliases": ["dnac_task_poll_interval"]},
                     'distribution_poll_interval': {'type': 'int', "default": 30},
                     'activation_poll_interval': {'type': 'int', "default": 30},
+                    'distribution_batch_size': {'type': 'int', "default": 50},
+                    'activation_batch_size': {'type': 'int', "default": 50},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }

@@ -504,6 +504,15 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("golden_tag_status_access_tagged_true"),
             ]
 
+        elif "distribution_batch_size_exceeds_limit" in self._testMethodName:
+            # get_have resolves the image; get_diff_distribution then fails batch validation
+            # before any bulk API call, so only the get_have responses are consumed.
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_10"),
+                self.test_data.get("get_software_image_details_10"),
+                self.test_data.get("get_software_image_details_11"),
+            ]
+
     def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
         """
         Test case for SWIM workflow manager inherited tag untagging.
@@ -1059,6 +1068,7 @@ class TestswimWorkflowManager(TestCatalystModule):
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
+                distribution_batch_size=500,
                 state="merged",
                 config=config
             )
@@ -1122,6 +1132,7 @@ class TestswimWorkflowManager(TestCatalystModule):
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
+                distribution_batch_size=500,
                 state="merged",
                 config=config
             )
@@ -1190,6 +1201,7 @@ class TestswimWorkflowManager(TestCatalystModule):
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
+                activation_batch_size=500,
                 state="merged",
                 config=config
             )
@@ -1253,6 +1265,7 @@ class TestswimWorkflowManager(TestCatalystModule):
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
+                activation_batch_size=500,
                 state="merged",
                 config=config
             )
@@ -1291,6 +1304,51 @@ class TestswimWorkflowManager(TestCatalystModule):
                 for api_call in bulk_calls
             ],
             [500, 1],
+        )
+
+    def test_swim_workflow_manager_distribution_batch_size_exceeds_limit(self):
+        """
+        Test that a distribution batch size above the API limit (500) fails validation.
+        """
+        config = [
+            {
+                "image_distribution_details": {
+                    "convert_to_wlc": True,
+                    "device_family_name": "Switches and Hubs",
+                    "device_role": "ALL",
+                    "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+                    "site_name": "Global/Chennai/LTTS/FLOOR11",
+                }
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                distribution_batch_size=501,
+                state="merged",
+                config=config
+            )
+        )
+
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+            return_value=["device-0", "device-1"],
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.1.2",
+        ):
+            result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "The 'distribution_batch_size' value '501' is invalid for image distribution. "
+            "It must be between 1 and 500.",
+            result.get("msg"),
         )
 
     def test_swim_workflow_manager_playbook_swim_golden_tag_without_device_tags(self):
