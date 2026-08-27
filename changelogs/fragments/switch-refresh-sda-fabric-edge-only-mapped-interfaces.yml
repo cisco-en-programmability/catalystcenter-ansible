@@ -1,7 +1,0 @@
----
-minor_changes:
-  - >-
-    Added per-device ``only_mapped_interfaces`` support to the
-    ``switch_refresh_sda_fabric_edge`` role so replacement host-port payloads
-    can be limited to explicitly supplied port-assignment and port-channel
-    interface mappings.

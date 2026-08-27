@@ -1,6 +1,0 @@
----
-minor_changes:
-  - >-
-    Added the ``only_mapped_interfaces`` option to
-    ``sda_host_port_migration_playbook_config_generator`` to generate port
-    assignments and port channel members only for supplied interface mappings.
