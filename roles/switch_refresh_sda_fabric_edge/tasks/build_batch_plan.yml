@@ -45,6 +45,42 @@
     switch_refresh_sda_fabric_edge_batch_mapping_new_ips: []
     switch_refresh_sda_fabric_edge_batch_mapping_old_keys: []
     switch_refresh_sda_fabric_edge_batch_device_results: []
+    switch_refresh_sda_fabric_edge_batch_inventory_readiness_timeout: >-
+      {{
+        refresh_item.inventory_readiness_timeout |
+        default(
+          switch_refresh_sda_fabric_edge_inventory_readiness_timeout |
+          default(1200)
+        ) |
+        int
+      }}
+    switch_refresh_sda_fabric_edge_batch_inventory_readiness_poll_interval: >-
+      {{
+        refresh_item.inventory_readiness_poll_interval |
+        default(
+          switch_refresh_sda_fabric_edge_inventory_readiness_poll_interval |
+          default(10)
+        ) |
+        int
+      }}
+    switch_refresh_sda_fabric_edge_batch_provision_validation_timeout: >-
+      {{
+        refresh_item.provision_validation_timeout |
+        default(
+          switch_refresh_sda_fabric_edge_provision_validation_timeout |
+          default(1200)
+        ) |
+        int
+      }}
+    switch_refresh_sda_fabric_edge_batch_provision_validation_poll_interval: >-
+      {{
+        refresh_item.provision_validation_poll_interval |
+        default(
+          switch_refresh_sda_fabric_edge_provision_validation_poll_interval |
+          default(10)
+        ) |
+        int
+      }}
     switch_refresh_sda_fabric_edge_batch_discovery_config: []
     switch_refresh_sda_fabric_edge_batch_swim_config: []
     switch_refresh_sda_fabric_edge_batch_golden_image_claims: []
@@ -94,14 +130,15 @@
       - switch_refresh_sda_fabric_edge_batch_device_ips | length > 0
       - >-
         switch_refresh_sda_fabric_edge_batch_device_ips |
-        reject('equalto', '') |
-        list |
-        length == switch_refresh_sda_fabric_edge_batch_device_ips | length
-      - >-
-        switch_refresh_sda_fabric_edge_batch_device_ips |
         unique |
         length == switch_refresh_sda_fabric_edge_batch_device_ips | length
       - switch_refresh_sda_fabric_edge_batch_onboarding_method in ['discovery', 'lan_automation']
+      - (switch_refresh_sda_fabric_edge_batch_inventory_readiness_timeout | int) > 0
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_inventory_readiness_poll_interval | int) > 0
+      - (switch_refresh_sda_fabric_edge_batch_provision_validation_timeout | int) > 0
+      - >-
+        (switch_refresh_sda_fabric_edge_batch_provision_validation_poll_interval | int) > 0
       - (refresh_item.device_mapping | default([]) | type_debug) == 'list'
       - >-
         not (switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool) or
@@ -167,6 +204,7 @@
       onboarding_method must be discovery or lan_automation; custom workflow
       configurations must be non-empty lists; all workflow states must be
       merged; and device_mapping is required when host onboarding is enabled.
+      Readiness and provisioning-validation polling controls must be positive.
       A batch must configure only its selected onboarding method. A custom
       inventory_config must contain exactly one aggregate entry.
 
@@ -222,10 +260,6 @@
         switch_refresh_sda_fabric_edge_target_ip.split('.') |
         map('int') |
         max <= 255
-      - >-
-        switch_refresh_sda_fabric_edge_target_ip.split('.') |
-        map('int') |
-        min >= 0
     fail_msg: >-
       new_devices.device_ips contains an invalid IPv4 management address:
       {{ switch_refresh_sda_fabric_edge_target_ip }}.
@@ -282,19 +316,11 @@
   ansible.builtin.assert:
     that:
       - >-
-        switch_refresh_sda_fabric_edge_batch_mapping_new_ips |
-        unique |
-        length == switch_refresh_sda_fabric_edge_batch_mapping_new_ips | length
-      - >-
         switch_refresh_sda_fabric_edge_batch_mapping_old_keys |
         unique |
         length == switch_refresh_sda_fabric_edge_batch_mapping_old_keys | length
       - >-
         switch_refresh_sda_fabric_edge_batch_device_mappings | length == 0 or
-        switch_refresh_sda_fabric_edge_batch_mapping_new_ips | sort ==
-        switch_refresh_sda_fabric_edge_batch_device_ips | sort
-      - >-
-        not (switch_refresh_sda_fabric_edge_host_onboarding_enabled | bool) or
         switch_refresh_sda_fabric_edge_batch_mapping_new_ips | sort ==
         switch_refresh_sda_fabric_edge_batch_device_ips | sort
     fail_msg: >-
@@ -414,10 +440,6 @@
 - name: Validate LAN Automation batch target coverage
   ansible.builtin.assert:
     that:
-      - >-
-        switch_refresh_sda_fabric_edge_batch_lan_automation_target_ips |
-        unique |
-        length == switch_refresh_sda_fabric_edge_batch_lan_automation_target_ips | length
       - >-
         switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers |
         unique |
@@ -645,7 +667,6 @@
 - name: Validate generated inventory credential scope
   ansible.builtin.assert:
     that:
-      - switch_refresh_sda_fabric_edge_batch_inventory_credentials is mapping
       - >-
         switch_refresh_sda_fabric_edge_batch_inventory_credentials.keys() |
         list |
@@ -934,7 +955,6 @@
       - >-
         switch_refresh_sda_fabric_edge_custom_fabric_item.keys() | list | sort ==
         ['fabric_devices']
-      - switch_refresh_sda_fabric_edge_custom_fabric_item.fabric_devices is defined
       - switch_refresh_sda_fabric_edge_custom_fabric_item.fabric_devices is mapping
       - >-
         switch_refresh_sda_fabric_edge_custom_fabric_item.fabric_devices.keys() |

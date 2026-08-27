@@ -55,6 +55,16 @@
               switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers,
             'inventory_execution_config':
               switch_refresh_sda_fabric_edge_batch_inventory_execution_config,
+            'inventory_readiness_timeout':
+              switch_refresh_sda_fabric_edge_batch_inventory_readiness_timeout,
+            'inventory_readiness_poll_interval':
+              switch_refresh_sda_fabric_edge_batch_inventory_readiness_poll_interval,
+            'provision_site_name_hierarchy':
+              switch_refresh_sda_fabric_edge_batch_provision_site_name_hierarchy,
+            'provision_validation_timeout':
+              switch_refresh_sda_fabric_edge_batch_provision_validation_timeout,
+            'provision_validation_poll_interval':
+              switch_refresh_sda_fabric_edge_batch_provision_validation_poll_interval,
             'provision_config': switch_refresh_sda_fabric_edge_batch_provision_config,
             'fabric_devices_config':
               switch_refresh_sda_fabric_edge_batch_fabric_devices_config,

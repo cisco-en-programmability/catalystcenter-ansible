@@ -31,8 +31,11 @@ then executes each immutable batch plan through these barriers:
 validate all batches and old-device sources
   -> optional SWIM import/golden tag for the batch site and image family
   -> Discovery or LAN Automation for all replacements in one batch
-  -> inventory and ACCESS role for all replacements
+  -> add all replacements to inventory
+  -> wait for the exact replacement IP set to become inventory-ready and,
+     when device-info lookup is enabled, verify ACCESS in the same response
   -> provision all replacements
+  -> verify every replacement is provisioned to the configured site
   -> add all replacements to fabric
   -> resolve every old-to-new mapping
   -> generate and apply one combined host-onboarding payload
@@ -58,9 +61,11 @@ do not supply a replacement hostname for this phase.
 ## Requirements
 
 - `cisco.catalystcenter` collection and a compatible Catalyst Center SDK
-- Python 3.9 or later
-- LAN Automation additionally requires `ansible.utils`, Catalyst Center SDK
-  3.1.6.0.2 or later, and Python 3.12 or later on the Ansible controller
+- Python 3.9 or later; prepare has the higher module-specific minimum below
+- Prepare uses the raw `network_device_info` and
+  `sda_provision_device_info` information modules. Those modules require
+  `ansible.utils`, Catalyst Center SDK 3.1.6.0.2 or later, and Python 3.12 or
+  later on the Ansible controller. LAN Automation has the same minimums.
 - Golden-image preparation requires the requested image to be available in the
   Catalyst Center image repository, or a valid SWIM `import_image_details`
   source, and the exact Catalyst Center device-image family name
@@ -384,6 +389,72 @@ it cannot override target IPs, device type, role, or request unrelated inventory
 actions. Custom inventory entries are restricted to those same fields plus the
 authoritative target list and optional exact `ACCESS` role.
 
+## Inventory and provisioning guards
+
+The prepare flow adds two role-level safety barriers around the existing
+provisioning role. These checks do not change `provision_workflow_manager` or
+the other included workflow managers.
+
+When provisioning is enabled, the role polls live inventory after inventory
+addition and before calling the `provision` role. The response must contain
+exactly one record for every IP in `new_devices.device_ips`, with no missing,
+unexpected, or duplicate management IPs. Every record must report all of the
+following:
+
+- `collectionStatus: Managed`;
+- `managementState: Managed`;
+- `reachabilityStatus: Reachable`;
+- a wired `family` of `Switches and Hubs` or `Routers`; and
+- an `inventoryStatusDetail` general result containing `SUCCESS`.
+
+With `switch_refresh_sda_fabric_edge_device_info_lookup_enabled: true` (the
+default), this same polled response must also report `role: ACCESS` for every
+replacement. This avoids a second controller lookup on provisioning runs. When
+provisioning is disabled for a resume, the existing exact `ACCESS` lookup still
+runs independently; setting the device-info toggle to `false` continues to
+disable only that optional role policy, not provisioning readiness.
+
+The barrier deliberately does not require `managedAtleastOnce`. Catalyst Center
+can report that field as `false` while all of the current readiness signals
+above are complete, so using it as a gate could reject a device that is ready
+for provisioning.
+
+After any enabled provisioning stage, and always before an enabled fabric-add
+stage, the role polls every authoritative replacement IP until Catalyst Center
+reports provisioning `status: success`, returns that same management IP, and
+returns the exact configured `siteNameHierarchy`. The expected hierarchy is the
+batch `provision_site_name_hierarchy` when supplied, otherwise
+`fabric_site_name_hierarchy`. This postcondition also runs when the provisioning
+stage is disabled for a resume, so fabric enrollment cannot begin merely
+because an earlier workflow call returned without provisioning the devices.
+
+The global polling controls and defaults are:
+
+```yaml
+switch_refresh_sda_fabric_edge_inventory_readiness_timeout: 1200
+switch_refresh_sda_fabric_edge_inventory_readiness_poll_interval: 10
+switch_refresh_sda_fabric_edge_provision_validation_timeout: 1200
+switch_refresh_sda_fabric_edge_provision_validation_poll_interval: 10
+```
+
+Each batch can override them with the corresponding unprefixed keys:
+
+```yaml
+switch_refresh_sda_fabric_edge_batches:
+  - name: sjc-bldg23-edge-refresh
+    fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+    inventory_readiness_timeout: 1800
+    inventory_readiness_poll_interval: 15
+    provision_validation_timeout: 1800
+    provision_validation_poll_interval: 15
+    new_devices:
+      device_ips:
+        - "192.0.2.20"
+```
+
+Timeout and poll-interval values must be positive integers. Exhausting either
+barrier fails the batch before its next mutating stage.
+
 ## Cleanup safety
 
 Normal cleanup is separately gated by `switch_refresh_sda_fabric_edge_cleanup_old: true`.
@@ -539,6 +610,16 @@ submitted.
   inventory validation attempts
 - `switch_refresh_sda_fabric_edge_work_dir`: generated payload directory
 - `switch_refresh_sda_fabric_edge_inventory_credentials`: default replacement CLI credentials
+- `switch_refresh_sda_fabric_edge_inventory_readiness_timeout`: maximum time to
+  wait for the exact replacement set to report complete, reachable wired
+  inventory data before provisioning; default `1200` seconds
+- `switch_refresh_sda_fabric_edge_inventory_readiness_poll_interval`: delay
+  between replacement inventory-readiness checks; default `10` seconds
+- `switch_refresh_sda_fabric_edge_provision_validation_timeout`: maximum time
+  to wait for replacements to report the exact provisioning IP/site
+  postcondition before fabric add; default `1200` seconds
+- `switch_refresh_sda_fabric_edge_provision_validation_poll_interval`: delay
+  between provisioning postcondition checks; default `10` seconds
 - `switch_refresh_sda_fabric_edge_device_info_lookup_enabled`: resolve old device identifiers
   and verify exact replacement `ACCESS` inventory coverage before downstream
   stages; when false, every `old` mapping must use `management_ip` and the
@@ -551,6 +632,10 @@ submitted.
 - Per-batch `migration_output_file`: optional absolute prepare payload path
 - Per-batch `old_host_port_cleanup_file`: optional absolute cleanup payload
   path
+- Per-batch `inventory_readiness_timeout`,
+  `inventory_readiness_poll_interval`, `provision_validation_timeout`, and
+  `provision_validation_poll_interval`: positive-integer overrides for the
+  corresponding role-level polling controls
 
 Stage toggles:
 
@@ -569,7 +654,10 @@ Stage toggles:
 - `switch_refresh_sda_fabric_edge_cleanup_inventory_enabled`
 
 Turning off an earlier stage means the required Catalyst Center postcondition
-already exists. Replacement fabric validation is independent of fabric add.
+already exists. Inventory readiness is still required before an enabled
+provisioning stage, and the exact IP/site provisioning postcondition is still
+required before an enabled fabric-add stage. Replacement fabric validation is
+independent of fabric add.
 Cleanup cannot unprovision or delete inventory unless it removes the old fabric
 devices in the same run or validates that they are already absent.
 Keep `switch_refresh_sda_fabric_edge_device_info_lookup_enabled: true` for production prepare

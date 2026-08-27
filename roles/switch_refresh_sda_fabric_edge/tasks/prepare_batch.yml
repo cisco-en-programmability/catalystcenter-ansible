@@ -38,6 +38,22 @@
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].swim_config }}
     switch_refresh_sda_fabric_edge_batch_inventory_execution_config: >-
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].inventory_execution_config }}
+    switch_refresh_sda_fabric_edge_batch_inventory_readiness_timeout: >-
+      {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].inventory_readiness_timeout }}
+    switch_refresh_sda_fabric_edge_batch_inventory_readiness_poll_interval: >-
+      {{
+        switch_refresh_sda_fabric_edge_prepare_plan_matches[0]
+        .inventory_readiness_poll_interval
+      }}
+    switch_refresh_sda_fabric_edge_batch_provision_site_name_hierarchy: >-
+      {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].provision_site_name_hierarchy }}
+    switch_refresh_sda_fabric_edge_batch_provision_validation_timeout: >-
+      {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].provision_validation_timeout }}
+    switch_refresh_sda_fabric_edge_batch_provision_validation_poll_interval: >-
+      {{
+        switch_refresh_sda_fabric_edge_prepare_plan_matches[0]
+        .provision_validation_poll_interval
+      }}
     switch_refresh_sda_fabric_edge_batch_provision_config: >-
       {{ switch_refresh_sda_fabric_edge_prepare_plan_matches[0].provision_config }}
     switch_refresh_sda_fabric_edge_batch_fabric_devices_config: >-
@@ -138,6 +154,23 @@
   when: switch_refresh_sda_fabric_edge_batch_inventory_execution_config | length > 0
   no_log: true
 
+- name: Wait for replacement switch inventory readiness
+  ansible.builtin.include_tasks: wait_for_inventory_readiness.yml
+  vars:
+    switch_refresh_sda_fabric_edge_inventory_readiness_request:
+      expected_ips: "{{ switch_refresh_sda_fabric_edge_batch_device_ips }}"
+      required_role: >-
+        {{
+          'ACCESS'
+          if (switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool)
+          else ''
+        }}
+      context: "Prepare batch {{ switch_refresh_sda_fabric_edge_batch_name }}"
+      timeout: "{{ switch_refresh_sda_fabric_edge_batch_inventory_readiness_timeout }}"
+      poll_interval: >-
+        {{ switch_refresh_sda_fabric_edge_batch_inventory_readiness_poll_interval }}
+  when: switch_refresh_sda_fabric_edge_provision_enabled | bool
+
 - name: Resolve replacement switch batch inventory details
   ansible.builtin.include_role:
     name: network_devices_info
@@ -169,11 +202,16 @@
               }}
             requested_info:
               - device_info
-  when: switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+  when:
+    - switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+    - not (switch_refresh_sda_fabric_edge_provision_enabled | bool)
 
 - name: Initialize replacement switch batch inventory details
   ansible.builtin.set_fact:
     switch_refresh_sda_fabric_edge_batch_new_device_info_entries: []
+  when:
+    - switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+    - not (switch_refresh_sda_fabric_edge_provision_enabled | bool)
 
 - name: Extract replacement switch batch inventory details
   ansible.builtin.set_fact:
@@ -189,6 +227,7 @@
     label: new-device-info-response
   when:
     - switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+    - not (switch_refresh_sda_fabric_edge_provision_enabled | bool)
     - (switch_refresh_sda_fabric_edge_new_lookup_response_item | type_debug) == 'list'
     - switch_refresh_sda_fabric_edge_new_lookup_response_item | length > 0
     - switch_refresh_sda_fabric_edge_new_lookup_response_item[0] is mapping
@@ -218,7 +257,9 @@
     fail_msg: >-
       Unable to resolve every replacement switch with inventory role ACCESS.
       Expected exactly {{ switch_refresh_sda_fabric_edge_batch_device_ips }}.
-  when: switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+  when:
+    - switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+    - not (switch_refresh_sda_fabric_edge_provision_enabled | bool)
 
 - name: Validate replacement switch batch device details
   ansible.builtin.assert:
@@ -236,7 +277,9 @@
   loop_control:
     loop_var: switch_refresh_sda_fabric_edge_new_info_item
     label: "{{ switch_refresh_sda_fabric_edge_new_info_item.device_ip | default('new-device') }}"
-  when: switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+  when:
+    - switch_refresh_sda_fabric_edge_device_info_lookup_enabled | bool
+    - not (switch_refresh_sda_fabric_edge_provision_enabled | bool)
 
 - name: Provision replacement switch batch
   ansible.builtin.include_role:
@@ -249,6 +292,21 @@
     provision_config_verify: "{{ switch_refresh_sda_fabric_edge_provision_config_verify }}"
     provision_config: "{{ switch_refresh_sda_fabric_edge_batch_provision_config }}"
   when: switch_refresh_sda_fabric_edge_provision_enabled | bool
+
+- name: Validate replacement switch provisioning
+  ansible.builtin.include_tasks: validate_provisioning.yml
+  vars:
+    switch_refresh_sda_fabric_edge_provision_validation_request:
+      expected_ips: "{{ switch_refresh_sda_fabric_edge_batch_device_ips }}"
+      expected_site: >-
+        {{ switch_refresh_sda_fabric_edge_batch_provision_site_name_hierarchy }}
+      context: "Prepare batch {{ switch_refresh_sda_fabric_edge_batch_name }}"
+      timeout: "{{ switch_refresh_sda_fabric_edge_batch_provision_validation_timeout }}"
+      poll_interval: >-
+        {{ switch_refresh_sda_fabric_edge_batch_provision_validation_poll_interval }}
+  when: >-
+    switch_refresh_sda_fabric_edge_provision_enabled | bool or
+    switch_refresh_sda_fabric_edge_fabric_add_enabled | bool
 
 - name: Add replacement switch batch to fabric
   ansible.builtin.include_role:

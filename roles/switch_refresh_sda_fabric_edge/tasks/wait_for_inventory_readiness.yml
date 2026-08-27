@@ -1,0 +1,234 @@
+---
+# The inventory workflow reports completion when the add task is accepted, not
+# when Catalyst Center has finished collecting the device. Query the direct API
+# until all fields consumed by downstream provisioning are ready.
+- name: Validate replacement inventory readiness request
+  ansible.builtin.assert:
+    that:
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request is mapping
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips is defined
+      - >-
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+          type_debug
+        ) == 'list'
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips | length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+        map('string') |
+        reject('equalto', '') |
+        unique |
+        list |
+        length ==
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips | length
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.context is defined
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.context |
+        string |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role is not defined or
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role |
+          type_debug
+        ) == 'str'
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.timeout is defined
+      - (switch_refresh_sda_fabric_edge_inventory_readiness_request.timeout | int) > 0
+      - switch_refresh_sda_fabric_edge_inventory_readiness_request.poll_interval is defined
+      - >-
+        (switch_refresh_sda_fabric_edge_inventory_readiness_request.poll_interval | int) > 0
+    fail_msg: >-
+      Inventory readiness requires a non-empty unique management-IP list, a
+      context, and positive timeout and polling values.
+
+- name: Normalize replacement inventory readiness request
+  ansible.builtin.set_fact:
+    switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips: >-
+      {{
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.expected_ips |
+        map('string') |
+        list
+      }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_context: >-
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.context | string }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_required_role: >-
+      {{
+        switch_refresh_sda_fabric_edge_inventory_readiness_request.required_role |
+        default('') |
+        trim |
+        upper
+      }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_interval: >-
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_request.poll_interval | int }}
+    switch_refresh_sda_fabric_edge_inventory_readiness_retries: >-
+      {{
+        (
+          (switch_refresh_sda_fabric_edge_inventory_readiness_request.timeout | int) +
+          (switch_refresh_sda_fabric_edge_inventory_readiness_request.poll_interval | int) -
+          1
+        ) //
+        (switch_refresh_sda_fabric_edge_inventory_readiness_request.poll_interval | int)
+      }}
+
+- name: Poll replacement switch inventory readiness
+  cisco.catalystcenter.network_device_info:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: false
+    managementIpAddress: >-
+      {{ switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips }}
+    limit: 500
+  register: switch_refresh_sda_fabric_edge_inventory_readiness_lookup
+  until:
+    - >-
+      not (
+        switch_refresh_sda_fabric_edge_inventory_readiness_lookup.failed |
+        default(false) |
+        bool
+      )
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        type_debug
+      ) == 'list'
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+    - >-
+      switch_refresh_sda_fabric_edge_inventory_readiness_required_role | length == 0 or
+      (
+        (
+          (
+            switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+            default({})
+          ).response |
+          default([]) |
+          map(attribute='role', default='') |
+          map('string') |
+          map('upper') |
+          select(
+            'equalto',
+            switch_refresh_sda_fabric_edge_inventory_readiness_required_role
+          ) |
+          list |
+          length
+        ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+      )
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='managementIpAddress', default='') |
+        map('string') |
+        unique |
+        list |
+        sort
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | sort
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='collectionStatus', default='') |
+        map('string') |
+        select('equalto', 'Managed') |
+        list |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='managementState', default='') |
+        map('string') |
+        select('equalto', 'Managed') |
+        list |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='reachabilityStatus', default='') |
+        map('string') |
+        select('equalto', 'Reachable') |
+        list |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='family', default='') |
+        map('string') |
+        select('in', ['Switches and Hubs', 'Routers']) |
+        list |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+    - >-
+      (
+        (
+          switch_refresh_sda_fabric_edge_inventory_readiness_lookup.catalystcenter_response |
+          default({})
+        ).response |
+        default([]) |
+        map(attribute='inventoryStatusDetail', default='') |
+        map('string') |
+        map('upper') |
+        map('regex_replace', '[^A-Z=]', '') |
+        select('search', 'GENERALCODE=SUCCESS') |
+        list |
+        length
+      ) == switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips | length
+  retries: "{{ switch_refresh_sda_fabric_edge_inventory_readiness_retries | int }}"
+  delay: "{{ switch_refresh_sda_fabric_edge_inventory_readiness_interval | int }}"
+  failed_when: false
+  no_log: true
+
+# Ansible marks the registered result failed when `until` exhausts even though
+# the task is deliberately deferred. Clear only that outer marker so the pure
+# evaluator can report the final per-device state; malformed/error responses
+# still fail its response-shape checks.
+- name: Evaluate replacement switch inventory readiness
+  ansible.builtin.include_tasks: validate_inventory_readiness_result.yml
+  vars:
+    switch_refresh_sda_fabric_edge_inventory_readiness_request:
+      expected_ips: >-
+        {{ switch_refresh_sda_fabric_edge_inventory_readiness_expected_ips }}
+      required_role: >-
+        {{ switch_refresh_sda_fabric_edge_inventory_readiness_required_role }}
+      context: "{{ switch_refresh_sda_fabric_edge_inventory_readiness_context }}"
+    switch_refresh_sda_fabric_edge_inventory_readiness_raw_result: >-
+      {{
+        (switch_refresh_sda_fabric_edge_inventory_readiness_lookup | default({})) |
+        combine({'failed': false})
+      }}
