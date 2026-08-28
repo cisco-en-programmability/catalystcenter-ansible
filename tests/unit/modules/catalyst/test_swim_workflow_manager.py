@@ -36,6 +36,7 @@ class TestswimWorkflowManager(TestCatalystModule):
         "playbook_image_activation_global_parent_device"
     )
     playbook_image_distribution = test_data.get("playbook_image_distribution")
+    playbook_image_activation_device = test_data.get("playbook_image_activation_device")
     playbook_import_image = test_data.get("playbook_import_image")
     playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
     playbook_sub_package_images = test_data.get("playbook_sub_package_images")
@@ -211,17 +212,35 @@ class TestswimWorkflowManager(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_100"),
                 self.test_data.get("get_device_list"),
-                self.test_data.get("get_sites_global_golden_idempotence"),
-                self.test_data.get("get_sites_global_golden_idempotence"),
-                self.test_data.get("get_sites_empty_child_parent_device_regression"),
-                self.test_data.get("get_sites_global_golden_idempotence"),
-                self.test_data.get("get_site_assigned_network_devices_66"),
-                self.test_data.get("get_site_assigned_network_devices_66"),
-                self.test_data.get("get_device_list_111"),
                 self.test_data.get("get_software_image_details_101"),
                 self.test_data.get("compliance_details_of_device"),
-                self.test_data.get("get_device_list_112"),
                 self.test_data.get("trigger_software_image_distribution"),
+                self.test_data.get("task_success_golden_idempotence"),
+            ]
+
+        elif "playbook_image_activation_device" in self._testMethodName:
+            # Device-specific activation (device_ip, no site_name).
+            # get_device_uuids and get_device_ip_from_id are patched in the test,
+            # so only get_have + the single-device activation branch make API calls.
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_100"),
+                self.test_data.get("get_device_list"),
+                self.test_data.get("get_software_image_details_101"),
+                self.test_data.get("compliance_details_of_device"),
+                self.test_data.get("trigger_software_image_distribution"),
+                self.test_data.get("task_success_golden_idempotence"),
+            ]
+
+        elif "activation_poll_interval" in self._testMethodName:
+            # Device-specific activation whose task stays PENDING for one poll
+            # before succeeding, so the poller sleeps once for activation_poll_interval.
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_software_image_details_100"),
+                self.test_data.get("get_device_list"),
+                self.test_data.get("get_software_image_details_101"),
+                self.test_data.get("compliance_details_of_device"),
+                self.test_data.get("trigger_software_image_distribution"),
+                self.test_data.get("task_pending_golden_idempotence"),
                 self.test_data.get("task_success_golden_idempotence"),
             ]
 
@@ -779,6 +798,10 @@ class TestswimWorkflowManager(TestCatalystModule):
     def test_swim_workflow_manager_playbook_image_distribution_payload(self):
         """
         Test the image distribution payload for Catalyst Center 3.1.3.0 and later.
+
+        The config targets a specific device by IP with no site_name, so the
+        device-precedence guard must skip the site-wide get_device_uuids
+        enumeration entirely and distribute only to the resolved device.
         """
         set_module_args(
             dict(
@@ -792,7 +815,18 @@ class TestswimWorkflowManager(TestCatalystModule):
                 config=self.playbook_image_distribution
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+        ) as mock_get_device_uuids, patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.2.4",
+        ):
+            result = self.execute_module(changed=True, failed=False)
+
+        # Guard: a specific device IP must bypass site-wide enumeration.
+        mock_get_device_uuids.assert_not_called()
         self.assertEqual(
             result.get('msg'),
             "Image distribution completed successfully for the device IP 204.1.2.4 "
@@ -866,6 +900,81 @@ class TestswimWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get('msg'),
             "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
+        )
+
+    def test_swim_workflow_manager_playbook_image_activation_device(self):
+        """
+        Test image activation targeting a specific device by IP with no site_name.
+
+        The device-precedence guard must skip the site-wide get_device_uuids
+        enumeration and activate only on the resolved device.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=self.playbook_image_activation_device
+            )
+        )
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+        ) as mock_get_device_uuids, patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.2.4",
+        ):
+            result = self.execute_module(changed=True, failed=False)
+
+        # Guard: a specific device IP must bypass site-wide enumeration.
+        mock_get_device_uuids.assert_not_called()
+        self.assertEqual(
+            result.get('msg'),
+            "Successfully activated: All images activated successfully on device 204.1.2.4"
+        )
+
+    def test_swim_workflow_manager_activation_poll_interval(self):
+        """
+        Test that activation_poll_interval controls the task-status poll delay.
+
+        The activation task returns PENDING for one poll before succeeding, so the
+        poller must sleep exactly once using the configured activation_poll_interval.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                activation_poll_interval=7,
+                config=self.playbook_image_activation_device
+            )
+        )
+        with patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_uuids",
+        ), patch.object(
+            swim_workflow_manager.Swim,
+            "get_device_ip_from_id",
+            return_value="204.1.2.4",
+        ), patch.object(
+            swim_workflow_manager.time, "sleep"
+        ) as mock_sleep:
+            result = self.execute_module(changed=True, failed=False)
+
+        # The single PENDING->SUCCESS transition must sleep once for the configured interval.
+        mock_sleep.assert_called_once_with(7)
+        self.assertEqual(
+            result.get('msg'),
+            "Successfully activated: All images activated successfully on device 204.1.2.4"
         )
 
     def test_swim_workflow_manager_playbook_sub_package_images(self):
