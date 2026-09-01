@@ -69,6 +69,65 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
+    def test_is_fabric_site_falls_back_to_fabric_zone(self):
+        """Resolve a fabric zone when the hierarchy is not a fabric site."""
+        manager = fabric_devices_info_workflow_manager.FabricDevicesInfo.__new__(
+            fabric_devices_info_workflow_manager.FabricDevicesInfo
+        )
+        manager.get_site_id = Mock(return_value=(True, "zone-site-id"))
+        manager.log = Mock()
+        manager.catalystcenter = Mock()
+        manager.catalystcenter._exec.side_effect = [
+            {"response": [], "version": "1.0"},
+            {
+                "response": [
+                    {
+                        "id": "fabric-zone-id",
+                        "siteId": "zone-site-id",
+                    }
+                ],
+                "version": "1.0",
+            },
+        ]
+
+        fabric_exists, fabric_id = manager.is_fabric_site(
+            "Global/USA/San Jose/BLDG23/Floor1"
+        )
+
+        self.assertTrue(fabric_exists)
+        self.assertEqual(fabric_id, "fabric-zone-id")
+        self.assertEqual(
+            [
+                fabric_call.kwargs.get("function")
+                for fabric_call in manager.catalystcenter._exec.call_args_list
+            ],
+            ["get_fabric_sites", "get_fabric_zones"],
+        )
+        self.assertEqual(
+            manager.catalystcenter._exec.call_args_list[1].kwargs.get("params"),
+            {"site_id": "zone-site-id", "offset": 1, "limit": 500},
+        )
+
+    def test_is_fabric_site_rejects_non_fabric_site_or_zone(self):
+        """Fail closed when a hierarchy is neither a fabric site nor a zone."""
+        manager = fabric_devices_info_workflow_manager.FabricDevicesInfo.__new__(
+            fabric_devices_info_workflow_manager.FabricDevicesInfo
+        )
+        manager.get_site_id = Mock(return_value=(True, "ordinary-site-id"))
+        manager.log = Mock()
+        manager.catalystcenter = Mock()
+        manager.catalystcenter._exec.side_effect = [
+            {"response": [], "version": "1.0"},
+            {"response": [], "version": "1.0"},
+        ]
+
+        fabric_exists, fabric_id = manager.is_fabric_site(
+            "Global/USA/New York"
+        )
+
+        self.assertFalse(fabric_exists)
+        self.assertIsNone(fabric_id)
+
     def test_filter_fabric_devices_retries_until_all_explicit_devices_visible(self):
         """Wait for every explicitly requested fabric device, not just one."""
         manager = fabric_devices_info_workflow_manager.FabricDevicesInfo.__new__(
@@ -82,7 +141,7 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
                 }
             ]
         }
-        manager.is_fabric_site = Mock(return_value=(True, "fabric-id"))
+        manager.is_fabric_site = Mock(return_value=(True, "fabric-zone-id"))
         manager.get_device_id = Mock(
             return_value={
                 "192.0.2.10": "device-uuid-1",
@@ -95,7 +154,7 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
             {
                 "response": [
                     {
-                        "fabricId": "fabric-id",
+                        "fabricId": "fabric-zone-id",
                         "networkDeviceId": "device-uuid-1",
                     }
                 ]
@@ -103,11 +162,11 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
             {
                 "response": [
                     {
-                        "fabricId": "fabric-id",
+                        "fabricId": "fabric-zone-id",
                         "networkDeviceId": "device-uuid-1",
                     },
                     {
-                        "fabricId": "fabric-id",
+                        "fabricId": "fabric-zone-id",
                         "networkDeviceId": "device-uuid-2",
                     },
                 ]
@@ -130,11 +189,17 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result,
             {
-                "192.0.2.10": "fabric-id",
-                "192.0.2.11": "fabric-id",
+                "192.0.2.10": "fabric-zone-id",
+                "192.0.2.11": "fabric-zone-id",
             },
         )
         self.assertEqual(manager.catalystcenter._exec.call_count, 2)
+        self.assertEqual(
+            manager.catalystcenter._exec.call_args_list[0].kwargs.get("params").get(
+                "fabric_id"
+            ),
+            "fabric-zone-id",
+        )
         sleep_mock.assert_called_once_with(0)
 
     def load_fixtures(self, response=None, device=""):
@@ -319,8 +384,10 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites31"),
                 self.test_data.get("get_fabric_sites30"),
+                self.test_data.get("get_fabric_zones30"),
                 self.test_data.get("get_sites32"),
                 self.test_data.get("get_fabric_sites31"),
+                self.test_data.get("get_fabric_zones31"),
             ]
 
         elif "playbook_ip_range_OR_logic_exception" in self._testMethodName:
@@ -1366,11 +1433,11 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_12(self):
         """
-        Test configuration validation when site hierarchy is not a fabric site.
+        Test configuration validation when a hierarchy is neither a fabric site nor zone.
 
         This test verifies that the workflow correctly identifies and reports an error
-        when the specified site hierarchy exists but is not configured as a fabric site,
-        ensuring proper fabric site validation and error messaging.
+        when the specified hierarchy exists but is not configured as a fabric site or
+        fabric zone, ensuring proper fabric validation and error messaging.
         """
         set_module_args(
             dict(
@@ -1388,7 +1455,7 @@ class TestCatalystCenterFabricDeviceInfoWorkflowManager(TestCatalystModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The specified site hierarchy 'Global/USA/New York' is not a fabric site."
+            "The specified site hierarchy 'Global/USA/New York' is not a fabric site or fabric zone."
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_ip_range_OR_logic_exception(self):

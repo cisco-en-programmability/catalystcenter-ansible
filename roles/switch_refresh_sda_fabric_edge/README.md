@@ -113,6 +113,12 @@ switch_refresh_sda_fabric_edge_batches:
             destination_interface_name: TenGigabitEthernet1/1/1
 ```
 
+`fabric_site_name_hierarchy` must be the complete hierarchy of the SDA fabric
+site or fabric zone containing the old and replacement edge devices. For a
+zone-level refresh, keep the zone suffix, for example
+`Global/USA/San Jose/BLDG23/Floor1`; the role uses that same fabric target for
+membership validation, fabric add/delete, and host-port migration.
+
 `new_devices.device_ips` is the authoritative replacement-device set. Each
 `device_mapping` entry must:
 
@@ -584,6 +590,8 @@ submitted.
 
 - `switch_refresh_sda_fabric_edge_phase`: `prepare` or `cleanup_old`; default `prepare`
 - `switch_refresh_sda_fabric_edge_batches`: non-empty list of batch entries
+- Per-batch `fabric_site_name_hierarchy`: complete hierarchy of the SDA fabric
+  site or fabric zone containing the refresh devices
 - `switch_refresh_sda_fabric_edge_onboarding_method`: default per-batch method; `discovery` or
   `lan_automation`
 - `switch_refresh_sda_fabric_edge_swim_enabled`: require and establish the

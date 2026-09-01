@@ -16,7 +16,7 @@ short_description: >
 
 description:
   - Retrieves comprehensive fabric device information from Cisco Catalyst Center using flexible, user-defined filtering criteria.
-  - Supports device identification through fabric site hierarchy and optional fabric device role filtering for targeted information retrieval.
+  - Supports device identification through fabric site or fabric zone hierarchy and optional fabric device role filtering for targeted information retrieval.
   - Enables selective information retrieval across six categories are fabric configuration details, Layer 2/3 handoff configurations, device onboarding status,
     connected neighbor devices, health metrics, and active issues.
   - Implements robust data collection with configurable retry mechanisms, timeout handling, and polling intervals for reliable operation in enterprise
@@ -55,18 +55,18 @@ options:
     suboptions:
       fabric_devices:
         description:
-          - Defines fabric device filtering criteria to retrieve information from Software-Defined Access (SDA) fabric sites.
-          - Each device entry must include the fabric_site_hierarchy parameter to identify the fabric site.
-          - Optional device_identifier parameter provides additional filtering capabilities within the fabric site.
+          - Defines fabric device filtering criteria to retrieve information from Software-Defined Access (SDA) fabric sites or zones.
+          - Each device entry must include the fabric_site_hierarchy parameter to identify the fabric site or zone.
+          - Optional device_identifier parameter provides additional filtering capabilities within the fabric site or zone.
         type: list
         elements: dict
         suboptions:
           fabric_site_hierarchy:
             description:
-              - Hierarchical path of the fabric site to query for fabric device information.
-              - Must be an existing site configured as a Software-Defined Access (SDA) fabric site in Cisco Catalyst Center.
+              - Hierarchical path of the fabric site or fabric zone to query for fabric device information.
+              - Must be an existing site configured as a Software-Defined Access (SDA) fabric site or fabric zone in Cisco Catalyst Center.
               - Site path must follow the full hierarchical structure (e.g., "Global/Region/Building/Floor").
-              - All fabric devices within this site hierarchy will be included unless further filtered by other parameters.
+              - All fabric devices within this site or zone hierarchy will be included unless further filtered by other parameters.
               - Site hierarchy paths must match exactly as configured in Cisco Catalyst Center's site management structure.
             type: str
             required: true
@@ -74,7 +74,7 @@ options:
             description:
               - Optional filter to restrict fabric device information retrieval to specific fabric roles.
               - When specified, only fabric devices with the matching role will have their information retrieved.
-              - If omitted, all fabric devices within the specified fabric site hierarchy are included.
+              - If omitted, all fabric devices within the specified fabric site or zone hierarchy are included.
               - Role-based filtering improves performance for large fabric deployments by reducing the scope of devices processed.
             type: str
             required: false
@@ -86,9 +86,9 @@ options:
               - WIRELESS_CONTROLLER_NODE  # Wireless controllers in fabric deployments
           device_identifier:
             description:
-              - Optional list of device identification criteria to further filter fabric devices within the specified fabric site.
+              - Optional list of device identification criteria to further filter fabric devices within the specified fabric site or zone.
               - Provides granular control over which fabric devices have their information retrieved.
-              - If omitted, all fabric devices within the fabric site hierarchy (and optional role filter) are processed.
+              - If omitted, all fabric devices within the fabric site or zone hierarchy (and optional role filter) are processed.
               - Multiple identification methods can be combined for comprehensive device targeting.
               - Only devices that are both fabric-enabled and match the identifier criteria will be processed.
               - For IP-based identification, specify either ip_address (for individual IPs) OR ip_address_range (for IP ranges),
@@ -101,7 +101,7 @@ options:
             suboptions:
               ip_address:
                 description:
-                  - List of management IP addresses to identify specific fabric devices within specified fabric site.
+                  - List of management IP addresses to identify specific fabric devices within the specified fabric site or zone.
                   - Each IP address must correspond to a managed device in the Cisco Catalyst Center inventory.
                   - Only devices with matching IP addresses that are also fabric-enabled will have their information retrieved.
                   - IP addresses must be valid IPv4 addresses in dotted decimal notation.
@@ -112,7 +112,7 @@ options:
                 required: false
               ip_address_range:
                 description:
-                  - IP address range specification for bulk device identification within specified fabric sites.
+                  - IP address range specification for bulk device identification within specified fabric sites or zones.
                   - Format "start_ip-end_ip" (e.g., "192.168.1.1-192.168.1.50") for contiguous IP ranges.
                   - Range is automatically expanded into individual IP addresses for processing.
                   - Only fabric-enabled devices within the specified range will have their information retrieved.
@@ -239,8 +239,8 @@ notes:
 - This is a facts/info module that only retrieves information and does not modify any device configurations or network state.
 - Writing to a local file is for reporting, archival, and audit purposes only and does not affect the state of any managed devices.
 - Module is safe to use in check mode as it performs read-only operations against Cisco Catalyst Center APIs.
-- Fabric device filtering automatically identifies SDA fabric-enabled devices from the specified fabric site hierarchy.
-- The fabric_site_hierarchy parameter is required and must reference an existing SDA fabric site in Cisco Catalyst Center.
+- Fabric device filtering automatically identifies SDA fabric-enabled devices from the specified fabric site or zone hierarchy.
+- The fabric_site_hierarchy parameter is required and must reference an existing SDA fabric site or fabric zone in Cisco Catalyst Center.
 - Device identification through device_identifier parameters provides granular control over which fabric devices are processed.
 - Information retrieval is optimized based on device capabilities -
   SSID details are only retrieved for wireless controllers, handoff information is role-specific.
@@ -253,6 +253,7 @@ notes:
   - devices.Devices.get_device_list
   - sda.Sda.get_fabric_devices
   - sda.Sda.get_fabric_sites
+  - sda.Sda.get_fabric_zones
   - sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit
   - sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit
   - sda.Sda.get_fabric_devices_layer2_handoffs
@@ -268,6 +269,7 @@ notes:
   - GET/dna/intent/api/v1/network-device
   - GET/dna/intent/api/v1/sda/fabricDevices
   - GET/dna/intent/api/v1/sda/fabricSites
+  - GET/dna/intent/api/v1/sda/fabricZones
   - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
   - GET/dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
   - GET/dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
@@ -1830,7 +1832,7 @@ class FabricDevicesInfo(CatalystCenterBase):
             self.log("Filtered fabric devices after applying given filters: {0}".format(filtered_fabric_devices), "DEBUG")
 
             if not fabric_exists:
-                self.msg = "The specified site hierarchy '{0}' is not a fabric site.".format(
+                self.msg = "The specified site hierarchy '{0}' is not a fabric site or fabric zone.".format(
                     device_cfg.get("fabric_site_hierarchy")
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -1919,23 +1921,29 @@ class FabricDevicesInfo(CatalystCenterBase):
 
     def is_fabric_site(self, site_hierarchy):
         """
-        Determines whether a given site hierarchy is configured as a Software-Defined Access (SDA) fabric site.
+        Resolve a site hierarchy to an SDA fabric site or fabric zone ID.
 
-        This method validates the existence of a site hierarchy in Cisco Catalyst Center and checks
-        if it has been configured as an SDA fabric site.
+        This method validates that the site hierarchy exists in Cisco Catalyst Center. It first
+        checks whether the site is an SDA fabric site and, when no fabric site is found, checks
+        whether the site is an SDA fabric zone.
 
         Args:
-            site_hierarchy (str): The hierarchical path of the site to validate as a fabric site.
+            site_hierarchy (str): The hierarchical path of the site to resolve.
                 Format: "Global/Area/Building/Floor" or similar hierarchical structure.
                 Must be an existing site in Cisco Catalyst Center.
 
         Returns:
             tuple: A tuple containing two elements:
-                - bool: True if the site is configured as a fabric site, False otherwise.
-                - str or None: The fabric site ID if the site is a fabric site, None otherwise.
+                - bool: True if the site is a fabric site or fabric zone, False otherwise.
+                - str or None: The resolved fabric site or fabric zone ID, or None.
 
         """
-        self.log("Checking if site hierarchy '{0}' is a fabric site".format(site_hierarchy), "DEBUG")
+        self.log(
+            "Resolving site hierarchy '{0}' as a fabric site or fabric zone".format(
+                site_hierarchy
+            ),
+            "DEBUG",
+        )
         site_exists, site_id = self.get_site_id(site_hierarchy)
 
         if not site_exists:
@@ -1944,47 +1952,79 @@ class FabricDevicesInfo(CatalystCenterBase):
 
         try:
             limit = 500
-            offset = 1
-            fabric_site_id = None
+            fabric_lookups = (
+                ("get_fabric_sites", "fabric site"),
+                ("get_fabric_zones", "fabric zone"),
+            )
 
-            self.log("Checking fabric sites for site_id: {0}".format(site_id), "DEBUG")
-
-            while True:
-                response = self.catalystcenter._exec(
-                    family="sda",
-                    function="get_fabric_sites",
-                    params={"site_id": site_id, "offset": offset, "limit": limit}
+            for function_name, fabric_type in fabric_lookups:
+                offset = 1
+                self.log(
+                    "Checking {0}s for site_id: {1}".format(fabric_type, site_id),
+                    "DEBUG",
                 )
 
-                self.log("Received API response from 'get_fabric_sites': {0}".format(response), "DEBUG")
-
-                fabric_sites = response.get("response", [])
-                self.log("Retrieved {0} fabric site(s) for site_id: {1}".format(len(fabric_sites), site_id), "DEBUG")
-
-                if fabric_sites:
-                    fabric_site_id = fabric_sites[0].get("id")
-                    self.log(
-                        "The site hierarchy '{0}' (siteId: {1}) is a Fabric site with Fabric ID: {2}".format(
-                            site_hierarchy, site_id, fabric_site_id
-                        ),
-                        "INFO"
+                while True:
+                    response = self.catalystcenter._exec(
+                        family="sda",
+                        function=function_name,
+                        params={"site_id": site_id, "offset": offset, "limit": limit},
                     )
-                    return True, fabric_site_id
+                    self.log(
+                        "Received API response from '{0}': {1}".format(
+                            function_name, response
+                        ),
+                        "DEBUG",
+                    )
 
-                if len(fabric_sites) < limit:
-                    self.log("No more fabric sites returned (less than limit {0}).".format(limit), "DEBUG")
-                    break
+                    fabric_entries = response.get("response", [])
+                    self.log(
+                        "Retrieved {0} {1}(s) for site_id: {2}".format(
+                            len(fabric_entries), fabric_type, site_id
+                        ),
+                        "DEBUG",
+                    )
 
-                offset += limit
+                    if fabric_entries:
+                        fabric_id = fabric_entries[0].get("id")
+                        if not fabric_id:
+                            self.msg = (
+                                "The {0} response for site hierarchy '{1}' did not contain "
+                                "a fabric ID."
+                            ).format(fabric_type, site_hierarchy)
+                            self.set_operation_result(
+                                "failed", False, self.msg, "ERROR"
+                            ).check_return_status()
+
+                        self.log(
+                            "The site hierarchy '{0}' (siteId: {1}) is a {2} "
+                            "with Fabric ID: {3}".format(
+                                site_hierarchy, site_id, fabric_type, fabric_id
+                            ),
+                            "INFO",
+                        )
+                        return True, fabric_id
+
+                    if len(fabric_entries) < limit:
+                        self.log(
+                            "No more {0}s returned (less than limit {1}).".format(
+                                fabric_type, limit
+                            ),
+                            "DEBUG",
+                        )
+                        break
+
+                    offset += limit
 
             self.log(
-                "The site hierarchy '{0}' (siteId: {1}) is NOT a Fabric site.".format(site_hierarchy, site_id),
-                "INFO"
+                "The site hierarchy '{0}' (siteId: {1}) is neither a fabric "
+                "site nor a fabric zone.".format(site_hierarchy, site_id),
+                "INFO",
             )
             return False, None
 
         except Exception as e:
-            self.msg = "Error occurred while checking fabric site: {0}".format(str(e))
+            self.msg = "Error occurred while resolving fabric site or zone: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False, None
 
@@ -2238,9 +2278,9 @@ class FabricDevicesInfo(CatalystCenterBase):
 
     def filter_fabric_devices(self, filtered_config):
         """
-        Filters network devices to identify which ones are part of a Software-Defined Access (SDA) fabric site.
+        Filters network devices in a Software-Defined Access (SDA) fabric site or fabric zone.
 
-        This method retrieves all fabric devices from a specified fabric site and cross-references them
+        This method retrieves all fabric devices from a specified fabric site or zone and cross-references them
         with the provided device identifiers to determine which devices are actually fabric-enabled.
         It supports optional role-based filtering to narrow results to specific fabric device roles.
 
@@ -2249,7 +2289,7 @@ class FabricDevicesInfo(CatalystCenterBase):
 
         Returns:
             dict: A dictionary mapping device IP addresses to their corresponding UUIDs for devices
-                that are both managed and part of the fabric site. Returns None if an error occurs.
+                that are both managed and part of the fabric site or zone. Returns None if an error occurs.
         """
         self.log("Starting comprehensive fabric device filtering", "INFO")
         site_hierarchy = self.want["fabric_devices"][0].get("fabric_site_hierarchy")
@@ -2371,7 +2411,7 @@ class FabricDevicesInfo(CatalystCenterBase):
                     )
 
                     if not filtered_devices:
-                        self.msg = "No devices from the provided identifiers are part of the specified fabric site with the given criteria."
+                        self.msg = "No devices from the provided identifiers are part of the specified fabric site or zone with the given criteria."
                         self.set_operation_result("Success", False, self.msg, "ERROR").check_return_status()
 
                 except Exception as e:
