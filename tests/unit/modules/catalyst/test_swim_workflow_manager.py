@@ -218,6 +218,44 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_success_golden_idempotence"),
             ]
 
+        elif "distribution_bulk_unresolved_identifier" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                {"response": [{"imageUuid": "img-uuid-1", "imageName": "cat9k.bin", "name": "cat9k.bin"}]},
+                {"response": []},
+            ]
+
+        elif "distribution_bulk_all_unreachable" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                {"response": [{"imageUuid": "img-uuid-1", "imageName": "cat9k.bin", "name": "cat9k.bin"}]},
+                {"response": [{
+                    "id": "dev-A",
+                    "reachabilityStatus": "Unreachable",
+                    "family": "Switches and Hubs",
+                    "role": "ACCESS",
+                    "series": "Cisco Catalyst 9300 Series Switches",
+                    "type": "Cisco Catalyst 9300 Switch",
+                }]},
+            ]
+
+        elif "distribution_bulk_access_point_excluded" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                {"response": [{"imageUuid": "img-uuid-1", "imageName": "cat9k.bin", "name": "cat9k.bin"}]},
+                {"response": [{
+                    "id": "ap-1",
+                    "reachabilityStatus": "Reachable",
+                    "family": "Unified AP",
+                    "role": "ACCESS POINT",
+                    "series": "Cisco Catalyst 9130AX Series",
+                    "type": "Unified AP",
+                }]},
+            ]
+
+        elif "activation_bulk_unresolved_identifier" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                {"response": [{"imageUuid": "img-uuid-1", "imageName": "cat9k.bin", "name": "cat9k.bin"}]},
+                {"response": []},
+            ]
+
         elif "playbook_image_activation_device" in self._testMethodName:
             # Device-specific activation (device_ip, no site_name).
             # get_device_uuids and get_device_ip_from_id are patched in the test,
@@ -504,15 +542,6 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("golden_tag_status_access_tagged_true"),
             ]
 
-        elif "distribution_batch_size_exceeds_limit" in self._testMethodName:
-            # get_have resolves the image; get_diff_distribution then fails batch validation
-            # before any bulk API call, so only the get_have responses are consumed.
-            self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_sites_10"),
-                self.test_data.get("get_software_image_details_10"),
-                self.test_data.get("get_software_image_details_11"),
-            ]
-
     def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
         """
         Test case for SWIM workflow manager inherited tag untagging.
@@ -650,9 +679,9 @@ class TestswimWorkflowManager(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Device Family: None not found"
+        self.assertIn(
+            "Device Family: None not found. Valid SWIM image family name(s):",
+            result.get('msg')
         )
 
     def test_swim_workflow_manager_playbook_import_image(self):
@@ -1350,6 +1379,140 @@ class TestswimWorkflowManager(TestCatalystModule):
             "It must be between 1 and 500.",
             result.get("msg"),
         )
+        self.run_catalystcenter_exec.assert_not_called()
+
+    def test_swim_workflow_manager_invalid_device_identifier_list(self):
+        """
+        Test that blank identifier-list entries fail before any SDK call.
+        """
+        config = [
+            {
+                "image_distribution_details": {
+                    "image_name": "cat9k_iosxe.17.12.03.SPA.bin",
+                    "device_ip_addresses": ["", "10.1.1.1", "   "],
+                }
+            }
+        ]
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=config
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+
+        self.assertIn(
+            "config[1].image_distribution_details.device_ip_addresses[1], "
+            "config[1].image_distribution_details.device_ip_addresses[3]",
+            result.get("msg"),
+        )
+        self.run_catalystcenter_exec.assert_not_called()
+
+    def test_swim_workflow_manager_distribution_bulk_unresolved_identifier(self):
+        """Bulk distribution fails when an identifier resolves to no device."""
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=[
+                    {
+                        "image_distribution_details": {
+                            "image_name": "cat9k.bin",
+                            "device_ip_addresses": ["10.1.1.99"],
+                        }
+                    }
+                ],
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "device identifier(s) for distribution could not be found",
+            result.get("msg"),
+        )
+        self.assertIn("IP address: 10.1.1.99", result.get("msg"))
+
+    def test_swim_workflow_manager_distribution_bulk_all_unreachable(self):
+        """Bulk distribution is a no-op when every resolved device is unreachable."""
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=[
+                    {
+                        "image_distribution_details": {
+                            "image_name": "cat9k.bin",
+                            "device_ip_addresses": ["10.1.1.1"],
+                        }
+                    }
+                ],
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("no eligible devices were found", result.get("msg"))
+
+    def test_swim_workflow_manager_distribution_bulk_access_point_excluded(self):
+        """Access Points are excluded, leaving bulk distribution with no eligible device."""
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=[
+                    {
+                        "image_distribution_details": {
+                            "image_name": "cat9k.bin",
+                            "device_hostnames": ["ap-host"],
+                        }
+                    }
+                ],
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn("no eligible devices were found", result.get("msg"))
+
+    def test_swim_workflow_manager_activation_bulk_unresolved_identifier(self):
+        """Bulk activation fails when an identifier resolves to no device."""
+        set_module_args(
+            dict(
+                catalystcenter_version='3.1.3.0',
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config=[
+                    {
+                        "image_activation_details": {
+                            "image_name": "cat9k.bin",
+                            "device_ip_addresses": ["10.1.1.99"],
+                        }
+                    }
+                ],
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "device identifier(s) for activation could not be found",
+            result.get("msg"),
+        )
+        self.assertIn("IP address: 10.1.1.99", result.get("msg"))
 
     def test_swim_workflow_manager_playbook_swim_golden_tag_without_device_tags(self):
         """

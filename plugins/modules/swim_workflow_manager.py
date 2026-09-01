@@ -410,12 +410,22 @@ options:
         description: |
           Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
           - device_serial_number
+          - device_serial_numbers
           - device_ip_address
+          - device_ip_addresses
           - device_hostname
+          - device_hostnames
           - device_mac_address
+          - device_mac_addresses
           - site_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          When any plural device identifier is provided, all supplied singular and plural identifiers are
+          resolved independently. Their devices are combined, duplicates are removed, and site-based device
+          selection is skipped.
+          Access Points and devices whose reachability status is not 'Reachable' are excluded from the
+          resolved device list.
+          Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
           - SAPRO devices are not eligible for image distribution.
         type: dict
         suboptions:
@@ -540,6 +550,12 @@ options:
             description: Device serial number where
               the image needs to be distributed
             type: str
+          device_serial_numbers:
+            description: |
+              List of device serial numbers for bulk image distribution. Any value in
+              'device_serial_number' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_tag:
             description: Device tag for filtering the target device(s)
             type: str
@@ -558,20 +574,42 @@ options:
             description: Device hostname where the image
               needs to be distributed
             type: str
+          device_hostnames:
+            description: |
+              List of device hostnames for bulk image distribution. Any value in
+              'device_hostname' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_mac_address:
             description: Device MAC address where the
               image needs to be distributed
             type: str
+          device_mac_addresses:
+            description: |
+              List of device MAC addresses for bulk image distribution. Any value in
+              'device_mac_address' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
       image_activation_details:
         description: |
           Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
           - device_serial_number
+          - device_serial_numbers
           - device_ip_address
+          - device_ip_addresses
           - device_hostname
+          - device_hostnames
           - device_mac_address
+          - device_mac_addresses
           - site_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          When any plural device identifier is provided, all supplied singular and plural identifiers are
+          resolved independently. Their devices are combined, duplicates are removed, and site-based device
+          selection is skipped.
+          Access Points and devices whose reachability status is not 'Reachable' are excluded from the
+          resolved device list.
+          Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
           - SAPRO devices are not eligible for image activation.
         type: dict
         suboptions:
@@ -709,6 +747,12 @@ options:
             description: Device serial number where
               the image needs to be activated
             type: str
+          device_serial_numbers:
+            description: |
+              List of device serial numbers for bulk image activation. Any value in
+              'device_serial_number' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_tag:
             description: Device tag for filtering the target device(s)
             type: str
@@ -727,10 +771,22 @@ options:
             description: Device hostname where the image
               needs to be activated
             type: str
+          device_hostnames:
+            description: |
+              List of device hostnames for bulk image activation. Any value in
+              'device_hostname' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           device_mac_address:
             description: Device MAC address where the
               image needs to be activated
             type: str
+          device_mac_addresses:
+            description: |
+              List of device MAC addresses for bulk image activation. Any value in
+              'device_mac_address' is merged into this list and duplicate entries are removed.
+            type: list
+            elements: str
           schedule_validate:
             description: ScheduleValidate query parameter.
               ScheduleValidate, validates data before
@@ -1022,6 +1078,25 @@ EXAMPLES = r"""
           device_series_name: Cisco Catalyst 9300 Series
             Switches
 
+- name: Distribute an image to specific devices using IP addresses
+  cisco.catalystcenter.swim_workflow_manager:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: true
+    distribution_batch_size: 20
+    config:
+      - image_distribution_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_ip_addresses:
+            - 10.1.1.1
+            - 10.1.1.2
+
 - name: Distribute the given image on devices associated with device tag
     to that site with specified role.
   cisco.catalystcenter.swim_workflow_manager:
@@ -1064,6 +1139,28 @@ EXAMPLES = r"""
           device_tag: AUTO_INV_EVENT_SYNC_DISABLED
           schedule_validate: false
           activate_lower_image_version: true
+          distribute_if_needed: true
+
+- name: Activate an image on specific devices using serial numbers
+  cisco.catalystcenter.swim_workflow_manager:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: true
+    activation_batch_size: 20
+    config:
+      - image_activation_details:
+          image_name: cat9k_iosxe.17.12.01.SPA.bin
+          device_serial_numbers:
+            - FJC2327U0S2
+            - FJC2327U0S3
+          schedule_validate: false
+          activate_lower_image_version: false
           distribute_if_needed: true
 
 - name: Activate the given image on devices associated
@@ -1275,6 +1372,8 @@ class Swim(CatalystCenterBase):
         self.state = self.params.get("state")
         self.distribution_poll_interval = 30
         self.activation_poll_interval = 30
+        self.distribution_batch_size = 50
+        self.activation_batch_size = 50
 
     def validate_input(self):
         """
@@ -1687,21 +1786,24 @@ class Swim(CatalystCenterBase):
         )
         return False
 
-    def get_device_id(self, params):
+    def get_device_details(self, params):
         """
-        Retrieve the unique device ID based on the provided parameters.
+        Retrieve a unique device record based on the provided parameters.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             params (dict): A dictionary containing parameters to filter devices.
         Returns:
-            str or None: The unique device ID corresponding to the filtered device, or None if an error occurs.
-        Raises:
-            AnsibleFailJson: If the device ID cannot be found in the response.
+            dict or None: The unique device record, or None when no unique device is found.
         Description:
             This function sends a request to Cisco Catalyst Center to retrieve a list of devices based on the provided
-            filtering parameters. If a single matching device is found, it extracts and returns the device ID. If
-            no device or multiple devices match the criteria, it raises an exception.
+            filtering parameters. It returns the complete device record when exactly one device matches.
         """
+        self.log(
+            "Starting unique device detail retrieval using parameters: {0}.".format(
+                params
+            ),
+            "DEBUG",
+        )
         try:
             response = self.catalystcenter._exec(
                 family="devices",
@@ -1726,11 +1828,13 @@ class Swim(CatalystCenterBase):
                 raise ValueError("No devices found")
 
             if len(device_list) == 1:
-                device_id = device_list[0].get("id")
                 self.log(
-                    "Successfully retrieved device ID: {0}".format(device_id), "INFO"
+                    "Successfully retrieved a unique device for parameters: {0}.".format(
+                        params
+                    ),
+                    "DEBUG",
                 )
-                return device_id
+                return device_list[0]
 
             self.log(
                 "Multiple devices found for parameters: {0}".format(params), "ERROR"
@@ -1738,18 +1842,59 @@ class Swim(CatalystCenterBase):
             raise ValueError("Multiple devices found")
 
         except ValueError as ve:
-            msg = "Error: {0}. Unable to fetch unique device ID with parameters: {1}".format(
+            msg = "Error: {0}. Unable to fetch a unique device with parameters: {1}".format(
                 str(ve), params
             )
             self.log(msg, "ERROR")
             return None
 
         except Exception as e:
-            msg = "An unexpected error occurred while retrieving device ID: {0}".format(
+            msg = "An unexpected error occurred while retrieving device details: {0}".format(
                 str(e)
             )
             self.log(msg, "ERROR")
             return None
+
+    def get_device_id(self, params):
+        """
+        Retrieve the unique device ID based on the provided parameters.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            params (dict): A dictionary containing parameters to filter devices.
+        Returns:
+            str or None: The unique device ID, or None when no unique device is found.
+        Description:
+            Retrieves a unique device record and returns its ID for existing single-device workflows.
+        """
+        self.log(
+            "Starting device ID retrieval using parameters: {0}.".format(params),
+            "DEBUG",
+        )
+        device = self.get_device_details(params)
+        if not device:
+            self.log(
+                "Unable to retrieve a unique device ID using parameters: {0}.".format(
+                    params
+                ),
+                "WARNING",
+            )
+            return None
+
+        device_id = device.get("id")
+        if not device_id:
+            self.log(
+                "The unique device response does not contain a device ID for parameters: {0}.".format(
+                    params
+                ),
+                "ERROR",
+            )
+            return None
+
+        self.log(
+            "Successfully retrieved device ID: {0}".format(device_id),
+            "INFO",
+        )
+        return device_id
 
     def get_validated_poll_interval(self, param_name, operation):
         """
@@ -1765,6 +1910,14 @@ class Swim(CatalystCenterBase):
             sleep durations and continuous task-status polling without a delay.
         """
         poll_interval = self.params.get(param_name, 30)
+        self.log(
+            "Validating poll-interval parameter '{0}' with value '{1}' for {2}.".format(
+                param_name,
+                poll_interval,
+                operation,
+            ),
+            "DEBUG",
+        )
         if poll_interval < 1:
             self.msg = (
                 "The '{0}' value '{1}' is invalid for {2}. It must be at least 1 second.".format(
@@ -1772,50 +1925,288 @@ class Swim(CatalystCenterBase):
                 )
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-        return poll_interval
-
-    def resolve_device_ids_from_ips(self, ip_addresses):
-        """
-        Resolve a list of management IP addresses to unique device IDs.
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            ip_addresses (list): A list of device management IP addresses.
-        Returns:
-            tuple: (resolved_ids, not_found_ips) where 'resolved_ids' is an order-preserving,
-            de-duplicated list of device IDs and 'not_found_ips' lists IPs that could not be resolved.
-        Description:
-            Iterates the provided IP addresses, skipping blanks and duplicates, and resolves each
-            to a unique device ID via 'get_device_id'. Duplicate device IDs are collapsed so the
-            same physical device targeted by different IP entries is processed only once.
-        """
-        resolved_ids = []
-        not_found_ips = []
-        seen_ips = set()
-        seen_ids = set()
-
-        for ip in ip_addresses or []:
-            if not ip or not isinstance(ip, str):
-                continue
-            normalized_ip = ip.strip()
-            if not normalized_ip or normalized_ip in seen_ips:
-                continue
-            seen_ips.add(normalized_ip)
-
-            device_id = self.get_device_id({"managementIpAddress": normalized_ip})
-            if not device_id:
-                not_found_ips.append(normalized_ip)
-                continue
-            if device_id not in seen_ids:
-                seen_ids.add(device_id)
-                resolved_ids.append(device_id)
 
         self.log(
-            "Resolved {0} unique device ID(s) from {1} provided IP address(es); unresolved: {2}.".format(
-                len(resolved_ids), len(seen_ips), not_found_ips or "None"
+            "Poll-interval parameter '{0}' validated successfully with value '{1}'.".format(
+                param_name,
+                poll_interval,
             ),
             "DEBUG",
         )
-        return resolved_ids, not_found_ips
+        return poll_interval
+
+    def resolve_bulk_device_ids(self, device_details):
+        """
+        Resolve plural device identifiers supplied for a bulk SWIM operation.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_details (dict): Distribution or activation configuration containing device identifiers.
+        Returns:
+            tuple: Whether plural identifiers were supplied, resolved unique device IDs, unresolved
+            identifiers, and ineligible identifiers.
+        Description:
+            When any plural field is provided, traverses all singular and plural device identifier
+            fields, resolves each value independently, excludes AP and unreachable devices, and
+            removes duplicate device IDs.
+        """
+        self.log(
+            "Starting bulk device identifier resolution.",
+            "DEBUG",
+        )
+
+        plural_fields = (
+            "device_ip_addresses",
+            "device_serial_numbers",
+            "device_hostnames",
+            "device_mac_addresses",
+        )
+        bulk_identifiers_provided = any(
+            device_details.get(field) for field in plural_fields
+        )
+        if not bulk_identifiers_provided:
+            self.log(
+                "No plural device identifiers were provided. Continuing with single-device or "
+                "site-based selection.",
+                "DEBUG",
+            )
+            return False, [], [], []
+
+        identifier_fields = (
+            ("device_ip_addresses", "managementIpAddress", "IP address"),
+            ("device_ip_address", "managementIpAddress", "IP address"),
+            ("device_serial_numbers", "serialNumber", "serial number"),
+            ("device_serial_number", "serialNumber", "serial number"),
+            ("device_hostnames", "hostname", "hostname"),
+            ("device_hostname", "hostname", "hostname"),
+            ("device_mac_addresses", "macAddress", "MAC address"),
+            ("device_mac_address", "macAddress", "MAC address"),
+        )
+        provided_fields = [
+            entry[0] for entry in identifier_fields
+            if device_details.get(entry[0])
+        ]
+        self.log(
+            "Bulk device targeting enabled using identifier field(s): {0}.".format(
+                ", ".join(provided_fields)
+            ),
+            "INFO",
+        )
+
+        resolved_device_ids = []
+        unresolved_identifiers = []
+        ineligible_identifiers = []
+        seen_identifiers = set()
+        seen_device_ids = set()
+        identifier_counts = {}
+
+        for field, sdk_parameter, identifier_name in identifier_fields:
+            self.log(
+                "Evaluating device identifier field '{0}' (maps to SDK parameter '{1}').".format(
+                    field, sdk_parameter
+                ),
+                "DEBUG",
+            )
+            field_value = device_details.get(field)
+            if not field_value:
+                self.log(
+                    "No value provided for device identifier field '{0}'; skipping.".format(
+                        field
+                    ),
+                    "DEBUG",
+                )
+                continue
+
+            identifiers = field_value if isinstance(field_value, list) else [field_value]
+            counts = identifier_counts.setdefault(
+                sdk_parameter,
+                {
+                    "identifier_name": identifier_name,
+                    "plural": 0,
+                    "singular": 0,
+                    "unique": 0,
+                },
+            )
+            if isinstance(field_value, list):
+                counts["plural"] += len(identifiers)
+            else:
+                counts["singular"] += 1
+
+            self.log(
+                "Resolving {0} value(s) from device identifier field '{1}'.".format(
+                    len(identifiers), field
+                ),
+                "DEBUG",
+            )
+
+            for index, identifier in enumerate(identifiers, start=1):
+                normalized_identifier = identifier.strip()
+                self.log(
+                    "Processing {0} identifier {1} of {2} ('{3}') from field '{4}'.".format(
+                        identifier_name,
+                        index,
+                        len(identifiers),
+                        normalized_identifier,
+                        field,
+                    ),
+                    "DEBUG",
+                )
+                identifier_key = (sdk_parameter, normalized_identifier)
+                if identifier_key in seen_identifiers:
+                    self.log(
+                        "Skipping duplicate {0} '{1}' from field '{2}'.".format(
+                            identifier_name, normalized_identifier, field
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+                seen_identifiers.add(identifier_key)
+                counts["unique"] += 1
+
+                self.log(
+                    "Attempting to resolve device ID for {0} '{1}' from field '{2}'.".format(
+                        identifier_name,
+                        normalized_identifier,
+                        field,
+                    ),
+                    "DEBUG",
+                )
+                device = self.get_device_details(
+                    {sdk_parameter: normalized_identifier}
+                )
+                if not device:
+                    unresolved_identifiers.append(
+                        "{0}: {1}".format(
+                            identifier_name, normalized_identifier
+                        )
+                    )
+                    self.log(
+                        "{0} '{1}' from field '{2}' could not be resolved to a unique device ID "
+                        "in Cisco Catalyst Center.".format(
+                            identifier_name, normalized_identifier, field
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                if self.is_access_point(device):
+                    ineligible_identifiers.append(
+                        "{0}: {1} (Access Point)".format(
+                            identifier_name, normalized_identifier
+                        )
+                    )
+                    self.log(
+                        "Skipping {0} '{1}' from field '{2}' because the resolved device is an "
+                        "Access Point and is not eligible for SWIM operations.".format(
+                            identifier_name, normalized_identifier, field
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                reachability_status = device.get("reachabilityStatus")
+                if reachability_status != "Reachable":
+                    ineligible_identifiers.append(
+                        "{0}: {1} (reachability status: {2})".format(
+                            identifier_name,
+                            normalized_identifier,
+                            reachability_status or "Unknown",
+                        )
+                    )
+                    self.log(
+                        "Skipping {0} '{1}' from field '{2}' because the resolved device "
+                        "reachability status is '{3}'.".format(
+                            identifier_name,
+                            normalized_identifier,
+                            field,
+                            reachability_status or "Unknown",
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                device_id = device.get("id")
+                if not device_id:
+                    unresolved_identifiers.append(
+                        "{0}: {1}".format(
+                            identifier_name, normalized_identifier
+                        )
+                    )
+                    self.log(
+                        "The device resolved from {0} '{1}' does not contain a device ID.".format(
+                            identifier_name, normalized_identifier
+                        ),
+                        "WARNING",
+                    )
+                    continue
+
+                if device_id in seen_device_ids:
+                    self.log(
+                        "Device ID '{0}' resolved from {1} '{2}' is already selected; "
+                        "skipping duplicate device.".format(
+                            device_id, identifier_name, normalized_identifier
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+                seen_device_ids.add(device_id)
+                resolved_device_ids.append(device_id)
+                self.log(
+                    "Resolved {0} '{1}' from field '{2}' to device ID '{3}'.".format(
+                        identifier_name,
+                        normalized_identifier,
+                        field,
+                        device_id,
+                    ),
+                    "DEBUG",
+                )
+
+            self.log(
+                "Completed resolution for device identifier field '{0}': {1} device ID(s) "
+                "resolved so far.".format(field, len(resolved_device_ids)),
+                "DEBUG",
+            )
+
+        for counts in identifier_counts.values():
+            self.log(
+                "Merged {0} identifier(s): plural list ({1}) + singular value ({2}) = "
+                "{3} unique identifier(s) after deduplication.".format(
+                    counts["identifier_name"],
+                    counts["plural"],
+                    counts["singular"],
+                    counts["unique"],
+                ),
+                "DEBUG",
+            )
+
+        self.log(
+            "Bulk device identifier resolution completed with {0} unique device ID(s) and "
+            "{1} unresolved and {2} ineligible identifier(s).".format(
+                len(resolved_device_ids),
+                len(unresolved_identifiers),
+                len(ineligible_identifiers),
+            ),
+            "INFO",
+        )
+        if unresolved_identifiers:
+            self.log(
+                "Unresolved bulk device identifier(s): {0}.".format(
+                    ", ".join(unresolved_identifiers)
+                ),
+                "DEBUG",
+            )
+        if ineligible_identifiers:
+            self.log(
+                "Ineligible bulk device identifier(s): {0}.".format(
+                    ", ".join(ineligible_identifiers)
+                ),
+                "DEBUG",
+            )
+        return (
+            bulk_identifiers_provided,
+            resolved_device_ids,
+            unresolved_identifiers,
+            ineligible_identifiers,
+        )
 
     def get_validated_batch_size(self, param_name, operation):
         """
@@ -1831,6 +2222,14 @@ class Swim(CatalystCenterBase):
             Cisco Catalyst Center bulk API accepts at most BULK_REQUEST_LIMIT devices per request.
         """
         batch_size = self.params.get(param_name, 50)
+        self.log(
+            "Validating batch-size parameter '{0}' with value '{1}' for {2}.".format(
+                param_name,
+                batch_size,
+                operation,
+            ),
+            "DEBUG",
+        )
         if batch_size < 1 or batch_size > self.BULK_REQUEST_LIMIT:
             self.msg = (
                 "The '{0}' value '{1}' is invalid for {2}. It must be between 1 and {3}.".format(
@@ -1838,7 +2237,158 @@ class Swim(CatalystCenterBase):
                 )
             )
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log(
+            "Batch-size parameter '{0}' validated successfully with value '{1}'.".format(
+                param_name,
+                batch_size,
+            ),
+            "DEBUG",
+        )
         return batch_size
+
+    def validate_batch_sizes(self):
+        """
+        Validate SWIM bulk request sizes before configuration processing begins.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self: The current object with validated distribution and activation batch sizes.
+        Description:
+            Validates and stores both batch-size parameters before any image or device-resolution
+            API calls are made.
+        """
+        self.log("Validating SWIM distribution and activation batch sizes.", "DEBUG")
+        self.distribution_batch_size = self.get_validated_batch_size(
+            "distribution_batch_size",
+            "image distribution",
+        )
+        self.activation_batch_size = self.get_validated_batch_size(
+            "activation_batch_size",
+            "image activation",
+        )
+        self.log(
+            "Validated SWIM batch sizes. Distribution: {0}; Activation: {1}.".format(
+                self.distribution_batch_size,
+                self.activation_batch_size,
+            ),
+            "DEBUG",
+        )
+        return self
+
+    def validate_device_identifier_lists(self):
+        """
+        Validate plural device identifier fields before configuration processing begins.
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            self: The current object with validation status and message updated.
+        Description:
+            Ensures every supplied plural identifier field is a list containing only non-empty
+            strings before any image or device-resolution API calls are made.
+        """
+        operation_fields = (
+            "image_distribution_details",
+            "image_activation_details",
+        )
+        identifier_fields = (
+            "device_ip_addresses",
+            "device_serial_numbers",
+            "device_hostnames",
+            "device_mac_addresses",
+        )
+        invalid_entries = []
+
+        self.log(
+            "Validating plural device identifier fields across {0} config block(s).".format(
+                len(self.validated_config)
+            ),
+            "DEBUG",
+        )
+        for config_index, config in enumerate(self.validated_config, start=1):
+            for operation_field in operation_fields:
+                operation_details = config.get(operation_field)
+                if not operation_details:
+                    self.log(
+                        "No '{0}' section in config[{1}]; skipping.".format(
+                            operation_field, config_index
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                for identifier_field in identifier_fields:
+                    if identifier_field not in operation_details:
+                        self.log(
+                            "Identifier field '{0}' not present in config[{1}].{2}; skipping.".format(
+                                identifier_field, config_index, operation_field
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    identifier_values = operation_details.get(identifier_field)
+                    field_path = "config[{0}].{1}.{2}".format(
+                        config_index,
+                        operation_field,
+                        identifier_field,
+                    )
+                    if not isinstance(identifier_values, list):
+                        invalid_entries.append(field_path)
+                        self.log(
+                            "Device identifier field '{0}' is invalid; expected a list but "
+                            "received '{1}'.".format(
+                                field_path,
+                                type(identifier_values).__name__,
+                            ),
+                            "WARNING",
+                        )
+                        continue
+
+                    self.log(
+                        "Validating {0} device identifier entry(ies) in field '{1}'.".format(
+                            len(identifier_values),
+                            field_path,
+                        ),
+                        "DEBUG",
+                    )
+                    for value_index, identifier in enumerate(
+                        identifier_values,
+                        start=1,
+                    ):
+                        if not isinstance(identifier, str) or not identifier.strip():
+                            entry_path = "{0}[{1}]".format(
+                                field_path,
+                                value_index,
+                            )
+                            invalid_entries.append(entry_path)
+                            self.log(
+                                "Device identifier entry '{0}' is invalid; expected a non-empty "
+                                "string.".format(entry_path),
+                                "WARNING",
+                            )
+
+        if invalid_entries:
+            self.log(
+                "Device identifier validation failed with {0} invalid entry(ies): {1}.".format(
+                    len(invalid_entries), ", ".join(invalid_entries)
+                ),
+                "ERROR",
+            )
+            self.msg = (
+                "The following device identifier list entries are blank or invalid: {0}. "
+                "Each plural identifier field must be a list of non-empty strings.".format(
+                    ", ".join(invalid_entries)
+                )
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return self
+
+        self.log(
+            "Plural device identifier fields validated successfully; no invalid entries found.",
+            "DEBUG",
+        )
+        return self
 
     def get_device_uuids(
         self, site_name, device_family, device_role, device_series_name=None
@@ -2345,7 +2895,18 @@ class Swim(CatalystCenterBase):
                     "INFO",
                 )
             else:
-                self.msg = "Device Family: {0} not found".format(str(family_name))
+                available_families = sorted(
+                    entry.get("deviceFamily")
+                    for entry in device_family_db
+                    if entry.get("deviceFamily")
+                )
+                self.msg = (
+                    "Device Family: {0} not found. Valid SWIM image family name(s): "
+                    "{1}"
+                ).format(
+                    str(family_name),
+                    ", ".join(available_families) or "None",
+                )
                 self.log(self.msg, "ERROR")
                 self.module.fail_json(msg=self.msg, response=self.msg)
             self.have.update(have)
@@ -2481,25 +3042,35 @@ class Swim(CatalystCenterBase):
                     "ERROR",
                 )
 
-            # Bulk targeting: a list of IPs takes precedence and reuses the bulk distribution path.
-            device_ip_addresses = distribution_details.get("device_ip_addresses")
-            if device_ip_addresses:
-                combined_ips = list(device_ip_addresses)
-                single_ip = distribution_details.get("device_ip_address")
-                if single_ip:
-                    combined_ips.append(single_ip)
-
-                resolved_ids, not_found_ips = self.resolve_device_ids_from_ips(combined_ips)
-                if not_found_ips:
+            (
+                bulk_identifiers_provided,
+                resolved_ids,
+                unresolved_identifiers,
+                ineligible_identifiers,
+            ) = self.resolve_bulk_device_ids(distribution_details)
+            if bulk_identifiers_provided:
+                if unresolved_identifiers:
                     self.msg = (
-                        "The following device IP address(es) for distribution could not be found "
-                        "in the Cisco Catalyst Center: {0}.".format(", ".join(not_found_ips))
+                        "The following device identifier(s) for distribution could not be found "
+                        "in the Cisco Catalyst Center: {0}.".format(
+                            ", ".join(unresolved_identifiers)
+                        )
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
+                if ineligible_identifiers:
+                    self.log(
+                        "Excluded {0} ineligible device identifier(s) from image distribution.".format(
+                            len(ineligible_identifiers)
+                        ),
+                        "WARNING",
+                    )
 
                 have["distribution_device_ids"] = resolved_ids
                 self.log(
-                    "Resolved {0} device ID(s) from provided IP list for distribution.".format(
+                    "Resolved {0} device ID(s) from provided identifier list(s) for distribution.".format(
                         len(resolved_ids)
                     ),
                     "INFO",
@@ -2573,25 +3144,35 @@ class Swim(CatalystCenterBase):
                         "INFO",
                     )
 
-            # Bulk targeting: a list of IPs takes precedence and reuses the bulk activation path.
-            device_ip_addresses = activation_details.get("device_ip_addresses")
-            if device_ip_addresses:
-                combined_ips = list(device_ip_addresses)
-                single_ip = activation_details.get("device_ip_address")
-                if single_ip:
-                    combined_ips.append(single_ip)
-
-                resolved_ids, not_found_ips = self.resolve_device_ids_from_ips(combined_ips)
-                if not_found_ips:
+            (
+                bulk_identifiers_provided,
+                resolved_ids,
+                unresolved_identifiers,
+                ineligible_identifiers,
+            ) = self.resolve_bulk_device_ids(activation_details)
+            if bulk_identifiers_provided:
+                if unresolved_identifiers:
                     self.msg = (
-                        "The following device IP address(es) for activation could not be found "
-                        "in the Cisco Catalyst Center: {0}.".format(", ".join(not_found_ips))
+                        "The following device identifier(s) for activation could not be found "
+                        "in the Cisco Catalyst Center: {0}.".format(
+                            ", ".join(unresolved_identifiers)
+                        )
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
+                if ineligible_identifiers:
+                    self.log(
+                        "Excluded {0} ineligible device identifier(s) from image activation.".format(
+                            len(ineligible_identifiers)
+                        ),
+                        "WARNING",
+                    )
 
                 have["activation_device_ids"] = resolved_ids
                 self.log(
-                    "Resolved {0} device ID(s) from provided IP list for activation.".format(
+                    "Resolved {0} device ID(s) from provided identifier list(s) for activation.".format(
                         len(resolved_ids)
                     ),
                     "INFO",
@@ -4220,18 +4801,18 @@ class Swim(CatalystCenterBase):
             "distribution_poll_interval",
             "image distribution",
         )
-        self.swim_batch_size = self.get_validated_batch_size("distribution_batch_size", "image distribution")
         convert_to_wlc = distribution_details.get("convert_to_wlc", False)
 
         image_id = self.have.get("distribution_image_id")
         distribution_device_id = self.have.get("distribution_device_id")
         distribution_device_ids = self.have.get("distribution_device_ids")
 
-        # A list of IPs takes precedence and reuses the bulk distribution path.
-        if distribution_device_ids:
+        # Explicit device identifier lists take precedence over site-based selection.
+        if distribution_device_ids is not None:
             device_uuid_list = distribution_device_ids
             self.log(
-                "Bulk device list ({0} device(s)) provided via IP addresses; skipping site-wide enumeration.".format(
+                "Bulk device list ({0} device(s)) provided via device identifiers; "
+                "skipping site-wide enumeration.".format(
                     len(distribution_device_ids)
                 ),
                 "DEBUG",
@@ -4265,6 +4846,14 @@ class Swim(CatalystCenterBase):
                     "Retrieved device UUIDs for distribution: {0}".format(device_uuid_list),
                     "DEBUG",
                 )
+
+        if distribution_device_ids is not None and not device_uuid_list:
+            self.status = "success"
+            self.msg = "The SWIM image distribution task could not proceed because no eligible devices were found"
+            self.result["msg"] = self.msg
+            self.result["response"] = self.msg
+            self.log(self.msg, "WARNING")
+            return self
 
         device_ip = self.get_device_ip_from_id(distribution_device_id)
         image_name = self.want.get("distribution_details").get("image_name")
@@ -4722,21 +5311,33 @@ class Swim(CatalystCenterBase):
                 return self
 
             # -------- Bulk API Call --------
-            bulk_request_limit = self.swim_batch_size
+            distribution_bulk_request_limit = self.distribution_batch_size
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
+            distribution_total_batches = (
+                len(bulk_payload) + distribution_bulk_request_limit - 1
+            ) // distribution_bulk_request_limit
 
             self.log(
-                "API request batch size set to '{0}' for bulk image distribution.".format(
-                    bulk_request_limit
+                "Starting bulk image distribution with batch size {0}; total devices: {1}; "
+                "total batches: {2}.".format(
+                    distribution_bulk_request_limit,
+                    len(bulk_payload),
+                    distribution_total_batches,
                 ),
-                "DEBUG",
+                "INFO",
             )
 
-            for i in range(0, len(bulk_payload), bulk_request_limit):
-                batch_number = (i // bulk_request_limit) + 1
-                batch_payload = bulk_payload[i:i + bulk_request_limit]
+            for i in range(
+                0,
+                len(bulk_payload),
+                distribution_bulk_request_limit,
+            ):
+                batch_number = (i // distribution_bulk_request_limit) + 1
+                batch_payload = bulk_payload[
+                    i:i + distribution_bulk_request_limit
+                ]
                 self.log(
                     "Processing distribution batch {0}: {1}".format(
                         batch_number, str(batch_payload)
@@ -4788,11 +5389,25 @@ class Swim(CatalystCenterBase):
                         failed_task_ids.append(task_id)
 
                     self.log(
-                        "Exception occurred during distribution batch {0}: {1}".format(
+                        "Distribution batch {0} failed with exception: {1}".format(
                             batch_number, str(e)
                         ),
                         "ERROR",
                     )
+
+            distribution_failed_batch_count = len(failed_batches)
+            distribution_successful_batch_count = (
+                distribution_total_batches - distribution_failed_batch_count
+            )
+            self.log(
+                "Bulk image distribution batch processing summary - Total batches: {0}; "
+                "Successful: {1}; Failed: {2}.".format(
+                    distribution_total_batches,
+                    distribution_successful_batch_count,
+                    distribution_failed_batch_count,
+                ),
+                "INFO",
+            )
 
             if failed_batches:
                 self.msg = (
@@ -4966,18 +5581,18 @@ class Swim(CatalystCenterBase):
             "activation_poll_interval",
             "image activation",
         )
-        self.swim_batch_size = self.get_validated_batch_size("activation_batch_size", "image activation")
         convert_to_wlc = activation_details.get("convert_to_wlc", False)
 
         image_id = self.have.get("activation_image_id")
         activation_device_id = self.have.get("activation_device_id")
         activation_device_ids = self.have.get("activation_device_ids")
 
-        # A list of IPs takes precedence and reuses the bulk activation path.
-        if activation_device_ids:
+        # Explicit device identifier lists take precedence over site-based selection.
+        if activation_device_ids is not None:
             device_uuid_list = activation_device_ids
             self.log(
-                "Bulk device list ({0} device(s)) provided via IP addresses; skipping site-wide enumeration.".format(
+                "Bulk device list ({0} device(s)) provided via device identifiers; "
+                "skipping site-wide enumeration.".format(
                     len(activation_device_ids)
                 ),
                 "DEBUG",
@@ -5011,6 +5626,14 @@ class Swim(CatalystCenterBase):
                     "Retrieved device UUIDs for activation: {0}".format(device_uuid_list),
                     "DEBUG",
                 )
+
+        if activation_device_ids is not None and not device_uuid_list:
+            self.status = "success"
+            self.msg = "The SWIM image activation task could not proceed because no eligible devices were found."
+            self.result["msg"] = self.msg
+            self.result["response"] = self.msg
+            self.log(self.msg, "WARNING")
+            return self
 
         device_ip = self.get_device_ip_from_id(activation_device_id)
         image_name = self.want.get("activation_details").get("image_name")
@@ -5480,21 +6103,33 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "ERROR")
                 return self
 
-            bulk_request_limit = self.swim_batch_size
+            activation_bulk_request_limit = self.activation_batch_size
             failed_batches = []
             failed_task_ids = []
             successful_task_ids = []
+            activation_total_batches = (
+                len(activation_payload_list) + activation_bulk_request_limit - 1
+            ) // activation_bulk_request_limit
 
             self.log(
-                "API request batch size set to '{0}' for bulk image activation.".format(
-                    bulk_request_limit
+                "Starting bulk image activation with batch size {0}; total devices: {1}; "
+                "total batches: {2}.".format(
+                    activation_bulk_request_limit,
+                    len(activation_payload_list),
+                    activation_total_batches,
                 ),
-                "DEBUG",
+                "INFO",
             )
 
-            for i in range(0, len(activation_payload_list), bulk_request_limit):
-                batch_number = (i // bulk_request_limit) + 1
-                batch_payload = activation_payload_list[i:i + bulk_request_limit]
+            for i in range(
+                0,
+                len(activation_payload_list),
+                activation_bulk_request_limit,
+            ):
+                batch_number = (i // activation_bulk_request_limit) + 1
+                batch_payload = activation_payload_list[
+                    i:i + activation_bulk_request_limit
+                ]
                 self.log(
                     "Processing activation batch {0}: {1}".format(
                         batch_number, str(batch_payload)
@@ -5546,11 +6181,25 @@ class Swim(CatalystCenterBase):
                         failed_task_ids.append(task_id)
 
                     self.log(
-                        "Exception occurred during activation batch {0}: {1}".format(
+                        "Activation batch {0} failed with exception: {1}".format(
                             batch_number, str(e)
                         ),
                         "ERROR",
                     )
+
+            activation_failed_batch_count = len(failed_batches)
+            activation_successful_batch_count = (
+                activation_total_batches - activation_failed_batch_count
+            )
+            self.log(
+                "Bulk image activation batch processing summary - Total batches: {0}; "
+                "Successful: {1}; Failed: {2}.".format(
+                    activation_total_batches,
+                    activation_successful_batch_count,
+                    activation_failed_batch_count,
+                ),
+                "INFO",
+            )
 
             if failed_batches:
                 self.msg = (
@@ -6520,6 +7169,8 @@ def main():
         ccc_swims.check_return_status()
 
     ccc_swims.validate_input().check_return_status()
+    ccc_swims.validate_batch_sizes().check_return_status()
+    ccc_swims.validate_device_identifier_lists().check_return_status()
     config_verify = ccc_swims.params.get("config_verify")
 
     for config in ccc_swims.validated_config:
