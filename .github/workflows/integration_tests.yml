@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event.workflow_run.conclusion == 'success'
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: github_ref-${{ github.event.workflow_run.id }}
           run-id: ${{ github.event.workflow_run.id }}
