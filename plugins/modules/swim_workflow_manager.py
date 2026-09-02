@@ -78,6 +78,8 @@ options:
       - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
         Earlier versions use the legacy sequential workflow, so this value
         has no effect.
+      - Each batch is processed as a separate API call with its own task ID,
+        enabling independent monitoring and status tracking of each batch.
     type: int
     default: 50
   activation_batch_size:
@@ -89,6 +91,8 @@ options:
       - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
         Earlier versions use the legacy sequential workflow, so this value
         has no effect.
+      - Each batch is processed as a separate API call with its own task ID,
+        enabling independent monitoring and status tracking of each batch.
     type: int
     default: 50
   state:
@@ -414,29 +418,44 @@ options:
             type: bool
       image_distribution_details:
         description: |
-          Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
-          - device_serial_number
-          - device_serial_numbers
-          - device_ip_address
-          - device_ip_addresses
-          - device_hostname
-          - device_hostnames
-          - device_mac_address
-          - device_mac_addresses
-          - site_name (if specified, the image will be distributed to all devices within the site)
-          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
-          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
-          When any plural device identifier is provided, all supplied singular and plural identifiers are
-          resolved independently. Their devices are combined, duplicates are removed, and site-based device
-          selection is skipped.
-          Recommended usage: Use one consistent identifier type and provide only one identifier per device
-          when possible. This reduces device lookup calls and simplifies troubleshooting. Customers may
-          combine IP addresses, serial numbers, hostnames, and MAC addresses when the same identifier type
-          is not available for every device.
-          Access Points and devices whose reachability status is not 'Reachable' are excluded from the
-          resolved device list.
-          Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
+          Parameters for selecting target devices for SWIM image distribution.
+
+          Target selection:
+          - 'device_serial_number' identifies one device by serial number.
+          - 'device_serial_numbers' identifies multiple devices by serial number.
+          - 'device_ip_address' identifies one device by management IP address.
+          - 'device_ip_addresses' identifies multiple devices by management IP address.
+          - 'device_hostname' identifies one device by hostname.
+          - 'device_hostnames' identifies multiple devices by hostname.
+          - 'device_mac_address' identifies one device by MAC address.
+          - 'device_mac_addresses' identifies multiple devices by MAC address.
+          - 'site_name' selects devices assigned to the specified site.
+          If no device identifier or site is provided, the module selects devices from the Global site.
+          When 'site_name' is provided, 'device_role', 'device_family_name', and 'device_series_name'
+          can further filter the devices within that site.
+
+          Bulk device targeting:
+          When any plural device identifier is provided:
+          - All supplied singular and plural identifiers are resolved independently.
+          - The resolved devices are combined and duplicate device IDs are removed.
+          - Site-based device selection is skipped.
+          - Any identifier that cannot be resolved causes the operation to fail, and the error identifies
+            the problematic entry.
+
+          Recommended usage:
+          Use one consistent identifier type and provide only one identifier per device when possible.
+          This reduces device lookup calls and simplifies troubleshooting. Customers may combine IP
+          addresses, serial numbers, hostnames, and MAC addresses when the same identifier type is not
+          available for every device.
+
+          Device filtering:
+          - Access Points and devices whose reachability status is not 'Reachable' are excluded when using
+            site-based or plural-identifier selection.
           - SAPRO devices are not eligible for image distribution.
+
+          Input validation:
+          - Blank, whitespace-only, or non-string entries in plural device identifier lists cause validation
+            to fail.
         type: dict
         suboptions:
           device_role:
@@ -602,29 +621,44 @@ options:
             elements: str
       image_activation_details:
         description: |
-          Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
-          - device_serial_number
-          - device_serial_numbers
-          - device_ip_address
-          - device_ip_addresses
-          - device_hostname
-          - device_hostnames
-          - device_mac_address
-          - device_mac_addresses
-          - site_name (if specified, the image will be activated on all devices within the site)
-          At least one of these parameters must be provided. If 'site_name' is provided, additional filters
-          such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
-          When any plural device identifier is provided, all supplied singular and plural identifiers are
-          resolved independently. Their devices are combined, duplicates are removed, and site-based device
-          selection is skipped.
-          Recommended usage: Use one consistent identifier type and provide only one identifier per device
-          when possible. This reduces device lookup calls and simplifies troubleshooting. Customers may
-          combine IP addresses, serial numbers, hostnames, and MAC addresses when the same identifier type
-          is not available for every device.
-          Access Points and devices whose reachability status is not 'Reachable' are excluded from the
-          resolved device list.
-          Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
+          Parameters for selecting target devices for SWIM image activation.
+
+          Target selection:
+          - 'device_serial_number' identifies one device by serial number.
+          - 'device_serial_numbers' identifies multiple devices by serial number.
+          - 'device_ip_address' identifies one device by management IP address.
+          - 'device_ip_addresses' identifies multiple devices by management IP address.
+          - 'device_hostname' identifies one device by hostname.
+          - 'device_hostnames' identifies multiple devices by hostname.
+          - 'device_mac_address' identifies one device by MAC address.
+          - 'device_mac_addresses' identifies multiple devices by MAC address.
+          - 'site_name' selects devices assigned to the specified site.
+          If no device identifier or site is provided, the module selects devices from the Global site.
+          When 'site_name' is provided, 'device_role', 'device_family_name', and 'device_series_name'
+          can further filter the devices within that site.
+
+          Bulk device targeting:
+          When any plural device identifier is provided:
+          - All supplied singular and plural identifiers are resolved independently.
+          - The resolved devices are combined and duplicate device IDs are removed.
+          - Site-based device selection is skipped.
+          - Any identifier that cannot be resolved causes the operation to fail, and the error identifies
+            the problematic entry.
+
+          Recommended usage:
+          Use one consistent identifier type and provide only one identifier per device when possible.
+          This reduces device lookup calls and simplifies troubleshooting. Customers may combine IP
+          addresses, serial numbers, hostnames, and MAC addresses when the same identifier type is not
+          available for every device.
+
+          Device filtering:
+          - Access Points and devices whose reachability status is not 'Reachable' are excluded when using
+            site-based or plural-identifier selection.
           - SAPRO devices are not eligible for image activation.
+
+          Input validation:
+          - Blank, whitespace-only, or non-string entries in plural device identifier lists cause validation
+            to fail.
         type: dict
         suboptions:
           device_role:
