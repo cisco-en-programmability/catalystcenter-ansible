@@ -11,18 +11,19 @@ short_description: Information module for Compliance Policys Count
 description:
   - Get all Compliance Policys Count.
   - Retrieves the count of compliance policies.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   policyId:
     description:
-      - PolicyId query parameter. The IDs of the compliance policies.The number of policyId(s) must not exceed 25.
-    type: str
+      - PolicyId query parameter. The IDs of the compliance policies.
+    elements: str
+    type: list
   name:
     description:
       - Name query parameter. Filter with policy name. Supports partial case-insensitive search.
@@ -32,7 +33,7 @@ options:
       - SiteId query parameter. The `id` of the site to which compliance policies are associated.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveTheCountOfPolicies
@@ -57,9 +58,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    name: string
-    siteId: string
+    policyId: ['e910e834-e35b-4800-9401-a40e22ce09f3', 'a910e834-e35b-4800-9401-a40e22ce09f4']
+    name: DNS
+    siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
   register: result
 """
 RETURN = r"""
@@ -69,21 +70,9 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "count": 0
+      },
       "version": "string"
     }
 """

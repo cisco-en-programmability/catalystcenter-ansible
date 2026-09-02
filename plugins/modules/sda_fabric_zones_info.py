@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabric Zones
 description:
   - Get all Sda Fabric Zones.
   - Returns a list of fabric zones that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -35,10 +35,10 @@ options:
     description:
       - >
         Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
-        single request is 500.
+        single request is 500. Required false.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetFabricZones
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

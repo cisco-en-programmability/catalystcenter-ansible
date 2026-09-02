@@ -14,10 +14,10 @@ description:
     Centre network Design for wireless. If an AP Authorization List name is given as query parameter, then returns respective
     AP Authorization List details including Local and/or Remote authorization. - > This API allows the user to get an AP Authorization
     List by AP Authorization List ID that captured in wireless settings design.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -43,7 +43,7 @@ options:
       - Id path parameter. AP Authorization List ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAPAuthorizationListByID
@@ -74,8 +74,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     apAuthorizationListName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Wireless Settings Ap Authorization Lists by id
   cisco.catalystcenter.wireless_settings_ap_authorization_lists_info:
@@ -97,25 +97,27 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "id": "string",
-        "apAuthorizationListName": "string",
-        "localAuthorization": {
-          "apMacEntries": [
-            "string"
-          ],
-          "apSerialNumberEntries": [
-            "string"
-          ]
-        },
-        "remoteAuthorization": {
-          "aaaServers": [
-            "string"
-          ],
-          "authorizeApWithMac": true,
-          "authorizeApWithSerialNumber": true
+      "response": [
+        {
+          "id": "string",
+          "apAuthorizationListName": "string",
+          "localAuthorization": {
+            "apMacEntries": [
+              "string"
+            ],
+            "apSerialNumberEntries": [
+              "string"
+            ]
+          },
+          "remoteAuthorization": {
+            "aaaServers": [
+              "string"
+            ],
+            "authorizeApWithMac": true,
+            "authorizeApWithSerialNumber": true
+          }
         }
-      },
+      ],
       "version": "string"
     }
 """

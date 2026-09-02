@@ -12,10 +12,10 @@ description:
   - Manage operations update and delete of the resource Configuration Template.
   - Deletes the template by its id.
   - API to update a template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   author:
     description: Author of template.
@@ -24,7 +24,7 @@ options:
     description: Is it composite template.
     type: bool
   containingTemplates:
-    description: Configuration Template's containingTemplates.
+    description: Containing templates for composite template.
     elements: dict
     suboptions:
       composite:
@@ -34,7 +34,7 @@ options:
         description: Description of template.
         type: str
       deviceTypes:
-        description: Configuration Template's deviceTypes.
+        description: Applicable device types.
         elements: dict
         suboptions:
           productFamily:
@@ -60,7 +60,7 @@ options:
         description: Project name.
         type: str
       rollbackTemplateParams:
-        description: Configuration Template's rollbackTemplateParams.
+        description: Rollback template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -109,7 +109,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -126,7 +126,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -139,12 +139,12 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
       tags:
-        description: Configuration Template's tags.
+        description: Tag object which needs to be applied on the template.
         elements: dict
         suboptions:
           id:
@@ -158,7 +158,7 @@ options:
         description: Template content.
         type: str
       templateParams:
-        description: Configuration Template's templateParams.
+        description: Template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -207,7 +207,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -224,7 +224,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -237,7 +237,7 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
@@ -255,7 +255,7 @@ options:
     description: Description of template.
     type: str
   deviceTypes:
-    description: Configuration Template's deviceTypes.
+    description: Applicable device types.
     elements: dict
     suboptions:
       productFamily:
@@ -299,7 +299,7 @@ options:
     description: Rollback template content.
     type: str
   rollbackTemplateParams:
-    description: Configuration Template's rollbackTemplateParams.
+    description: Rollback template params(variables).
     elements: dict
     suboptions:
       binding:
@@ -348,7 +348,7 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template's range.
+        description: Range of param.
         elements: dict
         suboptions:
           id:
@@ -365,7 +365,7 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template's selection.
+        description: Selection of param.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -378,7 +378,7 @@ options:
             description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Configuration Template's selectionValues.
+            description: Selection values.
             type: dict
         type: dict
     type: list
@@ -392,7 +392,7 @@ options:
     description: Applicable device software version.
     type: str
   tags:
-    description: Configuration Template's tags.
+    description: Tag object which needs to be applied on the template.
     elements: dict
     suboptions:
       id:
@@ -409,7 +409,7 @@ options:
     description: TemplateId path parameter. TemplateId(UUID) of template to be deleted.
     type: str
   templateParams:
-    description: Configuration Template's templateParams.
+    description: Template params(variables).
     elements: dict
     suboptions:
       binding:
@@ -458,7 +458,7 @@ options:
         description: Provider.
         type: str
       range:
-        description: Configuration Template's range.
+        description: Range of param.
         elements: dict
         suboptions:
           id:
@@ -475,7 +475,7 @@ options:
         description: Is param required.
         type: bool
       selection:
-        description: Configuration Template's selection.
+        description: Selection of param.
         suboptions:
           defaultSelectedValues:
             description: Default selection values.
@@ -488,12 +488,12 @@ options:
             description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
             type: str
           selectionValues:
-            description: Configuration Template's selectionValues.
+            description: Selection values.
             type: dict
         type: dict
     type: list
   validationErrors:
-    description: Configuration Template's validationErrors.
+    description: Validation Errors of template content.
     suboptions:
       rollbackTemplateErrors:
         description: Validation or design conflicts errors of rollback template.
@@ -512,7 +512,7 @@ options:
     description: Current version of template.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates DeletesTheTemplate
@@ -532,6 +532,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.configuration_template:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    templateId: string
 - name: Update all
   cisco.catalystcenter.configuration_template:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -698,17 +709,6 @@ EXAMPLES = r"""
       templateId: string
       templateVersion: string
     version: string
-- name: Delete by id
-  cisco.catalystcenter.configuration_template:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    templateId: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -718,7 +718,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

@@ -12,10 +12,10 @@ description:
   - Get all Wireless Controllers Wireless Mobility Groups. - > Retrieve configured mobility groups if no Network Device Id
     is provided as a query parameter. If a Network Device Id is given and a mobility group is configured for it, return the
     configured details; otherwise, return the default values from the device.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
         call /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetMobilityGroups

@@ -11,10 +11,10 @@ short_description: Information module for Templates Template Id Versions Count
 description:
   - Get all Templates Template Id Versions Count.
   - Get the count of a template's version information.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -34,7 +34,7 @@ options:
       - LatestVersion query parameter. Filter response to only include the latest version of a template.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplateVersionsCount

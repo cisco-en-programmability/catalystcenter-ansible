@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Export
 description:
   - Manage operation create of the resource Network Device Export.
   - Exports the selected network device to a file.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceUuids:
     description: List of device uuids.
@@ -31,7 +31,7 @@ options:
     description: Password is required when the operationEnum value is 0.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices ExportDeviceList

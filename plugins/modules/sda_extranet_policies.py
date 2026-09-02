@@ -14,10 +14,10 @@ description:
   - Deletes an extranet policy based on id.
   - Deletes extranet policies based on user input.
   - Updates an extranet policy based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   extranetPolicyName:
     description: ExtranetPolicyName query parameter. Name of the extranet policy.
@@ -33,7 +33,7 @@ options:
         description: Name of the extranet policy to be created.
         type: str
       fabricIds:
-        description: IDs of the fabric sites to be associated with this extranet policy.
+        description: ID of the fabric sites that associated with this extranet policy.
         elements: str
         type: list
       providerVirtualNetworkName:
@@ -45,7 +45,7 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddExtranetPolicy
@@ -74,17 +74,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_extranet_policies:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    extranetPolicyName: string
 - name: Create
   cisco.catalystcenter.sda_extranet_policies:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -102,6 +91,17 @@ EXAMPLES = r"""
         providerVirtualNetworkName: string
         subscriberVirtualNetworkNames:
           - string
+- name: Delete all
+  cisco.catalystcenter.sda_extranet_policies:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    extranetPolicyName: string
 - name: Update all
   cisco.catalystcenter.sda_extranet_policies:
     catalystcenter_host: "{{catalystcenter_host}}"

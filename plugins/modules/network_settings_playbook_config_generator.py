@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbooks for Network Settings Operations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -22,7 +23,7 @@ description:
   on the Cisco Catalyst Center.
 - Supports extraction of Global IP Pools, Reserve IP Pools, Network Management,
   Device Controllability, and AAA Settings configurations.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -222,7 +223,7 @@ options:
             required: false
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - SDK Methods used are
@@ -502,8 +503,10 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -511,6 +514,7 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -538,10 +542,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.supported_states = ["gathered"]
         super().__init__(module)
         self.module_schema = self.get_workflow_elements_schema()
-        self.log(
-            f"[{self.module_schema}] Initializing module",
-            level="INFO"
-        )
+        self.log(f"[{self.module_schema}] Initializing module", level="INFO")
         self.module_name = "network_settings_workflow_manager"
 
         # Initialize class-level variables to track successes and failures
@@ -581,8 +582,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not config_provided:
             self.config = {}
             self.log(
-                "Config not provided. Internal auto-discovery mode enabled.",
-                "INFO"
+                "Config not provided. Internal auto-discovery mode enabled.", "INFO"
             )
 
         # Expected schema for configuration parameters
@@ -598,9 +598,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.validate_invalid_params(self.config, temp_spec.keys())
 
         if config_provided and not valid_temp.get("component_specific_filters"):
-            self.msg = (
-                "Validation failed: component_specific_filters is required when config is provided."
-            )
+            self.msg = "Validation failed: component_specific_filters is required when config is provided."
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self.check_return_status()
@@ -608,7 +606,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if config_provided:
             component_filters = valid_temp.get("component_specific_filters") or {}
             components_list = component_filters.get("components_list")
-            has_components_list = isinstance(components_list, list) and len(components_list) > 0
+            has_components_list = (
+                isinstance(components_list, list) and len(components_list) > 0
+            )
             has_component_blocks = any(
                 key != "components_list" and value not in (None, {}, [])
                 for key, value in component_filters.items()
@@ -640,15 +640,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "network_elements": {
                 "global_pool_details": {
                     "filters": {
-                        "pool_name": {
-                            "type": "str",
-                            "required": False
-                        },
+                        "pool_name": {"type": "str", "required": False},
                         "pool_type": {
                             "type": "str",
                             "required": False,
-                            "choices": ["Generic", "Tunnel"]
-                        }
+                            "choices": ["Generic", "Tunnel"],
+                        },
                     },
                     "reverse_mapping_function": self.global_pool_reverse_mapping_function,
                     "api_function": "retrieves_global_ip_address_pools",
@@ -657,14 +654,8 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 },
                 "reserve_pool_details": {
                     "filters": {
-                        "site_name": {
-                            "type": "str",
-                            "required": False
-                        },
-                        "site_hierarchy": {
-                            "type": "str",
-                            "required": False
-                        },
+                        "site_name": {"type": "str", "required": False},
+                        "site_hierarchy": {"type": "str", "required": False},
                     },
                     "reverse_mapping_function": self.reserve_pool_reverse_mapping_function,
                     "api_function": "retrieves_ip_address_subpools",
@@ -676,7 +667,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "site_name_list": {
                             "type": "list",
                             "required": False,
-                            "elements": "str"
+                            "elements": "str",
                         },
                         "server_types": {
                             "type": "list",
@@ -693,12 +684,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "syslog_server",
                                 "timezone",
                                 "message_of_the_day",
-                            ]
+                            ],
                         },
                         "ip_address_list": {
                             "type": "list",
                             "required": False,
-                            "elements": "str"
+                            "elements": "str",
                         },
                     },
                     "reverse_mapping_function": self.network_management_reverse_mapping_function,
@@ -726,25 +717,36 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log("Generating reverse mapping specification for global pools.", "DEBUG")
 
-        return OrderedDict({
-            "name": {"type": "str", "source_key": "name"},
-            "pool_type": {"type": "str", "source_key": "poolType"},
-            "ip_address_space": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_pool_to_address_space
-            },
-            "cidr": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_cidr
-            },
-            "gateway": {"type": "str", "source_key": "addressSpace.gatewayIpAddress"},
-            "dhcp_server_ips": {"type": "list", "source_key": "addressSpace.dhcpServers"},
-            "dns_server_ips": {"type": "list", "source_key": "addressSpace.dnsServers"},
-        })
+        return OrderedDict(
+            {
+                "name": {"type": "str", "source_key": "name"},
+                "pool_type": {"type": "str", "source_key": "poolType"},
+                "ip_address_space": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_pool_to_address_space,
+                },
+                "cidr": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_cidr,
+                },
+                "gateway": {
+                    "type": "str",
+                    "source_key": "addressSpace.gatewayIpAddress",
+                },
+                "dhcp_server_ips": {
+                    "type": "list",
+                    "source_key": "addressSpace.dhcpServers",
+                },
+                "dns_server_ips": {
+                    "type": "list",
+                    "source_key": "addressSpace.dnsServers",
+                },
+            }
+        )
 
     def transform_ipv6_to_address_space(self, ipv6_value):
         """
@@ -770,7 +772,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             transform_ipv6_to_address_space(False) -> "IPv4"
             transform_ipv6_to_address_space(None) -> None
         """
-        self.log("Transforming IPv6 value to address space string: {0}".format(ipv6_value), "DEBUG")
+        self.log(
+            "Transforming IPv6 value to address space string: {0}".format(ipv6_value),
+            "DEBUG",
+        )
         if ipv6_value is True:
             return "IPv6"
         elif ipv6_value is False:
@@ -840,21 +845,35 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             5. DHCP/DNS server IP address formats
             6. Fallback to IPv4 if addressSpace exists
         """
-        self.log("Determining IP address space (IPv4/IPv6) from pool configuration using "
-                 "multiple detection methods in priority order",
-                 "DEBUG")
+        self.log(
+            "Determining IP address space (IPv4/IPv6) from pool configuration using "
+            "multiple detection methods in priority order",
+            "DEBUG",
+        )
         if pool_details is None or not isinstance(pool_details, dict):
-            self.log("Pool configuration validation failed - received {0} instead of dict, "
-                     "cannot determine address space".format(type(pool_details).__name__),
-                     "DEBUG")
+            self.log(
+                "Pool configuration validation failed - received {0} instead of dict, "
+                "cannot determine address space".format(type(pool_details).__name__),
+                "DEBUG",
+            )
             return None
 
-        self.log("transform_pool_to_address_space: processing pool_details keys: {0}".format(list(pool_details.keys())), "DEBUG")
+        self.log(
+            "transform_pool_to_address_space: processing pool_details keys: {0}".format(
+                list(pool_details.keys())
+            ),
+            "DEBUG",
+        )
 
         # Method 1: Check explicit ipv6 field
         if "ipv6" in pool_details:
             result = "IPv6" if pool_details["ipv6"] else "IPv4"
-            self.log("transform_pool_to_address_space: found explicit ipv6 field, returning: {0}".format(result), "DEBUG")
+            self.log(
+                "transform_pool_to_address_space: found explicit ipv6 field, returning: {0}".format(
+                    result
+                ),
+                "DEBUG",
+            )
             return result
 
         # Method 2: Check gateway format (primary method for global pools)
@@ -869,10 +888,20 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         if gateway:
             if ":" in gateway:
-                self.log("transform_pool_to_address_space: detected IPv6 gateway: {0}".format(gateway), "DEBUG")
+                self.log(
+                    "transform_pool_to_address_space: detected IPv6 gateway: {0}".format(
+                        gateway
+                    ),
+                    "DEBUG",
+                )
                 return "IPv6"
             else:
-                self.log("transform_pool_to_address_space: detected IPv4 gateway: {0}".format(gateway), "DEBUG")
+                self.log(
+                    "transform_pool_to_address_space: detected IPv4 gateway: {0}".format(
+                        gateway
+                    ),
+                    "DEBUG",
+                )
                 return "IPv4"
 
         # Method 3: Check subnet format
@@ -895,7 +924,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Detected IPv6 address space from pool type name: {0}".format(
                         pool_type
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return "IPv6"
 
@@ -916,13 +945,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Unable to definitively determine address space from pool data, "
                 "defaulting to IPv4 based on presence of address space configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return "IPv4"
 
-        self.log("Unable to determine address space - no valid IP configuration found "
-                 "in pool details",
-                 "WARNING")
+        self.log(
+            "Unable to determine address space - no valid IP configuration found "
+            "in pool details",
+            "WARNING",
+        )
         return None
 
     def _determine_address_space_from_ip(self, ip_address, source):
@@ -968,7 +999,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Detected IPv6 address space from {0}: {1}".format(
                         source, ip_address
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return "IPv6"
             else:
@@ -976,17 +1007,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Ambiguous IP format in {0} (single colon detected): {1}, "
                     "treating as invalid".format(source, ip_address),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
         # IPv4 detection (contains dots)
         elif "." in ip_str:
             self.log(
-                "Detected IPv4 address space from {0}: {1}".format(
-                    source, ip_address
-                ),
-                "DEBUG"
+                "Detected IPv4 address space from {0}: {1}".format(source, ip_address),
+                "DEBUG",
             )
             return "IPv4"
 
@@ -996,7 +1025,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Invalid IP address format in {0}: {1} (no colons or dots)".format(
                     source, ip_address
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1040,10 +1069,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             Invalid: None -> None
             Missing data: {"addressSpace": {}} -> None
         """
-        self.log("Starting CIDR transformation with pool_details: {0}".format(pool_details), "DEBUG")
+        self.log(
+            "Starting CIDR transformation with pool_details: {0}".format(pool_details),
+            "DEBUG",
+        )
         if pool_details is None:
-            self.log("Pool details validation failed - expected dict, got {0}".format(
-                     type(pool_details).__name__), "WARNING")
+            self.log(
+                "Pool details validation failed - expected dict, got {0}".format(
+                    type(pool_details).__name__
+                ),
+                "WARNING",
+            )
             return None
 
         if not isinstance(pool_details, dict):
@@ -1051,7 +1087,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Pool details validation failed - expected dict, got {0}".format(
                     type(pool_details).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1059,7 +1095,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing pool configuration with keys: {0}".format(
                 list(pool_details.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Method 1: Check addressSpace structure (primary method)
@@ -1082,9 +1118,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Method 3: Check for alternative field names
         subnet = pool_details.get("ipSubnet") or pool_details.get("network")
         prefix_length = (
-            pool_details.get("prefixLen") or
-            pool_details.get("maskLength") or
-            pool_details.get("subnetMask")
+            pool_details.get("prefixLen")
+            or pool_details.get("maskLength")
+            or pool_details.get("subnetMask")
         )
 
         # Convert subnet mask to prefix length if needed
@@ -1094,45 +1130,55 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Detected subnet mask format, attempting conversion: {0}".format(
                     prefix_length
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             prefix_length = self._convert_subnet_mask_to_prefix(prefix_length)
             try:
                 import ipaddress
-                prefix_length = ipaddress.IPv4Network('0.0.0.0/' + prefix_length).prefixlen
+
+                prefix_length = ipaddress.IPv4Network(
+                    "0.0.0.0/" + prefix_length
+                ).prefixlen
             except Exception:
                 pass
 
         if subnet and prefix_length:
-            cidr = self._build_cidr_notation(subnet, prefix_length, "alternative fields")
+            cidr = self._build_cidr_notation(
+                subnet, prefix_length, "alternative fields"
+            )
             if cidr:
                 return cidr
 
         # Method 4: Look for existing CIDR format
-        existing_cidr = pool_details.get("cidr") or pool_details.get("ipRange") or pool_details.get("range")
         existing_cidr = (
-            pool_details.get("cidr") or
-            pool_details.get("ipRange") or
-            pool_details.get("range")
+            pool_details.get("cidr")
+            or pool_details.get("ipRange")
+            or pool_details.get("range")
+        )
+        existing_cidr = (
+            pool_details.get("cidr")
+            or pool_details.get("ipRange")
+            or pool_details.get("range")
         )
         if existing_cidr:
             if self._validate_cidr_format(existing_cidr):
                 self.log(
                     "Found valid existing CIDR notation: {0}".format(existing_cidr),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return existing_cidr
             else:
                 self.log(
                     "Found CIDR field but format is invalid: {0}".format(existing_cidr),
-                    "WARNING"
+                    "WARNING",
                 )
 
         self.log("transform_cidr: no valid CIDR components found", "DEBUG")
-        self.log("Unable to extract CIDR notation - no valid subnet/prefix combination "
-                 "found in pool configuration",
-                 "WARNING"
-                 )
+        self.log(
+            "Unable to extract CIDR notation - no valid subnet/prefix combination "
+            "found in pool configuration",
+            "WARNING",
+        )
 
         return None
 
@@ -1164,15 +1210,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Invalid prefix length {0} from {1} (must be 0-{2} for {3})".format(
                         prefix_int, source, max_prefix, "IPv6" if is_ipv6 else "IPv4"
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             cidr = "{0}/{1}".format(subnet, prefix_int)
-            self.log(
-                "Built CIDR notation from {0}: {1}".format(source, cidr),
-                "DEBUG"
-            )
+            self.log("Built CIDR notation from {0}: {1}".format(source, cidr), "DEBUG")
             return cidr
 
         except (ValueError, TypeError) as e:
@@ -1180,7 +1223,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Failed to build CIDR from {0} (subnet: {1}, prefix: {2}): {3}".format(
                     source, subnet, prefix_length, str(e)
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1196,23 +1239,28 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         try:
             import ipaddress
-            network = ipaddress.IPv4Network('0.0.0.0/' + subnet_mask, strict=False)
+
+            network = ipaddress.IPv4Network("0.0.0.0/" + subnet_mask, strict=False)
             prefix_length = network.prefixlen
 
             self.log(
                 "Converted subnet mask {0} to prefix length {1}".format(
                     subnet_mask, prefix_length
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return prefix_length
 
-        except (ValueError, ipaddress.AddressValueError, ipaddress.NetmaskValueError) as e:
+        except (
+            ValueError,
+            ipaddress.AddressValueError,
+            ipaddress.NetmaskValueError,
+        ) as e:
             self.log(
                 "Failed to convert subnet mask to prefix length: {0}, error: {1}".format(
                     subnet_mask, str(e)
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1231,6 +1279,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         try:
             import ipaddress
+
             ipaddress.ip_network(cidr, strict=False)
             return True
         except (ValueError, ipaddress.AddressValueError, ipaddress.NetmaskValueError):
@@ -1264,7 +1313,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracting field '{0}' from data while preserving empty lists".format(
                 field_path
             ),
-            "DEBUG"
+            "DEBUG",
         )
         if data is None:
             # Validate field_path parameter
@@ -1274,7 +1323,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "must be non-empty string".format(
                         field_path, type(field_path).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return []
 
@@ -1284,29 +1333,27 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Input data is None, returning empty list for field '{0}'".format(
                         field_path
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return []
 
         if not isinstance(data, dict):
             self.log(
                 "Input data is not a dict (type: {0}), cannot navigate "
-                "field path '{1}'".format(
-                    type(data).__name__, field_path
-                ),
-                "WARNING"
+                "field path '{1}'".format(type(data).__name__, field_path),
+                "WARNING",
             )
             return []
 
         # Navigate the field path (e.g., "ipV4AddressSpace.dhcpServers")
         field_value = data
-        field_segments = field_path.split('.')
+        field_segments = field_path.split(".")
 
         self.log(
             "Navigating through {0} field segment(s): {1}".format(
                 len(field_segments), field_segments
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for field_name in field_segments:
@@ -1317,7 +1364,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if not field_name:
                 self.log(
                     "Skipping empty field segment in path '{0}'".format(field_path),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 continue
 
@@ -1328,7 +1375,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(type: {0}) at field '{1}' in path '{2}'".format(
                         type(field_value).__name__, field_name, field_path
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return []
 
@@ -1339,7 +1386,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Field '{0}' not found in path '{1}', returning empty list".format(
                         field_name, field_path
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return []
 
@@ -1347,10 +1394,8 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if isinstance(field_value, list):
             self.log(
                 "Successfully extracted list from '{0}': {1} item(s) "
-                "(empty list preserved)".format(
-                    field_path, len(field_value)
-                ),
-                "DEBUG"
+                "(empty list preserved)".format(field_path, len(field_value)),
+                "DEBUG",
             )
             return field_value
 
@@ -1360,7 +1405,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Returning empty list for safety.".format(
                 field_path, type(field_value).__name__, field_value
             ),
-            "WARNING"
+            "WARNING",
         )
         return []
 
@@ -1382,16 +1427,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting IPv4 DHCP servers from pool/network data while "
             "preserving empty lists",
-            "DEBUG"
+            "DEBUG",
         )
 
-        result = self.transform_preserve_empty_list(data, "ipV4AddressSpace.dhcpServers")
+        result = self.transform_preserve_empty_list(
+            data, "ipV4AddressSpace.dhcpServers"
+        )
 
         self.log(
             "Extracted IPv4 DHCP servers: {0} server(s) (empty list preserved)".format(
                 len(result) if result else 0
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -1414,7 +1461,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting IPv4 DNS servers from pool/network data while "
             "preserving empty lists",
-            "DEBUG"
+            "DEBUG",
         )
 
         result = self.transform_preserve_empty_list(data, "ipV4AddressSpace.dnsServers")
@@ -1423,7 +1470,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted IPv4 DNS servers: {0} server(s) (empty list preserved)".format(
                 len(result) if result else 0
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -1446,16 +1493,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting IPv6 DHCP servers from pool/network data while "
             "preserving empty lists",
-            "DEBUG"
+            "DEBUG",
         )
 
-        result = self.transform_preserve_empty_list(data, "ipV6AddressSpace.dhcpServers")
+        result = self.transform_preserve_empty_list(
+            data, "ipV6AddressSpace.dhcpServers"
+        )
 
         self.log(
             "Extracted IPv6 DHCP servers: {0} server(s) (empty list preserved)".format(
                 len(result) if result else 0
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -1478,7 +1527,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting IPv6 DNS servers from pool/network data while "
             "preserving empty lists",
-            "DEBUG"
+            "DEBUG",
         )
 
         result = self.transform_preserve_empty_list(data, "ipV6AddressSpace.dnsServers")
@@ -1487,7 +1536,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted IPv6 DNS servers: {0} server(s) (empty list preserved)".format(
                 len(result) if result else 0
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -1526,29 +1575,30 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 - API call fails
                 - Unable to process pool data
         """
-        if hasattr(self, '_global_pool_lookup'):
+        if hasattr(self, "_global_pool_lookup"):
             self.log(
                 "Returning cached global pool lookup with {0} pools (cache hit - "
                 "avoiding API call)".format(len(self._global_pool_lookup)),
-                "DEBUG"
+                "DEBUG",
             )
             return self._global_pool_lookup
 
-        self.log("Building cached lookup table mapping global pool IDs to CIDR/name/IP "
-                 "version for efficient reserve pool processing", "DEBUG")
+        self.log(
+            "Building cached lookup table mapping global pool IDs to CIDR/name/IP "
+            "version for efficient reserve pool processing",
+            "DEBUG",
+        )
 
         try:
             # Get global pools using the API
             global_pools_response = self.execute_get_with_pagination(
-                "network_settings",
-                "retrieves_global_ip_address_pools",
-                {}
+                "network_settings", "retrieves_global_ip_address_pools", {}
             )
 
             if not global_pools_response:
                 self.log(
                     "API returned empty global pools list - creating empty lookup table",
-                    "WARNING"
+                    "WARNING",
                 )
                 self._global_pool_lookup = {}
                 return self._global_pool_lookup
@@ -1557,23 +1607,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing {0} global pools to build lookup table".format(
                     len(global_pools_response)
                 ),
-                "INFO"
+                "INFO",
             )
 
             self._global_pool_lookup = {}
 
             # Process each global pool
             for pool in global_pools_response:
-                pool_id = pool.get('id')
-                pool_name = pool.get('name', 'Unknown')
+                pool_id = pool.get("id")
+                pool_name = pool.get("name", "Unknown")
 
                 # Skip pools without IDs (invalid data)
                 if not pool_id:
                     self.log(
                         "Skipping pool without ID: name='{0}', type='{1}'".format(
-                            pool_name, pool.get('poolType', 'Unknown')
+                            pool_name, pool.get("poolType", "Unknown")
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -1585,45 +1635,48 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "pool may have incomplete address space data".format(
                             pool_name, pool_id
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
 
                 # Determine IP address space using existing method
                 ip_address_space = self.transform_pool_to_address_space(pool)
                 if not ip_address_space:
                     # Fallback: Use simple colon detection
-                    subnet = pool.get('addressSpace', {}).get('subnet', '')
+                    subnet = pool.get("addressSpace", {}).get("subnet", "")
                     ip_address_space = "IPv6" if ":" in str(subnet) else "IPv4"
                     self.log(
                         "Used fallback IP space detection for pool '{0}': {1}".format(
                             pool_name, ip_address_space
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Add to lookup table
                 self._global_pool_lookup[pool_id] = {
                     "cidr": cidr,
                     "name": pool_name,
-                    "ip_address_space": ip_address_space
+                    "ip_address_space": ip_address_space,
                 }
 
                 self.log(
                     "Added pool '{0}' to lookup: ID={1}, CIDR={2}, IP_Space={3}".format(
                         pool_name, pool_id, cidr or "None", ip_address_space
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
-            self.log("Successfully created global pool lookup with {0} pools (cache "
-                     "created for future use)".format(len(self._global_pool_lookup)), "DEBUG")
+            self.log(
+                "Successfully created global pool lookup with {0} pools (cache "
+                "created for future use)".format(len(self._global_pool_lookup)),
+                "DEBUG",
+            )
             return self._global_pool_lookup
 
         except (KeyError, TypeError, AttributeError) as e:
             self.log(
                 "Error processing global pool data during lookup creation: {0}. "
                 "Returning empty lookup to prevent workflow failure.".format(str(e)),
-                "ERROR"
+                "ERROR",
             )
             self._global_pool_lookup = {}
             return self._global_pool_lookup
@@ -1632,28 +1685,30 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Unexpected error creating global pool lookup: {0}. "
                 "Returning empty lookup to prevent workflow failure.".format(str(e)),
-                "CRITICAL"
+                "CRITICAL",
             )
             self._global_pool_lookup = {}
             return self._global_pool_lookup
 
     def transform_global_pool_id_to_cidr(self, pool_data):
         """Transform IPv4 global pool ID to CIDR notation."""
-        return self._transform_global_pool_id_to_field(pool_data, 'cidr', 'IPv4')
+        return self._transform_global_pool_id_to_field(pool_data, "cidr", "IPv4")
 
     def transform_global_pool_id_to_name(self, pool_data):
         """Transform IPv4 global pool ID to pool name."""
-        return self._transform_global_pool_id_to_field(pool_data, 'name', 'IPv4')
+        return self._transform_global_pool_id_to_field(pool_data, "name", "IPv4")
 
     def transform_ipv6_global_pool_id_to_cidr(self, pool_data):
         """Transform IPv6 global pool ID to CIDR notation."""
-        return self._transform_global_pool_id_to_field(pool_data, 'cidr', 'IPv6')
+        return self._transform_global_pool_id_to_field(pool_data, "cidr", "IPv6")
 
     def transform_ipv6_global_pool_id_to_name(self, pool_data):
         """Transform IPv6 global pool ID to pool name."""
-        return self._transform_global_pool_id_to_field(pool_data, 'name', 'IPv6')
+        return self._transform_global_pool_id_to_field(pool_data, "name", "IPv6")
 
-    def _transform_global_pool_id_to_field(self, pool_data, field_name, ip_version="IPv4"):
+    def _transform_global_pool_id_to_field(
+        self, pool_data, field_name, ip_version="IPv4"
+    ):
         """
         Transform global pool ID to a specific field value for reserve pool configuration.
 
@@ -1671,7 +1726,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting {0} global pool {1} from reserve pool data using "
             "cached global pool lookup table".format(ip_version, field_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -1681,11 +1736,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Pool data validation failed - expected dict, got {0}".format(
                         type(pool_data).__name__ if pool_data else "None"
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return None
             # Determine address space key based on IP version
-            address_space_key = "ipV{0}AddressSpace".format("4" if ip_version == "IPv4" else "6")
+            address_space_key = "ipV{0}AddressSpace".format(
+                "4" if ip_version == "IPv4" else "6"
+            )
 
             # Extract address space
             ipv_address_space = pool_data.get(address_space_key) or {}
@@ -1694,16 +1751,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{0} address space is not a dict (type: {1})".format(
                         ip_version, type(ipv_address_space).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return None
 
             # Extract global pool ID
-            global_pool_id = ipv_address_space.get('globalPoolId')
+            global_pool_id = ipv_address_space.get("globalPoolId")
             if not global_pool_id:
                 self.log(
-                    "No {0} global pool ID found in reserve pool data".format(ip_version),
-                    "DEBUG"
+                    "No {0} global pool ID found in reserve pool data".format(
+                        ip_version
+                    ),
+                    "DEBUG",
                 )
                 return None
 
@@ -1714,7 +1773,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Global pool lookup table is empty - cannot map pool ID '{0}'".format(
                         global_pool_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1725,7 +1784,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{0} global pool ID '{1}' not found in lookup table".format(
                         ip_version, global_pool_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1736,7 +1795,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{0} global pool ID '{1}' has no {2} configured".format(
                         ip_version, global_pool_id, field_name
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -1744,7 +1803,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "{0} global pool ID '{1}' mapped to {2}: {3}".format(
                     ip_version, global_pool_id, field_name, field_value
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return field_value
 
@@ -1753,7 +1812,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Error extracting {0} global pool {1}: {2}".format(
                     ip_version, field_name, str(e)
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1762,7 +1821,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Unexpected error transforming {0} global pool ID to {1}: {2}".format(
                     ip_version, field_name, str(e)
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -1813,142 +1872,165 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             - Statistics (total hosts, assigned addresses)
             - Configuration flags (SLAAC support, prefix settings)
         """
-        self.log("Building reverse mapping specification to transform Catalyst Center reserve pool "
-                 "API response into Ansible playbook format for network_settings_workflow_manager module",
-                 "DEBUG")
+        self.log(
+            "Building reverse mapping specification to transform Catalyst Center reserve pool "
+            "API response into Ansible playbook format for network_settings_workflow_manager module",
+            "DEBUG",
+        )
 
-        reverse_mapping_spec = OrderedDict({
-            # -------------------------------
-            # Basic Pool Information
-            # -------------------------------
-            "site_name": {
-                "type": "str",
-                "source_key": "siteName",
-                "special_handling": True,
-                "transform": self.transform_site_location,
-            },
-            "name": {"type": "str", "source_key": "name"},
-            "prev_name": {"type": "str", "source_key": "previousName", "optional": True},
-            "pool_type": {"type": "str", "source_key": "poolType"},
-
-            # -------------------------------
-            # IPv6 Address Space Flag
-            # -------------------------------
-            "ipv6_address_space": {
-                "type": "bool",
-                "source_key": "ipV6AddressSpace",
-                "transform": self.transform_to_boolean,
-            },
-
-            # -------------------------------
-            # IPv4 Address Space Configuration
-            # -------------------------------
-            # Global pool references (transformed from UUID to CIDR/name)
-            "ipv4_global_pool": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_global_pool_id_to_cidr,
-                "optional": True  # Not all reserve pools have parent global pool
-            },
-            "ipv4_global_pool_name": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_global_pool_id_to_name,
-                "optional": True
-            },
-            # Prefix configuration
-            # Boolean flag indicating if IPv4 prefix is configured (for conditional logic)
-            "ipv4_prefix": {
-                "type": "bool",
-                "source_key": "ipV4AddressSpace.prefixLength",
-                "transform": self.transform_to_boolean,
-            },
-            # Actual IPv4 prefix length value (e.g., 24 for /24 network)
-            "ipv4_prefix_length": {"type": "int", "source_key": "ipV4AddressSpace.prefixLength"},
-            # Network configuration
-            "ipv4_subnet": {"type": "str", "source_key": "ipV4AddressSpace.subnet"},
-            "ipv4_gateway": {"type": "str", "source_key": "ipV4AddressSpace.gatewayIpAddress"},
-            # Server configurations (preserve empty lists for semantic meaning)
-            "ipv4_dhcp_servers": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.transform_ipv4_dhcp_servers
-            },
-            "ipv4_dns_servers": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.transform_ipv4_dns_servers
-            },
-            # Pool statistics
-            "ipv4_total_host": {"type": "int", "source_key": "ipV4AddressSpace.totalAddresses"},
-
-            # Statistics fields commented out to reduce YAML output clutter
-            # These are runtime statistics, not configuration parameters
-            # Uncomment if detailed pool usage statistics are needed in playbook
-            # "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
-            # "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
-            # "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
-
-            # -------------------------------
-            # IPv6 Address Space Configuration
-            # -------------------------------
-            # Global pool references (transformed from UUID to CIDR/name)
-            "ipv6_global_pool": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_ipv6_global_pool_id_to_cidr,
-                "optional": True  # Not all reserve pools have parent global pool
-            },
-            "ipv6_global_pool_name": {
-                "type": "str",
-                "source_key": None,
-                "special_handling": True,
-                "transform": self.transform_ipv6_global_pool_id_to_name,
-                "optional": True
-            },
-            # Prefix configuration
-            # Boolean flag indicating if IPv6 prefix is configured
-            "ipv6_prefix": {
-                "type": "bool",
-                "source_key": "ipV6AddressSpace.prefixLength",
-                "transform": self.transform_to_boolean,
-            },
-            # Actual IPv6 prefix length value (e.g., 64 for /64 network)
-            "ipv6_prefix_length": {"type": "int", "source_key": "ipV6AddressSpace.prefixLength"},
-            # Network configuration
-            "ipv6_subnet": {"type": "str", "source_key": "ipV6AddressSpace.subnet"},
-            "ipv6_gateway": {"type": "str", "source_key": "ipV6AddressSpace.gatewayIpAddress"},
-            "ipv6_dhcp_servers": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.transform_ipv6_dhcp_servers
-            },
-            # Server configurations (preserve empty lists for semantic meaning)
-            "ipv6_dns_servers": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.transform_ipv6_dns_servers
-            },
-            # Pool statistics
-            "ipv6_total_host": {"type": "int", "source_key": "ipV6AddressSpace.totalAddresses"},
-            # Statistics fields commented out to reduce YAML output clutter
-            # Uncomment if detailed pool usage statistics are needed in playbook
-            # "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
-            # "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
-            # "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
-
-            # IPv6-specific features
-            "slaac_support": {"type": "bool", "source_key": "ipV6AddressSpace.slaacSupport"},
-
-        })
+        reverse_mapping_spec = OrderedDict(
+            {
+                # -------------------------------
+                # Basic Pool Information
+                # -------------------------------
+                "site_name": {
+                    "type": "str",
+                    "source_key": "siteName",
+                    "special_handling": True,
+                    "transform": self.transform_site_location,
+                },
+                "name": {"type": "str", "source_key": "name"},
+                "prev_name": {
+                    "type": "str",
+                    "source_key": "previousName",
+                    "optional": True,
+                },
+                "pool_type": {"type": "str", "source_key": "poolType"},
+                # -------------------------------
+                # IPv6 Address Space Flag
+                # -------------------------------
+                "ipv6_address_space": {
+                    "type": "bool",
+                    "source_key": "ipV6AddressSpace",
+                    "transform": self.transform_to_boolean,
+                },
+                # -------------------------------
+                # IPv4 Address Space Configuration
+                # -------------------------------
+                # Global pool references (transformed from UUID to CIDR/name)
+                "ipv4_global_pool": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_global_pool_id_to_cidr,
+                    "optional": True,  # Not all reserve pools have parent global pool
+                },
+                "ipv4_global_pool_name": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_global_pool_id_to_name,
+                    "optional": True,
+                },
+                # Prefix configuration
+                # Boolean flag indicating if IPv4 prefix is configured (for conditional logic)
+                "ipv4_prefix": {
+                    "type": "bool",
+                    "source_key": "ipV4AddressSpace.prefixLength",
+                    "transform": self.transform_to_boolean,
+                },
+                # Actual IPv4 prefix length value (e.g., 24 for /24 network)
+                "ipv4_prefix_length": {
+                    "type": "int",
+                    "source_key": "ipV4AddressSpace.prefixLength",
+                },
+                # Network configuration
+                "ipv4_subnet": {"type": "str", "source_key": "ipV4AddressSpace.subnet"},
+                "ipv4_gateway": {
+                    "type": "str",
+                    "source_key": "ipV4AddressSpace.gatewayIpAddress",
+                },
+                # Server configurations (preserve empty lists for semantic meaning)
+                "ipv4_dhcp_servers": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.transform_ipv4_dhcp_servers,
+                },
+                "ipv4_dns_servers": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.transform_ipv4_dns_servers,
+                },
+                # Pool statistics
+                "ipv4_total_host": {
+                    "type": "int",
+                    "source_key": "ipV4AddressSpace.totalAddresses",
+                },
+                # Statistics fields commented out to reduce YAML output clutter
+                # These are runtime statistics, not configuration parameters
+                # Uncomment if detailed pool usage statistics are needed in playbook
+                # "ipv4_unassignable_addresses": {"type": "int", "source_key": "ipV4AddressSpace.unassignableAddresses"},
+                # "ipv4_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.assignedAddresses"},
+                # "ipv4_default_assigned_addresses": {"type": "int", "source_key": "ipV4AddressSpace.defaultAssignedAddresses"},
+                # -------------------------------
+                # IPv6 Address Space Configuration
+                # -------------------------------
+                # Global pool references (transformed from UUID to CIDR/name)
+                "ipv6_global_pool": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_ipv6_global_pool_id_to_cidr,
+                    "optional": True,  # Not all reserve pools have parent global pool
+                },
+                "ipv6_global_pool_name": {
+                    "type": "str",
+                    "source_key": None,
+                    "special_handling": True,
+                    "transform": self.transform_ipv6_global_pool_id_to_name,
+                    "optional": True,
+                },
+                # Prefix configuration
+                # Boolean flag indicating if IPv6 prefix is configured
+                "ipv6_prefix": {
+                    "type": "bool",
+                    "source_key": "ipV6AddressSpace.prefixLength",
+                    "transform": self.transform_to_boolean,
+                },
+                # Actual IPv6 prefix length value (e.g., 64 for /64 network)
+                "ipv6_prefix_length": {
+                    "type": "int",
+                    "source_key": "ipV6AddressSpace.prefixLength",
+                },
+                # Network configuration
+                "ipv6_subnet": {"type": "str", "source_key": "ipV6AddressSpace.subnet"},
+                "ipv6_gateway": {
+                    "type": "str",
+                    "source_key": "ipV6AddressSpace.gatewayIpAddress",
+                },
+                "ipv6_dhcp_servers": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.transform_ipv6_dhcp_servers,
+                },
+                # Server configurations (preserve empty lists for semantic meaning)
+                "ipv6_dns_servers": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.transform_ipv6_dns_servers,
+                },
+                # Pool statistics
+                "ipv6_total_host": {
+                    "type": "int",
+                    "source_key": "ipV6AddressSpace.totalAddresses",
+                },
+                # Statistics fields commented out to reduce YAML output clutter
+                # Uncomment if detailed pool usage statistics are needed in playbook
+                # "ipv6_unassignable_addresses": {"type": "int", "source_key": "ipV6AddressSpace.unassignableAddresses"},
+                # "ipv6_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.assignedAddresses"},
+                # "ipv6_default_assigned_addresses": {"type": "int", "source_key": "ipV6AddressSpace.defaultAssignedAddresses"},
+                # IPv6-specific features
+                "slaac_support": {
+                    "type": "bool",
+                    "source_key": "ipV6AddressSpace.slaacSupport",
+                },
+            }
+        )
 
         self.log(
             "Successfully created reverse mapping specification with {0} field mappings for "
             "reserve pool transformation".format(len(reverse_mapping_spec)),
-            "DEBUG"
+            "DEBUG",
         )
 
         return reverse_mapping_spec
@@ -1990,223 +2072,211 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             OrderedDict: Field mapping specification with type info and source paths.
         """
-        self.log("Building reverse mapping specification to transform Catalyst Center network management "
-                 "API v1 response into Ansible playbook format for network_settings_workflow_manager module",
-                 "DEBUG")
+        self.log(
+            "Building reverse mapping specification to transform Catalyst Center network management "
+            "API v1 response into Ansible playbook format for network_settings_workflow_manager module",
+            "DEBUG",
+        )
 
-        reverse_mapping_spec = OrderedDict({
-
-            # -------------------------------
-            # Site Information
-            # -------------------------------
-            "site_name": {
-                "type": "str",
-                "source_key": "siteName",
-                "special_handling": True,
-                "transform": self.transform_site_location
-            },
-
-            # -------------------------------
-            # DHCP Server Configuration
-            # -------------------------------
-            # List of DHCP server IP addresses for the site
-            "dhcp_server": {
-                "type": "list",
-                "source_key": "settings.dhcp.servers"
-            },
-
-            # -------------------------------
-            # DNS Server Configuration
-            # -------------------------------
-            # DNS domain name for the site
-            "dns_server.domain_name": {
-                "type": "str",
-                "source_key": "settings.dns.domainName"
-            },
-            # List of DNS server IP addresses
-            "dns_server.dns_servers": {
-                "type": "list",
-                "source_key": "settings.dns.dnsServers"
-            },
-
-            # -------------------------------
-            # NTP Server Configuration
-            # -------------------------------
-            # List of NTP server addresses for time synchronization
-            "ntp_server": {
-                "type": "list",
-                "source_key": "settings.ntp.servers"
-            },
-
-            # -------------------------------
-            # Timezone Settings
-            # -------------------------------
-            # Timezone identifier (e.g., "America/New_York", "UTC")
-            "timezone": {
-                "type": "str",
-                "source_key": "settings.timeZone.identifier"
-            },
-
-            # -------------------------------
-            # Message of the Day (Banner)
-            # -------------------------------
-            # Banner message displayed on device login
-            "message_of_the_day.banner_message": {
-                "type": "str",
-                "source_key": "settings.banner.message"
-            },
-            # Whether to retain existing banner when updating
-            "message_of_the_day.retain_existing_banner": {
-                "type": "bool",
-                "source_key": "settings.banner.retainExistingBanner"
-            },
-
-            # -------------------------------
-            # Network AAA Configuration
-            # -------------------------------
-            # Primary AAA server IP address for network device authentication
-            "network_aaa.primary_server_address": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.primaryServerIp"
-            },
-            # Secondary AAA server IP address (optional failover)
-            "network_aaa.secondary_server_address": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.secondaryServerIp",
-                "optional": True
-            },
-            # AAA protocol (RADIUS or TACACS)
-            "network_aaa.protocol": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.protocol"
-            },
-            # Server type (AAA, ISE)
-            "network_aaa.server_type": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.serverType"
-            },
-            # ISE PAN address (required when serverType is ISE)
-            "network_aaa.pan_address": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.pan",
-                "optional": True
-            },
-            # Shared secret for AAA server authentication
-            "network_aaa.shared_secret": {
-                "type": "str",
-                "source_key": "settings.aaaNetwork.sharedSecret",
-                "optional": True
-            },
-
-            # -----------------------------------------------
-            # Client & Endpoint AAA Configuration
-            # -----------------------------------------------
-            # Primary AAA server IP for client/endpoint authentication
-            "client_and_endpoint_aaa.primary_server_address": {
-                "type": "str",
-                "source_key": "settings.aaaClient.primaryServerIp"
-            },
-            # Secondary AAA server IP (optional failover)
-            "client_and_endpoint_aaa.secondary_server_address": {
-                "type": "str",
-                "source_key": "settings.aaaClient.secondaryServerIp",
-                "optional": True
-            },
-            # AAA protocol for client authentication
-            "client_and_endpoint_aaa.protocol": {
-                "type": "str",
-                "source_key": "settings.aaaClient.protocol"
-            },
-            # Server type for client authentication
-            "client_and_endpoint_aaa.server_type": {
-                "type": "str",
-                "source_key": "settings.aaaClient.serverType"
-            },
-            # ISE PAN address for client authentication
-            "client_and_endpoint_aaa.pan_address": {
-                "type": "str",
-                "source_key": "settings.aaaClient.pan",
-                "optional": True
-            },
-            # Shared secret for client AAA
-            "client_and_endpoint_aaa.shared_secret": {
-                "type": "str",
-                "source_key": "settings.aaaClient.sharedSecret",
-                "optional": True
-            },
-
-            # -------------------------------
-            # NetFlow Collector (Telemetry)
-            # -------------------------------
-            # NetFlow collector IP address for application visibility
-            "netflow_collector.ip_address": {
-                "type": "str",
-                "source_key": "settings.telemetry.applicationVisibility.collector.address"
-            },
-            # NetFlow collector port number
-            "netflow_collector.port": {
-                "type": "int",
-                "source_key": "settings.telemetry.applicationVisibility.collector.port"
-            },
-
-            # -------------------------------
-            # SNMP Server (Telemetry)
-            # -------------------------------
-            # Use Catalyst Center built-in SNMP trap server
-            "snmp_server.configure_dnac_ip": {
-                "type": "bool",
-                "source_key": "settings.telemetry.snmpTraps.useBuiltinTrapServer"
-            },
-            # External SNMP trap server IP addresses (optional)
-            "snmp_server.ip_addresses": {
-                "type": "list",
-                "source_key": "settings.telemetry.snmpTraps.externalTrapServers",
-                "optional": True
-            },
-
-            # -------------------------------
-            # Syslog Server (Telemetry)
-            # -------------------------------
-            # Use Catalyst Center built-in syslog server
-            "syslog_server.configure_dnac_ip": {
-                "type": "bool",
-                "source_key": "settings.telemetry.syslogs.useBuiltinSyslogServer"
-            },
-            # External syslog server IP addresses (optional)
-            "syslog_server.ip_addresses": {
-                "type": "list",
-                "source_key": "settings.telemetry.syslogs.externalSyslogServers",
-                "optional": True
-            },
-
-            # -------------------------------
-            # Wired Data Collection (Telemetry)
-            # -------------------------------
-            # Enable wired network data collection for analytics
-            "wired_data_collection.enable_wired_data_collection": {
-                "type": "bool",
-                "source_key": "settings.telemetry.wiredDataCollection.enableWiredDataCollection"
-            },
-            # -------------------------------
-            # Wireless Telemetry
-            # -------------------------------
-            # Enable wireless network telemetry collection
-            "wireless_telemetry.enable_wireless_telemetry": {
-                "type": "bool",
-                "source_key": "settings.telemetry.wirelessTelemetry.enableWirelessTelemetry"
+        reverse_mapping_spec = OrderedDict(
+            {
+                # -------------------------------
+                # Site Information
+                # -------------------------------
+                "site_name": {
+                    "type": "str",
+                    "source_key": "siteName",
+                    "special_handling": True,
+                    "transform": self.transform_site_location,
+                },
+                # -------------------------------
+                # DHCP Server Configuration
+                # -------------------------------
+                # List of DHCP server IP addresses for the site
+                "dhcp_server": {"type": "list", "source_key": "settings.dhcp.servers"},
+                # -------------------------------
+                # DNS Server Configuration
+                # -------------------------------
+                # DNS domain name for the site
+                "dns_server.domain_name": {
+                    "type": "str",
+                    "source_key": "settings.dns.domainName",
+                },
+                # List of DNS server IP addresses
+                "dns_server.dns_servers": {
+                    "type": "list",
+                    "source_key": "settings.dns.dnsServers",
+                },
+                # -------------------------------
+                # NTP Server Configuration
+                # -------------------------------
+                # List of NTP server addresses for time synchronization
+                "ntp_server": {"type": "list", "source_key": "settings.ntp.servers"},
+                # -------------------------------
+                # Timezone Settings
+                # -------------------------------
+                # Timezone identifier (e.g., "America/New_York", "UTC")
+                "timezone": {
+                    "type": "str",
+                    "source_key": "settings.timeZone.identifier",
+                },
+                # -------------------------------
+                # Message of the Day (Banner)
+                # -------------------------------
+                # Banner message displayed on device login
+                "message_of_the_day.banner_message": {
+                    "type": "str",
+                    "source_key": "settings.banner.message",
+                },
+                # Whether to retain existing banner when updating
+                "message_of_the_day.retain_existing_banner": {
+                    "type": "bool",
+                    "source_key": "settings.banner.retainExistingBanner",
+                },
+                # -------------------------------
+                # Network AAA Configuration
+                # -------------------------------
+                # Primary AAA server IP address for network device authentication
+                "network_aaa.primary_server_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.primaryServerIp",
+                },
+                # Secondary AAA server IP address (optional failover)
+                "network_aaa.secondary_server_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.secondaryServerIp",
+                    "optional": True,
+                },
+                # AAA protocol (RADIUS or TACACS)
+                "network_aaa.protocol": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.protocol",
+                },
+                # Server type (AAA, ISE)
+                "network_aaa.server_type": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.serverType",
+                },
+                # ISE PAN address (required when serverType is ISE)
+                "network_aaa.pan_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.pan",
+                    "optional": True,
+                },
+                # Shared secret for AAA server authentication
+                "network_aaa.shared_secret": {
+                    "type": "str",
+                    "source_key": "settings.aaaNetwork.sharedSecret",
+                    "optional": True,
+                },
+                # -----------------------------------------------
+                # Client & Endpoint AAA Configuration
+                # -----------------------------------------------
+                # Primary AAA server IP for client/endpoint authentication
+                "client_and_endpoint_aaa.primary_server_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.primaryServerIp",
+                },
+                # Secondary AAA server IP (optional failover)
+                "client_and_endpoint_aaa.secondary_server_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.secondaryServerIp",
+                    "optional": True,
+                },
+                # AAA protocol for client authentication
+                "client_and_endpoint_aaa.protocol": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.protocol",
+                },
+                # Server type for client authentication
+                "client_and_endpoint_aaa.server_type": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.serverType",
+                },
+                # ISE PAN address for client authentication
+                "client_and_endpoint_aaa.pan_address": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.pan",
+                    "optional": True,
+                },
+                # Shared secret for client AAA
+                "client_and_endpoint_aaa.shared_secret": {
+                    "type": "str",
+                    "source_key": "settings.aaaClient.sharedSecret",
+                    "optional": True,
+                },
+                # -------------------------------
+                # NetFlow Collector (Telemetry)
+                # -------------------------------
+                # NetFlow collector IP address for application visibility
+                "netflow_collector.ip_address": {
+                    "type": "str",
+                    "source_key": "settings.telemetry.applicationVisibility.collector.address",
+                },
+                # NetFlow collector port number
+                "netflow_collector.port": {
+                    "type": "int",
+                    "source_key": "settings.telemetry.applicationVisibility.collector.port",
+                },
+                # -------------------------------
+                # SNMP Server (Telemetry)
+                # -------------------------------
+                # Use Catalyst Center built-in SNMP trap server
+                "snmp_server.configure_dnac_ip": {
+                    "type": "bool",
+                    "source_key": "settings.telemetry.snmpTraps.useBuiltinTrapServer",
+                },
+                # External SNMP trap server IP addresses (optional)
+                "snmp_server.ip_addresses": {
+                    "type": "list",
+                    "source_key": "settings.telemetry.snmpTraps.externalTrapServers",
+                    "optional": True,
+                },
+                # -------------------------------
+                # Syslog Server (Telemetry)
+                # -------------------------------
+                # Use Catalyst Center built-in syslog server
+                "syslog_server.configure_dnac_ip": {
+                    "type": "bool",
+                    "source_key": "settings.telemetry.syslogs.useBuiltinSyslogServer",
+                },
+                # External syslog server IP addresses (optional)
+                "syslog_server.ip_addresses": {
+                    "type": "list",
+                    "source_key": "settings.telemetry.syslogs.externalSyslogServers",
+                    "optional": True,
+                },
+                # -------------------------------
+                # Wired Data Collection (Telemetry)
+                # -------------------------------
+                # Enable wired network data collection for analytics
+                "wired_data_collection.enable_wired_data_collection": {
+                    "type": "bool",
+                    "source_key": "settings.telemetry.wiredDataCollection.enableWiredDataCollection",
+                },
+                # -------------------------------
+                # Wireless Telemetry
+                # -------------------------------
+                # Enable wireless network telemetry collection
+                "wireless_telemetry.enable_wireless_telemetry": {
+                    "type": "bool",
+                    "source_key": "settings.telemetry.wirelessTelemetry.enableWirelessTelemetry",
+                },
             }
-        })
+        )
 
         self.log(
             "Successfully created network management reverse mapping specification with {0} field mappings".format(
                 len(reverse_mapping_spec)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return reverse_mapping_spec
 
-    def device_controllability_reverse_mapping_function(self, requested_components=None):
+    def device_controllability_reverse_mapping_function(
+        self, requested_components=None
+    ):
         """
         Returns the reverse mapping specification for device controllability configurations.
         Args:
@@ -2214,12 +2284,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             dict: Reverse mapping specification for device controllability details
         """
-        self.log("Generating reverse mapping specification for device controllability settings.", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for device controllability settings.",
+            "DEBUG",
+        )
 
-        return OrderedDict({
-            "device_controllability": {"type": "bool", "source_key": "deviceControllability"},
-            "autocorrect_telemetry_config": {"type": "bool", "source_key": "autocorrectTelemetryConfig"},
-        })
+        return OrderedDict(
+            {
+                "device_controllability": {
+                    "type": "bool",
+                    "source_key": "deviceControllability",
+                },
+                "autocorrect_telemetry_config": {
+                    "type": "bool",
+                    "source_key": "autocorrectTelemetryConfig",
+                },
+            }
+        )
 
     def get_child_sites_from_hierarchy(self, site_hierarchy):
         """
@@ -2266,20 +2347,20 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Discovering all child sites under hierarchical path for reserve pool "
             "bulk extraction using site hierarchy filtering",
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             "Hierarchy path to search: '{0}'".format(
                 site_hierarchy if site_hierarchy else "None"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_hierarchy:
             self.log(
                 "Site hierarchy path is empty or None, cannot discover child sites. "
                 "Returning empty list.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2287,7 +2368,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid site_hierarchy parameter type - expected str, got {0}. "
                 "Returning empty list.".format(type(site_hierarchy).__name__),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -2297,7 +2378,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Site hierarchy path is empty after stripping whitespace. "
                 "Returning empty list.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2305,16 +2386,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Validated site hierarchy path: '{0}' (length: {1} characters)".format(
                 site_hierarchy, len(site_hierarchy)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         child_sites = []
 
         # Get or create site ID to name mapping (cached for performance)
-        if not hasattr(self, 'site_id_name_dict'):
+        if not hasattr(self, "site_id_name_dict"):
             self.log(
                 "Site ID-name mapping not cached, retrieving from Catalyst Center API",
-                "DEBUG"
+                "DEBUG",
             )
             try:
                 self.site_id_name_dict = self.get_site_id_name_mapping()
@@ -2322,13 +2403,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Successfully retrieved site mapping with {0} total sites".format(
                         len(self.site_id_name_dict)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             except Exception as e:
                 self.log(
                     "Failed to retrieve site ID-name mapping: {0}. "
                     "Cannot discover child sites, returning empty list.".format(str(e)),
-                    "ERROR"
+                    "ERROR",
                 )
                 return []
         else:
@@ -2336,7 +2417,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Using cached site ID-name mapping with {0} sites (cache hit)".format(
                     len(self.site_id_name_dict)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validate site mapping is not empty
@@ -2344,7 +2425,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Site ID-name mapping is empty, no sites available in Catalyst Center. "
                 "Returning empty list.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -2358,9 +2439,11 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "This may be an invalid path or the site does not exist. Available top-level "
                 "sites: {1}".format(
                     site_hierarchy,
-                    [name for name in site_name_to_id.keys() if name.count('/') <= 1][:5]
+                    [name for name in site_name_to_id.keys() if name.count("/") <= 1][
+                        :5
+                    ],
                 ),
-                "WARNING"
+                "WARNING",
             )
             # Don't return empty - continue to check for child sites that might match
 
@@ -2368,7 +2451,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Searching through {0} total sites for matches under hierarchy '{1}'".format(
                 len(self.site_id_name_dict), site_hierarchy
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Track matching statistics
@@ -2382,39 +2465,35 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # 1. Exact match: site_name == site_hierarchy (include the parent itself)
             # 2. Child match: site_name starts with site_hierarchy + "/"
 
-            is_exact_match = (site_name == site_hierarchy)
+            is_exact_match = site_name == site_hierarchy
             is_child_match = site_name.startswith(site_hierarchy + "/")
 
             if is_exact_match:
                 exact_match_found = True
-                child_sites.append({
-                    "site_name": site_name,
-                    "site_id": site_id
-                })
+                child_sites.append({"site_name": site_name, "site_id": site_id})
                 self.log(
                     "Found exact match for hierarchy path: '{0}' (ID: {1})".format(
                         site_name, site_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             elif is_child_match:
                 child_matches_found += 1
-                child_sites.append({
-                    "site_name": site_name,
-                    "site_id": site_id
-                })
+                child_sites.append({"site_name": site_name, "site_id": site_id})
                 self.log(
                     "Found child site {0}: '{1}' (ID: {2})".format(
                         child_matches_found, site_name, site_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         if not child_sites:
             self.log(
                 "No child sites found under hierarchy: '{0}'. This hierarchy path may not "
-                "exist or may not have any child sites configured.".format(site_hierarchy),
-                "WARNING"
+                "exist or may not have any child sites configured.".format(
+                    site_hierarchy
+                ),
+                "WARNING",
             )
         else:
             self.log(
@@ -2423,9 +2502,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     len(child_sites),
                     site_hierarchy,
                     "yes" if exact_match_found else "no",
-                    child_matches_found
+                    child_matches_found,
                 ),
-                "INFO"
+                "INFO",
             )
 
         self.log(
@@ -2433,7 +2512,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "(including parent and all descendants)".format(
                 site_hierarchy, len(child_sites)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return child_sites
@@ -2478,7 +2557,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             transform_site_location({"siteId": "uuid-123"}) -> "Global/USA/NYC" (via lookup)
             transform_site_location(None) -> None
         """
-        self.log("Transforming site location for input: {0}".format(site_name_or_pool_details), "DEBUG")
+        self.log(
+            "Transforming site location for input: {0}".format(
+                site_name_or_pool_details
+            ),
+            "DEBUG",
+        )
 
         # Handle None input
         if site_name_or_pool_details is None:
@@ -2496,7 +2580,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Site location string is empty or whitespace-only after stripping. "
                     "Returning None.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -2505,15 +2589,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Site name '{0}' does not contain hierarchy delimiter '/'. "
                     "This may be a short name without full hierarchy. "
-                    "Consider using site ID lookup for complete path.".format(site_name),
-                    "WARNING"
+                    "Consider using site ID lookup for complete path.".format(
+                        site_name
+                    ),
+                    "WARNING",
                 )
 
             self.log(
                 "Input is string type (hierarchical site name), returning as-is: '{0}'".format(
                     site_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return site_name
 
@@ -2524,7 +2610,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Input is dict type (pool/configuration details), extracting site information "
                 "using priority: 1) siteId lookup, 2) siteName field",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract both site ID and site name from dict
@@ -2533,10 +2619,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Extracted from dict - siteId: {0}, siteName: {1}".format(
-                    site_id if site_id else "None",
-                    site_name if site_name else "None"
+                    site_id if site_id else "None", site_name if site_name else "None"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Priority 1: Site ID Lookup (Most Reliable for Full Hierarchy)
@@ -2545,14 +2630,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Site ID found: {0}, performing lookup to resolve full hierarchical path".format(
                         site_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Ensure site mapping is available
-                if not hasattr(self, 'site_id_name_dict'):
+                if not hasattr(self, "site_id_name_dict"):
                     self.log(
                         "Site ID-to-name mapping not cached, creating mapping via API call",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     try:
@@ -2561,7 +2646,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully created site mapping with {0} total sites".format(
                                 len(self.site_id_name_dict)
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     except Exception as e:
                         self.log(
@@ -2569,7 +2654,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Cannot perform site ID lookup, falling back to siteName.".format(
                                 str(e)
                             ),
-                            "ERROR"
+                            "ERROR",
                         )
                         # Fall through to siteName handling below
                         self.site_id_name_dict = {}
@@ -2578,7 +2663,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Using cached site ID-to-name mapping with {0} sites (cache hit)".format(
                             len(self.site_id_name_dict)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Perform site ID lookup
@@ -2589,7 +2674,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Successfully mapped site ID {0} to full hierarchical path: '{1}'".format(
                             site_id, site_name_hierarchy
                         ),
-                        "INFO"
+                        "INFO",
                     )
                     return site_name_hierarchy
                 else:
@@ -2598,10 +2683,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "This may indicate an invalid site ID or mapping synchronization issue. "
                         "Falling back to siteName field: '{2}'".format(
                             site_id,
-                            len(self.site_id_name_dict) if self.site_id_name_dict else 0,
-                            site_name if site_name else "None"
+                            (
+                                len(self.site_id_name_dict)
+                                if self.site_id_name_dict
+                                else 0
+                            ),
+                            site_name if site_name else "None",
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     # Fall through to siteName handling below
 
@@ -2614,7 +2703,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "siteName field is empty or whitespace-only after stripping. "
                         "Cannot determine site location. Returning None.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
 
@@ -2624,14 +2713,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "siteName '{0}' appears to be a short name without full hierarchy "
                         "(no '/' delimiter). Using as-is but this may result in incomplete "
                         "site path in YAML output.".format(site_name_stripped),
-                        "WARNING"
+                        "WARNING",
                     )
 
                 self.log(
                     "Using siteName from dict as fallback (siteId lookup unavailable or failed): '{0}'".format(
                         site_name_stripped
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return site_name_stripped
 
@@ -2641,7 +2730,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Available keys in dict: {0}. Cannot determine site location.".format(
                     list(site_name_or_pool_details.keys())
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -2653,14 +2742,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "but received {0}. Cannot process site location. Returning None.".format(
                 site_name_or_pool_details
             ),
-            "ERROR"
+            "ERROR",
         )
 
         # Exit log with failure status
         self.log(
             "Site location transformation failed - unable to extract hierarchical site name "
             "from input of type {0}".format(site_name_or_pool_details),
-            "WARNING"
+            "WARNING",
         )
 
         return None
@@ -2705,101 +2794,117 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Resetting operation tracking variables to prepare clean state for new "
             "network settings playbook config generator discovery operation",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Current state before reset - Successes: {0}, Failures: {1}, "
             "Sites processed: {2}, Components processed: {3}".format(
-                len(self.operation_successes) if hasattr(self, 'operation_successes') else 0,
-                len(self.operation_failures) if hasattr(self, 'operation_failures') else 0,
-                self.total_sites_processed if hasattr(self, 'total_sites_processed') else 0,
-                self.total_components_processed if hasattr(self, 'total_components_processed') else 0
+                (
+                    len(self.operation_successes)
+                    if hasattr(self, "operation_successes")
+                    else 0
+                ),
+                (
+                    len(self.operation_failures)
+                    if hasattr(self, "operation_failures")
+                    else 0
+                ),
+                (
+                    self.total_sites_processed
+                    if hasattr(self, "total_sites_processed")
+                    else 0
+                ),
+                (
+                    self.total_components_processed
+                    if hasattr(self, "total_components_processed")
+                    else 0
+                ),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Reset success tracking
-        if hasattr(self, 'operation_successes'):
+        if hasattr(self, "operation_successes"):
             previous_success_count = len(self.operation_successes)
             self.operation_successes = []
             self.log(
                 "Cleared operation_successes list: removed {0} previous success entries".format(
                     previous_success_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.operation_successes = []
             self.log(
                 "Initialized operation_successes list (first-time initialization)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Reset failure tracking
-        if hasattr(self, 'operation_failures'):
+        if hasattr(self, "operation_failures"):
             previous_failure_count = len(self.operation_failures)
             self.operation_failures = []
             self.log(
                 "Cleared operation_failures list: removed {0} previous failure entries".format(
                     previous_failure_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.operation_failures = []
             self.log(
                 "Initialized operation_failures list (first-time initialization)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Reset site counter
-        if hasattr(self, 'total_sites_processed'):
+        if hasattr(self, "total_sites_processed"):
             previous_site_count = self.total_sites_processed
             self.total_sites_processed = 0
             self.log(
                 "Reset total_sites_processed counter from {0} to 0".format(
                     previous_site_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.total_sites_processed = 0
             self.log(
                 "Initialized total_sites_processed counter to 0 (first-time initialization)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Reset component counter
-        if hasattr(self, 'total_components_processed'):
+        if hasattr(self, "total_components_processed"):
             previous_component_count = self.total_components_processed
             self.total_components_processed = 0
             self.log(
                 "Reset total_components_processed counter from {0} to 0".format(
                     previous_component_count
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.total_components_processed = 0
             self.log(
                 "Initialized total_components_processed counter to 0 (first-time initialization)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Verify reset was successful
         verification_passed = (
-            len(self.operation_successes) == 0 and
-            len(self.operation_failures) == 0 and
-            self.total_sites_processed == 0 and
-            self.total_components_processed == 0
+            len(self.operation_successes) == 0
+            and len(self.operation_failures) == 0
+            and self.total_sites_processed == 0
+            and self.total_components_processed == 0
         )
 
         if verification_passed:
             self.log(
                 "Operation tracking reset verification PASSED: All counters and lists "
                 "successfully cleared and ready for new operation",
-                "INFO"
+                "INFO",
             )
         else:
             # Log warning if verification failed (should never happen)
@@ -2810,15 +2915,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     len(self.operation_successes),
                     len(self.operation_failures),
                     self.total_sites_processed,
-                    self.total_components_processed
+                    self.total_components_processed,
                 ),
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             "Successfully reset all operation tracking variables - module is ready to track "
             "new brownfield discovery operation with clean state",
-            "DEBUG"
+            "DEBUG",
         )
 
     def add_success(self, site_name, component, additional_info=None):
@@ -2856,20 +2961,34 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             Can include any custom metrics relevant to the operation.
             None is acceptable when no additional context is needed.
         """
-        self.log("Creating success entry for site {0}, component {1}".format(site_name, component), "DEBUG")
+        self.log(
+            "Creating success entry for site {0}, component {1}".format(
+                site_name, component
+            ),
+            "DEBUG",
+        )
         success_entry = {
             "site_name": site_name,
             "component": component,
-            "status": "success"
+            "status": "success",
         }
 
         if additional_info:
-            self.log("Adding additional information to success entry: {0}".format(additional_info), "DEBUG")
+            self.log(
+                "Adding additional information to success entry: {0}".format(
+                    additional_info
+                ),
+                "DEBUG",
+            )
             success_entry.update(additional_info)
 
         self.operation_successes.append(success_entry)
-        self.log("Successfully added success entry for site {0}, component {1}. Total successes: {2}".format(
-            site_name, component, len(self.operation_successes)), "DEBUG")
+        self.log(
+            "Successfully added success entry for site {0}, component {1}. Total successes: {2}".format(
+                site_name, component, len(self.operation_successes)
+            ),
+            "DEBUG",
+        )
 
     def add_failure(self, site_name, component, error_info):
         """
@@ -2908,17 +3027,29 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 - retry_count (int): Number of retry attempts made
                 - timestamp (str): ISO timestamp when error occurred
         """
-        self.log("Creating failure entry for site {0}, component {1}".format(site_name, component), "DEBUG")
+        self.log(
+            "Creating failure entry for site {0}, component {1}".format(
+                site_name, component
+            ),
+            "DEBUG",
+        )
         failure_entry = {
             "site_name": site_name,
             "component": component,
             "status": "failed",
-            "error_info": error_info
+            "error_info": error_info,
         }
 
         self.operation_failures.append(failure_entry)
-        self.log("Successfully added failure entry for site {0}, component {1}: {2}. Total failures: {3}".format(
-            site_name, component, error_info.get("error_message", "Unknown error"), len(self.operation_failures)), "ERROR")
+        self.log(
+            "Successfully added failure entry for site {0}, component {1}: {2}. Total failures: {3}".format(
+                site_name,
+                component,
+                error_info.get("error_message", "Unknown error"),
+                len(self.operation_failures),
+            ),
+            "ERROR",
+        )
 
     def get_operation_summary(self):
         """
@@ -2938,35 +3069,39 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Generating comprehensive operation summary by analyzing tracked successes "
             "and failures to categorize sites and calculate statistics",
-            "DEBUG"
+            "DEBUG",
         )
 
-        success_count = len(self.operation_successes) if hasattr(self, 'operation_successes') else 0
-        failure_count = len(self.operation_failures) if hasattr(self, 'operation_failures') else 0
+        success_count = (
+            len(self.operation_successes) if hasattr(self, "operation_successes") else 0
+        )
+        failure_count = (
+            len(self.operation_failures) if hasattr(self, "operation_failures") else 0
+        )
 
         self.log(
             "Operation tracking state - Total successes: {0}, Total failures: {1}".format(
                 success_count, failure_count
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         unique_successful_sites = set()
         unique_failed_sites = set()
 
-        if not hasattr(self, 'operation_successes'):
+        if not hasattr(self, "operation_successes"):
             self.log(
                 "operation_successes list not initialized, creating empty list. "
                 "This indicates no successful operations were recorded.",
-                "WARNING"
+                "WARNING",
             )
             self.operation_successes = []
 
-        if not hasattr(self, 'operation_failures'):
+        if not hasattr(self, "operation_failures"):
             self.log(
                 "operation_failures list not initialized, creating empty list. "
                 "This indicates no failed operations were recorded.",
-                "WARNING"
+                "WARNING",
             )
             self.operation_failures = []
 
@@ -2974,10 +3109,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing {0} successful operation entries to extract unique site identifiers".format(
                 len(self.operation_successes)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        self.log("Processing successful operations to extract unique site information", "DEBUG")
+        self.log(
+            "Processing successful operations to extract unique site information",
+            "DEBUG",
+        )
         for index, success in enumerate(self.operation_successes, start=1):
             # Validate success entry structure
             if not isinstance(success, dict):
@@ -2985,7 +3123,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Success entry {0} is not a dict (type: {1}), skipping site extraction".format(
                         index, type(success).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -2997,7 +3135,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Success entry {0} missing site_name field, using 'Global' as fallback".format(
                         index
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 site_name = "Global"
 
@@ -3006,7 +3144,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Success entry {0} has non-string site_name (type: {1}), "
                     "converting to string".format(index, type(site_name).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 site_name = str(site_name)
 
@@ -3015,17 +3153,19 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Processed success entry {0}/{1}: site='{2}', component='{3}'".format(
-                    index, len(self.operation_successes), site_name,
-                    success.get("component", "Unknown")
+                    index,
+                    len(self.operation_successes),
+                    site_name,
+                    success.get("component", "Unknown"),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Extracted {0} unique sites from successful operations: {1}".format(
                 len(unique_successful_sites), list(unique_successful_sites)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Process failed operations to extract unique sites
@@ -3033,7 +3173,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing {0} failed operation entries to extract unique site identifiers".format(
                 len(self.operation_failures)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for index, failure in enumerate(self.operation_failures, start=1):
@@ -3043,7 +3183,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Failure entry {0} is not a dict (type: {1}), skipping site extraction".format(
                         index, type(failure).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -3055,7 +3195,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Failure entry {0} missing site_name field, using 'Global' as fallback".format(
                         index
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 site_name = "Global"
 
@@ -3064,7 +3204,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Failure entry {0} has non-string site_name (type: {1}), "
                     "converting to string".format(index, type(site_name).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 site_name = str(site_name)
 
@@ -3073,52 +3213,77 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             # Log failure details for troubleshooting
             error_info = failure.get("error_info", {})
-            error_message = error_info.get("error_message", "Unknown error") if isinstance(error_info, dict) else str(error_info)
+            error_message = (
+                error_info.get("error_message", "Unknown error")
+                if isinstance(error_info, dict)
+                else str(error_info)
+            )
 
             self.log(
                 "Processed failure entry {0}/{1}: site='{2}', component='{3}', error='{4}'".format(
-                    index, len(self.operation_failures), site_name,
-                    failure.get("component", "Unknown"), error_message[:50]
+                    index,
+                    len(self.operation_failures),
+                    site_name,
+                    failure.get("component", "Unknown"),
+                    error_message[:50],
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Extracted {0} unique sites from failed operations: {1}".format(
                 len(unique_failed_sites), list(unique_failed_sites)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        self.log("Calculating site categorization based on success and failure patterns "
-                 "using set intersection and difference operations",
-                 "DEBUG")
-        partial_success_sites = unique_successful_sites.intersection(unique_failed_sites)
-        self.log("Sites with partial success (both successes and failures): {0} site(s) - {1}".format(
-                 len(partial_success_sites), list(partial_success_sites)), "DEBUG")
+        self.log(
+            "Calculating site categorization based on success and failure patterns "
+            "using set intersection and difference operations",
+            "DEBUG",
+        )
+        partial_success_sites = unique_successful_sites.intersection(
+            unique_failed_sites
+        )
+        self.log(
+            "Sites with partial success (both successes and failures): {0} site(s) - {1}".format(
+                len(partial_success_sites), list(partial_success_sites)
+            ),
+            "DEBUG",
+        )
 
         complete_success_sites = unique_successful_sites - unique_failed_sites
-        self.log("Sites with complete success (only successes, no failures): {0} site(s) - {1}".format(
-            len(complete_success_sites), list(complete_success_sites)), "DEBUG")
+        self.log(
+            "Sites with complete success (only successes, no failures): {0} site(s) - {1}".format(
+                len(complete_success_sites), list(complete_success_sites)
+            ),
+            "DEBUG",
+        )
 
         complete_failure_sites = unique_failed_sites - unique_successful_sites
-        self.log("Sites with complete failure (only failures, no successes): {0} site(s) - {1}".format(
-            len(complete_failure_sites), list(complete_failure_sites)), "DEBUG")
+        self.log(
+            "Sites with complete failure (only failures, no successes): {0} site(s) - {1}".format(
+                len(complete_failure_sites), list(complete_failure_sites)
+            ),
+            "DEBUG",
+        )
 
         # Calculate total unique sites processed
         total_sites = len(unique_successful_sites.union(unique_failed_sites))
 
         self.log(
-            "Total unique sites processed across all operations: {0}".format(total_sites),
-            "INFO"
+            "Total unique sites processed across all operations: {0}".format(
+                total_sites
+            ),
+            "INFO",
         )
 
         # Validate total_components_processed tracking variable
-        if not hasattr(self, 'total_components_processed'):
+        if not hasattr(self, "total_components_processed"):
             self.log(
                 "total_components_processed not initialized, defaulting to 0. "
                 "This may indicate tracking was not properly initialized.",
-                "WARNING"
+                "WARNING",
             )
             self.total_components_processed = 0
 
@@ -3131,18 +3296,24 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "sites_with_partial_success": sorted(list(partial_success_sites)),
             "sites_with_complete_failure": sorted(list(complete_failure_sites)),
             "success_details": self.operation_successes,
-            "failure_details": self.operation_failures
+            "failure_details": self.operation_failures,
         }
 
         # Calculate and log success rate
-        total_operations = summary["total_successful_operations"] + summary["total_failed_operations"]
-        success_rate = (summary["total_successful_operations"] / total_operations * 100) if total_operations > 0 else 0.0
+        total_operations = (
+            summary["total_successful_operations"] + summary["total_failed_operations"]
+        )
+        success_rate = (
+            (summary["total_successful_operations"] / total_operations * 100)
+            if total_operations > 0
+            else 0.0
+        )
 
         self.log(
             "Overall operation success rate: {0:.1f}% ({1}/{2} operations succeeded)".format(
                 success_rate, summary["total_successful_operations"], total_operations
             ),
-            "INFO"
+            "INFO",
         )
 
         # Log summary statistics
@@ -3155,9 +3326,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 len(summary["sites_with_partial_success"]),
                 len(summary["sites_with_complete_failure"]),
                 summary["total_components_processed"],
-                success_rate
+                success_rate,
             ),
-            "INFO"
+            "INFO",
         )
 
         # Log warnings for sites requiring attention
@@ -3165,18 +3336,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "ATTENTION REQUIRED: {0} site(s) with complete failure need investigation: {1}".format(
                     len(summary["sites_with_complete_failure"]),
-                    summary["sites_with_complete_failure"]
+                    summary["sites_with_complete_failure"],
                 ),
-                "WARNING"
+                "WARNING",
             )
 
         if summary["sites_with_partial_success"]:
             self.log(
                 "REVIEW RECOMMENDED: {0} site(s) with partial success may need manual review: {1}".format(
                     len(summary["sites_with_partial_success"]),
-                    summary["sites_with_partial_success"]
+                    summary["sites_with_partial_success"],
                 ),
-                "INFO"
+                "INFO",
             )
 
         self.log(
@@ -3184,9 +3355,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "{1} successful operations, {2} failed operations".format(
                 summary["total_sites_processed"],
                 summary["total_successful_operations"],
-                summary["total_failed_operations"]
+                summary["total_failed_operations"],
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return summary
@@ -3221,9 +3392,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 network_element.get("api_family"),
                 network_element.get("api_function"),
                 filters.get("global_filters", {}),
-                filters.get("component_specific_filters", {})
+                filters.get("component_specific_filters", {}),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         final_global_pools = []
@@ -3238,27 +3409,37 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
             )
             self.log(error_msg, "ERROR")
-            self.add_failure("Global", "global_pool_details", {
-                "error_type": "configuration_error",
-                "error_message": error_msg,
-                "error_code": "INVALID_NETWORK_ELEMENT"
-            })
+            self.add_failure(
+                "Global",
+                "global_pool_details",
+                {
+                    "error_type": "configuration_error",
+                    "error_message": error_msg,
+                    "error_code": "INVALID_NETWORK_ELEMENT",
+                },
+            )
             return {
                 "global_pool_details": {},
-                "operation_summary": self.get_operation_summary()
+                "operation_summary": self.get_operation_summary(),
             }
 
-        self.log("Getting global pools using family '{0}' and function '{1}'.".format(
-            api_family, api_function), "INFO")
+        self.log(
+            "Getting global pools using family '{0}' and function '{1}'.".format(
+                api_family, api_function
+            ),
+            "INFO",
+        )
 
         # Get global filters
         global_filters = filters.get("global_filters", {})
-        component_specific_filters = filters.get("component_specific_filters", {}).get("global_pool_details", [])
+        component_specific_filters = filters.get("component_specific_filters", {}).get(
+            "global_pool_details", []
+        )
         self.log(
             "Filter configuration - Global filters: {0}, Component-specific filters: {1}".format(
                 global_filters, component_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -3267,25 +3448,35 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Executing bulk API call to retrieve all global IP pools from Catalyst Center "
                 "(no site-specific filtering at API level)",
-                "INFO"
+                "INFO",
             )
             all_global_pools = self.execute_get_bulk(api_family, api_function)
             # all_global_pools = self.execute_get_bulk_with_pagination(api_family, api_function, params={})
-            self.log("Retrieved {0} total global pools using bulk API call".format(
-                len(all_global_pools)), "INFO")
+            self.log(
+                "Retrieved {0} total global pools using bulk API call".format(
+                    len(all_global_pools)
+                ),
+                "INFO",
+            )
 
             # Add debug logging to see what pools were retrieved
             for i, pool in enumerate(all_global_pools):
-                self.log("Pool {0}: Name='{1}', Type='{2}', ID='{3}'".format(
-                    i + 1,
-                    pool.get("name", "N/A"),
-                    pool.get("poolType", "N/A"),
-                    pool.get("id", "N/A")
-                ), "DEBUG")
+                self.log(
+                    "Pool {0}: Name='{1}', Type='{2}', ID='{3}'".format(
+                        i + 1,
+                        pool.get("name", "N/A"),
+                        pool.get("poolType", "N/A"),
+                        pool.get("id", "N/A"),
+                    ),
+                    "DEBUG",
+                )
 
                 # Debug: Log all available fields for the first few pools
                 if i < 3:
-                    self.log("Pool {0} all fields: {1}".format(i + 1, list(pool.keys())), "DEBUG")
+                    self.log(
+                        "Pool {0} all fields: {1}".format(i + 1, list(pool.keys())),
+                        "DEBUG",
+                    )
                     for key, value in pool.items():
                         self.log("  {0}: {1}".format(key, value), "DEBUG")
 
@@ -3300,7 +3491,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Applying global filters - pool_name_list: {0}, pool_type_list: {1}".format(
                         pool_name_list, pool_type_list
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 filtered_pools = []
@@ -3318,7 +3509,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Pool '{0}' filtered out - name not in filter list: {1}".format(
                                 pool_name, pool_name_list
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -3329,7 +3520,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Pool '{0}' (type: '{1}') filtered out - type not in filter list: {2}".format(
                                 pool_name, pool_type, pool_type_list
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
 
@@ -3339,7 +3530,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Pool '{0}' (type: '{1}') passed global filters".format(
                             pool_name, pool_type
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 self.log(
@@ -3348,17 +3539,19 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         len(all_global_pools),
                         pools_filtered_by_name,
                         pools_filtered_by_type,
-                        len(filtered_pools)
+                        len(filtered_pools),
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
             # Apply component-specific filters
             if component_specific_filters:
                 self.log(
                     "Applying component-specific filters: AND within each filter dict, "
-                    "OR across {0} filter dicts".format(len(component_specific_filters)),
-                    "INFO"
+                    "OR across {0} filter dicts".format(
+                        len(component_specific_filters)
+                    ),
+                    "INFO",
                 )
 
                 # Each filter dict is evaluated independently with AND logic for its keys.
@@ -3370,7 +3563,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                 self.log(
                     "Filter dicts to evaluate: {0}".format(component_specific_filters),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 final_filtered_pools = []
@@ -3381,7 +3574,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     pool_type = pool.get("poolType")
                     pool_matched = False
 
-                    for filter_idx, filter_dict in enumerate(component_specific_filters, start=1):
+                    for filter_idx, filter_dict in enumerate(
+                        component_specific_filters, start=1
+                    ):
                         filter_name = filter_dict.get("pool_name")
                         filter_type = filter_dict.get("pool_type")
 
@@ -3390,10 +3585,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         type_match = True
 
                         if filter_name is not None:
-                            name_match = (pool_name == filter_name)
+                            name_match = pool_name == filter_name
 
                         if filter_type is not None:
-                            type_match = (pool_type == filter_type)
+                            type_match = pool_type == filter_type
 
                         if name_match and type_match:
                             pool_matched = True
@@ -3401,17 +3596,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Pool '{0}' (type: '{1}') matched filter dict {2}: {3}".format(
                                     pool_name, pool_type, filter_idx, filter_dict
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             break  # OR logic — first matching filter dict is enough
                         else:
                             self.log(
                                 "Pool '{0}' (type: '{1}') did not match filter dict {2}: "
                                 "{3} (name_match={4}, type_match={5})".format(
-                                    pool_name, pool_type, filter_idx, filter_dict,
-                                    name_match, type_match
+                                    pool_name,
+                                    pool_type,
+                                    filter_idx,
+                                    filter_dict,
+                                    name_match,
+                                    type_match,
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     if pool_matched:
@@ -3419,14 +3618,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Pool '{0}' (type: '{1}') INCLUDED - matched component-specific "
                             "filter criteria".format(pool_name, pool_type),
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         pools_filtered_by_component += 1
                         self.log(
                             "Pool '{0}' (type: '{1}') EXCLUDED - did not match any "
-                            "component-specific filter dict".format(pool_name, pool_type),
-                            "DEBUG"
+                            "component-specific filter dict".format(
+                                pool_name, pool_type
+                            ),
+                            "DEBUG",
                         )
 
                 final_global_pools = final_filtered_pools
@@ -3436,35 +3637,41 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Final remaining: {2}".format(
                         len(filtered_pools),
                         pools_filtered_by_component,
-                        len(final_global_pools)
+                        len(final_global_pools),
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
                     "No component-specific filters specified - using {0} pools from "
                     "global filter stage".format(len(filtered_pools)),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 final_global_pools = filtered_pools
 
         except Exception as e:
             error_msg = "Failed to retrieve global pools: {0}".format(str(e))
             self.log(error_msg, "ERROR")
-            self.add_failure("Global", "global_pool_details", {
-                "error_type": "api_error",
-                "error_message": error_msg,
-                "error_code": "GLOBAL_POOL_RETRIEVAL_FAILED"
-            })
+            self.add_failure(
+                "Global",
+                "global_pool_details",
+                {
+                    "error_type": "api_error",
+                    "error_message": error_msg,
+                    "error_code": "GLOBAL_POOL_RETRIEVAL_FAILED",
+                },
+            )
             return {
                 "global_pool_details": {},
-                "operation_summary": self.get_operation_summary()
+                "operation_summary": self.get_operation_summary(),
             }
 
         # Track success
-        self.add_success("Global", "global_pool_details", {
-            "pools_processed": len(final_global_pools)
-        })
+        self.add_success(
+            "Global",
+            "global_pool_details",
+            {"pools_processed": len(final_global_pools)},
+        )
 
         # Apply reverse mapping
         self.log(
@@ -3472,7 +3679,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "from Catalyst Center format to Ansible playbook format".format(
                 len(final_global_pools)
             ),
-            "INFO"
+            "INFO",
         )
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         if not reverse_mapping_function or not callable(reverse_mapping_function):
@@ -3482,14 +3689,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
             )
             self.log(error_msg, "ERROR")
-            self.add_failure("Global", "global_pool_details", {
-                "error_type": "configuration_error",
-                "error_message": error_msg,
-                "error_code": "INVALID_REVERSE_MAPPING_FUNCTION"
-            })
+            self.add_failure(
+                "Global",
+                "global_pool_details",
+                {
+                    "error_type": "configuration_error",
+                    "error_message": error_msg,
+                    "error_code": "INVALID_REVERSE_MAPPING_FUNCTION",
+                },
+            )
             return {
                 "global_pool_details": {},
-                "operation_summary": self.get_operation_summary()
+                "operation_summary": self.get_operation_summary(),
             }
         reverse_mapping_spec = reverse_mapping_function()
 
@@ -3498,26 +3709,22 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Reverse mapping transformation completed successfully - generated {0} "
             "Ansible-compatible pool configurations".format(len(pools_details)),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Global pool retrieval completed - Retrieved: {0} total pools, "
             "Filtered: {1} pools remaining, Transformed: {2} configurations generated".format(
-                len(all_global_pools) if 'all_global_pools' in locals() else 0,
+                len(all_global_pools) if "all_global_pools" in locals() else 0,
                 len(final_global_pools),
-                len(pools_details)
+                len(pools_details),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return {
-            "global_pool_details": {
-                "settings": {
-                    "ip_pool": pools_details
-                }
-            },
-            "operation_summary": self.get_operation_summary()
+            "global_pool_details": {"settings": {"ip_pool": pools_details}},
+            "operation_summary": self.get_operation_summary(),
         }
 
     def _collect_server_ips(self, settings):
@@ -3662,7 +3869,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting network management settings retrieval for brownfield discovery "
             "with site-based filtering and component aggregation",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -3671,9 +3878,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 network_element.get("api_family"),
                 network_element.get("api_function"),
                 filters.get("global_filters", {}),
-                filters.get("component_specific_filters", {})
+                filters.get("component_specific_filters", {}),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # =====================================
@@ -3682,7 +3889,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Determining target sites using filter priority: "
             "1) Component-specific filters, 2) Global filters, 3) Default to Global site",
-            "DEBUG"
+            "DEBUG",
         )
 
         global_filters = filters.get("global_filters", {})
@@ -3694,15 +3901,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid global_filters type - expected dict, got {0}. "
                 "Ignoring global filters.".format(type(global_filters).__name__),
-                "WARNING"
+                "WARNING",
             )
             global_filters = {}
 
         if not isinstance(component_specific_filters, list):
             self.log(
                 "Invalid component_specific_filters type - expected list, got {0}. "
-                "Ignoring component filters.".format(type(component_specific_filters).__name__),
-                "WARNING"
+                "Ignoring component filters.".format(
+                    type(component_specific_filters).__name__
+                ),
+                "WARNING",
             )
             component_specific_filters = []
 
@@ -3715,7 +3924,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing {0} component-specific filter criteria".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             for filter_param in component_specific_filters:
                 if "site_name_list" in filter_param:
@@ -3726,14 +3935,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Extracted {0} sites from site_name_list filter".format(
                                 len(extracted_sites)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "Invalid site_name_list type in component filter - expected list, got {0}".format(
                                 type(extracted_sites).__name__
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                 elif "site_name" in filter_param:
                     site_name = filter_param["site_name"]
@@ -3741,14 +3950,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         site_name_list.append(site_name)
                         self.log(
                             "Extracted individual site_name: '{0}'".format(site_name),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "Invalid site_name type in component filter - expected str, got {0}".format(
                                 type(site_name).__name__
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
 
                 if "server_types" in filter_param:
@@ -3756,15 +3965,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     if isinstance(extracted_types, list):
                         requested_server_types.extend(extracted_types)
                         self.log(
-                            "Extracted server_types filter: {0}".format(extracted_types),
-                            "DEBUG"
+                            "Extracted server_types filter: {0}".format(
+                                extracted_types
+                            ),
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "Invalid server_types type in component filter - expected list, got {0}".format(
                                 type(extracted_types).__name__
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
 
                 if "ip_address_list" in filter_param:
@@ -3772,15 +3983,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     if isinstance(extracted_ips, list):
                         requested_ip_addresses.extend(extracted_ips)
                         self.log(
-                            "Extracted ip_address_list filter: {0}".format(extracted_ips),
-                            "DEBUG"
+                            "Extracted ip_address_list filter: {0}".format(
+                                extracted_ips
+                            ),
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "Invalid ip_address_list type in component filter - expected list, got {0}".format(
                                 type(extracted_ips).__name__
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
 
         # Deduplicate while preserving order
@@ -3790,13 +4003,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Server type filter: {0} (empty = all types)".format(
                 requested_server_types if requested_server_types else "<all>"
             ),
-            "INFO"
+            "INFO",
         )
         self.log(
             "IP address filter: {0} (empty = no IP filtering)".format(
                 requested_ip_addresses if requested_ip_addresses else "<none>"
             ),
-            "INFO"
+            "INFO",
         )
 
         # If no component specific filters, check global filters
@@ -3808,19 +4021,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Using global site_name_list filter with {0} sites".format(
                         len(site_name_list)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Invalid global site_name_list type - expected list, got {0}".format(
                         type(global_site_list).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         self.log(
-            "Total sites specified in filters: {0}".format(len(site_name_list)),
-            "INFO"
+            "Total sites specified in filters: {0}".format(len(site_name_list)), "INFO"
         )
         target_sites = []
 
@@ -3828,15 +4040,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Step 2: Build Site Mapping
         # =====================================
         self.log(
-            "Building or retrieving site ID-to-name mapping for site lookups",
-            "DEBUG"
+            "Building or retrieving site ID-to-name mapping for site lookups", "DEBUG"
         )
 
         # Build site mapping only once (cached)
         if not hasattr(self, "site_id_name_dict"):
             self.log(
-                "Site mapping not cached, retrieving from Catalyst Center API",
-                "DEBUG"
+                "Site mapping not cached, retrieving from Catalyst Center API", "DEBUG"
             )
             try:
                 self.site_id_name_dict = self.get_site_id_name_mapping()
@@ -3844,30 +4054,34 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Successfully retrieved site mapping with {0} total sites".format(
                         len(self.site_id_name_dict)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             except Exception as e:
                 self.log(
                     "Failed to retrieve site mapping: {0}. Cannot process sites.".format(
                         str(e)
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
-                self.add_failure("All Sites", "network_management_details", {
-                    "error_type": "site_mapping_error",
-                    "error_message": "Failed to retrieve site mapping",
-                    "error_code": "SITE_MAPPING_FAILED"
-                })
+                self.add_failure(
+                    "All Sites",
+                    "network_management_details",
+                    {
+                        "error_type": "site_mapping_error",
+                        "error_message": "Failed to retrieve site mapping",
+                        "error_code": "SITE_MAPPING_FAILED",
+                    },
+                )
                 return {
                     "network_management_details": [],
-                    "operation_summary": self.get_operation_summary()
+                    "operation_summary": self.get_operation_summary(),
                 }
         else:
             self.log(
                 "Using cached site mapping with {0} sites (cache hit)".format(
                     len(self.site_id_name_dict)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Reverse-map: name → ID
@@ -3884,7 +4098,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing {0} specific site names from filters".format(
                     len(site_name_list)
                 ),
-                "INFO"
+                "INFO",
             )
             for site_name in site_name_list:
                 # Validate site name format
@@ -3893,7 +4107,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Invalid site name format: {0} (type: {1}), skipping".format(
                             site_name, type(site_name).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -3902,41 +4116,49 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     target_sites.append({"site_name": site_name, "site_id": site_id})
                     self.log(
                         "Target site added: '{0}' (ID: {1})".format(site_name, site_id),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Site '{0}' not found in Catalyst Center site mapping. "
                         "Available sites: {1}".format(
                             site_name,
-                            list(site_name_to_id.keys())[:5]  # Show first 5 for debugging
+                            list(site_name_to_id.keys())[
+                                :5
+                            ],  # Show first 5 for debugging
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
-                    self.add_failure(site_name, "network_management_details", {
-                        "error_type": "site_not_found",
-                        "error_message": "Site not found or not accessible in Catalyst Center",
-                        "error_code": "SITE_NOT_FOUND"
-                    })
+                    self.add_failure(
+                        site_name,
+                        "network_management_details",
+                        {
+                            "error_type": "site_not_found",
+                            "error_message": "Site not found or not accessible in Catalyst Center",
+                            "error_code": "SITE_NOT_FOUND",
+                        },
+                    )
         else:
             # No specific sites requested - default to Global site only
             self.log(
                 "No site filters provided - defaulting to Global site for network "
                 "management details retrieval",
-                "INFO"
+                "INFO",
             )
 
             global_site_id = site_name_to_id.get("Global")
             if global_site_id:
                 target_sites.append({"site_name": "Global", "site_id": global_site_id})
                 self.log(
-                    "Added Global site as default target (ID: {0})".format(global_site_id),
-                    "DEBUG"
+                    "Added Global site as default target (ID: {0})".format(
+                        global_site_id
+                    ),
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Global site not found in mapping - processing all sites as fallback",
-                    "WARNING"
+                    "WARNING",
                 )
                 for site_id, site_name in self.site_id_name_dict.items():
                     target_sites.append({"site_name": site_name, "site_id": site_id})
@@ -3944,24 +4166,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "No valid target sites identified after filter processing. "
                             "Check filter configuration.",
-                            "WARNING"
+                            "WARNING",
                         )
                         return {
                             "network_management_details": [],
-                            "operation_summary": self.get_operation_summary()
+                            "operation_summary": self.get_operation_summary(),
                         }
 
                     self.log(
                         "Final target sites for processing: {0} sites - {1}".format(
-                            len(target_sites),
-                            [s["site_name"] for s in target_sites]
+                            len(target_sites), [s["site_name"] for s in target_sites]
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                 self.log(
                     "Fallback to all sites: {0} sites added".format(len(target_sites)),
-                    "WARNING"
+                    "WARNING",
                 )
 
         # =====================================
@@ -3981,13 +4202,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing site {0}: '{1}' (ID: {2})".format(
                     len(target_sites), site_name, site_id
                 ),
-                "INFO"
+                "INFO",
             )
 
-            nm_details = {
-                "site_name": site_name,
-                "site_id": site_id
-            }
+            nm_details = {"site_name": site_name, "site_id": site_id}
 
             components_retrieved = 0
             components_failed = 0
@@ -3998,11 +4216,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Retrieving AAA settings (network + client) for site '{0}'".format(
                         site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_aaa_settings_for_site"):
-                    aaa_network, aaa_client = self.get_aaa_settings_for_site(site_name, site_id)
+                    aaa_network, aaa_client = self.get_aaa_settings_for_site(
+                        site_name, site_id
+                    )
                     nm_details["aaaNetwork"] = aaa_network or {}
                     nm_details["aaaClient"] = aaa_client or {}
 
@@ -4012,25 +4232,29 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved AAA settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
-                            "No AAA settings configured for site '{0}'".format(site_name),
-                            "DEBUG"
+                            "No AAA settings configured for site '{0}'".format(
+                                site_name
+                            ),
+                            "DEBUG",
                         )
                 else:
                     nm_details["aaaNetwork"] = {}
                     nm_details["aaaClient"] = {}
                     self.log(
                         "AAA retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
                 self.log(
-                    "AAA retrieval failed for site '{0}': {1}".format(site_name, str(e)),
-                    "WARNING"
+                    "AAA retrieval failed for site '{0}': {1}".format(
+                        site_name, str(e)
+                    ),
+                    "WARNING",
                 )
                 nm_details["aaaNetwork"] = {}
                 nm_details["aaaClient"] = {}
@@ -4038,8 +4262,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # ========== DHCP Settings ==========
             try:
                 self.log(
-                    "Retrieving DHCP server configuration for site '{0}'".format(site_name),
-                    "DEBUG"
+                    "Retrieving DHCP server configuration for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_dhcp_settings_for_site"):
@@ -4052,32 +4278,38 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved DHCP settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
-                            "No DHCP settings configured for site '{0}'".format(site_name),
-                            "DEBUG"
+                            "No DHCP settings configured for site '{0}'".format(
+                                site_name
+                            ),
+                            "DEBUG",
                         )
                 else:
                     nm_details["dhcp"] = {}
                     self.log(
                         "DHCP retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
                 self.log(
-                    "DHCP retrieval failed for site '{0}': {1}".format(site_name, str(e)),
-                    "WARNING"
+                    "DHCP retrieval failed for site '{0}': {1}".format(
+                        site_name, str(e)
+                    ),
+                    "WARNING",
                 )
                 nm_details["dhcp"] = {}
 
             # ========== DNS Settings ==========
             try:
                 self.log(
-                    "Retrieving DNS server configuration for site '{0}'".format(site_name),
-                    "DEBUG"
+                    "Retrieving DNS server configuration for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_dns_settings_for_site"):
@@ -4090,24 +4322,28 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved DNS settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
-                            "No DNS settings configured for site '{0}'".format(site_name),
-                            "DEBUG"
+                            "No DNS settings configured for site '{0}'".format(
+                                site_name
+                            ),
+                            "DEBUG",
                         )
                 else:
                     nm_details["dns"] = {}
                     self.log(
                         "DNS retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
                 self.log(
-                    "DNS retrieval failed for site '{0}': {1}".format(site_name, str(e)),
-                    "WARNING"
+                    "DNS retrieval failed for site '{0}': {1}".format(
+                        site_name, str(e)
+                    ),
+                    "WARNING",
                 )
                 nm_details["dns"] = {}
 
@@ -4117,11 +4353,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Retrieving telemetry settings (NetFlow/SNMP/Syslog) for site '{0}'".format(
                         site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_telemetry_settings_for_site"):
-                    telemetry_settings = self.get_telemetry_settings_for_site(site_name, site_id)
+                    telemetry_settings = self.get_telemetry_settings_for_site(
+                        site_name, site_id
+                    )
                     nm_details["telemetry"] = telemetry_settings or {}
 
                     if telemetry_settings:
@@ -4130,20 +4368,20 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved telemetry settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "No telemetry settings configured for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     nm_details["telemetry"] = {}
                     self.log(
                         "Telemetry retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
@@ -4151,15 +4389,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Telemetry retrieval failed for site '{0}': {1}".format(
                         site_name, str(e)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 nm_details["telemetry"] = {}
 
             # ========== NTP Settings ==========
             try:
                 self.log(
-                    "Retrieving NTP server configuration for site '{0}'".format(site_name),
-                    "DEBUG"
+                    "Retrieving NTP server configuration for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_ntp_settings_for_site"):
@@ -4172,36 +4412,44 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved NTP settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
-                            "No NTP settings configured for site '{0}'".format(site_name),
-                            "DEBUG"
+                            "No NTP settings configured for site '{0}'".format(
+                                site_name
+                            ),
+                            "DEBUG",
                         )
                 else:
                     nm_details["ntp"] = {}
                     self.log(
                         "NTP retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
                 self.log(
-                    "NTP retrieval failed for site '{0}': {1}".format(site_name, str(e)),
-                    "WARNING"
+                    "NTP retrieval failed for site '{0}': {1}".format(
+                        site_name, str(e)
+                    ),
+                    "WARNING",
                 )
                 nm_details["ntp"] = {}
 
             # ========== Timezone Settings ==========
             try:
                 self.log(
-                    "Retrieving timezone configuration for site '{0}'".format(site_name),
-                    "DEBUG"
+                    "Retrieving timezone configuration for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_time_zone_settings_for_site"):
-                    timezone_settings = self.get_time_zone_settings_for_site(site_name, site_id)
+                    timezone_settings = self.get_time_zone_settings_for_site(
+                        site_name, site_id
+                    )
                     nm_details["timeZone"] = timezone_settings or {}
 
                     if timezone_settings:
@@ -4210,20 +4458,20 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved timezone settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "No timezone settings configured for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     nm_details["timeZone"] = {}
                     self.log(
                         "Timezone retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
@@ -4231,7 +4479,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Timezone retrieval failed for site '{0}': {1}".format(
                         site_name, str(e)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 nm_details["timeZone"] = {}
 
@@ -4241,11 +4489,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Retrieving banner (message of the day) for site '{0}'".format(
                         site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if hasattr(self, "get_banner_settings_for_site"):
-                    banner_settings = self.get_banner_settings_for_site(site_name, site_id)
+                    banner_settings = self.get_banner_settings_for_site(
+                        site_name, site_id
+                    )
                     nm_details["banner"] = banner_settings or {}
 
                     if banner_settings:
@@ -4254,18 +4504,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Successfully retrieved banner settings for site '{0}'".format(
                                 site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "No banner configured for site '{0}'".format(site_name),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     nm_details["banner"] = {}
                     self.log(
                         "Banner retrieval method not available, using empty configuration",
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 components_failed += 1
@@ -4273,7 +4523,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Banner retrieval failed for site '{0}': {1}".format(
                         site_name, str(e)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 nm_details["banner"] = {}
 
@@ -4288,31 +4538,37 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Failed: {3}".format(
                     site_name, components_retrieved, total_components, components_failed
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Track success/failure for this site
             if components_failed == 0:
                 sites_succeeded += 1
-                self.add_success(site_name, "network_management_details", {
-                    "nm_components_processed": total_components
-                })
+                self.add_success(
+                    site_name,
+                    "network_management_details",
+                    {"nm_components_processed": total_components},
+                )
             else:
                 sites_failed += 1
-                self.add_failure(site_name, "network_management_details", {
-                    "error_type": "partial_failure",
-                    "error_message": "{0}/{1} components failed to retrieve".format(
-                        components_failed, total_components
-                    ),
-                    "error_code": "COMPONENT_RETRIEVAL_PARTIAL_FAILURE"
-                })
+                self.add_failure(
+                    site_name,
+                    "network_management_details",
+                    {
+                        "error_type": "partial_failure",
+                        "error_message": "{0}/{1} components failed to retrieve".format(
+                            components_failed, total_components
+                        ),
+                        "error_code": "COMPONENT_RETRIEVAL_PARTIAL_FAILURE",
+                    },
+                )
 
         self.log(
             "Completed network management retrieval for all sites - "
             "Sites processed: {0}, Succeeded: {1}, Failed: {2}".format(
                 sites_processed, sites_succeeded, sites_failed
             ),
-            "INFO"
+            "INFO",
         )
 
         # =====================================
@@ -4321,7 +4577,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Applying unified reverse mapping transformation to convert {0} site "
             "configurations to Ansible playbook format".format(len(final_nm_details)),
-            "INFO"
+            "INFO",
         )
 
         transformed_nm = []
@@ -4335,7 +4591,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Transforming entry {0}/{1} for site: '{2}'".format(
                         index, len(final_nm_details), site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # ---- Clean / normalize Catalyst Center response ----
@@ -4359,14 +4615,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if requested_server_types:
                     # AND logic: keep only the server types explicitly requested
                     filtered_settings = {
-                        k: v for k, v in all_settings.items()
+                        k: v
+                        for k, v in all_settings.items()
                         if k in requested_server_types
                     }
                     self.log(
                         "server_types filter applied for site '{0}': keeping {1} of {2} server types".format(
                             site_name, len(filtered_settings), len(all_settings)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     # No server_types filter — default: include all (backward-compatible)
@@ -4377,41 +4634,39 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if requested_ip_addresses:
                     site_ips = self._collect_server_ips(filtered_settings)
                     matched = any(
-                        req_ip in site_ips
-                        for req_ip in requested_ip_addresses
+                        req_ip in site_ips for req_ip in requested_ip_addresses
                     )
                     if not matched:
                         self.log(
                             "ip_address_list filter: site '{0}' has no server IPs matching {1} — skipping".format(
                                 site_name, requested_ip_addresses
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         continue
                     self.log(
                         "ip_address_list filter: site '{0}' matched (site IPs: {1})".format(
                             site_name, site_ips
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-                transformed_entry = self.prune_empty({
-                    "site_name": site_name,
-                    "settings": filtered_settings
-                })
+                transformed_entry = self.prune_empty(
+                    {"site_name": site_name, "settings": filtered_settings}
+                )
 
                 transformed_nm.append(transformed_entry)
                 self.log(
                     "Successfully transformed entry {0} for site '{1}'".format(
                         len(final_nm_details), site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 self.log(
                     "Unified reverse mapping completed successfully - transformed {0} "
                     "site configurations".format(len(transformed_nm)),
-                    "INFO"
+                    "INFO",
                 )
 
             self.log("NM unified reverse mapping completed successfully", "INFO")
@@ -4421,7 +4676,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Unified reverse mapping failed for network management: {0}. "
                 "Falling back to raw data.".format(str(e)),
-                "ERROR"
+                "ERROR",
             )
             transformed_nm = []
             self.log(
@@ -4429,13 +4684,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Succeeded: {1}, Failed: {2}, Transformed: {3} configurations".format(
                     sites_processed, sites_succeeded, sites_failed, len(transformed_nm)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Return result in consistent format
         return {
             "network_management_details": transformed_nm,
-            "operation_summary": self.get_operation_summary()
+            "operation_summary": self.get_operation_summary(),
         }
 
     def clean_nm_entry(self, entry, depth=0, max_depth=50):
@@ -4479,7 +4734,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "objects to standard Python types (depth: {0}/{1})".format(
                 depth, max_depth
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Recursion depth protection
@@ -4488,14 +4743,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Maximum recursion depth ({0}) exceeded during data structure cleaning. "
                 "Possible circular reference or extremely deep nesting detected. "
                 "Returning empty dict to prevent stack overflow.".format(max_depth),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
         input_type = type(entry).__name__
         self.log(
             "Processing entry at depth {0} - type: {1}".format(depth, input_type),
-            "DEBUG"
+            "DEBUG",
         )
 
         # =====================================
@@ -4505,7 +4760,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Detected Catalyst Center  MyDict object at depth {0}, attempting conversion "
                 "to standard Python dict using to_dict() method".format(depth),
-                "DEBUG"
+                "DEBUG",
             )
 
             try:
@@ -4514,26 +4769,26 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Successfully converted MyDict to standard dict at depth {0}".format(
                         depth
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             except Exception as e:
                 self.log(
                     "Failed to convert MyDict using to_dict() method: {0}. "
                     "Attempting fallback conversion using dict()".format(str(e)),
-                    "WARNING"
+                    "WARNING",
                 )
                 try:
                     entry = dict(entry)
                     self.log(
                         "Successfully converted MyDict using fallback dict() method "
                         "at depth {0}".format(depth),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as fallback_error:
                     self.log(
                         "Both to_dict() and dict() conversion failed: {0}. "
                         "Returning empty dict.".format(str(fallback_error)),
-                        "ERROR"
+                        "ERROR",
                     )
                     return {}
 
@@ -4545,7 +4800,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing dictionary at depth {0} with {1} keys: {2}".format(
                     depth, len(entry), list(entry.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             cleaned = {}
@@ -4562,7 +4817,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Filtering out None value for key '{0}' at depth {1}".format(
                             key, depth
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -4578,7 +4833,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Nested cleaning returned None for key '{0}', filtering out".format(
                             key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             self.log(
@@ -4586,7 +4841,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Filtered: {2} None values, Remaining: {3} keys".format(
                     depth, processed_count, none_count, len(cleaned)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return cleaned
@@ -4599,7 +4854,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing list at depth {0} with {1} elements".format(
                     depth, len(entry)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             cleaned_list = []
@@ -4609,7 +4864,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Cleaning list element {0}/{1} at depth {2}".format(
                         index + 1, len(entry), depth
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 cleaned_item = self.clean_nm_entry(item, depth + 1, max_depth)
@@ -4619,7 +4874,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "List cleaning completed at depth {0} - Processed {1} elements".format(
                     depth, len(cleaned_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return cleaned_list
@@ -4632,7 +4887,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Primitive type '{0}' detected at depth {1}, returning as-is: {2}".format(
                     input_type, depth, entry
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return entry
 
@@ -4644,7 +4899,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Expected MyDict, dict, list, or primitive. Returning as-is: {2}".format(
                 input_type, depth, entry
             ),
-            "WARNING"
+            "WARNING",
         )
 
         return entry
@@ -4687,7 +4942,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting recursive empty value pruning to clean data structure for YAML "
             "output (depth: {0}/{1})".format(depth, max_depth),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Recursion depth protection
@@ -4696,7 +4951,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Maximum recursion depth ({0}) exceeded during empty value pruning. "
                 "Possible circular reference or extremely deep nesting detected. "
                 "Returning empty dict to prevent stack overflow.".format(max_depth),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -4706,7 +4961,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing data structure at depth {0} - type: {1}".format(
                 depth, input_type
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # =====================================
@@ -4717,7 +4972,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing dictionary at depth {0} with {1} keys: {2}".format(
                     depth, len(data), list(data.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             cleaned = {}
@@ -4738,7 +4993,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "value: {3}".format(
                             key, depth, type(pruned_value).__name__, pruned_value
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -4748,7 +5003,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Keeping non-empty value for key '{0}' at depth {1}".format(
                         key, depth
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
@@ -4756,7 +5011,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Pruned: {2} keys, Remaining: {3} keys".format(
                     depth, keys_processed, keys_pruned, len(cleaned)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return cleaned
@@ -4769,7 +5024,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing list at depth {0} with {1} elements".format(
                     depth, len(data)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             cleaned_list = []
@@ -4783,7 +5038,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Cleaning list element {0}/{1} at depth {2}".format(
                         index + 1, len(data), depth
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Recursively prune list element
@@ -4797,7 +5052,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "value: {3}".format(
                             index, depth, type(pruned_item).__name__, pruned_item
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
@@ -4807,7 +5062,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Keeping non-empty list element at index {0}, depth {1}".format(
                         index, depth
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
@@ -4815,7 +5070,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Pruned: {2} elements, Remaining: {3} elements".format(
                     depth, elements_processed, elements_pruned, len(cleaned_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return cleaned_list
@@ -4827,7 +5082,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Primitive type '{0}' detected at depth {1}, evaluating for emptiness: {2}".format(
                 input_type, depth, data
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Return primitive as-is (caller will check if empty)
@@ -4862,7 +5117,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if is_empty:
                 self.log(
                     "String value is empty or whitespace-only: '{0}'".format(value),
-                    "DEBUG"
+                    "DEBUG",
                 )
             return is_empty
 
@@ -4980,13 +5235,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting Network AAA configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty AAA configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -4994,7 +5249,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for Network AAA extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5005,7 +5260,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'aaaNetwork' configuration found in entry, returning empty AAA "
                 "configuration (site may not have network AAA configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -5013,7 +5268,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid aaaNetwork type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5021,7 +5276,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found Network AAA configuration with {0} field(s): {1}".format(
                 len(data), list(data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract base AAA configuration fields
@@ -5036,9 +5291,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 primary_server if primary_server else "Not configured",
                 secondary_server if secondary_server else "Not configured",
                 protocol if protocol else "Not configured",
-                server_type if server_type else "Not configured"
+                server_type if server_type else "Not configured",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Build base result structure
@@ -5057,13 +5312,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "ISE PAN address found and included in configuration: '{0}' "
                 "(required for serverType=ISE)".format(pan_address),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No ISE PAN address configured (field 'pan' not present or empty). "
                 "This is expected for serverType='AAA'.",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validation: Check if ISE server type has PAN address
@@ -5071,16 +5326,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "WARNING: serverType is 'ISE' but pan_address is missing. "
                 "ISE configurations typically require PAN (Policy Admin Node) address.",
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             "Successfully extracted Network AAA configuration with {0} field(s). "
             "PAN address included: {1}".format(
-                len(result),
-                "Yes" if "pan_address" in result else "No"
+                len(result), "Yes" if "pan_address" in result else "No"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -5187,13 +5441,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting Client & Endpoint AAA configuration from network management entry "
             "to transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty Client AAA configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -5201,7 +5455,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for Client AAA extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5212,7 +5466,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'aaaClient' configuration found in entry, returning empty Client AAA "
                 "configuration (site may not have client/endpoint AAA configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -5220,7 +5474,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid aaaClient type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5228,7 +5482,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found Client & Endpoint AAA configuration with {0} field(s): {1}".format(
                 len(data), list(data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract base AAA configuration fields
@@ -5243,9 +5497,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 primary_server if primary_server else "Not configured",
                 secondary_server if secondary_server else "Not configured",
                 protocol if protocol else "Not configured",
-                server_type if server_type else "Not configured"
+                server_type if server_type else "Not configured",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Build base result structure
@@ -5264,13 +5518,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "ISE PAN address found and included in Client AAA configuration: '{0}' "
                 "(required for serverType=ISE)".format(pan_address),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No ISE PAN address configured for Client AAA (field 'pan' not present or empty). "
                 "This is expected for serverType='AAA'.",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validation: Check if ISE server type has PAN address
@@ -5278,16 +5532,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "WARNING: Client AAA serverType is 'ISE' but pan_address is missing. "
                 "ISE configurations typically require PAN (Policy Admin Node) address.",
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             "Successfully extracted Client & Endpoint AAA configuration with {0} field(s). "
             "PAN address included: {1}".format(
-                len(result),
-                "Yes" if "pan_address" in result else "No"
+                len(result), "Yes" if "pan_address" in result else "No"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -5363,13 +5616,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting DHCP server configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty DHCP server list",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5377,7 +5630,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for DHCP extraction - expected dict, got {0}. "
                 "Returning empty server list.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -5388,7 +5641,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'dhcp' configuration found in entry, returning empty server list "
                 "(site may not have DHCP configured or inherits from parent)",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5396,7 +5649,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid dhcp type - expected dict, got {0}. "
                 "Returning empty server list.".format(type(dhcp_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -5404,7 +5657,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found DHCP configuration with {0} field(s): {1}".format(
                 len(dhcp_data), list(dhcp_data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract servers list
@@ -5414,7 +5667,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if servers is None:
             self.log(
                 "No 'servers' field found in DHCP configuration, returning empty list",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5422,14 +5675,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid servers type - expected list, got {0}. "
                 "Converting to list.".format(type(servers).__name__),
-                "WARNING"
+                "WARNING",
             )
             # Attempt conversion to list
             if isinstance(servers, str):
                 servers = [servers] if servers else []
                 self.log(
-                    "Converted string server '{0}' to list".format(servers[0] if servers else ""),
-                    "DEBUG"
+                    "Converted string server '{0}' to list".format(
+                        servers[0] if servers else ""
+                    ),
+                    "DEBUG",
                 )
             else:
                 return []
@@ -5437,24 +5692,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         server_count = len(servers)
         if server_count > 0:
             self.log(
-                "Extracted {0} DHCP server(s): {1}".format(
-                    server_count,
-                    servers
-                ),
-                "INFO"
+                "Extracted {0} DHCP server(s): {1}".format(server_count, servers),
+                "INFO",
             )
         else:
             self.log(
                 "Extracted empty DHCP server list (explicitly preserving empty list "
                 "to indicate no DHCP servers configured)",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Successfully extracted DHCP server configuration with {0} server(s)".format(
                 len(servers)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return servers
@@ -5563,13 +5815,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting DNS server configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty DNS configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -5577,7 +5829,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for DNS extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5588,7 +5840,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'dns' configuration found in entry, returning empty DNS "
                 "configuration (site may not have DNS configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -5596,7 +5848,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid dns type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(dns_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -5604,7 +5856,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found DNS configuration with {0} field(s): {1}".format(
                 len(dns_data), list(dns_data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract domain name
@@ -5617,7 +5869,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if dns_servers is None:
             self.log(
                 "No 'dnsServers' field found in DNS configuration, using empty list",
-                "DEBUG"
+                "DEBUG",
             )
             dns_servers = []
 
@@ -5625,7 +5877,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid dnsServers type - expected list, got {0}. "
                 "Converting to list.".format(type(dns_servers).__name__),
-                "WARNING"
+                "WARNING",
             )
             # Attempt conversion to list
             if isinstance(dns_servers, str):
@@ -5634,7 +5886,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Converted string DNS server '{0}' to list".format(
                         dns_servers[0] if dns_servers else ""
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 dns_servers = []
@@ -5649,12 +5901,11 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Extracted primary DNS server: '{0}'".format(
                     primary_ip if primary_ip else "Not configured"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
-                "No primary DNS server configured (empty dnsServers list)",
-                "DEBUG"
+                "No primary DNS server configured (empty dnsServers list)", "DEBUG"
             )
 
         if len(dns_servers) >= 2:
@@ -5663,14 +5914,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Extracted secondary DNS server: '{0}'".format(
                     secondary_ip if secondary_ip else "Not configured"
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No secondary DNS server configured (only {0} server(s) in list)".format(
                     len(dns_servers)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Log if more than 2 servers present (unusual configuration)
@@ -5681,16 +5932,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Only primary and secondary will be extracted.".format(
                     len(extra_servers), extra_servers
                 ),
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             "Extracted DNS configuration - Domain: '{0}', Primary: '{1}', Secondary: '{2}'".format(
                 domain_name if domain_name else "Not configured",
                 primary_ip if primary_ip else "Not configured",
-                secondary_ip if secondary_ip else "Not configured"
+                secondary_ip if secondary_ip else "Not configured",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Build result structure
@@ -5703,9 +5954,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Successfully extracted DNS configuration with domain '{0}' and {1} server(s)".format(
                 domain_name if domain_name else "None",
-                len([s for s in [primary_ip, secondary_ip] if s])
+                len([s for s in [primary_ip, secondary_ip] if s]),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -5796,13 +6047,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting NTP server configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty NTP server list",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5810,7 +6061,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for NTP extraction - expected dict, got {0}. "
                 "Returning empty server list.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -5821,7 +6072,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'ntp' configuration found in entry, returning empty server list "
                 "(site may not have NTP configured or inherits from parent)",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5829,7 +6080,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid ntp type - expected dict, got {0}. "
                 "Returning empty server list.".format(type(ntp_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -5837,7 +6088,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found NTP configuration with {0} field(s): {1}".format(
                 len(ntp_data), list(ntp_data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract servers list
@@ -5847,7 +6098,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if servers is None:
             self.log(
                 "No 'servers' field found in NTP configuration, returning empty list",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -5855,14 +6106,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid servers type - expected list, got {0}. "
                 "Converting to list.".format(type(servers).__name__),
-                "WARNING"
+                "WARNING",
             )
             # Attempt conversion to list
             if isinstance(servers, str):
                 servers = [servers] if servers else []
                 self.log(
-                    "Converted string server '{0}' to list".format(servers[0] if servers else ""),
-                    "DEBUG"
+                    "Converted string server '{0}' to list".format(
+                        servers[0] if servers else ""
+                    ),
+                    "DEBUG",
                 )
             else:
                 return []
@@ -5871,17 +6124,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         server_count = len(servers)
         if server_count > 0:
             self.log(
-                "Extracted {0} NTP server(s): {1}".format(
-                    server_count,
-                    servers
-                ),
-                "INFO"
+                "Extracted {0} NTP server(s): {1}".format(server_count, servers), "INFO"
             )
         else:
             self.log(
                 "Extracted empty NTP server list (explicitly preserving empty list "
                 "to indicate no NTP servers configured)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validate server formats (optional quality check)
@@ -5891,13 +6140,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "NTP server {0}/{1} has invalid format: {2} (type: {3})".format(
                         idx, server_count, server, type(server).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
             else:
                 # Log server type for debugging (hostname vs IP)
                 if ":" in server:
                     server_type = "IPv6 address"
-                elif "." in server and all(part.isdigit() for part in server.split(".")):
+                elif "." in server and all(
+                    part.isdigit() for part in server.split(".")
+                ):
                     server_type = "IPv4 address"
                 else:
                     server_type = "hostname"
@@ -5906,14 +6157,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "NTP server {0}/{1}: '{2}' ({3})".format(
                         idx, server_count, server, server_type
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
             "Successfully extracted NTP server configuration with {0} server(s)".format(
                 len(servers)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return servers
@@ -5995,13 +6246,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting timezone configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty timezone string",
-                "DEBUG"
+                "DEBUG",
             )
             return ""
 
@@ -6009,7 +6260,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for timezone extraction - expected dict, got {0}. "
                 "Returning empty string.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return ""
 
@@ -6020,7 +6271,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'timeZone' configuration found in entry, returning empty string "
                 "(site may not have timezone configured or inherits from parent)",
-                "DEBUG"
+                "DEBUG",
             )
             return ""
 
@@ -6028,7 +6279,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid timeZone type - expected dict, got {0}. "
                 "Returning empty string.".format(type(timezone_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return ""
 
@@ -6036,7 +6287,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found timezone configuration with {0} field(s): {1}".format(
                 len(timezone_data), list(timezone_data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract timezone identifier
@@ -6046,7 +6297,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if timezone_identifier is None:
             self.log(
                 "No 'identifier' field found in timezone configuration, returning empty string",
-                "DEBUG"
+                "DEBUG",
             )
             return ""
 
@@ -6054,30 +6305,34 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid identifier type - expected str, got {0}. "
                 "Converting to string.".format(type(timezone_identifier).__name__),
-                "WARNING"
+                "WARNING",
             )
-            timezone_identifier = str(timezone_identifier) if timezone_identifier else ""
+            timezone_identifier = (
+                str(timezone_identifier) if timezone_identifier else ""
+            )
 
         # Clean whitespace
         timezone_identifier = timezone_identifier.strip()
 
         if timezone_identifier:
             self.log(
-                "Extracted valid timezone identifier: '{0}'".format(timezone_identifier),
-                "INFO"
+                "Extracted valid timezone identifier: '{0}'".format(
+                    timezone_identifier
+                ),
+                "INFO",
             )
         else:
             self.log(
                 "Extracted empty timezone identifier (explicitly preserving empty string "
                 "to indicate no timezone configured)",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Successfully extracted timezone configuration: '{0}'".format(
                 timezone_identifier if timezone_identifier else "Not configured"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return timezone_identifier
@@ -6162,13 +6417,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting Message of the Day (banner) configuration from network management "
             "entry to transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty banner configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6176,7 +6431,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for banner extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6187,7 +6442,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'banner' configuration found in entry, returning empty banner "
                 "configuration (site may not have MOTD configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6195,7 +6450,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid banner type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(banner_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6203,7 +6458,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found banner configuration with {0} field(s): {1}".format(
                 len(banner_data), list(banner_data.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract banner fields
@@ -6214,7 +6469,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if banner_message is None:
             self.log(
                 "No 'message' field found in banner configuration, using empty string",
-                "DEBUG"
+                "DEBUG",
             )
             banner_message = ""
 
@@ -6223,7 +6478,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Invalid message type - expected str, got {0}. Converting to string.".format(
                     type(banner_message).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             banner_message = str(banner_message)
 
@@ -6232,7 +6487,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'retainExistingBanner' field found, defaulting to false (Catalyst "
                 "Center v1 API default behavior)",
-                "DEBUG"
+                "DEBUG",
             )
             retain_existing = False
 
@@ -6240,23 +6495,22 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid retainExistingBanner type - expected bool, got {0}. "
                 "Converting to boolean.".format(type(retain_existing).__name__),
-                "WARNING"
+                "WARNING",
             )
             retain_existing = bool(retain_existing)
 
-        message_preview = banner_message[:50] + "..." if len(banner_message) > 50 else banner_message
+        message_preview = (
+            banner_message[:50] + "..." if len(banner_message) > 50 else banner_message
+        )
         if banner_message:
             # Check for multi-line messages
-            line_count = banner_message.count('\n') + 1
+            line_count = banner_message.count("\n") + 1
             self.log(
                 "Extracted banner message ({0} line(s), {1} chars): '{2}', "
                 "retain_existing: {3}".format(
-                    line_count,
-                    len(banner_message),
-                    message_preview,
-                    retain_existing
+                    line_count, len(banner_message), message_preview, retain_existing
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Warn about whitespace-only messages
@@ -6264,28 +6518,25 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Banner message contains only whitespace ({0} chars) - "
                     "this may be unintentional".format(len(banner_message)),
-                    "WARNING"
+                    "WARNING",
                 )
         else:
             self.log(
                 "Extracted empty banner message (clear banner mode), "
                 "retain_existing: {0}".format(retain_existing),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Build result structure
         result = {
             "banner_message": banner_message,
-            "retain_existing_banner": retain_existing
+            "retain_existing_banner": retain_existing,
         }
 
         self.log(
             "Successfully extracted banner configuration - Message length: {0} chars, "
-            "Retain existing: {1}".format(
-                len(banner_message),
-                retain_existing
-            ),
-            "DEBUG"
+            "Retain existing: {1}".format(len(banner_message), retain_existing),
+            "DEBUG",
         )
 
         return result
@@ -6382,13 +6633,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting NetFlow collector (Application Visibility) configuration from "
             "network management entry to transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty NetFlow configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6396,7 +6647,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for NetFlow extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6407,7 +6658,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'telemetry' configuration found in entry, returning empty NetFlow "
                 "configuration (site may not have telemetry configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6415,7 +6666,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid telemetry type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(telemetry_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6425,7 +6676,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'applicationVisibility' configuration found in telemetry, "
                 "returning empty NetFlow configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6433,7 +6684,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid applicationVisibility type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(app_visibility).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6441,7 +6692,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found Application Visibility configuration with {0} field(s): {1}".format(
                 len(app_visibility), list(app_visibility.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract collector configuration
@@ -6452,7 +6703,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Invalid collector type - expected dict, got {0}. Using empty dict.".format(
                     type(collector).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             collector = {}
 
@@ -6466,12 +6717,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if collector_type:
             self.log(
                 "Extracted NetFlow collector type: '{0}'".format(collector_type),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No collector type configured (empty or missing collectorType field)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Build base result structure
@@ -6479,7 +6730,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "collector_type": collector_type,
             "ip_address": ip_address,
             "port": port,
-            "enable_on_wired_access_devices": enable_wired
+            "enable_on_wired_access_devices": enable_wired,
         }
 
         # Special handling for Built-in collector
@@ -6489,7 +6740,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "port fields to prevent external collector misconfiguration".format(
                     collector_type
                 ),
-                "INFO"
+                "INFO",
             )
             result["ip_address"] = ""
             result["port"] = None
@@ -6501,25 +6752,25 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "External NetFlow collector configured - IP: '{0}', Port: {1}".format(
                             ip_address, port if port else "Not configured"
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         "External collector type specified but no IP address configured",
-                        "WARNING"
+                        "WARNING",
                     )
 
                 if port is None or port == "":
                     self.log(
                         "External collector missing port number (will use protocol default)",
-                        "WARNING"
+                        "WARNING",
                     )
 
         self.log(
             "Wired access devices NetFlow collection: {0}".format(
                 "Enabled" if enable_wired else "Disabled"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -6528,9 +6779,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 collector_type if collector_type else "Not configured",
                 ip_address if ip_address and collector_type == "External" else "N/A",
                 port if port and collector_type == "External" else "N/A",
-                enable_wired
+                enable_wired,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
@@ -6628,13 +6879,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting SNMP trap server configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty SNMP configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6642,7 +6893,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for SNMP extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6653,7 +6904,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'telemetry' configuration found in entry, returning empty SNMP "
                 "configuration (site may not have telemetry configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6661,7 +6912,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid telemetry type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(telemetry_data).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6671,7 +6922,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No 'snmpTraps' configuration found in telemetry, returning empty SNMP "
                 "configuration (SNMP traps may not be configured)",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6679,7 +6930,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid snmpTraps type - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(snmp_traps).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6687,7 +6938,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found SNMP trap configuration with {0} field(s): {1}".format(
                 len(snmp_traps), list(snmp_traps.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract SNMP fields
@@ -6697,8 +6948,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Validate use_builtin field
         if use_builtin is None:
             self.log(
-                "No 'useBuiltinTrapServer' field found, defaulting to false",
-                "DEBUG"
+                "No 'useBuiltinTrapServer' field found, defaulting to false", "DEBUG"
             )
             use_builtin = False
 
@@ -6706,23 +6956,20 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid useBuiltinTrapServer type - expected bool, got {0}. "
                 "Converting to boolean.".format(type(use_builtin).__name__),
-                "WARNING"
+                "WARNING",
             )
             use_builtin = bool(use_builtin)
 
         # Validate external_servers field
         if external_servers is None:
-            self.log(
-                "No 'externalTrapServers' field found, using empty list",
-                "DEBUG"
-            )
+            self.log("No 'externalTrapServers' field found, using empty list", "DEBUG")
             external_servers = []
 
         if not isinstance(external_servers, list):
             self.log(
                 "Invalid externalTrapServers type - expected list, got {0}. "
                 "Converting to list.".format(type(external_servers).__name__),
-                "WARNING"
+                "WARNING",
             )
             # Attempt conversion to list
             if isinstance(external_servers, str):
@@ -6734,28 +6981,22 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         server_count = len(external_servers)
 
         if use_builtin:
-            self.log(
-                "Built-in Catalyst Center SNMP trap server is ENABLED",
-                "INFO"
-            )
+            self.log("Built-in Catalyst Center SNMP trap server is ENABLED", "INFO")
         else:
-            self.log(
-                "Built-in Catalyst Center SNMP trap server is DISABLED",
-                "DEBUG"
-            )
+            self.log("Built-in Catalyst Center SNMP trap server is DISABLED", "DEBUG")
 
         if server_count > 0:
             self.log(
                 "Extracted {0} external SNMP trap server(s): {1}".format(
                     server_count, external_servers
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No external SNMP trap servers configured (empty list preserved for "
                 "semantic meaning)",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Log configuration mode
@@ -6763,38 +7004,31 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Hybrid SNMP trap configuration: Built-in server + {0} external "
                 "server(s)".format(server_count),
-                "INFO"
+                "INFO",
             )
         elif use_builtin:
             self.log(
-                "Built-in-only SNMP trap configuration (no external servers)",
-                "DEBUG"
+                "Built-in-only SNMP trap configuration (no external servers)", "DEBUG"
             )
         elif server_count > 0:
             self.log(
                 "External-only SNMP trap configuration ({0} server(s), built-in "
                 "disabled)".format(server_count),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No SNMP trap servers configured (built-in disabled, no external servers)",
-                "WARNING"
+                "WARNING",
             )
 
         # Build result structure
-        result = {
-            "configure_dnac_ip": use_builtin,
-            "ip_addresses": external_servers
-        }
+        result = {"configure_dnac_ip": use_builtin, "ip_addresses": external_servers}
 
         self.log(
             "Successfully extracted SNMP trap configuration - Built-in: {0}, "
-            "External servers: {1}".format(
-                use_builtin,
-                server_count
-            ),
-            "DEBUG"
+            "External servers: {1}".format(use_builtin, server_count),
+            "DEBUG",
         )
 
         return result
@@ -6849,13 +7083,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracting Syslog server configuration from network management entry to "
             "transform into Ansible playbook format",
-            "DEBUG"
+            "DEBUG",
         )
 
         if entry is None:
             self.log(
                 "Network management entry is None, returning empty Syslog configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6863,7 +7097,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid entry type for Syslog extraction - expected dict, got {0}. "
                 "Returning empty configuration.".format(type(entry).__name__),
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -6873,7 +7107,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not telemetry_data or not isinstance(telemetry_data, dict):
             self.log(
                 "No valid 'telemetry' configuration found, returning empty Syslog configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6883,7 +7117,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No valid 'syslogs' configuration found in telemetry, returning empty Syslog "
                 "configuration",
-                "DEBUG"
+                "DEBUG",
             )
             return {}
 
@@ -6891,7 +7125,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Found Syslog configuration with {0} field(s): {1}".format(
                 len(syslogs), list(syslogs.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract Syslog fields
@@ -6903,7 +7137,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid useBuiltinSyslogServer type - expected bool, got {0}. "
                 "Converting to boolean.".format(type(use_builtin).__name__),
-                "WARNING"
+                "WARNING",
             )
             use_builtin = bool(use_builtin)
 
@@ -6912,7 +7146,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Invalid externalSyslogServers type - expected list, got {0}. "
                 "Converting to list.".format(type(external_servers).__name__),
-                "WARNING"
+                "WARNING",
             )
             if isinstance(external_servers, str):
                 external_servers = [external_servers] if external_servers else []
@@ -6927,75 +7161,77 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Hybrid Syslog configuration: Built-in server + {0} external server(s)".format(
                     server_count
                 ),
-                "INFO"
+                "INFO",
             )
         elif use_builtin:
             self.log(
-                "Built-in-only Syslog configuration (no external servers)",
-                "DEBUG"
+                "Built-in-only Syslog configuration (no external servers)", "DEBUG"
             )
         elif server_count > 0:
             self.log(
-                "External-only Syslog configuration ({0} server(s))".format(server_count),
-                "DEBUG"
+                "External-only Syslog configuration ({0} server(s))".format(
+                    server_count
+                ),
+                "DEBUG",
             )
         else:
             self.log(
                 "No Syslog servers configured (built-in disabled, no external servers)",
-                "WARNING"
+                "WARNING",
             )
 
-        result = {
-            "configure_dnac_ip": use_builtin,
-            "ip_addresses": external_servers
-        }
+        result = {"configure_dnac_ip": use_builtin, "ip_addresses": external_servers}
 
         self.log(
             "Successfully extracted Syslog configuration - Built-in: {0}, External servers: {1}".format(
                 use_builtin, server_count
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return result
 
     def execute_get_bulk(self, api_family, api_function, params=None):
         """
-        Executes a single non-paginated GET request for bulk data retrieval.
+            Executes a single non-paginated GET request for bulk data retrieval.
 
-        This function is specifically designed for API endpoints that return all data
-        in a single call without requiring pagination parameters.
+            This function is specifically designed for API endpoints that return all data
+            in a single call without requiring pagination parameters.
 
-        Args:
-            api_family (str): Catalyst Center SDK API family identifier for routing:
-                - 'network_settings': Network configuration APIs
-                - 'devices': Device management APIs
-                - 'sites': Site hierarchy APIs
-                - 'topology': Network topology APIs
+            Args:
+                api_family (str): Catalyst Center SDK API family identifier for routing:
+                    - 'network_settings': Network configuration APIs
+                    - 'devices': Device management APIs
+                    - 'sites': Site hierarchy APIs
+                    - 'topology': Network topology APIs
 
-            api_function (str): Specific SDK function name within the API family:
-                - 'retrieves_global_ip_address_pools': Global pool bulk retrieval
-                - 'get_device_list': All devices without filters
-                - 'get_site': Complete site hierarchy
+                api_function (str): Specific SDK function name within the API family:
+                    - 'retrieves_global_ip_address_pools': Global pool bulk retrieval
+                    - 'get_device_list': All devices without filters
+                    - 'get_site': Complete site hierarchy
 
-    params (dict, optional): Query parameters for filtering bulk data.
-        - None or {}: Retrieves all available records (default)
-        - {'filter': 'value'}: API-specific filtering if supported
-        - Note: Most bulk APIs ignore filter parameters
-        Returns:
-            list: Retrieved data records in list format:
-            - [dict, dict, ...]: Multiple records from API response
-            - [dict]: Single record wrapped in list for consistency
-            - []: Empty list when no data found or API returns null
-        Usage:
-            # For bulk reserve pool retrieval without site filtering
-            all_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools")
+        params (dict, optional): Query parameters for filtering bulk data.
+            - None or {}: Retrieves all available records (default)
+            - {'filter': 'value'}: API-specific filtering if supported
+            - Note: Most bulk APIs ignore filter parameters
+            Returns:
+                list: Retrieved data records in list format:
+                - [dict, dict, ...]: Multiple records from API response
+                - [dict]: Single record wrapped in list for consistency
+                - []: Empty list when no data found or API returns null
+            Usage:
+                # For bulk reserve pool retrieval without site filtering
+                all_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools")
 
-            # For bulk retrieval with specific filters
-            filtered_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools", {"filter": "value"})
+                # For bulk retrieval with specific filters
+                filtered_pools = self.execute_get_bulk("network_settings", "retrieves_ip_address_subpools", {"filter": "value"})
         """
-        self.log("Starting bulk API execution for family '{0}', function '{1}'".format(
-            api_family, api_function), "DEBUG")
+        self.log(
+            "Starting bulk API execution for family '{0}', function '{1}'".format(
+                api_family, api_function
+            ),
+            "DEBUG",
+        )
 
         if not api_family or not isinstance(api_family, str):
             self.msg = (
@@ -7064,14 +7300,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
 
             # Return the list of retrieved data
-            return response_data if isinstance(response_data, list) else [response_data] if response_data else []
+            return (
+                response_data
+                if isinstance(response_data, list)
+                else [response_data] if response_data else []
+            )
 
         except Exception as e:
             self.msg = (
                 "An error occurred while retrieving bulk data using family '{0}', function '{1}'. "
-                "Error: {2}".format(
-                    api_family, api_function, str(e)
-                )
+                "Error: {2}".format(api_family, api_function, str(e))
             )
             self.fail_and_exit(self.msg)
 
@@ -7094,14 +7332,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting reserve IP pool retrieval with intelligent optimization strategy "
             "that automatically selects bulk (single API call) or site-specific (multiple "
             "API calls) approach based on filter requirements",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Network element configuration: family='{0}', function='{1}'".format(
                 network_element.get("api_family"), network_element.get("api_function")
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         global_filters = filters.get("global_filters", {})
@@ -7109,15 +7347,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "reserve_pool_details", []
         )
 
-        self.log(
-            "Global filters configuration: {0}".format(global_filters),
-            "DEBUG"
-        )
+        self.log("Global filters configuration: {0}".format(global_filters), "DEBUG")
         self.log(
             "Component-specific filters ({0} filter object(s)): {1}".format(
                 len(component_specific_filters), component_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         final_reserve_pools = []
@@ -7128,7 +7363,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "STEP 1: Analyzing filters to determine optimal retrieval strategy "
             "(bulk vs. site-specific)",
-            "INFO"
+            "INFO",
         )
 
         site_name_list = global_filters.get("site_name_list", [])
@@ -7141,7 +7376,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Filter analysis result: site_name_list={0}, has_site_specific_filters={1}".format(
                 len(site_name_list), has_site_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # === OPTIMIZATION PATH 1: Bulk Retrieval (No Site Filters) ===
@@ -7149,7 +7384,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "OPTIMIZATION: No site-specific filters detected, using bulk retrieval "
                 "strategy (single API call for all pools, ~90% faster)",
-                "INFO"
+                "INFO",
             )
 
             try:
@@ -7158,7 +7393,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Executing bulk API call: family='{0}', function='{1}' (no siteId parameter)".format(
                         api_family, api_function
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 all_reserve_pools = self.execute_get_bulk(api_family, api_function)
@@ -7167,7 +7402,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Bulk API call successful: Retrieved {0} total reserve pools in single request".format(
                         len(all_reserve_pools)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 # Log sample pool details for debugging (first 3 pools)
@@ -7179,9 +7414,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             pool.get("groupName", "N/A"),
                             pool.get("siteName", "N/A"),
                             pool.get("type", "N/A"),
-                            pool.get("id", "N/A")
+                            pool.get("id", "N/A"),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # === STEP 2: Apply Global Filters (if present) ===
@@ -7194,9 +7429,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "STEP 2: Applying global filters to {0} pools: pool_names={1}, pool_types={2}".format(
                             len(all_reserve_pools),
                             pool_name_list or "None",
-                            pool_type_list or "None"
+                            pool_type_list or "None",
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     filtered_pools = []
@@ -7213,7 +7448,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Pool '{0}' filtered out by pool_name_list (not in {1})".format(
                                     pool_name, pool_name_list
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             filtered_count_by_name += 1
                             continue
@@ -7224,7 +7459,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Pool '{0}' (type='{1}') filtered out by pool_type_list (not in {2})".format(
                                     pool_name, pool_type, pool_type_list
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             filtered_count_by_type += 1
                             continue
@@ -7238,23 +7473,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             len(filtered_pools),
                             filtered_count_by_name,
                             filtered_count_by_type,
-                            len(all_reserve_pools)
+                            len(all_reserve_pools),
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         "STEP 2: No global filters specified, skipping global filter application",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
-            # === STEP 3: Apply Component-Specific Filters ===
+                # === STEP 3: Apply Component-Specific Filters ===
                 if component_specific_filters:
                     self.log(
                         "STEP 3: Applying component-specific filters to {0} pools".format(
                             len(filtered_pools)
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     final_filtered_pools = []
@@ -7267,7 +7502,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Unexpected site_name filter in bulk retrieval path, skipping: {0}".format(
                                     filter_param.get("site_name")
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                             continue
 
@@ -7278,7 +7513,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Processing component filter: pool_name={0}, pool_type={1}".format(
                                 filter_pool_name or "None", filter_pool_type or "None"
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         for pool in filtered_pools:
@@ -7294,7 +7529,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "Pool '{0}' does not match component filter pool_name='{1}'".format(
                                             pool_name, filter_pool_name
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     continue
 
@@ -7306,7 +7541,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "Pool '{0}' (type='{1}') does not match component filter pool_type='{2}'".format(
                                             pool_name, pool_type, filter_pool_type
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     continue
 
@@ -7314,8 +7549,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             if matches_filter:
                                 final_filtered_pools.append(pool)
                                 self.log(
-                                    "Pool '{0}' matched component filter criteria".format(pool_name),
-                                    "DEBUG"
+                                    "Pool '{0}' matched component filter criteria".format(
+                                        pool_name
+                                    ),
+                                    "DEBUG",
                                 )
 
                     filtered_count = len(filtered_pools) - len(final_filtered_pools)
@@ -7325,33 +7562,40 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Component filter results: {0} pools passed, {1} filtered out".format(
                             len(filtered_pools), filtered_count
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         "STEP 3: No component-specific filters specified, skipping",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 final_reserve_pools = filtered_pools
 
                 # Track success for bulk operation
-                self.add_success("All Sites", "reserve_pool_details", {
-                    "pools_processed": len(final_reserve_pools),
-                    "optimization": "bulk_retrieval",
-                    "api_calls": 1
-                })
+                self.add_success(
+                    "All Sites",
+                    "reserve_pool_details",
+                    {
+                        "pools_processed": len(final_reserve_pools),
+                        "optimization": "bulk_retrieval",
+                        "api_calls": 1,
+                    },
+                )
 
             except Exception as e:
                 self.log(
-                    "Bulk reserve pool retrieval failed: {0}".format(str(e)),
-                    "ERROR"
+                    "Bulk reserve pool retrieval failed: {0}".format(str(e)), "ERROR"
                 )
-                self.add_failure("All Sites", "reserve_pool_details", {
-                    "error_type": "api_error",
-                    "error_message": str(e),
-                    "error_code": "BULK_API_CALL_FAILED"
-                })
+                self.add_failure(
+                    "All Sites",
+                    "reserve_pool_details",
+                    {
+                        "error_type": "api_error",
+                        "error_message": str(e),
+                        "error_code": "BULK_API_CALL_FAILED",
+                    },
+                )
                 final_reserve_pools = []
 
         # === STANDARD PATH 2: Site-Specific Retrieval ===
@@ -7359,24 +7603,29 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "STANDARD: Site-specific filters detected, using site-by-site retrieval "
                 "strategy (multiple API calls, one per site)",
-                "INFO"
+                "INFO",
             )
 
             # === STEP 1: Build Target Site List ===
             self.log(
                 "STEP 1: Building target site list from global and component-specific filters",
-                "INFO"
+                "INFO",
             )
             # Process site-based filtering
             target_sites = []
 
             # Build site ID to name mapping (cached)
-            if not hasattr(self, 'site_id_name_dict'):
-                self.log("Building site ID to name mapping cache (first-time operation)", "DEBUG")
+            if not hasattr(self, "site_id_name_dict"):
+                self.log(
+                    "Building site ID to name mapping cache (first-time operation)",
+                    "DEBUG",
+                )
                 self.site_id_name_dict = self.get_site_id_name_mapping()
                 self.log(
-                    "Site mapping cache created with {0} sites".format(len(self.site_id_name_dict)),
-                    "DEBUG"
+                    "Site mapping cache created with {0} sites".format(
+                        len(self.site_id_name_dict)
+                    ),
+                    "DEBUG",
                 )
 
             # Create reverse mapping (name -> ID)
@@ -7388,37 +7637,43 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Processing global site_name_list with {0} site(s): {1}".format(
                         len(site_name_list), site_name_list
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 for site_name in site_name_list:
                     site_id = site_name_to_id_dict.get(site_name)
 
                     if site_id:
-                        target_sites.append({"site_name": site_name, "site_id": site_id})
+                        target_sites.append(
+                            {"site_name": site_name, "site_id": site_id}
+                        )
                         self.log(
                             "Added target site from global filter: '{0}' (ID: {1})".format(
                                 site_name, site_id
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             "Site '{0}' not found in Catalyst Center (may have been deleted or "
                             "user lacks permissions)".format(site_name),
-                            "WARNING"
+                            "WARNING",
                         )
-                        self.add_failure(site_name, "reserve_pool_details", {
-                            "error_type": "site_not_found",
-                            "error_message": "Site not found or not accessible in Catalyst Center",
-                            "error_code": "SITE_NOT_FOUND"
-                        })
+                        self.add_failure(
+                            site_name,
+                            "reserve_pool_details",
+                            {
+                                "error_type": "site_not_found",
+                                "error_message": "Site not found or not accessible in Catalyst Center",
+                                "error_code": "SITE_NOT_FOUND",
+                            },
+                        )
 
             # Process component-specific site filters
             if not target_sites and component_specific_filters:
                 self.log(
                     "No global site filters, extracting sites from component-specific filters",
-                    "INFO"
+                    "INFO",
                 )
 
                 for filter_param in component_specific_filters:
@@ -7429,20 +7684,24 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                         if site_id:
                             # Avoid duplicates
-                            if not any(s["site_name"] == filter_site_name for s in target_sites):
-                                target_sites.append({"site_name": filter_site_name, "site_id": site_id})
+                            if not any(
+                                s["site_name"] == filter_site_name for s in target_sites
+                            ):
+                                target_sites.append(
+                                    {"site_name": filter_site_name, "site_id": site_id}
+                                )
                                 self.log(
                                     "Added target site from component filter: '{0}' (ID: {1})".format(
                                         filter_site_name, site_id
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                         else:
                             self.log(
                                 "Site '{0}' from component filter not found in Catalyst Center".format(
                                     filter_site_name
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
 
                     # Handle site_hierarchy filter (expands to all child sites)
@@ -7452,32 +7711,39 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Processing site_hierarchy filter: '{0}' (will expand to all child sites)".format(
                                 filter_site_hierarchy
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
-                        child_sites = self.get_child_sites_from_hierarchy(filter_site_hierarchy)
+                        child_sites = self.get_child_sites_from_hierarchy(
+                            filter_site_hierarchy
+                        )
 
                         self.log(
                             "Site hierarchy '{0}' expanded to {1} child site(s)".format(
                                 filter_site_hierarchy, len(child_sites)
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                         for child_site in child_sites:
                             # Avoid duplicates
-                            if not any(s["site_name"] == child_site["site_name"] for s in target_sites):
+                            if not any(
+                                s["site_name"] == child_site["site_name"]
+                                for s in target_sites
+                            ):
                                 target_sites.append(child_site)
                                 self.log(
                                     "Added child site from hierarchy: '{0}' (ID: {1})".format(
                                         child_site["site_name"], child_site["site_id"]
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
             self.log(
-                "Target site list finalized: {0} site(s) to process".format(len(target_sites)),
-                "INFO"
+                "Target site list finalized: {0} site(s) to process".format(
+                    len(target_sites)
+                ),
+                "INFO",
             )
 
             # === STEP 2: Process Each Target Site ===
@@ -7489,7 +7755,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "STEP 2: Processing site {0}/{1}: '{2}' (ID: {3})".format(
                         site_idx, len(target_sites), site_name, site_id
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 try:
                     # Base parameters for API call
@@ -7498,21 +7764,30 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Executing API call for site '{0}': family='{1}', function='{2}', params={3}".format(
                             site_name, api_family, api_function, params
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     # Execute API call to get reserve pools for this site
-                    reserve_pool_details = self.execute_get_with_pagination(api_family, api_function, params)
-                    self.log("Retrieved {0} reserve pools for site {1}".format(
-                        len(reserve_pool_details), site_name), "INFO")
+                    reserve_pool_details = self.execute_get_with_pagination(
+                        api_family, api_function, params
+                    )
+                    self.log(
+                        "Retrieved {0} reserve pools for site {1}".format(
+                            len(reserve_pool_details), site_name
+                        ),
+                        "INFO",
+                    )
 
                     for i, pool in enumerate(reserve_pool_details[:3], start=1):
                         self.log(
                             "  Sample pool {0}/{1} for site '{2}': name='{3}', type='{4}'".format(
-                                i, len(reserve_pool_details), site_name,
-                                pool.get("groupName", "N/A"), pool.get("type", "N/A")
+                                i,
+                                len(reserve_pool_details),
+                                site_name,
+                                pool.get("groupName", "N/A"),
+                                pool.get("type", "N/A"),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                     # === STEP 3: Apply Component-Specific Filters for This Site ===
@@ -7521,7 +7796,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "STEP 3: Applying component-specific filters to {0} pools from site '{1}'".format(
                                 len(reserve_pool_details), site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         filtered_pools = []
@@ -7536,17 +7811,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             if filter_site_name and filter_site_name != site_name:
                                 self.log(
                                     "Skipping component filter (site_name='{0}') - does not match "
-                                    "current site '{1}'".format(filter_site_name, site_name),
-                                    "DEBUG"
+                                    "current site '{1}'".format(
+                                        filter_site_name, site_name
+                                    ),
+                                    "DEBUG",
                                 )
                                 continue
 
                             # Check if this site matches the hierarchy filter
-                            if filter_site_hierarchy and not site_name.startswith(filter_site_hierarchy):
+                            if filter_site_hierarchy and not site_name.startswith(
+                                filter_site_hierarchy
+                            ):
                                 self.log(
                                     "Skipping component filter (site_hierarchy='{0}') - site '{1}' "
-                                    "not under hierarchy".format(filter_site_hierarchy, site_name),
-                                    "DEBUG"
+                                    "not under hierarchy".format(
+                                        filter_site_hierarchy, site_name
+                                    ),
+                                    "DEBUG",
                                 )
                                 continue
 
@@ -7582,7 +7863,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Component filters applied: {0} pools passed (from {1} original)".format(
                                     len(filtered_pools), len(reserve_pool_details)
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             reserve_pool_details = filtered_pools
                         elif component_specific_filters:
@@ -7591,17 +7872,19 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Component filters applied: 0 pools matched criteria (all {0} filtered out)".format(
                                     len(reserve_pool_details)
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             reserve_pool_details = []
 
                     # === STEP 4: Apply Global Filters ===
-                    if global_filters.get("pool_name_list") or global_filters.get("pool_type_list"):
+                    if global_filters.get("pool_name_list") or global_filters.get(
+                        "pool_type_list"
+                    ):
                         self.log(
                             "STEP 4: Applying global filters to {0} pools from site '{1}'".format(
                                 len(reserve_pool_details), site_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                         filtered_pools = []
@@ -7626,32 +7909,50 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Global filters applied: {0} pools passed (from {1} original)".format(
                                 len(filtered_pools), len(reserve_pool_details)
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         reserve_pool_details = filtered_pools
-                        self.log("Applied global filters, remaining pools: {0}".format(len(filtered_pools)), "DEBUG")
+                        self.log(
+                            "Applied global filters, remaining pools: {0}".format(
+                                len(filtered_pools)
+                            ),
+                            "DEBUG",
+                        )
 
                     # Add to final list
                     final_reserve_pools.extend(reserve_pool_details)
 
                     # Track success for this site
-                    self.add_success(site_name, "reserve_pool_details", {
-                        "pools_processed": len(reserve_pool_details)
-                    })
+                    self.add_success(
+                        site_name,
+                        "reserve_pool_details",
+                        {"pools_processed": len(reserve_pool_details)},
+                    )
                     self.log(
                         "Site '{0}' processing complete: {1} pools added to final list (total: {2})".format(
-                            site_name, len(reserve_pool_details), len(final_reserve_pools)
+                            site_name,
+                            len(reserve_pool_details),
+                            len(final_reserve_pools),
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                 except Exception as e:
-                    self.log("Error retrieving reserve pools for site {0}: {1}".format(site_name, str(e)), "ERROR")
-                    self.add_failure(site_name, "reserve_pool_details", {
-                        "error_type": "api_error",
-                        "error_message": str(e),
-                        "error_code": "API_CALL_FAILED"
-                    })
+                    self.log(
+                        "Error retrieving reserve pools for site {0}: {1}".format(
+                            site_name, str(e)
+                        ),
+                        "ERROR",
+                    )
+                    self.add_failure(
+                        site_name,
+                        "reserve_pool_details",
+                        {
+                            "error_type": "api_error",
+                            "error_message": str(e),
+                            "error_code": "API_CALL_FAILED",
+                        },
+                    )
                     continue
 
         # === STEP 5: Deduplication ===
@@ -7659,7 +7960,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "STEP 5: Performing deduplication on {0} pools to remove duplicates".format(
                 len(final_reserve_pools)
             ),
-            "INFO"
+            "INFO",
         )
         unique_pools = []
         seen_pools = set()
@@ -7678,7 +7979,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 pool_identifier = "{0}_{1}_{2}".format(
                     pool.get("siteId", ""),
                     pool_name or pool.get("groupName", ""),
-                    pool.get("ipV4AddressSpace", {}).get("subnet", "")
+                    pool.get("ipV4AddressSpace", {}).get("subnet", ""),
                 )
 
             if pool_identifier not in seen_pools:
@@ -7690,28 +7991,37 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Duplicate pool detected and removed: name='{0}', identifier='{1}'".format(
                         pool_name or pool.get("groupName", "Unknown"), pool_identifier
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         self.log(
             "Deduplication complete: {0} unique pools retained, {1} duplicates removed".format(
                 len(unique_pools), duplicate_count
             ),
-            "INFO"
+            "INFO",
         )
 
         final_reserve_pools = unique_pools
-        self.log("After deduplication, total reserve pools: {0}".format(len(final_reserve_pools)), "INFO")
+        self.log(
+            "After deduplication, total reserve pools: {0}".format(
+                len(final_reserve_pools)
+            ),
+            "INFO",
+        )
 
         # Debug: Log detailed information about each pool that will be processed
         for i, pool in enumerate(final_reserve_pools):
-            pool_name = pool.get('name', 'Unknown')
-            site_name = pool.get('siteName', 'Unknown')
-            pool_type = pool.get('poolType', 'Unknown')
-            self.log("Pool {0}/{1}: '{2}' from site '{3}' (type: {4})".format(
-                i + 1, len(final_reserve_pools), pool_name, site_name, pool_type), "DEBUG")
+            pool_name = pool.get("name", "Unknown")
+            site_name = pool.get("siteName", "Unknown")
+            pool_type = pool.get("poolType", "Unknown")
+            self.log(
+                "Pool {0}/{1}: '{2}' from site '{3}' (type: {4})".format(
+                    i + 1, len(final_reserve_pools), pool_name, site_name, pool_type
+                ),
+                "DEBUG",
+            )
 
-        pool_names = [pool.get('name', 'Unknown') for pool in final_reserve_pools]
+        pool_names = [pool.get("name", "Unknown") for pool in final_reserve_pools]
         self.log("Pool names to be processed: {0}".format(pool_names), "DEBUG")
 
         if not final_reserve_pools:
@@ -7719,11 +8029,11 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No reserve pools found matching the specified filter criteria. This may indicate: "
                 "(1) No pools configured in Catalyst Center, (2) Filters too restrictive, "
                 "(3) User lacks permissions to view pools",
-                "WARNING"
+                "WARNING",
             )
             return {
                 "reserve_pool_details": [],
-                "operation_summary": self.get_operation_summary()
+                "operation_summary": self.get_operation_summary(),
             }
 
         # === STEP 6: Apply Reverse Mapping Transformation ===
@@ -7731,54 +8041,78 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "STEP 6: Applying reverse mapping transformation to {0} pools for YAML output".format(
                 len(final_reserve_pools)
             ),
-            "INFO"
+            "INFO",
         )
         reverse_mapping_function = network_element.get("reverse_mapping_function")
         reverse_mapping_spec = reverse_mapping_function()
 
-        self.log("Starting transformation of {0} reserve pools using modify_parameters".format(len(final_reserve_pools)), "INFO")
+        self.log(
+            "Starting transformation of {0} reserve pools using modify_parameters".format(
+                len(final_reserve_pools)
+            ),
+            "INFO",
+        )
 
         # Transform using inherited modify_parameters function (with OrderedDict spec)
-        pools_details = self.modify_parameters(reverse_mapping_spec, final_reserve_pools)
+        pools_details = self.modify_parameters(
+            reverse_mapping_spec, final_reserve_pools
+        )
 
-        self.log("Transformation completed. Result contains {0} individual pool configurations".format(len(pools_details)), "INFO")
+        self.log(
+            "Transformation completed. Result contains {0} individual pool configurations".format(
+                len(pools_details)
+            ),
+            "INFO",
+        )
 
         # Debug: Log detailed information about each transformed pool
         for i, pool in enumerate(pools_details):
-            pool_name = pool.get('name', 'Unknown')
-            site_name = pool.get('site_name', 'Unknown')
-            self.log("Transformed pool {0}/{1}: '{2}' from site '{3}' - each pool gets its own configuration entry".format(
-                i + 1, len(pools_details), pool_name, site_name), "DEBUG")
+            pool_name = pool.get("name", "Unknown")
+            site_name = pool.get("site_name", "Unknown")
+            self.log(
+                "Transformed pool {0}/{1}: '{2}' from site '{3}' - each pool gets its own configuration entry".format(
+                    i + 1, len(pools_details), pool_name, site_name
+                ),
+                "DEBUG",
+            )
 
-        transformed_pool_names = [pool.get('name', 'Unknown') for pool in pools_details]
-        self.log("Pool names after transformation: {0}".format(transformed_pool_names), "DEBUG")
+        transformed_pool_names = [pool.get("name", "Unknown") for pool in pools_details]
+        self.log(
+            "Pool names after transformation: {0}".format(transformed_pool_names),
+            "DEBUG",
+        )
 
         # Verify that we have individual configurations for each pool
         if len(pools_details) == len(final_reserve_pools):
             self.log(
                 "✓ Transformation integrity verified: Each of the {0} pools has its own "
                 "individual YAML configuration entry".format(len(pools_details)),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "⚠ Transformation count mismatch: input={0}, output={1} (investigate mapping logic)".format(
                     len(final_reserve_pools), len(pools_details)
                 ),
-                "WARNING"
+                "WARNING",
             )
-            self.log("✓ SUCCESS: Each of the {0} pools has its own individual configuration entry".format(len(pools_details)), "INFO")
+            self.log(
+                "✓ SUCCESS: Each of the {0} pools has its own individual configuration entry".format(
+                    len(pools_details)
+                ),
+                "INFO",
+            )
 
         # Return in the correct format - note the structure difference from global pools
         if pools_details:
             sample_pool = pools_details[0]
             self.log(
                 "Sample transformed pool: name='{0}', site='{1}', has {2} field(s)".format(
-                    sample_pool.get('name', 'Unknown'),
-                    sample_pool.get('site_name', 'Unknown'),
-                    len(sample_pool)
+                    sample_pool.get("name", "Unknown"),
+                    sample_pool.get("site_name", "Unknown"),
+                    len(sample_pool),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -7786,12 +8120,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "operation_summary available".format(
                 len(final_reserve_pools), len(pools_details)
             ),
-            "INFO"
+            "INFO",
         )
 
         return {
             "reserve_pool_details": pools_details,
-            "operation_summary": self.get_operation_summary()
+            "operation_summary": self.get_operation_summary(),
         }
 
     def get_aaa_settings_for_site(self, site_name, site_id):
@@ -7847,7 +8181,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "both network AAA and client/endpoint AAA configurations".format(
                 site_name, site_id
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -7856,7 +8190,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None, None
 
@@ -7866,14 +8200,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None, None
 
         self.log(
             "Executing API call to retrieve AAA settings using network_settings family, "
-            "retrieve_aaa_settings_for_a_site function with site ID: {0}".format(site_id),
-            "INFO"
+            "retrieve_aaa_settings_for_a_site function with site ID: {0}".format(
+                site_id
+            ),
+            "INFO",
         )
 
         try:
@@ -7893,7 +8229,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Received API response successfully for site '{0}', processing response data".format(
                     site_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(aaa_network_response, dict):
@@ -7902,7 +8238,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Returning empty AAA configuration.".format(
                         type(aaa_network_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None, None
 
@@ -7915,15 +8251,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(3) API response format changed. Returning empty AAA configuration.".format(
                         site_name
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None, None
 
             if not isinstance(response, dict):
                 self.log(
                     "Unexpected 'response' type in API result - expected dict, got {0}. "
-                    "Returning empty AAA configuration.".format(type(response).__name__),
-                    "WARNING"
+                    "Returning empty AAA configuration.".format(
+                        type(response).__name__
+                    ),
+                    "WARNING",
                 )
                 return None, None
 
@@ -7931,7 +8269,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Response data validated successfully, contains {0} top-level field(s): {1}".format(
                     len(response), list(response.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             network_aaa = response.get("aaaNetwork")
             client_and_endpoint_aaa = response.get("aaaClient")
@@ -7960,7 +8298,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "AAA settings extraction successful for site '{0}': Found {1} component(s): {2}".format(
                     site_name, len(found_components), found_components
                 ),
-                "INFO"
+                "INFO",
             )
         except Exception as e:
             error_str = str(e).lower()
@@ -8040,7 +8378,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DHCP configuration for network settings playbook config generator discovery".format(
                 site_name, site_id
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -8049,7 +8387,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -8059,14 +8397,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
         self.log(
             "Executing API call to retrieve DHCP settings using network_settings family, "
-            "retrieve_d_h_c_p_settings_for_a_site function with site ID: {0}".format(site_id),
-            "INFO"
+            "retrieve_d_h_c_p_settings_for_a_site function with site ID: {0}".format(
+                site_id
+            ),
+            "INFO",
         )
 
         try:
@@ -8085,7 +8425,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Returning empty DHCP configuration.".format(
                         type(dhcp_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8099,15 +8439,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(3) API response format changed. Returning empty DHCP configuration.".format(
                         site_name
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             if not isinstance(response, dict):
                 self.log(
                     "Unexpected 'response' type in API result - expected dict, got {0}. "
-                    "Returning empty DHCP configuration.".format(type(response).__name__),
-                    "WARNING"
+                    "Returning empty DHCP configuration.".format(
+                        type(response).__name__
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -8115,7 +8457,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Response data validated successfully, contains {0} top-level field(s): {1}".format(
                     len(response), list(response.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract DHCP details
@@ -8129,7 +8471,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(2) Site inherits DHCP from parent site, (3) User lacks permissions.".format(
                         site_name, site_id
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8137,7 +8479,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Invalid dhcp_details type - expected dict, got {0}. "
                     "Returning None.".format(type(dhcp_details).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8145,7 +8487,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DHCP configuration found with {0} field(s): {1}".format(
                     len(dhcp_details), list(dhcp_details.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract and validate DHCP servers
@@ -8155,27 +8497,29 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "No DHCP servers field found in DHCP configuration for site '{0}'. "
                     "Initializing empty server list.".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 dhcp_details["servers"] = []
             elif not isinstance(dhcp_servers, list):
                 self.log(
                     "Invalid DHCP servers type - expected list, got {0}. "
                     "Converting to list.".format(type(dhcp_servers).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 # Attempt conversion to list
                 if isinstance(dhcp_servers, str):
                     dhcp_details["servers"] = [dhcp_servers] if dhcp_servers else []
                     self.log(
-                        "Converted string DHCP server '{0}' to list".format(dhcp_servers),
-                        "DEBUG"
+                        "Converted string DHCP server '{0}' to list".format(
+                            dhcp_servers
+                        ),
+                        "DEBUG",
                     )
                 else:
                     dhcp_details["servers"] = []
                     self.log(
                         "Could not convert DHCP servers to list, using empty list",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 # Validate server count and format
@@ -8185,7 +8529,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Found {0} DHCP server(s) for site '{1}': {2}".format(
                             server_count, site_name, dhcp_servers
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     # Log individual server details
@@ -8195,7 +8539,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "DHCP server {0}/{1} has invalid format: {2} (type: {3})".format(
                                     idx, server_count, server, type(server).__name__
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                         else:
                             # Detect IP version for logging
@@ -8210,21 +8554,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "DHCP server {0}/{1}: '{2}' ({3})".format(
                                     idx, server_count, server, server_type
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                 else:
                     self.log(
                         "Empty DHCP server list for site '{0}' - no DHCP servers configured "
-                        "(site may inherit from parent or use defaults)".format(site_name),
-                        "DEBUG"
+                        "(site may inherit from parent or use defaults)".format(
+                            site_name
+                        ),
+                        "DEBUG",
                     )
             self.log(
                 "Successfully retrieved DHCP settings for site '{0}' (ID: {1}): {2} server(s) configured".format(
-                    site_name,
-                    site_id,
-                    len(dhcp_details.get("servers", []))
+                    site_name, site_id, len(dhcp_details.get("servers", []))
                 ),
-                "INFO"
+                "INFO",
             )
 
             return dhcp_details
@@ -8232,7 +8576,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.msg = (
                 "Invalid API family or function name for DHCP retrieval - SDK does not "
                 "recognize family '{0}' or function '{1}'. Verify SDK version compatibility. "
-                "Error: {2}".format("network_settings", "retrieve_d_h_c_p_settings_for_a_site", str(e))
+                "Error: {2}".format(
+                    "network_settings", "retrieve_d_h_c_p_settings_for_a_site", str(e)
+                )
             )
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
@@ -8276,9 +8622,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.msg = (
                     "Network connection error while retrieving DHCP settings for site '{0}' "
                     "(ID: {1}). Verify network connectivity to Catalyst Center and "
-                    "DNS resolution. Error: {2}".format(
-                        site_name, site_id, str(e)
-                    )
+                    "DNS resolution. Error: {2}".format(site_name, site_id, str(e))
                 )
             else:
                 # Generic error message for unknown errors
@@ -8311,9 +8655,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log(
             "Starting DNS server settings retrieval for site '{0}' (ID: {1}) to "
-            "extract DNS configuration for network settings playbook config generator discovery"
-            .format(site_name, site_id),
-            "DEBUG"
+            "extract DNS configuration for network settings playbook config generator discovery".format(
+                site_name, site_id
+            ),
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -8322,7 +8667,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "non-empty string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -8332,15 +8677,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
         self.log(
             "Executing API call to retrieve DNS settings using network_settings "
-            "family, retrieve_d_n_s_settings_for_a_site function with site ID: {0}"
-            .format(site_id),
-            "INFO"
+            "family, retrieve_d_n_s_settings_for_a_site function with site ID: {0}".format(
+                site_id
+            ),
+            "INFO",
         )
 
         try:
@@ -8354,7 +8700,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "API call completed successfully for site '{0}', processing "
                 "response data".format(site_name),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate response structure
@@ -8364,7 +8710,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{0}. Returning empty DNS configuration.".format(
                         type(dns_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8376,10 +8722,8 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No 'response' key found in API result for site '{0}'. This "
                     "may indicate: (1) Site has no DNS settings configured, "
                     "(2) Site inherits DNS from parent, (3) API response format "
-                    "changed. Returning empty DNS configuration.".format(
-                        site_name
-                    ),
-                    "WARNING"
+                    "changed. Returning empty DNS configuration.".format(site_name),
+                    "WARNING",
                 )
                 return None
 
@@ -8389,14 +8733,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty DNS configuration.".format(
                         type(response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Response data validated successfully, contains {0} top-level "
                 "field(s): {1}".format(len(response), list(response.keys())),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract DNS details
@@ -8409,7 +8753,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "This may indicate: (1) No DNS configured for this site, "
                     "(2) Site inherits DNS from parent site, (3) User lacks "
                     "permissions.".format(site_name, site_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8417,7 +8761,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Invalid dns_details type - expected dict, got {0}. Returning "
                     "None.".format(type(dns_details).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8425,7 +8769,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DNS configuration found with {0} field(s): {1}".format(
                     len(dns_details), list(dns_details.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract and validate domain name
@@ -8434,14 +8778,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "No domain name field found in DNS configuration for site "
                     "'{0}'. Initializing empty domain name.".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 dns_details["domainName"] = ""
             elif not isinstance(domain_name, str):
                 self.log(
                     "Invalid domain name type - expected str, got {0}. Converting "
                     "to string.".format(type(domain_name).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 dns_details["domainName"] = str(domain_name) if domain_name else ""
             else:
@@ -8452,14 +8796,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Found domain name for site '{0}': '{1}'".format(
                             site_name, domain_name
                         ),
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
-                        "Empty domain name configured for site '{0}'".format(
-                            site_name
-                        ),
-                        "DEBUG"
+                        "Empty domain name configured for site '{0}'".format(site_name),
+                        "DEBUG",
                     )
                 dns_details["domainName"] = domain_name
 
@@ -8470,29 +8812,27 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "No DNS servers field found in DNS configuration for site "
                     "'{0}'. Initializing empty server list.".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 dns_details["dnsServers"] = []
             elif not isinstance(dns_servers, list):
                 self.log(
                     "Invalid DNS servers type - expected list, got {0}. "
                     "Converting to list.".format(type(dns_servers).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 # Attempt conversion to list
                 if isinstance(dns_servers, str):
                     dns_details["dnsServers"] = [dns_servers] if dns_servers else []
                     self.log(
-                        "Converted string DNS server '{0}' to list".format(
-                            dns_servers
-                        ),
-                        "DEBUG"
+                        "Converted string DNS server '{0}' to list".format(dns_servers),
+                        "DEBUG",
                     )
                 else:
                     dns_details["dnsServers"] = []
                     self.log(
                         "Could not convert DNS servers to list, using empty list",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 # Validate server count and format
@@ -8502,7 +8842,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Found {0} DNS server(s) for site '{1}': {2}".format(
                             server_count, site_name, dns_servers
                         ),
-                        "INFO"
+                        "INFO",
                     )
                     # Log individual server details with format validation
                     for idx, server in enumerate(dns_servers, start=1):
@@ -8510,10 +8850,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             self.log(
                                 "DNS server {0}/{1} has invalid format: {2} "
                                 "(type: {3})".format(
-                                    idx, server_count, server,
-                                    type(server).__name__
+                                    idx, server_count, server, type(server).__name__
                                 ),
-                                "WARNING"
+                                "WARNING",
                             )
                         else:
                             # Detect IP version for logging
@@ -8528,14 +8867,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "DNS server {0}/{1}: '{2}' ({3})".format(
                                     idx, server_count, server, server_type
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                 else:
                     self.log(
                         "Empty DNS server list for site '{0}' - no DNS servers "
-                        "configured (site may inherit from parent or use defaults)"
-                        .format(site_name),
-                        "DEBUG"
+                        "configured (site may inherit from parent or use defaults)".format(
+                            site_name
+                        ),
+                        "DEBUG",
                     )
 
             # Exit log with summary
@@ -8545,9 +8885,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     site_name,
                     site_id,
                     dns_details.get("domainName", "Not configured"),
-                    len(dns_details.get("dnsServers", []))
+                    len(dns_details.get("dnsServers", [])),
                 ),
-                "INFO"
+                "INFO",
             )
 
             return dns_details
@@ -8578,8 +8918,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting telemetry settings retrieval for site '{0}' (ID: {1}) to "
             "extract NetFlow, SNMP, syslog, and data collection configuration for "
-            "network settings playbook config generator discovery".format(site_name, site_id),
-            "DEBUG"
+            "network settings playbook config generator discovery".format(
+                site_name, site_id
+            ),
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -8588,18 +8930,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "non-empty string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
         if not site_id or not isinstance(site_id, str):
             self.log(
                 "Invalid site_id parameter for telemetry retrieval - expected "
-                "non-empty string (UUID), got {0}. Cannot proceed with API call."
-                .format(
+                "non-empty string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -8607,7 +8948,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Executing API call to retrieve telemetry settings using "
             "network_settings family, retrieve_telemetry_settings_for_a_site "
             "function with site ID: {0}".format(site_id),
-            "INFO"
+            "INFO",
         )
 
         try:
@@ -8621,7 +8962,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "API call completed successfully for site '{0}', processing "
                 "response data".format(site_name),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate response structure
@@ -8631,7 +8972,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty telemetry configuration.".format(
                         type(telemetry_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -8643,9 +8984,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No 'response' key found in API result for site '{0}'. This "
                     "may indicate: (1) Site has no telemetry settings configured, "
                     "(2) Site inherits telemetry from parent, (3) API response "
-                    "format changed. Returning empty telemetry configuration."
-                    .format(site_name),
-                    "WARNING"
+                    "format changed. Returning empty telemetry configuration.".format(
+                        site_name
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -8655,14 +8997,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty telemetry configuration.".format(
                         type(response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Response data validated successfully, contains {0} top-level "
                 "field(s): {1}".format(len(response), list(response.keys())),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate and log telemetry components
@@ -8671,9 +9013,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if not telemetry_details:
                 self.log(
                     "Empty telemetry settings for site '{0}' (ID: {1}). Site may "
-                    "inherit telemetry from parent site or have no configuration."
-                    .format(site_name, site_id),
-                    "WARNING"
+                    "inherit telemetry from parent site or have no configuration.".format(
+                        site_name, site_id
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -8687,8 +9030,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 collector_address = collector.get("address", "")
                 collector_port = collector.get("port", "")
                 collector_type = collector.get("collectorType", "")
-                enabled_wired = app_visibility.get("enableOnWiredAccessDevices",
-                                                   False)
+                enabled_wired = app_visibility.get("enableOnWiredAccessDevices", False)
 
                 if collector_address or collector_type:
                     configured_components.append("applicationVisibility")
@@ -8698,21 +9040,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             collector_address or "Not configured",
                             collector_port or "Not configured",
                             collector_type or "Not configured",
-                            enabled_wired
+                            enabled_wired,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Application Visibility present but no collector configured "
                         "for site '{0}'".format(site_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 self.log(
                     "No Application Visibility (NetFlow) configuration found for "
                     "site '{0}'".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Validate SNMP Traps configuration
@@ -8728,10 +9070,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "got {0}. Converting to list.".format(
                             type(external_servers).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
-                    external_servers = [external_servers] if external_servers \
-                        else []
+                    external_servers = [external_servers] if external_servers else []
                     snmp_traps["externalTrapServers"] = external_servers
 
                 configured_components.append("snmpTraps")
@@ -8740,16 +9081,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "({1}): {2}".format(
                         use_builtin,
                         len(external_servers),
-                        external_servers if external_servers else "None"
+                        external_servers if external_servers else "None",
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "No SNMP Traps configuration found for site '{0}'".format(
                         site_name
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Validate Syslog configuration
@@ -8765,10 +9106,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "{0}. Converting to list.".format(
                             type(external_servers).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
-                    external_servers = [external_servers] if external_servers \
-                        else []
+                    external_servers = [external_servers] if external_servers else []
                     syslogs["externalSyslogServers"] = external_servers
 
                 configured_components.append("syslogs")
@@ -8777,16 +9117,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{2}".format(
                         use_builtin,
                         len(external_servers),
-                        external_servers if external_servers else "None"
+                        external_servers if external_servers else "None",
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
-                    "No Syslog configuration found for site '{0}'".format(
-                        site_name
-                    ),
-                    "DEBUG"
+                    "No Syslog configuration found for site '{0}'".format(site_name),
+                    "DEBUG",
                 )
 
             # Validate Wired Data Collection configuration
@@ -8795,16 +9133,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 enabled = wired_data.get("enableWiredDataCollection", False)
                 configured_components.append("wiredDataCollection")
                 self.log(
-                    "Wired Data Collection configured - Enabled: {0}".format(
-                        enabled
-                    ),
-                    "DEBUG"
+                    "Wired Data Collection configured - Enabled: {0}".format(enabled),
+                    "DEBUG",
                 )
             else:
                 self.log(
-                    "No Wired Data Collection configuration found for site '{0}'"
-                    .format(site_name),
-                    "DEBUG"
+                    "No Wired Data Collection configuration found for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
             # Validate Wireless Telemetry configuration
@@ -8814,13 +9151,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 configured_components.append("wirelessTelemetry")
                 self.log(
                     "Wireless Telemetry configured - Enabled: {0}".format(enabled),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
-                    "No Wireless Telemetry configuration found for site '{0}'"
-                    .format(site_name),
-                    "DEBUG"
+                    "No Wireless Telemetry configuration found for site '{0}'".format(
+                        site_name
+                    ),
+                    "DEBUG",
                 )
 
             # Exit log with summary of configured components
@@ -8830,10 +9168,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     site_name,
                     site_id,
                     len(configured_components),
-                    configured_components if configured_components
-                    else "No components configured"
+                    (
+                        configured_components
+                        if configured_components
+                        else "No components configured"
+                    ),
                 ),
-                "INFO"
+                "INFO",
             )
 
             return telemetry_details
@@ -8942,7 +9283,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting timezone settings retrieval for site '{0}' (ID: {1}) to "
             "extract timezone configuration for network settings playbook config generator "
             "discovery".format(site_name, site_id),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -8951,18 +9292,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "non-empty string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
         if not site_id or not isinstance(site_id, str):
             self.log(
                 "Invalid site_id parameter for timezone retrieval - expected "
-                "non-empty string (UUID), got {0}. Cannot proceed with API call."
-                .format(
+                "non-empty string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -8970,7 +9310,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Executing API call to retrieve timezone settings using "
             "network_settings family, retrieve_time_zone_settings_for_a_site "
             "function with site ID: {0}".format(site_id),
-            "INFO"
+            "INFO",
         )
 
         try:
@@ -8988,7 +9328,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty timezone configuration.".format(
                         type(timezone_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -9000,9 +9340,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No 'response' key found in API result for site '{0}'. This "
                     "may indicate: (1) Site has no timezone settings configured, "
                     "(2) Site inherits timezone from parent, (3) API response "
-                    "format changed. Returning empty timezone configuration."
-                    .format(site_name),
-                    "WARNING"
+                    "format changed. Returning empty timezone configuration.".format(
+                        site_name
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -9012,14 +9353,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty timezone configuration.".format(
                         type(response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Response data validated successfully, contains {0} top-level "
                 "field(s): {1}".format(len(response), list(response.keys())),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract timezone details
@@ -9032,7 +9373,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(ID: {1}). This may indicate: (1) No timezone configured for "
                     "this site, (2) Site inherits timezone from parent site, "
                     "(3) User lacks permissions.".format(site_name, site_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -9040,7 +9381,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Invalid timezone_details type - expected dict, got {0}. "
                     "Returning None.".format(type(timezone_details).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -9048,7 +9389,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Timezone configuration found with {0} field(s): {1}".format(
                     len(timezone_details), list(timezone_details.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract and validate timezone identifier
@@ -9057,22 +9398,19 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if timezone_identifier is None:
                 self.log(
                     "No timezone identifier field found in timezone configuration "
-                    "for site '{0}'. Initializing empty identifier.".format(
-                        site_name
-                    ),
-                    "DEBUG"
+                    "for site '{0}'. Initializing empty identifier.".format(site_name),
+                    "DEBUG",
                 )
                 timezone_details["identifier"] = ""
             elif not isinstance(timezone_identifier, str):
                 self.log(
                     "Invalid timezone identifier type - expected str, got {0}. "
-                    "Converting to string.".format(
-                        type(timezone_identifier).__name__
-                    ),
-                    "WARNING"
+                    "Converting to string.".format(type(timezone_identifier).__name__),
+                    "WARNING",
                 )
-                timezone_details["identifier"] = str(timezone_identifier) if \
-                    timezone_identifier else ""
+                timezone_details["identifier"] = (
+                    str(timezone_identifier) if timezone_identifier else ""
+                )
             else:
                 # Validate timezone identifier format (basic check)
                 timezone_identifier = timezone_identifier.strip()
@@ -9085,17 +9423,19 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Found standard IANA timezone identifier for site "
                             "'{0}': '{1}' (Region: {2}, Location: {3})".format(
-                                site_name, timezone_identifier, parts[0],
-                                parts[1] if len(parts) > 1 else "N/A"
+                                site_name,
+                                timezone_identifier,
+                                parts[0],
+                                parts[1] if len(parts) > 1 else "N/A",
                             ),
-                            "INFO"
+                            "INFO",
                         )
                     elif timezone_identifier.upper() in ["UTC", "GMT"]:
                         # UTC/GMT special case
                         self.log(
                             "Found UTC/GMT timezone identifier for site '{0}': "
                             "'{1}'".format(site_name, timezone_identifier),
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         # Non-standard format (may be valid but unusual)
@@ -9103,13 +9443,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Found non-standard timezone identifier for site "
                             "'{0}': '{1}' (does not follow IANA Continent/City "
                             "format)".format(site_name, timezone_identifier),
-                            "WARNING"
+                            "WARNING",
                         )
                 else:
                     self.log(
-                        "Empty timezone identifier configured for site '{0}'"
-                        .format(site_name),
-                        "DEBUG"
+                        "Empty timezone identifier configured for site '{0}'".format(
+                            site_name
+                        ),
+                        "DEBUG",
                     )
 
                 timezone_details["identifier"] = timezone_identifier
@@ -9120,9 +9461,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "(ID: {1}): Timezone='{2}'".format(
                     site_name,
                     site_id,
-                    timezone_details.get("identifier", "Not configured")
+                    timezone_details.get("identifier", "Not configured"),
                 ),
-                "INFO"
+                "INFO",
             )
 
             return timezone_details
@@ -9154,9 +9495,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Authorization failed while retrieving timezone settings for "
                     "site '{0}' (ID: {1}). User lacks permissions to view "
                     "timezone settings. Required role: NETWORK-ADMIN-ROLE or "
-                    "SUPER-ADMIN-ROLE. Error: {2}".format(
-                        site_name, site_id, str(e)
-                    )
+                    "SUPER-ADMIN-ROLE. Error: {2}".format(site_name, site_id, str(e))
                 )
             elif "not found" in error_str or "404" in error_str:
                 self.msg = (
@@ -9233,7 +9572,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting Message of the Day (banner) settings retrieval for site "
             "'{0}' (ID: {1}) to extract banner configuration for brownfield "
             "network settings discovery".format(site_name, site_id),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not site_name or not isinstance(site_name, str):
@@ -9242,18 +9581,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "non-empty string, got {0}. Cannot proceed with API call.".format(
                     type(site_name).__name__ if site_name else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
         if not site_id or not isinstance(site_id, str):
             self.log(
                 "Invalid site_id parameter for banner retrieval - expected "
-                "non-empty string (UUID), got {0}. Cannot proceed with API call."
-                .format(
+                "non-empty string (UUID), got {0}. Cannot proceed with API call.".format(
                     type(site_id).__name__ if site_id else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return None
 
@@ -9261,7 +9599,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Executing API call to retrieve banner settings using "
             "network_settings family, retrieve_banner_settings_for_a_site "
             "function with site ID: {0}".format(site_id),
-            "INFO"
+            "INFO",
         )
 
         try:
@@ -9278,7 +9616,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty banner configuration.".format(
                         type(banner_response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -9290,9 +9628,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No 'response' key found in API result for site '{0}'. This "
                     "may indicate: (1) Site has no banner settings configured, "
                     "(2) Site inherits banner from parent, (3) API response "
-                    "format changed. Returning empty banner configuration."
-                    .format(site_name),
-                    "WARNING"
+                    "format changed. Returning empty banner configuration.".format(
+                        site_name
+                    ),
+                    "WARNING",
                 )
                 return None
 
@@ -9302,14 +9641,14 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {0}. Returning empty banner configuration.".format(
                         type(response).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Response data validated successfully, contains {0} top-level "
                 "field(s): {1}".format(len(response), list(response.keys())),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract banner details
@@ -9322,7 +9661,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(ID: {1}). This may indicate: (1) No banner configured for "
                     "this site, (2) Site inherits banner from parent site, "
                     "(3) User lacks permissions.".format(site_name, site_id),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
@@ -9332,16 +9671,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{0}. Returning None.".format(
                         type(messageoftheday_details).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 "Banner configuration found with {0} field(s): {1}".format(
-                    len(messageoftheday_details),
-                    list(messageoftheday_details.keys())
+                    len(messageoftheday_details), list(messageoftheday_details.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Extract and validate banner message
@@ -9351,17 +9689,18 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "No banner message field found in banner configuration for "
                     "site '{0}'. Initializing empty message.".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 messageoftheday_details["message"] = ""
             elif not isinstance(banner_message, str):
                 self.log(
                     "Invalid banner message type - expected str, got {0}. "
                     "Converting to string.".format(type(banner_message).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
-                messageoftheday_details["message"] = str(banner_message) if \
-                    banner_message else ""
+                messageoftheday_details["message"] = (
+                    str(banner_message) if banner_message else ""
+                )
             else:
                 # Validate and log banner message details
                 banner_message = banner_message.strip()
@@ -9372,39 +9711,37 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     char_count = len(banner_message)
 
                     # Log banner summary (truncate for readability)
-                    display_message = banner_message[:100] + "..." if \
-                        len(banner_message) > 100 else banner_message
+                    display_message = (
+                        banner_message[:100] + "..."
+                        if len(banner_message) > 100
+                        else banner_message
+                    )
 
                     self.log(
                         "Found banner message for site '{0}': {1} line(s), "
                         "{2} character(s). Preview: '{3}'".format(
                             site_name, line_count, char_count, display_message
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     # Check for common banner patterns
                     if "unauthorized" in banner_message.lower():
                         self.log(
-                            "Banner contains 'unauthorized access' warning",
-                            "DEBUG"
+                            "Banner contains 'unauthorized access' warning", "DEBUG"
                         )
                     if "authorized" in banner_message.lower():
-                        self.log(
-                            "Banner contains 'authorized access' notice",
-                            "DEBUG"
-                        )
+                        self.log("Banner contains 'authorized access' notice", "DEBUG")
                     if "@" in banner_message or "contact" in banner_message.lower():
                         self.log(
-                            "Banner appears to contain contact information",
-                            "DEBUG"
+                            "Banner appears to contain contact information", "DEBUG"
                         )
                 else:
                     self.log(
                         "Empty banner message configured for site '{0}'".format(
                             site_name
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 messageoftheday_details["message"] = banner_message
@@ -9416,43 +9753,39 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "No retainExistingBanner field found in banner configuration "
                     "for site '{0}'. Defaulting to False.".format(site_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 messageoftheday_details["retainExistingBanner"] = False
             elif not isinstance(retain_banner, bool):
                 self.log(
                     "Invalid retainExistingBanner type - expected bool, got {0}. "
                     "Converting to boolean.".format(type(retain_banner).__name__),
-                    "WARNING"
+                    "WARNING",
                 )
                 # Convert to boolean using truthiness
-                messageoftheday_details["retainExistingBanner"] = bool(
-                    retain_banner
-                )
+                messageoftheday_details["retainExistingBanner"] = bool(retain_banner)
             else:
                 self.log(
                     "Retain existing banner flag for site '{0}': {1}".format(
                         site_name, retain_banner
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Exit log with summary
-            message_status = "configured" if \
-                messageoftheday_details.get("message") else "not configured"
-            retain_status = messageoftheday_details.get(
-                "retainExistingBanner", False
+            message_status = (
+                "configured"
+                if messageoftheday_details.get("message")
+                else "not configured"
             )
+            retain_status = messageoftheday_details.get("retainExistingBanner", False)
 
             self.log(
                 "Successfully retrieved banner settings for site '{0}' "
                 "(ID: {1}): Message={2}, RetainExisting={3}".format(
-                    site_name,
-                    site_id,
-                    message_status,
-                    retain_status
+                    site_name, site_id, message_status, retain_status
                 ),
-                "INFO"
+                "INFO",
             )
 
             return messageoftheday_details
@@ -9484,9 +9817,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Authorization failed while retrieving banner settings for "
                     "site '{0}' (ID: {1}). User lacks permissions to view banner "
                     "settings. Required role: NETWORK-ADMIN-ROLE or "
-                    "SUPER-ADMIN-ROLE. Error: {2}".format(
-                        site_name, site_id, str(e)
-                    )
+                    "SUPER-ADMIN-ROLE. Error: {2}".format(site_name, site_id, str(e))
                 )
             elif "not found" in error_str or "404" in error_str:
                 self.msg = (
@@ -9580,7 +9911,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting device controllability settings retrieval from Catalyst Center "
             "to extract global device management configuration for network settings playbook config generator  "
             "settings discovery",
-            "DEBUG"
+            "DEBUG",
         )
         api_family = network_element.get("api_family")
         api_function = network_element.get("api_function")
@@ -9591,7 +9922,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Cannot proceed with API call.".format(
                     type(api_family).__name__ if api_family else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return self._create_default_controllability_result(
                 "Invalid API family parameter"
@@ -9603,7 +9934,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Cannot proceed with API call.".format(
                     type(api_function).__name__ if api_function else "None"
                 ),
-                "ERROR"
+                "ERROR",
             )
             return self._create_default_controllability_result(
                 "Invalid API function parameter"
@@ -9611,9 +9942,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Executing API call to retrieve device controllability settings using "
-            "family '{0}', function '{1}' (global settings - no site filtering)"
-            .format(api_family, api_function),
-            "INFO"
+            "family '{0}', function '{1}' (global settings - no site filtering)".format(
+                api_family, api_function
+            ),
+            "INFO",
         )
 
         self.log(
@@ -9628,18 +9960,27 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             params = {}
 
             # Execute API call
-            device_controllability_response = self.execute_get_with_pagination(api_family, api_function, params)
-            self.log(f"Retrieved device controllability response: {device_controllability_response}", "DEBUG")
+            device_controllability_response = self.execute_get_with_pagination(
+                api_family, api_function, params
+            )
+            self.log(
+                f"Retrieved device controllability response: {device_controllability_response}",
+                "DEBUG",
+            )
 
             actual_data = {}
 
             # ✅ Handle different possible formats from API
             if isinstance(device_controllability_response, dict):
                 # Normal API response
-                actual_data = device_controllability_response.get("response", device_controllability_response)
+                actual_data = device_controllability_response.get(
+                    "response", device_controllability_response
+                )
 
             elif isinstance(device_controllability_response, list):
-                if device_controllability_response and isinstance(device_controllability_response[0], dict):
+                if device_controllability_response and isinstance(
+                    device_controllability_response[0], dict
+                ):
                     # Handle list of dicts
                     first_item = device_controllability_response[0]
                     actual_data = first_item.get("response", first_item)
@@ -9652,7 +9993,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     # reconstruct a safe fallback structure
                     actual_data = {
                         "deviceControllability": True,
-                        "autocorrectTelemetryConfig": False
+                        "autocorrectTelemetryConfig": False,
                     }
                 else:
                     self.log(
@@ -9669,43 +10010,63 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # ✅ Create entry from extracted data
             if actual_data:
                 settings_entry = {
-                    "deviceControllability": actual_data.get("deviceControllability", False),
-                    "autocorrectTelemetryConfig": actual_data.get("autocorrectTelemetryConfig", False)
+                    "deviceControllability": actual_data.get(
+                        "deviceControllability", False
+                    ),
+                    "autocorrectTelemetryConfig": actual_data.get(
+                        "autocorrectTelemetryConfig", False
+                    ),
                 }
                 device_controllability_settings.append(settings_entry)
-                self.log(f"Created device controllability entry: {settings_entry}", "DEBUG")
+                self.log(
+                    f"Created device controllability entry: {settings_entry}", "DEBUG"
+                )
 
             # ✅ If no response or empty data, create default
             if not device_controllability_settings:
-                self.log("No device controllability settings found in API response, creating default entry", "INFO")
+                self.log(
+                    "No device controllability settings found in API response, creating default entry",
+                    "INFO",
+                )
                 settings_entry = {
                     "deviceControllability": True,
-                    "autocorrectTelemetryConfig": False
+                    "autocorrectTelemetryConfig": False,
                 }
                 device_controllability_settings.append(settings_entry)
 
             # Track success
-            self.add_success("Global", "device_controllability_details", {
-                "settings_processed": len(device_controllability_settings)
-            })
+            self.add_success(
+                "Global",
+                "device_controllability_details",
+                {"settings_processed": len(device_controllability_settings)},
+            )
 
-            self.log(f"Successfully processed {len(device_controllability_settings)} device controllability settings", "INFO")
+            self.log(
+                f"Successfully processed {len(device_controllability_settings)} device controllability settings",
+                "INFO",
+            )
 
         except Exception as e:
-            self.log(f"Error retrieving device controllability settings: {str(e)}", "ERROR")
+            self.log(
+                f"Error retrieving device controllability settings: {str(e)}", "ERROR"
+            )
 
             # Create default entry even on error to ensure output
             settings_entry = {
                 "deviceControllability": True,
-                "autocorrectTelemetryConfig": False
+                "autocorrectTelemetryConfig": False,
             }
             device_controllability_settings.append(settings_entry)
 
-            self.add_failure("Global", "device_controllability_details", {
-                "error_type": "api_error",
-                "error_message": str(e),
-                "error_code": "API_CALL_FAILED"
-            })
+            self.add_failure(
+                "Global",
+                "device_controllability_details",
+                {
+                    "error_type": "api_error",
+                    "error_message": str(e),
+                    "error_code": "API_CALL_FAILED",
+                },
+            )
 
         # Apply reverse mapping for consistency
         reverse_mapping_function = network_element.get("reverse_mapping_function")
@@ -9715,30 +10076,33 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Using raw settings without transformation.".format(
                     type(reverse_mapping_function).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             settings_details = device_controllability_settings
         else:
             reverse_mapping_spec = reverse_mapping_function()
 
             self.log(
-                "Applying reverse mapping specification with {0} field mappings"
-                .format(len(reverse_mapping_spec) if reverse_mapping_spec else 0),
-                "DEBUG"
+                "Applying reverse mapping specification with {0} field mappings".format(
+                    len(reverse_mapping_spec) if reverse_mapping_spec else 0
+                ),
+                "DEBUG",
             )
 
             settings_details = self.modify_network_parameters(
-                reverse_mapping_spec,
-                device_controllability_settings
+                reverse_mapping_spec, device_controllability_settings
             )
 
             self.log(
-                "Successfully transformed {0} device controllability settings: {1}"
-                .format(len(settings_details), settings_details),
-                "INFO"
+                "Successfully transformed {0} device controllability settings: {1}".format(
+                    len(settings_details), settings_details
+                ),
+                "INFO",
             )
 
-        settings_details = self.modify_network_parameters(reverse_mapping_spec, device_controllability_settings)
+        settings_details = self.modify_network_parameters(
+            reverse_mapping_spec, device_controllability_settings
+        )
 
         self.log(
             f"Successfully transformed {len(settings_details)} device controllability settings: {settings_details}",
@@ -9749,12 +10113,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         device_controllability_dict = settings_details[0] if settings_details else {}
         self.log(
             "Successfully retrieved device controllability settings: "
-            "device_controllability={0}, autocorrect_telemetry_config={1}"
-            .format(
+            "device_controllability={0}, autocorrect_telemetry_config={1}".format(
                 device_controllability_dict.get("device_controllability", "Not set"),
-                device_controllability_dict.get("autocorrect_telemetry_config", "Not set")
+                device_controllability_dict.get(
+                    "autocorrect_telemetry_config", "Not set"
+                ),
             ),
-            "INFO"
+            "INFO",
         )
 
         return {
@@ -9829,7 +10194,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting YAML playbook configuration generation workflow for module "
             "'{0}' to extract network settings from Catalyst Center and create "
             "Ansible-compatible playbook file".format(self.module_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         auto_discovery_mode = self.params.get("config") is None
@@ -9837,13 +10202,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Auto-discovery mode enabled - workflow will retrieve ALL network settings "
                 "from ALL supported components",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "Component-filter mode - workflow will process requested "
                 "components based on component_specific_filters",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Determine output file path
@@ -9853,34 +10218,37 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No file_path parameter provided by user, generating default filename "
                 "with timestamp for uniqueness",
-                "DEBUG"
+                "DEBUG",
             )
             file_path = self.generate_filename()
-            self.log(
-                "Auto-generated file path: {0}".format(file_path),
-                "INFO"
-            )
+            self.log("Auto-generated file path: {0}".format(file_path), "INFO")
         else:
             self.log(
                 "Using user-provided file path for YAML output: {0}".format(file_path),
-                "DEBUG"
+                "DEBUG",
             )
 
         file_mode = self.params.get("file_mode", "overwrite")
 
         self.log(
-            "YAML configuration file path determined: {0}, file_mode: {1}".format(file_path, file_mode),
-            "DEBUG"
+            "YAML configuration file path determined: {0}, file_mode: {1}".format(
+                file_path, file_mode
+            ),
+            "DEBUG",
         )
 
         if auto_discovery_mode:
             component_specific_filters = {}
         else:
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
         global_filters = {}
 
         # Get supported network elements
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
         if not module_supported_network_elements:
             error_msg = "No network elements defined in module schema, cannot process any components"
             self.log(error_msg, "CRITICAL")
@@ -9888,15 +10256,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.module_name
             )
             additional_info = {"error": error_msg}
-            self.set_operation_result("failed", False, self.msg, "CRITICAL", additional_info)
+            self.set_operation_result(
+                "failed", False, self.msg, "CRITICAL", additional_info
+            )
             return self
 
         self.log(
             "Module supports {0} network element type(s): {1}".format(
                 len(module_supported_network_elements),
-                list(module_supported_network_elements.keys())
+                list(module_supported_network_elements.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         # Determine which components to process.
         # For config-driven mode, if components_list is omitted, infer from provided
@@ -9909,7 +10279,8 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Auto-include components when their filter blocks are provided,
         # even if they are missing from components_list.
         inferred_components = [
-            key for key, value in component_specific_filters.items()
+            key
+            for key, value in component_specific_filters.items()
             if key != "components_list" and value not in (None, {}, [])
         ]
         if inferred_components:
@@ -9920,7 +10291,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Auto-included component(s) from filter blocks into components_list: {0}".format(
                     inferred_components
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validate components_list
@@ -9930,7 +10301,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Defaulting to all supported components.".format(
                     type(components_list).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             components_list = list(module_supported_network_elements.keys())
 
@@ -9941,12 +10312,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Will process {0} component(s) in this workflow: {1}".format(
                 len(components_list), components_list
             ),
-            "INFO"
+            "INFO",
         )
 
         # Validate each component is supported
         unsupported_components = [
-            comp for comp in components_list
+            comp
+            for comp in components_list
             if comp not in module_supported_network_elements
         ]
 
@@ -9956,20 +10328,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Supported components: {2}".format(
                     len(unsupported_components),
                     unsupported_components,
-                    list(module_supported_network_elements.keys())
+                    list(module_supported_network_elements.keys()),
                 ),
-                "WARNING"
+                "WARNING",
             )
             # Remove unsupported components
             components_list = [
-                comp for comp in components_list
+                comp
+                for comp in components_list
                 if comp in module_supported_network_elements
             ]
             self.log(
                 "After removing unsupported components, will process {0} component(s): {1}".format(
                     len(components_list), components_list
                 ),
-                "INFO"
+                "INFO",
             )
 
         if not components_list:
@@ -9986,8 +10359,8 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "total_sites_processed": 0,
                     "total_components_processed": 0,
                     "total_successful_operations": 0,
-                    "total_failed_operations": 0
-                }
+                    "total_failed_operations": 0,
+                },
             }
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
@@ -9995,7 +10368,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Reset operation tracking for clean state
         self.log(
             "Resetting operation tracking variables for new YAML generation workflow",
-            "DEBUG"
+            "DEBUG",
         )
         self.reset_operation_tracking()
 
@@ -10009,13 +10382,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "sites_with_partial_success": [],
             "sites_with_complete_failure": [],
             "success_details": [],
-            "failure_details": []
+            "failure_details": [],
         }
         self.log(
             "Beginning component processing loop - will iterate through {0} component(s)".format(
                 len(components_list)
             ),
-            "INFO"
+            "INFO",
         )
 
         for component_index, component in enumerate(components_list, start=1):
@@ -10023,7 +10396,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing component {0}/{1}: '{2}'".format(
                     component_index, len(components_list), component
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Get component configuration from module schema
@@ -10033,13 +10406,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Component '{0}' not found in module schema (should not happen after "
                     "validation). Skipping this component.".format(component),
-                    "ERROR"
+                    "ERROR",
                 )
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": "Component not found in module schema"
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {
+                        "component": component,
+                        "error": "Component not found in module schema",
+                    }
+                )
                 continue
 
             # Validate network element has required fields
@@ -10049,13 +10424,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "dict, got {1}. Skipping this component.".format(
                         component, type(network_element).__name__
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": "Invalid network element configuration"
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {
+                        "component": component,
+                        "error": "Invalid network element configuration",
+                    }
+                )
                 continue
 
             # Get component operation function
@@ -10065,28 +10442,31 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Component '{0}' has invalid or missing get_function_name (expected "
                     "callable, got {1}). Skipping this component.".format(
-                        component, type(operation_func).__name__ if operation_func else "None"
+                        component,
+                        type(operation_func).__name__ if operation_func else "None",
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": "Missing or invalid retrieval function"
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {
+                        "component": component,
+                        "error": "Missing or invalid retrieval function",
+                    }
+                )
                 continue
 
             # Prepare component filters
             component_filters = {
                 "global_filters": global_filters,
-                "component_specific_filters": component_specific_filters
+                "component_specific_filters": component_specific_filters,
             }
 
             self.log(
                 "Executing retrieval function for component '{0}' with filters: {1}".format(
                     component, component_filters
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Execute component operation function
@@ -10097,7 +10477,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Component '{0}' retrieval function completed, processing results".format(
                         component
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             except Exception as e:
                 error_msg = "Exception during component '{0}' retrieval: {1}".format(
@@ -10105,10 +10485,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
                 self.log(error_msg, "ERROR")
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": error_msg
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {"component": component, "error": error_msg}
+                )
                 continue
 
             # Validate details structure
@@ -10118,13 +10497,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {1}). Skipping this component.".format(
                         component, type(details).__name__ if details else "None"
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": "Invalid details structure returned"
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {
+                        "component": component,
+                        "error": "Invalid details structure returned",
+                    }
+                )
                 continue
 
             # Check if component key exists in details
@@ -10132,13 +10513,15 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Component '{0}' key not found in returned details. Available keys: {1}. "
                     "Skipping this component.".format(component, list(details.keys())),
-                    "WARNING"
+                    "WARNING",
                 )
                 consolidated_operation_summary["total_failed_operations"] += 1
-                consolidated_operation_summary["failure_details"].append({
-                    "component": component,
-                    "error": "Component key not found in response"
-                })
+                consolidated_operation_summary["failure_details"].append(
+                    {
+                        "component": component,
+                        "error": "Component key not found in response",
+                    }
+                )
                 continue
 
             component_details = details[component]
@@ -10147,8 +10530,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if self.is_component_data_empty(component_details):
                 self.log(
                     "Component '{0}' returned no data — no matching configurations found "
-                    "in Catalyst Center for the given filters. Skipping this component.".format(component),
-                    "WARNING"
+                    "in Catalyst Center for the given filters. Skipping this component.".format(
+                        component
+                    ),
+                    "WARNING",
                 )
                 continue
 
@@ -10157,21 +10542,23 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Component '{0}' returned list with {1} item(s)".format(
                         component, len(component_details)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             elif isinstance(component_details, dict):
                 self.log(
                     "Component '{0}' returned dict with {1} key(s): {2}".format(
-                        component, len(component_details), list(component_details.keys())
+                        component,
+                        len(component_details),
+                        list(component_details.keys()),
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
                     "Component '{0}' returned unexpected type: {1}".format(
                         component, type(component_details).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
             # Add component details to final list (preserve structure, exclude operation_summary)
@@ -10186,7 +10573,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Successfully added component '{0}' to final configuration list "
                 "(total entries now: {1})".format(component, len(final_list)),
-                "INFO"
+                "INFO",
             )
 
             # Consolidate operation summary from component
@@ -10198,21 +10585,21 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "successful={1}, failed={2}".format(
                         component,
                         summary.get("total_successful_operations", 0),
-                        summary.get("total_failed_operations", 0)
+                        summary.get("total_failed_operations", 0),
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Increment component processed counter
                 consolidated_operation_summary["total_components_processed"] += 1
 
                 # Aggregate success/failure counts
-                consolidated_operation_summary["total_successful_operations"] += summary.get(
-                    "total_successful_operations", 0
-                )
-                consolidated_operation_summary["total_failed_operations"] += summary.get(
-                    "total_failed_operations", 0
-                )
+                consolidated_operation_summary[
+                    "total_successful_operations"
+                ] += summary.get("total_successful_operations", 0)
+                consolidated_operation_summary[
+                    "total_failed_operations"
+                ] += summary.get("total_failed_operations", 0)
 
                 # Merge success/failure details lists
                 if summary.get("success_details"):
@@ -10227,38 +10614,67 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                 # Track unique sites (avoid duplicates across components)
                 for site in summary.get("sites_with_complete_success", []):
-                    if site not in consolidated_operation_summary["sites_with_complete_success"]:
-                        consolidated_operation_summary["sites_with_complete_success"].append(site)
+                    if (
+                        site
+                        not in consolidated_operation_summary[
+                            "sites_with_complete_success"
+                        ]
+                    ):
+                        consolidated_operation_summary[
+                            "sites_with_complete_success"
+                        ].append(site)
 
                 for site in summary.get("sites_with_partial_success", []):
-                    if site not in consolidated_operation_summary["sites_with_partial_success"]:
-                        consolidated_operation_summary["sites_with_partial_success"].append(site)
+                    if (
+                        site
+                        not in consolidated_operation_summary[
+                            "sites_with_partial_success"
+                        ]
+                    ):
+                        consolidated_operation_summary[
+                            "sites_with_partial_success"
+                        ].append(site)
 
                 for site in summary.get("sites_with_complete_failure", []):
-                    if site not in consolidated_operation_summary["sites_with_complete_failure"]:
-                        consolidated_operation_summary["sites_with_complete_failure"].append(site)
+                    if (
+                        site
+                        not in consolidated_operation_summary[
+                            "sites_with_complete_failure"
+                        ]
+                    ):
+                        consolidated_operation_summary[
+                            "sites_with_complete_failure"
+                        ].append(site)
             else:
                 self.log(
                     "Component '{0}' did not provide operation_summary in response".format(
                         component
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
         # Calculate total unique sites processed
         all_sites = set(
-            consolidated_operation_summary["sites_with_complete_success"] +
-            consolidated_operation_summary["sites_with_partial_success"] +
-            consolidated_operation_summary["sites_with_complete_failure"]
+            consolidated_operation_summary["sites_with_complete_success"]
+            + consolidated_operation_summary["sites_with_partial_success"]
+            + consolidated_operation_summary["sites_with_complete_failure"]
         )
         consolidated_operation_summary["total_sites_processed"] = len(all_sites)
 
         # Build slim summary with only totals for msg/response output
         slim_operation_summary = {
-            "total_sites_processed": consolidated_operation_summary["total_sites_processed"],
-            "total_components_processed": consolidated_operation_summary["total_components_processed"],
-            "total_successful_operations": consolidated_operation_summary["total_successful_operations"],
-            "total_failed_operations": consolidated_operation_summary["total_failed_operations"]
+            "total_sites_processed": consolidated_operation_summary[
+                "total_sites_processed"
+            ],
+            "total_components_processed": consolidated_operation_summary[
+                "total_components_processed"
+            ],
+            "total_successful_operations": consolidated_operation_summary[
+                "total_successful_operations"
+            ],
+            "total_failed_operations": consolidated_operation_summary[
+                "total_failed_operations"
+            ],
         }
 
         self.log(
@@ -10266,9 +10682,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "generated {1} configuration entry/entries, tracked {2} unique site(s)".format(
                 consolidated_operation_summary["total_components_processed"],
                 len(final_list),
-                consolidated_operation_summary["total_sites_processed"]
+                consolidated_operation_summary["total_sites_processed"],
             ),
-            "INFO"
+            "INFO",
         )
 
         # Check if any configurations were generated
@@ -10277,7 +10693,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No configurations generated after processing all components. This may indicate: "
                 "(1) All components returned empty results, (2) All component retrievals failed, "
                 "(3) Filters excluded all available configurations",
-                "WARNING"
+                "WARNING",
             )
 
             self.msg = (
@@ -10287,7 +10703,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             additional_info = {
                 "status": "ok",
                 "message": self.msg,
-                "operation_summary": slim_operation_summary
+                "operation_summary": slim_operation_summary,
             }
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
@@ -10297,7 +10713,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Creating final YAML structure with {0} configuration entry/entries".format(
                 len(final_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         # Create final dictionary
         final_dict = OrderedDict()
@@ -10311,15 +10727,17 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             additional_info = {
                 "status": "ok",
                 "message": self.msg,
-                "operation_summary": slim_operation_summary
+                "operation_summary": slim_operation_summary,
             }
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Write to YAML file
         self.log(
-            "Attempting to write final YAML configuration to file: {0}".format(file_path),
-            "INFO"
+            "Attempting to write final YAML configuration to file: {0}".format(
+                file_path
+            ),
+            "INFO",
         )
 
         write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
@@ -10330,9 +10748,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "({1} configuration entries, {2} bytes)".format(
                     file_path,
                     len(final_list),
-                    "size unknown"  # Could add file size check here
+                    "size unknown",  # Could add file size check here
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Exit log with success summary
@@ -10344,9 +10762,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     len(final_list),
                     consolidated_operation_summary["total_components_processed"],
                     consolidated_operation_summary["total_sites_processed"],
-                    file_path
+                    file_path,
                 ),
-                "INFO"
+                "INFO",
             )
 
             self.msg = "YAML config generation succeeded for module '{0}'.".format(
@@ -10357,9 +10775,11 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "message": self.msg,
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
-                "operation_summary": slim_operation_summary
+                "operation_summary": slim_operation_summary,
             }
-            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
+            self.set_operation_result(
+                "success", True, self.msg, "INFO", additional_info
+            )
         else:
             # write_dict_to_yaml returns False when the existing file content is
             # identical to the newly generated content (idempotent - no write needed).
@@ -10367,7 +10787,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "YAML configuration file '{0}' content is identical to newly generated "
                 "content. Skipping write (idempotent).".format(file_path),
-                "INFO"
+                "INFO",
             )
 
             self.msg = (
@@ -10379,7 +10799,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "message": self.msg,
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
-                "operation_summary": slim_operation_summary
+                "operation_summary": slim_operation_summary,
             }
             self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
 
@@ -10413,7 +10833,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting network settings playbook config generator gathering workflow for state 'gathered' "
             "to extract existing configurations from Cisco Catalyst Center and generate "
             "Ansible-compatible YAML playbooks",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Record workflow start time for performance tracking
@@ -10423,28 +10843,29 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Workflow execution started at timestamp: {0}".format(
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_start_time))
             ),
-            "INFO"
+            "INFO",
         )
 
         # Define operations registry for this workflow state
         # Each tuple contains: (param_key, operation_name, operation_func)
         operations = [
-            ("yaml_config_generator", "YAML Configuration Generator", self.yaml_config_generator)
+            (
+                "yaml_config_generator",
+                "YAML Configuration Generator",
+                self.yaml_config_generator,
+            )
         ]
 
         self.log(
             "Registered {0} operation(s) for execution in 'gathered' workflow: {1}".format(
-                len(operations),
-                [op[1] for op in operations]
+                len(operations), [op[1] for op in operations]
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate operations registry
         if not operations:
-            error_msg = (
-                "Operations registry is empty for state 'gathered' - no operations to execute"
-            )
+            error_msg = "Operations registry is empty for state 'gathered' - no operations to execute"
             self.log(error_msg, "ERROR")
             self.msg = error_msg
             self.status = "failed"
@@ -10457,7 +10878,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_failed = 0
 
         # Execute each operation in sequence
-        for operation_index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
+        for operation_index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
             operations_attempted += 1
 
             self.log(
@@ -10465,7 +10888,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "in workflow state)".format(
                     operation_index, len(operations), operation_name, param_key
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Validate operation function is callable
@@ -10473,8 +10896,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 error_msg = (
                     "Operation {0}/{1} '{2}' has invalid function reference (expected "
                     "callable, got {3}). Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_func).__name__ if operation_func else "None"
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        type(operation_func).__name__ if operation_func else "None",
                     )
                 )
                 self.log(error_msg, "ERROR")
@@ -10490,7 +10915,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(parameter key '{3}' not found or empty). Skipping operation.".format(
                         operation_index, len(operations), operation_name, param_key
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 operations_skipped += 1
                 continue
@@ -10500,10 +10925,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Operation {0}/{1} '{2}' has invalid parameters structure - "
                     "expected dict, got {3}. Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_params).__name__
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        type(operation_params).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 operations_skipped += 1
                 continue
@@ -10511,10 +10938,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Operation {0}/{1} '{2}' parameters found in workflow state with "
                 "{3} configuration key(s): {4}. Starting operation execution.".format(
-                    operation_index, len(operations), operation_name,
-                    len(operation_params), list(operation_params.keys())
+                    operation_index,
+                    len(operations),
+                    operation_name,
+                    len(operation_params),
+                    list(operation_params.keys()),
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Record operation start time
@@ -10524,7 +10954,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Executing operation '{0}' with parameters: {1}".format(
                     operation_name, operation_params
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             try:
@@ -10537,7 +10967,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Operation '{0}' completed but returned None result".format(
                             operation_name
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
 
                 # Check operation status via check_return_status()
@@ -10550,9 +10980,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                 self.log(
                     "Operation {0}/{1} '{2}' completed successfully in {3:.2f} seconds".format(
-                        operation_index, len(operations), operation_name, operation_duration
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        operation_duration,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 operations_executed += 1
@@ -10562,11 +10995,12 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 operation_end_time = time.time()
                 operation_duration = operation_end_time - operation_start_time
 
-                error_msg = (
-                    "Operation {0}/{1} '{2}' failed after {3:.2f} seconds with error: {4}".format(
-                        operation_index, len(operations), operation_name,
-                        operation_duration, str(e)
-                    )
+                error_msg = "Operation {0}/{1} '{2}' failed after {3:.2f} seconds with error: {4}".format(
+                    operation_index,
+                    len(operations),
+                    operation_name,
+                    operation_duration,
+                    str(e),
                 )
                 self.log(error_msg, "ERROR")
 
@@ -10593,10 +11027,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Brownfield network settings gathering workflow completed. "
             "Execution summary: attempted={0}, executed={1}, skipped={2}, failed={3}, "
             "total_duration={4:.2f} seconds".format(
-                operations_attempted, operations_executed, operations_skipped,
-                operations_failed, workflow_duration
+                operations_attempted,
+                operations_executed,
+                operations_skipped,
+                operations_failed,
+                workflow_duration,
             ),
-            "INFO"
+            "INFO",
         )
 
         # Determine overall workflow success
@@ -10604,7 +11041,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No operations were executed - all operations were skipped or had invalid "
                 "configurations. Workflow completed with warnings.",
-                "WARNING"
+                "WARNING",
             )
             self.msg = (
                 "Workflow completed but no operations were executed. "
@@ -10613,8 +11050,10 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.status = "ok"
         elif operations_failed > 0:
             self.log(
-                "Workflow completed with {0} operation failure(s)".format(operations_failed),
-                "ERROR"
+                "Workflow completed with {0} operation failure(s)".format(
+                    operations_failed
+                ),
+                "ERROR",
             )
             self.status = "failed"
         else:
@@ -10622,7 +11061,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "All {0} operation(s) executed successfully without errors".format(
                     operations_executed
                 ),
-                "INFO"
+                "INFO",
             )
             # Note: Individual operation may have already set status to "success"
             # We preserve that status if it was set
@@ -10634,9 +11073,9 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_end_time)),
                 workflow_duration,
-                self.status
+                self.status,
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -10758,7 +11197,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -10777,11 +11215,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -10810,7 +11244,6 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
@@ -10828,24 +11261,17 @@ def main():
             "required": False,
             "type": "dict",
         },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the NetworkSettingsPlaybookGenerator object
@@ -10856,7 +11282,7 @@ def main():
     ccc_network_settings_playbook_generator.log(
         "Starting Ansible module execution for network settings playbook config generator "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_network_settings_playbook_generator.log(
@@ -10869,9 +11295,9 @@ def main():
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
-            len(module.params.get("config") or {})
+            len(module.params.get("config") or {}),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -10882,11 +11308,15 @@ def main():
         "meets minimum requirement of 2.3.7.9 for network settings APIs".format(
             ccc_network_settings_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_network_settings_playbook_generator.compare_catalystcenter_versions(
-            ccc_network_settings_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
+    if (
+        ccc_network_settings_playbook_generator.compare_catalystcenter_versions(
+            ccc_network_settings_playbook_generator.get_ccc_version(), "2.3.7.9"
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -10900,8 +11330,7 @@ def main():
         )
 
         ccc_network_settings_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_network_settings_playbook_generator.msg = error_msg
@@ -10914,7 +11343,7 @@ def main():
         "all required network settings APIs".format(
             ccc_network_settings_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -10926,7 +11355,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_network_settings_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_network_settings_playbook_generator.supported_states:
@@ -10938,8 +11367,7 @@ def main():
         )
 
         ccc_network_settings_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_network_settings_playbook_generator.status = "invalid"
@@ -10950,7 +11378,7 @@ def main():
         "State validation passed - using state '{0}' for workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -10958,7 +11386,7 @@ def main():
     # ============================================
     ccc_network_settings_playbook_generator.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_network_settings_playbook_generator.validate_input().check_return_status()
@@ -10966,7 +11394,7 @@ def main():
     ccc_network_settings_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -10975,19 +11403,19 @@ def main():
     config = ccc_network_settings_playbook_generator.validated_config
 
     ccc_network_settings_playbook_generator.log(
-        "Processing configuration for state '{0}'".format(state),
-        "INFO"
+        "Processing configuration for state '{0}'".format(state), "INFO"
     )
 
     ccc_network_settings_playbook_generator.get_want(
         config, state
     ).check_return_status()
 
-    ccc_network_settings_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_network_settings_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     ccc_network_settings_playbook_generator.log(
-        "Successfully completed processing configuration",
-        "INFO"
+        "Successfully completed processing configuration", "INFO"
     )
 
     # ============================================
@@ -10997,8 +11425,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_network_settings_playbook_generator.log(
@@ -11006,9 +11433,9 @@ def main():
         "time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_network_settings_playbook_generator.status
+            ccc_network_settings_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
@@ -11017,7 +11444,7 @@ def main():
         "Exiting Ansible module with result: {0}".format(
             ccc_network_settings_playbook_generator.result
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_network_settings_playbook_generator.result)

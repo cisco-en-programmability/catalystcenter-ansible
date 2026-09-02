@@ -11,16 +11,16 @@ short_description: Resource module for Sda Transit Networks Delete
 description:
   - Manage operation delete of the resource Sda Transit Networks Delete.
   - Deletes a transit network based on id.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the transit network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA DeleteTransitNetworkById

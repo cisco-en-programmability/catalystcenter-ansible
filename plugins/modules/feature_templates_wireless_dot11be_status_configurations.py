@@ -10,19 +10,19 @@ module: feature_templates_wireless_dot11be_status_configurations
 short_description: Resource module for Feature Templates Wireless Dot11be Status Configurations
 description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Dot11be Status Configurations.
-  - This API allows users to create a Dot11be status configuration feature template.
+  - This API allows users to create a Dot11be status configuration feature.
   - This API allows users to delete a specific Dot11be status configuration feature template by ID.
-  - This API allows users to update the details of a specific Dot11be status configuration feature template by ID.
-version_added: '6.18.0'
+  - This API allows users to update the details of a specific Dot11be status.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   designName:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Dot11be Status Configurations's featureAttributes.
+    description: Dot11be Status Configuration Feature Attributes.
     suboptions:
       dot11beStatus:
         description: Dot11be Status is supported only on Cisco IOS-XE based Wireless Controllers running 17.15.1 and above.
@@ -40,7 +40,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateDot11beStatusConfigurationFeatureTemplate
@@ -65,22 +65,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_dot11be_status_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      dot11beStatus: true
-      radioBand: string
-    unlockedAttributes:
-      - string
 - name: Delete by id
   cisco.catalystcenter.feature_templates_wireless_dot11be_status_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -107,6 +91,22 @@ EXAMPLES = r"""
       dot11beStatus: true
       radioBand: string
     id: string
+    unlockedAttributes:
+      - string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_dot11be_status_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      dot11beStatus: true
+      radioBand: string
     unlockedAttributes:
       - string
 """

@@ -9,34 +9,32 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_trend_analytics
 short_description: Resource module for Site Kpi Summaries Trend Analytics
 description:
-  - Manage operation create of the resource Site Kpi Summaries Trend Analytics. - > Submits the task to get site analytics
-    trend data for a given site. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    SiteKpiSummaries-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Site Kpi Summaries Trend Analytics.
+  - Submits the task to get site analytics trend data for a given site. For.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Attributes.
+    description: Site Kpi Summaries Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Site Kpi Summaries Trend Analytics's endTime.
     type: int
   filters:
     description: Site Kpi Summaries Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Site Kpi Summaries Trend Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Site Kpi Summaries Trend Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Site Kpi Summaries Trend Analytics's value.
         type: str
     type: list
   headers:
@@ -46,23 +44,23 @@ options:
     description: Site Kpi Summaries Trend Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Site Kpi Summaries Trend Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Site Kpi Summaries Trend Analytics's offset.
         type: int
       timestampOrder:
-        description: Timestamp Order.
+        description: Site Kpi Summaries Trend Analytics's timestampOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Site Kpi Summaries Trend Analytics's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Site Kpi Summaries Trend Analytics's trendInterval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites SubmitRequestForSiteAnalyticsTrendData

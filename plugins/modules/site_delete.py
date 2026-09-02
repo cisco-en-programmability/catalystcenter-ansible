@@ -11,16 +11,16 @@ short_description: Resource module for Site Delete
 description:
   - Manage operation delete of the resource Site Delete.
   - Delete site with area/building/floor by siteId.
-version_added: '6.46.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   siteId:
     description: SiteId path parameter. Site id to which site details to be deleted.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites DeleteSite
@@ -44,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    siteId: string
+    siteId: application/json
 """
 RETURN = r"""
 catalystcenter_response:

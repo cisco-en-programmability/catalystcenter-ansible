@@ -9,30 +9,28 @@ DOCUMENTATION = r"""
 module: dns_services_query_count
 short_description: Resource module for Dns Services Query Count
 description:
-  - Manage operation create of the resource Dns Services Query Count. - > Retrieves the total number of DNS Services and offers
-    complex filtering and sorting capabilities. For detailed information about the usage of the API, please refer to the Open
-    API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DNSServices-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Dns Services Query Count.
+  - Retrieves the total number of DNS Services and offers complex filtering and.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Dns Services Query Count's endTime.
     type: int
   filters:
     description: Dns Services Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Dns Services Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Dns Services Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Dns Services Query Count's value.
         elements: str
         type: list
     type: list
@@ -40,10 +38,10 @@ options:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Dns Services Query Count's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrievesTheTotalNumberOfDNSServicesForGivenSetOfComplexFilters
@@ -51,7 +49,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_n_s_services_for_given_set_of_complex_filters,
+    devices.Devices.retrieves_the_total_number_of_dns_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dnsServices/query/count,
 """

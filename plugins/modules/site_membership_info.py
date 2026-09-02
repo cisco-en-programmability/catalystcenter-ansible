@@ -11,10 +11,10 @@ short_description: Information module for Site Membership
 description:
   - Get Site Membership by id.
   - Getting the site children details and device details.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - SerialNumber query parameter. Device serial number.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites GetMembership
@@ -67,9 +67,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
-    deviceFamily: string
-    serialNumber: string
-    siteId: string
+    deviceFamily: application/json
+    serialNumber: application/json
+    siteId: application/json
   register: result
 """
 RETURN = r"""

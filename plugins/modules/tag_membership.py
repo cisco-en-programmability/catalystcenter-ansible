@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Tag Membership. - > Update tag membership. As part of the request payload through
     this API, only the specified members are added / retained to the given input tags. Possible values of memberType attribute
     in the request payload can be queried by using the /tag/member/type API.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   memberToTags:
     description: Tag Membership's memberToTags.
@@ -29,7 +29,7 @@ options:
     description: Tag Membership's memberType.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Tag UpdateTagMembership
@@ -67,7 +67,7 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }

@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for SD-Access Fabric Transits Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -17,7 +18,7 @@ description:
 - Generates YAML configurations compatible with the C(sda_fabric_transits_workflow_manager)
   module, reducing the effort required to manually create Ansible playbooks and
   enabling programmatic modifications.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -104,7 +105,7 @@ options:
                 - SDA_LISP_BGP_TRANSIT
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -375,17 +376,14 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -429,7 +427,10 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                     - "get_function_name": Reference to the internal function used to retrieve the component data.
         """
 
-        self.log("Building workflow filters schema for sda fabric transits networks module", "DEBUG")
+        self.log(
+            "Building workflow filters schema for sda fabric transits networks module",
+            "DEBUG",
+        )
 
         schema = {
             "network_elements": {
@@ -441,9 +442,9 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                             "choices": [
                                 "IP_BASED_TRANSIT",
                                 "SDA_LISP_PUB_SUB_TRANSIT",
-                                "SDA_LISP_BGP_TRANSIT"
-                            ]
-                        }
+                                "SDA_LISP_BGP_TRANSIT",
+                            ],
+                        },
                     },
                     "reverse_mapping_function": self.fabric_transit_temp_spec,
                     "api_function": "get_transit_networks",
@@ -536,15 +537,17 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
         """
 
         self.log(
-            "Starting site name transformation for given site id: {0}"
-            .format(transit_details.get("siteId", "Unknown")), "DEBUG"
+            "Starting site name transformation for given site id: {0}".format(
+                transit_details.get("siteId", "Unknown")
+            ),
+            "DEBUG",
         )
 
         site_id = transit_details.get("siteId")
         if not site_id:
             self.log(
                 "No site ID found in transits details: {0}".format(transit_details),
-                "DEBUG"
+                "DEBUG",
             )
             return site_id
 
@@ -558,8 +561,8 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
 
         self.log(
             "Completed site name transformation for site id: {0}. "
-            "Transformed site name: {1}". format(site_id, site_hierarchy_name),
-            "DEBUG"
+            "Transformed site name: {1}".format(site_id, site_hierarchy_name),
+            "DEBUG",
         )
 
         return site_hierarchy_name
@@ -577,23 +580,29 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
         """
 
         self.log(
-            "Starting control plane device ip(s) transformation for given control plane device id(s): {0}"
-            .format(sda_transit_settings.get("controlPlaneNetworkDeviceIds", "Unknown")),
-            "DEBUG"
+            "Starting control plane device ip(s) transformation for given control plane device id(s): {0}".format(
+                sda_transit_settings.get("controlPlaneNetworkDeviceIds", "Unknown")
+            ),
+            "DEBUG",
         )
 
-        control_plane_device_ids = sda_transit_settings.get("controlPlaneNetworkDeviceIds")
+        control_plane_device_ids = sda_transit_settings.get(
+            "controlPlaneNetworkDeviceIds"
+        )
         if not control_plane_device_ids:
             self.log(
-                "No Control Plane Device IDs found in transits settings details: {0}".format(sda_transit_settings),
-                "DEBUG"
+                "No Control Plane Device IDs found in transits settings details: {0}".format(
+                    sda_transit_settings
+                ),
+                "DEBUG",
             )
             return control_plane_device_ids
 
         self.log(
-            "Processing {0} control plane devices for device id(s): {1}"
-            .format(len(control_plane_device_ids), control_plane_device_ids),
-            "DEBUG"
+            "Processing {0} control plane devices for device id(s): {1}".format(
+                len(control_plane_device_ids), control_plane_device_ids
+            ),
+            "DEBUG",
         )
 
         if not control_plane_device_ids:
@@ -619,7 +628,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                 "Transformed device ip {0} for device id: {1}".format(
                     device_ip, device_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             device_ips.append(device_ip)
 
@@ -628,9 +637,10 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
             "DEBUG",
         )
         self.log(
-            "Completed control plane device IPs transformation. Transformed device IP(s): {0}"
-            .format(device_ips),
-            "DEBUG"
+            "Completed control plane device IPs transformation. Transformed device IP(s): {0}".format(
+                device_ips
+            ),
+            "DEBUG",
         )
 
         return sorted(device_ips) if device_ips else []
@@ -662,8 +672,10 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {"fabric_transits": []}
 
@@ -683,7 +695,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                 "Started Processing {0} filter(s) for fabric transits retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -697,13 +709,15 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for fabric transits: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for fabric transits: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
                     "Fetching fabric transits with parameters: {0}".format(params),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 fabric_transit_details = self.execute_get_with_pagination(
@@ -721,7 +735,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                 else:
                     self.log(
                         "No fabric transits found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 params.clear()
 
@@ -729,7 +743,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                 "Completed Processing {0} filter(s) for fabric transits retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         else:
@@ -742,8 +756,9 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
             if fabric_transit_details:
                 final_fabric_transits.extend(fabric_transit_details)
                 self.log(
-                    "Retrieved {0} fabric transit(s) from Catalyst Center"
-                    .format(len(fabric_transit_details)),
+                    "Retrieved {0} fabric transit(s) from Catalyst Center".format(
+                        len(fabric_transit_details)
+                    ),
                     "DEBUG",
                 )
             else:
@@ -754,7 +769,7 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
             "Transforming {0} fabric transit(s) using fabric_transit temp spec".format(
                 len(final_fabric_transits)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         fabric_transit_temp_spec = self.fabric_transit_temp_spec()
         transit_details = self.modify_parameters(
@@ -798,7 +813,10 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -822,17 +840,20 @@ class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHel
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -859,20 +880,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {
@@ -887,9 +960,7 @@ def main():
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    config_generator = SdaFabricTransitsPlaybookConfigGenerator(
-        module
-    )
+    config_generator = SdaFabricTransitsPlaybookConfigGenerator(module)
     if (
         config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(), "2.3.7.9"
@@ -912,21 +983,15 @@ def main():
     # Check if the state is valid
     if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = "State {0} is invalid".format(
-            state
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()
 
     config = config_generator.validated_config
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

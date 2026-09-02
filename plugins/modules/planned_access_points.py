@@ -19,13 +19,13 @@ description:
     including its planned radio and antenna details. Use the Get variant of this API to fetch the existing planned access
     points for the floor. The payload to update a planned access point is in the same format, albeit a single object instead
     of a list, of that API.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Planned Access Points's attributes.
+    description: Attributes of the planned access point.
     suboptions:
       createDate:
         description: Created date of the planned access point.
@@ -62,7 +62,7 @@ options:
     description: Indicates that PAP is a sensor.
     type: bool
   location:
-    description: Planned Access Points's location.
+    description: Location of the planned access point.
     suboptions:
       altitude:
         description: Altitude of the planned access point's location.
@@ -78,7 +78,7 @@ options:
     description: PlannedAccessPointUuid path parameter. The instance UUID of the planned access point to delete.
     type: str
   position:
-    description: Planned Access Points's position.
+    description: Position of the planned access point.
     suboptions:
       x:
         description: X-coordinate of the planned access point on the map, 0,0 point being the top-left corner.
@@ -94,11 +94,11 @@ options:
     description: Number of radios of the planned access point.
     type: int
   radios:
-    description: Planned Access Points's radios.
+    description: Radios of the planned access point.
     elements: dict
     suboptions:
       antenna:
-        description: Planned Access Points's antenna.
+        description: Antenna of the radio.
         suboptions:
           azimuthAngle:
             description: Azimuth angle of the antenna.
@@ -120,7 +120,7 @@ options:
             type: str
         type: dict
       attributes:
-        description: Planned Access Points's attributes.
+        description: Attributes of the radios.
         suboptions:
           channel:
             description: Channel in which this radio operates.
@@ -155,7 +155,7 @@ options:
         type: bool
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CreatePlannedAccessPointForFloor
@@ -180,7 +180,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update all
   cisco.catalystcenter.planned_access_points:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -230,7 +230,7 @@ EXAMPLES = r"""
           slotId: 0
           txPowerLevel: 0
         isSensor: true
-- name: Update all
+- name: Create
   cisco.catalystcenter.planned_access_points:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -302,7 +302,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

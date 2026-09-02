@@ -9,39 +9,36 @@ DOCUMENTATION = r"""
 module: assurance_events_query
 short_description: Resource module for Assurance Events Query
 description:
-  - Manage operation create of the resource Assurance Events Query. - > Returns the list of events discovered by Catalyst
-    Center, determined by the complex filters. Please refer to the 'API Support Documentation' section to understand which
-    fields are supported. For detailed information about the usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceEvents-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Assurance Events Query.
+  - Returns the list of events discovered by Catalyst Center, determined by the.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Attributes.
+    description: Assurance Events Query's attributes.
     elements: str
     type: list
   deviceFamily:
-    description: Device Family.
+    description: Assurance Events Query's deviceFamily.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Assurance Events Query's endTime.
     type: int
   filters:
     description: Assurance Events Query's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Assurance Events Query's key.
         type: str
       operator:
-        description: Operator.
+        description: Assurance Events Query's operator.
         type: str
       value:
-        description: Value.
+        description: Assurance Events Query's value.
         type: str
     type: list
   headers:
@@ -51,32 +48,32 @@ options:
     description: Assurance Events Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Assurance Events Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Assurance Events Query's offset.
         type: int
       sortBy:
         description: Assurance Events Query's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Assurance Events Query's name.
             type: str
           order:
-            description: Order.
+            description: Assurance Events Query's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Assurance Events Query's startTime.
     type: int
   views:
-    description: Views.
+    description: Assurance Events Query's views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices QueryAssuranceEventsWithFilters

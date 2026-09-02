@@ -11,10 +11,10 @@ short_description: Resource module for Business Sda Wireless Controller Create
 description:
   - Manage operation create of the resource Business Sda Wireless Controller Create.
   - Add WLC to Fabric Domain.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceName:
     description: WLC Device Name.
@@ -26,7 +26,7 @@ options:
     description: Fabric Site Name Hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless AddWLCToFabricDomain
@@ -34,10 +34,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain,
+    fabric_wireless.FabricWireless.add_wlc_to_fabric_domain,
   - Paths used are
     post /dna/intent/api/v1/business/sda/wireless-controller,
-    - Removed 'deviceIPAddress' options in v4.3.0.
 """
 
 EXAMPLES = r"""

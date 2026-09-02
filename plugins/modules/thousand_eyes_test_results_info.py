@@ -11,10 +11,10 @@ short_description: Information module for Thousand Eyes Test Results
 description:
   - Get all Thousand Eyes Test Results. - > Retrieves the list of ThousandEyes test results along with related metrics. If
     `startTime` and `endTime` are not provided, the API defaults to the last 24 hours.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -97,7 +97,7 @@ options:
       - Order query parameter. The sort order of the field ascending or descending.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Applications RetrievesTheListOfThousandEyesTestResultsAlongWithRelatedMetrics
@@ -131,8 +131,8 @@ EXAMPLES = r"""
     agentId: string
     networkDeviceName: string
     attribute: string
-    limit: 0
-    offset: 0
+    limit: 100
+    offset: 1
     sortBy: string
     order: string
   register: result

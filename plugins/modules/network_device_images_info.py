@@ -10,21 +10,35 @@ module: network_device_images_info
 short_description: Information module for Network Device Images
 description:
   - Get all Network Device Images.
-  - Get Network Device Images by id. - > The API retrieves information about running images and golden image bundle, if they
-    are available for the network device. It also provides network device update status and image update status related to
-    the golden image bundle and the compatible features supported by the network device. Network device with `networkDeviceImageStatus`
-    set as `OUTDATED` is considered ready for update based on the golden image bundle. - > This API retrieves information
-    about running images and golden image bundle, if they are available for network devices. It also provides network device
-    update status and image update status related to the golden image bundle and the compatible features supported by the
-    network devices.
-version_added: '6.18.0'
+  - Get Network Device Images by id.
+  - The API retrieves information about running images and golden image bundle, if.
+  - This API retrieves information about running images and golden image bundle,.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  siteId:
+    description:
+      - >
+        SiteId query parameter. SiteId to which network devices are assigned. See https
+        //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
+    type: str
+  role:
+    description:
+      - Role query parameter. Role assigned to the network device.
+    type: str
+  productName:
+    description:
+      - ProductName query parameter. Filter with network device product name. Supports partial case-insensitive search.
+    type: str
+  productId:
+    description:
+      - ProductId query parameter. Filter with product ID (PID).
+    type: str
   managementAddress:
     description:
       - ManagementAddress query parameter. IP address or DNS name used to access and manage network devices.
@@ -72,7 +86,7 @@ options:
       - Id path parameter. Network device identifier.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) FetchNetworkDeviceWithImageDetails
@@ -102,13 +116,17 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    siteId: string
+    role: DISTRIBUTION
+    productName: string
+    productId: string
     managementAddress: string
     networkDeviceImageStatus: string
     networkDeviceUpdateStatus: string
-    sortBy: string
-    order: string
-    offset: 0
-    limit: 0
+    sortBy: id
+    order: asc
+    offset: 1
+    limit: 500
   register: result
 - name: Get Network Device Images by id
   cisco.catalystcenter.network_device_images_info:
@@ -130,50 +148,66 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
+      "response": {
+        "id": "string",
+        "managementAddress": "string",
+        "networkDevice": {
           "id": "string",
-          "managementAddress": "string",
-          "networkDevice": {
+          "productNameOrdinal": 0,
+          "productName": "string",
+          "supervisorProductName": "string",
+          "supervisorProductNameOrdinal": 0
+        },
+        "networkDeviceImageStatus": "string",
+        "networkDeviceUpdateStatus": "string",
+        "networkDeviceImageCompatibilityStatus": "string",
+        "goldenImages": [
+          {
             "id": "string",
-            "productNameOrdinal": 0,
-            "productName": "string",
-            "supervisorProductName": "string",
-            "supervisorProductNameOrdinal": 0
-          },
-          "networkDeviceImageStatus": "string",
-          "networkDeviceUpdateStatus": "string",
-          "goldenImages": [
-            {
-              "id": "string",
-              "name": "string",
-              "version": "string",
-              "imageType": "string",
-              "goldenTaggingDetails": {
-                "deviceRoles": "string",
-                "deviceTags": "string",
-                "siteId": "string",
-                "siteName": "string",
-                "isInherited": true
+            "name": "string",
+            "version": "string",
+            "imageType": "string",
+            "goldenTaggingDetails": {
+              "deviceRoles": "string",
+              "deviceTags": "string",
+              "siteId": "string",
+              "siteName": "string",
+              "isInherited": true,
+              "nameHierarchy": "string"
+            }
+          }
+        ],
+        "installedImages": [
+          {
+            "id": "string",
+            "name": "string",
+            "version": "string",
+            "imageType": "string"
+          }
+        ],
+        "incompatibleAppDetails": [
+          {
+            "appName": "string",
+            "incompatibleWith": [
+              "string"
+            ],
+            "compatibleImages": [
+              {
+                "imageName": "string",
+                "imageVersion": "string",
+                "imageType": "string",
+                "recommended": true
               }
-            }
-          ],
-          "installedImages": [
-            {
-              "id": "string",
-              "name": "string",
-              "version": "string",
-              "imageType": "string"
-            }
-          ],
-          "compatibleFeatures": [
-            {
-              "key": "string",
-              "value": "string"
-            }
-          ]
-        }
-      ],
+            ]
+          }
+        ],
+        "compatibleFeatures": [
+          {
+            "key": "string",
+            "value": "string"
+          }
+        ]
+      },
       "version": "string"
     }
 """

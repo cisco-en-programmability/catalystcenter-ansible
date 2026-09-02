@@ -11,10 +11,10 @@ short_description: Resource module for Command Runner Run Command
 description:
   - Manage operation create of the resource Command Runner Run Command.
   - Submit request for read-only CLIs.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   commands:
     description: Commands to be executed.
@@ -34,7 +34,7 @@ options:
     description: The timeout value in unit of second. If no timeout provided wait till 300sec.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration

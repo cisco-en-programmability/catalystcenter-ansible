@@ -11,10 +11,10 @@ short_description: Information module for Accesspoint Configuration Details By T
 description:
   - Get Accesspoint Configuration Details By Task Id by id.
   - Users can query the access point configuration result using this intent API.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Task_id path parameter. Task id information of ap config.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAccessPointConfigurationTaskResult

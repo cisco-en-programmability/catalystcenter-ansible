@@ -11,19 +11,19 @@ short_description: Resource module for Pnp Server Profile Update
 description:
   - Manage operation update of the resource Pnp Server Profile Update. - > Updates the PnP Server profile in a registered
     Virtual Account in the PnP database. The response payload returns the updated smart & virtual account info.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   ccoUser:
-    description: Cco User.
+    description: Pnp Server Profile Update's ccoUser.
     type: str
   profile:
     description: Pnp Server Profile Update's profile.
     suboptions:
       addressFqdn:
-        description: Address Fqdn.
+        description: Pnp Server Profile Update's addressFqdn.
         type: str
       addressIpV4:
         description: Required when cluster is configured with IPv4.
@@ -32,32 +32,32 @@ options:
         description: Required when cluster is configured with IPv6.
         type: str
       cert:
-        description: Cert.
+        description: Pnp Server Profile Update's cert.
         type: str
       makeDefault:
-        description: Make Default.
+        description: MakeDefault flag.
         type: bool
       name:
-        description: Name.
+        description: Pnp Server Profile Update's name.
         type: str
       port:
-        description: Port.
+        description: Pnp Server Profile Update's port.
         type: float
       profileId:
-        description: Profile Id.
+        description: Pnp Server Profile Update's profileId.
         type: str
       proxy:
-        description: Proxy.
+        description: Proxy flag.
         type: bool
     type: dict
   smartAccountId:
-    description: Smart Account Id.
+    description: Pnp Server Profile Update's smartAccountId.
     type: str
   virtualAccountId:
-    description: Virtual Account Id.
+    description: Pnp Server Profile Update's virtualAccountId.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) UpdatePnPServerProfile

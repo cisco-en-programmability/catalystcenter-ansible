@@ -11,10 +11,10 @@ short_description: Information module for Device Health
 description:
   - Get all Device Health. - > Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards
     or creating additional value added services.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -25,11 +25,11 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. Catalyst Center site UUID.
+      - SiteId query parameter. DNAC site UUID.
     type: str
   health:
     description:
-      - Health query parameter. Catalyst Center health catagory POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
@@ -48,7 +48,7 @@ options:
       - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices Devices
@@ -78,8 +78,8 @@ EXAMPLES = r"""
     health: string
     startTime: 0
     endTime: 0
-    limit: 0
-    offset: 0
+    limit: 50
+    offset: 1
   register: result
 """
 RETURN = r"""
@@ -161,7 +161,7 @@ catalystcenter_response:
           "interDeviceLinkAvailFabric": 0,
           "apCount": 0,
           "freeTimerScore": 0,
-          "freeTimer": 0,
+          "freeTimer": "string",
           "packetPoolHealth": 0,
           "packetPool": 0,
           "freeMemoryBufferHealth": 0,

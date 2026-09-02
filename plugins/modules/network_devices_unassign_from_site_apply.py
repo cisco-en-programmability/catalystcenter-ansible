@@ -12,17 +12,17 @@ description:
   - Manage operation create of the resource Network Devices Unassign From Site Apply. - > Unassign unprovisioned network devices
     from their site. If device controllability is enabled, it will be triggered once device unassigned from site successfully.
     Device Controllability can be enabled/disabled using `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIds:
     description: Network device Ids, ranging from a minimum of 1 to a maximum of 100.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design UnassignNetworkDevicesFromSites
@@ -58,7 +58,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

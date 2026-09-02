@@ -10,29 +10,29 @@ module: interfaces_query
 short_description: Resource module for Interfaces Query
 description:
   - Manage operation create of the resource Interfaces Query.
-  - Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation functions.
-version_added: '6.15.0'
+  - Gets the list of interfaces across the Network Devices based on the provided.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Interfaces Query's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Interfaces Query's function.
         type: str
       name:
-        description: Name.
+        description: Interfaces Query's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Interfaces Query's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Interfaces Query's endTime.
     type: int
   filters:
     description: Interfaces Query's filters.
@@ -43,30 +43,30 @@ options:
         elements: dict
         suboptions:
           filters:
-            description: Filters.
+            description: Interfaces Query's filters.
             elements: str
             type: list
           key:
-            description: Key.
+            description: Interfaces Query's key.
             type: str
           logicalOperator:
-            description: Logical Operator.
+            description: Interfaces Query's logicalOperator.
             type: str
           operator:
-            description: Operator.
+            description: Interfaces Query's operator.
             type: str
           value:
             description: Interfaces Query's value.
             type: dict
         type: list
       key:
-        description: Key.
+        description: Interfaces Query's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Interfaces Query's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Interfaces Query's operator.
         type: str
       value:
         description: Interfaces Query's value.
@@ -76,40 +76,42 @@ options:
     description: Interfaces Query's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Interfaces Query's limit.
         type: int
       offset:
-        description: Offset.
+        description: Interfaces Query's offset.
         type: int
       sortBy:
         description: Interfaces Query's sortBy.
         elements: dict
         suboptions:
           name:
-            description: Name.
+            description: Interfaces Query's name.
             type: str
           order:
-            description: Order.
+            description: Interfaces Query's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Interfaces Query's startTime.
     type: int
   views:
-    description: Views.
+    description: Interfaces Query's views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetInterfacesQuery
-    description: Complete reference of the GetInterfacesQuery API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-query
+  - name: Cisco Catalyst Center documentation for Devices GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+    description: Complete reference of the GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+      API.
+    link: "https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggre\
+        gation-functions"
 notes:
   - SDK Method used are
-    devices.Devices.get_interfaces_query,
+    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions,
   - Paths used are
     post /dna/data/api/v1/interfaces/query,
 """

@@ -25,44 +25,85 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_virtual_networks_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_fabric_virtual_networks_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
 class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
 
     module = sda_fabric_virtual_networks_playbook_config_generator
-    test_data = loadPlaybookData("sda_fabric_virtual_networks_playbook_config_generator")
+    test_data = loadPlaybookData(
+        "sda_fabric_virtual_networks_playbook_config_generator"
+    )
 
     # Load all playbook configurations
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_fabric_vlan_by_vlan_name_single = test_data.get("playbook_config_fabric_vlan_by_vlan_name_single")
-    playbook_config_fabric_vlan_by_vlan_name_multiple = test_data.get("playbook_config_fabric_vlan_by_vlan_name_multiple")
-    playbook_config_fabric_vlan_by_vlan_id_single = test_data.get("playbook_config_fabric_vlan_by_vlan_id_single")
-    playbook_config_fabric_vlan_by_vlan_id_multiple = test_data.get("playbook_config_fabric_vlan_by_vlan_id_multiple")
-    playbook_config_fabric_vlan_by_vlan_name_and_id = test_data.get("playbook_config_fabric_vlan_by_vlan_name_and_id")
-    playbook_config_virtual_networks_by_vn_name_single = test_data.get("playbook_config_virtual_networks_by_vn_name_single")
-    playbook_config_virtual_networks_by_vn_name_multiple = test_data.get("playbook_config_virtual_networks_by_vn_name_multiple")
-    playbook_config_anycast_gateways_by_vn_name = test_data.get("playbook_config_anycast_gateways_by_vn_name")
-    playbook_config_anycast_gateways_by_ip_pool_name = test_data.get("playbook_config_anycast_gateways_by_ip_pool_name")
-    playbook_config_anycast_gateways_by_vlan_id = test_data.get("playbook_config_anycast_gateways_by_vlan_id")
-    playbook_config_anycast_gateways_by_vlan_name = test_data.get("playbook_config_anycast_gateways_by_vlan_name")
-    playbook_config_anycast_gateways_by_vlan_name_and_id = test_data.get("playbook_config_anycast_gateways_by_vlan_name_and_id")
-    playbook_config_anycast_gateways_all_filters = test_data.get("playbook_config_anycast_gateways_all_filters")
-    playbook_config_multiple_components = test_data.get("playbook_config_multiple_components")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_fabric_vlan_by_vlan_name_single = test_data.get(
+        "playbook_config_fabric_vlan_by_vlan_name_single"
+    )
+    playbook_config_fabric_vlan_by_vlan_name_multiple = test_data.get(
+        "playbook_config_fabric_vlan_by_vlan_name_multiple"
+    )
+    playbook_config_fabric_vlan_by_vlan_id_single = test_data.get(
+        "playbook_config_fabric_vlan_by_vlan_id_single"
+    )
+    playbook_config_fabric_vlan_by_vlan_id_multiple = test_data.get(
+        "playbook_config_fabric_vlan_by_vlan_id_multiple"
+    )
+    playbook_config_fabric_vlan_by_vlan_name_and_id = test_data.get(
+        "playbook_config_fabric_vlan_by_vlan_name_and_id"
+    )
+    playbook_config_virtual_networks_by_vn_name_single = test_data.get(
+        "playbook_config_virtual_networks_by_vn_name_single"
+    )
+    playbook_config_virtual_networks_by_vn_name_multiple = test_data.get(
+        "playbook_config_virtual_networks_by_vn_name_multiple"
+    )
+    playbook_config_anycast_gateways_by_vn_name = test_data.get(
+        "playbook_config_anycast_gateways_by_vn_name"
+    )
+    playbook_config_anycast_gateways_by_ip_pool_name = test_data.get(
+        "playbook_config_anycast_gateways_by_ip_pool_name"
+    )
+    playbook_config_anycast_gateways_by_vlan_id = test_data.get(
+        "playbook_config_anycast_gateways_by_vlan_id"
+    )
+    playbook_config_anycast_gateways_by_vlan_name = test_data.get(
+        "playbook_config_anycast_gateways_by_vlan_name"
+    )
+    playbook_config_anycast_gateways_by_vlan_name_and_id = test_data.get(
+        "playbook_config_anycast_gateways_by_vlan_name_and_id"
+    )
+    playbook_config_anycast_gateways_all_filters = test_data.get(
+        "playbook_config_anycast_gateways_all_filters"
+    )
+    playbook_config_multiple_components = test_data.get(
+        "playbook_config_multiple_components"
+    )
     playbook_config_all_components = test_data.get("playbook_config_all_components")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
-    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
-    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
+    playbook_config_invalid_component = test_data.get(
+        "playbook_config_invalid_component"
+    )
+    playbook_config_invalid_component_filters = test_data.get(
+        "playbook_config_invalid_component_filters"
+    )
 
     def setUp(self):
         super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
@@ -155,35 +196,35 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_by_ip_pool_name" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_by_vlan_id" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_by_vlan_name" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_by_vlan_name_and_id" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "anycast_gateways_all_filters" in self._testMethodName:
@@ -204,7 +245,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "all_components" in self._testMethodName:
@@ -222,7 +263,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
-                self.test_data.get("get_fabric_site_details")
+                self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "empty_config" in self._testMethodName:
@@ -241,9 +282,11 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             # No side effects needed - validation happens before API calls
             pass
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_generate_all_configurations(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for fabric virtual networks playbook config generator when generating all configurations.
 
@@ -261,15 +304,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_configurations
+                config=self.playbook_config_generate_all_configurations,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for a single fabric VLAN by VLAN name.
 
@@ -286,15 +334,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_name_single
+                config=self.playbook_config_fabric_vlan_by_vlan_name_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for multiple fabric VLANs by VLAN names.
 
@@ -311,15 +364,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_name_multiple
+                config=self.playbook_config_fabric_vlan_by_vlan_name_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for a single fabric VLAN by VLAN ID.
 
@@ -336,15 +394,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_id_single
+                config=self.playbook_config_fabric_vlan_by_vlan_id_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_id_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for multiple fabric VLANs by VLAN IDs.
 
@@ -361,15 +424,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_id_multiple
+                config=self.playbook_config_fabric_vlan_by_vlan_id_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_and_id(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_fabric_vlan_by_vlan_name_and_id(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for fabric VLANs by both VLAN name and ID.
 
@@ -386,15 +454,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_vlan_by_vlan_name_and_id
+                config=self.playbook_config_fabric_vlan_by_vlan_name_and_id,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for a single virtual network by VN name.
 
@@ -411,15 +484,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_virtual_networks_by_vn_name_single
+                config=self.playbook_config_virtual_networks_by_vn_name_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_virtual_networks_by_vn_name_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for multiple virtual networks by VN names.
 
@@ -436,15 +514,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_virtual_networks_by_vn_name_multiple
+                config=self.playbook_config_virtual_networks_by_vn_name_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vn_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vn_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways by VN name.
 
@@ -461,15 +544,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_by_vn_name
+                config=self.playbook_config_anycast_gateways_by_vn_name,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_ip_pool_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_ip_pool_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways by IP pool name.
 
@@ -486,15 +574,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_by_ip_pool_name
+                config=self.playbook_config_anycast_gateways_by_ip_pool_name,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_id(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_id(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN ID.
 
@@ -511,15 +604,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_by_vlan_id
+                config=self.playbook_config_anycast_gateways_by_vlan_id,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN name.
 
@@ -536,15 +634,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_by_vlan_name
+                config=self.playbook_config_anycast_gateways_by_vlan_name,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name_and_id(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_by_vlan_name_and_id(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways by VLAN name and ID.
 
@@ -561,15 +664,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_by_vlan_name_and_id
+                config=self.playbook_config_anycast_gateways_by_vlan_name_and_id,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_all_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_anycast_gateways_all_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for anycast gateways with all filters.
 
@@ -586,15 +694,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_anycast_gateways_all_filters
+                config=self.playbook_config_anycast_gateways_all_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_multiple_components(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_multiple_components(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for multiple component types.
 
@@ -611,15 +724,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_multiple_components
+                config=self.playbook_config_multiple_components,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_all_components(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_all_components(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for all components.
 
@@ -636,15 +754,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_all_components
+                config=self.playbook_config_all_components,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with empty component filters.
 
@@ -661,15 +784,20 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_filters
+                config=self.playbook_config_empty_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_config(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_config(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty configuration dictionary.
 
@@ -686,7 +814,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_config
+                config=self.playbook_config_empty_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -695,9 +823,11 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_component_specific_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_empty_component_specific_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty component_specific_filters dictionary.
 
@@ -714,7 +844,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_component_specific_filters
+                config=self.playbook_config_empty_component_specific_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -723,9 +853,11 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid component in configuration.
 
@@ -742,15 +874,19 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component
+                config=self.playbook_config_invalid_component,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Invalid network components provided for module", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_virtual_networks_playbook_config_generator_invalid_component_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid component filters in configuration.
 
@@ -767,7 +903,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component_filters
+                config=self.playbook_config_invalid_component_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)

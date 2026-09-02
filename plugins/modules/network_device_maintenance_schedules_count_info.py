@@ -11,10 +11,10 @@ short_description: Information module for Network Device Maintenance Schedules C
 description:
   - Get all Network Device Maintenance Schedules Count.
   - Retrieve the total count of all scheduled maintenance windows for network devices.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -22,15 +22,20 @@ options:
   networkDeviceIds:
     description:
       - NetworkDeviceIds query parameter. List of network device ids.
-    type: str
+    elements: str
+    type: list
   status:
     description:
       - >
-        Status query parameter. The status of the maintenance schedule. Possible values are UPCOMING,
-        IN_PROGRESS, COMPLETED, FAILED. Refer features for more details.
+        Status query parameter. The status of the maintenance schedule. Possible values are - `UPCOMING` The
+        maintenance is scheduled and pending execution. - `IN_PROGRESS` The maintenance is currently in
+        progress. - `COMPLETED` The maintenance window has been fully completed (For recurring maintenance, this
+        indicates completion of the most recent occurrence). - `FAILED` Updating the device's management state
+        was not successful. For more information on failure use `GET /dna/intent/api/v1/activities/{id}` API
+        with `startId` and `endId` value.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrieveTheTotalNumberOfScheduledMaintenanceWindows
@@ -55,7 +60,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    networkDeviceIds: string
+    networkDeviceIds: []
     status: string
   register: result
 """

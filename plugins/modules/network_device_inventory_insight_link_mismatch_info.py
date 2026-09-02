@@ -11,10 +11,10 @@ short_description: Information module for Network Device Inventory Insight Link 
 description:
   - Get all Network Device Inventory Insight Link Mismatch.
   - Find all devices with link mismatch speed / vlan .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -44,7 +44,7 @@ options:
       - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices InventoryInsightDeviceLinkMismatchAPI
@@ -69,11 +69,11 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     category: string
-    sortBy: string
-    order: string
+    sortBy: startDeviceHostName
+    order: asc
     siteId: string
   register: result
 """

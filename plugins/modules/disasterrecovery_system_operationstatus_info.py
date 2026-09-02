@@ -11,16 +11,16 @@ short_description: Information module for Disasterrecovery System Operationstatu
 description:
   - Get all Disasterrecovery System Operationstatus.
   - Returns the status of Disaster Recovery operation performed on the system.
-version_added: '6.16.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - SDK Method used are

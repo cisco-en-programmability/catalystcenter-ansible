@@ -15,16 +15,16 @@ description:
     "cisco-av-pair" and for RADIUS servers it will be "Cisco- AVPair". - > Delete the custom AAA attribute that was added.
     Note that by deleting the AAA attribute, a default AAA attribute will be used for authentication based on the protocol
     supported by your server. For TACACS servers it will be "cisco-av-pair" and for RADIUS servers it will be "Cisco-AVPair".
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributeName:
     description: Name of the custom AAA attribute.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for User and Roles AddAndUpdateAAAAttributeAPI
@@ -35,8 +35,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.add_and_update_aaa_attribute_api,
-    userand_roles.UserandRoles.delete_aaa_attribute_api,
+    user_and_roles.UserAndRoles.add_and_update_aaa_attribute_api,
+    user_and_roles.UserAndRoles.delete_aaa_attribute_api,
   - Paths used are
     post /dna/system/api/v1/users/external-servers/aaa-attribute,
     delete /dna/system/api/v1/users/external-servers/aaa-attribute,
@@ -44,16 +44,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.users_external_servers_aaa_attribute:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
 - name: Create
   cisco.catalystcenter.users_external_servers_aaa_attribute:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -65,6 +55,16 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     attributeName: string
+- name: Delete all
+  cisco.catalystcenter.users_external_servers_aaa_attribute:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
 """
 RETURN = r"""
 catalystcenter_response:

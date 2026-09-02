@@ -11,10 +11,10 @@ short_description: Information module for Reserve Ip Subpool
 description:
   - Get all Reserve Ip Subpool.
   - API to get the ip subpool info.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -50,7 +50,7 @@ options:
       - GroupName query parameter. Name of the group.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings GetReserveIPSubpool
@@ -75,12 +75,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
+    siteId: application/json
     offset: 0
     limit: 0
     ignoreInheritedGroups: true
-    poolUsage: string
-    groupName: string
+    poolUsage: application/json
+    groupName: application/json
   register: result
 """
 RETURN = r"""
@@ -98,7 +98,7 @@ catalystcenter_response:
             {
               "ipPoolName": "string",
               "dhcpServerIps": [
-                "string"
+                {}
               ],
               "gateways": [
                 "string"
@@ -116,7 +116,7 @@ catalystcenter_response:
               "clientOptions": {},
               "groupUuid": "string",
               "dnsServerIps": [
-                "string"
+                {}
               ],
               "context": [
                 {

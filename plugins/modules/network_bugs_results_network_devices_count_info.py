@@ -11,10 +11,10 @@ short_description: Information module for Network Bugs Results Network Devices C
 description:
   - Get all Network Bugs Results Network Devices Count.
   - Get count of network bug devices.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - BugCount query parameter. Return network devices with bugCount greater than this bugCount.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetCountOfNetworkBugDevices

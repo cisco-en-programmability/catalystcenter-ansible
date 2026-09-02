@@ -11,16 +11,16 @@ short_description: Information module for Network Device Custom Prompt
 description:
   - Get all Network Device Custom Prompt.
   - Returns supported custom prompts by Catalyst Center.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings CustomPromptSupportGETAPI

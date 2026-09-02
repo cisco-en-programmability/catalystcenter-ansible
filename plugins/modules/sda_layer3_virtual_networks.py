@@ -13,17 +13,17 @@ description:
   - Adds layer 3 virtual networks based on user input.
   - Deletes layer 3 virtual networks based on user input.
   - Updates layer 3 virtual networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sda Layer3 Virtual Networks's payload.
     elements: dict
     suboptions:
       anchoredSiteId:
-        description: Fabric ID of the fabric site this layer 3 virtual network is to be anchored at.
+        description: ID of the fabric site this layer 3 virtual network is to be anchored at.
         type: str
       fabricIds:
         description: IDs of the fabrics this layer 3 virtual network is to be assigned to.
@@ -37,7 +37,7 @@ options:
     description: VirtualNetworkName query parameter. Name of the layer 3 virtual network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddLayer3VirtualNetworks
@@ -62,17 +62,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_layer3_virtual_networks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    virtualNetworkName: string
 - name: Create
   cisco.catalystcenter.sda_layer3_virtual_networks:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -88,6 +77,17 @@ EXAMPLES = r"""
         fabricIds:
           - string
         virtualNetworkName: string
+- name: Delete all
+  cisco.catalystcenter.sda_layer3_virtual_networks:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    virtualNetworkName: string
 - name: Update all
   cisco.catalystcenter.sda_layer3_virtual_networks:
     catalystcenter_host: "{{catalystcenter_host}}"

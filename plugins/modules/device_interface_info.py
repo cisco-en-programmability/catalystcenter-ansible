@@ -16,14 +16,18 @@ description:
     to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to
     retrieve all records incrementally.
   - Returns the interface for the given interface ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Interface ID.
+    type: str
   offset:
     description:
       - Offset query parameter.
@@ -40,12 +44,8 @@ options:
     description:
       - LastOutputTime query parameter. Last Output Time.
     type: str
-  id:
-    description:
-      - Id path parameter. Interface ID.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetAllInterfaces
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     lastInputTime: string
     lastOutputTime: string
   register: result

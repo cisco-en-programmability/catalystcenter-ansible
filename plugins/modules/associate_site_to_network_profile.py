@@ -11,10 +11,10 @@ short_description: Resource module for Associate Site To Network Profile
 description:
   - Manage operation create of the resource Associate Site To Network Profile.
   - Associate Site to a Network Profile.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkProfileId:
     description: NetworkProfileId path parameter. Network-Profile Id to be associated.
@@ -23,7 +23,7 @@ options:
     description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design Associate
@@ -59,7 +59,7 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }

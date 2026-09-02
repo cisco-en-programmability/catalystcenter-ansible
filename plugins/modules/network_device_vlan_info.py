@@ -11,10 +11,10 @@ short_description: Information module for Network Device Vlan
 description:
   - Get all Network Device Vlan.
   - Returns Device Interface VLANs. If parameter value is null or empty, it won't return any value in response.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -31,7 +31,7 @@ options:
         default value.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetDeviceInterfaceVLANs
@@ -56,7 +56,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    interfaceType: string
+    interfaceType: subInterface
     id: string
   register: result
 """

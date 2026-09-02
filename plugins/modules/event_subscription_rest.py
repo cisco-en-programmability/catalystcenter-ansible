@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Event Subscription Rest.
   - Create Rest/Webhook Subscription Endpoint for list of registered events.
   - Update Rest/Webhook Subscription Endpoint for list of registered events.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Event Subscription Rest's payload.
@@ -25,10 +25,10 @@ options:
         description: Description.
         type: str
       filter:
-        description: Event Subscription Rest's filter.
+        description: Filter.
         suboptions:
           categories:
-            description: Categories.
+            description: Event Subscription Rest's categories.
             elements: str
             type: list
           domainsSubdomains:
@@ -36,10 +36,10 @@ options:
             elements: dict
             suboptions:
               domain:
-                description: Domain.
+                description: Event Subscription Rest's domain.
                 type: str
               subDomains:
-                description: Sub Domains.
+                description: Event Subscription Rest's subDomains.
                 elements: str
                 type: list
             type: list
@@ -48,19 +48,19 @@ options:
             elements: str
             type: list
           severities:
-            description: Severities.
+            description: Event Subscription Rest's severities.
             elements: str
             type: list
           siteIds:
-            description: Site Ids.
+            description: Event Subscription Rest's siteIds.
             elements: str
             type: list
           sources:
-            description: Sources.
+            description: Event Subscription Rest's sources.
             elements: str
             type: list
           types:
-            description: Types.
+            description: Event Subscription Rest's types.
             elements: str
             type: list
         type: dict
@@ -68,14 +68,14 @@ options:
         description: Name.
         type: str
       subscriptionEndpoints:
-        description: Event Subscription Rest's subscriptionEndpoints.
+        description: Subscription Endpoints.
         elements: dict
         suboptions:
           instanceId:
             description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription Rest's subscriptionDetails.
+            description: Subscription Details.
             suboptions:
               connectorType:
                 description: Connector Type (Must be REST).
@@ -90,7 +90,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CreateRestWebhookEventSubscription

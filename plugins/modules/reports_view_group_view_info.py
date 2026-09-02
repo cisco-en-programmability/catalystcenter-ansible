@@ -11,10 +11,10 @@ short_description: Information module for Reports View Group View
 description:
   - Get Reports View Group View by id. - > Gives complete information of the view that is required to configure a report.
     Use "Get views for a given view group" API to get the viewIds required as a query param for this API for available views.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
       - ViewId path parameter. View id of view.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports GetViewDetailsForAGivenViewGroup_View

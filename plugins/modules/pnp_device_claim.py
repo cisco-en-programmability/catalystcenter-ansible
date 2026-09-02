@@ -11,10 +11,10 @@ short_description: Resource module for Pnp Device Claim
 description:
   - Manage operation create of the resource Pnp Device Claim.
   - Claims one of more devices with specified workflow.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authorizationNeeded:
     description: Flag to enable/disable PnP device authorization. (true means enable).
@@ -80,7 +80,7 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) ClaimDevice
@@ -131,9 +131,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "jsonArrayResponse": [
-        "string"
-      ],
+      "jsonArrayResponse": [],
       "jsonResponse": {},
       "message": "string",
       "statusCode": 0

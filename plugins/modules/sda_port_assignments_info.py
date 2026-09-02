@@ -11,10 +11,10 @@ short_description: Information module for Sda Port Assignments
 description:
   - Get all Sda Port Assignments.
   - Returns a list of port assignments that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -45,7 +45,7 @@ options:
         NativeVlanId query parameter. Native VLAN of the port assignment, this option is only applicable to
         TRUNKING_DEVICE connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when
         connectedDeviceType is TRUNKING_DEVICE, default value will be '1').
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -57,7 +57,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPortAssignments
@@ -88,8 +88,8 @@ EXAMPLES = r"""
     dataVlanName: string
     voiceVlanName: string
     nativeVlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -102,8 +102,17 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "siteId": "string",
-          "networkDeviceId": "string"
+          "fabricId": "string",
+          "networkDeviceId": "string",
+          "interfaceName": "string",
+          "connectedDeviceType": "string",
+          "dataVlanName": "string",
+          "voiceVlanName": "string",
+          "authenticateTemplateName": "string",
+          "securityGroupName": "string",
+          "interfaceDescription": "string",
+          "nativeVlanId": 0,
+          "allowedVlanRanges": "string"
         }
       ],
       "version": "string"

@@ -12,13 +12,13 @@ description:
   - Manage operations create and delete of the resource Sensor.
   - Intent API to create a SENSOR test template with a new SSID, existing SSID, or both new and existing SSID.
   - Intent API to delete an existing SENSOR test template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apCoverage:
-    description: Sensor's apCoverage.
+    description: The WIFI bands where the test will be run.
     elements: dict
     suboptions:
       bands:
@@ -38,7 +38,7 @@ options:
     description: Encryption mode.
     type: str
   locationInfoList:
-    description: Sensor's locationInfoList.
+    description: Location information list.
     elements: dict
     suboptions:
       allSensors:
@@ -71,7 +71,7 @@ options:
     description: The sensor test template name.
     type: str
   profiles:
-    description: Sensor's profiles.
+    description: Used for wired the profileName, deviceType, vlan, testMacAddress to use authentication info, etc.
     elements: dict
     suboptions:
       authProtocol:
@@ -109,17 +109,17 @@ options:
         description: External WEB Auth access URL.
         type: str
       extWebAuthHtmlTag:
-        description: Sensor's extWebAuthHtmlTag.
+        description: Array of external WEB Auth information.
         elements: dict
         suboptions:
           label:
-            description: Label.
+            description: Sensor's label.
             type: str
           tag:
-            description: Tag.
+            description: Sensor's tag.
             type: str
           value:
-            description: Value.
+            description: Sensor's value.
             type: str
         type: list
       extWebAuthPortal:
@@ -129,7 +129,7 @@ options:
         description: External WEB Auth virtual IP.
         type: str
       locationVlanList:
-        description: Sensor's locationVlanList.
+        description: Array of site UUID-vlan map objects.
         elements: dict
         suboptions:
           locationId:
@@ -159,11 +159,11 @@ options:
         description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       tests:
-        description: Sensor's tests.
+        description: Array of test objects for this SSID.
         elements: dict
         suboptions:
           config:
-            description: Sensor's config.
+            description: Array of config objects.
             elements: dict
             suboptions:
               direction:
@@ -278,7 +278,7 @@ options:
     description: Run now (YES, NO).
     type: str
   sensors:
-    description: Sensor's sensors.
+    description: Sensors.
     elements: dict
     suboptions:
       allSensorAddition:
@@ -294,7 +294,7 @@ options:
         description: Host name.
         type: str
       iPerfInfo:
-        description: Sensor's iPerfInfo.
+        description: A string-stringList iPerf information.
         type: dict
       id:
         description: Sensor ID.
@@ -340,7 +340,7 @@ options:
         elements: str
         type: list
       testMacAddresses:
-        description: Sensor's testMacAddresses.
+        description: A string-string test MAC address.
         type: dict
       wiredApplicationMessage:
         description: Wired application message.
@@ -353,7 +353,8 @@ options:
         type: bool
     type: list
   ssids:
-    description: Sensor's ssids.
+    description: The list of SSIDs. Each SSID map has the ssid specific information as well as the test configurations to
+      be used in each ssid. Required at least 1 element.
     elements: dict
     suboptions:
       authProtocol:
@@ -391,17 +392,17 @@ options:
         description: External WEB Auth access URL.
         type: str
       extWebAuthHtmlTag:
-        description: Sensor's extWebAuthHtmlTag.
+        description: Array of external WEB Auth information.
         elements: dict
         suboptions:
           label:
-            description: Label.
+            description: Sensor's label.
             type: str
           tag:
-            description: Tag.
+            description: Sensor's tag.
             type: str
           value:
-            description: Value.
+            description: Sensor's value.
             type: str
         type: list
       extWebAuthPortal:
@@ -410,9 +411,6 @@ options:
       extWebAuthVirtualIp:
         description: External WEB Auth virtual IP.
         type: str
-      id:
-        description: Identification number.
-        type: int
       layer3webAuthEmailAddress:
         description: Layer 3 WEB Auth email address.
         type: str
@@ -425,12 +423,6 @@ options:
       layer3webAuthuserName:
         description: Layer 3 WEB Auth user name.
         type: str
-      numAps:
-        description: Number of APs in the test.
-        type: int
-      numSensors:
-        description: Number of Sensors in the test.
-        type: int
       password:
         description: Password string for onboarding SSID.
         type: str
@@ -464,15 +456,12 @@ options:
       ssid:
         description: The SSID string.
         type: str
-      status:
-        description: WLAN status ENABLED or DISABLED.
-        type: str
       tests:
-        description: Sensor's tests.
+        description: Array of test objects for this SSID.
         elements: dict
         suboptions:
           config:
-            description: Sensor's config.
+            description: Array of config objects.
             elements: dict
             suboptions:
               direction:
@@ -574,21 +563,15 @@ options:
             type: str
         type: list
       thirdParty:
-        description: Sensor's thirdParty.
+        description: Indication of whether this SSID is third party (true or false).
         suboptions:
           selected:
-            description: true the SSID is third party.
+            description: True the SSID is third party.
             type: bool
         type: dict
       username:
         description: User name string for onboarding SSID.
         type: str
-      validFrom:
-        description: Valid From UTC timestamp.
-        type: int
-      validTo:
-        description: Valid To UTC timestamp.
-        type: int
       whiteList:
         description: Indication of being on allowed list.
         type: bool
@@ -606,7 +589,7 @@ options:
     description: The sensor test template version (must be 2).
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors CreateSensorTestTemplate
@@ -626,17 +609,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sensor:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    templateName: string
 - name: Create
   cisco.catalystcenter.sensor:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -774,13 +746,10 @@ EXAMPLES = r"""
             value: string
         extWebAuthPortal: string
         extWebAuthVirtualIp: string
-        id: 0
         layer3webAuthEmailAddress: string
         layer3webAuthpassword: string
         layer3webAuthsecurity: string
         layer3webAuthuserName: string
-        numAps: 0
-        numSensors: 0
         password: string
         passwordType: string
         profileName: string
@@ -792,7 +761,6 @@ EXAMPLES = r"""
         qosPolicy: string
         scep: true
         ssid: string
-        status: string
         tests:
           - config:
               - direction: string
@@ -831,12 +799,21 @@ EXAMPLES = r"""
         thirdParty:
           selected: true
         username: string
-        validFrom: 0
-        validTo: 0
         whiteList: true
         wlanId: 0
         wlc: string
     version: 0
+- name: Delete all
+  cisco.catalystcenter.sensor:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    templateName: application/json
 """
 RETURN = r"""
 catalystcenter_response:
@@ -847,8 +824,261 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "templateName": "string",
-        "status": "string"
+        "name": "string",
+        "_id": "string",
+        "version": 0,
+        "modelVersion": 0,
+        "startTime": 0,
+        "lastModifiedTime": 0,
+        "numAssociatedSensor": 0,
+        "location": "string",
+        "siteHierarchy": "string",
+        "status": "string",
+        "connection": "string",
+        "actionInProgress": "string",
+        "frequency": {
+          "value": 0,
+          "unit": "string"
+        },
+        "rssiThreshold": 0,
+        "numNeighborAPThreshold": 0,
+        "scheduleInDays": 0,
+        "wlans": [
+          "string"
+        ],
+        "ssids": [
+          {
+            "bands": "string",
+            "ssid": "string",
+            "profileName": "string",
+            "numAps": 0,
+            "numSensors": 0,
+            "layer3webAuthsecurity": "string",
+            "layer3webAuthuserName": "string",
+            "layer3webAuthpassword": "string",
+            "layer3webAuthEmailAddress": "string",
+            "thirdParty": {
+              "selected": true
+            },
+            "id": 0,
+            "wlanId": 0,
+            "wlc": "string",
+            "validFrom": 0,
+            "validTo": 0,
+            "status": "string",
+            "proxyServer": "string",
+            "proxyPort": "string",
+            "proxyUserName": "string",
+            "proxyPassword": "string",
+            "authType": "string",
+            "psk": "string",
+            "username": "string",
+            "password": "string",
+            "passwordType": "string",
+            "eapMethod": "string",
+            "scep": true,
+            "authProtocol": "string",
+            "certfilename": "string",
+            "certxferprotocol": "string",
+            "certstatus": "string",
+            "certpassphrase": "string",
+            "certdownloadurl": "string",
+            "extWebAuthVirtualIp": "string",
+            "extWebAuth": true,
+            "whiteList": true,
+            "extWebAuthPortal": "string",
+            "extWebAuthAccessUrl": "string",
+            "extWebAuthHtmlTag": [
+              {
+                "label": "string",
+                "tag": "string",
+                "value": "string"
+              }
+            ],
+            "qosPolicy": "string",
+            "tests": [
+              {
+                "name": "string",
+                "config": [
+                  {
+                    "domains": [
+                      "string"
+                    ],
+                    "server": "string",
+                    "userName": "string",
+                    "password": "string",
+                    "url": "string",
+                    "port": 0,
+                    "protocol": "string",
+                    "servers": [
+                      "string"
+                    ],
+                    "direction": "string",
+                    "startPort": 0,
+                    "endPort": 0,
+                    "udpBandwidth": 0,
+                    "probeType": "string",
+                    "numPackets": "string",
+                    "pathToDownload": "string",
+                    "transferType": "string",
+                    "sharedSecret": "string",
+                    "ndtServer": "string",
+                    "ndtServerPort": "string",
+                    "ndtServerPath": "string",
+                    "uplinkTest": true,
+                    "downlinkTest": true,
+                    "proxyServer": "string",
+                    "proxyPort": "string",
+                    "proxyUserName": "string",
+                    "proxyPassword": "string",
+                    "userNamePrompt": "string",
+                    "passwordPrompt": "string",
+                    "exitCommand": "string",
+                    "finalPrompt": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "profiles": [
+          {
+            "authType": "string",
+            "psk": "string",
+            "username": "string",
+            "password": "string",
+            "passwordType": "string",
+            "eapMethod": "string",
+            "scep": true,
+            "authProtocol": "string",
+            "certfilename": "string",
+            "certxferprotocol": "string",
+            "certstatus": "string",
+            "certpassphrase": "string",
+            "certdownloadurl": "string",
+            "extWebAuthVirtualIp": "string",
+            "extWebAuth": true,
+            "whiteList": true,
+            "extWebAuthPortal": "string",
+            "extWebAuthAccessUrl": "string",
+            "extWebAuthHtmlTag": [
+              {
+                "label": "string",
+                "tag": "string",
+                "value": "string"
+              }
+            ],
+            "qosPolicy": "string",
+            "tests": [
+              {
+                "name": "string",
+                "config": [
+                  {
+                    "domains": [
+                      "string"
+                    ],
+                    "server": "string",
+                    "userName": "string",
+                    "password": "string",
+                    "url": "string",
+                    "port": 0,
+                    "protocol": "string",
+                    "servers": [
+                      "string"
+                    ],
+                    "direction": "string",
+                    "startPort": 0,
+                    "endPort": 0,
+                    "udpBandwidth": 0,
+                    "probeType": "string",
+                    "numPackets": "string",
+                    "pathToDownload": "string",
+                    "transferType": "string",
+                    "sharedSecret": "string",
+                    "ndtServer": "string",
+                    "ndtServerPort": "string",
+                    "ndtServerPath": "string",
+                    "uplinkTest": true,
+                    "downlinkTest": true,
+                    "proxyServer": "string",
+                    "proxyPort": "string",
+                    "proxyUserName": "string",
+                    "proxyPassword": "string",
+                    "userNamePrompt": "string",
+                    "passwordPrompt": "string",
+                    "exitCommand": "string",
+                    "finalPrompt": "string"
+                  }
+                ]
+              }
+            ],
+            "profileName": "string",
+            "deviceType": "string",
+            "vlan": "string",
+            "locationVlanList": [
+              {
+                "locationId": "string",
+                "vlans": [
+                  "string"
+                ]
+              }
+            ]
+          }
+        ],
+        "testScheduleMode": "string",
+        "showWlcUpgradeBanner": true,
+        "radioAsSensorRemoved": true,
+        "encryptionMode": "string",
+        "runNow": "string",
+        "locationInfoList": [
+          {
+            "locationId": "string",
+            "locationType": "string",
+            "allSensors": true,
+            "siteHierarchy": "string",
+            "macAddressList": [
+              "string"
+            ],
+            "managementVlan": "string",
+            "customManagementVlan": true
+          }
+        ],
+        "sensors": [
+          {
+            "name": "string",
+            "macAddress": "string",
+            "switchMac": "string",
+            "switchUuid": "string",
+            "switchSerialNumber": "string",
+            "markedForUninstall": true,
+            "ipAddress": "string",
+            "hostName": "string",
+            "wiredApplicationStatus": "string",
+            "wiredApplicationMessage": "string",
+            "assigned": true,
+            "status": "string",
+            "xorSensor": true,
+            "targetAPs": [
+              "string"
+            ],
+            "runNow": "string",
+            "locationId": "string",
+            "allSensorAddition": true,
+            "configUpdated": "string",
+            "sensorType": "string",
+            "testMacAddresses": {},
+            "id": "string",
+            "servicePolicy": "string",
+            "iPerfInfo": {}
+          }
+        ],
+        "apCoverage": [
+          {
+            "bands": "string",
+            "numberOfApsToTest": 0,
+            "rssiThreshold": 0
+          }
+        ]
       }
     }
 """

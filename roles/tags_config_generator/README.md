@@ -9,7 +9,7 @@ Generate YAML configurations playbook for 'tags_workflow_manager' module.
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - Python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 

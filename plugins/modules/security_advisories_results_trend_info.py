@@ -11,10 +11,10 @@ short_description: Information module for Security Advisories Results Trend
 description:
   - Get all Security Advisories Results Trend.
   - Get security advisories results trend over time. The default sort is by scan time descending.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,7 +36,7 @@ options:
         500. Default value is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetSecurityAdvisoriesResultsTrendOverTime
@@ -62,8 +62,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     scanTime: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

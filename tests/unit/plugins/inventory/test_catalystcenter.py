@@ -390,7 +390,11 @@ class TestGrouping:
         }
         inventory_plugin._populate(data)
         host = inventory_plugin.inventory.get_host("switch-01")
-        group_names = [g.name for g in inventory_plugin.inventory.groups.values() if host in g.hosts]
+        group_names = [
+            g.name
+            for g in inventory_plugin.inventory.groups.values()
+            if host in g.hosts
+        ]
         assert "global" in group_names
 
     def test_role_group(self, inventory_plugin):
@@ -461,7 +465,9 @@ class TestCaching:
         }
 
         with patch.object(inventory_plugin, "_fetch_all_data", return_value=data):
-            with patch.object(inventory_plugin, "get_cache_key", return_value="test_key"):
+            with patch.object(
+                inventory_plugin, "get_cache_key", return_value="test_key"
+            ):
                 with patch.object(inventory_plugin, "_read_config_data"):
                     inventory_plugin.parse(
                         inventory_plugin.inventory,
@@ -485,7 +491,9 @@ class TestCaching:
         inventory_plugin._cache = {"test_key": cached_data}
 
         with patch.object(inventory_plugin, "_fetch_all_data") as mock_fetch:
-            with patch.object(inventory_plugin, "get_cache_key", return_value="test_key"):
+            with patch.object(
+                inventory_plugin, "get_cache_key", return_value="test_key"
+            ):
                 with patch.object(inventory_plugin, "_read_config_data"):
                     inventory_plugin.parse(
                         inventory_plugin.inventory,
@@ -516,7 +524,9 @@ class TestCaching:
         }
 
         with patch.object(inventory_plugin, "_fetch_all_data", return_value=fresh_data):
-            with patch.object(inventory_plugin, "get_cache_key", return_value="test_key"):
+            with patch.object(
+                inventory_plugin, "get_cache_key", return_value="test_key"
+            ):
                 with patch.object(inventory_plugin, "_read_config_data"):
                     inventory_plugin.parse(
                         inventory_plugin.inventory,

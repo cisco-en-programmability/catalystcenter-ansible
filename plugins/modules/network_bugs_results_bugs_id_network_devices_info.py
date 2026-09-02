@@ -13,10 +13,10 @@ description:
   - Get Network Bugs Results Bugs Id Network Devices by id.
   - Get network bug device for the bug by network device id.
   - Get network bug devices for the bug.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanMode:
     description:
@@ -64,7 +64,7 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetNetworkBugDeviceForTheBugByNetworkDeviceId
@@ -97,10 +97,10 @@ EXAMPLES = r"""
     networkDeviceId: string
     scanMode: string
     scanStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     id: string
   register: result
 - name: Get Network Bugs Results Bugs Id Network Devices by id

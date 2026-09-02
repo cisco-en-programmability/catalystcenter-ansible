@@ -11,21 +11,20 @@ short_description: Information module for Sda Fabric Border Device
 description:
   - Get all Sda Fabric Border Device.
   - Get border device detail from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description:
       - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetBorderDeviceDetailFromSDAFabric
@@ -50,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    deviceManagementIpAddress: string
+    deviceManagementIpAddress: application/json
   register: result
 """
 RETURN = r"""
@@ -81,20 +80,20 @@ catalystcenter_response:
         "provisioningState": "string",
         "resourceVersion": 0,
         "targetIdList": [
-          "string"
+          {}
         ],
         "type": "string",
         "cfsChangeInfo": [
-          "string"
+          {}
         ],
         "customProvisions": [
-          "string"
+          {}
         ],
         "configs": [
-          "string"
+          {}
         ],
         "managedSites": [
-          "string"
+          {}
         ],
         "networkDeviceId": "string",
         "roles": [
@@ -103,10 +102,10 @@ catalystcenter_response:
         "saveWanConnectivityDetailsOnly": true,
         "siteId": "string",
         "akcSettingsCfs": [
-          "string"
+          {}
         ],
         "deviceInterfaceInfo": [
-          "string"
+          {}
         ],
         "deviceSettings": {
           "id": "string",
@@ -116,7 +115,7 @@ catalystcenter_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "connectedTo": [
-            "string"
+            {}
           ],
           "cpu": 0,
           "dhcpEnabled": true,
@@ -141,7 +140,7 @@ catalystcenter_response:
               "policyPropagationEnabled": true,
               "policySgtTag": 0,
               "l2Handoff": [
-                "string"
+                {}
               ],
               "l3Handoff": [
                 {
@@ -170,10 +169,10 @@ catalystcenter_response:
           "deployPending": "string",
           "instanceVersion": 0,
           "aaa": [
-            "string"
+            {}
           ],
           "cmx": [
-            "string"
+            {}
           ],
           "dhcp": [
             {
@@ -199,26 +198,26 @@ catalystcenter_response:
             }
           ],
           "ldap": [
-            "string"
+            {}
           ],
           "nativeVlan": [
-            "string"
+            {}
           ],
           "netflow": [
-            "string"
+            {}
           ],
           "ntp": [
-            "string"
+            {}
           ],
           "snmp": [
-            "string"
+            {}
           ],
           "syslogs": [
-            "string"
+            {}
           ]
         },
         "otherDevice": [
-          "string"
+          {}
         ],
         "transitNetworks": [
           {
@@ -226,10 +225,10 @@ catalystcenter_response:
           }
         ],
         "virtualNetwork": [
-          "string"
+          {}
         ],
         "wlan": [
-          "string"
+          {}
         ]
       }
     }

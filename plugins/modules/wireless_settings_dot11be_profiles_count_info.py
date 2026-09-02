@@ -11,24 +11,24 @@ short_description: Information module for Wireless Settings Dot11be Profiles Cou
 description:
   - Get all Wireless Settings Dot11be Profiles Count.
   - This API allows the user to get count of all 802.11be Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless Get80211beProfilesCount
-    description: Complete reference of the Get80211beProfilesCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count
+  - name: Cisco Catalyst Center documentation for Wireless GetCountOf80211beProfiles
+    description: Complete reference of the GetCountOf80211beProfiles API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-80-21-1be-profiles
 notes:
   - SDK Method used are
-    wireless.Wireless.get80211be_profiles_count,
+    wireless.Wireless.get_count_of80211be_profiles,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/count,
 """
@@ -55,7 +55,10 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "response": {
+          "count": 0
+        },
+        "version": "string"
       },
       "version": "string"
     }

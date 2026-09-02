@@ -11,10 +11,10 @@ short_description: Information module for Wireless Controllers Mesh Ap Neighbour
 description:
   - Get all Wireless Controllers Mesh Ap Neighbours. - > Retrieves all mesh access point neighbour details, including Child,
     Parent, Neighbour, Tentative Parent, and Blocklisted statuses.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -51,7 +51,7 @@ options:
         Parent, Blocklisted.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetMeshApNeighbours

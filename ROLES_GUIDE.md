@@ -6,7 +6,7 @@
 
 ```bash
 ansible-galaxy collection install -r requirements.yml
-pip install catalystcentersdk>=3.1.3.0.0
+pip install catalystcentersdk>=3.2.3.0.0
 ```
 
 ### 2. Configure Credentials

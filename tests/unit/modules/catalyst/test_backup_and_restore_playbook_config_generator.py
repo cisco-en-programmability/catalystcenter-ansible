@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import backup_and_restore_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    backup_and_restore_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -29,14 +31,24 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
     module = backup_and_restore_playbook_config_generator
     test_data = loadPlaybookData("backup_and_restore_playbook_config_generator")
 
-    playbook_nfs_configuration_details = test_data.get("playbook_nfs_configuration_details")
-    playbook_backup_configuration_details = test_data.get("playbook_backup_configuration_details")
-    playbook_specific_nfs_backup_configuration_details = test_data.get("playbook_specific_nfs_backup_configuration_details")
-    playbook_negative_scenario_lower_version = test_data.get("playbook_negative_scenario_lower_version")
+    playbook_nfs_configuration_details = test_data.get(
+        "playbook_nfs_configuration_details"
+    )
+    playbook_backup_configuration_details = test_data.get(
+        "playbook_backup_configuration_details"
+    )
+    playbook_specific_nfs_backup_configuration_details = test_data.get(
+        "playbook_specific_nfs_backup_configuration_details"
+    )
+    playbook_negative_scenario_lower_version = test_data.get(
+        "playbook_negative_scenario_lower_version"
+    )
     playbook_negative_scenario2 = test_data.get("playbook_negative_scenario2")
     playbook_config_omitted = test_data.get("playbook_config_omitted")
     playbook_config_empty = test_data.get("playbook_config_empty")
-    playbook_component_with_empty_filter = test_data.get("playbook_component_with_empty_filter")
+    playbook_component_with_empty_filter = test_data.get(
+        "playbook_component_with_empty_filter"
+    )
     expected_error_missing_component_specific_filters = test_data.get(
         "expected_error_missing_component_specific_filters"
     )
@@ -45,7 +57,8 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
         super(TestCatalystCenterBackupRestorePlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -70,20 +83,22 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
         elif "playbook_backup_configuration_details" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_backup_configuration_details"),
-                self.test_data.get("get_nfs_server_details")
+                self.test_data.get("get_nfs_server_details"),
             ]
 
-        elif "playbook_specific_nfs_backup_configuration_details" in self._testMethodName:
+        elif (
+            "playbook_specific_nfs_backup_configuration_details" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_server_details1"),
-                self.test_data.get("get_backup_configuration_details1")
+                self.test_data.get("get_backup_configuration_details1"),
             ]
 
         elif "playbook_generate_all_configuration" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_details"),
                 self.test_data.get("get_backup_configuration_details2"),
-                self.test_data.get("get_all_n_f_s_configurations")
+                self.test_data.get("get_all_n_f_s_configurations"),
             ]
 
         elif "playbook_negative_scenario_lower_version" in self._testMethodName:
@@ -96,15 +111,20 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_details"),
                 self.test_data.get("get_backup_configuration_details2"),
-                self.test_data.get("get_all_n_f_s_configurations")
+                self.test_data.get("get_all_n_f_s_configurations"),
             ]
 
-        elif "empty_component_filter_treated_as_all_for_component" in self._testMethodName:
+        elif (
+            "empty_component_filter_treated_as_all_for_component"
+            in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("nfs_server_details")
             ]
 
-    def test_backup_and_restore_playbook_config_generator_playbook_nfs_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_nfs_configuration_details(
+        self,
+    ):
         """
         Test YAML playbook generation for NFS configuration details.
         Verifies that the generator correctly retrieves NFS server
@@ -121,7 +141,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path="/tmp/configuration_details_info",
-                config=self.playbook_nfs_configuration_details
+                config=self.playbook_nfs_configuration_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -134,11 +154,13 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 6,
                 "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_backup_and_restore_playbook_config_generator_playbook_backup_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_backup_configuration_details(
+        self,
+    ):
         """
         Test YAML playbook generation for backup storage configuration.
         Verifies that the generator correctly retrieves backup storage
@@ -155,7 +177,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path="/tmp/configuration_details_info",
-                config=self.playbook_backup_configuration_details
+                config=self.playbook_backup_configuration_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -168,11 +190,13 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_backup_and_restore_playbook_config_generator_playbook_specific_nfs_backup_configuration_details(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_specific_nfs_backup_configuration_details(
+        self,
+    ):
         """
         Test YAML playbook generation with specific NFS and backup
         storage filters. Verifies that component-specific filtering
@@ -189,7 +213,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path="/tmp/configuration_details_info",
-                config=self.playbook_specific_nfs_backup_configuration_details
+                config=self.playbook_specific_nfs_backup_configuration_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -202,11 +226,13 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/tmp/configuration_details_info",
                 "message": "YAML configuration file generated successfully for module 'backup_and_restore_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_backup_and_restore_playbook_config_generator_playbook_generate_all_configuration(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_generate_all_configuration(
+        self,
+    ):
         """
         Test idempotent behavior when generated YAML content already
         matches existing file content. Module should return
@@ -240,11 +266,13 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                     "'/tmp/configuration_details_info1'. "
                     "Total configurations evaluated: 7 across 2 component(s)."
                 ),
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario_lower_version(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario_lower_version(
+        self,
+    ):
         """
         Test that the module fails gracefully when the Catalyst Center
         version is below the minimum supported version (3.1.3.0).
@@ -259,7 +287,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_lower_version
+                config=self.playbook_negative_scenario_lower_version,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -269,10 +297,12 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
             "The specified version '2.3.7.9' does not support the YAML Playbook generation for "
             "Backup and Restore Management Module. Supported versions start from '3.1.3.0' "
             "onwards. Version '3.1.3.0' introduces APIs for retrieving backup and restore "
-            "settings from the Catalyst Center"
+            "settings from the Catalyst Center",
         )
 
-    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario2(self):
+    def test_backup_and_restore_playbook_config_generator_playbook_negative_scenario2(
+        self,
+    ):
         """
         Test that the module fails with a clear error when an invalid
         component name is provided in components_list. Verifies the
@@ -287,7 +317,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario2
+                config=self.playbook_negative_scenario2,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -296,10 +326,12 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
             result.get("response"),
             "Invalid network components provided for module "
             "'backup_and_restore_workflow_manager': ['nfs_configurations']. "
-            "Valid components are: ['nfs_configuration', 'backup_storage_configuration']"
+            "Valid components are: ['nfs_configuration', 'backup_storage_configuration']",
         )
 
-    def test_backup_and_restore_playbook_config_generator_config_omitted_defaults_generate_all(self):
+    def test_backup_and_restore_playbook_config_generator_config_omitted_defaults_generate_all(
+        self,
+    ):
         """
         Omitted config should default to generate_all behavior.
         """
@@ -310,7 +342,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="gathered",
-                catalystcenter_version="3.1.3.0"
+                catalystcenter_version="3.1.3.0",
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -320,7 +352,9 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
         self.assertEqual(result.get("response").get("components_skipped"), 0)
         self.assertEqual(result.get("response").get("configurations_count"), 7)
 
-    def test_backup_and_restore_playbook_config_generator_config_empty_fails_missing_component_specific_filters(self):
+    def test_backup_and_restore_playbook_config_generator_config_empty_fails_missing_component_specific_filters(
+        self,
+    ):
         """
         Explicit empty config should fail due to missing component_specific_filters.
         """
@@ -332,17 +366,19 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_config_empty
+                config=self.playbook_config_empty,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            self.expected_error_missing_component_specific_filters
+            self.expected_error_missing_component_specific_filters,
         )
 
-    def test_backup_and_restore_playbook_config_generator_empty_component_filter_treated_as_all_for_component(self):
+    def test_backup_and_restore_playbook_config_generator_empty_component_filter_treated_as_all_for_component(
+        self,
+    ):
         """
         Empty component filter block should be treated as fetch-all for that component.
         """
@@ -354,7 +390,7 @@ class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_component_with_empty_filter
+                config=self.playbook_component_with_empty_filter,
             )
         )
         result = self.execute_module(changed=True, failed=False)

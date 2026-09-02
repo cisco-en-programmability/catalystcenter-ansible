@@ -13,10 +13,10 @@ description:
   - Get Templates Template Id Versions by id.
   - Get a template's version by the version ID.
   - Get a template's version information.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,6 +26,12 @@ options:
       - >
         TemplateId path parameter. The id of the template to get versions of, retrieveable from `GET
         /dna/intent/api/v1/templates`.
+    type: str
+  versionId:
+    description:
+      - >
+        VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
+        /dna/intent/api/v1/templates/{id}/versions`.
     type: str
   versionNumber:
     description:
@@ -47,14 +53,8 @@ options:
     description:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
-  versionId:
-    description:
-      - >
-        VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
-        /dna/intent/api/v1/templates/{id}/versions`.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplateVersion
@@ -86,9 +86,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     versionNumber: 0
     latestVersion: true
-    order: string
-    limit: 0
-    offset: 0
+    order: asc
+    limit: 500
+    offset: 1
     templateId: string
   register: result
 - name: Get Templates Template Id Versions by id

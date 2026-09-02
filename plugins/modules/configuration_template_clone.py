@@ -11,23 +11,23 @@ short_description: Resource module for Configuration Template Clone
 description:
   - Manage operation create of the resource Configuration Template Clone.
   - API to clone template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   name:
     description: Name path parameter. Template name to clone template(Name should be different than existing template name
       within same project).
     type: str
   projectId:
-    description: ProjectId path parameter.
+    description: ProjectId path parameter. UUID of the project in which the template needs to be created.
     type: str
   templateId:
     description: TemplateId path parameter. UUID of the template to clone it.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates CreatesACloneOfTheGivenTemplate
@@ -63,7 +63,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

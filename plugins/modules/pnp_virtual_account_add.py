@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Pnp Virtual Account Add. - > Registers a Smart Account, Virtual Account and the
     relevant server profile info with the PnP System & database. The devices present in the registered virtual account are
     synced with the PnP database as well. The response payload returns the new profile.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   autoSyncPeriod:
     description: Pnp Virtual Account Add's autoSyncPeriod.
@@ -64,7 +64,7 @@ options:
     description: Pnp Virtual Account Add's smartAccountId.
     type: str
   syncResult:
-    description: Pnp Virtual Account Add's syncResult.
+    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
     suboptions:
       syncList:
         description: Pnp Virtual Account Add's syncList.
@@ -101,7 +101,7 @@ options:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) AddVirtualAccount

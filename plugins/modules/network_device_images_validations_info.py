@@ -13,14 +13,18 @@ description:
   - Get Network Device Images Validations by id. - > Fetches custom network device validations that run on the network device
     as part of the update workflow. This process verifies and assesses the configuration of the network devices.
   - This API fetches the details for the given network device validation.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Unique identifier of network device validation.
+    type: str
   productSeriesOrdinal:
     description:
       - ProductSeriesOrdinal query parameter. Unique identifier of product series.
@@ -53,12 +57,8 @@ options:
         Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
         and 500, respectively.
     type: int
-  id:
-    description:
-      - Id path parameter. Unique identifier of network device validation.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) GetCustomNetworkDeviceValidationDetails
@@ -91,9 +91,9 @@ EXAMPLES = r"""
     productSeriesOrdinal: 0
     operationType: string
     type: string
-    order: string
-    offset: 0
-    limit: 0
+    order: asc
+    offset: 1
+    limit: 500
   register: result
 - name: Get Network Device Images Validations by id
   cisco.catalystcenter.network_device_images_validations_info:

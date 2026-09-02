@@ -11,10 +11,10 @@ short_description: Resource module for Authentication Import Certificate
 description:
   - Manage operation create of the resource Authentication Import Certificate.
   - This API enables a user to import a PEM certificate and its key for the controller and/or disaster recovery.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   certFilePath:
     description: Cert file absolute path.
@@ -31,7 +31,7 @@ options:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Authentication Management ImportCertificate
@@ -68,7 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

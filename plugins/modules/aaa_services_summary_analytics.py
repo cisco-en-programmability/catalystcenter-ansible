@@ -9,56 +9,54 @@ DOCUMENTATION = r"""
 module: aaa_services_summary_analytics
 short_description: Resource module for Aaa Services Summary Analytics
 description:
-  - Manage operation create of the resource Aaa Services Summary Analytics. - > Gets the summary analytics data related to
-    AAA Services based on given filters and group by field. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AAAServices-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Aaa Services Summary Analytics.
+  - Gets the summary analytics data related to AAA Services based on given filters.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Aaa Services Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Aaa Services Summary Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Aaa Services Summary Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Aaa Services Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Aaa Services Summary Analytics's endTime.
     type: int
   filters:
     description: Aaa Services Summary Analytics's filters.
     elements: dict
     suboptions:
       filters:
-        description: Filters.
+        description: Aaa Services Summary Analytics's filters.
         elements: str
         type: list
       key:
-        description: Key.
+        description: Aaa Services Summary Analytics's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Aaa Services Summary Analytics's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Aaa Services Summary Analytics's operator.
         type: str
       value:
         description: Aaa Services Summary Analytics's value.
         type: dict
     type: list
   groupBy:
-    description: Group By.
+    description: Aaa Services Summary Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -68,31 +66,31 @@ options:
     description: Aaa Services Summary Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Aaa Services Summary Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Aaa Services Summary Analytics's offset.
         type: int
       sortBy:
         description: Aaa Services Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Aaa Services Summary Analytics's function.
             type: str
           name:
-            description: Name.
+            description: Aaa Services Summary Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Aaa Services Summary Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Aaa Services Summary Analytics's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters

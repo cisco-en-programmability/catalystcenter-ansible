@@ -11,10 +11,10 @@ short_description: Information module for Network Devices Assigned To Site
 description:
   - Get all Network Devices Assigned To Site. - > Get all site assigned network devices. The items in the list are arranged
     in an order that corresponds with their internal identifiers.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,7 +32,7 @@ options:
       - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design GetSiteAssignedNetworkDevices
@@ -58,8 +58,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

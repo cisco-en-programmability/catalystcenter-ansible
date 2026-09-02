@@ -13,124 +13,40 @@ description:
   - Adds a device to the PnP database.
   - Deletes specified device from PnP database.
   - Updates device details specified by device id in PnP database.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceInfo:
     description: Pnp Device's deviceInfo.
     suboptions:
-      description:
-        description: Description.
-        type: str
-      deviceSudiSerialNos:
-        description: Device Sudi Serial Nos.
-        elements: str
-        type: list
       hostname:
-        description: Hostname.
-        type: str
-      macAddress:
-        description: Mac Address.
+        description: Pnp Device's hostname.
         type: str
       pid:
-        description: Pid.
+        description: Pnp Device's pid.
         type: str
       serialNumber:
-        description: Serial Number.
-        type: str
-      siteId:
-        description: Site Id.
+        description: Pnp Device's serialNumber.
         type: str
       stack:
-        description: Stack.
+        description: Stack flag.
         type: bool
-      stackInfo:
-        description: Pnp Device's stackInfo.
-        suboptions:
-          isFullRing:
-            description: Is Full Ring.
-            type: bool
-          stackMemberList:
-            description: Pnp Device's stackMemberList.
-            elements: dict
-            suboptions:
-              hardwareVersion:
-                description: Hardware Version.
-                type: str
-              licenseLevel:
-                description: License Level.
-                type: str
-              licenseType:
-                description: License Type.
-                type: str
-              macAddress:
-                description: Mac Address.
-                type: str
-              pid:
-                description: Pid.
-                type: str
-              priority:
-                description: Priority.
-                type: float
-              role:
-                description: Role.
-                type: str
-              serialNumber:
-                description: Serial Number.
-                type: str
-              softwareVersion:
-                description: Software Version.
-                type: str
-              stackNumber:
-                description: Stack Number.
-                type: float
-              state:
-                description: State.
-                type: str
-              sudiSerialNumber:
-                description: Sudi Serial Number.
-                type: str
-            type: list
-          stackRingProtocol:
-            description: Stack Ring Protocol.
-            type: str
-          supportsStackWorkflows:
-            description: Supports Stack Workflows.
-            type: bool
-          totalMemberCount:
-            description: Total Member Count.
-            type: float
-          validLicenseLevels:
-            description: Valid License Levels.
-            elements: str
-            type: list
-        type: dict
       sudiRequired:
-        description: Is Sudi Required.
+        description: SudiRequired flag.
         type: bool
-      userMicNumbers:
-        description: User Mic Numbers.
-        elements: str
-        type: list
       userSudiSerialNos:
         description: List of Secure Unique Device Identifier (SUDI) serial numbers to perform SUDI authorization, Required
           if sudiRequired is true.
         elements: str
         type: list
-      workflowId:
-        description: Workflow Id.
-        type: str
-      workflowName:
-        description: Workflow Name.
-        type: str
     type: dict
   id:
-    description: Id path parameter.
+    description: Pnp Device's id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) AddDeviceSiteManagement
@@ -156,6 +72,36 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Update by id
+  cisco.catalystcenter.pnp_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    deviceInfo:
+      hostname: string
+      pid: string
+      serialNumber: string
+      stack: true
+      sudiRequired: true
+      userSudiSerialNos:
+        - string
+    id: string
+- name: Delete by id
+  cisco.catalystcenter.pnp_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 - name: Create
   cisco.catalystcenter.pnp_device:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -203,36 +149,6 @@ EXAMPLES = r"""
         - string
       workflowId: string
       workflowName: string
-- name: Delete by id
-  cisco.catalystcenter.pnp_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
-- name: Update by id
-  cisco.catalystcenter.pnp_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    deviceInfo:
-      hostname: string
-      pid: string
-      serialNumber: string
-      stack: true
-      sudiRequired: true
-      userSudiSerialNos:
-        - string
-    id: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -241,7 +157,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "_id": "string",
+      "id": "string",
       "deviceInfo": {
         "source": "string",
         "serialNumber": "string",

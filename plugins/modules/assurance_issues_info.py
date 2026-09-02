@@ -10,23 +10,18 @@ module: assurance_issues_info
 short_description: Information module for Assurance Issues
 description:
   - Get all Assurance Issues.
-  - Get Assurance Issues by id.
-  - Returns all details of each issue along with suggested actions for given set of filters specified in query
-    parameters.
-  - If there is no start and/or end time, then end time will be defaulted to current time and start time will
-    be defaulted to 24-hours ago from end time.
-  - All string type query parameters support wildcard search using *.
-  - For example siteHierarchy=Global/San Jose/* returns issues under all sites whose siteHierarchy starts with
-    "Global/San Jose/".
-  - For detailed information, refer to
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-  - Returns all the details and suggested actions of an issue for the given issue id.
-  - For detailed information, refer to
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Get Assurance Issues by id. - > Returns all details of each issue along with suggested actions for given set of filters
+    specified in query parameters. If there is no start and/or end time, then end time will be defaulted to current time and
+    start time will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using
+    *. For example siteHierarchy=Global/San Jose/* returns issues under all sites whole siteHierarchy starts with "Global/San
+    Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-3.2.2-resolved.yaml.
+    - > Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en-
+        programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    IssuesList-1.0.0-resolved.yaml.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -110,6 +105,13 @@ options:
         DeviceType query parameter. Device Type of the device to which this issue belongs to. Supports single
         device type and multiple device types. Examples deviceType=wireless controller (single device type
         requested) deviceType=wireless controller&deviceType=core (multiple device types requested).
+    type: str
+  deviceFamily:
+    description:
+      - >
+        DeviceFamily query parameter. Device Family of the device to which this issue belongs to. Supports
+        single device type and multiple device types. Examples deviceFamily=Unified AP (single device type
+        requested) deviceFamily=Unified AP&deviceFamily=Routers (multiple device types requested).
     type: str
   name:
     description:
@@ -267,7 +269,7 @@ options:
       - Id path parameter. The issue Uuid.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueId
@@ -310,6 +312,7 @@ EXAMPLES = r"""
     entityType: string
     category: string
     deviceType: string
+    deviceFamily: string
     name: string
     issueId: string
     entityId: string
@@ -379,9 +382,7 @@ catalystcenter_response:
         "suggestedActions": [
           {
             "message": "string",
-            "steps": [
-              "string"
-            ]
+            "steps": []
           }
         ],
         "additionalAttributes": [

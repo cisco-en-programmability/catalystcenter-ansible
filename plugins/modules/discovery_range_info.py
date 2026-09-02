@@ -10,11 +10,11 @@ module: discovery_range_info
 short_description: Information module for Discovery Range
 description:
   - Get all Discovery Range.
-  - Returns the discoveries by specified range.
-version_added: '3.1.0'
+  - Returns the discoveries by specified range. Deprecated since Catalyst Center Release 3.2.1.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
       - RecordsToReturn path parameter. Number of records to fetch from the starting index.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery GetDiscoveriesByRange

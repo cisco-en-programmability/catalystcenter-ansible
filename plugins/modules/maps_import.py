@@ -12,17 +12,17 @@ description:
   - Manage operation delete of the resource Maps Import. - > Cancels a previously initatied import, allowing the system to
     cleanup cached resources about that import data, and ensures the import cannot accidentally be performed / approved at
     a later time.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   importContextUuid:
     description: ImportContextUuid path parameter. The unique import context UUID given by a previous call to Start Import
       API.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites ImportMapArchiveCancelAnImport

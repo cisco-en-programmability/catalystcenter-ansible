@@ -11,10 +11,10 @@ short_description: Information module for Integration Settings Itsm Instances
 description:
   - Get all Integration Settings Itsm Instances.
   - Fetches all ITSM Integration settings.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,7 +36,7 @@ options:
       - Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for ITSM Integration GetAllITSMIntegrationSettings
@@ -61,10 +61,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    page_size: 0
-    page: 0
-    sortBy: string
-    order: string
+    page_size: 50
+    page: 1
+    sortBy: name
+    order: asc
   register: result
 """
 RETURN = r"""
@@ -88,9 +88,7 @@ catalystcenter_response:
           "dypName": "string",
           "name": "string",
           "schemaVersion": 0,
-          "softwareVersionLog": [
-            "string"
-          ],
+          "softwareVersionLog": [],
           "uniqueKey": "string",
           "updatedBy": "string",
           "updatedDate": 0

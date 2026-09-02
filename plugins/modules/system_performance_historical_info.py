@@ -12,10 +12,10 @@ description:
   - Get all System Performance Historical. - > Retrieves hourly data of cluster key performance indicators KPIs , like CPU
     utilization, memory utilization or network rates for the past 24 hours. Query parameters 'startTime' and 'endTime' are
     no longer supported.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -41,7 +41,7 @@ options:
         considered.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance SystemPerformanceHistoricalAPI
@@ -66,7 +66,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    kpi: string
+    kpi: cpu,memory,network
     startTime: 0
     endTime: 0
   register: result
@@ -81,22 +81,27 @@ catalystcenter_response:
       "hostName": "string",
       "version": "string",
       "kpis": {
-        "cpu": {
-          "units": "string",
-          "utilization": "string"
+        "legends": {
+          "cpu": {
+            "units": "string"
+          },
+          "memory": {
+            "units": "string"
+          },
+          "network tx_rate": {
+            "units": "string"
+          },
+          "network rx_rate": {
+            "units": "string"
+          }
         },
-        "memory": {
-          "units": "string",
-          "utilization": "string"
+        "data": {
+          "t1": [
+            "string"
+          ]
         },
-        "network tx_rate": {
-          "units": "string",
-          "utilization": "string"
-        },
-        "network rx_rate": {
-          "units": "string",
-          "utilization": "string"
-        }
+        "cpuAvg": "string",
+        "memoryAvg": "string"
       }
     }
 """

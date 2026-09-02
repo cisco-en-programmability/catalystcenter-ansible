@@ -10,11 +10,11 @@ module: system_issue_definitions
 short_description: Resource module for System Issue Definitions
 description:
   - Manage operation update of the resource System Issue Definitions.
-  - Update issue trigger threshold, priority for the given id.
-version_added: '6.15.0'
+  - Update issue trigger threshold, priority for the given id. Also enable or.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -23,19 +23,19 @@ options:
     description: Id path parameter. Issue trigger definition id.
     type: str
   issueEnabled:
-    description: Issue Enabled.
+    description: IssueEnabled flag.
     type: bool
   priority:
-    description: Priority.
+    description: System Issue Definitions's priority.
     type: str
   synchronizeToHealthThreshold:
-    description: Synchronize To Health Threshold.
+    description: SynchronizeToHealthThreshold flag.
     type: bool
   thresholdValue:
-    description: Threshold Value.
+    description: System Issue Definitions's thresholdValue.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues IssueTriggerDefinitionUpdate

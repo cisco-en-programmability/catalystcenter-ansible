@@ -11,10 +11,10 @@ short_description: Resource module for Network Devices Device Controllability Se
 description:
   - Manage operation update of the resource Network Devices Device Controllability Settings.
   - Device Controllability is a system-level process on Catalyst Center that enforces state.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   autocorrectTelemetryConfig:
     description: If it is true, autocorrect telemetry config is enabled. If it is false, autocorrect telemetry config is disabled.
@@ -24,7 +24,7 @@ options:
     description: If it is true, device controllability is enabled. If it is false, device controllability is disabled.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design UpdateDeviceControllabilitySettings
@@ -61,7 +61,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

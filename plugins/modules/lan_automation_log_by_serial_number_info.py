@@ -11,10 +11,10 @@ short_description: Information module for Lan Automation Log By Serial Number
 description:
   - Get Lan Automation Log By Serial Number by id. - > Invoke this API to get the LAN Automation session logs for individual
     devices based on the given LAN Automation session id and device serial number.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -35,7 +35,7 @@ options:
         along with the remaining logs, please leave the query parameter blank.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationLogsForIndividualDevices
@@ -75,14 +75,14 @@ catalystcenter_response:
       "response": [
         {
           "nwOrchId": "string",
-          "entry": [
+          "logs": [
             {
               "logLevel": "string",
               "timeStamp": "string",
-              "record": "string",
-              "deviceId": "string"
+              "record": "string"
             }
-          ]
+          ],
+          "serialNumber": "string"
         }
       ],
       "version": "string"

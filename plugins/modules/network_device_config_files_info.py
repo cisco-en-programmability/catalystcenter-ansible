@@ -14,10 +14,10 @@ description:
   - Retrieves the details of a specific network device configuration file using the `id`. - > Retrieves the list of network
     device configuration file details, sorted by createdTime in descending order. Use /intent/api/v1/networkDeviceConfigFiles/{id}/downloadMasked
     to download masked configurations, or /intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked for unmasked configurations.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -49,7 +49,7 @@ options:
         maximum allowed limit of 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Archive GetConfigurationFileDetailsByID
@@ -83,7 +83,7 @@ EXAMPLES = r"""
     networkDeviceId: string
     fileType: string
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 - name: Get Network Device Config Files by id
   cisco.catalystcenter.network_device_config_files_info:

@@ -10,11 +10,11 @@ module: health_score_definitions_bulk_update
 short_description: Resource module for Health Score Definitions Bulk Update
 description:
   - Manage operation create of the resource Health Score Definitions Bulk Update.
-  - Update health thresholds, include status of overall health status for each metric.
-version_added: '6.15.0'
+  - Update health thresholds, include status of overall health status for each.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,20 +24,20 @@ options:
     elements: dict
     suboptions:
       id:
-        description: Id.
+        description: Health Score Definitions Bulk Update's id.
         type: str
       includeForOverallHealth:
-        description: Include For Overall Health.
+        description: IncludeForOverallHealth flag.
         type: bool
       synchronizeToIssueThreshold:
-        description: Synchronize To Issue Threshold.
+        description: SynchronizeToIssueThreshold flag.
         type: bool
       thresholdValue:
-        description: Threshold Value.
+        description: Health Score Definitions Bulk Update's thresholdValue.
         type: float
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateHealthScoreDefinitions

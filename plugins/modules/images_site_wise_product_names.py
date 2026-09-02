@@ -14,10 +14,10 @@ description:
   - This API unassigns the network device product name from all the sites for the given software image. - > Update the list
     of sites for the network device product name assigned to the software image. Refer to `/dna/intent/api/v1/images` and
     `/dna/intent/api/v1/images/{imageId}/siteWiseProductNames` GET APIs for obtaining `imageId` and `productNameOrdinal` respectively.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   imageId:
     description: ImageId path parameter. Software image identifier. Refer `/dna/intent/api/v1/images` API for obtaining `imageId`.
@@ -30,7 +30,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImage
@@ -69,18 +69,6 @@ EXAMPLES = r"""
     productNameOrdinal: 0
     siteIds:
       - string
-- name: Delete by name
-  cisco.catalystcenter.images_site_wise_product_names:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    imageId: string
-    productNameOrdinal: 0
 - name: Update by name
   cisco.catalystcenter.images_site_wise_product_names:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -95,6 +83,18 @@ EXAMPLES = r"""
     productNameOrdinal: 0
     siteIds:
       - string
+- name: Delete by name
+  cisco.catalystcenter.images_site_wise_product_names:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    imageId: string
+    productNameOrdinal: 0
 """
 RETURN = r"""
 catalystcenter_response:

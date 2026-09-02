@@ -11,10 +11,10 @@ short_description: Information module for Activities Count
 description:
   - Get all Activities Count.
   - Retrieves the count of activities.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -44,7 +44,7 @@ options:
       - EndTime query parameter. This is the epoch millisecond end time upto which activities need to be fetched.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task RetrievesTheCountOfActivities

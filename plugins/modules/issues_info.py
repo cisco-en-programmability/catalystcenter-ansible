@@ -10,11 +10,11 @@ module: issues_info
 short_description: Information module for Issues
 description:
   - Get all Issues.
-  - Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's MAC address.
-version_added: '3.1.0'
+  - Intent API to get a list of global issues, issues for a specific device, or.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -56,7 +56,7 @@ options:
         macAddress and deviceId are not provided).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues Issues

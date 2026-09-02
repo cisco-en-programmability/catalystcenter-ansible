@@ -18,7 +18,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import wireless_design_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    wireless_design_workflow_manager,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -27,8 +29,12 @@ class TestWirelessDesign(TestCatalystModule):
     test_data = loadPlaybookData("wireless_design_workflow_manager_intent")
     # playbooks for wireless_design_workflow_manager enhancements (feature_template)
     playbook_aaa_radius_attribute = test_data.get("playbook_aaa_radius_attribute")
-    playbook_aaa_radius_attribute_update = test_data.get("playbook_aaa_radius_attribute_update")
-    playbook_aaa_radius_attribute_delete = test_data.get("playbook_aaa_radius_attribute_delete")
+    playbook_aaa_radius_attribute_update = test_data.get(
+        "playbook_aaa_radius_attribute_update"
+    )
+    playbook_aaa_radius_attribute_delete = test_data.get(
+        "playbook_aaa_radius_attribute_delete"
+    )
 
     playbook_advanced_ssid_create = test_data.get("playbook_advanced_ssid_create")
     playbook_advanced_ssid_update = test_data.get("playbook_advanced_ssid_update")
@@ -41,9 +47,15 @@ class TestWirelessDesign(TestCatalystModule):
     playbook_dot11ax_add = test_data.get("playbook_dot11ax_add")
     playbook_dot11ax_update = test_data.get("playbook_dot11ax_update")
     playbook_dot11ax_delete = test_data.get("playbook_dot11ax_delete")
-    playbook_dot11ax_add_24ghz_band_compat = test_data.get("playbook_dot11ax_add_24ghz_band_compat")
-    playbook_dot11ax_add_6ghz_band_compat = test_data.get("playbook_dot11ax_add_6ghz_band_compat")
-    playbook_multicast_delete_no_feature_attrs = test_data.get("playbook_multicast_delete_no_feature_attrs")
+    playbook_dot11ax_add_24ghz_band_compat = test_data.get(
+        "playbook_dot11ax_add_24ghz_band_compat"
+    )
+    playbook_dot11ax_add_6ghz_band_compat = test_data.get(
+        "playbook_dot11ax_add_6ghz_band_compat"
+    )
+    playbook_multicast_delete_no_feature_attrs = test_data.get(
+        "playbook_multicast_delete_no_feature_attrs"
+    )
 
     playbook_dot11be_add = test_data.get("playbook_dot11be_add")
     playbook_dot11be_update = test_data.get("playbook_dot11be_update")
@@ -132,7 +144,9 @@ class TestWirelessDesign(TestCatalystModule):
         if "update_ssid" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("respone_get_sites_success"),
-                self.test_data.get("response_get_ssid_by_site_update_iteration_1_success"),
+                self.test_data.get(
+                    "response_get_ssid_by_site_update_iteration_1_success"
+                ),
                 self.test_data.get("response_get_sites_2_success"),
                 self.test_data.get("response_get_ssid_by_site_empty_success"),
                 self.test_data.get("response_get_task_id_success"),
@@ -150,7 +164,9 @@ class TestWirelessDesign(TestCatalystModule):
         if "delete_ssid" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("respone_get_sites_success"),
-                self.test_data.get("response_get_ssid_by_site_delete_iteration_1_success"),
+                self.test_data.get(
+                    "response_get_ssid_by_site_delete_iteration_1_success"
+                ),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_id_success"),
@@ -649,7 +665,9 @@ class TestWirelessDesign(TestCatalystModule):
         if "update_ssid_without_ssid_type" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("respone_get_sites_success"),
-                self.test_data.get("response_get_ssid_by_site_update_without_ssid_type"),
+                self.test_data.get(
+                    "response_get_ssid_by_site_update_without_ssid_type"
+                ),
             ]
 
         if "5ghz_radio_band_no_2dot4_policy" in self._testMethodName:
@@ -894,7 +912,9 @@ class TestWirelessDesign(TestCatalystModule):
         if "allow_case_insensitive_ssid_type" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("respone_get_sites_success"),
-                self.test_data.get("response_get_ssid_by_site_update_without_ssid_type"),
+                self.test_data.get(
+                    "response_get_ssid_by_site_update_without_ssid_type"
+                ),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
             ]
@@ -902,7 +922,11 @@ class TestWirelessDesign(TestCatalystModule):
     # SUCCESS TESTCASES ########################################################################################
 
     def test_create_ssid(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_ssids")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_create_ssids")
+            )
+        )
 
         set_module_args(
             dict(
@@ -1186,9 +1210,7 @@ class TestWirelessDesign(TestCatalystModule):
                 break
 
         self.assertIsNotNone(update_call, "update_ap_profile_by_id was not called")
-        management_settings = update_call.get("params", {}).get(
-            "managementSetting", {}
-        )
+        management_settings = update_call.get("params", {}).get("managementSetting", {})
         self.assertEqual(management_settings.get("authType"), "NO-AUTH")
         self.assertIsNone(management_settings.get("dot1xUsername"))
         self.assertIsNone(management_settings.get("dot1xPassword"))
@@ -1351,721 +1373,726 @@ class TestWirelessDesign(TestCatalystModule):
     def test_wireless_design_workflow_manager_playbook_aaa_radius_attribute(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_aaa_radius_attribute
+                config=self.playbook_aaa_radius_attribute,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "aaa_radius_attributes_add": {
                     "sample_design": "Successfully created AAA Radius Attribute."
                 }
-            }
+            },
         )
 
-    def test_wireless_design_workflow_manager_playbook_aaa_radius_attribute_update(self):
+    def test_wireless_design_workflow_manager_playbook_aaa_radius_attribute_update(
+        self,
+    ):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_aaa_radius_attribute_update
+                config=self.playbook_aaa_radius_attribute_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "aaa_radius_attributes_update": {
                     "sample_design": "Successfully updated AAA Radius Attribute."
                 }
-            }
+            },
         )
 
-    def test_wireless_design_workflow_manager_playbook_aaa_radius_attribute_delete(self):
+    def test_wireless_design_workflow_manager_playbook_aaa_radius_attribute_delete(
+        self,
+    ):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_aaa_radius_attribute_delete
+                config=self.playbook_aaa_radius_attribute_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "aaa_radius_attributes_delete_or_reset": {
                     "sample_design": "Successfully deleted AAA Radius Attribute."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_advanced_ssid_create(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_advanced_ssid_create
+                config=self.playbook_advanced_ssid_create,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "advanced_ssids_add": {
                     "sample_advanced_ssid_design": "Successfully created Advanced SSID."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_advanced_ssid_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_advanced_ssid_update
+                config=self.playbook_advanced_ssid_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "advanced_ssids_update": {
                     "sample_advanced_ssid_design": "Successfully updated Advanced SSID."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_advanced_ssid_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_advanced_ssid_delete
+                config=self.playbook_advanced_ssid_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "advanced_ssids_delete_or_reset": {
                     "sample_advanced_ssid_design": "Successfully deleted Advanced SSID."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_clean_air_create(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_clean_air_create
+                config=self.playbook_clean_air_create,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "clean_air_add": {
                     "sample_cleanair_design_24ghz": "Successfully created CleanAir Profile."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_clean_air_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_clean_air_update
+                config=self.playbook_clean_air_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "No Wireless Design operations were required for the provided parameters in the Cisco Catalyst Center."
+            result.get("msg"),
+            "No Wireless Design operations were required for the provided parameters in the Cisco Catalyst Center.",
         )
 
     def test_wireless_design_workflow_manager_playbook_clean_air_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_clean_air_delete
+                config=self.playbook_clean_air_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "clean_air_delete_or_reset": {
                     "sample_cleanair_design_24ghz": "Successfully deleted CleanAir Profile."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11ax_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11ax_add
+                config=self.playbook_dot11ax_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11ax_add": {
                     "dot11ax_24ghz_design": "Successfully created dot11ax configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11ax_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11ax_update
+                config=self.playbook_dot11ax_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11ax_update": {
                     "dot11ax_24ghz_design": "Successfully updated dot11ax configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11ax_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_dot11ax_delete
+                config=self.playbook_dot11ax_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(11111111111111)
         print(result)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11ax_delete_or_reset": {
                     "dot11ax_24ghz_design": "Successfully deleted dot11ax configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11be_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11be_add
+                config=self.playbook_dot11be_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11be_add": {
                     "dot11be_24ghz_design": "Successfully created dot11be configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11be_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11be_update
+                config=self.playbook_dot11be_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11be_update": {
                     "dot11be_24ghz_design": "Successfully updated dot11be configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_dot11be_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_dot11be_delete
+                config=self.playbook_dot11be_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "dot11be_delete": {
                     "dot11be_24ghz_design": "Successfully deleted dot11be configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_flexconnect_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_flexconnect_add
+                config=self.playbook_flexconnect_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "flexconnect_add": {
                     "flexconnect_branch_office": "Successfully created FlexConnect."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_flexconnect_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_flexconnect_update
+                config=self.playbook_flexconnect_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "flexconnect_update": {
                     "flexconnect_branch_office": "Successfully updated FlexConnect."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_flexconnect_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_flexconnect_delete
+                config=self.playbook_flexconnect_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "flexconnect_delete": {
                     "flexconnect_branch_office": "Successfully deleted FlexConnect."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_multicast_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_multicast_add
+                config=self.playbook_multicast_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "multicast_add": {
                     "Unknown": "Successfully created Multicast configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_multicast_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_multicast_update
+                config=self.playbook_multicast_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "multicast_update": {
                     "multicast_office_profile_1": "Successfully updated Multicast configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_general_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_rrm_general_add
+                config=self.playbook_rrm_general_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_general_add": {
                     "rrm_general_5ghz_default": "Successfully created RRM General configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_general_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_rrm_general_update
+                config=self.playbook_rrm_general_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_general_update": {
                     "rrm_general_5ghz_default": "Successfully updated RRM General configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_general_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_rrm_general_delete
+                config=self.playbook_rrm_general_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_general_delete": {
                     "rrm_general_5ghz_default": "Successfully deleted RRM General configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_fra_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_rrm_fra_add
+                config=self.playbook_rrm_fra_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_fra_add": {
                     "fra_design_1": "Successfully created RRM-FRA configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_fra_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_rrm_fra_update
+                config=self.playbook_rrm_fra_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_fra_update": {
                     "fra_design_1": "Successfully updated RRM-FRA configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_rrm_fra_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_rrm_fra_delete
+                config=self.playbook_rrm_fra_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "rrm_fra_delete": {
                     "fra_design_1": "Successfully deleted RRM-FRA configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_event_driven_rrm_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_event_driven_rrm_add
+                config=self.playbook_event_driven_rrm_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "event_driven_rrm_add": {
                     "edrrm_2_4ghz_design": "Successfully created Event-Driven RRM configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_event_driven_rrm_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_event_driven_rrm_update
+                config=self.playbook_event_driven_rrm_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "event_driven_rrm_update": {
                     "edrrm_2_4ghz_design": "Successfully updated Event-Driven RRM configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_event_driven_rrm_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_event_driven_rrm_delete
+                config=self.playbook_event_driven_rrm_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "event_driven_rrm_delete": {
                     "edrrm_2_4ghz_design": "Successfully deleted Event-Driven RRM configuration."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_80211be_add(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_80211be_add
+                config=self.playbook_80211be_add,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "80211be_add": {
                     "sample_design": "Successfully created 802.11be profile."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_80211be_update(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_80211be_update
+                config=self.playbook_80211be_update,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "80211be_update": {
                     "sample_design": "Successfully updated 802.11be profile."
                 }
-            }
+            },
         )
 
     def test_wireless_design_workflow_manager_playbook_80211be_delete(self):
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_80211be_delete
+                config=self.playbook_80211be_delete,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "80211be_delete": "Successfully deleted 1 802.11be profile(s). Details: {'sample_design': 'Successfully deleted 802.11be profile.'}"
-            }
+            },
         )
 
-    def test_wireless_design_workflow_manager_aaa_radius_attribute_none_called_station_id(self):
+    def test_wireless_design_workflow_manager_aaa_radius_attribute_none_called_station_id(
+        self,
+    ):
         """Test that creating aaa_radius_attribute without called_station_id succeeds."""
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.test_data.get("playbook_aaa_radius_attribute_none_called_station_id")
+                config=self.test_data.get(
+                    "playbook_aaa_radius_attribute_none_called_station_id"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn(
-            "aaa_radius_attributes_add",
-            str(result.get('msg', ''))
-        )
+        self.assertIn("aaa_radius_attributes_add", str(result.get("msg", "")))
 
     def test_wireless_design_workflow_manager_create_ssid_invalid_ssid_type(self):
         """Test that ssid_type='InvalidType' (wrong ssid type) fails validation."""
@@ -2077,11 +2104,13 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_create_ssid_invalid_ssid_type")
+                config=self.test_data.get(
+                    "playbook_config_create_ssid_invalid_ssid_type"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid choice", result.get('msg', ''))
+        self.assertIn("Invalid choice", result.get("msg", ""))
 
     def test_wireless_design_workflow_manager_allow_case_insensitive_ssid_type(self):
         """Test that ssid_type='EnTeRpRiSe' (mixed case) is accepted and normalized to 'Enterprise'."""
@@ -2093,11 +2122,16 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_create_ssid_mixed_case_ssid_type")
+                config=self.test_data.get(
+                    "playbook_config_create_ssid_mixed_case_ssid_type"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("Update SSID(s) Task succeeded for the following SSID(s)", result.get('msg', ''))
+        self.assertIn(
+            "Update SSID(s) Task succeeded for the following SSID(s)",
+            result.get("msg", ""),
+        )
 
     def test_wireless_design_workflow_manager_create_ssid_missing_ssid_type(self):
         """Test that creating a new SSID without ssid_type fails."""
@@ -2109,11 +2143,16 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_create_ssid_missing_ssid_type")
+                config=self.test_data.get(
+                    "playbook_config_create_ssid_missing_ssid_type"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("'ssid_type' parameter is required when creating a new SSID", result.get('msg', ''))
+        self.assertIn(
+            "'ssid_type' parameter is required when creating a new SSID",
+            result.get("msg", ""),
+        )
 
     def test_wireless_design_workflow_manager_update_ssid_without_ssid_type(self):
         """Test that updating an existing SSID without ssid_type succeeds."""
@@ -2125,11 +2164,15 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_update_ssid_without_ssid_type")
+                config=self.test_data.get(
+                    "playbook_config_update_ssid_without_ssid_type"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+        self.assertIn(
+            "No Wireless Design operations were required", result.get("msg", "")
+        )
 
     def test_wireless_design_workflow_manager_5ghz_radio_band_no_2dot4_policy(self):
         """Test that SSID with radio_bands=[5] and no 2_dot_4_ghz_band_policy passes validation."""
@@ -2141,13 +2184,19 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_5ghz_radio_band_no_2dot4_policy")
+                config=self.test_data.get(
+                    "playbook_config_5ghz_radio_band_no_2dot4_policy"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+        self.assertIn(
+            "No Wireless Design operations were required", result.get("msg", "")
+        )
 
-    def test_wireless_design_workflow_manager_power_profiles_case_insensitive_idempotent(self):
+    def test_wireless_design_workflow_manager_power_profiles_case_insensitive_idempotent(
+        self,
+    ):
         """Test that mixed-case power profile rules match uppercase API response (idempotent)."""
         set_module_args(
             dict(
@@ -2157,13 +2206,19 @@ class TestWirelessDesign(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="merged",
-                config=self.test_data.get("playbook_config_power_profiles_case_insensitive_idempotent")
+                config=self.test_data.get(
+                    "playbook_config_power_profiles_case_insensitive_idempotent"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No Wireless Design operations were required", result.get('msg', ''))
+        self.assertIn(
+            "No Wireless Design operations were required", result.get("msg", "")
+        )
 
-    def test_wireless_design_workflow_manager_playbook_dot11ax_add_24ghz_band_compat(self):
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_24ghz_band_compat(
+        self,
+    ):
         """Test that band-incompatible attributes (multipleBssid) are filtered out for 2.4GHz.
 
         BUG: multiple_bssid is only valid for 6GHZ band. When a user specifies it
@@ -2173,13 +2228,13 @@ class TestWirelessDesign(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11ax_add_24ghz_band_compat
+                config=self.playbook_dot11ax_add_24ghz_band_compat,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -2189,16 +2244,26 @@ class TestWirelessDesign(TestCatalystModule):
         create_call = None
         for call in self.run_catalystcenter_exec.call_args_list:
             kwargs = call[1] if call[1] else {}
-            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+            if (
+                kwargs.get("function")
+                == "create_dot11ax_configuration_feature_template"
+            ):
                 create_call = kwargs
                 break
 
-        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        self.assertIsNotNone(
+            create_call, "create_dot11ax_configuration_feature_template was not called"
+        )
         feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
-        self.assertNotIn("multipleBssid", feature_attrs,
-                         "'multipleBssid' is only supported for the 'radioBand' 6GHZ")
+        self.assertNotIn(
+            "multipleBssid",
+            feature_attrs,
+            "'multipleBssid' is only supported for the 'radioBand' 6GHZ",
+        )
 
-    def test_wireless_design_workflow_manager_playbook_dot11ax_add_6ghz_band_compat(self):
+    def test_wireless_design_workflow_manager_playbook_dot11ax_add_6ghz_band_compat(
+        self,
+    ):
         """Test that band-incompatible attributes (obssPd, nonSRGObssPdMaxThreshold) are filtered for 6GHz.
 
         BUG: obss_pd and non_srg_obss_pd_max_threshold are only valid for 2_4GHZ and
@@ -2209,13 +2274,13 @@ class TestWirelessDesign(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_dot11ax_add_6ghz_band_compat
+                config=self.playbook_dot11ax_add_6ghz_band_compat,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -2225,18 +2290,31 @@ class TestWirelessDesign(TestCatalystModule):
         create_call = None
         for call in self.run_catalystcenter_exec.call_args_list:
             kwargs = call[1] if call[1] else {}
-            if kwargs.get("function") == "create_dot11ax_configuration_feature_template":
+            if (
+                kwargs.get("function")
+                == "create_dot11ax_configuration_feature_template"
+            ):
                 create_call = kwargs
                 break
 
-        self.assertIsNotNone(create_call, "create_dot11ax_configuration_feature_template was not called")
+        self.assertIsNotNone(
+            create_call, "create_dot11ax_configuration_feature_template was not called"
+        )
         feature_attrs = create_call.get("params", {}).get("featureAttributes", {})
-        self.assertNotIn("obssPd", feature_attrs,
-                         "'obssPd' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
-        self.assertNotIn("nonSRGObssPdMaxThreshold", feature_attrs,
-                         "'nonSRGObssPdMaxThreshold' is only supported for the 'radioBand' 2_4GHZ/5GHZ")
+        self.assertNotIn(
+            "obssPd",
+            feature_attrs,
+            "'obssPd' is only supported for the 'radioBand' 2_4GHZ/5GHZ",
+        )
+        self.assertNotIn(
+            "nonSRGObssPdMaxThreshold",
+            feature_attrs,
+            "'nonSRGObssPdMaxThreshold' is only supported for the 'radioBand' 2_4GHZ/5GHZ",
+        )
 
-    def test_wireless_design_workflow_manager_playbook_multicast_delete_no_feature_attrs(self):
+    def test_wireless_design_workflow_manager_playbook_multicast_delete_no_feature_attrs(
+        self,
+    ):
         """Test that multicast_configuration delete works with only design_name (no feature_attributes).
 
         BUG: The argspec had feature_attributes as required: True, which caused
@@ -2245,21 +2323,21 @@ class TestWirelessDesign(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_multicast_delete_no_feature_attrs
+                config=self.playbook_multicast_delete_no_feature_attrs,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             {
                 "multicast_delete": {
                     "test_multicast_design": "Successfully deleted Multicast configuration."
                 }
-            }
+            },
         )

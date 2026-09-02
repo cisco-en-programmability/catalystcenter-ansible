@@ -25,7 +25,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_sites_zones_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_fabric_sites_zones_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -35,27 +37,52 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
     test_data = loadPlaybookData("sda_fabric_sites_zones_playbook_config_generator")
 
     # Load all playbook configurations
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_fabric_sites_only = test_data.get("playbook_config_fabric_sites_only")
-    playbook_config_fabric_zones_only = test_data.get("playbook_config_fabric_zones_only")
-    playbook_config_fabric_sites_and_zones = test_data.get("playbook_config_fabric_sites_and_zones")
-    playbook_config_fabric_sites_with_filters = test_data.get("playbook_config_fabric_sites_with_filters")
-    playbook_config_fabric_sites_with_multiple_filters = test_data.get("playbook_config_fabric_sites_with_multiple_filters")
-    playbook_config_fabric_zones_with_filters = test_data.get("playbook_config_fabric_zones_with_filters")
-    playbook_config_fabric_zones_with_multiple_filters = test_data.get("playbook_config_fabric_zones_with_multiple_filters")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_fabric_sites_only = test_data.get(
+        "playbook_config_fabric_sites_only"
+    )
+    playbook_config_fabric_zones_only = test_data.get(
+        "playbook_config_fabric_zones_only"
+    )
+    playbook_config_fabric_sites_and_zones = test_data.get(
+        "playbook_config_fabric_sites_and_zones"
+    )
+    playbook_config_fabric_sites_with_filters = test_data.get(
+        "playbook_config_fabric_sites_with_filters"
+    )
+    playbook_config_fabric_sites_with_multiple_filters = test_data.get(
+        "playbook_config_fabric_sites_with_multiple_filters"
+    )
+    playbook_config_fabric_zones_with_filters = test_data.get(
+        "playbook_config_fabric_zones_with_filters"
+    )
+    playbook_config_fabric_zones_with_multiple_filters = test_data.get(
+        "playbook_config_fabric_zones_with_multiple_filters"
+    )
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
-    playbook_config_invalid_site_name = test_data.get("playbook_config_invalid_site_name")
+    playbook_config_invalid_site_name = test_data.get(
+        "playbook_config_invalid_site_name"
+    )
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
-    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
-    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
+    playbook_config_invalid_component = test_data.get(
+        "playbook_config_invalid_component"
+    )
+    playbook_config_invalid_component_filters = test_data.get(
+        "playbook_config_invalid_component_filters"
+    )
 
     def setUp(self):
         super(TestFabricSitesZonesPlaybookConfigGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
@@ -93,7 +120,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
         elif "invalid_site_name" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_empty_fabric_site_details")
+                self.test_data.get("get_empty_fabric_site_details"),
             ]
 
         elif "fabric_zones_only" in self._testMethodName:
@@ -110,38 +137,78 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_zone_site_details"),
             ]
 
-        elif "fabric_sites_with_filters" in self._testMethodName and "multiple" not in self._testMethodName:
+        elif (
+            "fabric_sites_with_filters" in self._testMethodName
+            and "multiple" not in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_site_details"),  # Get site ID from site_name_hierarchy
-                self.test_data.get("get_fabric_site_details"),  # Get fabric site with that site ID
-                self.test_data.get("get_site_details"),  # Transform site IDs back to hierarchy
+                self.test_data.get(
+                    "get_site_details"
+                ),  # Get site ID from site_name_hierarchy
+                self.test_data.get(
+                    "get_fabric_site_details"
+                ),  # Get fabric site with that site ID
+                self.test_data.get(
+                    "get_site_details"
+                ),  # Transform site IDs back to hierarchy
             ]
 
         elif "fabric_sites_with_multiple_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),  # Get site ID for first filter
-                self.test_data.get("get_fabric_site_details"),  # Get fabric site with first site ID
-                self.test_data.get("get_site_details_2"),  # Get site ID for second filter
-                self.test_data.get("get_fabric_site_details"),  # Get fabric site with second site ID
-                self.test_data.get("get_site_details"),  # Transform site IDs back to hierarchy
-                self.test_data.get("get_site_details_2"),  # Transform second site ID back to hierarchy
+                self.test_data.get(
+                    "get_fabric_site_details"
+                ),  # Get fabric site with first site ID
+                self.test_data.get(
+                    "get_site_details_2"
+                ),  # Get site ID for second filter
+                self.test_data.get(
+                    "get_fabric_site_details"
+                ),  # Get fabric site with second site ID
+                self.test_data.get(
+                    "get_site_details"
+                ),  # Transform site IDs back to hierarchy
+                self.test_data.get(
+                    "get_site_details_2"
+                ),  # Transform second site ID back to hierarchy
             ]
 
-        elif "fabric_zones_with_filters" in self._testMethodName and "multiple" not in self._testMethodName:
+        elif (
+            "fabric_zones_with_filters" in self._testMethodName
+            and "multiple" not in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_zone_site_details"),  # Get site ID from site_name_hierarchy
-                self.test_data.get("get_fabric_zone_details"),  # Get fabric zone with that site ID
-                self.test_data.get("get_zone_site_details"),  # Transform site IDs back to hierarchy
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Get site ID from site_name_hierarchy
+                self.test_data.get(
+                    "get_fabric_zone_details"
+                ),  # Get fabric zone with that site ID
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Transform site IDs back to hierarchy
             ]
 
         elif "fabric_zones_with_multiple_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_zone_site_details"),  # Get site ID for first filter
-                self.test_data.get("get_fabric_zone_details"),  # Get fabric zone with first site ID
-                self.test_data.get("get_zone_site_details"),  # Get site ID for second filter
-                self.test_data.get("get_fabric_zone_details"),  # Get fabric zone with second site ID
-                self.test_data.get("get_zone_site_details"),  # Transform first site ID back to hierarchy
-                self.test_data.get("get_zone_site_details"),  # Transform second site ID back to hierarchy
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Get site ID for first filter
+                self.test_data.get(
+                    "get_fabric_zone_details"
+                ),  # Get fabric zone with first site ID
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Get site ID for second filter
+                self.test_data.get(
+                    "get_fabric_zone_details"
+                ),  # Get fabric zone with second site ID
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Transform first site ID back to hierarchy
+                self.test_data.get(
+                    "get_zone_site_details"
+                ),  # Transform second site ID back to hierarchy
             ]
 
         elif "no_file_path" in self._testMethodName:
@@ -170,9 +237,11 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             # No side effects needed - validation happens before API calls
             pass
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_generate_all_configurations(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for all fabric sites and zones.
 
@@ -189,15 +258,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_configurations
+                config=self.playbook_config_generate_all_configurations,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_only(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_only(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with only fabric sites.
 
@@ -214,15 +288,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_sites_only
+                config=self.playbook_config_fabric_sites_only,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_only(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_only(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with only fabric zones.
 
@@ -239,15 +318,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_zones_only
+                config=self.playbook_config_fabric_zones_only,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_and_zones(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_and_zones(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with both fabric sites and zones.
 
@@ -264,15 +348,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_sites_and_zones
+                config=self.playbook_config_fabric_sites_and_zones,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with fabric sites filtered by site hierarchy.
 
@@ -289,15 +378,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_sites_with_filters
+                config=self.playbook_config_fabric_sites_with_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_multiple_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_sites_with_multiple_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with multiple fabric sites filters.
 
@@ -314,15 +408,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_sites_with_multiple_filters
+                config=self.playbook_config_fabric_sites_with_multiple_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with fabric zones filtered by site hierarchy.
 
@@ -339,15 +438,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_zones_with_filters
+                config=self.playbook_config_fabric_zones_with_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_multiple_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_fabric_zones_with_multiple_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with multiple fabric zones filters.
 
@@ -364,15 +468,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_fabric_zones_with_multiple_filters
+                config=self.playbook_config_fabric_zones_with_multiple_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_no_file_path(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration without specifying file_path.
 
@@ -389,16 +498,21 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_no_file_path
+                config=self.playbook_config_no_file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
-        self.assertIn("sda_fabric_sites_zones_playbook_config", str(result.get('msg')))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
+        self.assertIn("sda_fabric_sites_zones_playbook_config", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_empty_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with empty component-specific filters.
 
@@ -415,15 +529,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_filters
+                config=self.playbook_config_empty_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_site_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_site_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with invalid site name filters for fabric sites.
 
@@ -440,16 +559,20 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_site_name
+                config=self.playbook_config_invalid_site_name,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertEqual("ok", str(result.get('msg').get('status')))
-        self.assertIn("No configurations found for module", str(result.get('msg').get('message')))
+        self.assertEqual("ok", str(result.get("msg").get("status")))
+        self.assertIn(
+            "No configurations found for module", str(result.get("msg").get("message"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_empty_config(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_empty_config(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty configuration dictionary.
 
@@ -466,7 +589,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_config
+                config=self.playbook_config_empty_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -475,9 +598,11 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_empty_component_specific_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_empty_component_specific_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty component_specific_filters dictionary.
 
@@ -494,7 +619,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_component_specific_filters
+                config=self.playbook_config_empty_component_specific_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -503,9 +628,11 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_component(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_component(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid component in components_list.
 
@@ -522,15 +649,19 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component
+                config=self.playbook_config_invalid_component,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Invalid network components provided for module", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_component_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_sites_zones_playbook_config_generator_invalid_component_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid component in component_specific_filters.
 
@@ -547,7 +678,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component_filters
+                config=self.playbook_config_invalid_component_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)

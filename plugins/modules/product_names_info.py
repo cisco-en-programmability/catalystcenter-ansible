@@ -13,14 +13,18 @@ description:
   - Get Product Names by name.
   - Get the list of network device product names, their ordinal, and the support PIDs based on filter criteria.
   - Get the network device product name, its ordinal, and supported PIDs.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  productNameOrdinal:
+    description:
+      - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
+    type: float
   productName:
     description:
       - >
@@ -43,12 +47,8 @@ options:
         Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
         and 500, respectively.
     type: int
-  productNameOrdinal:
-    description:
-      - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
-    type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductName
@@ -80,8 +80,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     productName: string
     productId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 - name: Get Product Names by name
   cisco.catalystcenter.product_names_info:
@@ -104,8 +104,12 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "id": "string",
+        "productName": "string",
+        "productNameOrdinal": 0,
+        "productIds": [
+          "string"
+        ]
       },
       "version": "string"
     }

@@ -13,10 +13,10 @@ description:
   - Get Cisco Imcs by id. - > This API retrieves the Cisco Integrated Management Controller IMC configuration for a Catalyst
     Center node, identified by the specified ID. - > This API retrieves the configurations of the Cisco Integrated Management
     Controller IMC that have been added to the Catalyst Center nodes.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
       - Id path parameter. The unique identifier for this Cisco IMC configuration.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Cisco IMC RetrievesCiscoIMCConfigurationsForCatalystCenterNodes
@@ -37,8 +37,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-cisco-imc-configuration-for-a-catalyst-center-node
 notes:
   - SDK Method used are
-    cisco_i_m_c.CiscoIMC.retrieves_cisco_i_m_c_configurations_for_catalyst_center_nodes,
-    cisco_i_m_c.CiscoIMC.retrieves_the_cisco_i_m_c_configuration_for_a_catalyst_center_node,
+    cisco_imc.CiscoIMC.retrieves_cisco_imc_configurations_for_catalyst_center_nodes,
+    cisco_imc.CiscoIMC.retrieves_the_cisco_imc_configuration_for_a_catalyst_center_node,
   - Paths used are
     get /dna/system/api/v1/ciscoImcs,
     get /dna/system/api/v1/ciscoImcs/{id},

@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Config Files Id Download U
 description:
   - Manage operation create of the resource Network Device Config Files Id Download Unmasked.
   - Download the unmasked raw device configuration by providing the file `id`.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The value of `id` can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.
@@ -25,7 +25,7 @@ options:
       white space or the characters <>.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Archive DownloadUnmaskedrawDeviceConfigurationAsZIP
@@ -33,7 +33,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!download-unmaskedraw-device-configuration-as-zip
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.download_unmaskedraw_device_configuration_as_z_ip,
+    configuration_archive.ConfigurationArchive.download_unmaskedraw_device_configuration_as_zip,
   - Paths used are
     post /dna/intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked,
 """

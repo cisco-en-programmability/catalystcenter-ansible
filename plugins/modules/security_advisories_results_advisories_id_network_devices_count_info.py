@@ -11,10 +11,10 @@ short_description: Information module for Security Advisories Results Advisories
 description:
   - Get all Security Advisories Results Advisories Id Network Devices Count.
   - Get count of security advisory network devices for the security advisory.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
         IN_PROGRESS, SUCCESS, FAILED, FALL_BACK.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetCountOfSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory

@@ -12,10 +12,10 @@ description:
   - Manage operation update of the resource Network Device Sync. - > Synchronizes the devices. If forceSync param is false
     default then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high
     priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   forceSync:
     description: ForceSync query parameter.
@@ -25,7 +25,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices SyncDevices

@@ -12,11 +12,11 @@ description:
   - Get all Network Applications Count. - > Retrieves the number of network applications by applying basic filtering. If startTime
     and endTime are not provided, the API defaults to the last 24 hours. `siteId` is mandatory. `siteId` must be a site UUID
     of a building. For detailed information about the usage of the API, please refer to the Open API specification document
-    - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-NetworkApplications-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+    - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-NetworkApplications-1.0.2-resolved.yaml.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -39,6 +39,15 @@ options:
         SiteId query parameter. The site UUID without the top level hierarchy. `siteId` is mandatory. `siteId`
         must be a site UUID of a building. (Ex."buildingUuid") Examples `siteId=buildingUuid` (single siteId
         requested) `siteId=buildingUuid1&siteId=buildingUuid2` (multiple siteId requested).
+    type: str
+  exporterNetworkDeviceId:
+    description:
+      - >
+        ExporterNetworkDeviceId query parameter. Unique ID of the netflow exporter device. Examples
+        `exporterNetworkDeviceId=5b234dbc-583e-491b-bf1a-318bba6c017f` (single exporterNetworkDeviceId
+        requested) `exporterNetworkDeviceId=5b234dbc-583e-491b-bf1a-
+        318bba6c017f&exporterNetworkDeviceId=8b234dbc-583e-491b-bf1a-318bba6c017f` (multiple
+        exporterNetworkDeviceId requested).
     type: str
   ssid:
     description:
@@ -63,8 +72,14 @@ options:
         irrelevant or default are selectively excluded from certain data sets, streamlining focus on what's most
         important for business outcomes.
     type: str
+  healthScore:
+    description:
+      - >
+        HealthScore query parameter. Application health score. Examples `healthScore=7` (single healthScore
+        requested) `healthScore=7&healthScore=3` (multiple healthScore requested).
+    type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Applications RetrievesTheTotalCountOfNetworkApplicationsByApplyingBasicFiltering
@@ -92,9 +107,11 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
     siteId: string
+    exporterNetworkDeviceId: string
     ssid: string
     applicationName: string
     businessRelevance: string
+    healthScore: 0
   register: result
 """
 RETURN = r"""

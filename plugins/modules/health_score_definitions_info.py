@@ -11,31 +11,25 @@ short_description: Information module for Health Score Definitions
 description:
   - Get all Health Score Definitions.
   - Get Health Score Definitions by id.
-  - Get all health score defintions.
-  - Get health score defintion for the given id.
-  - Definition includes all properties from HealthScoreDefinition schema by default.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Get all health score defintions. Supported filters are id, name and overall.
+  - Get health score defintion for the given id. Definition includes all.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Health score definition id.
+    type: str
   deviceType:
     description:
       - >
         DeviceType query parameter. These are the device families supported for health score definitions. If no
         input is made on device family, all device families are considered.
-    type: str
-  id:
-    description:
-      - >
-        Id query parameter. The definition identifier. Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46 (single
-        entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47
-        (multiple ids in the query param).
     type: str
   includeForOverallHealth:
     description:
@@ -61,7 +55,7 @@ options:
       - Limit query parameter. Maximum number of records to return.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFilters

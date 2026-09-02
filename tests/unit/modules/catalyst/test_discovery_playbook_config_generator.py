@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import discovery_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    discovery_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -34,7 +36,8 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
         super(TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -155,12 +158,12 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_discovery_name_filter(self):
         """
@@ -178,12 +181,12 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 state="gathered",
                 file_path="/tmp/test_discoveries.yml",
                 file_mode="overwrite",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_discovery_type_filter(self):
         """
@@ -199,13 +202,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_by_type
+                config=self.playbook_config_by_type,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_component_filters(self):
         """
@@ -221,13 +224,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_by_type
+                config=self.playbook_config_by_type,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Module executes successfully and returns response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_empty_discoveries_response(self):
         """
@@ -247,13 +250,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution (even with empty discoveries)
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_api_exception_handling(self):
         """
@@ -269,13 +272,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # The module gracefully handles API errors and returns ok status (no data found)
-        self.assertIn('response', result)
-        self.assertEqual(result['response'].get('status'), 'ok')
+        self.assertIn("response", result)
+        self.assertEqual(result["response"].get("status"), "ok")
 
     def test_discovery_playbook_config_generator_credential_mapping(self):
         """
@@ -293,13 +296,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 state="gathered",
                 file_path="/tmp/specific_discoveries.yml",
                 file_mode="append",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_invalid_state(self):
         """
@@ -315,11 +318,11 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="invalid_state",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn('value of state must be one of: gathered', result.get('msg'))
+        self.assertIn("value of state must be one of: gathered", result.get("msg"))
 
     def test_discovery_playbook_config_generator_missing_config(self):
         """
@@ -334,11 +337,11 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_password="admin",
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
-                state="gathered"
+                state="gathered",
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_invalid_global_filter_key(self):
         """
@@ -354,17 +357,15 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config={
-                    "global_filters": {
-                        "hello": ["world"]
-                    }
-                }
+                config={"global_filters": {"hello": ["world"]}},
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid key(s) under 'global_filters'", result.get('response'))
+        self.assertIn("Invalid key(s) under 'global_filters'", result.get("response"))
 
-    def test_discovery_playbook_config_generator_invalid_discovery_type_filter_value(self):
+    def test_discovery_playbook_config_generator_invalid_discovery_type_filter_value(
+        self,
+    ):
         """
         Test case for invalid value under global_filters.discovery_type_list.
 
@@ -378,17 +379,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config={
-                    "global_filters": {
-                        "discovery_type_list": ["HELLO"]
-                    }
-                }
+                config={"global_filters": {"discovery_type_list": ["HELLO"]}},
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Invalid values under 'global_filters.discovery_type_list'",
-            result.get('response')
+            result.get("response"),
         )
 
     def test_discovery_playbook_config_generator_file_path_specified(self):
@@ -405,12 +402,12 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_no_global_filters(self):
         """
@@ -426,16 +423,17 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config={}
+                config={},
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "global_filters is required when config is provided",
-            result.get('msg', '')
+            "global_filters is required when config is provided", result.get("msg", "")
         )
 
-    def test_discovery_playbook_config_generator_generate_all_configurations_rejected(self):
+    def test_discovery_playbook_config_generator_generate_all_configurations_rejected(
+        self,
+    ):
         """
         Test case for rejecting generate_all_configurations in config input.
         """
@@ -449,17 +447,12 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 state="gathered",
                 config={
                     "generate_all_configurations": True,
-                    "global_filters": {
-                        "discovery_type_list": ["Range"]
-                    }
-                }
+                    "global_filters": {"discovery_type_list": ["Range"]},
+                },
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn(
-            "Invalid parameters",
-            result.get('msg', '')
-        )
+        self.assertIn("Invalid parameters", result.get("msg", ""))
 
     def test_discovery_playbook_config_generator_successful_generation(self):
         """
@@ -475,17 +468,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config={
-                    "global_filters": {
-                        "discovery_name_list": ["Test Discovery"]
-                    }
-                }
+                config={"global_filters": {"discovery_name_list": ["Test Discovery"]}},
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_config_verify_false(self):
         """
@@ -501,13 +490,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_debug_logging(self):
         """
@@ -524,13 +513,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_debug=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with response data
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_unsupported_state(self):
         """
@@ -546,14 +535,14 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="created",  # Unsupported state
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         # Verify failure with appropriate error message
-        self.assertTrue(result.get('failed', False))
-        msg = result.get('msg', '')
-        self.assertIn('must be one of', msg.lower())
+        self.assertTrue(result.get("failed", False))
+        msg = result.get("msg", "")
+        self.assertIn("must be one of", msg.lower())
 
     def test_discovery_playbook_config_generator_v2_api_fallback(self):
         """
@@ -561,7 +550,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior when V1 API returns empty and V2 is used.
         """
-        self.load_fixtures(['empty_credentials_v1_fallback_v2'])
+        self.load_fixtures(["empty_credentials_v1_fallback_v2"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -570,13 +559,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with V2 API fallback
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_credential_api_failure(self):
         """
@@ -584,7 +573,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior when both V1 and V2 credential APIs fail.
         """
-        self.load_fixtures(['credentials_api_failure'])
+        self.load_fixtures(["credentials_api_failure"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -593,13 +582,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_specific_names
+                config=self.playbook_config_specific_names,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify graceful handling of API failures
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_complex_credential_mapping(self):
         """
@@ -607,7 +596,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior with multiple credential types and fallback mapping.
         """
-        self.load_fixtures(['complex_credential_mapping'])
+        self.load_fixtures(["complex_credential_mapping"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -620,13 +609,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=True, failed=False)
         # Verify successful execution with complex credential mapping
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_file_operations(self):
         """
@@ -643,13 +632,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
                 file_path="/tmp/test_brownfield_discovery.yml",
-                file_mode="overwrite"
+                file_mode="overwrite",
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with file operations
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_advanced_status_filtering(self):
         """
@@ -669,13 +658,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with advanced status filtering
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_empty_credential_id_handling(self):
         """
@@ -695,13 +684,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with empty credential handling
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_credential_not_found(self):
         """
@@ -709,7 +698,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior when credentials are referenced but not found.
         """
-        self.load_fixtures(['credentials_not_found'])
+        self.load_fixtures(["credentials_not_found"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -722,13 +711,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with missing credentials handling
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_unknown_credential_type(self):
         """
@@ -736,7 +725,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior when credentials have unknown types.
         """
-        self.load_fixtures(['unknown_credential_types'])
+        self.load_fixtures(["unknown_credential_types"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -749,13 +738,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with unknown credential type handling
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_malformed_api_response(self):
         """
@@ -763,7 +752,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior when API returns malformed data.
         """
-        self.load_fixtures(['malformed_api_response'])
+        self.load_fixtures(["malformed_api_response"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -772,13 +761,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config=self.playbook_config_generate_all
+                config=self.playbook_config_generate_all,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with malformed response handling
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_mixed_discovery_types(self):
         """
@@ -786,7 +775,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks the behavior with multiple discovery types.
         """
-        self.load_fixtures(['mixed_discovery_types'])
+        self.load_fixtures(["mixed_discovery_types"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -799,13 +788,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with mixed discovery types
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_credential_transform_edge_cases(self):
         """
@@ -821,17 +810,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.9",
                 state="gathered",
-                config={
-                    "global_filters": {
-                        "discovery_name_list": ["EdgeCaseTest"]
-                    }
-                }
+                config={"global_filters": {"discovery_name_list": ["EdgeCaseTest"]}},
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with credential transformation edge cases
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_api_error_conditions(self):
         """
@@ -839,7 +824,7 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
 
         This test case checks various API error conditions and recovery mechanisms.
         """
-        self.load_fixtures(['api_error_conditions'])
+        self.load_fixtures(["api_error_conditions"])
         set_module_args(
             dict(
                 catalystcenter_host="192.168.1.1",
@@ -852,13 +837,13 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                     "global_filters": {
                         "discovery_type_list": ["Range", "CIDR", "Single"]
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with API error handling
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)
 
     def test_discovery_playbook_config_generator_comprehensive_filtering(self):
         """
@@ -878,12 +863,12 @@ class TestCatalystCenterBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule)
                 config={
                     "global_filters": {
                         "discovery_name_list": ["TestDiscovery1", "TestDiscovery2"],
-                        "discovery_type_list": ["Range", "CIDR"]
+                        "discovery_type_list": ["Range", "CIDR"],
                     }
-                }
+                },
             )
         )
         result = self.execute_module(changed=False, failed=False)
         # Verify successful execution with comprehensive filtering
         self.assertIsNotNone(result)
-        self.assertIn('response', result)
+        self.assertIn("response", result)

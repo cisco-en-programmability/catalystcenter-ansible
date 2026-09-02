@@ -11,17 +11,17 @@ short_description: Information module for Sites Telemetry Settings
 description:
   - Get all Sites Telemetry Settings. - > Retrieves telemetry settings for the given site. `null` values indicate that the
     setting will be inherited from the parent site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   id:
     description:
-      - Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
+      - Id path parameter. Site Id, retrievable from the `id` attribute in `/intent/api/v1/sites`.
     type: str
   _inherited:
     description:
@@ -31,7 +31,7 @@ options:
         setting from the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings RetrieveTelemetrySettingsForASite
@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     _inherited: true
-    id: string
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,32 +68,11 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "wiredDataCollection": {
-          "enableWiredDataCollection": true
-        },
-        "wirelessTelemetry": {
-          "enableWirelessTelemetry": true
-        },
-        "snmpTraps": {
-          "useBuiltinTrapServer": true,
-          "externalTrapServers": [
-            "string"
-          ]
-        },
-        "syslogs": {
-          "useBuiltinSyslogServer": true,
-          "externalSyslogServers": [
-            "string"
-          ]
-        },
-        "applicationVisibility": {
-          "collector": {
-            "collectorType": "string",
-            "address": "string",
-            "port": 0
-          },
-          "enableOnWiredAccessDevices": true
-        }
+        "applicationVisibility": {},
+        "wiredDataCollection": {},
+        "wirelessTelemetry": {},
+        "snmpTraps": {},
+        "syslogs": {}
       },
       "version": "string"
     }

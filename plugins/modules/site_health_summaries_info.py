@@ -11,16 +11,20 @@ short_description: Information module for Site Health Summaries
 description:
   - Get all Site Health Summaries.
   - Get Site Health Summaries by id.
-  - Get a health summary for a specific site by providing the unique site id in the url path. - > Get a paginated list of
-    site health summaries. Use the available query parameters to identify a subset of sites you want health summaries for.
-version_added: '6.15.0'
+  - Get a health summary for a specific site by providing the unique site id in.
+  - Get a paginated list of site health summaries. Use the available query.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Unique site uuid.
+    type: str
   startTime:
     description:
       - >
@@ -34,6 +38,46 @@ options:
         EndTime query parameter. End time to which API queries the data set related to the resource. It must be
         specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
+  view:
+    description:
+      - >
+        View query parameter. The specific summary view being requested. This is an optional parameter which can
+        be passed to get one or more of the specific health data summaries associated with sites. ### Response
+        data proviced by each view 1. Site id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude 2.
+        Network id, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
+        wirelessDeviceGoodHealthCount, accessDeviceCount, accessDeviceGoodHealthCount, coreDeviceCount,
+        coreDeviceGoodHealthCount, distributionDeviceCount, distributionDeviceGoodHealthCount,
+        routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount, apDeviceGoodHealthCount, wlcDeviceCount,
+        wlcDeviceGoodHealthCount, switchDeviceCount, switchDeviceGoodHealthCount,
+        networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage, coreDeviceGoodHealthPercentage,
+        distributionDeviceGoodHealthPercentage, routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
+        wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage 3.
+        Client id, clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount,
+        wiredClientGoodHealthCount, wirelessClientGoodHealthCount, clientGoodHealthPercentage,
+        wiredClientGoodHealthPercentage, wirelessClientGoodHealthPercentage, clientDataUsage 4. Issue id,
+        p1IssueCount, p2IssueCount, p3IssueCount, p4IssueCount, issueCount When this query parameter is not
+        added the default summaries are site,client,network,issue Examples view=client (single view requested)
+        view=client&view=network&view=issue (multiple views requested).
+    type: str
+  attribute:
+    description:
+      - >
+        Attribute query parameter. Supported Attributes id, siteHierarchy, siteHierarchyId, siteType, latitude,
+        longitude, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
+        wirelessDeviceGoodHealthCount, accessDeviceCount, accessDeviceGoodHealthCount, coreDeviceCount,
+        coreDeviceGoodHealthCount, distributionDeviceCount, distributionDeviceGoodHealthCount,
+        routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount, apDeviceGoodHealthCount, wlcDeviceCount,
+        wlcDeviceGoodHealthCount, switchDeviceCount, switchDeviceGoodHealthCount,
+        networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage, coreDeviceGoodHealthPercentage,
+        distributionDeviceGoodHealthPercentage, routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
+        wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage,
+        clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount, wiredClientGoodHealthCount,
+        wirelessClientGoodHealthCount, clientGoodHealthPercentage, wiredClientGoodHealthPercentage,
+        wirelessClientGoodHealthPercentage, clientDataUsage, p1IssueCount, p2IssueCount, p3IssueCount,
+        p4IssueCount, issueCount If length of attribute list is too long, please use 'view' param instead.
+        Examples attribute=siteHierarchy (single attribute requested)
+        attribute=siteHierarchy&attribute=clientCount (multiple attributes requested).
+    type: str
   limit:
     description:
       - Limit query parameter. Maximum number of records to return.
@@ -80,56 +124,8 @@ options:
         not provided will be `floor,building,area` Examples `?siteType=area` (single siteType requested)
         `?siteType=area&siteType=building&siteType=floor` (multiple siteTypes requested).
     type: str
-  id:
-    description:
-      - >
-        Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples
-        id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375-
-        b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79b233318ba0 (multiple
-        entity uuid with '&' separator).
-    type: str
-  view:
-    description:
-      - >
-        View query parameter. The specific summary view being requested. This is an optional parameter which can
-        be passed to get one or more of the specific health data summaries associated with sites. ### Response
-        data proviced by each view 1. **site** id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude
-        2. **network** id, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
-        wirelessDeviceGoodHealthCount, accessDeviceCount, accessDeviceGoodHealthCount, coreDeviceCount,
-        coreDeviceGoodHealthCount, distributionDeviceCount, distributionDeviceGoodHealthCount,
-        routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount, apDeviceGoodHealthCount, wlcDeviceCount,
-        wlcDeviceGoodHealthCount, switchDeviceCount, switchDeviceGoodHealthCount,
-        networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage, coreDeviceGoodHealthPercentage,
-        distributionDeviceGoodHealthPercentage, routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
-        wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage 3.
-        **client** id, clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount,
-        wiredClientGoodHealthCount, wirelessClientGoodHealthCount, clientGoodHealthPercentage,
-        wiredClientGoodHealthPercentage, wirelessClientGoodHealthPercentage, clientDataUsage 4. **issue** id,
-        p1IssueCount, p2IssueCount, p3IssueCount, p4IssueCount, issueCount When this query parameter is not
-        added the default summaries are **site,client,network,issue** Examples view=client (single view
-        requested) view=client&view=network&view=issue (multiple views requested).
-    type: str
-  attribute:
-    description:
-      - >
-        Attribute query parameter. Supported Attributes id, siteHierarchy, siteHierarchyId, siteType, latitude,
-        longitude, networkDeviceCount, networkDeviceGoodHealthCount,wirelessDeviceCount,
-        wirelessDeviceGoodHealthCount, accessDeviceCount, accessDeviceGoodHealthCount, coreDeviceCount,
-        coreDeviceGoodHealthCount, distributionDeviceCount, distributionDeviceGoodHealthCount,
-        routerDeviceCount, routerDeviceGoodHealthCount, apDeviceCount, apDeviceGoodHealthCount, wlcDeviceCount,
-        wlcDeviceGoodHealthCount, switchDeviceCount, switchDeviceGoodHealthCount,
-        networkDeviceGoodHealthPercentage, accessDeviceGoodHealthPercentage, coreDeviceGoodHealthPercentage,
-        distributionDeviceGoodHealthPercentage, routerDeviceGoodHealthPercentage, apDeviceGoodHealthPercentage,
-        wlcDeviceGoodHealthPercentage, switchDeviceGoodHealthPercentage, wirelessDeviceGoodHealthPercentage,
-        clientCount, clientGoodHealthCount, wiredClientCount, wirelessClientCount, wiredClientGoodHealthCount,
-        wirelessClientGoodHealthCount, clientGoodHealthPercentage, wiredClientGoodHealthPercentage,
-        wirelessClientGoodHealthPercentage, clientDataUsage, p1IssueCount, p2IssueCount, p3IssueCount,
-        p4IssueCount, issueCount If length of attribute list is too long, please use 'view' param instead.
-        Examples attribute=siteHierarchy (single attribute requested)
-        attribute=siteHierarchy&attribute=clientCount (multiple attributes requested).
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites ReadListOfSiteHealthSummaries

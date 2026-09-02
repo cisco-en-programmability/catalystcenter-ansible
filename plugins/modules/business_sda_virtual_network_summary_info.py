@@ -11,10 +11,10 @@ short_description: Information module for Business Sda Virtual Network Summary
 description:
   - Get all Business Sda Virtual Network Summary.
   - Get Virtual Network Summary.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - SiteNameHierarchy query parameter. Complete fabric siteNameHierarchy Path.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetVirtualNetworkSummary
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteNameHierarchy: string
+    siteNameHierarchy: application/json
   register: result
 """
 RETURN = r"""

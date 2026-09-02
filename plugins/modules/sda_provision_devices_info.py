@@ -11,10 +11,10 @@ short_description: Information module for Sda Provision Devices
 description:
   - Get all Sda Provision Devices.
   - Returns the list of provisioned devices based on query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -29,7 +29,7 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. ID of the site. This will fetch all the devices in this site hierarchy.
+      - SiteId query parameter. ID of the site hierarchy.
     type: str
   offset:
     description:
@@ -42,7 +42,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetProvisionedDevices
@@ -70,8 +70,8 @@ EXAMPLES = r"""
     id: string
     networkDeviceId: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -84,8 +84,8 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "siteId": "string",
-          "networkDeviceId": "string"
+          "networkDeviceId": "string",
+          "siteId": "string"
         }
       ],
       "version": "string"

@@ -10,11 +10,11 @@ module: flexible_report_schedule_info
 short_description: Information module for Flexible Report Schedule
 description:
   - Get Flexible Report Schedule by id.
-  - Get flexible report schedule by report id.
-version_added: '6.14.0'
+  - Get flexible report schedule by report ID.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - ReportId path parameter. Id of the report.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports GetFlexibleReportScheduleByReportId

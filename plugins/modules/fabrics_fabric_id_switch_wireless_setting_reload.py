@@ -16,20 +16,28 @@ description:
     devices. This API should only be used for devices that have wireless disabled but still have the 'wireless-controller'
     configuration present. The reload payload can have a maximum of two switches as only two switches can have a wireless
     role in a fabric site.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
-  deviceId:
-    description: Network Device ID.
-    type: str
   fabricId:
     description: FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId'
-      can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example e290f1ee-6c54-4b01-90e6-d701748f0851.
+      can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
+    type: str
+  response:
+    description: Fabrics Fabric Id Switch Wireless Setting Reload's response.
+    elements: dict
+    suboptions:
+      deviceId:
+        description: Device ID.
+        type: str
+    type: list
+  version:
+    description: Fabrics Fabric Id Switch Wireless Setting Reload's version.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless ReloadSwitchForWirelessControllerCleanup
@@ -53,8 +61,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deviceId: string
-    fabricId: string
+    deviceId: 41828dc1-7481-4ff7-94dc-5b43af9319cb
+    fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
 """
 RETURN = r"""
 catalystcenter_response:

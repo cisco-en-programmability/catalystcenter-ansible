@@ -10,14 +10,14 @@ module: license_renew
 short_description: Resource module for License Renew
 description:
   - Manage operation create of the resource License Renew.
-  - Renews license registration and authorization status of the system with Cisco Smart Software Manager CSSM .
-version_added: '6.17.0'
+  - Renews license registration and authorization status of the system with Cisco.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options: {}
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses SmartLicensingRenewOperation

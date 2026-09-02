@@ -9,14 +9,13 @@ DOCUMENTATION = r"""
 module: lan_automation_port_channels
 short_description: Resource module for Lan Automation Port Channels
 description:
-  - Manage operations create and delete of the resource Lan Automation Port Channels. - > This API creates a Port Channel
-    between two LAN Automation associated devices using the PAgP protocol, with a minimum of 2 and a maximum of 8 LAN Automated
-    interfaces in UP status.
-  - This API deletes a Port Channel between LAN Automation associated devices using a valid Port Channel ID.
-version_added: '6.18.0'
+  - Manage operations create and delete of the resource Lan Automation Port Channels.
+  - This API creates a Port Channel between two LAN Automation associated.
+  - This API deletes a Port Channel between LAN Automation associated.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   device1ManagementIPAddress:
     description: Either device1ManagementIPAddress or device1Uuid is required.
@@ -34,7 +33,7 @@ options:
     description: Id path parameter. ID of the port channel.
     type: str
   portChannelMembers:
-    description: Lan Automation Port Channels's portChannelMembers.
+    description: List of interfaces to be part of Port Channel.
     elements: dict
     suboptions:
       device1Interface:
@@ -51,7 +50,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for LAN Automation CreateANewPortChannelBetweenDevices
@@ -71,6 +70,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.lan_automation_port_channels:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 - name: Create
   cisco.catalystcenter.lan_automation_port_channels:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -90,17 +100,6 @@ EXAMPLES = r"""
         device1InterfaceUuid: string
         device2Interface: string
         device2InterfaceUuid: string
-- name: Delete by id
-  cisco.catalystcenter.lan_automation_port_channels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 """
 RETURN = r"""
 catalystcenter_response:

@@ -11,10 +11,10 @@ short_description: Information module for Templates Details
 description:
   - Get all Templates Details.
   - Get templates details.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -89,15 +89,15 @@ options:
       - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplatesDetailsV2
-    description: Complete reference of the GetTemplatesDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-templates-details-v-2
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplatesDetails
+    description: Complete reference of the GetTemplatesDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-s-details
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_templates_details_v2,
+    configuration_templates.ConfigurationTemplates.get_templates_details,
   - Paths used are
     get /dna/intent/api/v2/template-programmer/template,
 """
@@ -126,11 +126,11 @@ EXAMPLES = r"""
     filterConflictingTemplates: true
     tags: []
     unCommitted: true
-    sortOrder: string
+    sortOrder: ASC
     allTemplateAttributes: true
     includeVersionDetails: true
     offset: 0
-    limit: 0
+    limit: 500
   register: result
 """
 RETURN = r"""

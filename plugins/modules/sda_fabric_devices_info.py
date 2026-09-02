@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabric Devices
 description:
   - Get all Sda Fabric Devices.
   - Returns a list of fabric devices that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,7 +32,8 @@ options:
       - >
         DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE,
         EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE, EXTENDED_NODE.
-    type: str
+    elements: str
+    type: list
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -44,7 +45,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetFabricDevices
@@ -71,9 +72,9 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     networkDeviceId: string
-    deviceRoles: string
-    offset: 0
-    limit: 0
+    deviceRoles: []
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -86,18 +87,23 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "name": "string",
-          "siteId": "string",
-          "type": "string",
-          "ipTransitSettings": {
-            "routingProtocolName": "string",
-            "autonomousSystemNumber": "string"
-          },
-          "sdaTransitSettings": {
-            "isMulticastOverTransitEnabled": true,
-            "controlPlaneNetworkDeviceIds": [
+          "networkDeviceId": "string",
+          "fabricId": "string",
+          "deviceRoles": [
+            "string"
+          ],
+          "borderDeviceSettings": {
+            "borderTypes": [
               "string"
-            ]
+            ],
+            "layer3Settings": {
+              "localAutonomousSystemNumber": "string",
+              "isDefaultExit": true,
+              "importExternalRoutes": true,
+              "borderPriority": 0,
+              "prependAutonomousSystemCount": 0,
+              "customBgpRouterId": "string"
+            }
           }
         }
       ],

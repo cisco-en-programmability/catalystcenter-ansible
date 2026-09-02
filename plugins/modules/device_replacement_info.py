@@ -12,10 +12,10 @@ description:
   - Get all Device Replacement. - > Get list of replacement devices with replacement details and it can filter replacement
     devices based on Faulty Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement
     Device Serial Number, Device Replacement status, Product Family.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -69,7 +69,7 @@ options:
       - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails
@@ -103,8 +103,8 @@ EXAMPLES = r"""
     family: []
     sortBy: string
     sortOrder: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

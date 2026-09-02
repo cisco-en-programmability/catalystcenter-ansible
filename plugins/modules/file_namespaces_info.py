@@ -13,10 +13,10 @@ description:
   - Get File Namespaces by name.
   - Returns list of available namespaces.
   - Returns list of files under a specific namespace.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
       - NameSpace path parameter. A listing of fileId's.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for File GetListOfAvailableNamespaces
@@ -88,11 +88,9 @@ catalystcenter_response:
           "md5Checksum": "string",
           "name": "string",
           "nameSpace": "string",
-          "sftpServerList": [
-            "string"
-          ],
+          "sftpServerList": [],
           "sha1Checksum": "string",
-          "taskId": "string"
+          "taskId": {}
         }
       ],
       "version": "string"

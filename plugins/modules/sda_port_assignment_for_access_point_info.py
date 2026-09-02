@@ -11,16 +11,15 @@ short_description: Information module for Sda Port Assignment For Access Point
 description:
   - Get all Sda Port Assignment For Access Point.
   - Get Port assignment for access point in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   deviceManagementIpAddress:
-    version_added: "4.0.0"
     description:
       - DeviceManagementIpAddress query parameter.
     type: str
@@ -29,7 +28,7 @@ options:
       - InterfaceName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabric
@@ -54,8 +53,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    deviceManagementIpAddress: string
-    interfaceName: string
+    deviceManagementIpAddress: application/json
+    interfaceName: application/json
   register: result
 """
 RETURN = r"""

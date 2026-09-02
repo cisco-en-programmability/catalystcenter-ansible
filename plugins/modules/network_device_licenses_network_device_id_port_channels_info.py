@@ -13,10 +13,10 @@ description:
   - Get Network Device Licenses Network Device Id Port Channels by id. - > This API endpoint retrieves detailed information
     for a specified port channel using its unique identifier within a given network device.
   - This API endpoint retrieves the list of port channels for the given network device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
     type: str
   id:
     description:
-      - Id query parameter. Optional list of the port channel ids to filter by.
+      - Id path parameter. Unique identifier for the port channel.
     type: str
   name:
     description:
@@ -36,7 +36,7 @@ options:
         example, searching for "Port" will match "Port-channel1", "Port-channel2", etc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrievesInformationForTheGivenPortChannelOnASpecificNetworkDevice

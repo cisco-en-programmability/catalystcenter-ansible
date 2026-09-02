@@ -11,16 +11,16 @@ short_description: Information module for Role Permissions
 description:
   - Get all Role Permissions.
   - Get permissions for a role in the system.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for User and Roles GetPermissionsAPI
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_permissions_api,
+    user_and_roles.UserAndRoles.get_permissions_api,
   - Paths used are
     get /dna/system/api/v1/role/permissions,
 """
@@ -51,23 +51,16 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "description": "string",
-        "displayName": "string",
-        "defaultPrivilege": "string",
-        "minimumPrivilege": "string",
-        "maximumPrivilege": "string",
-        "dependencies": [
-          {
-            "id": "string",
-            "privilege": "string"
-          }
-        ]
-      }
-    ]
+    {
+      "resource-types": [
+        {
+          "type": "string",
+          "displayName": "string",
+          "description": "string",
+          "defaultPermission": "string"
+        }
+      ]
+    }
 """

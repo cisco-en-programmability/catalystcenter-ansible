@@ -24,7 +24,9 @@ import tempfile
 from unittest.mock import patch, mock_open
 import yaml
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import pnp_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    pnp_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -34,15 +36,20 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
     test_data = loadPlaybookData("pnp_playbook_config_generator")
 
-    playbook_pnp_generate_all_configurations = test_data.get("playbook_pnp_generate_all_configurations")
-    playbook_component_global_specific_filter = test_data.get("playbook_component_global_specific_filter")
+    playbook_pnp_generate_all_configurations = test_data.get(
+        "playbook_pnp_generate_all_configurations"
+    )
+    playbook_component_global_specific_filter = test_data.get(
+        "playbook_component_global_specific_filter"
+    )
     playbook_no_config = test_data.get("playbook_no_config")
 
     def setUp(self):
         super(TestCatalystCenterBrownfieldPnpPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.return_value = None
         self.mock_catalystcenter_exec = patch(
@@ -97,7 +104,9 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("PnPdevices"),
             ]
 
-    def test_brownfield_pnp_playbook_generator_playbook_pnp_generate_all_configurations(self):
+    def test_brownfield_pnp_playbook_generator_playbook_pnp_generate_all_configurations(
+        self,
+    ):
         """
         Test the PnP Playbook Generator's configuration generation process.
 
@@ -116,14 +125,14 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
                     state="gathered",
                     catalystcenter_version="2.3.7.9",
                     file_path=file_path,
-                    config=self.playbook_pnp_generate_all_configurations
+                    config=self.playbook_pnp_generate_all_configurations,
                 )
             )
             result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response").get("message"),
-            "YAML config generation succeeded for module 'pnp_workflow_manager'."
+            "YAML config generation succeeded for module 'pnp_workflow_manager'.",
         )
 
     def test_brownfield_pnp_playbook_generator_generates_per_device_claim_config(self):
@@ -150,33 +159,25 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
         config_entries = generated_yaml[0]["config"]
         entries_by_serial = {
-            entry["device_info"][0]["serial_number"]: entry
-            for entry in config_entries
+            entry["device_info"][0]["serial_number"]: entry for entry in config_entries
         }
 
         self.assertEqual(len(config_entries), len(self.test_data.get("PnPdevices")))
         self.assertEqual(
-            result.get("response").get("configurations_count"),
-            len(config_entries)
+            result.get("response").get("configurations_count"), len(config_entries)
         )
-        self.assertTrue(
-            all(len(entry["device_info"]) == 1 for entry in config_entries)
-        )
+        self.assertTrue(all(len(entry["device_info"]) == 1 for entry in config_entries))
 
         access_point_entry = entries_by_serial["FJC243912MQ"]
         self.assertEqual(
-            access_point_entry["site_name"],
-            "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2"
+            access_point_entry["site_name"], "Global/USA/SAN-FRANCISCO/SF_BLD1/FLOOR2"
         )
         self.assertEqual(access_point_entry["pnp_type"], "AccessPoint")
         self.assertNotIn("site_name", access_point_entry["device_info"][0])
         self.assertNotIn("pnp_type", access_point_entry["device_info"][0])
 
         switch_entry = entries_by_serial["FJC271925Q1"]
-        self.assertEqual(
-            switch_entry["site_name"],
-            "Global/USA/SAN JOSE/SJ_BLD20"
-        )
+        self.assertEqual(switch_entry["site_name"], "Global/USA/SAN JOSE/SJ_BLD20")
         self.assertEqual(switch_entry["pnp_type"], "Default")
 
         unclaimed_entry = entries_by_serial["FJC2402A0TX"]
@@ -187,19 +188,23 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         """
         Test stack and conditional SUDI fields are generated inside device_info.
         """
-        devices = copy.deepcopy([
-            self.test_data.get("PnPdevices")[0],
-            self.test_data.get("PnPdevices")[2],
-        ])
+        devices = copy.deepcopy(
+            [
+                self.test_data.get("PnPdevices")[0],
+                self.test_data.get("PnPdevices")[2],
+            ]
+        )
         stack_device_info = devices[0]["deviceInfo"]
-        stack_device_info.update({
-            "serialNumber": "FOC2437LBH3",
-            "hostname": "TestStackDevice",
-            "pid": "C9300-24UB",
-            "stack": True,
-            "sudiRequired": True,
-            "userSudiSerialNos": ["FOC2437LBH3", "FOC2438LB9W"],
-        })
+        stack_device_info.update(
+            {
+                "serialNumber": "FOC2437LBH3",
+                "hostname": "TestStackDevice",
+                "pid": "C9300-24UB",
+                "stack": True,
+                "sudiRequired": True,
+                "userSudiSerialNos": ["FOC2437LBH3", "FOC2438LB9W"],
+            }
+        )
         devices[1]["deviceInfo"]["userSudiSerialNos"] = ["NOT_REQUIRED"]
 
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -227,8 +232,7 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         self.assertTrue(generated_stack_info["is_stack_device"])
         self.assertTrue(generated_stack_info["is_sudi_required"])
         self.assertEqual(
-            generated_stack_info["user_sudi_serial_nos"],
-            ["FOC2437LBH3", "FOC2438LB9W"]
+            generated_stack_info["user_sudi_serial_nos"], ["FOC2437LBH3", "FOC2438LB9W"]
         )
 
         generated_non_sudi_info = entries_by_serial["FJC271925Q1"]
@@ -236,7 +240,9 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         self.assertFalse(generated_non_sudi_info["is_sudi_required"])
         self.assertNotIn("user_sudi_serial_nos", generated_non_sudi_info)
 
-    def test_brownfield_pnp_playbook_generator_playbook_component_global_specific_filter(self):
+    def test_brownfield_pnp_playbook_generator_playbook_component_global_specific_filter(
+        self,
+    ):
         """
         Test the PnP Playbook Generator with component and global filters.
 
@@ -252,14 +258,14 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_component_global_specific_filter
+                config=self.playbook_component_global_specific_filter,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response").get("message"),
-            "YAML config generation succeeded for module 'pnp_workflow_manager'."
+            "YAML config generation succeeded for module 'pnp_workflow_manager'.",
         )
 
     def test_brownfield_pnp_playbook_generator_playbook_no_config(self):
@@ -279,14 +285,14 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path="/Users/syedkahm/Downloads/pnp_device_info",
-                config=self.playbook_no_config
+                config=self.playbook_no_config,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response").get("message"),
-            "No PnP devices found matching specified filters. Verify device inventory and filter criteria."
+            "No PnP devices found matching specified filters. Verify device inventory and filter criteria.",
         )
 
     @patch("builtins.open", new_callable=mock_open)
@@ -310,7 +316,7 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         response = result.get("response")
         self.assertEqual(
             response.get("message"),
-            "YAML config generation succeeded for module 'pnp_workflow_manager'."
+            "YAML config generation succeeded for module 'pnp_workflow_manager'.",
         )
         self.assertIn("file_path", response)
         self.assertTrue(response.get("file_path").endswith(".yml"))
@@ -323,7 +329,9 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
         self.assertIsInstance(data, list)
         self.assertIn("config", data[0])
 
-    def test_brownfield_pnp_playbook_generator_overwrite_mode_idempotent_on_matching_local_file(self):
+    def test_brownfield_pnp_playbook_generator_overwrite_mode_idempotent_on_matching_local_file(
+        self,
+    ):
         """
         Test overwrite mode reports no change when the existing local YAML file already matches.
         """
@@ -354,11 +362,13 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
             self.assertEqual(
                 result.get("response").get("message"),
-                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written."
+                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written.",
             )
             self.assertEqual(result.get("response").get("status"), "ok")
 
-    def test_brownfield_pnp_playbook_generator_append_mode_idempotent_on_matching_last_entry(self):
+    def test_brownfield_pnp_playbook_generator_append_mode_idempotent_on_matching_last_entry(
+        self,
+    ):
         """
         Test append mode reports no change when the last generated config entry already matches.
         """
@@ -394,7 +404,7 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
             self.assertEqual(
                 result.get("response").get("message"),
-                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written."
+                "YAML configuration file already up-to-date for module 'pnp_workflow_manager'. No changes written.",
             )
             self.assertEqual(result.get("response").get("status"), "ok")
             self.assertEqual(file_content.count("---"), 1)
@@ -402,7 +412,9 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
             self.assertIsInstance(parsed_content, list)
             self.assertEqual(len(parsed_content), 1)
 
-    def test_brownfield_pnp_playbook_generator_append_mode_adds_new_entry_without_new_separator(self):
+    def test_brownfield_pnp_playbook_generator_append_mode_adds_new_entry_without_new_separator(
+        self,
+    ):
         """
         Test append mode writes a second config entry without adding another YAML document separator.
         """
@@ -444,5 +456,5 @@ class TestCatalystCenterBrownfieldPnpPlaybookGenerator(TestCatalystModule):
             self.assertEqual(len(parsed_content), 2)
             self.assertEqual(
                 parsed_content[-1]["config"][0]["device_info"][0]["serial_number"],
-                "UPDATED123456"
+                "UPDATED123456",
             )

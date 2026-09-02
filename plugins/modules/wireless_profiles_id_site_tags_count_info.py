@@ -11,20 +11,20 @@ short_description: Information module for Wireless Profiles Id Site Tags Count
 description:
   - Get all Wireless Profiles Id Site Tags Count. - > This endpoint retrieves the total count of `Site Tags` associated with
     a specific `Wireless Profile`.This API requires the `id` of the `Wireless Profile` to be provided as a path parameter.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   id:
     description:
-      - Id path parameter. Wireless profile id.
+      - Id path parameter. Wireless Profile ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless RetrieveTheCountOfSiteTagsForAWirelessProfile

@@ -11,24 +11,24 @@ short_description: Information module for Wireless Settings Ap Profiles Count
 description:
   - Get all Wireless Settings Ap Profiles Count.
   - This API returns the total number of AP Profiles available.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetAPProfilesCount
-    description: Complete reference of the GetAPProfilesCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles-count
+  - name: Cisco Catalyst Center documentation for Wireless GetCountOfApProfile
+    description: Complete reference of the GetCountOfApProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-ap-profile
 notes:
   - SDK Method used are
-    wireless.Wireless.get_ap_profiles_count,
+    wireless.Wireless.get_count_of_ap_profile,
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/apProfiles/count,
 """
@@ -54,9 +54,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "count": 0
-      },
+      "response": {},
       "version": "string"
     }
 """

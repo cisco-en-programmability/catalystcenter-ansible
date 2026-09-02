@@ -11,17 +11,17 @@ short_description: Resource module for Maps Export
 description:
   - Manage operation create of the resource Maps Export.
   - Allows exporting a Map archive in an XML interchange format along with the associated images.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   siteHierarchyUuid:
     description: SiteHierarchyUuid path parameter. The site hierarchy element UUID to export, all child elements starting
       at this hierarchy element will be included. Limited to a hierarchy that contains 500 or fewer maps.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites ExportMapArchive
@@ -55,7 +55,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

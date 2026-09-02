@@ -11,10 +11,10 @@ short_description: Information module for Network Device Image Updates Count
 description:
   - Get all Network Device Image Updates Count.
   - Returns the count of network device image updates based on the given filter criteria.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -58,7 +58,7 @@ options:
       - EndTime query parameter. Image update started before the given time (as milliseconds since UNIX epoch).
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdates
@@ -102,8 +102,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

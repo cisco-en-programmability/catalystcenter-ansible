@@ -9,30 +9,28 @@ DOCUMENTATION = r"""
 module: dhcp_services_query_count
 short_description: Resource module for Dhcp Services Query Count
 description:
-  - Manage operation create of the resource Dhcp Services Query Count. - > Retrieves the total number of DHCP Services and
-    offers complex filtering and sorting capabilities. For detailed information about the usage of the API, please refer to
-    the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DHCPServices-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Dhcp Services Query Count.
+  - Retrieves the total number of DHCP Services and offers complex filtering and.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Dhcp Services Query Count's endTime.
     type: int
   filters:
     description: Dhcp Services Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Dhcp Services Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Dhcp Services Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Dhcp Services Query Count's value.
         elements: str
         type: list
     type: list
@@ -40,10 +38,10 @@ options:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Dhcp Services Query Count's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrievesTheTotalNumberOfDHCPServicesForGivenSetOfComplexFilters
@@ -51,7 +49,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_h_c_p_services_for_given_set_of_complex_filters,
+    devices.Devices.retrieves_the_total_number_of_dhcp_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dhcpServices/query/count,
 """

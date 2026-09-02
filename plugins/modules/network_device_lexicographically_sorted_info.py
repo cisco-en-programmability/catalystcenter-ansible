@@ -11,10 +11,10 @@ short_description: Information module for Network Device Lexicographically Sorte
 description:
   - Get all Network Device Lexicographically Sorted.
   - Returns the list of values of the first given required parameter.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -108,7 +108,7 @@ options:
       - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
@@ -153,8 +153,8 @@ EXAMPLES = r"""
     role: string
     roleSource: string
     associatedWlcIp: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

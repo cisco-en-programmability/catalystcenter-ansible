@@ -17,10 +17,10 @@ description:
     that any new SSID added is a Fabric SSID. This API can also be used to add a VLAN and associate the relevant SSIDs with
     it. The 'vlanName' must be 'Fabric Wireless Enabled' and should be part of the Fabric Site representing 'Fabric ID' specified
     in the API request.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricId:
     description: FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site.
@@ -41,11 +41,11 @@ options:
             type: str
         type: list
       vlanName:
-        description: Vlan Name.
+        description: Sda Fabrics Vlan To Ssids Fabric Id's vlanName.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless Add_UpdateOrRemoveSSIDMappingToAVLAN

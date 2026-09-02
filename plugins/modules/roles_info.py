@@ -11,24 +11,24 @@ short_description: Information module for Roles
 description:
   - Get all Roles.
   - Get all roles in the system.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for User and Roles GetRolesAPI
-    description: Complete reference of the GetRolesAPI API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
+  - name: Cisco Catalyst Center documentation for User and Roles GetRolesAPIV1
+    description: Complete reference of the GetRolesAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-roles-api-v-1
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_roles_api,
+    user_and_roles.UserAndRoles.get_roles_api_v1,
   - Paths used are
     get /dna/system/api/v1/roles,
 """

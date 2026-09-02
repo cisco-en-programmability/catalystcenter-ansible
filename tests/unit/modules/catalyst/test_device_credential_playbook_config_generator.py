@@ -18,7 +18,9 @@ __metaclass__ = type
 
 from unittest.mock import patch, mock_open
 import yaml
-from ansible_collections.cisco.catalystcenter.plugins.modules import device_credential_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    device_credential_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -26,8 +28,12 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
     module = device_credential_playbook_config_generator
     test_data = loadPlaybookData("device_credential_playbook_config_generator")
 
-    playbook_config_global_credentials_filtered = test_data.get("playbook_config_global_credentials_filtered")
-    playbook_config_assign_credentials_to_site_filtered = test_data.get("playbook_config_assign_credentials_to_site_filtered")
+    playbook_config_global_credentials_filtered = test_data.get(
+        "playbook_config_global_credentials_filtered"
+    )
+    playbook_config_assign_credentials_to_site_filtered = test_data.get(
+        "playbook_config_assign_credentials_to_site_filtered"
+    )
 
     def setUp(self):
         super(TestDeviceCredentialPlaybookConfigGenerator, self).setUp()
@@ -57,7 +63,9 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
             elif function == "get_sites":
                 return self.test_data.get("get_sites_response")
             elif function == "get_device_credential_settings_for_a_site":
-                return self.test_data.get("get_device_credential_settings_for_a_site_response")
+                return self.test_data.get(
+                    "get_device_credential_settings_for_a_site_response"
+                )
             else:
                 return {"response": []}
 
@@ -69,17 +77,19 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         writes = [call.args[0] for call in handle.write.call_args_list]
         return "".join(writes)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_generate_all_configurations(self, mock_file):
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_global_credentials_filtered,
-            "file_path": "/tmp/device_credentials.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_global_credentials_filtered,
+                "file_path": "/tmp/device_credentials.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         # Ensure file write was attempted and contains expected credentials
@@ -99,17 +109,19 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         # Verify SDK was called expected number of times (current flow uses 2)
         self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_global_credentials_filtered(self, mock_file):
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_global_credentials_filtered,
-            "file_path": "/tmp/device_credentials.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_global_credentials_filtered,
+                "file_path": "/tmp/device_credentials.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()
@@ -126,17 +138,19 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         # SDK call count should match current sequence
         self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_assign_credentials_to_site_filtered(self, mock_file):
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_assign_credentials_to_site_filtered,
-            "file_path": "/tmp/device_credentials.yaml",
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_assign_credentials_to_site_filtered,
+                "file_path": "/tmp/device_credentials.yaml",
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result.get("status"), "success")
         # Module writes YAML with site assignment data
@@ -144,16 +158,18 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         # Verify SDK was called
         self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
-    @patch('builtins.open', new_callable=mock_open)
+    @patch("builtins.open", new_callable=mock_open)
     def test_no_file_path_generates_default(self, mock_file):
-        set_module_args({
-            "catalystcenter_host": "1.2.3.4",
-            "catalystcenter_username": "admin",
-            "catalystcenter_password": "pass",
-            "catalystcenter_version": "2.3.7.9",
-            "config": self.playbook_config_global_credentials_filtered,
-            "state": "gathered",
-        })
+        set_module_args(
+            {
+                "catalystcenter_host": "1.2.3.4",
+                "catalystcenter_username": "admin",
+                "catalystcenter_password": "pass",
+                "catalystcenter_version": "2.3.7.9",
+                "config": self.playbook_config_global_credentials_filtered,
+                "state": "gathered",
+            }
+        )
         result = self.execute_module(changed=True)
         self.assertEqual(result["changed"], True)
         mock_file.assert_called()

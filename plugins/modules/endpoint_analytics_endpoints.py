@@ -13,10 +13,10 @@ description:
   - Register a new endpoint in the system.
   - Deletes the endpoint for the given unique identifier 'epId'.
   - Update attributes of a registered endpoint.
-version_added: '6.16.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceType:
     description: Type of the device represented by this endpoint.
@@ -34,7 +34,7 @@ options:
     description: MAC address of the endpoint.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for AI Endpoint Analytics RegisterAnEndpoint
@@ -48,9 +48,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.delete_an_endpoint,
-    ai_endpoint_analytics.AiEndpointAnalytics.register_an_endpoint,
-    ai_endpoint_analytics.AiEndpointAnalytics.update_a_registered_endpoint,
+    ai_endpoint_analytics.AIEndpointAnalytics.delete_an_endpoint,
+    ai_endpoint_analytics.AIEndpointAnalytics.register_an_endpoint,
+    ai_endpoint_analytics.AIEndpointAnalytics.update_a_registered_endpoint,
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/endpoints,
     delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},

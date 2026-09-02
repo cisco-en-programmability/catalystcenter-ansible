@@ -11,10 +11,10 @@ short_description: Information module for Network Device Interface Neighbor
 description:
   - Get all Network Device Interface Neighbor.
   - Get connected device detail for given deviceUuid and interfaceUuid.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
       - InterfaceUuid path parameter. Instanceuuid of interface.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetConnectedDeviceDetail

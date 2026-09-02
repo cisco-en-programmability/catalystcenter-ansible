@@ -13,10 +13,10 @@ description:
   - This API allows the user to delete a Native VLAN setting at the given site level. - > This API allows the user to update
     an existing Native VLAN setting at the given site level. The default value of the native VLAN on the device is 1 when
     nothing is explicitly set.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   nativeVlanId:
     description: Native VLAN ID is used for any untagged frames.Range is 1 to 4094.
@@ -31,7 +31,7 @@ options:
     description: SiteId path parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteNativeVlanSettingsBySite

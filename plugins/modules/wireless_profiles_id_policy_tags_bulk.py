@@ -12,10 +12,10 @@ description:
   - Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk. - > This endpoint allows the creation of
     multiple `Policy Tags` associated with a specific `Wireless Profile` in a single request. The `id` of the Wireless Profile
     must be provided as a path parameter, and a list of `Policy Tags` should be included in the request body.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Wireless Profile Id.
@@ -25,19 +25,19 @@ options:
     elements: dict
     suboptions:
       apZones:
-        description: Ap Zones.
+        description: Wireless Profiles Id Policy Tags Bulk's apZones.
         elements: str
         type: list
       policyTagName:
         description: Use English letters, numbers, special characters except <, /, '.*', ? and leading/trailing space.
         type: str
       siteIds:
-        description: Site Ids.
+        description: Wireless Profiles Id Policy Tags Bulk's siteIds.
         elements: str
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateMultiplePolicyTagsForAWirelessProfileInBulk

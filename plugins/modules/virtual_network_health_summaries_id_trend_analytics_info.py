@@ -13,10 +13,10 @@ description:
     by providing the unique Virtual Network id in the url path. Layer 2 Virtual Networks are only included in health reporting
     for EVPN protocol deployments. The special Layer 3 VN called 'INFRA_VN' is also not included for user access through Assurance
     virtualNetworkHealthSummaries APIS.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -62,7 +62,7 @@ options:
       - Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange

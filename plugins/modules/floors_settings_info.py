@@ -11,24 +11,24 @@ short_description: Information module for Floors Settings
 description:
   - Get all Floors Settings.
   - Gets UI user preference for floor unit system.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetFloorSettingsV2
-    description: Complete reference of the GetFloorSettingsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-floor-settings-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetFloorSettings
+    description: Complete reference of the GetFloorSettings API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-floor-settings
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_floor_settings_v2,
+    site_design.SiteDesign.get_floor_settings,
   - Paths used are
     get /dna/intent/api/v2/floors/settings,
 """

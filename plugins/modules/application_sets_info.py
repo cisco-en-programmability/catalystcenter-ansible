@@ -11,10 +11,10 @@ short_description: Information module for Application Sets
 description:
   - Get all Application Sets.
   - Get appllication-sets by offset/limit or by name.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,15 +32,15 @@ options:
       - Name query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSets
-    description: Complete reference of the GetApplicationSets API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetsV1
+    description: Complete reference of the GetApplicationSetsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets,
+    application_policy.ApplicationPolicy.get_application_sets_v1,
   - Paths used are
     get /dna/intent/api/v1/application-policy-application-set,
 """
@@ -59,24 +59,34 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
-    name: string
+    name: application/json
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "identitySource": {
+    {
+      "response": [
+        {
           "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceVersion": 0,
+          "defaultBusinessRelevance": "string",
+          "identitySource": {
+            "id": "string",
+            "type": "string"
+          },
+          "name": "string",
+          "namespace": "string",
+          "scalableGroupExternalHandle": "string",
+          "scalableGroupType": "string",
           "type": "string"
-        },
-        "name": "string"
-      }
-    ]
+        }
+      ],
+      "version": "string"
+    }
 """

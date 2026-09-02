@@ -9,16 +9,15 @@ DOCUMENTATION = r"""
 module: custom_issue_definitions_count_info
 short_description: Information module for Custom Issue Definitions Count
 description:
-  - Get all Custom Issue Definitions Count.
-  - Get the total number of Custom issue definitions count based on the provided filters.
-  - The supported filters are id, name, profileId and definition enable status, severity, facility and mnemonic.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Get all Custom Issue Definitions Count. - > Get the total number of Custom issue definitions count based on the provided
+    filters. The supported filters are id, name, profileId and definition enable status, severity, facility and mnemonic.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https
+        //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -70,7 +69,7 @@ options:
       - Mnemonic query parameter. The syslog mnemonic name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFilters

@@ -35,7 +35,9 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator(
+    TestCatalystModule
+):
 
     module = sda_extranet_policies_playbook_config_generator
     test_data = loadPlaybookData("sda_extranet_policies_playbook_config_generator")
@@ -53,7 +55,9 @@ class TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatal
     playbook_config_filter_not_found = test_data.get("filter_not_found_case")
 
     def setUp(self):
-        super(TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).setUp()
+        super(
+            TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self
+        ).setUp()
 
         self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
@@ -67,7 +71,9 @@ class TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatal
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).tearDown()
+        super(
+            TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self
+        ).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 

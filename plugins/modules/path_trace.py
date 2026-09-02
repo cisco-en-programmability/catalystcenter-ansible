@@ -9,13 +9,13 @@ DOCUMENTATION = r"""
 module: path_trace
 short_description: Resource module for Path Trace
 description:
-  - Manage operations create and delete of the resource Path Trace. - > Initiates a new flow analysis with periodic refresh
-    and stat collection options. Returns a request id and a task id to get results and follow progress.
+  - Manage operations create and delete of the resource Path Trace.
+  - Initiates a new flow analysis with periodic refresh and stat collection.
   - Deletes a flow analysis request by its id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   controlPath:
     description: Control path tracing.
@@ -46,7 +46,7 @@ options:
     description: Source Port, range 1-65535.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Path Trace InitiateANewPathtrace

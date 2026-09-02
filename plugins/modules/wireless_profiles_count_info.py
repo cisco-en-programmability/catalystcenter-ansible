@@ -11,24 +11,24 @@ short_description: Information module for Wireless Profiles Count
 description:
   - Get all Wireless Profiles Count.
   - This API allows the user to get count of all wireless profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfilesCount
-    description: Complete reference of the GetWirelessProfilesCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles-count
+  - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfileCount
+    description: Complete reference of the GetWirelessProfileCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-count
 notes:
   - SDK Method used are
-    wireless.Wireless.get_wireless_profiles_count,
+    wireless.Wireless.get_wireless_profile_count,
   - Paths used are
     get /dna/intent/api/v1/wirelessProfiles/count,
 """

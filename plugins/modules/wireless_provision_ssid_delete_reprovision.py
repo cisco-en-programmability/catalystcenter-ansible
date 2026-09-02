@@ -10,11 +10,11 @@ module: wireless_provision_ssid_delete_reprovision
 short_description: Resource module for Wireless Provision Ssid Delete Reprovision
 description:
   - Manage operation delete of the resource Wireless Provision Ssid Delete Reprovision.
-  - Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from Catalyst Center.
-version_added: '3.1.0'
+  - Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from DNA Center.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
     description: SsidName path parameter. SSID Name. This parameter needs to be encoded as per UTF-8 encoding.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
@@ -52,8 +52,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: '{{my_headers | from_json}}'
-    managedAPLocations: string
-    ssidName: string
+    managedAPLocations: application/json
+    ssidName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

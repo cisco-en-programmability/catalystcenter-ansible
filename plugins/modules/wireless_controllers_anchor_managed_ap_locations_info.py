@@ -11,10 +11,10 @@ short_description: Information module for Wireless Controllers Anchor Managed Ap
 description:
   - Get all Wireless Controllers Anchor Managed Ap Locations.
   - Retrieves all the details of Anchor Managed AP locations associated with the specific Wireless Controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,7 +36,7 @@ options:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAnchorManagedAPLocationsForSpecificWirelessController
@@ -61,8 +61,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     networkDeviceId: string
   register: result
 """

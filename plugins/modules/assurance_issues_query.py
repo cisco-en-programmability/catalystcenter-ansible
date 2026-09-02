@@ -9,17 +9,15 @@ DOCUMENTATION = r"""
 module: assurance_issues_query
 short_description: Resource module for Assurance Issues Query
 description:
-  - Manage operation create of the resource Assurance Issues Query. - > Returns all details of each issue along with suggested
-    actions for given set of filters specified in request body. If there is no start and/or end time, then end time will be
-    defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center-
-    api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Assurance Issues Query.
+  - Returns all details of each issue along with suggested actions for given set.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Assurance Issues Query's endTime.
     type: int
   filters:
     description: Assurance Issues Query's filters.
@@ -30,36 +28,36 @@ options:
         elements: dict
         suboptions:
           key:
-            description: Key.
+            description: Assurance Issues Query's key.
             type: str
           operator:
-            description: Operator.
+            description: Assurance Issues Query's operator.
             type: str
           value:
-            description: Value.
+            description: Assurance Issues Query's value.
             type: str
         type: list
       key:
-        description: Key.
+        description: Assurance Issues Query's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Assurance Issues Query's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Assurance Issues Query's operator.
         type: str
       value:
-        description: Value.
+        description: Assurance Issues Query's value.
         type: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Assurance Issues Query's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFilters
@@ -129,9 +127,7 @@ catalystcenter_response:
           "suggestedActions": [
             {
               "message": "string",
-              "steps": [
-                "string"
-              ]
+              "steps": []
             }
           ],
           "additionalAttributes": [

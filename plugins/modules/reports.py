@@ -10,13 +10,12 @@ module: reports
 short_description: Resource module for Reports
 description:
   - Manage operations create and delete of the resource Reports.
-  - Create/Schedule a report configuration.
-  - Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+  - Create/Schedule a report configuration. Use "Get view details for a given view.
   - Delete a scheduled report configuration. Deletes the report executions also.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataCategory:
     description: Category of viewgroup for the report.
@@ -42,7 +41,8 @@ options:
     description: Reports's view.
     suboptions:
       fieldGroups:
-        description: Reports's fieldGroups.
+        description: Fields selected for specific type of reports(CSV, TDE, JSON). To have all fields selected by default,
+          assign an empty array as the value.
         elements: dict
         suboptions:
           fieldGroupDisplayName:
@@ -52,7 +52,7 @@ options:
             description: Field group name.
             type: str
           fields:
-            description: Reports's fields.
+            description: Fields selected in the fieldgroup.
             elements: dict
             suboptions:
               displayName:
@@ -82,7 +82,7 @@ options:
             type: dict
         type: list
       format:
-        description: Reports's format.
+        description: Details of selected format for the report.
         suboptions:
           formatType:
             description: Format type of report.
@@ -105,7 +105,7 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports CreateOrScheduleAReport
@@ -125,6 +125,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.reports:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    reportId: string
 - name: Create
   cisco.catalystcenter.reports:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -136,8 +147,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     dataCategory: string
-    deliveries:
-      - string
+    deliveries: []
     name: string
     schedule: {}
     tags:
@@ -161,17 +171,6 @@ EXAMPLES = r"""
       viewId: string
     viewGroupId: string
     viewGroupVersion: string
-- name: Delete by id
-  cisco.catalystcenter.reports:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    reportId: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -180,64 +179,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "tags": [
-        "string"
-      ],
-      "dataCategory": "string",
-      "deliveries": [
-        "string"
-      ],
-      "executionCount": 0,
-      "executions": [
-        {
-          "endTime": 0,
-          "errors": [
-            "string"
-          ],
-          "executionId": "string",
-          "processStatus": "string",
-          "requestStatus": "string",
-          "startTime": 0,
-          "warnings": [
-            "string"
-          ]
-        }
-      ],
-      "name": "string",
-      "reportId": "string",
-      "reportWasExecuted": true,
-      "schedule": {},
-      "view": {
-        "fieldGroups": [
-          {
-            "fieldGroupDisplayName": "string",
-            "fieldGroupName": "string",
-            "fields": [
-              {
-                "displayName": "string",
-                "name": "string"
-              }
-            ]
-          }
-        ],
-        "filters": [
-          {
-            "displayName": "string",
-            "name": "string",
-            "type": "string",
-            "value": {}
-          }
-        ],
-        "format": {
-          "formatType": "string",
-          "name": "string"
-        },
-        "name": "string",
-        "viewId": "string",
-        "description": "string",
-        "viewInfo": "string"
-      },
-      "viewGroupId": "string",
-      "viewGroupVersion": "string"
+      "message": "string",
+      "status": 0
     }
 """

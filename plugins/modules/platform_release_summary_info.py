@@ -11,24 +11,24 @@ short_description: Information module for Platform Release Summary
 description:
   - Get all Platform Release Summary. - > Provides information such as API version, mandatory core packages for installation
     or upgrade, optional packages, Cisco Catalyst Center name and version, supported direct updates, and tenant ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummary
+  - name: Cisco Catalyst Center documentation for Platform CiscoCatalystCenterReleaseSummary
     description: Complete reference of the CiscoCatalystCenterReleaseSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
   - SDK Method used are
-    platform_configuration.PlatformConfiguration.release_summary,
+    platform.Platform.release_summary,
   - Paths used are
     get /dna/intent/api/v1/dnac-release,
 """
@@ -65,9 +65,7 @@ catalystcenter_response:
         "name": "string",
         "installedVersion": "string",
         "systemVersion": "string",
-        "supportedDirectUpdates": [
-          "string"
-        ],
+        "supportedDirectUpdates": [],
         "tenantId": "string"
       }
     }

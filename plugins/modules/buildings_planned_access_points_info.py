@@ -11,10 +11,10 @@ short_description: Information module for Buildings Planned Access Points
 description:
   - Get all Buildings Planned Access Points.
   - Provides a list of Planned Access Points for the Building it is requested for.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
       - Radios query parameter. Whether to include the planned radio details of the planned access points.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetPlannedAccessPointsForBuilding
@@ -63,8 +63,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     radios: true
     buildingId: string
   register: result
@@ -79,15 +79,15 @@ catalystcenter_response:
       "response": [
         {
           "attributes": {
-            "createDate": 0,
-            "domain": "string",
-            "heirarchyName": "string",
             "id": 0,
             "instanceUuid": "string",
-            "macAddress": "string",
             "name": "string",
+            "typeString": "string",
+            "domain": "string",
+            "heirarchyName": "string",
             "source": "string",
-            "typeString": "string"
+            "createDate": 0,
+            "macAddress": "string"
           },
           "location": {
             "altitude": 0,
@@ -102,24 +102,24 @@ catalystcenter_response:
           "radioCount": 0,
           "radios": [
             {
-              "antenna": {
-                "azimuthAngle": 0,
-                "elevationAngle": 0,
-                "gain": 0,
-                "mode": "string",
-                "name": "string",
-                "type": "string"
-              },
               "attributes": {
-                "channel": 0,
-                "channelString": "string",
                 "id": 0,
-                "ifMode": "string",
-                "ifTypeString": "string",
-                "ifTypeSubband": "string",
                 "instanceUuid": "string",
                 "slotId": 0,
+                "ifTypeString": "string",
+                "ifTypeSubband": "string",
+                "channel": 0,
+                "channelString": "string",
+                "ifMode": "string",
                 "txPowerLevel": 0
+              },
+              "antenna": {
+                "name": "string",
+                "type": "string",
+                "mode": "string",
+                "azimuthAngle": 0,
+                "elevationAngle": 0,
+                "gain": 0
               },
               "isSensor": true
             }

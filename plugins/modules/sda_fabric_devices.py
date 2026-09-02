@@ -14,15 +14,16 @@ description:
   - Deletes a fabric device based on id.
   - Deletes fabric devices based on user input.
   - Updates fabric devices based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceRoles:
     description: DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL_PLANE_NODE, EDGE_NODE,
       BORDER_NODE, WIRELESS_CONTROLLER_NODE.
-    type: str
+    elements: str
+    type: list
   fabricId:
     description: FabricId query parameter. ID of the fabric this device belongs to.
     type: str
@@ -33,23 +34,26 @@ options:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   payload:
-    description: Sda Fabric Devices's payload.
+    description: Fabric device create request root element.
     elements: dict
     suboptions:
       borderDeviceSettings:
-        description: Sda Fabric Devices's borderDeviceSettings.
+        description: Border settings of the fabric device. Required for the BORDER_NODE device role.
         suboptions:
           borderTypes:
             description: List of the border types of the fabric device. Allowed values are LAYER_2, LAYER_3.
             elements: str
             type: list
           layer3Settings:
-            description: Sda Fabric Devices's layer3Settings.
+            description: Layer 3 settings of the fabric border device. Required for the LAYER_3 border type.
             suboptions:
               borderPriority:
                 description: Border priority of the fabric border device. Allowed range is 1-9. A lower value indicates higher
                   priority. E.g., a priority of 1 takes precedence over 5. Default priority would be set to 10.
                 type: int
+              customBgpRouterId:
+                description: Custom BGP Router ID of the fabric device. Allowed format is IPV4 Address.
+                type: str
               importExternalRoutes:
                 description: Set this to import external routes from other routing protocols (such as BGP) to the fabric control
                   plane.
@@ -79,7 +83,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddFabricDevices
@@ -108,19 +112,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_fabric_devices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    deviceRoles: string
-    fabricId: string
-    networkDeviceId: string
 - name: Create
   cisco.catalystcenter.sda_fabric_devices:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -137,6 +128,7 @@ EXAMPLES = r"""
             - string
           layer3Settings:
             borderPriority: 0
+            customBgpRouterId: string
             importExternalRoutes: true
             isDefaultExit: true
             localAutonomousSystemNumber: string
@@ -145,6 +137,19 @@ EXAMPLES = r"""
           - string
         fabricId: string
         networkDeviceId: string
+- name: Delete all
+  cisco.catalystcenter.sda_fabric_devices:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    deviceRoles: []
+    fabricId: string
+    networkDeviceId: string
 - name: Update all
   cisco.catalystcenter.sda_fabric_devices:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -161,6 +166,7 @@ EXAMPLES = r"""
             - string
           layer3Settings:
             borderPriority: 0
+            customBgpRouterId: string
             importExternalRoutes: true
             isDefaultExit: true
             localAutonomousSystemNumber: string

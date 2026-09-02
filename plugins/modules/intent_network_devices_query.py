@@ -10,24 +10,31 @@ module: intent_network_devices_query
 short_description: Resource module for Intent Network Devices Query
 description:
   - Manage operation create of the resource Intent Network Devices Query.
-  - Returns the list of network devices, determined by the filters.
-version_added: '6.17.0'
+  - Returns the list of network devices, determined by the filters. It is possible.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   filter:
-    description: Intent Network Devices Query's filter.
+    description: Filter to query network devices. The result will contain the network devices that match ALL the filter criteria
+      (AND condition) unless specified in 'logicalOperator'. Total number of filter criteria should not exceed 20.
     suboptions:
       filters:
-        description: Intent Network Devices Query's filters.
+        description: List of filter criteria to query network devices.
         elements: dict
         suboptions:
           key:
             description: The key to filter by.
             type: str
           operator:
-            description: The operator to use for filtering the values.
+            description: The operator to use for filtering the values. * `eq` - The result will contain the network devices
+              that match the exact value. * `contains` - The result will contain the network devices that contain the value.
+              * `in` - The result will contain the network devices that match any of the values in the list. * `lt` - The
+              result will contain the network devices that are less than the value. * `gt` - The result will contain the network
+              devices that are greater than the value. * `lte` - The result will contain the network devices that are less
+              than or equal to the value. * `gte` - The result will contain the network devices that are greater than or equal
+              to the value.
             type: str
           value:
             description: Value to filter by. For `in` operator, the value should be a list of values.
@@ -35,37 +42,46 @@ options:
         type: list
       logicalOperator:
         description: The logical operator to use for combining the filter criteria. If not provided, the default value is
-          AND.
+          `AND`. * `AND` - The result will contain the network devices that match ALL the filter criteria. * `OR` - The result
+          will contain the network devices that match ANY of the filter criteria.
         type: str
     type: dict
   page:
-    description: Intent Network Devices Query's page.
+    description: Pagination related parameters. This is an optional parameter which can be passed to get the paginated response.
     suboptions:
       limit:
-        description: The number of records to show for this page. Min 1, Max 500.
+        description: The number of records to show for this page.
         type: int
       offset:
         description: The first record to show for this page; the first record is numbered 1.
         type: int
       sortBy:
-        description: Intent Network Devices Query's sortBy.
+        description: The field to sort by. The default sorting field is `hostname`. The order is ascending by default.
         suboptions:
           name:
-            description: The field to sort by. Default is hostname.
+            description: The field to sort by.
             type: str
           order:
-            description: The order to sort by.
+            description: The order to sort by Possible values are * `asc` - Ascending order * `des` - Descending order.
             type: str
         type: dict
     type: dict
   views:
     description: The specific views being requested. This is an optional parameter which can be passed to get one or more
-      of the network device data. If this is not provided, then it will default to BASIC views. If multiple views are provided,
-      the response will contain the union of the views.
+      of the network device data. If this is not provided, then it will default to `BASIC` views. If multiple views are provided,
+      the response will contain the union of the views. Attributes covered by the views are Attributes covered by the views
+      are * `BASIC` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family,
+      series, status, platformIds, softwareType, softwareVersion, vendor, stackDevice, bootTime, role, roleSource, apEthernetMacAddress,
+      apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, snmpContact, snmpLocation, secureMode * `RESYNC` id,
+      managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status,
+      reachabilityStatus, reachabilityFailureReason, managementState, lastSuccessfulResyncReasons, resyncStartTime, resyncEndTime,
+      resyncReasons, resyncRequestedByApps, pendingResyncRequestCount, pendingResyncRequestReasons, resyncIntervalSource,
+      resyncIntervalMinutes, errorCode, errorDescription, secureMode * `USER_DEFINED_FIELDS` id, managementAddress, dnsResolvedManagementIpAddress,
+      hostname, macAddress, serialNumbers, type, family, series, status, userDefinedFields.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices QueryNetworkDevicesWithFilters
@@ -114,8 +130,8 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "managementAddress": "string",
-          "dnsResolvedManagementIpAddress": "string",
+          "managementAddress": {},
+          "dnsResolvedManagementIpAddress": {},
           "hostname": "string",
           "macAddress": "string",
           "serialNumbers": [
@@ -125,30 +141,29 @@ catalystcenter_response:
           "family": "string",
           "series": "string",
           "status": "string",
-          "platformIds": [
-            "string"
-          ],
+          "platformIds": "string",
           "softwareType": "string",
           "softwareVersion": "string",
           "vendor": "string",
           "stackDevice": true,
-          "bootTime": 0,
+          "bootTime": {},
           "role": "string",
           "roleSource": "string",
           "apEthernetMacAddress": "string",
-          "apManagerInterfaceIpAddress": "string",
-          "apWlcIpAddress": "string",
+          "apManagerInterfaceIpAddress": {},
+          "apWlcIpAddress": {},
           "deviceSupportLevel": "string",
           "snmpLocation": "string",
           "snmpContact": "string",
+          "secureMode": "string",
           "reachabilityStatus": "string",
           "reachabilityFailureReason": "string",
           "managementState": "string",
           "lastSuccessfulResyncReasons": [
             "string"
           ],
-          "resyncStartTime": 0,
-          "resyncEndTime": 0,
+          "resyncStartTime": {},
+          "resyncEndTime": {},
           "resyncReasons": [
             "string"
           ],

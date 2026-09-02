@@ -9,32 +9,30 @@ DOCUMENTATION = r"""
 module: energy_summary_analytics
 short_description: Resource module for Energy Summary Analytics
 description:
-  - Manage operation create of the resource Energy Summary Analytics. - > Retrieve the summary analytics data related to device
-    energy consumption for all devices, including network devices and clients assigned to specific sites. For detailed information
-    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
-    api-specs/blob/main/Assurance/CE_Cat_Center_Org-deviceEnergy_1.0-1.0.1-resolved.yaml.
-version_added: '6.18.0'
+  - Manage operation create of the resource Energy Summary Analytics.
+  - Retrieve the summary analytics data related to device energy consumption for.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Energy Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Energy Summary Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Energy Summary Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Energy Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Energy Summary Analytics's endTime.
     type: int
   filters:
     description: Energy Summary Analytics's filters.
@@ -45,22 +43,22 @@ options:
         elements: dict
         suboptions:
           key:
-            description: Key.
+            description: Energy Summary Analytics's key.
             type: str
           operator:
-            description: Operator.
+            description: Energy Summary Analytics's operator.
             type: str
           value:
-            description: Value.
+            description: Energy Summary Analytics's value.
             elements: str
             type: list
         type: list
       logicalOperator:
-        description: Logical Operator.
+        description: Energy Summary Analytics's logicalOperator.
         type: str
     type: list
   groupBy:
-    description: Group By.
+    description: Energy Summary Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -70,31 +68,31 @@ options:
     description: Energy Summary Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Energy Summary Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Energy Summary Analytics's offset.
         type: int
       sortBy:
         description: Energy Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Energy Summary Analytics's function.
             type: str
           name:
-            description: Name.
+            description: Energy Summary Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Energy Summary Analytics's order.
             type: str
         type: list
     type: dict
   startTime:
-    description: Start Time.
+    description: Energy Summary Analytics's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Know Your Network GetEnergySummaryAnalytics

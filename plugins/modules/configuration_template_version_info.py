@@ -11,10 +11,10 @@ short_description: Information module for Configuration Template Version
 description:
   - Get Configuration Template Version by id.
   - Get all the versions of template by its id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate
@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_versions,
+    configuration_templates.ConfigurationTemplates.gets_all_the_versions_of_a_given_template,
   - Paths used are
     get /dna/intent/api/v1/template-programmer/template/version/{templateId},
 """

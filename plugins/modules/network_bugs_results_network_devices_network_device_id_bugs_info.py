@@ -13,10 +13,10 @@ description:
   - Get Network Bugs Results Network Devices Network Device Id Bugs by id.
   - Get bug affecting the network device by device Id and bug id.
   - Get bugs affecting the network device.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -56,7 +56,7 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetBugAffectingTheNetworkDeviceByDeviceIdAndBugId
@@ -88,10 +88,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     severity: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     networkDeviceId: string
   register: result
 - name: Get Network Bugs Results Network Devices Network Device Id Bugs by id

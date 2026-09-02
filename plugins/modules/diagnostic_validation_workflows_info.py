@@ -13,10 +13,10 @@ description:
   - Get Diagnostic Validation Workflows by id. - > Retrieves the workflows that have been successfully submitted and are currently
     available. This is sorted by `submitTime`.
   - Retrieves workflow details for a workflow id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -52,7 +52,7 @@ options:
       - Id path parameter. Workflow id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance RetrievesTheListOfValidationWorkflows
@@ -85,8 +85,8 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
     runStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 50
   register: result
 - name: Get Diagnostic Validation Workflows by id
   cisco.catalystcenter.diagnostic_validation_workflows_info:
@@ -108,21 +108,35 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "runStatus": "string",
+        "submitTime": 0,
+        "validationSetIds": [
+          "string"
+        ],
+        "releaseVersion": "string",
+        "validationSetsRunDetails": [
+          {
+            "validationSetId": "string",
+            "startTime": 0,
+            "endTime": 0,
+            "validationStatus": "string",
+            "version": "string",
+            "validationRunDetails": [
+              {
+                "validationId": "string",
+                "validationName": "string",
+                "validationMessage": "string",
+                "validationStatus": "string"
+              }
+            ]
+          }
+        ],
+        "validationStatus": "string"
+      },
       "version": "string"
     }
 """

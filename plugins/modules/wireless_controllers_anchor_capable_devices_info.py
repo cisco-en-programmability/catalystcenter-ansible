@@ -10,25 +10,25 @@ module: wireless_controllers_anchor_capable_devices_info
 short_description: Information module for Wireless Controllers Anchor Capable Devices
 description:
   - Get all Wireless Controllers Anchor Capable Devices.
-  - This API allows the user to get Anchor capable devices.
-version_added: '6.17.0'
+  - This API allows the user to get all anchor capable devices.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetAnchorCapableDevices
-    description: Complete reference of the GetAnchorCapableDevices API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-anchor-capable-devices
+  - name: Cisco Catalyst Center documentation for Wireless GetAllAnchorCapableDevices
+    description: Complete reference of the GetAllAnchorCapableDevices API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-anchor-capable-devices
 notes:
   - SDK Method used are
-    wireless.Wireless.get_anchor_capable_devices,
+    wireless.Wireless.get_all_anchor_capable_devices,
   - Paths used are
     get /dna/intent/api/v1/wirelessControllers/anchorCapableDevices,
 """
@@ -51,11 +51,18 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "deviceIp": "string",
-      "deviceName": "string",
-      "wirelessMgmtIP": "string"
-    }
+    [
+      {
+        "deviceIp": "string",
+        "deviceName": "string",
+        "wirelessMgmtIP": "string",
+        "wirelessMgmtIPv6": {},
+        "interfaceIpAddresses": [
+          "string"
+        ]
+      }
+    ]
 """

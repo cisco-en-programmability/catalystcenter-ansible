@@ -12,10 +12,10 @@ description:
   - Manage operations update and delete of the resource Sites Site Id Wireless Settings Flex Connect Aaa Override.
   - This API allows the user to delete AAA Override VLAN settings at the given site level.
   - This API allows the user to update an existing AAA Override VLAN setting at the given site level.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sites Site Id Wireless Settings Flex Connect Aaa Override's payload.
@@ -38,10 +38,10 @@ options:
       unaffected.
     type: bool
   siteId:
-    description: SiteId path parameter. Site Id.
+    description: SiteId path parameter. Site UUID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteAAAOverrideVlanSettingsBySite
@@ -61,18 +61,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    removeOverrideInHierarchy: true
-    siteId: string
 - name: Update all
   cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -86,6 +74,18 @@ EXAMPLES = r"""
     payload:
       - vlanId: 0
         vlanName: string
+    siteId: string
+- name: Delete all
+  cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_aaa_override:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    removeOverrideInHierarchy: true
     siteId: string
 """
 RETURN = r"""

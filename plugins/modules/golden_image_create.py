@@ -11,10 +11,10 @@ short_description: Resource module for Golden Image Create
 description:
   - Manage operation create of the resource Golden Image Create.
   - Golden Tag image. Set siteId as -1 for Global site.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceFamilyIdentifier:
     description: Device Family Identifier e.g. 277696480-283933147, 277696480.
@@ -29,7 +29,7 @@ options:
     description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) TagAsGoldenImage
@@ -67,7 +67,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

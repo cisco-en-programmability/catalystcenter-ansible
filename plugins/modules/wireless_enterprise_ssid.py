@@ -13,10 +13,10 @@ description:
   - Creates enterprise SSID.
   - Deletes given enterprise SSID.
   - Update enterprise SSID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aaaOverride:
     description: Aaa Override.
@@ -75,14 +75,14 @@ options:
     description: Management Frame Protection Client.
     type: str
   multiPSKSettings:
-    description: Wireless Enterprise Ssid's multiPSKSettings.
+    description: Multi PSK Settings (Only applicable for SSID with PERSONAL auth type and PSK).
     elements: dict
     suboptions:
       passphrase:
-        description: Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+        description: Passphrase.
         type: str
       passphraseType:
-        description: Passphrase Type(default ASCII).
+        description: Passphrase Type.
         type: str
       priority:
         description: Priority.
@@ -133,7 +133,7 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateEnterpriseSSID
@@ -262,7 +262,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    ssidName: string
+    ssidName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

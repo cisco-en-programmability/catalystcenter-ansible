@@ -11,10 +11,10 @@ short_description: Information module for Event Series Audit Logs Parent Records
 description:
   - Get all Event Series Audit Logs Parent Records.
   - Get Parent Audit Log Event instances from the Event-Hub.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -120,7 +120,7 @@ options:
         Supported values asc, desc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management GetAuditLogParentRecords
@@ -161,11 +161,11 @@ EXAMPLES = r"""
     isSystemEvents: true
     description: string
     offset: 0
-    limit: 0
+    limit: 25
     startTime: 0
     endTime: 0
     sortBy: string
-    order: string
+    order: desc
   register: result
 """
 RETURN = r"""
@@ -190,9 +190,7 @@ catalystcenter_response:
         "severity": 0,
         "source": "string",
         "timestamp": 0,
-        "tags": [
-          "string"
-        ],
+        "tags": [],
         "details": {},
         "ciscoDnaEventLink": "string",
         "note": "string",

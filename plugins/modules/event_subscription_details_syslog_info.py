@@ -11,10 +11,10 @@ short_description: Information module for Event Subscription Details Syslog
 description:
   - Get all Event Subscription Details Syslog.
   - Gets the list of subscription details for specified connectorType.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -48,7 +48,7 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management GetSyslogSubscriptionDetails
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     name: string
     instanceId: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
   register: result
@@ -99,7 +99,7 @@ catalystcenter_response:
           "name": "string",
           "description": "string",
           "host": "string",
-          "port": "string",
+          "port": 0,
           "protocol": "string"
         }
       }

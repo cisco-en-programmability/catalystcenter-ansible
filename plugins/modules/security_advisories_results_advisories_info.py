@@ -13,17 +13,17 @@ description:
   - Get Security Advisories Results Advisories by id.
   - Get security advisories affecting the network devices.
   - Get security advisory affecting the network devices by Id.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   id:
     description:
-      - Id query parameter. Id of the advisory.
+      - Id path parameter. Id of the security advisory.
     type: str
   deviceCount:
     description:
@@ -62,7 +62,7 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetSecurityAdvisoriesAffectingTheNetworkDevices
@@ -96,10 +96,10 @@ EXAMPLES = r"""
     deviceCount: 0
     cvssBaseScore: string
     securityImpactRating: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
   register: result
 - name: Get Security Advisories Results Advisories by id
   cisco.catalystcenter.security_advisories_results_advisories_info:

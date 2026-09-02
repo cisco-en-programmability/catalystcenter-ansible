@@ -13,10 +13,10 @@ description:
   - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
   - Deletes a workflow specified by id.
   - Updates an existing workflow.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   _id:
     description: Pnp Workflow's _id.
@@ -128,7 +128,7 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) AddAWorkflow
@@ -153,7 +153,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update by id
   cisco.catalystcenter.pnp_workflow:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -171,6 +171,7 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
+    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0
@@ -208,7 +209,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
-- name: Update by id
+- name: Create
   cisco.catalystcenter.pnp_workflow:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -226,7 +227,6 @@ EXAMPLES = r"""
     description: string
     endTime: 0
     execTime: 0
-    id: string
     imageId: string
     instanceType: string
     lastupdateOn: 0

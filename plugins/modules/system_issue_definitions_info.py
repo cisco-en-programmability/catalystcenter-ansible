@@ -11,26 +11,20 @@ short_description: Information module for System Issue Definitions
 description:
   - Get all System Issue Definitions.
   - Get System Issue Definitions by id.
-  - Get all system issue defintions.
-  - The supported filters are id, name, profileId and definition enable status.
-  - An issue trigger definition can be different across the profile and device type.
-  - So, `profileId` and `deviceType` in the query param is important and default is global profile and all device type.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
-  - Get system issue defintion for the given id.
-  - Definition includes all properties from IssueTriggerDefinition schema by default.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Get all system issue defintions. The supported filters are id, name, profileId.
+  - Get system issue defintion for the given id. Definition includes all.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Issue trigger definition id.
+    type: str
   deviceType:
     description:
       - >
@@ -42,13 +36,6 @@ options:
       - >
         ProfileId query parameter. The profile identier to fetch the profile associated issue defintions. The
         default is `global`. Please refer Network design profiles documentation for more details.
-    type: str
-  id:
-    description:
-      - >
-        Id query parameter. The definition identifier. Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46 (single
-        entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47
-        (multiple ids in the query param).
     type: str
   name:
     description:
@@ -95,7 +82,7 @@ options:
       - Order query parameter. The sort order of the field ascending or descending.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetIssueTriggerDefinitionForGivenId

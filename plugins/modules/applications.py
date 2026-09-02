@@ -13,10 +13,10 @@ description:
   - Create new Custom application.
   - Delete existing application by its id.
   - Edit the attributes of an existing application.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id query parameter. Application's Id.
@@ -29,63 +29,63 @@ options:
         description: Applications's applicationSet.
         suboptions:
           idRef:
-            description: Id Ref.
+            description: Applications's idRef.
             type: str
         type: dict
       name:
-        description: Name.
+        description: Applications's name.
         type: str
       networkApplications:
         description: Applications's networkApplications.
         elements: dict
         suboptions:
           appProtocol:
-            description: App Protocol.
+            description: Applications's appProtocol.
             type: str
           applicationSubType:
-            description: Application Sub Type.
+            description: Applications's applicationSubType.
             type: str
           applicationType:
-            description: Application Type.
+            description: Applications's applicationType.
             type: str
           categoryId:
-            description: Category Id.
+            description: Applications's categoryId.
             type: str
           displayName:
-            description: Display Name.
+            description: Applications's displayName.
             type: str
           dscp:
-            description: Dscp.
+            description: Applications's dscp.
             type: str
           engineId:
-            description: Engine Id.
+            description: Applications's engineId.
             type: str
           helpString:
-            description: Help String.
+            description: Applications's helpString.
             type: str
           ignoreConflict:
-            description: Ignore Conflict.
+            description: Applications's ignoreConflict.
             type: str
           longDescription:
-            description: Long Description.
+            description: Applications's longDescription.
             type: str
           name:
-            description: Name.
+            description: Applications's name.
             type: str
           popularity:
-            description: Popularity.
+            description: Applications's popularity.
             type: str
           rank:
-            description: Rank.
+            description: Applications's rank.
             type: str
           serverName:
-            description: Server Name.
+            description: Applications's serverName.
             type: str
           trafficClass:
-            description: Traffic Class.
+            description: Applications's trafficClass.
             type: str
           url:
-            description: Url.
+            description: Applications's url.
             type: str
         type: list
       networkIdentity:
@@ -93,40 +93,40 @@ options:
         elements: dict
         suboptions:
           displayName:
-            description: Display Name.
+            description: Applications's displayName.
             type: str
           lowerPort:
-            description: Lower Port.
+            description: Applications's lowerPort.
             type: str
           ports:
-            description: Ports.
+            description: Applications's ports.
             type: str
           protocol:
-            description: Protocol.
+            description: Applications's protocol.
             type: str
           upperPort:
-            description: Upper Port.
+            description: Applications's upperPort.
             type: str
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy CreateApplication
-    description: Complete reference of the CreateApplication API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-application
-  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplication
-    description: Complete reference of the DeleteApplication API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application
-  - name: Cisco Catalyst Center documentation for Application Policy EditApplication
-    description: Complete reference of the EditApplication API.
-    link: https://developer.cisco.com/docs/dna-center/#!edit-application
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationV1
+    description: Complete reference of the CreateApplicationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-application-v-1
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationPolicy
+    description: Complete reference of the DeleteApplicationPolicy API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy
+  - name: Cisco Catalyst Center documentation for Application Policy EditApplicationV1
+    description: Complete reference of the EditApplicationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!edit-application-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application,
-    application_policy.ApplicationPolicy.delete_application,
-    application_policy.ApplicationPolicy.edit_application,
+    application_policy.ApplicationPolicy.create_application_v1,
+    application_policy.ApplicationPolicy.delete_application_policy,
+    application_policy.ApplicationPolicy.edit_application_v1,
   - Paths used are
     post /dna/intent/api/v1/applications,
     delete /dna/intent/api/v1/applications,
@@ -145,7 +145,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    id: string
+    id: application/json
 - name: Create
   cisco.catalystcenter.applications:
     catalystcenter_host: "{{catalystcenter_host}}"

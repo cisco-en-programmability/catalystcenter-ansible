@@ -12,10 +12,10 @@ description:
   - Get all Wireless Accesspoint Configuration Summary. - > Users can query access point configuration information for a specific
     device by using the Ethernet MAC address as a 'key' filter. If no key is specified, all access point details will be retrieved
     based on the combination of filters provided.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -57,7 +57,7 @@ options:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAccessPointConfiguration
@@ -88,62 +88,65 @@ EXAMPLES = r"""
     apModel: string
     meshRole: string
     provisioned: string
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "adminStatus": "string",
-      "apHeight": 0,
-      "apMode": "string",
-      "apName": "string",
-      "ethMac": "string",
-      "failoverPriority": "string",
-      "ledBrightnessLevel": 0,
-      "ledStatus": "string",
-      "location": "string",
-      "macAddress": "string",
-      "primaryControllerName": "string",
-      "primaryIpAddress": "string",
-      "secondaryControllerName": "string",
-      "secondaryIpAddress": "string",
-      "tertiaryControllerName": "string",
-      "tertiaryIpAddress": "string",
-      "meshDTOs": [
-        "string"
-      ],
-      "model": "string",
-      "wlcIpAddress": "string",
-      "reachabilityStatus": "string",
-      "managementIpAddress": "string",
-      "provisioningStatus": "string",
-      "radioDTOs": [
-        {
-          "ifType": 0,
-          "ifTypeValue": "string",
-          "slotId": 0,
-          "macAddress": "string",
-          "adminStatus": "string",
-          "powerAssignmentMode": "string",
-          "powerlevel": 0,
-          "channelAssignmentMode": "string",
-          "channelNumber": 0,
-          "channelWidth": "string",
-          "antennaPatternName": "string",
-          "antennaAngle": 0,
-          "antennaElevAngle": 0,
-          "antennaGain": 0,
-          "radioRoleAssignment": {},
-          "radioBand": {},
-          "cleanAirSI": "string",
-          "dualRadioMode": "string"
-        }
-      ]
-    }
+    [
+      {
+        "adminStatus": "string",
+        "apHeight": 0,
+        "apMode": "string",
+        "apName": "string",
+        "ethMac": "string",
+        "failoverPriority": "string",
+        "ledBrightnessLevel": 0,
+        "ledStatus": "string",
+        "location": "string",
+        "macAddress": "string",
+        "primaryControllerName": "string",
+        "primaryIpAddress": "string",
+        "secondaryControllerName": "string",
+        "secondaryIpAddress": "string",
+        "tertiaryControllerName": "string",
+        "tertiaryIpAddress": "string",
+        "meshDTOs": [
+          "string"
+        ],
+        "model": "string",
+        "wlcIpAddress": "string",
+        "reachabilityStatus": "string",
+        "managementIpAddress": "string",
+        "provisioningStatus": "string",
+        "radioDTOs": [
+          {
+            "ifType": 0,
+            "ifTypeValue": "string",
+            "slotId": 0,
+            "macAddress": "string",
+            "adminStatus": "string",
+            "powerAssignmentMode": "string",
+            "powerlevel": 0,
+            "channelAssignmentMode": "string",
+            "channelNumber": 0,
+            "channelWidth": "string",
+            "antennaPatternName": "string",
+            "antennaAngle": 0,
+            "antennaElevAngle": 0,
+            "antennaGain": 0,
+            "radioRoleAssignment": {},
+            "radioBand": {},
+            "cleanAirSI": "string",
+            "dualRadioMode": "string"
+          }
+        ]
+      }
+    ]
 """

@@ -1,0 +1,31 @@
+---
+name: nox
+'on':
+  push:
+    branches:
+      - main
+      - stable-*
+  pull_request:
+  # Run CI once per day (at 08:00 UTC)
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+concurrency:
+  # Make sure there is at most one active run per PR, but do not cancel any non-PR runs
+  group: ${{ github.workflow }}-${{ (github.head_ref && github.event.number) || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ansible-test:
+    uses: ansible-community/antsibull-nox/.github/workflows/reusable-nox-matrix.yml@main
+    with:
+      # Only sanity/unit-test the files that actually changed vs. the base
+      # branch on pull requests, instead of the whole collection (~3000
+      # files) on every push. Add `ci_complete` to the last commit message
+      # of a PR to force a full run when you really need one.
+      change-detection-in-prs: true
+      allow-coverage-cd-override: true

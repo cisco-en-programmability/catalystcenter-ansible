@@ -12,10 +12,10 @@ description:
   - Get all System Performance. - > Retrieves the average values of cluster key performance indicators KPIs , such as CPU
     utilization, memory utilization or network rates over the past 15 minutes. Query parameters 'function', 'startTime' and
     'endTime' are no longer supported.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -29,7 +29,7 @@ options:
       - >
         Function query parameter. In this release this field has been deprecated and no longer supported.
         Previously supported functions were 'sum', 'average', and 'max'. Now, only the last 15 minutes average
-        of cluster key performance indicators (KPIs) is returned, regardless of the specified function. For
+        of cluster key performance indicators (KPIs) are returned, regardless of the specified function. For
         example, if 'sum', 'average', or 'max' is provided, it will be ignored and the 'average' of the last 15
         minutes will be returned.
     type: str
@@ -37,7 +37,7 @@ options:
     description:
       - >
         StartTime query parameter. In this release this field has been deprecated and no longer supported. Only
-        the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the
+        the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the
         provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and
         15 minutes before the current time will be considered.
     type: float
@@ -45,12 +45,12 @@ options:
     description:
       - >
         EndTime query parameter. In this release this field has been deprecated and no longer supported. Only
-        the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the
+        the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the
         provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and
         the current time will be considered.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance SystemPerformanceAPI
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    kpi: string
-    function: string
+    kpi: cpu,memory,network
+    function: average
     startTime: 0
     endTime: 0
   register: result

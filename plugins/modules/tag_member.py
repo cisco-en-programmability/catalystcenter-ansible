@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Tag Member.
   - Adds members to the tag specified by id.
   - Removes Tag member from the tag specified by id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Tag ID.
@@ -31,7 +31,7 @@ options:
     description: Map of member type and member ids.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Tag AddMembersToTheTag
@@ -64,9 +64,6 @@ EXAMPLES = r"""
     id: string
     memberType:
       - string
-    payload:
-      networkinterface:
-        - string
 - name: Delete by id
   cisco.catalystcenter.tag_member:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -89,7 +86,7 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "taskId": {},
+        "taskId": "string",
         "url": "string"
       }
     }

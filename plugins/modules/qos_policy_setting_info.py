@@ -11,16 +11,16 @@ short_description: Information module for Qos Policy Setting
 description:
   - Get all Qos Policy Setting.
   - API to retrieve the application QoS policy setting.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy RetrievesTheApplicationQoSPolicySetting
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-application-qo-s-policy-setting
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.retrieves_the_application_qo_s_policy_setting,
+    application_policy.ApplicationPolicy.retrieves_the_application_qos_policy_setting,
   - Paths used are
     get /dna/intent/api/v1/qosPolicySetting,
 """

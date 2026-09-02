@@ -13,27 +13,20 @@ description:
   - Adds a fabric zone based on user input.
   - Deletes a fabric zone based on id.
   - Updates a fabric zone based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the fabric zone.
     type: str
   payload:
-    description: Sda Fabric Zones's payload.
+    description: Fabric zone post request body.
     elements: dict
-    suboptions:
-      authenticationProfileName:
-        description: Authentication profile used for this fabric.
-        type: str
-      siteId:
-        description: ID of the network hierarchy.
-        type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddFabricZone
@@ -69,8 +62,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        siteId: string
+      - authenticationProfileName: {}
+        siteId: {}
 - name: Update all
   cisco.catalystcenter.sda_fabric_zones:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -82,9 +75,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        id: string
-        siteId: string
+      - {}
 - name: Delete by id
   cisco.catalystcenter.sda_fabric_zones:
     catalystcenter_host: "{{catalystcenter_host}}"

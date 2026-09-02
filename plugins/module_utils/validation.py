@@ -354,9 +354,13 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                     )
 
                 choice = filtered_param_spec[param].get("choices")
-                choices_ignore_case = filtered_param_spec[param].get("choices_ignore_case")
+                choices_ignore_case = filtered_param_spec[param].get(
+                    "choices_ignore_case"
+                )
                 if choice or choices_ignore_case:
-                    curr_item = _validate_choice(curr_item, filtered_param_spec[param], invalid_params)
+                    curr_item = _validate_choice(
+                        curr_item, filtered_param_spec[param], invalid_params
+                    )
 
                 no_log = filtered_param_spec[param].get("no_log")
                 if no_log:

@@ -10,18 +10,19 @@ module: images_id_sites_site_id_tag_golden
 short_description: Resource module for Images Id Sites Site Id Tag Golden
 description:
   - Manage operation create of the resource Images Id Sites Site Id Tag Golden.
-  - Creates golden image tagging specifically for a particular device type or supervisor engine module.
-version_added: '6.17.0'
+  - Creates golden image tagging specifically for a particular device type or.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceRoles:
-    description: Device Roles. Available value will be CORE, DISTRIBUTION, UNKNOWN, ACCESS, BORDER ROUTER.
+    description: Device Roles. Available value will be CORE, DISTRIBUTION, UNKNOWN, ACCESS, BORDER_ROUTER.
     elements: str
     type: list
   deviceTags:
-    description: Device tags can be fetched fom API https //developer.cisco.com/docs/dna-center/#!get-tag.
+    description: Array of device tag identifiers (UUIDs) associated with the device. Tag identifiers can be retrieved using
+      the API https //developer.cisco.com/docs/dna-center/#!get-tag.
     elements: str
     type: list
   id:
@@ -42,7 +43,7 @@ options:
       can be obtained from the response of API `/dna/intent/api/v1/siteWiseProductNames?siteId=<siteId>`.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) TaggingGoldenImage

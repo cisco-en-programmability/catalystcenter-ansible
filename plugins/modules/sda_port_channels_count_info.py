@@ -11,17 +11,17 @@ short_description: Information module for Sda Port Channels Count
 description:
   - Get all Sda Port Channels Count.
   - Returns the count of port channels that match the provided query parameters.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the device is assigned to.
+      - FabricId query parameter. ID of the fabric this port channel belongs to.to.
     type: str
   networkDeviceId:
     description:
@@ -38,7 +38,7 @@ options:
         TRUNK, EXTENDED_NODE.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPortChannelCount
@@ -66,7 +66,7 @@ EXAMPLES = r"""
     fabricId: string
     networkDeviceId: string
     portChannelName: string
-    connectedDeviceType: string
+    connectedDeviceType: TRUNK
   register: result
 """
 RETURN = r"""

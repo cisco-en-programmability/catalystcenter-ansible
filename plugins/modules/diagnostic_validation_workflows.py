@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Diagnostic Validation Workflows.
   - Submits the workflow for executing the validations for the given validation specifications.
   - Deletes the workflow for the given id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of the workflow to run.
@@ -31,7 +31,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance SubmitsTheWorkflowForExecutingValidations

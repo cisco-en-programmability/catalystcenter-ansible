@@ -12,10 +12,10 @@ description:
   - Get all Wireless Controllers Managed Ap Locations Count. - > Retrieves the count of Managed AP locations, including Primary
     Managed AP Locations, Secondary Managed AP Locations, and Anchor Managed AP Locations, associated with the specific Wireless
     Controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
         /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetManagedAPLocationsCountForSpecificWirelessController
@@ -63,7 +63,9 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "count": 0
+        "primaryManagedApLocationsCount": 0,
+        "secondaryManagedApLocationsCount": 0,
+        "anchorManagedApLocationsCount": 0
       },
       "version": "string"
     }

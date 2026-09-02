@@ -11,17 +11,17 @@ short_description: Resource module for Configuration Template Export Project
 description:
   - Manage operation create of the resource Configuration Template Export Project.
   - Exports the projects for given projectNames.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Configuration Template Export Project's payload.
-    elements: dict
+    elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates ExportsTheProjectsForAGivenCriteria
@@ -45,8 +45,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    payload:
-      - {}
+    payload: []
 """
 RETURN = r"""
 catalystcenter_response:
@@ -56,7 +55,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

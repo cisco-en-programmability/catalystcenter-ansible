@@ -12,20 +12,20 @@ description:
   - Manage operation update of the resource Fabrics Fabric Id Wireless Multicast. - > Updates the Software-Defined Access
     SDA Wireless Multicast setting for a specified fabric site. This API allows you to enable or disable the multicast feature.
     For optimal performance, ensure wired multicast is also enabled.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricId:
     description: FabricId path parameter. The unique identifier of the fabric site for which the multicast setting is being
       requested. The identifier should be in the format of a UUID. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
     type: str
   multicastEnabled:
-    description: Multicast Enabled.
+    description: MulticastEnabled flag.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless UpdateSDAWirelessMulticast

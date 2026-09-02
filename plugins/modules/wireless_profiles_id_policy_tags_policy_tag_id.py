@@ -15,13 +15,13 @@ description:
     allows updating the details of a specific `Policy Tag` associated with a given `Wireless Profile`. The `id` of the `Wireless
     Profile` and the `policyTagId` of the Policy Tag must be provided as path parameters, and the request body should contain
     the updated details of the `Policy Tag`. The `policyTagName` cannot be modified through this endpoint.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apZones:
-    description: Ap Zones.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's apZones.
     elements: str
     type: list
   id:
@@ -31,14 +31,14 @@ options:
     description: PolicyTagId path parameter. Policy Tag Id.
     type: str
   policyTagName:
-    description: Policy Tag Name.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's policyTagName.
     type: str
   siteIds:
-    description: Site Ids.
+    description: Wireless Profiles Id Policy Tags Policy Tag Id's siteIds.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfile

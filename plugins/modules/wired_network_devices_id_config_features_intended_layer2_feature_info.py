@@ -9,14 +9,14 @@ DOCUMENTATION = r"""
 module: wired_network_devices_id_config_features_intended_layer2_feature_info
 short_description: Information module for Wired Network Devices Id Config Features Intended Layer2 Feature
 description:
-  - Get Wired Network Devices Id Config Features Intended Layer2 Feature by id.
-  - This API returns the configurations for an intended layer 2 feature on a wired device.
-  - Even after the intended configurations are deployed using the deploy API,
+  - Get Wired Network Devices Id Config Features Intended Layer2 Feature by id. - > This API returns the configurations for
+    an intended layer 2 feature on a wired device. Even after the intended configurations are deployed using the API
+        /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy,
     they continue to be a part of the intended features on the device.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -30,7 +30,7 @@ options:
       - Feature path parameter. The name of the feature to be retrieved.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wired GetConfigurationsForAnIntendedLayer2FeatureOnAWiredDevice

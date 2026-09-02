@@ -11,10 +11,10 @@ short_description: Resource module for Wireless Provision Device Create
 description:
   - Manage operation create of the resource Wireless Provision Device Create.
   - Provision wireless device.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
         description: Controller Name.
         type: str
       dynamicInterfaces:
-        description: Wireless Provision Device Create's dynamicInterfaces.
+        description: Dynamic Interface Details. The required attributes depend on the device type.
         elements: dict
         suboptions:
           interfaceGateway:
@@ -58,7 +58,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless Provision

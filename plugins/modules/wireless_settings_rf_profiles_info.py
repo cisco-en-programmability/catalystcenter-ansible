@@ -13,14 +13,18 @@ description:
   - Get Wireless Settings Rf Profiles by id.
   - This API allows the user to get a RF Profile by RF Profile ID.
   - This API allows the user to get all RF Profiles.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. RF Profile ID.
+    type: str
   limit:
     description:
       - >
@@ -47,12 +51,8 @@ options:
     description:
       - EnableRadioType6GHz query parameter. Enable Radio Type6GHz.
     type: bool
-  id:
-    description:
-      - Id path parameter. RF Profile ID.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetRFProfileByID
@@ -82,8 +82,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     rfProfileName: string
     enableRadioTypeA: true
     enableRadioTypeB: true
@@ -109,128 +109,126 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "rfProfileName": "string",
-          "defaultRfProfile": true,
-          "enableRadioTypeA": true,
-          "enableRadioTypeB": true,
-          "enableRadioType6GHz": true,
-          "enableCustom": true,
-          "radioTypeAProperties": {
-            "parentProfile": "string",
-            "radioChannels": "string",
-            "dataRates": "string",
-            "mandatoryDataRates": "string",
-            "powerThresholdV1": 0,
-            "rxSopThreshold": "string",
-            "minPowerLevel": 0,
-            "maxPowerLevel": 0,
-            "channelWidth": "string",
-            "preamblePuncture": true,
-            "zeroWaitDfsEnable": true,
-            "customRxSopThreshold": 0,
-            "maxRadioClients": 0,
-            "fraPropertiesA": {
-              "clientAware": true,
-              "clientSelect": 0,
-              "clientReset": 0
-            },
-            "coverageHoleDetectionProperties": {
-              "chdClientLevel": 0,
-              "chdDataRssiThreshold": 0,
-              "chdVoiceRssiThreshold": 0,
-              "chdExceptionLevel": 0
-            },
-            "spatialReuseProperties": {
-              "dot11axNonSrgObssPacketDetect": true,
-              "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
-              "dot11axSrgObssPacketDetect": true,
-              "dot11axSrgObssPacketDetectMinThreshold": 0,
-              "dot11axSrgObssPacketDetectMaxThreshold": 0
-            }
+      "response": {
+        "rfProfileName": "string",
+        "defaultRfProfile": true,
+        "enableRadioTypeA": true,
+        "enableRadioTypeB": true,
+        "enableRadioType6GHz": true,
+        "enableCustom": true,
+        "radioTypeAProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0,
+          "channelWidth": "string",
+          "preamblePuncture": true,
+          "zeroWaitDfsEnable": true,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "fraPropertiesA": {
+            "clientAware": true,
+            "clientSelect": 0,
+            "clientReset": 0
           },
-          "radioTypeBProperties": {
-            "parentProfile": "string",
-            "radioChannels": "string",
-            "dataRates": "string",
-            "mandatoryDataRates": "string",
-            "powerThresholdV1": 0,
-            "rxSopThreshold": "string",
-            "minPowerLevel": 0,
-            "maxPowerLevel": 0,
-            "customRxSopThreshold": 0,
-            "maxRadioClients": 0,
-            "coverageHoleDetectionProperties": {
-              "chdClientLevel": 0,
-              "chdDataRssiThreshold": 0,
-              "chdVoiceRssiThreshold": 0,
-              "chdExceptionLevel": 0
-            },
-            "spatialReuseProperties": {
-              "dot11axNonSrgObssPacketDetect": true,
-              "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
-              "dot11axSrgObssPacketDetect": true,
-              "dot11axSrgObssPacketDetectMinThreshold": 0,
-              "dot11axSrgObssPacketDetectMaxThreshold": 0
-            }
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
           },
-          "radioType6GHzProperties": {
-            "parentProfile": "string",
-            "radioChannels": "string",
-            "dataRates": "string",
-            "mandatoryDataRates": "string",
-            "powerThresholdV1": 0,
-            "rxSopThreshold": "string",
-            "minPowerLevel": 0,
-            "maxPowerLevel": 0,
-            "enableStandardPowerService": true,
-            "multiBssidProperties": {
-              "dot11axParameters": {
-                "ofdmaDownLink": true,
-                "ofdmaUpLink": true,
-                "muMimoUpLink": true,
-                "muMimoDownLink": true
-              },
-              "dot11beParameters": {
-                "ofdmaDownLink": true,
-                "ofdmaUpLink": true,
-                "muMimoUpLink": true,
-                "muMimoDownLink": true,
-                "ofdmaMultiRu": true
-              },
-              "targetWakeTime": true,
-              "twtBroadcastSupport": true
-            },
-            "preamblePuncture": true,
-            "minDbsWidth": 0,
-            "maxDbsWidth": 0,
-            "customRxSopThreshold": 0,
-            "maxRadioClients": 0,
-            "pscEnforcingEnabled": true,
-            "discoveryFrames6GHz": "string",
-            "broadcastProbeResponseInterval": 0,
-            "fraPropertiesC": {
-              "clientResetCount": 0,
-              "clientUtilizationThreshold": 0
-            },
-            "coverageHoleDetectionProperties": {
-              "chdClientLevel": 0,
-              "chdDataRssiThreshold": 0,
-              "chdVoiceRssiThreshold": 0,
-              "chdExceptionLevel": 0
-            },
-            "spatialReuseProperties": {
-              "dot11axNonSrgObssPacketDetect": true,
-              "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
-              "dot11axSrgObssPacketDetect": true,
-              "dot11axSrgObssPacketDetectMinThreshold": 0,
-              "dot11axSrgObssPacketDetectMaxThreshold": 0
-            }
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
+        },
+        "radioTypeBProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
           },
-          "id": "string"
-        }
-      ],
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
+        },
+        "radioType6GHzProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0,
+          "enableStandardPowerService": true,
+          "multiBssidProperties": {
+            "dot11axParameters": {
+              "ofdmaDownLink": true,
+              "ofdmaUpLink": true,
+              "muMimoUpLink": true,
+              "muMimoDownLink": true
+            },
+            "dot11beParameters": {
+              "ofdmaDownLink": true,
+              "ofdmaUpLink": true,
+              "muMimoUpLink": true,
+              "muMimoDownLink": true,
+              "ofdmaMultiRu": true
+            },
+            "targetWakeTime": true,
+            "twtBroadcastSupport": true
+          },
+          "preamblePuncture": true,
+          "minDbsWidth": 0,
+          "maxDbsWidth": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "pscEnforcingEnabled": true,
+          "discoveryFrames6GHz": "string",
+          "broadcastProbeResponseInterval": 0,
+          "fraPropertiesC": {
+            "clientResetCount": 0,
+            "clientUtilizationThreshold": 0
+          },
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
+        },
+        "id": "string"
+      },
       "version": "string"
     }
 """

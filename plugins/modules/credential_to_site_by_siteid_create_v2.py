@@ -11,10 +11,10 @@ short_description: Resource module for Credential To Site By Siteid Create V2
 description:
   - Manage operation create of the resource Credential To Site By Siteid Create V2.
   - API to assign Device Credential to a site.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   cliId:
     description: CLI Credential Id.
@@ -38,15 +38,15 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSite
+    description: Complete reference of the AssignDeviceCredentialToSite API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.assign_device_credential_to_site,
   - Paths used are
     post /dna/intent/api/v2/credential-to-site/{siteId},
 """

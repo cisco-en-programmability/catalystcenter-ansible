@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for Provision Workflow Management in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the provisioned devices configured on
   the Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -126,7 +127,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - SDK Methods used are
@@ -259,8 +260,10 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     validate_list_of_dicts,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -268,6 +271,7 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -309,9 +313,7 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             Exception: If an error occurs while retrieving the site name hierarchy.
         """
 
-        self.log(
-            "Retrieving site name hierarchy for all sites.", "DEBUG"
-        )
+        self.log("Retrieving site name hierarchy for all sites.", "DEBUG")
         self.log("Executing 'get_sites' API call to retrieve all sites.", "DEBUG")
         site_id_name_mapping = {}
 
@@ -351,7 +353,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         }
         return self._cached_inventory_devices
 
-    def write_dict_to_yaml(self, data_dict, file_path, dumper=OrderedDumper, file_mode="overwrite"):
+    def write_dict_to_yaml(
+        self, data_dict, file_path, dumper=OrderedDumper, file_mode="overwrite"
+    ):
         """
         Converts a dictionary to YAML format and writes it to a specified file path.
         Overrides BrownFieldHelper.write_dict_to_yaml to add file_mode support.
@@ -437,7 +441,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.msg = "Invalid parameters in playbook config: {0}".format(
                 invalid_params
             )
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
 
         valid_config = validated_list[0]
         self.log(
@@ -463,22 +469,18 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if config is None:
             self.log(
                 "config is not provided. Defaulting to generate all provisioned devices.",
-                "INFO"
+                "INFO",
             )
             config = {}
         elif not isinstance(config, dict):
-            self.msg = (
-                "config must be a dictionary when provided. Got: {0}.".format(
-                    type(config).__name__
-                )
+            self.msg = "config must be a dictionary when provided. Got: {0}.".format(
+                type(config).__name__
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         if config_provided and config == {}:
-            self.msg = (
-                "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
-            )
+            self.msg = "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -491,11 +493,8 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "parameters, not under config."
                 )
             else:
-                self.msg = (
-                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
-                        sorted(list(invalid_config_keys)),
-                        sorted(list(allowed_config_keys))
-                    )
+                self.msg = "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
+                    sorted(list(invalid_config_keys)), sorted(list(allowed_config_keys))
                 )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
@@ -516,13 +515,17 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         if not file_path and file_mode != "overwrite":
             self.log(
-                "file_mode='{0}' is ignored because file_path is not provided.".format(file_mode),
-                "WARNING"
+                "file_mode='{0}' is ignored because file_path is not provided.".format(
+                    file_mode
+                ),
+                "WARNING",
             )
 
         component_filters = config.get("component_specific_filters")
         if config_provided and component_filters is None:
-            self.msg = "'component_specific_filters' is mandatory when 'config' is provided."
+            self.msg = (
+                "'component_specific_filters' is mandatory when 'config' is provided."
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -532,22 +535,20 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         normalized_component_filters = None
         if component_filters is not None:
             if not isinstance(component_filters, dict):
-                self.msg = (
-                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
-                        type(component_filters).__name__
-                    )
+                self.msg = "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                    type(component_filters).__name__
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             normalized_component_filters = dict(component_filters)
-            invalid_filter_keys = set(normalized_component_filters.keys()) - allowed_component_filter_keys
+            invalid_filter_keys = (
+                set(normalized_component_filters.keys()) - allowed_component_filter_keys
+            )
             if invalid_filter_keys:
-                self.msg = (
-                    "Invalid keys found in 'component_specific_filters': {0}. Allowed keys are: {1}.".format(
-                        sorted(list(invalid_filter_keys)),
-                        sorted(list(allowed_component_filter_keys))
-                    )
+                self.msg = "Invalid keys found in 'component_specific_filters': {0}. Allowed keys are: {1}.".format(
+                    sorted(list(invalid_filter_keys)),
+                    sorted(list(allowed_component_filter_keys)),
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
@@ -556,10 +557,8 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             normalized_components_list = []
             if components_list is not None:
                 if not isinstance(components_list, list):
-                    self.msg = (
-                        "'components_list' must be a list, got: {0}.".format(
-                            type(components_list).__name__
-                        )
+                    self.msg = "'components_list' must be a list, got: {0}.".format(
+                        type(components_list).__name__
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
@@ -570,7 +569,7 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Invalid component names found in 'components_list': {0}. "
                         "Allowed values are: {1}.".format(
                             sorted(list(invalid_components)),
-                            sorted(list(allowed_component_choices))
+                            sorted(list(allowed_component_choices)),
                         )
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -579,21 +578,30 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 duplicate_components = []
                 seen_components = set()
                 for component_name in components_list:
-                    if component_name in seen_components and component_name not in duplicate_components:
+                    if (
+                        component_name in seen_components
+                        and component_name not in duplicate_components
+                    ):
                         duplicate_components.append(component_name)
                     seen_components.add(component_name)
 
                 if duplicate_components:
                     self.msg = (
                         "Duplicate component names found in 'components_list': {0}. "
-                        "Each component may be specified only once.".format(duplicate_components)
+                        "Each component may be specified only once.".format(
+                            duplicate_components
+                        )
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
                 normalized_components_list = list(components_list)
 
-            allowed_filter_keys = ["management_ip_address", "site_name_hierarchy", "device_family"]
+            allowed_filter_keys = [
+                "management_ip_address",
+                "site_name_hierarchy",
+                "device_family",
+            ]
             valid_wired_families = ["Switches and Hubs", "Routers"]
             valid_wireless_families = ["Wireless Controller"]
             component_blocks = []
@@ -620,12 +628,18 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
                     if not self.normalize_string_list_filter(
-                        filter_item, "device_family", "wired", valid_values=valid_wired_families
+                        filter_item,
+                        "device_family",
+                        "wired",
+                        valid_values=valid_wired_families,
                     ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
                     if not self.normalize_string_list_filter(
-                        filter_item, "management_ip_address", "wired", validator=self.is_valid_ipv4
+                        filter_item,
+                        "management_ip_address",
+                        "wired",
+                        validator=self.is_valid_ipv4,
                     ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
@@ -656,13 +670,19 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         return self
 
                     if not self.normalize_string_list_filter(
-                        filter_item, "device_family", "wireless", valid_values=valid_wireless_families
+                        filter_item,
+                        "device_family",
+                        "wireless",
+                        valid_values=valid_wireless_families,
                     ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
                     if not self.normalize_string_list_filter(
-                        filter_item, "management_ip_address", "wireless", validator=self.is_valid_ipv4
+                        filter_item,
+                        "management_ip_address",
+                        "wireless",
+                        validator=self.is_valid_ipv4,
                     ):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
@@ -670,12 +690,24 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 component_blocks.append("wireless")
 
             if component_blocks:
-                self.log("Component-specific filter blocks found for: {0}".format(component_blocks), "DEBUG")
+                self.log(
+                    "Component-specific filter blocks found for: {0}".format(
+                        component_blocks
+                    ),
+                    "DEBUG",
+                )
                 for idx, component_name in enumerate(component_blocks):
                     if component_name not in normalized_components_list:
                         normalized_components_list.append(component_name)
-                        self.log("Added component at index {0}: {1}".format(idx, component_name), "DEBUG")
-                normalized_component_filters["components_list"] = normalized_components_list
+                        self.log(
+                            "Added component at index {0}: {1}".format(
+                                idx, component_name
+                            ),
+                            "DEBUG",
+                        )
+                normalized_component_filters["components_list"] = (
+                    normalized_components_list
+                )
             elif not normalized_components_list:
                 self.msg = (
                     "'components_list' must be provided with at least one component "
@@ -684,7 +716,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
             else:
-                normalized_component_filters["components_list"] = normalized_components_list
+                normalized_component_filters["components_list"] = (
+                    normalized_components_list
+                )
 
             valid_config["component_specific_filters"] = normalized_component_filters
 
@@ -709,7 +743,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 return False
         return True
 
-    def normalize_string_list_filter(self, filter_item, filter_key, component_name, valid_values=None, validator=None):
+    def normalize_string_list_filter(
+        self, filter_item, filter_key, component_name, valid_values=None, validator=None
+    ):
         """
         Normalize scalar filter values to single-item lists and validate each entry.
         """
@@ -731,20 +767,16 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         invalid_type_values = [item for item in value_list if not isinstance(item, str)]
         if invalid_type_values:
-            self.msg = (
-                "'{0}' in {1} filters must contain strings only.".format(
-                    filter_key, component_name
-                )
+            self.msg = "'{0}' in {1} filters must contain strings only.".format(
+                filter_key, component_name
             )
             return False
 
         if valid_values is not None:
             invalid_values = [item for item in value_list if item not in valid_values]
             if invalid_values:
-                self.msg = (
-                    "Invalid '{0}' values {1} in {2} filters. Valid choices are: {3}.".format(
-                        filter_key, invalid_values, component_name, valid_values
-                    )
+                self.msg = "Invalid '{0}' values {1} in {2} filters. Valid choices are: {3}.".format(
+                    filter_key, invalid_values, component_name, valid_values
                 )
                 return False
 
@@ -777,14 +809,22 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         tempspec = {
             "network_elements": {
                 "wired": {
-                    "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
+                    "filters": [
+                        "management_ip_address",
+                        "site_name_hierarchy",
+                        "device_family",
+                    ],
                     "reverse_mapping_function": self.wired_devices_temp_spec,
                     "api_function": "get_provisioned_devices",
                     "api_family": "sda",
                     "get_function_name": self.get_wired_devices,
                 },
                 "wireless": {
-                    "filters": ["management_ip_address", "site_name_hierarchy", "device_family"],
+                    "filters": [
+                        "management_ip_address",
+                        "site_name_hierarchy",
+                        "device_family",
+                    ],
                     "reverse_mapping_function": self.wireless_devices_temp_spec,
                     "api_function": "get_provisioned_devices",
                     "api_family": "sda",
@@ -794,7 +834,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "global_filters": ["management_ip_address"],
         }
 
-        self.log("Constructed provision workflow manager mapping: {0}".format(tempspec), "DEBUG")
+        self.log(
+            "Constructed provision workflow manager mapping: {0}".format(tempspec),
+            "DEBUG",
+        )
         return tempspec
 
     def wired_devices_temp_spec(self):
@@ -805,21 +848,28 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: An ordered dictionary defining the structure of wired device attributes.
         """
         self.log("Generating temporary specification for wired devices.", "DEBUG")
-        wired_devices = OrderedDict({
-            "management_ip_address": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_management_ip,
-            },
-            "site_name_hierarchy": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_site_hierarchy,
-            },
-            "provisioning": {"type": "bool", "default": True},
-            "force_provisioning": {"type": "bool", "default": False},
-        })
-        self.log("Temporary specification for wired devices generated: {0}".format(wired_devices), "DEBUG")
+        wired_devices = OrderedDict(
+            {
+                "management_ip_address": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_management_ip,
+                },
+                "site_name_hierarchy": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_site_hierarchy,
+                },
+                "provisioning": {"type": "bool", "default": True},
+                "force_provisioning": {"type": "bool", "default": False},
+            }
+        )
+        self.log(
+            "Temporary specification for wired devices generated: {0}".format(
+                wired_devices
+            ),
+            "DEBUG",
+        )
         return wired_devices
 
     def wireless_devices_temp_spec(self):
@@ -830,44 +880,51 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: An ordered dictionary defining the structure of wireless device attributes.
         """
         self.log("Generating temporary specification for wireless devices.", "DEBUG")
-        wireless_devices = OrderedDict({
-            "management_ip_address": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_management_ip,
-            },
-            "site_name_hierarchy": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_site_hierarchy,
-            },
-            "provisioning": {"type": "bool", "default": True},
-            "force_provisioning": {"type": "bool", "default": False},
-            "primary_managed_ap_locations": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.get_primary_managed_ap_locations_for_device,
-                "wireless_only": True,
-            },
-            "secondary_managed_ap_locations": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.get_secondary_managed_ap_locations_for_device,
-                "wireless_only": True,
-            },
-            "dynamic_interfaces": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.get_dynamic_interfaces_for_device,
-                "wireless_only": True,
-            },
-            "skip_ap_provision": {
-                "type": "bool",
-                "default": False,
-                "wireless_only": True,
-            },
-        })
-        self.log("Temporary specification for wireless devices generated: {0}".format(wireless_devices), "DEBUG")
+        wireless_devices = OrderedDict(
+            {
+                "management_ip_address": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_management_ip,
+                },
+                "site_name_hierarchy": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_site_hierarchy,
+                },
+                "provisioning": {"type": "bool", "default": True},
+                "force_provisioning": {"type": "bool", "default": False},
+                "primary_managed_ap_locations": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.get_primary_managed_ap_locations_for_device,
+                    "wireless_only": True,
+                },
+                "secondary_managed_ap_locations": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.get_secondary_managed_ap_locations_for_device,
+                    "wireless_only": True,
+                },
+                "dynamic_interfaces": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.get_dynamic_interfaces_for_device,
+                    "wireless_only": True,
+                },
+                "skip_ap_provision": {
+                    "type": "bool",
+                    "default": False,
+                    "wireless_only": True,
+                },
+            }
+        )
+        self.log(
+            "Temporary specification for wireless devices generated: {0}".format(
+                wireless_devices
+            ),
+            "DEBUG",
+        )
         return wireless_devices
 
     def get_wired_devices(self, network_element, component_specific_filters=None):
@@ -886,17 +943,22 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # Get all provisioned devices
         all_devices = self.get_all_provisioned_devices_internal()
 
-        self.log("Total provisioned devices retrieved: {0}".format(len(all_devices)), "INFO")
+        self.log(
+            "Total provisioned devices retrieved: {0}".format(len(all_devices)), "INFO"
+        )
 
         # Filter for wired devices only
-        wired_devices = [device for device in all_devices
-                         if self.is_wired_device(device)]
+        wired_devices = [
+            device for device in all_devices if self.is_wired_device(device)
+        ]
 
         self.log("Found {0} wired devices".format(len(wired_devices)), "INFO")
 
         # Apply component-specific filters
         if component_specific_filters:
-            wired_devices = self.apply_device_filters(wired_devices, component_specific_filters)
+            wired_devices = self.apply_device_filters(
+                wired_devices, component_specific_filters
+            )
 
         # Process devices into configuration format
         return self.process_device_list(wired_devices, is_wireless=False)
@@ -918,19 +980,29 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         all_devices = self.get_all_provisioned_devices_internal()
 
         # Filter for wireless devices only
-        wireless_devices = [device for device in all_devices
-                            if self.is_wireless_device(device)]
+        wireless_devices = [
+            device for device in all_devices if self.is_wireless_device(device)
+        ]
 
         self.log("Found {0} wireless devices".format(len(wireless_devices)), "INFO")
 
         # Check if generate_all_configurations is enabled
-        generate_all = self.config.get("generate_all_configurations", False) if self.config else False
+        generate_all = (
+            self.config.get("generate_all_configurations", False)
+            if self.config
+            else False
+        )
 
         # Apply component-specific filters only if generate_all_configurations is not enabled
         if not generate_all and component_specific_filters:
-            wireless_devices = self.apply_device_filters(wireless_devices, component_specific_filters)
+            wireless_devices = self.apply_device_filters(
+                wireless_devices, component_specific_filters
+            )
         elif generate_all:
-            self.log("generate_all_configurations is enabled - retrieving all wireless devices without filters", "INFO")
+            self.log(
+                "generate_all_configurations is enabled - retrieving all wireless devices without filters",
+                "INFO",
+            )
 
         # Process devices into configuration format
         return self.process_device_list(wireless_devices, is_wireless=True)
@@ -956,7 +1028,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             sda_devices = response.get("response", [])
-            self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
+            self.log(
+                "Retrieved {0} devices from SDA provisioned devices API".format(
+                    len(sda_devices)
+                ),
+                "INFO",
+            )
 
             # WORKAROUND: Check for missing wireless controllers
             all_devices = self.get_inventory_devices()
@@ -966,17 +1043,22 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             sda_device_ids = {device.get("networkDeviceId") for device in sda_devices}
 
             for sda_device in sda_devices:
-                inventory_device = inventory_by_id.get(sda_device.get("networkDeviceId"))
+                inventory_device = inventory_by_id.get(
+                    sda_device.get("networkDeviceId")
+                )
                 if inventory_device:
                     sda_device.update(
                         {
                             "id": inventory_device.get("id"),
-                            "managementIpAddress": inventory_device.get("managementIpAddress"),
+                            "managementIpAddress": inventory_device.get(
+                                "managementIpAddress"
+                            ),
                             "family": inventory_device.get("family"),
                             "type": inventory_device.get("type"),
                             "hostname": inventory_device.get("hostname"),
                             "location": inventory_device.get("location"),
-                            "siteId": sda_device.get("siteId") or inventory_device.get("siteId"),
+                            "siteId": sda_device.get("siteId")
+                            or inventory_device.get("siteId"),
                         }
                     )
 
@@ -995,9 +1077,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             family="sda",
                             function="get_provisioned_wired_device",
                             op_modifies=False,
-                            params={"device_management_ip_address": management_ip}
+                            params={"device_management_ip_address": management_ip},
                         )
-                        self.log("Received API response: {0}".format(provision_response), "DEBUG")
+                        self.log(
+                            "Received API response: {0}".format(provision_response),
+                            "DEBUG",
+                        )
                         if provision_response.get("status") == "success":
                             mock_device = {
                                 "networkDeviceId": device_id,
@@ -1013,17 +1098,28 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             sda_devices.append(mock_device)
                             wireless_controllers_found.append(management_ip)
                     except Exception:
-                        self.log("Wireless controller with IP {0} not provisioned in SDA".format(management_ip), "WARNING")
+                        self.log(
+                            "Wireless controller with IP {0} not provisioned in SDA".format(
+                                management_ip
+                            ),
+                            "WARNING",
+                        )
                         pass
 
-            self.log("Found {0} additional provisioned wireless controllers".format(
-                len(wireless_controllers_found)), "INFO")
+            self.log(
+                "Found {0} additional provisioned wireless controllers".format(
+                    len(wireless_controllers_found)
+                ),
+                "INFO",
+            )
 
             self._cached_provisioned_devices = sda_devices
             return self._cached_provisioned_devices
 
         except Exception as e:
-            self.log("Error retrieving provisioned devices: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Error retrieving provisioned devices: {0}".format(str(e)), "ERROR"
+            )
             return []
 
     def get_dynamic_interfaces_for_device(self, device_details):
@@ -1039,18 +1135,27 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         device_id = device_details.get("networkDeviceId")
         management_ip = self.transform_device_management_ip(device_details)
 
-        self.log("Getting dynamic interfaces for wireless controller ID: {0} (IP: {1})".format(
-            device_id, management_ip), "DEBUG")
+        self.log(
+            "Getting dynamic interfaces for wireless controller ID: {0} (IP: {1})".format(
+                device_id, management_ip
+            ),
+            "DEBUG",
+        )
 
         if not device_id:
-            self.log("No network device ID found for dynamic interfaces lookup", "ERROR")
+            self.log(
+                "No network device ID found for dynamic interfaces lookup", "ERROR"
+            )
             return []
 
         dynamic_interfaces = []
 
         try:
             # Get device interface VLANs using the specific API
-            self.log("Fetching device interface VLANs for device ID: {0}".format(device_id), "INFO")
+            self.log(
+                "Fetching device interface VLANs for device ID: {0}".format(device_id),
+                "INFO",
+            )
 
             try:
                 interface_response = self.catalystcenter._exec(
@@ -1059,20 +1164,39 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     op_modifies=False,
                     params={"id": device_id},
                 )
-                self.log("Received interface VLANs API response: {0}".format(interface_response), "DEBUG")
+                self.log(
+                    "Received interface VLANs API response: {0}".format(
+                        interface_response
+                    ),
+                    "DEBUG",
+                )
 
                 interfaces = interface_response.get("response", [])
-                self.log("Found {0} interface VLANs for device {1}".format(len(interfaces), device_id), "INFO")
+                self.log(
+                    "Found {0} interface VLANs for device {1}".format(
+                        len(interfaces), device_id
+                    ),
+                    "INFO",
+                )
 
             except Exception as e:
-                self.log("Could not get interface VLANs via get_device_interface_vlans API: {0}".format(str(e)), "WARNING")
+                self.log(
+                    "Could not get interface VLANs via get_device_interface_vlans API: {0}".format(
+                        str(e)
+                    ),
+                    "WARNING",
+                )
 
             # Process interfaces to extract VLAN interfaces
             for interface in interfaces:
-                interface_name = interface.get("interfaceName") or interface.get("portName")
+                interface_name = interface.get("interfaceName") or interface.get(
+                    "portName"
+                )
 
                 # Skip non-VLAN interfaces
-                if not interface_name or not interface_name.startswith(("Vlan", "VLAN", "vlan")):
+                if not interface_name or not interface_name.startswith(
+                    ("Vlan", "VLAN", "vlan")
+                ):
                     continue
 
                 # Extract VLAN ID from interface name or from vlanId field
@@ -1095,23 +1219,47 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         dynamic_interface["interface_gateway"] = interface_gateway
 
                     dynamic_interfaces.append(dynamic_interface)
-                    self.log("Added dynamic interface: {0}".format(dynamic_interface), "INFO")
+                    self.log(
+                        "Added dynamic interface: {0}".format(dynamic_interface), "INFO"
+                    )
                 else:
-                    self.log("Skipping interface {0} - missing required data (vlan_id: {1}, ip: {2})".format(
-                        interface_name, vlan_id, interface_ip), "DEBUG")
+                    self.log(
+                        "Skipping interface {0} - missing required data (vlan_id: {1}, ip: {2})".format(
+                            interface_name, vlan_id, interface_ip
+                        ),
+                        "DEBUG",
+                    )
 
             # Log final result
-            self.log("=== DYNAMIC INTERFACES SUMMARY for {0} ===".format(device_id), "INFO")
-            self.log("Total dynamic interfaces found: {0}".format(len(dynamic_interfaces)), "INFO")
+            self.log(
+                "=== DYNAMIC INTERFACES SUMMARY for {0} ===".format(device_id), "INFO"
+            )
+            self.log(
+                "Total dynamic interfaces found: {0}".format(len(dynamic_interfaces)),
+                "INFO",
+            )
             for i, di in enumerate(dynamic_interfaces, 1):
-                self.log("  {0}. {1} (VLAN {2}) - IP: {3}".format(
-                    i, di.get("interface_name"), di.get("vlan_id"), di.get("interface_ip_address")), "INFO")
+                self.log(
+                    "  {0}. {1} (VLAN {2}) - IP: {3}".format(
+                        i,
+                        di.get("interface_name"),
+                        di.get("vlan_id"),
+                        di.get("interface_ip_address"),
+                    ),
+                    "INFO",
+                )
 
             return dynamic_interfaces
 
         except Exception as e:
-            self.log("Error getting dynamic interfaces for device ID {0}: {1}".format(device_id, str(e)), "ERROR")
+            self.log(
+                "Error getting dynamic interfaces for device ID {0}: {1}".format(
+                    device_id, str(e)
+                ),
+                "ERROR",
+            )
             import traceback
+
             self.log("Full traceback: {0}".format(traceback.format_exc()), "DEBUG")
             return []
 
@@ -1187,25 +1335,37 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             management_ip = self.transform_device_management_ip(device)
             if not management_ip:
-                self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
+                self.log(
+                    "Skipping device without management IP: {0}".format(device_id),
+                    "WARNING",
+                )
                 continue
 
             site_hierarchy = self.transform_device_site_hierarchy(device)
             if not site_hierarchy:
-                self.log("Skipping device without site hierarchy: {0}".format(device_id), "WARNING")
+                self.log(
+                    "Skipping device without site hierarchy: {0}".format(device_id),
+                    "WARNING",
+                )
                 continue
 
             device_config = {
                 "management_ip_address": management_ip,
                 "site_name_hierarchy": site_hierarchy,
                 "provisioning": True,
-                "force_provisioning": False
+                "force_provisioning": False,
             }
 
             if is_wireless:
-                primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
-                device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
-                device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
+                primary_locations, secondary_locations = self.get_wireless_ap_locations(
+                    device
+                )
+                device_config["primary_managed_ap_locations"] = (
+                    primary_locations if primary_locations else []
+                )
+                device_config["secondary_managed_ap_locations"] = (
+                    secondary_locations if secondary_locations else []
+                )
 
                 dynamic_interfaces = self.get_dynamic_interfaces_for_device(device)
 
@@ -1230,7 +1390,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             str: Site name hierarchy corresponding to the site ID.
         """
         device_id = device_details.get("networkDeviceId")
-        self.log("Transforming device site hierarchy for device: {0}".format(device_id), "DEBUG")
+        self.log(
+            "Transforming device site hierarchy for device: {0}".format(device_id),
+            "DEBUG",
+        )
 
         # Get site details from device
         site_id = device_details.get("siteId")
@@ -1240,19 +1403,37 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if site_id:
             site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
             if site_name_hierarchy:
-                self.log("Site ID {0} mapped to hierarchy: {1}".format(site_id, site_name_hierarchy), "DEBUG")
+                self.log(
+                    "Site ID {0} mapped to hierarchy: {1}".format(
+                        site_id, site_name_hierarchy
+                    ),
+                    "DEBUG",
+                )
                 return site_name_hierarchy
             else:
-                self.log("WARNING: Site ID {0} not found in site mapping".format(site_id), "WARNING")
+                self.log(
+                    "WARNING: Site ID {0} not found in site mapping".format(site_id),
+                    "WARNING",
+                )
 
         cached_location = device_details.get("location")
         if cached_location and str(cached_location).strip():
-            self.log("Using cached location field for site hierarchy: {0}".format(cached_location), "DEBUG")
+            self.log(
+                "Using cached location field for site hierarchy: {0}".format(
+                    cached_location
+                ),
+                "DEBUG",
+            )
             return cached_location
 
         # Fallback: If no siteId or mapping failed, get it from device detail API
         if not site_id or not site_name_hierarchy:
-            self.log("Fallback: Getting site hierarchy from device detail API for device {0}".format(device_id), "DEBUG")
+            self.log(
+                "Fallback: Getting site hierarchy from device detail API for device {0}".format(
+                    device_id
+                ),
+                "DEBUG",
+            )
             try:
                 # Get device details to find location/site information
                 response = self.catalystcenter._exec(
@@ -1266,32 +1447,52 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 location = device_info.get("location")
                 site_hierarchy_graph_id = device_info.get("siteHierarchyGraphId")
 
-                self.log("Device detail - location: {0}, siteHierarchyGraphId: {1}".format(
-                    location, site_hierarchy_graph_id), "DEBUG")
+                self.log(
+                    "Device detail - location: {0}, siteHierarchyGraphId: {1}".format(
+                        location, site_hierarchy_graph_id
+                    ),
+                    "DEBUG",
+                )
 
                 # Try location field first
                 if location and location.strip():
-                    self.log("Using location field for site hierarchy: {0}".format(location), "DEBUG")
+                    self.log(
+                        "Using location field for site hierarchy: {0}".format(location),
+                        "DEBUG",
+                    )
                     return location
 
                 # Try to extract from siteHierarchyGraphId
                 if site_hierarchy_graph_id:
                     # The siteHierarchyGraphId contains path like: /id1/id2/id3/
                     # We need to find the corresponding site name
-                    site_id_parts = site_hierarchy_graph_id.strip('/').split('/')
+                    site_id_parts = site_hierarchy_graph_id.strip("/").split("/")
                     if site_id_parts:
                         # Try the last site ID in the hierarchy
                         last_site_id = site_id_parts[-1]
                         site_name = self.site_id_name_dict.get(last_site_id)
                         if site_name:
-                            self.log("Found site hierarchy from siteHierarchyGraphId: {0}".format(site_name), "DEBUG")
+                            self.log(
+                                "Found site hierarchy from siteHierarchyGraphId: {0}".format(
+                                    site_name
+                                ),
+                                "DEBUG",
+                            )
                             return site_name
 
             except Exception as e:
-                self.log("Error getting device details for site hierarchy: {0}".format(str(e)), "WARNING")
+                self.log(
+                    "Error getting device details for site hierarchy: {0}".format(
+                        str(e)
+                    ),
+                    "WARNING",
+                )
 
         # Final fallback: Check if this is a wireless controller with provision status
-        if not site_name_hierarchy and device_details.get("deviceType") == "WirelessController":
+        if (
+            not site_name_hierarchy
+            and device_details.get("deviceType") == "WirelessController"
+        ):
             try:
                 # Get management IP first
                 management_ip = self.transform_device_management_ip(device_details)
@@ -1301,19 +1502,36 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         family="sda",
                         function="get_provisioned_wired_device",
                         op_modifies=False,
-                        params={"device_management_ip_address": management_ip}
+                        params={"device_management_ip_address": management_ip},
                     )
-                    self.log("Received API response: {0}".format(provision_response), "DEBUG")
-                    provision_site_hierarchy = provision_response.get("siteNameHierarchy")
+                    self.log(
+                        "Received API response: {0}".format(provision_response), "DEBUG"
+                    )
+                    provision_site_hierarchy = provision_response.get(
+                        "siteNameHierarchy"
+                    )
                     if provision_site_hierarchy:
-                        self.log("Got site hierarchy from provision status: {0}".format(provision_site_hierarchy), "DEBUG")
+                        self.log(
+                            "Got site hierarchy from provision status: {0}".format(
+                                provision_site_hierarchy
+                            ),
+                            "DEBUG",
+                        )
                         return provision_site_hierarchy
 
             except Exception as e:
-                self.log("Error getting site hierarchy from provision status: {0}".format(str(e)), "WARNING")
+                self.log(
+                    "Error getting site hierarchy from provision status: {0}".format(
+                        str(e)
+                    ),
+                    "WARNING",
+                )
 
         # If all methods failed
-        self.log("Could not determine site hierarchy for device {0}".format(device_id), "WARNING")
+        self.log(
+            "Could not determine site hierarchy for device {0}".format(device_id),
+            "WARNING",
+        )
         return None
 
     def transform_device_family_info(self, device_details):
@@ -1326,12 +1544,17 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Device family type (e.g., 'Switches and Hubs', 'Wireless Controller').
         """
-        cached_family = device_details.get("nwDeviceFamily") or device_details.get("family")
+        cached_family = device_details.get("nwDeviceFamily") or device_details.get(
+            "family"
+        )
         if cached_family:
             return cached_family
 
         device_id = device_details.get("networkDeviceId")
-        self.log("Transforming device family info for device ID: {0}".format(device_id), "DEBUG")
+        self.log(
+            "Transforming device family info for device ID: {0}".format(device_id),
+            "DEBUG",
+        )
 
         if not device_id:
             self.log("No network device ID found for device family lookup", "ERROR")
@@ -1355,13 +1578,20 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             device_name = device_info.get("nwDeviceName")
             management_ip = device_info.get("managementIpAddr")
 
-            self.log("Device details - ID: {0}, Name: {1}, IP: {2}, Family: {3}, Type: {4}".format(
-                device_id, device_name, management_ip, device_family, device_type), "INFO")
+            self.log(
+                "Device details - ID: {0}, Name: {1}, IP: {2}, Family: {3}, Type: {4}".format(
+                    device_id, device_name, management_ip, device_family, device_type
+                ),
+                "INFO",
+            )
 
             return device_family
 
         except Exception as e:
-            self.log("Error getting device family for ID {0}: {1}".format(device_id, str(e)), "ERROR")
+            self.log(
+                "Error getting device family for ID {0}: {1}".format(device_id, str(e)),
+                "ERROR",
+            )
             return None
 
     def transform_device_management_ip(self, device_details):
@@ -1374,11 +1604,18 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Device management IP address.
         """
-        cached_ip = device_details.get("managementIpAddress") or device_details.get("managementIpAddr")
+        cached_ip = device_details.get("managementIpAddress") or device_details.get(
+            "managementIpAddr"
+        )
         if cached_ip:
             return cached_ip
 
-        self.log("Transforming device management IP for device: {0}".format(device_details.get("networkDeviceId")), "DEBUG")
+        self.log(
+            "Transforming device management IP for device: {0}".format(
+                device_details.get("networkDeviceId")
+            ),
+            "DEBUG",
+        )
 
         device_id = device_details.get("networkDeviceId")
         if not device_id:
@@ -1402,7 +1639,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             return management_ip
 
         except Exception as e:
-            self.log("Error getting device IP for ID {0}: {1}".format(device_id, str(e)), "ERROR")
+            self.log(
+                "Error getting device IP for ID {0}: {1}".format(device_id, str(e)),
+                "ERROR",
+            )
             return None
 
     def get_wireless_ap_locations(self, device_details):
@@ -1415,12 +1655,22 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             tuple: (primary_ap_locations, secondary_ap_locations) - both as lists of site hierarchies
         """
-        self.log("Getting wireless AP locations for device: {0}".format(device_details.get("networkDeviceId")), "DEBUG")
+        self.log(
+            "Getting wireless AP locations for device: {0}".format(
+                device_details.get("networkDeviceId")
+            ),
+            "DEBUG",
+        )
         device_id = device_details.get("networkDeviceId")
-        self.log("Getting wireless AP locations for device ID: {0}".format(device_id), "DEBUG")
+        self.log(
+            "Getting wireless AP locations for device ID: {0}".format(device_id),
+            "DEBUG",
+        )
 
         if not device_id:
-            self.log("No network device ID found for wireless AP location lookup", "ERROR")
+            self.log(
+                "No network device ID found for wireless AP location lookup", "ERROR"
+            )
             return [], []
 
         primary_ap_locations = []
@@ -1428,7 +1678,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Get Primary Managed AP Locations (MANDATORY for provisioned WLC)
         try:
-            self.log("Fetching primary managed AP locations for device ID: {0}".format(device_id), "INFO")
+            self.log(
+                "Fetching primary managed AP locations for device ID: {0}".format(
+                    device_id
+                ),
+                "INFO",
+            )
             primary_response = self.catalystcenter._exec(
                 family="wireless",
                 function="get_primary_managed_ap_locations_for_specific_wireless_controller",
@@ -1444,35 +1699,75 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 managed_ap_locations = response_data.get("managedApLocations", [])
 
                 if managed_ap_locations:
-                    self.log("Found {0} primary AP locations for device {1}".format(len(managed_ap_locations), device_id), "INFO")
+                    self.log(
+                        "Found {0} primary AP locations for device {1}".format(
+                            len(managed_ap_locations), device_id
+                        ),
+                        "INFO",
+                    )
                     for i, location in enumerate(managed_ap_locations):
                         site_id = location.get("siteId")
                         site_name_hierarchy = location.get("siteNameHierarchy")
 
-                        self.log("Primary location {0}: siteId={1}, siteNameHierarchy={2}".format(i + 1, site_id, site_name_hierarchy), "DEBUG")
+                        self.log(
+                            "Primary location {0}: siteId={1}, siteNameHierarchy={2}".format(
+                                i + 1, site_id, site_name_hierarchy
+                            ),
+                            "DEBUG",
+                        )
 
                         if site_name_hierarchy:
                             # Use the siteNameHierarchy directly from the API response
                             primary_ap_locations.append(site_name_hierarchy)
-                            self.log("Added primary AP location: {0}".format(site_name_hierarchy), "INFO")
+                            self.log(
+                                "Added primary AP location: {0}".format(
+                                    site_name_hierarchy
+                                ),
+                                "INFO",
+                            )
                         elif site_id:
                             # Fallback to site mapping if siteNameHierarchy is missing
                             site_hierarchy = self.site_id_name_dict.get(site_id)
                             if site_hierarchy:
                                 primary_ap_locations.append(site_hierarchy)
-                                self.log("Added primary AP location: {0} (from site mapping)".format(site_hierarchy), "INFO")
+                                self.log(
+                                    "Added primary AP location: {0} (from site mapping)".format(
+                                        site_hierarchy
+                                    ),
+                                    "INFO",
+                                )
                 else:
-                    self.log("No primary managed AP locations found for device {0}".format(device_id), "WARNING")
+                    self.log(
+                        "No primary managed AP locations found for device {0}".format(
+                            device_id
+                        ),
+                        "WARNING",
+                    )
             else:
-                self.log("Unexpected response format for primary AP locations", "WARNING")
+                self.log(
+                    "Unexpected response format for primary AP locations", "WARNING"
+                )
 
         except Exception as e:
-            self.log("Error getting primary managed AP locations for device ID {0}: {1}".format(device_id, str(e)), "ERROR")
-            self.log("This could indicate the wireless controller is not fully configured or APIs are not available", "WARNING")
+            self.log(
+                "Error getting primary managed AP locations for device ID {0}: {1}".format(
+                    device_id, str(e)
+                ),
+                "ERROR",
+            )
+            self.log(
+                "This could indicate the wireless controller is not fully configured or APIs are not available",
+                "WARNING",
+            )
 
         # Get Secondary Managed AP Locations (OPTIONAL)
         try:
-            self.log("Fetching secondary managed AP locations for device ID: {0}".format(device_id), "INFO")
+            self.log(
+                "Fetching secondary managed AP locations for device ID: {0}".format(
+                    device_id
+                ),
+                "INFO",
+            )
             secondary_response = self.catalystcenter._exec(
                 family="wireless",
                 function="get_secondary_managed_ap_locations_for_specific_wireless_controller",
@@ -1487,41 +1782,96 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 managed_ap_locations = response_data.get("managedApLocations", [])
 
                 if managed_ap_locations:
-                    self.log("Found {0} secondary AP locations for device {1}".format(len(managed_ap_locations), device_id), "INFO")
+                    self.log(
+                        "Found {0} secondary AP locations for device {1}".format(
+                            len(managed_ap_locations), device_id
+                        ),
+                        "INFO",
+                    )
                     for i, location in enumerate(managed_ap_locations):
                         site_id = location.get("siteId")
-                        site_name_hierarchy = location.get("siteNameHierarchy")  # Direct from API response
+                        site_name_hierarchy = location.get(
+                            "siteNameHierarchy"
+                        )  # Direct from API response
 
-                        self.log("Secondary location {0}: siteId={1}, siteNameHierarchy={2}".format(i + 1, site_id, site_name_hierarchy), "DEBUG")
+                        self.log(
+                            "Secondary location {0}: siteId={1}, siteNameHierarchy={2}".format(
+                                i + 1, site_id, site_name_hierarchy
+                            ),
+                            "DEBUG",
+                        )
 
                         if site_name_hierarchy:
                             # Use the siteNameHierarchy directly from the API response
                             secondary_ap_locations.append(site_name_hierarchy)
-                            self.log("Added secondary AP location: {0}".format(site_name_hierarchy), "INFO")
+                            self.log(
+                                "Added secondary AP location: {0}".format(
+                                    site_name_hierarchy
+                                ),
+                                "INFO",
+                            )
                         elif site_id:
                             # Fallback to site mapping if siteNameHierarchy is missing
                             site_hierarchy = self.site_id_name_dict.get(site_id)
                             if site_hierarchy:
                                 secondary_ap_locations.append(site_hierarchy)
-                                self.log("Added secondary AP location: {0} (from site mapping)".format(site_hierarchy), "INFO")
+                                self.log(
+                                    "Added secondary AP location: {0} (from site mapping)".format(
+                                        site_hierarchy
+                                    ),
+                                    "INFO",
+                                )
                 else:
-                    self.log("No secondary managed AP locations found for device {0} - keeping as empty list".format(device_id), "INFO")
+                    self.log(
+                        "No secondary managed AP locations found for device {0} - keeping as empty list".format(
+                            device_id
+                        ),
+                        "INFO",
+                    )
             else:
-                self.log("Unexpected response format for secondary AP locations", "WARNING")
+                self.log(
+                    "Unexpected response format for secondary AP locations", "WARNING"
+                )
 
         except Exception as e:
-            self.log("Error getting secondary managed AP locations for device ID {0}: {1}".format(device_id, str(e)), "WARNING")
-            self.log("Secondary AP locations are optional, continuing with empty list", "INFO")
+            self.log(
+                "Error getting secondary managed AP locations for device ID {0}: {1}".format(
+                    device_id, str(e)
+                ),
+                "WARNING",
+            )
+            self.log(
+                "Secondary AP locations are optional, continuing with empty list",
+                "INFO",
+            )
 
         # Final summary
         self.log("=== AP LOCATIONS SUMMARY for {0} ===".format(device_id), "INFO")
-        self.log("Primary AP locations ({0}): {1}".format(len(primary_ap_locations), primary_ap_locations), "INFO")
-        self.log("Secondary AP locations ({0}): {1}".format(len(secondary_ap_locations), secondary_ap_locations), "INFO")
+        self.log(
+            "Primary AP locations ({0}): {1}".format(
+                len(primary_ap_locations), primary_ap_locations
+            ),
+            "INFO",
+        )
+        self.log(
+            "Secondary AP locations ({0}): {1}".format(
+                len(secondary_ap_locations), secondary_ap_locations
+            ),
+            "INFO",
+        )
 
         # Validation: For provisioned WLCs, primary should typically have locations
         if len(primary_ap_locations) == 0:
-            self.log("WARNING: Provisioned wireless controller {0} has no primary AP locations configured".format(device_id), "WARNING")
-            self.log("This could mean: 1) No APs are assigned yet, 2) WLC is newly provisioned, 3) Configuration pending", "WARNING")
+            self.log(
+                "WARNING: Provisioned wireless controller {0} has no primary AP locations configured".format(
+                    device_id
+                ),
+                "WARNING",
+            )
+            self.log(
+                "This could mean: 1) No APs are assigned yet, 2) WLC is newly provisioned, 3) Configuration pending",
+                "WARNING",
+            )
 
         return primary_ap_locations, secondary_ap_locations
 
@@ -1534,33 +1884,40 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: An ordered dictionary defining the structure of provisioned device attributes.
         """
         self.log("Generating temporary specification for provisioned devices.", "DEBUG")
-        provisioned_devices = OrderedDict({
-            "management_ip_address": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_management_ip,
-            },
-            "site_name_hierarchy": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_site_hierarchy,
-            },
-            "provisioning": {"type": "bool", "default": True},
-            "force_provisioning": {"type": "bool", "default": False},
-            "primary_managed_ap_locations": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.get_primary_managed_ap_locations_for_device,
-                "wireless_only": True,
-            },
-            "secondary_managed_ap_locations": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.get_secondary_managed_ap_locations_for_device,
-                "wireless_only": True,
-            },
-        })
-        self.log("Temporary specification for provisioned devices generated: {0}".format(provisioned_devices), "DEBUG")
+        provisioned_devices = OrderedDict(
+            {
+                "management_ip_address": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_management_ip,
+                },
+                "site_name_hierarchy": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_site_hierarchy,
+                },
+                "provisioning": {"type": "bool", "default": True},
+                "force_provisioning": {"type": "bool", "default": False},
+                "primary_managed_ap_locations": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.get_primary_managed_ap_locations_for_device,
+                    "wireless_only": True,
+                },
+                "secondary_managed_ap_locations": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.get_secondary_managed_ap_locations_for_device,
+                    "wireless_only": True,
+                },
+            }
+        )
+        self.log(
+            "Temporary specification for provisioned devices generated: {0}".format(
+                provisioned_devices
+            ),
+            "DEBUG",
+        )
         return provisioned_devices
 
     def get_primary_managed_ap_locations_for_device(self, device_details):
@@ -1597,21 +1954,33 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             OrderedDict: An ordered dictionary defining the structure of non-provisioned device attributes.
         """
-        self.log("Generating temporary specification for non-provisioned devices.", "DEBUG")
-        non_provisioned_devices = OrderedDict({
-            "management_ip_address": {
-                "type": "str",
-                "special_handling": False,  # Direct from device response
-            },
-            "site_name_hierarchy": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.transform_device_site_hierarchy_from_device,
-            },
-            "provisioning": {"type": "bool", "default": False},  # Default to false for non-provisioned
-            "force_provisioning": {"type": "bool", "default": False},
-        })
-        self.log("Temporary specification for non-provisioned devices generated: {0}".format(non_provisioned_devices), "DEBUG")
+        self.log(
+            "Generating temporary specification for non-provisioned devices.", "DEBUG"
+        )
+        non_provisioned_devices = OrderedDict(
+            {
+                "management_ip_address": {
+                    "type": "str",
+                    "special_handling": False,  # Direct from device response
+                },
+                "site_name_hierarchy": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.transform_device_site_hierarchy_from_device,
+                },
+                "provisioning": {
+                    "type": "bool",
+                    "default": False,
+                },  # Default to false for non-provisioned
+                "force_provisioning": {"type": "bool", "default": False},
+            }
+        )
+        self.log(
+            "Temporary specification for non-provisioned devices generated: {0}".format(
+                non_provisioned_devices
+            ),
+            "DEBUG",
+        )
         return non_provisioned_devices
 
     def transform_device_site_hierarchy_from_device(self, device_details):
@@ -1624,7 +1993,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             str: Site name hierarchy corresponding to the site ID.
         """
-        self.log("Transforming device site hierarchy for device: {0}".format(device_details.get("id")), "DEBUG")
+        self.log(
+            "Transforming device site hierarchy for device: {0}".format(
+                device_details.get("id")
+            ),
+            "DEBUG",
+        )
 
         # For regular devices, site information is in siteId field
         site_id = device_details.get("siteId")
@@ -1633,7 +2007,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Get site name from site mapping
         site_name_hierarchy = self.site_id_name_dict.get(site_id, None)
-        self.log("Site ID {0} mapped to hierarchy: {1}".format(site_id, site_name_hierarchy), "DEBUG")
+        self.log(
+            "Site ID {0} mapped to hierarchy: {1}".format(site_id, site_name_hierarchy),
+            "DEBUG",
+        )
 
         return site_name_hierarchy
 
@@ -1652,7 +2029,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log("Received API response: {0}".format(response))
             sda_devices = response.get("response", [])
-            self.log("Retrieved {0} devices from SDA provisioned devices API".format(len(sda_devices)), "INFO")
+            self.log(
+                "Retrieved {0} devices from SDA provisioned devices API".format(
+                    len(sda_devices)
+                ),
+                "INFO",
+            )
 
             # WORKAROUND: Check for missing wireless controllers
             self.log("=== CHECKING FOR MISSING WIRELESS CONTROLLERS ===", "INFO")
@@ -1685,14 +2067,22 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"search_by": device_id, "identifier": "uuid"},
                     )
-                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
+                    self.log(
+                        "Received API response: {0}".format(device_detail_response),
+                        "DEBUG",
+                    )
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_name = device_info.get("nwDeviceName")
 
                     # If it's a wireless controller, check if it's provisioned
                     if device_family == "Wireless Controller":
-                        self.log("Found wireless controller: {0} ({1})".format(device_name, management_ip), "INFO")
+                        self.log(
+                            "Found wireless controller: {0} ({1})".format(
+                                device_name, management_ip
+                            ),
+                            "INFO",
+                        )
 
                         try:
                             # Check provision status using the provision status API
@@ -1700,17 +2090,25 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 family="sda",
                                 function="get_provisioned_wired_device",
                                 op_modifies=False,
-                                params={"device_management_ip_address": management_ip}
+                                params={"device_management_ip_address": management_ip},
                             )
-                            self.log("Received API response: {0}".format(provision_response), "DEBUG")
+                            self.log(
+                                "Received API response: {0}".format(provision_response),
+                                "DEBUG",
+                            )
                             if provision_response.get("status") == "success":
-                                self.log("Wireless controller {0} IS provisioned - adding to device list".format(management_ip), "INFO")
+                                self.log(
+                                    "Wireless controller {0} IS provisioned - adding to device list".format(
+                                        management_ip
+                                    ),
+                                    "INFO",
+                                )
 
                                 # Create a mock provisioned device entry compatible with SDA format
                                 mock_device = {
                                     "networkDeviceId": device_id,
                                     "siteId": device.get("siteId"),
-                                    "deviceType": "WirelessController"
+                                    "deviceType": "WirelessController",
                                 }
 
                                 # Add to our devices list
@@ -1718,17 +2116,39 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 wireless_controllers_found.append(management_ip)
 
                             else:
-                                self.log("Wireless controller {0} is not provisioned".format(management_ip), "DEBUG")
+                                self.log(
+                                    "Wireless controller {0} is not provisioned".format(
+                                        management_ip
+                                    ),
+                                    "DEBUG",
+                                )
 
                         except Exception as e:
-                            self.log("Error checking provision status for {0}: {1}".format(management_ip, str(e)), "WARNING")
+                            self.log(
+                                "Error checking provision status for {0}: {1}".format(
+                                    management_ip, str(e)
+                                ),
+                                "WARNING",
+                            )
 
                 except Exception as e:
-                    self.log("Error checking device {0}: {1}".format(device_id, str(e)), "DEBUG")
+                    self.log(
+                        "Error checking device {0}: {1}".format(device_id, str(e)),
+                        "DEBUG",
+                    )
 
-            self.log("Found {0} additional provisioned wireless controllers: {1}".format(
-                len(wireless_controllers_found), wireless_controllers_found), "INFO")
-            self.log("Total devices after wireless controller check: {0}".format(len(sda_devices)), "INFO")
+            self.log(
+                "Found {0} additional provisioned wireless controllers: {1}".format(
+                    len(wireless_controllers_found), wireless_controllers_found
+                ),
+                "INFO",
+            )
+            self.log(
+                "Total devices after wireless controller check: {0}".format(
+                    len(sda_devices)
+                ),
+                "INFO",
+            )
 
             # Apply component-specific filters if provided
             if component_specific_filters:
@@ -1743,12 +2163,16 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     match = False
                                     break
                             elif key == "site_name_hierarchy":
-                                site_hierarchy = self.transform_device_site_hierarchy(device)
+                                site_hierarchy = self.transform_device_site_hierarchy(
+                                    device
+                                )
                                 if not self.filter_value_matches(site_hierarchy, value):
                                     match = False
                                     break
                             elif key == "device_family":
-                                device_family = self.transform_device_family_info(device)
+                                device_family = self.transform_device_family_info(
+                                    device
+                                )
                                 if not self.filter_value_matches(device_family, value):
                                     match = False
                                     break
@@ -1769,43 +2193,76 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 # Get basic device info
                 management_ip = self.transform_device_management_ip(device)
                 if not management_ip:
-                    self.log("Skipping device without management IP: {0}".format(device_id), "WARNING")
+                    self.log(
+                        "Skipping device without management IP: {0}".format(device_id),
+                        "WARNING",
+                    )
                     continue
 
                 site_hierarchy = self.transform_device_site_hierarchy(device)
                 if not site_hierarchy:
-                    self.log("Skipping device without site hierarchy: {0} (IP: {1})".format(device_id, management_ip), "WARNING")
+                    self.log(
+                        "Skipping device without site hierarchy: {0} (IP: {1})".format(
+                            device_id, management_ip
+                        ),
+                        "WARNING",
+                    )
                     # For debugging, let's see what siteId we have
                     site_id = device.get("siteId")
-                    self.log("Device {0} has siteId: {1}".format(management_ip, site_id), "WARNING")
+                    self.log(
+                        "Device {0} has siteId: {1}".format(management_ip, site_id),
+                        "WARNING",
+                    )
                     if site_id and site_id in self.site_id_name_dict:
-                        self.log("Site ID {0} maps to: {1}".format(site_id, self.site_id_name_dict[site_id]), "WARNING")
+                        self.log(
+                            "Site ID {0} maps to: {1}".format(
+                                site_id, self.site_id_name_dict[site_id]
+                            ),
+                            "WARNING",
+                        )
                     continue
 
                 # Get device family
                 device_family = self.transform_device_family_info(device)
-                self.log("Processing device {0} with family: {1}".format(management_ip, device_family), "INFO")
+                self.log(
+                    "Processing device {0} with family: {1}".format(
+                        management_ip, device_family
+                    ),
+                    "INFO",
+                )
 
                 # Check if wireless
                 is_wireless = device_family == "Wireless Controller"
-                self.log("Device {0} is wireless: {1}".format(management_ip, is_wireless), "INFO")
+                self.log(
+                    "Device {0} is wireless: {1}".format(management_ip, is_wireless),
+                    "INFO",
+                )
 
                 # Create device configuration
                 device_config = {
                     "management_ip_address": management_ip,
                     "site_name_hierarchy": site_hierarchy,
                     "provisioning": True,
-                    "force_provisioning": False
+                    "force_provisioning": False,
                 }
 
                 # Handle wireless-specific fields
                 if is_wireless:
                     wireless_count += 1
-                    self.log("PROCESSING WIRELESS CONTROLLER: {0}".format(management_ip), "INFO")
+                    self.log(
+                        "PROCESSING WIRELESS CONTROLLER: {0}".format(management_ip),
+                        "INFO",
+                    )
 
-                    primary_locations, secondary_locations = self.get_wireless_ap_locations(device)
-                    device_config["primary_managed_ap_locations"] = primary_locations if primary_locations else []
-                    device_config["secondary_managed_ap_locations"] = secondary_locations if secondary_locations else []
+                    primary_locations, secondary_locations = (
+                        self.get_wireless_ap_locations(device)
+                    )
+                    device_config["primary_managed_ap_locations"] = (
+                        primary_locations if primary_locations else []
+                    )
+                    device_config["secondary_managed_ap_locations"] = (
+                        secondary_locations if secondary_locations else []
+                    )
                     # Add dynamic interfaces
                     dynamic_interfaces = self.get_dynamic_interfaces_for_device(device)
                     if dynamic_interfaces:
@@ -1814,8 +2271,15 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     # Add skip_ap_provision with default value
                     device_config["skip_ap_provision"] = False
 
-                    self.log("Wireless controller {0} - Primary: {1}, Secondary: {2}, Dynamic Interfaces: {3}".format(
-                        management_ip, primary_locations, secondary_locations, len(dynamic_interfaces) if dynamic_interfaces else 0), "INFO")
+                    self.log(
+                        "Wireless controller {0} - Primary: {1}, Secondary: {2}, Dynamic Interfaces: {3}".format(
+                            management_ip,
+                            primary_locations,
+                            secondary_locations,
+                            len(dynamic_interfaces) if dynamic_interfaces else 0,
+                        ),
+                        "INFO",
+                    )
 
                 else:
                     wired_count += 1
@@ -1825,22 +2289,35 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             # Summary
             self.log("=== FINAL PROCESSING SUMMARY ===", "INFO")
-            self.log("Total devices processed: {0}".format(len(valid_device_details)), "INFO")
+            self.log(
+                "Total devices processed: {0}".format(len(valid_device_details)), "INFO"
+            )
             self.log("Wireless controllers: {0}".format(wireless_count), "INFO")
             self.log("Wired devices: {0}".format(wired_count), "INFO")
 
             if wireless_count > 0:
-                self.log("SUCCESS: Found {0} wireless controller(s) in final output!".format(wireless_count), "INFO")
+                self.log(
+                    "SUCCESS: Found {0} wireless controller(s) in final output!".format(
+                        wireless_count
+                    ),
+                    "INFO",
+                )
             else:
-                self.log("WARNING: No wireless controllers found in final output", "WARNING")
+                self.log(
+                    "WARNING: No wireless controllers found in final output", "WARNING"
+                )
 
             return valid_device_details
 
         except Exception as e:
-            self.log("Error retrieving provisioned devices: {0}".format(str(e)), "ERROR")
+            self.log(
+                "Error retrieving provisioned devices: {0}".format(str(e)), "ERROR"
+            )
             return []
 
-    def get_non_provisioned_devices(self, network_element, component_specific_filters=None):
+    def get_non_provisioned_devices(
+        self, network_element, component_specific_filters=None
+    ):
         """
         Retrieves devices that are assigned to sites but not yet provisioned.
         """
@@ -1855,7 +2332,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log("Received API response: {0}".format(response), "DEBUG")
             all_devices = response.get("response", [])
-            self.log("STEP 1: Retrieved {0} total devices from Catalyst Center".format(len(all_devices)), "INFO")
+            self.log(
+                "STEP 1: Retrieved {0} total devices from Catalyst Center".format(
+                    len(all_devices)
+                ),
+                "INFO",
+            )
 
             if not all_devices:
                 self.log("ERROR: No devices found in Catalyst Center!", "ERROR")
@@ -1868,9 +2350,13 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     function="get_provisioned_devices",
                     op_modifies=False,
                 )
-                self.log("Received API response: {0}".format(provisioned_response), "DEBUG")
+                self.log(
+                    "Received API response: {0}".format(provisioned_response), "DEBUG"
+                )
                 provisioned_devices = provisioned_response.get("response", [])
-                provisioned_device_ids = {device.get("networkDeviceId") for device in provisioned_devices}
+                provisioned_device_ids = {
+                    device.get("networkDeviceId") for device in provisioned_devices
+                }
 
                 # ALSO exclude provisioned wireless controllers found via workaround
                 # Get all devices and check for provisioned wireless controllers
@@ -1889,7 +2375,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             op_modifies=False,
                             params={"search_by": device_id, "identifier": "uuid"},
                         )
-                        self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
+                        self.log(
+                            "Received API response: {0}".format(device_detail_response),
+                            "DEBUG",
+                        )
                         device_info = device_detail_response.get("response", {})
                         device_family = device_info.get("nwDeviceFamily")
 
@@ -1900,26 +2389,58 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     family="sda",
                                     function="get_provisioned_wired_device",
                                     op_modifies=False,
-                                    params={"device_management_ip_address": management_ip}
+                                    params={
+                                        "device_management_ip_address": management_ip
+                                    },
                                 )
-                                self.log("Received API response: {0}".format(provision_response), "DEBUG")
+                                self.log(
+                                    "Received API response: {0}".format(
+                                        provision_response
+                                    ),
+                                    "DEBUG",
+                                )
                                 if provision_response.get("status") == "success":
                                     # This wireless controller is provisioned, exclude it
                                     provisioned_device_ids.add(device_id)
-                                    self.log("Excluding provisioned wireless controller: {0}".format(management_ip), "INFO")
+                                    self.log(
+                                        "Excluding provisioned wireless controller: {0}".format(
+                                            management_ip
+                                        ),
+                                        "INFO",
+                                    )
 
                             except Exception as e:
-                                self.log("Could not check provision status for wireless controller {0}: {1}".format(management_ip, str(e)), "WARNING")
+                                self.log(
+                                    "Could not check provision status for wireless controller {0}: {1}".format(
+                                        management_ip, str(e)
+                                    ),
+                                    "WARNING",
+                                )
                                 pass  # Continue if provision check fails
 
                     except Exception as e:
-                        self.log("Could not get device details for device {0}: {1}".format(device_id, str(e)), "DEBUG")
+                        self.log(
+                            "Could not get device details for device {0}: {1}".format(
+                                device_id, str(e)
+                            ),
+                            "DEBUG",
+                        )
                         pass  # Continue if device detail check fails
 
-                self.log("STEP 2: Found {0} total provisioned devices to exclude (including wireless controllers)".format(len(provisioned_device_ids)), "INFO")
+                self.log(
+                    "STEP 2: Found {0} total provisioned devices to exclude (including wireless controllers)".format(
+                        len(provisioned_device_ids)
+                    ),
+                    "INFO",
+                )
 
             except Exception as e:
-                self.log("STEP 2 WARNING: Could not get provisioned devices: {0}".format(str(e)), "WARNING")
+                self.log(
+                    "STEP 2 WARNING: Could not get provisioned devices: {0}".format(
+                        str(e)
+                    ),
+                    "WARNING",
+                )
                 provisioned_device_ids = set()
 
             # STEP 3: Filter devices - find those assigned to sites but not provisioned
@@ -1931,12 +2452,18 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 hostname = device.get("hostname", "Unknown")
                 site_id = device.get("siteId")
 
-                self.log("STEP 3.{0}: Processing device - ID: {1}, IP: {2}, Hostname: {3}, SiteId: {4}".format(
-                    i, device_id, management_ip, hostname, site_id), "DEBUG")
+                self.log(
+                    "STEP 3.{0}: Processing device - ID: {1}, IP: {2}, Hostname: {3}, SiteId: {4}".format(
+                        i, device_id, management_ip, hostname, site_id
+                    ),
+                    "DEBUG",
+                )
 
                 # Skip devices without basic info
                 if not device_id or not management_ip:
-                    self.log("  -> SKIPPED: Missing device ID or management IP", "DEBUG")
+                    self.log(
+                        "  -> SKIPPED: Missing device ID or management IP", "DEBUG"
+                    )
                     continue
 
                 # Skip if device is already provisioned
@@ -1952,21 +2479,41 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         op_modifies=False,
                         params={"search_by": device_id, "identifier": "uuid"},
                     )
-                    self.log("Received API response: {0}".format(device_detail_response), "DEBUG")
+                    self.log(
+                        "Received API response: {0}".format(device_detail_response),
+                        "DEBUG",
+                    )
                     device_info = device_detail_response.get("response", {})
                     device_family = device_info.get("nwDeviceFamily")
                     device_type = device_info.get("nwDeviceType")
 
                     # SKIP ACCESS POINTS
-                    if device_family in ["Unified AP", "Access Points"] or "Access Point" in str(device_type):
-                        self.log("  -> SKIPPED: Access Point - {0} (Family: {1}, Type: {2})".format(
-                            management_ip, device_family, device_type), "DEBUG")
+                    if device_family in [
+                        "Unified AP",
+                        "Access Points",
+                    ] or "Access Point" in str(device_type):
+                        self.log(
+                            "  -> SKIPPED: Access Point - {0} (Family: {1}, Type: {2})".format(
+                                management_ip, device_family, device_type
+                            ),
+                            "DEBUG",
+                        )
                         continue
 
-                    self.log("  -> Device family: {0}, type: {1}".format(device_family, device_type), "DEBUG")
+                    self.log(
+                        "  -> Device family: {0}, type: {1}".format(
+                            device_family, device_type
+                        ),
+                        "DEBUG",
+                    )
 
                 except Exception as e:
-                    self.log("  -> WARNING: Could not get device family for {0}: {1}".format(management_ip, str(e)), "WARNING")
+                    self.log(
+                        "  -> WARNING: Could not get device family for {0}: {1}".format(
+                            management_ip, str(e)
+                        ),
+                        "WARNING",
+                    )
 
                 # Check if device is assigned to a site
                 is_site_assigned = False
@@ -1976,12 +2523,19 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     site_name = self.site_id_name_dict.get(site_id)
                     if site_name:
                         is_site_assigned = True
-                        self.log("  -> SITE ASSIGNED via siteId: {0} -> {1}".format(site_id, site_name), "DEBUG")
+                        self.log(
+                            "  -> SITE ASSIGNED via siteId: {0} -> {1}".format(
+                                site_id, site_name
+                            ),
+                            "DEBUG",
+                        )
 
                 # Method 2: If no siteId, check via device detail API (already called above)
                 if not is_site_assigned:
                     try:
-                        location = device_info.get("location")  # Use already fetched device_info
+                        location = device_info.get(
+                            "location"
+                        )  # Use already fetched device_info
 
                         if location and location != "":
                             is_site_assigned = True
@@ -1992,31 +2546,63 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     if site_name == location:
                                         device["siteId"] = sid
                                         break
-                            self.log("  -> SITE ASSIGNED via location: {0}".format(location), "DEBUG")
+                            self.log(
+                                "  -> SITE ASSIGNED via location: {0}".format(location),
+                                "DEBUG",
+                            )
 
                     except Exception as detail_error:
-                        self.log("  -> ERROR getting device details: {0}".format(str(detail_error)), "ERROR")
+                        self.log(
+                            "  -> ERROR getting device details: {0}".format(
+                                str(detail_error)
+                            ),
+                            "ERROR",
+                        )
 
                 # Add device if it's assigned to a site but not provisioned
                 if is_site_assigned:
-                    self.log("  -> ADDING: Device is site-assigned but not provisioned", "INFO")
+                    self.log(
+                        "  -> ADDING: Device is site-assigned but not provisioned",
+                        "INFO",
+                    )
                     site_assigned_non_provisioned.append(device)
                 else:
-                    self.log("  -> SKIPPED: Device is not assigned to any site", "DEBUG")
+                    self.log(
+                        "  -> SKIPPED: Device is not assigned to any site", "DEBUG"
+                    )
 
             self.log("STEP 3 SUMMARY:", "INFO")
-            self.log("  - Total devices processed: {0}".format(len(all_devices)), "INFO")
-            self.log("  - Provisioned devices excluded: {0}".format(len(provisioned_device_ids)), "INFO")
-            self.log("  - Non-provisioned site-assigned devices found: {0}".format(len(site_assigned_non_provisioned)), "INFO")
+            self.log(
+                "  - Total devices processed: {0}".format(len(all_devices)), "INFO"
+            )
+            self.log(
+                "  - Provisioned devices excluded: {0}".format(
+                    len(provisioned_device_ids)
+                ),
+                "INFO",
+            )
+            self.log(
+                "  - Non-provisioned site-assigned devices found: {0}".format(
+                    len(site_assigned_non_provisioned)
+                ),
+                "INFO",
+            )
 
             if not site_assigned_non_provisioned:
-                self.log("RESULT: No non-provisioned site-assigned devices found.", "INFO")
+                self.log(
+                    "RESULT: No non-provisioned site-assigned devices found.", "INFO"
+                )
                 return []
 
             # STEP 4: Apply component-specific filters if provided
             filtered_devices = site_assigned_non_provisioned
             if component_specific_filters:
-                self.log("STEP 4: Applying component-specific filters: {0}".format(component_specific_filters), "DEBUG")
+                self.log(
+                    "STEP 4: Applying component-specific filters: {0}".format(
+                        component_specific_filters
+                    ),
+                    "DEBUG",
+                )
                 filtered_devices = []
 
                 for filter_param in component_specific_filters:
@@ -2025,12 +2611,18 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                         for key, value in filter_param.items():
                             if key == "management_ip_address":
-                                if not self.filter_value_matches(device.get("managementIpAddress"), value):
+                                if not self.filter_value_matches(
+                                    device.get("managementIpAddress"), value
+                                ):
                                     match = False
                                     break
                             elif key == "site_name_hierarchy":
                                 site_id = device.get("siteId")
-                                site_hierarchy = self.site_id_name_dict.get(site_id) if site_id else None
+                                site_hierarchy = (
+                                    self.site_id_name_dict.get(site_id)
+                                    if site_id
+                                    else None
+                                )
                                 if not self.filter_value_matches(site_hierarchy, value):
                                     match = False
                                     break
@@ -2038,38 +2630,65 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         if match and device not in filtered_devices:
                             filtered_devices.append(device)
 
-                self.log("STEP 4: After filtering, {0} devices remain".format(len(filtered_devices)), "INFO")
+                self.log(
+                    "STEP 4: After filtering, {0} devices remain".format(
+                        len(filtered_devices)
+                    ),
+                    "INFO",
+                )
 
             # STEP 5: Transform devices for YAML output
-            self.log("STEP 5: Transforming {0} devices for YAML output".format(len(filtered_devices)), "INFO")
+            self.log(
+                "STEP 5: Transforming {0} devices for YAML output".format(
+                    len(filtered_devices)
+                ),
+                "INFO",
+            )
 
             final_devices = []
             for device in filtered_devices:
                 management_ip = device.get("managementIpAddress")
                 site_id = device.get("siteId")
-                site_hierarchy = self.site_id_name_dict.get(site_id) if site_id else None
+                site_hierarchy = (
+                    self.site_id_name_dict.get(site_id) if site_id else None
+                )
 
                 # Skip devices without required fields
                 if not management_ip or not site_hierarchy:
-                    self.log("  -> SKIPPED device: missing IP ({0}) or site hierarchy ({1})".format(
-                        management_ip, site_hierarchy), "WARNING")
+                    self.log(
+                        "  -> SKIPPED device: missing IP ({0}) or site hierarchy ({1})".format(
+                            management_ip, site_hierarchy
+                        ),
+                        "WARNING",
+                    )
                     continue
 
                 device_config = {
                     "management_ip_address": management_ip,
                     "site_name_hierarchy": site_hierarchy,
                     "provisioning": False,  # These devices need to be provisioned
-                    "force_provisioning": False
+                    "force_provisioning": False,
                 }
 
                 final_devices.append(device_config)
-                self.log("  -> ADDED: {0} at {1}".format(management_ip, site_hierarchy), "INFO")
+                self.log(
+                    "  -> ADDED: {0} at {1}".format(management_ip, site_hierarchy),
+                    "INFO",
+                )
 
-            self.log("FINAL RESULT: {0} non-provisioned site-assigned devices ready for YAML".format(len(final_devices)), "INFO")
+            self.log(
+                "FINAL RESULT: {0} non-provisioned site-assigned devices ready for YAML".format(
+                    len(final_devices)
+                ),
+                "INFO",
+            )
             return final_devices
 
         except Exception as e:
-            self.log("CRITICAL ERROR in get_non_provisioned_devices: {0}".format(str(e)), "ERROR")
+            self.log(
+                "CRITICAL ERROR in get_non_provisioned_devices: {0}".format(str(e)),
+                "ERROR",
+            )
             return []
 
     def yaml_config_generator(self, yaml_config_generator):
@@ -2084,7 +2703,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             self: The current instance with the operation result and message updated.
         """
-        self.log("Starting YAML config generation with parameters: {0}".format(yaml_config_generator), "DEBUG")
+        self.log(
+            "Starting YAML config generation with parameters: {0}".format(
+                yaml_config_generator
+            ),
+            "DEBUG",
+        )
 
         # Handle file_path - FIXED: Use the provided file_path from config
         file_path = yaml_config_generator.get("file_path")
@@ -2099,23 +2723,32 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "generate_all_configurations is True - ignoring all global_filters and "
                 "component_specific_filters, retrieving all provisioned devices.",
-                "INFO"
+                "INFO",
             )
             global_filters = {}
             component_specific_filters = {}
         else:
             # Get global and component-specific filters
             global_filters = yaml_config_generator.get("global_filters") or {}
-            component_specific_filters = yaml_config_generator.get("component_specific_filters") or {}
+            component_specific_filters = (
+                yaml_config_generator.get("component_specific_filters") or {}
+            )
 
         self.log("Global filters: {0}".format(global_filters), "DEBUG")
-        self.log("Component-specific filters: {0}".format(component_specific_filters), "DEBUG")
+        self.log(
+            "Component-specific filters: {0}".format(component_specific_filters),
+            "DEBUG",
+        )
 
         # Retrieve the supported network elements for the module
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
         # Use `or` so that an empty list ([]) also falls back to all supported components,
         # treating empty filters the same as generate_all_configurations = True.
-        components_list = component_specific_filters.get("components_list") or list(module_supported_network_elements.keys())
+        components_list = component_specific_filters.get("components_list") or list(
+            module_supported_network_elements.keys()
+        )
         self.log("Components to process: {0}".format(components_list), "DEBUG")
 
         # Collect all devices
@@ -2123,7 +2756,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         for component in components_list:
             network_element = module_supported_network_elements.get(component)
             if not network_element:
-                self.log("Skipping unsupported network element: {0}".format(component), "WARNING")
+                self.log(
+                    "Skipping unsupported network element: {0}".format(component),
+                    "WARNING",
+                )
                 continue
 
             filters = component_specific_filters.get(component, [])
@@ -2131,10 +2767,17 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             if callable(operation_func):
                 device_list = operation_func(network_element, filters)
-                self.log("Retrieved {0} devices for component {1}".format(len(device_list), component), "DEBUG")
+                self.log(
+                    "Retrieved {0} devices for component {1}".format(
+                        len(device_list), component
+                    ),
+                    "DEBUG",
+                )
                 all_devices.extend(device_list)
 
-        self.log("Total devices before global filters: {0}".format(len(all_devices)), "DEBUG")
+        self.log(
+            "Total devices before global filters: {0}".format(len(all_devices)), "DEBUG"
+        )
 
         # Apply global filters FIRST before continuing
         if global_filters.get("management_ip_address"):
@@ -2146,23 +2789,41 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             # Log all device IPs before filtering
             device_ips = [device.get("management_ip_address") for device in all_devices]
-            self.log("Available device IPs BEFORE filtering: {0}".format(device_ips), "INFO")
+            self.log(
+                "Available device IPs BEFORE filtering: {0}".format(device_ips), "INFO"
+            )
 
             filtered_devices = []
             for device in all_devices:
                 device_ip = device.get("management_ip_address")
                 if device_ip in ip_filter_list:
-                    self.log("Device {0} matches global filter - KEEPING".format(device_ip), "INFO")
+                    self.log(
+                        "Device {0} matches global filter - KEEPING".format(device_ip),
+                        "INFO",
+                    )
                     filtered_devices.append(device)
                 else:
-                    self.log("Device {0} does NOT match global filter - REMOVING".format(device_ip), "DEBUG")
+                    self.log(
+                        "Device {0} does NOT match global filter - REMOVING".format(
+                            device_ip
+                        ),
+                        "DEBUG",
+                    )
 
             all_devices = filtered_devices
-            self.log("After global IP filter: {0} devices remain".format(len(all_devices)), "INFO")
+            self.log(
+                "After global IP filter: {0} devices remain".format(len(all_devices)),
+                "INFO",
+            )
 
             # Log remaining device IPs after filtering
-            remaining_ips = [device.get("management_ip_address") for device in all_devices]
-            self.log("Remaining device IPs AFTER filtering: {0}".format(remaining_ips), "INFO")
+            remaining_ips = [
+                device.get("management_ip_address") for device in all_devices
+            ]
+            self.log(
+                "Remaining device IPs AFTER filtering: {0}".format(remaining_ips),
+                "INFO",
+            )
 
         if not all_devices:
             self.msg = "No devices found matching the provided filters for module '{0}'. Global filters: {1}, Component filters: {2}".format(
@@ -2173,7 +2834,10 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Create the final structure
         final_dict = {"config": all_devices}
-        self.log("Final dictionary created with {0} devices".format(len(all_devices)), "DEBUG")
+        self.log(
+            "Final dictionary created with {0} devices".format(len(all_devices)),
+            "DEBUG",
+        )
 
         # Determine file_mode from config
         file_mode = yaml_config_generator.get("file_mode", "overwrite")
@@ -2182,14 +2846,16 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         # WRITE TO THE CORRECT FILE PATH
         if self.write_dict_to_yaml(final_dict, file_path, file_mode=file_mode):
             self.msg = {
-                "YAML config generation Task succeeded for module '{0}'.".format(self.module_name):
-                {"file_path": file_path, "devices_count": len(all_devices)}
+                "YAML config generation Task succeeded for module '{0}'.".format(
+                    self.module_name
+                ): {"file_path": file_path, "devices_count": len(all_devices)}
             }
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(self.module_name):
-                {"file_path": file_path}
+                "YAML config generation Task failed for module '{0}'.".format(
+                    self.module_name
+                ): {"file_path": file_path}
             }
             self.set_operation_result("failed", True, self.msg, "ERROR")
 
@@ -2282,7 +2948,9 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         Checks if a device is assigned to any site by checking multiple fields.
         """
-        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "DEBUG")
+        self.log(
+            "Checking site assignment for device with UUID: {0}".format(uuid), "DEBUG"
+        )
 
         try:
             site_response = self.catalystcenter._exec(
@@ -2301,8 +2969,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             location = device_info.get("location")
             site_hierarchy_graph_id = device_info.get("siteHierarchyGraphId")
 
-            self.log("Device site info - siteId: {0}, locationName: {1}, location: {2}, siteHierarchyGraphId: {3}".format(
-                site_id, location_name, location, site_hierarchy_graph_id), "DEBUG")
+            self.log(
+                "Device site info - siteId: {0}, locationName: {1}, location: {2}, siteHierarchyGraphId: {3}".format(
+                    site_id, location_name, location, site_hierarchy_graph_id
+                ),
+                "DEBUG",
+            )
 
             # Device is assigned to site if any of these conditions are met
             if site_id or location_name or location or site_hierarchy_graph_id:
@@ -2313,7 +2985,12 @@ class ProvisionPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 return False
 
         except Exception as e:
-            self.log("Error checking site assignment for device {0}: {1}".format(uuid, str(e)), "ERROR")
+            self.log(
+                "Error checking site assignment for device {0}: {1}".format(
+                    uuid, str(e)
+                ),
+                "ERROR",
+            )
             return False
 
 
@@ -2321,20 +2998,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module's arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "file_path": {"type": "str", "required": False},
         "file_mode": {"type": "str", "required": False, "default": "overwrite"},
         "config": {"required": False, "type": "dict"},

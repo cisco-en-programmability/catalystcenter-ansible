@@ -17,10 +17,10 @@ description:
     Intent API to check the integration status.
   - API to delete AAA/ISE server access configuration. - > API to edit AAA/ISE server access configuration. After edit, use
     'Cisco ISE Server Integration Status' Intent API to check the integration status.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   accountingPort:
     description: Accounting port of RADIUS server. It is required for RADIUS server. The range is from 1 to 65535. E.g. 1813.
@@ -30,26 +30,17 @@ options:
       1812.
     type: int
   ciscoIseDtos:
-    description: Authentication Policy Servers's ciscoIseDtos.
+    description: Cisco ISE Server DTOs.
     elements: dict
     suboptions:
-      description:
-        description: Description about the Cisco ISE server.
-        type: str
       fqdn:
         description: Fully-qualified domain name of the Cisco ISE server. E.g. Xi-62.my.com.
-        type: str
-      ipAddress:
-        description: IP Address of the Cisco ISE Server.
         type: str
       password:
         description: Password of the Cisco ISE server.
         type: str
       sshkey:
         description: SSH key of the Cisco ISE server.
-        type: str
-      subscriberName:
-        description: Subscriber name of the Cisco ISE server. E.g. Pxgrid_client_1662589467.
         type: str
       userName:
         description: User name of the Cisco ISE server.
@@ -62,7 +53,7 @@ options:
     description: Type of encryption scheme for additional security.
     type: str
   externalCiscoIseIpAddrDtos:
-    description: Authentication Policy Servers's externalCiscoIseIpAddrDtos.
+    description: For future use.
     elements: dict
     suboptions:
       externalCiscoIseIpAddresses:
@@ -70,11 +61,11 @@ options:
         elements: dict
         suboptions:
           externalIpAddress:
-            description: External IP Address.
+            description: Authentication Policy Servers's externalIpAddress.
             type: str
         type: list
       type:
-        description: Type.
+        description: Authentication Policy Servers's type.
         type: str
     type: list
   id:
@@ -118,7 +109,7 @@ options:
     description: Value true to use Catalyst Center certificate for Pxgrid. Default value is false.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration
@@ -143,6 +134,45 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.authentication_policy_servers:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.catalystcenter.authentication_policy_servers:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    accountingPort: 0
+    authenticationPort: 0
+    ciscoIseDtos:
+      - fqdn: string
+        password: string
+        sshkey: string
+        userName: string
+    externalCiscoIseIpAddrDtos:
+      - externalCiscoIseIpAddresses:
+          - externalIpAddress: string
+        type: string
+    id: string
+    port: 0
+    protocol: string
+    pxgridEnabled: true
+    retries: string
+    timeoutSeconds: string
+    useDnacCertForPxgrid: true
 - name: Create
   cisco.catalystcenter.authentication_policy_servers:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -178,48 +208,6 @@ EXAMPLES = r"""
     retries: string
     role: string
     sharedSecret: string
-    timeoutSeconds: string
-    useDnacCertForPxgrid: true
-- name: Delete by id
-  cisco.catalystcenter.authentication_policy_servers:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
-- name: Update by id
-  cisco.catalystcenter.authentication_policy_servers:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    accountingPort: 0
-    authenticationPort: 0
-    ciscoIseDtos:
-      - description: string
-        fqdn: string
-        ipAddress: string
-        password: string
-        sshkey: string
-        subscriberName: string
-        userName: string
-    externalCiscoIseIpAddrDtos:
-      - externalCiscoIseIpAddresses:
-          - externalIpAddress: string
-        type: string
-    id: string
-    port: 0
-    protocol: string
-    pxgridEnabled: true
-    retries: string
     timeoutSeconds: string
     useDnacCertForPxgrid: true
 """

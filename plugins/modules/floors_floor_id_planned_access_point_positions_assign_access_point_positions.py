@@ -11,10 +11,10 @@ short_description: Resource module for Floors Floor Id Planned Access Point Posi
 description:
   - Manage operation create of the resource Floors Floor Id Planned Access Point Positions Assign Access Point Positions.
   - Assign Planned Access Points to operations ones.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   floorId:
     description: FloorId path parameter. Floor Id.
@@ -31,15 +31,15 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
-    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones-v-2
+  - name: Cisco Catalyst Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnes
+    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnes API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
 notes:
   - SDK Method used are
-    site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
+    site_design.SiteDesign.assign_planned_access_points_to_operations_ones,
   - Paths used are
     post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
 """
@@ -67,9 +67,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

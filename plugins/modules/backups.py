@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Backups.
   - This api is used to trigger a workflow to create an on demand backup.
   - This api is used to trigger delete workflow of a specific backup based on the provided `id`.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The `id` of the backup to be deleted.Obtain the 'id' from the id attribute in the response
@@ -28,7 +28,7 @@ options:
     description: The backup scope states whether the backup is with assurance or without assurance data.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup CreateBackup
@@ -48,6 +48,17 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete by id
+  cisco.catalystcenter.backups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 - name: Create
   cisco.catalystcenter.backups:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -60,17 +71,6 @@ EXAMPLES = r"""
     state: present
     name: string
     scope: string
-- name: Delete by id
-  cisco.catalystcenter.backups:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 """
 RETURN = r"""
 catalystcenter_response:

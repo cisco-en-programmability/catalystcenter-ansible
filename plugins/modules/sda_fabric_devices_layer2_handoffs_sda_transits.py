@@ -11,12 +11,12 @@ short_description: Resource module for Sda Fabric Devices Layer2 Handoffs Sda Tr
 description:
   - Manage operations create, update and delete of the resource Sda Fabric Devices Layer2 Handoffs Sda Transits.
   - Adds layer 3 handoffs with sda transit in fabric devices based on user input.
-  - Deletes layer 3 handoffs with sda transit of a fabric device based on user input.
-  - Updates layer 3 handoffs with sda transit of fabric devices based on user input.
-version_added: '6.14.0'
+  - Deletes layer 3 handoffs with sda transit of a fabric device based on user.
+  - Updates layer 3 handoffs with sda transit of fabric devices based on user.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricId:
     description: FabricId query parameter. ID of the fabric this device belongs to.
@@ -25,7 +25,7 @@ options:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   payload:
-    description: Sda Fabric Devices Layer2 Handoffs Sda Transits's payload.
+    description: Layer 3 handoff sda transit root element.
     elements: dict
     suboptions:
       affinityIdDecider:
@@ -44,9 +44,19 @@ options:
       fabricId:
         description: ID of the fabric this device is assigned to.
         type: str
+      isDualStack:
+        description: By default, a Border Node connected to SD-Access transit registers its Loopback 0 IPv4 address as the
+          LISP RLOC with the Transit Control Plane Nodes. Set it to 'true' to enable this feature to register both Loopback
+          0 IPv4 and IPv6 addresses as LISP RLOCs.
+        type: bool
       isMulticastOverTransitEnabled:
         description: Set this true to configure native multicast over multiple sites that are connected to an sd-access transit.
         type: bool
+      lispTransportType:
+        description: Specifies the IP protocol to be used for the LISP peering session between the Border Node and the Transit
+          Control Plane Nodes. Allowed values are 'IPV4' or 'IPV6'. Default value will be the underlay type of the fabric
+          site.
+        type: str
       networkDeviceId:
         description: Network device ID of the fabric device.
         type: str
@@ -55,7 +65,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddFabricDevicesLayer3HandoffsWithSdaTransit
@@ -80,18 +90,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    fabricId: string
-    networkDeviceId: string
 - name: Create
   cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -107,9 +105,23 @@ EXAMPLES = r"""
         affinityIdPrime: 0
         connectedToInternet: true
         fabricId: string
+        isDualStack: true
         isMulticastOverTransitEnabled: true
+        lispTransportType: string
         networkDeviceId: string
         transitNetworkId: string
+- name: Delete all
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    fabricId: string
+    networkDeviceId: string
 - name: Update all
   cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -125,7 +137,9 @@ EXAMPLES = r"""
         affinityIdPrime: 0
         connectedToInternet: true
         fabricId: string
+        isDualStack: true
         isMulticastOverTransitEnabled: true
+        lispTransportType: string
         networkDeviceId: string
         transitNetworkId: string
 """

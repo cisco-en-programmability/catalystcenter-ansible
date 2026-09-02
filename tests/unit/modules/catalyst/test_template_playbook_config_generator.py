@@ -25,7 +25,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import template_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    template_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -33,28 +35,59 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
     module = template_playbook_config_generator
     test_data = loadPlaybookData("template_playbook_config_generator")
 
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_template_projects_by_name_single = test_data.get("playbook_config_template_projects_by_name_single")
-    playbook_config_template_projects_by_name_multiple = test_data.get("playbook_config_template_projects_by_name_multiple")
-    playbook_config_template_by_name_single = test_data.get("playbook_config_template_by_name_single")
-    playbook_config_template_by_name_multiple = test_data.get("playbook_config_template_by_name_multiple")
-    playbook_config_template_projects_empty_filter = test_data.get("playbook_config_template_projects_empty_filter")
-    playbook_config_templates_empty_filter = test_data.get("playbook_config_templates_empty_filter")
-    playbook_config_templates_includes_uncommitted_filter = test_data.get("playbook_config_templates_includes_uncommitted_filter")
-    playbook_config_template_by_project_name_multiple = test_data.get("playbook_config_template_by_project_name_multiple")
-    playbook_config_template_by_template_name_and_project_name = test_data.get("playbook_config_template_by_template_name_and_project_name")
-    playbook_config_template_all_filters = test_data.get("playbook_config_template_all_filters")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_template_projects_by_name_single = test_data.get(
+        "playbook_config_template_projects_by_name_single"
+    )
+    playbook_config_template_projects_by_name_multiple = test_data.get(
+        "playbook_config_template_projects_by_name_multiple"
+    )
+    playbook_config_template_by_name_single = test_data.get(
+        "playbook_config_template_by_name_single"
+    )
+    playbook_config_template_by_name_multiple = test_data.get(
+        "playbook_config_template_by_name_multiple"
+    )
+    playbook_config_template_projects_empty_filter = test_data.get(
+        "playbook_config_template_projects_empty_filter"
+    )
+    playbook_config_templates_empty_filter = test_data.get(
+        "playbook_config_templates_empty_filter"
+    )
+    playbook_config_templates_includes_uncommitted_filter = test_data.get(
+        "playbook_config_templates_includes_uncommitted_filter"
+    )
+    playbook_config_template_by_project_name_multiple = test_data.get(
+        "playbook_config_template_by_project_name_multiple"
+    )
+    playbook_config_template_by_template_name_and_project_name = test_data.get(
+        "playbook_config_template_by_template_name_and_project_name"
+    )
+    playbook_config_template_all_filters = test_data.get(
+        "playbook_config_template_all_filters"
+    )
     playbook_invalid_project_details = test_data.get("playbook_invalid_project_details")
-    playbook_invalid_template_details = test_data.get("playbook_invalid_template_details")
+    playbook_invalid_template_details = test_data.get(
+        "playbook_invalid_template_details"
+    )
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
-    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
-    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
+    playbook_config_invalid_component = test_data.get(
+        "playbook_config_invalid_component"
+    )
+    playbook_config_invalid_component_filters = test_data.get(
+        "playbook_config_invalid_component_filters"
+    )
 
     def setUp(self):
         super(TestTemplatePlaybookConfigGenerator, self).setUp()
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -85,7 +118,7 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
         elif "template_projects_by_name_multiple" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_projects"),
-                self.test_data.get("get_all_projects")
+                self.test_data.get("get_all_projects"),
             ]
         elif "template_by_name_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -134,11 +167,9 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_all_projects"),
             ]
         elif "invalid_project_details" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-            ]
+            self.run_catalystcenter_exec.side_effect = []
         elif "invalid_template_details" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-            ]
+            self.run_catalystcenter_exec.side_effect = []
         elif "empty_config" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass
@@ -152,254 +183,317 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
             # No side effects needed - validation happens before API calls
             pass
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_generate_all_configurations(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_generate_all_configurations
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_generate_all_configurations,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_projects_by_name_single(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_projects_by_name_single
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_projects_by_name_single,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_projects_by_name_multiple(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_projects_by_name_multiple
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_projects_by_name_multiple,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_by_name_single(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_by_name_single
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_by_name_single,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_by_name_multiple(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_by_name_multiple
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_by_name_multiple,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_projects_empty_filter(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_projects_empty_filter
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_projects_empty_filter,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_templates_empty_filter(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_templates_empty_filter
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_templates_empty_filter,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_templates_includes_uncommitted_filter(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_templates_includes_uncommitted_filter
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_templates_includes_uncommitted_filter,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_by_project_name_multiple(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_by_project_name_multiple
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_by_project_name_multiple,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_by_template_name_and_project_name(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_by_template_name_and_project_name
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_by_template_name_and_project_name,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_template_all_filters(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_template_all_filters
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_template_all_filters,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_invalid_project_details(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_invalid_project_details
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_invalid_project_details,
+            )
+        )
         self.execute_module(changed=False, failed=True)
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_invalid_template_details(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_invalid_template_details
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_invalid_template_details,
+            )
+        )
         self.execute_module(changed=False, failed=True)
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_empty_config(self, mock_exists, mock_file):
         mock_exists.return_value = True
 
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_empty_config
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_config,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Configuration cannot be an empty dictionary.",
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_empty_component_specific_filters(self, mock_exists, mock_file):
         mock_exists.return_value = True
 
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_empty_component_specific_filters
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_component_specific_filters,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_invalid_component(self, mock_exists, mock_file):
         """
         Test case for invalid component in component_specific_filters.
@@ -417,14 +511,16 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component
+                config=self.playbook_config_invalid_component,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Invalid network components provided for module", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
     def test_invalid_component_filters(self, mock_exists, mock_file):
         """
         Test case for invalid filter keys in component_specific_filters.
@@ -442,7 +538,7 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component_filters
+                config=self.playbook_config_invalid_component_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)

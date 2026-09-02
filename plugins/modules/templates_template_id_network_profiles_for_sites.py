@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Templates Template Id Network Profiles For Sites.
   - Attaches a network profile to a Day-N CLI template by passing the profile ID and template ID.
   - Detach a network profile from a Day-N CLI template by the profile ID and template ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   profileId:
     description: The id of the network profile, retrievable from `/intent/api/v1/networkProfilesForSites`.
@@ -24,7 +24,7 @@ options:
     description: TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplate
@@ -78,7 +78,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

@@ -13,16 +13,16 @@ description:
     PnP Location Setting is enabled, the Access Point's assigned Site name will be configured as the AP Location during the
     PnP Claim process. This applies only during the PnP onboarding process and not during any subsequent provisioning dayN
     .
-version_added: '6.18.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAPPnPLocationSetting

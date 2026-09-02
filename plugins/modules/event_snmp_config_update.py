@@ -11,52 +11,52 @@ short_description: Resource module for Event Snmp Config Update
 description:
   - Manage operation update of the resource Event Snmp Config Update.
   - Update SNMP Destination.
-version_added: '3.1.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authPassword:
-    description: Auth Password.
+    description: Event Snmp Config Update's authPassword.
     type: str
   community:
     description: Required only if snmpVersion is V2C.
     type: str
   configId:
-    description: Config Id.
+    description: Event Snmp Config Update's configId.
     type: str
   description:
     description: Event Snmp Config Update's description.
     type: str
   ipAddress:
-    description: Ip Address.
+    description: Event Snmp Config Update's ipAddress.
     type: str
   name:
-    description: Name.
+    description: Event Snmp Config Update's name.
     type: str
   port:
-    description: Port.
+    description: Event Snmp Config Update's port.
     type: str
   privacyPassword:
-    description: Privacy Password.
+    description: Event Snmp Config Update's privacyPassword.
     type: str
   snmpAuthType:
-    description: Snmp Auth Type.
+    description: Event Snmp Config Update's snmpAuthType.
     type: str
   snmpMode:
     description: If snmpVersion is V3 it is required and cannot be NONE.
     type: str
   snmpPrivacyType:
-    description: Snmp Privacy Type.
+    description: Event Snmp Config Update's snmpPrivacyType.
     type: str
   snmpVersion:
-    description: Snmp Version.
+    description: Event Snmp Config Update's snmpVersion.
     type: str
   userName:
     description: Required only if snmpVersion is V3.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management UpdateSNMPDestination

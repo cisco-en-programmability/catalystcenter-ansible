@@ -11,10 +11,10 @@ short_description: Information module for Sda Port Channels
 description:
   - Get all Sda Port Channels.
   - Returns a list of port channels that match the provided query parameters.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -35,7 +35,7 @@ options:
     description:
       - >
         ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are
-        TRUNK, EXTENDED_NODE.
+        TRUNK, EXTENDED_NODE. Required false.
     type: str
   nativeVlanId:
     description:
@@ -43,7 +43,7 @@ options:
         NativeVlanId query parameter. Native VLAN of the port channel, this option is only applicable to TRUNK
         connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is
         TRUNK, default value will be '1').
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -55,7 +55,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPortChannelsConnectivity
@@ -83,10 +83,10 @@ EXAMPLES = r"""
     fabricId: string
     networkDeviceId: string
     portChannelName: string
-    connectedDeviceType: string
+    connectedDeviceType: TRUNK
     nativeVlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

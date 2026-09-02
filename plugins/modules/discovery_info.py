@@ -10,11 +10,11 @@ module: discovery_info
 short_description: Information module for Discovery
 description:
   - Get Discovery by id.
-  - Returns discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
-version_added: '3.1.0'
+  - Returns discovery by Discovery ID. Deprecated since Catalyst Center Release 3.2.1.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Id path parameter. Discovery ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery GetDiscoveryById

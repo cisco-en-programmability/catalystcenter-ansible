@@ -9,39 +9,38 @@ DOCUMENTATION = r"""
 module: clients_query_count
 short_description: Resource module for Clients Query Count
 description:
-  - Manage operation create of the resource Clients Query Count. - > Retrieves the number of clients by applying complex filters.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Clients Query Count.
+  - Retrieves the number of clients by applying complex filters. For detailed.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Clients Query Count's endTime.
     type: int
   filters:
     description: Clients Query Count's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Clients Query Count's key.
         type: str
       operator:
-        description: Operator.
+        description: Clients Query Count's operator.
         type: str
       value:
-        description: Value.
+        description: Clients Query Count's value.
         type: int
     type: list
   headers:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Clients Query Count's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Clients RetrievesTheNumberOfClientsByApplyingComplexFilters

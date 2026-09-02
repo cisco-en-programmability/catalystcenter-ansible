@@ -13,10 +13,10 @@ description:
   - Create a template project.
   - Delete a template project by the project's ID.
   - Update a template project by the project's ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
     description: Description of the project.
@@ -25,10 +25,10 @@ options:
     description: Name of the project.
     type: str
   projectId:
-    description: ProjectId path parameter. The id of the project to delete, retrieveable from `GET /dna/intent/api/v1/projects`.
+    description: ProjectId path parameter. The id of the project to update, retrieveable from `GET /dna/intent/api/v1/projects`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates CreateTemplateProject
@@ -65,17 +65,6 @@ EXAMPLES = r"""
     state: present
     description: string
     name: string
-- name: Delete by id
-  cisco.catalystcenter.projects:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    projectId: string
 - name: Update by id
   cisco.catalystcenter.projects:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -89,6 +78,17 @@ EXAMPLES = r"""
     description: string
     name: string
     projectId: string
+- name: Delete by id
+  cisco.catalystcenter.projects:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    projectId: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -99,7 +99,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

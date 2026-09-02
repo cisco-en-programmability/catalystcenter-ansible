@@ -11,16 +11,16 @@ short_description: Resource module for Template Preview
 description:
   - Manage operation update of the resource Template Preview.
   - API to preview a template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: UUID of device to get template preview.
     type: str
   params:
-    description: Template Preview's params.
+    description: Params to render preview.
     type: dict
   resourceParams:
     description: Resource params to render preview.
@@ -29,7 +29,7 @@ options:
     description: UUID of template to get template preview.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates PreviewTemplate

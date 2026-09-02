@@ -13,14 +13,18 @@ description:
   - Get Reports by id.
   - Get list of scheduled report configurations.
   - Get scheduled report configuration by reportId.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  reportId:
+    description:
+      - ReportId path parameter. ReportId of report.
+    type: str
   viewGroupId:
     description:
       - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
@@ -29,12 +33,8 @@ options:
     description:
       - ViewId query parameter. ViewId of view for report.
     type: str
-  reportId:
-    description:
-      - ReportId path parameter. ReportId of report.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports GetAScheduledReport
@@ -91,9 +91,7 @@ catalystcenter_response:
         "string"
       ],
       "dataCategory": "string",
-      "deliveries": [
-        "string"
-      ],
+      "deliveries": [],
       "executionCount": 0,
       "executions": [
         {

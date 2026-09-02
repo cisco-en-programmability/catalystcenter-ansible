@@ -11,16 +11,11 @@ short_description: Resource module for Network Devices Export Credentials Create
 description:
   - Manage operation create of the resource Network Devices Export Credentials Create. - > Exports device credentials of all
     network devices in the inventory to an encrypted CSV file. To export credentials for selected devices only, provide the
-    networkDeviceIds parameter in the request body. The exported file will be in zip format encrypted using the password provided
-    in the request body. The ZIP file will contain a CSV file with the credentials of the selected network devices. If networkDeviceIds
-    is not provided, then the credentials of all the network devices will be exported. Credentials for access points and Meraki
-    devices cannot be exported. The response contains a task ID. Use the /dna/intent/api/v1/tasks/{taskId} API to check the
-    status of the task. The task will be completed when the file is ready for download. The download URL will be available
-    in the resultLocation attribute of the task API response.
-version_added: '6.46.0'
+    `networkDeviceIds` parameter in the request body.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   exportSshKey:
     description: Flag to export the SSH key. If not provided, the SSH key will not be exported.
@@ -30,12 +25,12 @@ options:
     elements: str
     type: list
   password:
-    description: Password to encrypt the CSV file. A password must contain, at minimum 8 characters, one lowercase letter,
-      one uppercase letter, one number, one special character (-=;,./~!@#$%^&*()_+{}| ?). The password cannot contain spaces
+    description: Password to encrypt the CSV file. A password must contain, at minimum - 8 characters - one lowercase letter
+      - one uppercase letter - one number - one special character (-=;,./~!@#$%^&*()_+{}| ?) The password cannot contain spaces
       or the characters < >.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices ExportsTheCredentialsOfNetworkDevices

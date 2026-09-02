@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Import Template
 description:
   - Manage operation create of the resource Configuration Template Import Template.
   - Imports the templates provided in the DTO by project Name.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   doVersion:
     description: DoVersion query parameter. If this flag is true then it creates a new version of the template with the imported
@@ -32,7 +32,7 @@ options:
         description: Is it composite template.
         type: bool
       containingTemplates:
-        description: Configuration Template Import Template's containingTemplates.
+        description: Containing templates for composite template.
         elements: dict
         suboptions:
           composite:
@@ -42,7 +42,7 @@ options:
             description: Description of template.
             type: str
           deviceTypes:
-            description: Configuration Template Import Template's deviceTypes.
+            description: Applicable device types.
             elements: dict
             suboptions:
               productFamily:
@@ -68,7 +68,7 @@ options:
             description: Project name.
             type: str
           rollbackTemplateParams:
-            description: Configuration Template Import Template's rollbackTemplateParams.
+            description: Rollback template params(variables).
             elements: dict
             suboptions:
               binding:
@@ -117,7 +117,7 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Import Template's range.
+                description: Range of param.
                 elements: dict
                 suboptions:
                   id:
@@ -134,7 +134,7 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Import Template's selection.
+                description: Selection of param.
                 suboptions:
                   defaultSelectedValues:
                     description: Default selection values.
@@ -147,12 +147,12 @@ options:
                     description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                     type: str
                   selectionValues:
-                    description: Configuration Template Import Template's selectionValues.
+                    description: Selection values.
                     type: dict
                 type: dict
             type: list
           tags:
-            description: Configuration Template Import Template's tags.
+            description: Tag object which needs to be applied on the template.
             elements: dict
             suboptions:
               id:
@@ -166,7 +166,7 @@ options:
             description: Template content.
             type: str
           templateParams:
-            description: Configuration Template Import Template's templateParams.
+            description: Template params(variables).
             elements: dict
             suboptions:
               binding:
@@ -215,7 +215,7 @@ options:
                 description: Provider.
                 type: str
               range:
-                description: Configuration Template Import Template's range.
+                description: Range of param.
                 elements: dict
                 suboptions:
                   id:
@@ -232,7 +232,7 @@ options:
                 description: Is param required.
                 type: bool
               selection:
-                description: Configuration Template Import Template's selection.
+                description: Selection of param.
                 suboptions:
                   defaultSelectedValues:
                     description: Default selection values.
@@ -245,7 +245,7 @@ options:
                     description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                     type: str
                   selectionValues:
-                    description: Configuration Template Import Template's selectionValues.
+                    description: Selection values.
                     type: dict
                 type: dict
             type: list
@@ -263,7 +263,7 @@ options:
         description: Description of template.
         type: str
       deviceTypes:
-        description: Configuration Template Import Template's deviceTypes.
+        description: Applicable device types.
         elements: dict
         suboptions:
           productFamily:
@@ -307,7 +307,7 @@ options:
         description: Rollback template content.
         type: str
       rollbackTemplateParams:
-        description: Configuration Template Import Template's rollbackTemplateParams.
+        description: Rollback template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -356,7 +356,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Import Template's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -373,7 +373,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Import Template's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -386,7 +386,7 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template Import Template's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
@@ -400,7 +400,7 @@ options:
         description: Applicable device software version.
         type: str
       tags:
-        description: Configuration Template Import Template's tags.
+        description: Tag object which needs to be applied on the template.
         elements: dict
         suboptions:
           id:
@@ -414,7 +414,7 @@ options:
         description: Template content.
         type: str
       templateParams:
-        description: Configuration Template Import Template's templateParams.
+        description: Template params(variables).
         elements: dict
         suboptions:
           binding:
@@ -463,7 +463,7 @@ options:
             description: Provider.
             type: str
           range:
-            description: Configuration Template Import Template's range.
+            description: Range of param.
             elements: dict
             suboptions:
               id:
@@ -480,7 +480,7 @@ options:
             description: Is param required.
             type: bool
           selection:
-            description: Configuration Template Import Template's selection.
+            description: Selection of param.
             suboptions:
               defaultSelectedValues:
                 description: Default selection values.
@@ -493,12 +493,12 @@ options:
                 description: Type of selection(SINGLE_SELECT or MULTI_SELECT).
                 type: str
               selectionValues:
-                description: Configuration Template Import Template's selectionValues.
+                description: Selection values.
                 type: dict
             type: dict
         type: list
       validationErrors:
-        description: Configuration Template Import Template's validationErrors.
+        description: Validation Errors of template content.
         suboptions:
           rollbackTemplateErrors:
             description: Validation or design conflicts errors of rollback template.
@@ -521,7 +521,7 @@ options:
     description: ProjectName path parameter. Project name to create template under the project.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates ImportsTheTemplatesProvided
@@ -713,7 +713,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

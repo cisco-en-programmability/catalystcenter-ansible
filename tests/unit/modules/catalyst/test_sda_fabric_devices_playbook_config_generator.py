@@ -76,7 +76,9 @@ class TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalyst
     )
 
     def setUp(self):
-        super(TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self).setUp()
+        super(
+            TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self
+        ).setUp()
 
         self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
@@ -90,7 +92,9 @@ class TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalyst
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self).tearDown()
+        super(
+            TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self
+        ).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 

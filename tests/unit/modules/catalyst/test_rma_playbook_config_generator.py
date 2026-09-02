@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import rma_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    rma_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -30,18 +32,23 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
 
     test_data = loadPlaybookData("rma_playbook_config_generator")
 
-    playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
+    playbook_generate_all_configurations = test_data.get(
+        "playbook_generate_all_configurations"
+    )
     playbook_component_filters = test_data.get("playbook_component_filters")
     playbook_specifc_filters = test_data.get("playbook_specifc_filters")
     playbook_no_device_found = test_data.get("playbook_no_device_found")
-    playbook_component_specific_filters1 = test_data.get("playbook_component_specific_filters1")
+    playbook_component_specific_filters1 = test_data.get(
+        "playbook_component_specific_filters1"
+    )
     playbook_negative_scenario1 = test_data.get("playbook_negative_scenario1")
 
     def setUp(self):
         super(TestCatalystCenterRmaPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -112,7 +119,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_generate_all_configurations
+                config=self.playbook_generate_all_configurations,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -125,8 +132,8 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/Users/priyadharshini/Downloads/rma_info",
                 "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_rma_playbook_config_generator_playbook_component_filters(self):
@@ -145,7 +152,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_component_filters
+                config=self.playbook_component_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -158,8 +165,8 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/Users/priyadharshini/Downloads/rma_info",
                 "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_rma_playbook_config_generator_playbook_specifc_filters(self):
@@ -178,7 +185,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_specifc_filters
+                config=self.playbook_specifc_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -191,8 +198,8 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/Users/priyadharshini/Downloads/rma_info",
                 "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_rma_playbook_config_generator_playbook_no_device_found(self):
@@ -211,7 +218,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_no_device_found
+                config=self.playbook_no_device_found,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -227,8 +234,8 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                     "'rma_workflow_manager'. Verify that RMA workflows are configured in "
                     "Catalyst Center or check user permissions."
                 ),
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_rma_playbook_config_generator_playbook_component_specific_filters1(self):
@@ -247,7 +254,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_component_specific_filters1
+                config=self.playbook_component_specific_filters1,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -260,8 +267,8 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/Users/priyadharshini/Downloads/rma_info",
                 "message": "YAML configuration file generated successfully for module 'rma_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_rma_playbook_config_generator_playbook_negative_scenario1(self):
@@ -280,7 +287,7 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_negative_scenario1
+                config=self.playbook_negative_scenario1,
             )
         )
         result = self.execute_module(changed=True, failed=True)
@@ -291,5 +298,5 @@ class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
                 "Invalid network components provided for module 'rma_workflow_manager': "
                 "['device_replacement_workflow']. "
                 "Valid components are: ['device_replacement_workflows']"
-            )
+            ),
         )

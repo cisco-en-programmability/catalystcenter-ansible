@@ -11,10 +11,10 @@ short_description: Resource module for Templates Template Id Network Profiles Fo
 description:
   - Manage operation create of the resource Templates Template Id Network Profiles For Sites Bulk Create.
   - Attaches a list of network profiles to the Day-N CLI template by passing the profile IDs and template ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   items:
     description: Templates Template Id Network Profiles For Sites Bulk Create's items.
@@ -28,7 +28,7 @@ options:
     description: TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates AttachAListOfNetworkProfilesToADayNCLITemplate
@@ -65,7 +65,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

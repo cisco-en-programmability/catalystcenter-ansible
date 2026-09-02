@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Event Drive
 description:
   - Get Feature Templates Wireless Event Driven Rrm Configurations by id.
   - This API allows users to retrieve a specific Event Driven RRM configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Id path parameter. Event Driven RRM Configuration Feature Template Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetEventDrivenRRMConfigurationFeatureTemplate
@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-event-driven-rrm-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.get_event_driven_r_r_m_configuration_feature_template,
+    wireless.Wireless.get_event_driven_rrm_configuration_feature_template,
   - Paths used are
     get /dna/intent/api/v1/featureTemplates/wireless/eventDrivenRRMConfigurations/{id},
 """

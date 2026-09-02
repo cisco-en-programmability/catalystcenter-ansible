@@ -11,10 +11,10 @@ short_description: Information module for Network Device Config Task
 description:
   - Get all Network Device Config Task.
   - Returns a config task result details by specified id.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,15 +24,15 @@ options:
       - ParentTaskId query parameter. Task Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Archive GetConfigTaskDetails
+  - name: Cisco Catalyst Center documentation for Compliance GetConfigTaskDetails
     description: Complete reference of the GetConfigTaskDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.get_config_task_details,
+    compliance.Compliance.get_config_task_details,
   - Paths used are
     get /dna/intent/api/v1/network-device-config/task,
 """

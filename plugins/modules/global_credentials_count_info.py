@@ -11,20 +11,25 @@ short_description: Information module for Global Credentials Count
 description:
   - Get all Global Credentials Count.
   - API to get count of the global credentials based on the given filter.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   type:
     description:
-      - Type query parameter. Returns count of global credentials for the given credential type.
+      - >
+        Type query parameter. Returns count of global credentials for the given credential type. | Type |
+        Description | |---------------|------------------------------------| | `CLI` | CLI credentials for
+        TELNET/SSH. | | `SNMPV2_READ_COMMUNITY` | SNMP V2 read credentials. | | `SNMPV2_WRITE_COMMUNITY` | SNMP
+        V2 write credentials. | | `SNMPV3` | SNMP V3 credentials. | | `HTTP_WRITE` | HTTP write credentials. |
+        |`HTTP_READ` | HTTP read credentials. | | `NETCONF` | NETCONF port. |.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings GetCountOfTheGlobalCredentials
@@ -49,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    type: string
+    type: SNMPV2_READ_COMMUNITY
   register: result
 """
 RETURN = r"""
@@ -60,8 +65,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

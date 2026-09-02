@@ -12,63 +12,63 @@ description:
   - Manage operations create and update of the resource Event Email Config.
   - Create Email Destination.
   - Update Email Destination.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   emailConfigId:
     description: Required only for update email configuration.
     type: str
   fromEmail:
-    description: From Email.
+    description: Event Email Config's fromEmail.
     type: str
   primarySMTPConfig:
     description: Event Email Config's primarySMTPConfig.
     suboptions:
       hostName:
-        description: Host Name.
+        description: Event Email Config's hostName.
         type: str
       password:
-        description: Password.
+        description: Event Email Config's password.
         type: str
       port:
-        description: Port.
+        description: Event Email Config's port.
         type: str
       smtpType:
-        description: SmtpType.
+        description: Event Email Config's smtpType.
         type: str
       userName:
-        description: User Name.
+        description: Event Email Config's userName.
         type: str
     type: dict
   secondarySMTPConfig:
     description: Event Email Config's secondarySMTPConfig.
     suboptions:
       hostName:
-        description: Host Name.
+        description: Event Email Config's hostName.
         type: str
       password:
-        description: Password.
+        description: Event Email Config's password.
         type: str
       port:
-        description: Port.
+        description: Event Email Config's port.
         type: str
       smtpType:
-        description: SmtpType.
+        description: Event Email Config's smtpType.
         type: str
       userName:
-        description: User Name.
+        description: Event Email Config's userName.
         type: str
     type: dict
   subject:
-    description: Subject.
+    description: Event Email Config's subject.
     type: str
   toEmail:
-    description: To Email.
+    description: Event Email Config's toEmail.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CreateEmailDestination

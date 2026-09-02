@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible brownfield playbook generator for RMA device replacement workflows in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -32,7 +33,7 @@ description:
 - Requires Cisco Catalyst Center version 2.3.5.3 or higher for
   RMA device replacement API support.
 
-version_added: '6.44.0'
+version_added: '2.6.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -150,7 +151,7 @@ options:
         type: dict
         required: false
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 - Cisco Catalyst Center >= 2.3.5.3
 
@@ -298,16 +299,18 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     validate_list_of_dicts,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -406,7 +409,9 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "DEBUG",
             )
             if not isinstance(config_item, dict):
-                self.msg = "Configuration item must be a dictionary, got: {0}".format(type(config_item).__name__)
+                self.msg = "Configuration item must be a dictionary, got: {0}".format(
+                    type(config_item).__name__
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -427,7 +432,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.validate_minimum_requirements(self.config)
 
-        self.log("Validating configuration parameters with schema - config: {0} and temp_spec: {1}".format(self.config, temp_spec), "DEBUG")
+        self.log(
+            "Validating configuration parameters with schema - config: {0} and temp_spec: {1}".format(
+                self.config, temp_spec
+            ),
+            "DEBUG",
+        )
 
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -470,8 +480,14 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "network_elements": {
                 "device_replacement_workflows": {
                     "filters": {
-                        "faulty_device_serial_number": {"type": "str", "required": False},
-                        "replacement_device_serial_number": {"type": "str", "required": False},
+                        "faulty_device_serial_number": {
+                            "type": "str",
+                            "required": False,
+                        },
+                        "replacement_device_serial_number": {
+                            "type": "str",
+                            "required": False,
+                        },
                         "replacement_status": {"type": "str", "required": False},
                     },
                     "reverse_mapping_function": self.device_replacement_workflows_reverse_mapping_function,
@@ -497,7 +513,10 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: The device replacement workflows temporary specification containing
             field mappings, data types, and transformation rules.
         """
-        self.log("Generating reverse mapping specification for device replacement workflow details", "DEBUG")
+        self.log(
+            "Generating reverse mapping specification for device replacement workflow details",
+            "DEBUG",
+        )
         return self.device_replacement_workflows_temp_spec()
 
     def device_replacement_workflows_temp_spec(self):
@@ -518,36 +537,46 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             transformation functions, and source key references for device replacement workflows.
         """
         self.log(
-            "Building specification for device replacement "
-            "workflow transformation",
+            "Building specification for device replacement workflow transformation",
             "DEBUG",
         )
 
-        device_replacement_workflows_details = OrderedDict({
-            "faulty_device_name": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.get_faulty_device_name,
-            },
-            "faulty_device_ip_address": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.get_faulty_device_ip_address,
-            },
-            "faulty_device_serial_number": {"type": "str", "source_key": "faultyDeviceSerialNumber"},
-            "replacement_device_name": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.get_replacement_device_name,
-            },
-            "replacement_device_ip_address": {
-                "type": "str",
-                "special_handling": True,
-                "transform": self.get_replacement_device_ip_address,
-            },
-            "replacement_device_serial_number": {"type": "str", "source_key": "replacementDeviceSerialNumber"},
-        })
-        self.log("Built specification for device replacement workflow transformation", "DEBUG")
+        device_replacement_workflows_details = OrderedDict(
+            {
+                "faulty_device_name": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.get_faulty_device_name,
+                },
+                "faulty_device_ip_address": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.get_faulty_device_ip_address,
+                },
+                "faulty_device_serial_number": {
+                    "type": "str",
+                    "source_key": "faultyDeviceSerialNumber",
+                },
+                "replacement_device_name": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.get_replacement_device_name,
+                },
+                "replacement_device_ip_address": {
+                    "type": "str",
+                    "special_handling": True,
+                    "transform": self.get_replacement_device_ip_address,
+                },
+                "replacement_device_serial_number": {
+                    "type": "str",
+                    "source_key": "replacementDeviceSerialNumber",
+                },
+            }
+        )
+        self.log(
+            "Built specification for device replacement workflow transformation",
+            "DEBUG",
+        )
         return device_replacement_workflows_details
 
     def get_device_replacement_workflows(self, network_element, filters):
@@ -579,7 +608,9 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         )
 
         component_specific_filters = filters.get("component_specific_filters", {})
-        workflow_filters = component_specific_filters.get("device_replacement_workflows", [])
+        workflow_filters = component_specific_filters.get(
+            "device_replacement_workflows", []
+        )
 
         final_workflow_configs = []
         api_family = network_element.get("api_family")
@@ -649,27 +680,23 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 else:
                     combined_filters = {}
 
-                self.log("Combined filter criteria: {0}".format(combined_filters), "DEBUG")
+                self.log(
+                    "Combined filter criteria: {0}".format(combined_filters), "DEBUG"
+                )
 
                 filtered_configs = []
 
-                for config_index, config in enumerate(
-                    workflow_configs, start=1
-                ):
+                for config_index, config in enumerate(workflow_configs, start=1):
                     self.log(
                         "Evaluating workflow {0}/{1} against "
-                        "filters".format(
-                            config_index, len(workflow_configs)
-                        ),
+                        "filters".format(config_index, len(workflow_configs)),
                         "DEBUG",
                     )
                     matches_all_filters = True
 
                     # Filter key to API response key mapping
                     filter_key_map = {
-                        "faulty_device_serial_number": (
-                            "faultyDeviceSerialNumber"
-                        ),
+                        "faulty_device_serial_number": ("faultyDeviceSerialNumber"),
                         "replacement_device_serial_number": (
                             "replacementDeviceSerialNumber"
                         ),
@@ -692,52 +719,67 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Workflow {0} filtered out on "
                                 "'{1}': expected '{2}', "
                                 "got '{3}'".format(
-                                    config_index, key,
-                                    expected_value, config_value,
+                                    config_index,
+                                    key,
+                                    expected_value,
+                                    config_value,
                                 ),
                                 "DEBUG",
                             )
                             break
                     if matches_all_filters:
                         filtered_configs.append(config)
-                        self.log("Config matches all filters and included: faulty_serial={0}, replacement_serial={1}, status={2}".format(
-                            config.get("faultyDeviceSerialNumber", "N/A"),
-                            config.get("replacementDeviceSerialNumber", "N/A"),
-                            config.get("replacementStatus", "N/A")), "DEBUG")
+                        self.log(
+                            "Config matches all filters and included: faulty_serial={0}, replacement_serial={1}, status={2}".format(
+                                config.get("faultyDeviceSerialNumber", "N/A"),
+                                config.get("replacementDeviceSerialNumber", "N/A"),
+                                config.get("replacementStatus", "N/A"),
+                            ),
+                            "DEBUG",
+                        )
 
                 final_workflow_configs = filtered_configs
 
                 if filtered_configs:
-                    self.log("Found {0} matching workflows after applying filters: {1}".format(
-                        len(filtered_configs), combined_filters), "INFO")
+                    self.log(
+                        "Found {0} matching workflows after applying filters: {1}".format(
+                            len(filtered_configs), combined_filters
+                        ),
+                        "INFO",
+                    )
                 else:
-                    self.log("No workflows match the specified filters: {0}. All {1} workflows were filtered out.".format(
-                        combined_filters, len(workflow_configs)), "WARNING")
+                    self.log(
+                        "No workflows match the specified filters: {0}. All {1} workflows were filtered out.".format(
+                            combined_filters, len(workflow_configs)
+                        ),
+                        "WARNING",
+                    )
             else:
                 final_workflow_configs = workflow_configs
-                self.log("No filters specified, returning all {0} workflows".format(len(workflow_configs)), "INFO")
+                self.log(
+                    "No filters specified, returning all {0} workflows".format(
+                        len(workflow_configs)
+                    ),
+                    "INFO",
+                )
 
         except Exception as e:
-            self.msg = "Error retrieving device replacement workflows: {0}".format(str(e))
+            self.msg = "Error retrieving device replacement workflows: {0}".format(
+                str(e)
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return {"device_replacement_workflows": []}
 
         # Transform workflow configs using temp spec
         self.log(
             "Transforming {0} workflow configuration(s) using "
-            "reverse mapping specification".format(
-                len(final_workflow_configs)
-            ),
+            "reverse mapping specification".format(len(final_workflow_configs)),
             "DEBUG",
         )
-        workflow_temp_spec = (
-            self.device_replacement_workflows_temp_spec()
-        )
+        workflow_temp_spec = self.device_replacement_workflows_temp_spec()
 
         modified_workflow_configs = []
-        for config_index, config in enumerate(
-            final_workflow_configs, start=1
-        ):
+        for config_index, config in enumerate(final_workflow_configs, start=1):
             self.log(
                 "Transforming workflow {0}/{1}".format(
                     config_index, len(final_workflow_configs)
@@ -751,8 +793,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     transform_func = spec_def.get("transform")
                     if callable(transform_func):
                         self.log(
-                            "Applying transform for key "
-                            "'{0}'".format(key),
+                            "Applying transform for key " "'{0}'".format(key),
                             "DEBUG",
                         )
                         value = transform_func(config)
@@ -773,13 +814,19 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if mapped_config:
                 modified_workflow_configs.append(mapped_config)
                 self.log(
-                    "Successfully transformed workflow "
-                    "{0}".format(config_index),
+                    "Successfully transformed workflow " "{0}".format(config_index),
                     "DEBUG",
                 )
 
-        modified_workflow_details = {"device_replacement_workflows": modified_workflow_configs}
-        self.log("Modified device replacement workflow details: {0}".format(modified_workflow_details), "INFO")
+        modified_workflow_details = {
+            "device_replacement_workflows": modified_workflow_configs
+        }
+        self.log(
+            "Modified device replacement workflow details: {0}".format(
+                modified_workflow_details
+            ),
+            "INFO",
+        )
 
         return modified_workflow_details
 
@@ -812,7 +859,10 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             return None
 
-        self.log("Resolving faulty device name for serial number: {0}".format(faulty_serial), "DEBUG")
+        self.log(
+            "Resolving faulty device name for serial number: {0}".format(faulty_serial),
+            "DEBUG",
+        )
 
         try:
             response = self.catalystcenter._exec(
@@ -821,14 +871,15 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 op_modifies=False,
                 params={"serialNumber": faulty_serial},
             )
-            self.log("Received API response for faulty device name: {0}".format(response), "DEBUG")
+            self.log(
+                "Received API response for faulty device name: {0}".format(response),
+                "DEBUG",
+            )
 
             if not response:
                 self.log(
                     "Empty response from device inventory API "
-                    "for faulty serial '{0}'".format(
-                        faulty_serial
-                    ),
+                    "for faulty serial '{0}'".format(faulty_serial),
                     "WARNING",
                 )
                 return None
@@ -850,18 +901,14 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if not device_name:
                 self.log(
                     "Device found for faulty serial '{0}' but "
-                    "hostname is empty or None".format(
-                        faulty_serial
-                    ),
+                    "hostname is empty or None".format(faulty_serial),
                     "WARNING",
                 )
                 return None
 
             self.log(
                 "Resolved faulty device serial '{0}' to "
-                "hostname '{1}'".format(
-                    faulty_serial, device_name
-                ),
+                "hostname '{1}'".format(faulty_serial, device_name),
                 "INFO",
             )
             return device_name
@@ -869,9 +916,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         except Exception as e:
             self.msg = (
                 "Error resolving faulty device hostname for "
-                "serial '{0}': {1}".format(
-                    faulty_serial, str(e)
-                ),
+                "serial '{0}': {1}".format(faulty_serial, str(e)),
                 "WARNING",
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -895,18 +940,27 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             str or None: The faulty device management IP address if found in the device
             inventory, otherwise None if the device is not found or API call fails.
         """
-        self.log("Resolving faulty device IP address from workflow configuration: {0}".format(workflow_config), "DEBUG")
+        self.log(
+            "Resolving faulty device IP address from workflow configuration: {0}".format(
+                workflow_config
+            ),
+            "DEBUG",
+        )
 
         faulty_serial = workflow_config.get("faultyDeviceSerialNumber")
         if not faulty_serial:
             self.log(
-                "No faulty device serial number found in workflow "
-                "configuration",
+                "No faulty device serial number found in workflow configuration",
                 "DEBUG",
             )
             return None
 
-        self.log("Resolving faulty device IP address for serial number: {0}".format(faulty_serial), "DEBUG")
+        self.log(
+            "Resolving faulty device IP address for serial number: {0}".format(
+                faulty_serial
+            ),
+            "DEBUG",
+        )
 
         try:
             response = self.catalystcenter._exec(
@@ -917,18 +971,14 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log(
                 "Received device inventory API response for "
-                "faulty serial '{0}': {1}".format(
-                    faulty_serial, response
-                ),
+                "faulty serial '{0}': {1}".format(faulty_serial, response),
                 "DEBUG",
             )
 
             if not response:
                 self.log(
                     "Empty response from device inventory API "
-                    "for faulty serial '{0}'".format(
-                        faulty_serial
-                    ),
+                    "for faulty serial '{0}'".format(faulty_serial),
                     "WARNING",
                 )
                 return None
@@ -958,9 +1008,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Resolved faulty device serial '{0}' to "
-                "management IP '{1}'".format(
-                    faulty_serial, device_ip
-                ),
+                "management IP '{1}'".format(faulty_serial, device_ip),
                 "INFO",
             )
             return device_ip
@@ -968,9 +1016,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         except Exception as e:
             self.msg = (
                 "Error resolving faulty device IP for "
-                "serial '{0}': {1}".format(
-                    faulty_serial, str(e)
-                ),
+                "serial '{0}': {1}".format(faulty_serial, str(e)),
                 "WARNING",
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -995,7 +1041,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             str or None: The replacement device hostname if found in either device inventory
             or PnP inventory, otherwise None if the device is not found or API calls fail.
         """
-        self.log("Resolving replacement device name from workflow configuration: {0}".format(workflow_config), "DEBUG")
+        self.log(
+            "Resolving replacement device name from workflow configuration: {0}".format(
+                workflow_config
+            ),
+            "DEBUG",
+        )
 
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
@@ -1007,7 +1058,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             return None
 
-        self.log("Resolving replacement device name for serial number: {0}".format(replacement_serial), "DEBUG")
+        self.log(
+            "Resolving replacement device name for serial number: {0}".format(
+                replacement_serial
+            ),
+            "DEBUG",
+        )
 
         try:
             # First try regular device inventory
@@ -1020,9 +1076,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             self.log(
                 "Received device inventory API response for "
-                "replacement serial '{0}': {1}".format(
-                    replacement_serial, response
-                ),
+                "replacement serial '{0}': {1}".format(replacement_serial, response),
                 "DEBUG",
             )
 
@@ -1047,17 +1101,13 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Device found in inventory for "
                         "replacement serial '{0}' but "
-                        "hostname is empty or None".format(
-                            replacement_serial
-                        ),
+                        "hostname is empty or None".format(replacement_serial),
                         "WARNING",
                     )
                 else:
                     self.log(
                         "No device found in inventory for "
-                        "replacement serial '{0}'".format(
-                            replacement_serial
-                        ),
+                        "replacement serial '{0}'".format(replacement_serial),
                         "DEBUG",
                     )
             else:
@@ -1070,9 +1120,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             # If not found in regular inventory, try PnP
             self.log(
                 "Falling back to PnP inventory for "
-                "replacement serial '{0}'".format(
-                    replacement_serial
-                ),
+                "replacement serial '{0}'".format(replacement_serial),
                 "DEBUG",
             )
             pnp_response = self.catalystcenter._exec(
@@ -1083,9 +1131,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log(
                 "Received PnP API response for replacement "
-                "serial '{0}': {1}".format(
-                    replacement_serial, pnp_response
-                ),
+                "serial '{0}': {1}".format(replacement_serial, pnp_response),
                 "DEBUG",
             )
 
@@ -1094,16 +1140,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Replacement device serial '{0}' not "
                     "found in either device inventory or "
                     "PnP. The device may not be registered "
-                    "in Catalyst Center.".format(
-                        replacement_serial
-                    ),
+                    "in Catalyst Center.".format(replacement_serial),
                     "WARNING",
                 )
                 return None
 
-            device_info = pnp_response[0].get(
-                "deviceInfo", {}
-            )
+            device_info = pnp_response[0].get("deviceInfo", {})
             device_name = device_info.get("hostname")
 
             if not device_name:
@@ -1118,9 +1160,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Resolved replacement serial '{0}' to "
                 "hostname '{1}' from PnP "
-                "inventory".format(
-                    replacement_serial, device_name
-                ),
+                "inventory".format(replacement_serial, device_name),
                 "INFO",
             )
             return device_name
@@ -1128,9 +1168,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         except Exception as e:
             self.log(
                 "Error resolving replacement device hostname "
-                "for serial '{0}': {1}".format(
-                    replacement_serial, str(e)
-                ),
+                "for serial '{0}': {1}".format(replacement_serial, str(e)),
                 "WARNING",
             )
             return None
@@ -1154,7 +1192,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             inventory or PnP inventory, otherwise None if the device is not found,
             no IP is assigned, or API calls fail.
         """
-        self.log("Resolving replacement device IP address from workflow configuration: {0}".format(workflow_config), "DEBUG")
+        self.log(
+            "Resolving replacement device IP address from workflow configuration: {0}".format(
+                workflow_config
+            ),
+            "DEBUG",
+        )
         replacement_serial = workflow_config.get("replacementDeviceSerialNumber")
         if not replacement_serial:
             self.log(
@@ -1165,7 +1208,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             return None
 
-        self.log("Resolving replacement device IP address for serial number: {0}".format(replacement_serial), "DEBUG")
+        self.log(
+            "Resolving replacement device IP address for serial number: {0}".format(
+                replacement_serial
+            ),
+            "DEBUG",
+        )
 
         try:
             # First try regular device inventory
@@ -1177,9 +1225,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log(
                 "Received device inventory API response for "
-                "replacement serial '{0}': {1}".format(
-                    replacement_serial, response
-                ),
+                "replacement serial '{0}': {1}".format(replacement_serial, response),
                 "DEBUG",
             )
 
@@ -1187,9 +1233,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 devices = response.get("response")
 
                 if devices and len(devices) > 0:
-                    device_ip = devices[0].get(
-                        "managementIpAddress"
-                    )
+                    device_ip = devices[0].get("managementIpAddress")
 
                     if device_ip:
                         self.log(
@@ -1212,9 +1256,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 else:
                     self.log(
                         "No device found in inventory for "
-                        "replacement serial '{0}'".format(
-                            replacement_serial
-                        ),
+                        "replacement serial '{0}'".format(replacement_serial),
                         "DEBUG",
                     )
             else:
@@ -1240,9 +1282,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.log(
                 "Received PnP API response for replacement "
-                "serial '{0}': {1}".format(
-                    replacement_serial, pnp_response
-                ),
+                "serial '{0}': {1}".format(replacement_serial, pnp_response),
                 "DEBUG",
             )
 
@@ -1256,13 +1296,8 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 )
                 return None
 
-            device_info = pnp_response[0].get(
-                "deviceInfo", {}
-            )
-            device_ip = (
-                device_info.get("aaaCredentials", {})
-                .get("mgmtIpAddress")
-            )
+            device_info = pnp_response[0].get("deviceInfo", {})
+            device_ip = device_info.get("aaaCredentials", {}).get("mgmtIpAddress")
 
             if not device_ip:
                 self.log(
@@ -1278,9 +1313,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Resolved replacement serial '{0}' to "
                 "management IP '{1}' from PnP "
-                "inventory".format(
-                    replacement_serial, device_ip
-                ),
+                "inventory".format(replacement_serial, device_ip),
                 "INFO",
             )
             return device_ip
@@ -1288,9 +1321,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         except Exception as e:
             self.log(
                 "Error resolving replacement device IP for "
-                "serial '{0}': {1}".format(
-                    replacement_serial, str(e)
-                ),
+                "serial '{0}': {1}".format(replacement_serial, str(e)),
                 "WARNING",
             )
             return None
@@ -1331,16 +1362,16 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             file_path = self.generate_filename()
         else:
             self.log(
-                "Using user-specified file path: {0}".format(
-                    file_path
-                ),
+                "Using user-specified file path: {0}".format(file_path),
                 "DEBUG",
             )
 
         self.log("File path determined: {0}".format(file_path), "DEBUG")
 
         # Handle generate_all_configurations flag
-        generate_all_configurations = yaml_config_generator.get("generate_all_configurations", False)
+        generate_all_configurations = yaml_config_generator.get(
+            "generate_all_configurations", False
+        )
         self.log(
             "Auto-discovery mode: {0}".format(
                 "enabled" if generate_all_configurations else "disabled"
@@ -1360,7 +1391,9 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
 
         if generate_all_configurations:
             components_list = list(module_supported_network_elements.keys())
@@ -1387,9 +1420,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         config_list = []
 
-        for component_index, component in enumerate(
-            components_list, start=1
-        ):
+        for component_index, component in enumerate(components_list, start=1):
             self.log(
                 "Processing component {0}/{1}: '{2}'".format(
                     component_index, len(components_list), component
@@ -1408,11 +1439,14 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             filters = {
                 "global_filters": yaml_config_generator.get("global_filters", {}),
-                "component_specific_filters": component_specific_filters
+                "component_specific_filters": component_specific_filters,
             }
 
             operation_func = network_element.get("get_function_name")
-            self.log("Operation function for {0}: {1}".format(component, operation_func), "DEBUG")
+            self.log(
+                "Operation function for {0}: {1}".format(component, operation_func),
+                "DEBUG",
+            )
 
             if not callable(operation_func):
                 self.log(
@@ -1443,8 +1477,12 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     config_count = len(details[component])
                     total_configurations += config_count
                     components_processed += 1
-                    self.log("Successfully added {0} configurations for component {1}".format(
-                        config_count, component), "INFO")
+                    self.log(
+                        "Successfully added {0} configurations for component {1}".format(
+                            config_count, component
+                        ),
+                        "INFO",
+                    )
                 else:
                     components_skipped += 1
                     self.log(
@@ -1452,12 +1490,21 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     )
 
             except Exception as e:
-                self.log("Error retrieving data for component {0}: {1}".format(component, str(e)), "ERROR")
+                self.log(
+                    "Error retrieving data for component {0}: {1}".format(
+                        component, str(e)
+                    ),
+                    "ERROR",
+                )
                 components_skipped += 1
                 continue
 
-        self.log("Processing summary: {0} components processed successfully, {1} skipped".format(
-            components_processed, components_skipped), "INFO")
+        self.log(
+            "Processing summary: {0} components processed successfully, {1} skipped".format(
+                components_processed, components_skipped
+            ),
+            "INFO",
+        )
 
         if not config_list:
             no_config_message = (
@@ -1470,7 +1517,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "components_skipped": components_skipped,
                 "configurations_count": 0,
                 "message": no_config_message,
-                "status": "success"
+                "status": "success",
             }
 
             self.set_operation_result("success", False, no_config_message, "INFO")
@@ -1480,10 +1527,17 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             return self
 
         final_dict = {"config": config_list}
-        self.log("Final dictionary created with {0} device replacement workflow configurations".format(len(config_list)), "DEBUG")
+        self.log(
+            "Final dictionary created with {0} device replacement workflow configurations".format(
+                len(config_list)
+            ),
+            "DEBUG",
+        )
 
         if self.write_dict_to_yaml(final_dict, file_path):
-            success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
+            success_message = "YAML configuration file generated successfully for module '{0}'".format(
+                self.module_name
+            )
 
             response_data = {
                 "components_processed": components_processed,
@@ -1491,7 +1545,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "configurations_count": total_configurations,
                 "file_path": file_path,
                 "message": success_message,
-                "status": "success"
+                "status": "success",
             }
 
             self.set_operation_result("success", True, success_message, "INFO")
@@ -1499,12 +1553,11 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.msg = response_data
             self.result["response"] = response_data
         else:
-            error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
+            error_message = "Failed to write YAML configuration to file: {0}".format(
+                file_path
+            )
 
-            response_data = {
-                "message": error_message,
-                "status": "failed"
-            }
+            response_data = {"message": error_message, "status": "failed"}
 
             self.set_operation_result("failed", False, error_message, "ERROR")
             self.msg = response_data
@@ -1565,8 +1618,7 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         start_time = time.time()
         self.log(
-            "Starting YAML playbook generation workflow for "
-            "RMA configurations",
+            "Starting YAML playbook generation workflow for RMA configurations",
             "INFO",
         )
         # Define workflow operations
@@ -1581,7 +1633,10 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1619,17 +1674,20 @@ class RMAPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1765,7 +1823,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -1784,11 +1841,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -1817,33 +1870,21 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "config": {
-            "required": True,
-            "type": "list",
-            "elements": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "config": {"required": True, "type": "list", "elements": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the RMAPlaybookGenerator object
@@ -1854,7 +1895,7 @@ def main():
     ccc_rma_playbook_generator.log(
         "Starting Ansible module execution for brownfield RMA playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_rma_playbook_generator.log(
@@ -1867,9 +1908,9 @@ def main():
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
             module.params.get("state"),
-            len(module.params.get("config", []))
+            len(module.params.get("config", [])),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -1883,11 +1924,15 @@ def main():
         "meets minimum requirement of {1} for RMA device replacement APIs".format(
             ccc_version, min_version
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_rma_playbook_generator.compare_catalystcenter_versions(
-            ccc_version, min_version) < 0):
+    if (
+        ccc_rma_playbook_generator.compare_catalystcenter_versions(
+            ccc_version, min_version
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -1900,8 +1945,7 @@ def main():
         )
 
         ccc_rma_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_rma_playbook_generator.msg = error_msg
@@ -1912,7 +1956,7 @@ def main():
     ccc_rma_playbook_generator.log(
         "Version compatibility check passed - Catalyst Center version {0} supports "
         "all required RMA device replacement APIs".format(ccc_version),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -1924,7 +1968,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_rma_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_rma_playbook_generator.supported_states:
@@ -1936,8 +1980,7 @@ def main():
         )
 
         ccc_rma_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_rma_playbook_generator.status = "invalid"
@@ -1948,7 +1991,7 @@ def main():
         "State validation passed - using state '{0}' for RMA workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -1956,7 +1999,7 @@ def main():
     # ============================================
     ccc_rma_playbook_generator.log(
         "Starting comprehensive input parameter validation for RMA playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_rma_playbook_generator.validate_input().check_return_status()
@@ -1964,7 +2007,7 @@ def main():
     ccc_rma_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet RMA module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -1975,7 +2018,7 @@ def main():
     ccc_rma_playbook_generator.log(
         "Starting configuration processing and default handling - will process {0} configuration "
         "item(s) from playbook".format(len(config_list)),
-        "INFO"
+        "INFO",
     )
 
     # Handle generate_all_configurations and set component defaults
@@ -1984,7 +2027,7 @@ def main():
             "Processing configuration item {0}/{1} for generate_all_configurations and default component handling".format(
                 config_index, len(config_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if config_item.get("generate_all_configurations", False):
@@ -1993,7 +2036,7 @@ def main():
                 "components to include device_replacement_workflows".format(
                     config_index
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Set default components when generate_all_configurations is True
@@ -2005,7 +2048,7 @@ def main():
                     "Configuration item {0}: Set default component_specific_filters for generate_all mode: {1}".format(
                         config_index, config_item["component_specific_filters"]
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 ccc_rma_playbook_generator.log(
@@ -2013,7 +2056,7 @@ def main():
                     "using existing filters: {1}".format(
                         config_index, config_item.get("component_specific_filters")
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         elif config_item.get("component_specific_filters") is None:
@@ -2022,13 +2065,11 @@ def main():
                 "Applying default configuration to retrieve device_replacement_workflows".format(
                     config_index
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Existing fallback logic for when no filters are specified
-            ccc_rma_playbook_generator.msg = (
-                "No component filters specified, defaulting to device_replacement_workflows."
-            )
+            ccc_rma_playbook_generator.msg = "No component filters specified, defaulting to device_replacement_workflows."
 
             config_item["component_specific_filters"] = {
                 "components_list": ["device_replacement_workflows"]
@@ -2038,7 +2079,7 @@ def main():
                 "Configuration item {0}: Applied default component_specific_filters: {1}".format(
                     config_index, config_item["component_specific_filters"]
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             ccc_rma_playbook_generator.log(
@@ -2046,7 +2087,7 @@ def main():
                 "using existing filters: {1}".format(
                     config_index, config_item.get("component_specific_filters")
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
     # Update validated config after default handling
@@ -2055,7 +2096,7 @@ def main():
     ccc_rma_playbook_generator.log(
         "Configuration preprocessing completed. Updated validated_config with default component "
         "handling. Final configuration count: {0}".format(len(config_list)),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -2066,44 +2107,42 @@ def main():
     ccc_rma_playbook_generator.log(
         "Starting configuration processing loop - will process {0} final configuration "
         "item(s) after default handling".format(len(final_config_list)),
-        "INFO"
+        "INFO",
     )
 
     for config_index, config_item in enumerate(final_config_list, start=1):
-        components_list = config_item.get("component_specific_filters", {}).get("components_list", "all")
+        components_list = config_item.get("component_specific_filters", {}).get(
+            "components_list", "all"
+        )
 
         ccc_rma_playbook_generator.log(
             "Processing configuration item {0}/{1} for state '{2}' with components: {3}".format(
                 config_index, len(final_config_list), state, components_list
             ),
-            "INFO"
+            "INFO",
         )
 
         # Reset values for clean state between configurations
         ccc_rma_playbook_generator.log(
             "Resetting module state variables for clean configuration processing",
-            "DEBUG"
+            "DEBUG",
         )
         ccc_rma_playbook_generator.reset_values()
 
         # Collect desired state (want) from configuration
         ccc_rma_playbook_generator.log(
             "Collecting desired state parameters from configuration item {0} - "
-            "building want dictionary for RMA operations".format(
-                config_index
-            ),
-            "DEBUG"
+            "building want dictionary for RMA operations".format(config_index),
+            "DEBUG",
         )
-        ccc_rma_playbook_generator.get_want(
-            config_item, state
-        ).check_return_status()
+        ccc_rma_playbook_generator.get_want(config_item, state).check_return_status()
 
         # Execute state-specific operation (gathered workflow)
         ccc_rma_playbook_generator.log(
             "Executing state-specific operation for '{0}' workflow on "
             "configuration item {1} - will retrieve device replacement workflows "
             "from Catalyst Center".format(state, config_index),
-            "INFO"
+            "INFO",
         )
         ccc_rma_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
@@ -2112,7 +2151,7 @@ def main():
             "RMA device replacement workflow data extraction and YAML generation completed".format(
                 config_index, len(final_config_list)
             ),
-            "INFO"
+            "INFO",
         )
 
     # ============================================
@@ -2122,8 +2161,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_rma_playbook_generator.log(
@@ -2133,25 +2171,25 @@ def main():
             completion_timestamp,
             module_duration,
             len(final_config_list),
-            ccc_rma_playbook_generator.status
+            ccc_rma_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_rma_playbook_generator.log(
         "Final module result summary: changed={0}, msg_type={1}, response_available={2}".format(
             ccc_rma_playbook_generator.result.get("changed", False),
             type(ccc_rma_playbook_generator.result.get("msg")).__name__,
-            "response" in ccc_rma_playbook_generator.result
+            "response" in ccc_rma_playbook_generator.result,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     ccc_rma_playbook_generator.log(
         "Exiting Ansible module with result containing RMA device replacement extraction results",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_rma_playbook_generator.result)

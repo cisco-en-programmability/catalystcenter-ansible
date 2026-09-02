@@ -10,11 +10,11 @@ module: sda_pending_fabric_events_info
 short_description: Information module for Sda Pending Fabric Events
 description:
   - Get all Sda Pending Fabric Events.
-  - Returns a list of pending fabric events that match the provided query parameters.
-version_added: '6.17.0'
+  - Returns a list of pending fabric events that match the provided query.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -34,7 +34,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPendingFabricEvents
@@ -60,8 +60,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     fabricId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

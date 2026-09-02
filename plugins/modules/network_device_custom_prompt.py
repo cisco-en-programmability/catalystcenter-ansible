@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Custom Prompt
 description:
   - Manage operation create of the resource Network Device Custom Prompt. - > Save custom prompt added by user in Catalyst
     Center. API will always override the existing prompts. User should provide all the custom prompt in case of any update.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   passwordPrompt:
     description: Password for Custom Prompt.
@@ -23,7 +23,7 @@ options:
     description: Username for Custom Prompt.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings CustomPromptPOSTAPI

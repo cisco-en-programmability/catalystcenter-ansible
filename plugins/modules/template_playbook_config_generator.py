@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Template Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the template projects and configuration templates
   configured on the Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -116,7 +117,7 @@ options:
                 default: false
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -406,11 +407,13 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -418,18 +421,19 @@ except ImportError:
 from collections import OrderedDict
 
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
 
         def str_presenter(self, data):
-            if '\n' in data:
-                trailing_newlines = len(data) - len(data.rstrip('\n'))
+            if "\n" in data:
+                trailing_newlines = len(data) - len(data.rstrip("\n"))
                 # PyYAML only preserves one, so we append the extras as literal newlines
                 if trailing_newlines > 1:
-                    data = data + ('\n' * (trailing_newlines - 1))
-                return self.represent_scalar('tag:yaml.org,2002:str', data, style='|')
-            return self.represent_scalar('tag:yaml.org,2002:str', data)
+                    data = data + ("\n" * (trailing_newlines - 1))
+                return self.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+            return self.represent_scalar("tag:yaml.org,2002:str", data)
 
     OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
     OrderedDumper.add_representer(str, OrderedDumper.str_presenter)
@@ -483,17 +487,14 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -543,25 +544,23 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "projects": {
-                    "filters": {
-                        "name": {"type": "str"}
-                    },
+                    "filters": {"name": {"type": "str"}},
                     "reverse_mapping_function": self.projects_temp_spec,
                     "api_function": "get_projects_details",
                     "api_family": "configuration_templates",
-                    "get_function_name": self.get_template_projects_details
+                    "get_function_name": self.get_template_projects_details,
                 },
                 "configuration_templates": {
                     "filters": {
                         "template_name": {"type": "str"},
                         "project_name": {"type": "str"},
-                        "include_uncommitted": {"type": "bool"}
+                        "include_uncommitted": {"type": "bool"},
                     },
                     "reverse_mapping_function": self.templates_temp_spec,
                     "api_function": "get_templates_details",
                     "api_family": "configuration_templates",
-                    "get_function_name": self.get_template_details
-                }
+                    "get_function_name": self.get_template_details,
+                },
             }
         }
 
@@ -589,9 +588,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         """
 
         self.log(
-            "Starting device types transformation for given device types: {0}"
-            .format(template_details.get("deviceTypes", "Unknown")),
-            "DEBUG"
+            "Starting device types transformation for given device types: {0}".format(
+                template_details.get("deviceTypes", "Unknown")
+            ),
+            "DEBUG",
         )
         device_types = template_details.get("deviceTypes", [])
 
@@ -599,21 +599,30 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log("No device types found in template details", "DEBUG")
             return device_types
 
-        self.log("Processing {0} device type(s) from template".format(len(device_types)), "DEBUG")
+        self.log(
+            "Processing {0} device type(s) from template".format(len(device_types)),
+            "DEBUG",
+        )
 
         final_device_types = []
         for device_type in device_types:
-            final_device_types.append({
-                k: v for k, v in {
-                    "product_family": device_type.get("productFamily"),
-                    "product_series": device_type.get("productSeries"),
-                    "product_type": device_type.get("productType")
-                }.items() if v is not None
-            })
+            final_device_types.append(
+                {
+                    k: v
+                    for k, v in {
+                        "product_family": device_type.get("productFamily"),
+                        "product_series": device_type.get("productSeries"),
+                        "product_type": device_type.get("productType"),
+                    }.items()
+                    if v is not None
+                }
+            )
 
         self.log(
-            "Completed device types transformation. Transformed {0} device type(s): {1}"
-            .format(len(final_device_types), final_device_types), "DEBUG"
+            "Completed device types transformation. Transformed {0} device type(s): {1}".format(
+                len(final_device_types), final_device_types
+            ),
+            "DEBUG",
         )
 
         return final_device_types
@@ -633,8 +642,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         """
 
         self.log(
-            "Starting tags transformation for given tags: {0}".format(template_details.get("tags", "Unknown")),
-            "DEBUG"
+            "Starting tags transformation for given tags: {0}".format(
+                template_details.get("tags", "Unknown")
+            ),
+            "DEBUG",
         )
         tags = template_details.get("tags", [])
 
@@ -646,16 +657,19 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         final_tags = []
         for tag in tags:
-            final_tags.append({
-                k: v for k, v in {
-                    "id": tag.get("id"),
-                    "name": tag.get("name")
-                }.items() if v is not None
-            })
+            final_tags.append(
+                {
+                    k: v
+                    for k, v in {"id": tag.get("id"), "name": tag.get("name")}.items()
+                    if v is not None
+                }
+            )
 
         self.log(
-            "Completed tags transformation. Transformed {0} tag(s): {1}"
-            .format(len(final_tags), final_tags), "DEBUG"
+            "Completed tags transformation. Transformed {0} tag(s): {1}".format(
+                len(final_tags), final_tags
+            ),
+            "DEBUG",
         )
 
         return final_tags
@@ -679,9 +693,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         """
 
         self.log(
-            "Starting template content transformation for given template content: {0}"
-            .format(template_details.get("templateContent", "Unknown")),
-            "DEBUG"
+            "Starting template content transformation for given template content: {0}".format(
+                template_details.get("templateContent", "Unknown")
+            ),
+            "DEBUG",
         )
         template_language = template_details.get("language")
         template_content = template_details.get("templateContent")
@@ -694,15 +709,17 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing template with language: {0}, content length: {1} characters".format(
                 template_language, len(template_content)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if template_language == "JINJA":
-            template_content = f'{{% raw %}}{template_content}{{% endraw %}}'
+            template_content = f"{{% raw %}}{template_content}{{% endraw %}}"
 
         self.log(
-            "Completed template content transformation. Transformed template content: {0}"
-            .format(template_content), "DEBUG"
+            "Completed template content transformation. Transformed template content: {0}".format(
+                template_content
+            ),
+            "DEBUG",
         )
 
         return template_content
@@ -726,9 +743,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         """
         self.log
         (
-            "Starting containing templates transformation for given containing templates: {0}"
-            .format(template_details.get("containingTemplates", "Unknown")),
-            "DEBUG"
+            "Starting containing templates transformation for given containing templates: {0}".format(
+                template_details.get("containingTemplates", "Unknown")
+            ),
+            "DEBUG",
         )
 
         containing_templates = template_details.get("containingTemplates", [])
@@ -740,23 +758,29 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Processing {0} containing template(s) from parent template".format(
                 len(containing_templates)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         final_containing_templates = []
         for template in containing_templates:
-            final_containing_templates.append({
-                k: v for k, v in {
-                    "name": template.get("name"),
-                    "description": template.get("description"),
-                    "project_name": template.get("projectName"),
-                    "composite": template.get("composite"),
-                    "language": template.get("language")
-                }.items() if v is not None
-            })
+            final_containing_templates.append(
+                {
+                    k: v
+                    for k, v in {
+                        "name": template.get("name"),
+                        "description": template.get("description"),
+                        "project_name": template.get("projectName"),
+                        "composite": template.get("composite"),
+                        "language": template.get("language"),
+                    }.items()
+                    if v is not None
+                }
+            )
 
         self.log(
-            "Completed containing template transformation. Transformed {0} containing template(s): {1}"
-            .format(len(final_containing_templates), final_containing_templates), "DEBUG"
+            "Completed containing template transformation. Transformed {0} containing template(s): {1}".format(
+                len(final_containing_templates), final_containing_templates
+            ),
+            "DEBUG",
         )
 
         return final_containing_templates
@@ -782,7 +806,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting template params transformation for template: {0}".format(
                 template_details.get("name", "Unknown")
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         template_params = template_details.get("templateParams", [])
@@ -790,7 +814,9 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log("No template params found in template details", "DEBUG")
             return template_params
 
-        self.log("Processing {0} template param(s)".format(len(template_params)), "DEBUG")
+        self.log(
+            "Processing {0} template param(s)".format(len(template_params)), "DEBUG"
+        )
 
         final_template_params = self.camel_to_snake_case(template_params)
 
@@ -798,7 +824,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Completed template params transformation. Transformed {0} param(s)".format(
                 len(final_template_params)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return final_template_params
@@ -813,14 +839,16 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: An ordered dictionary defining the structure of containing templates attributes.
         """
 
-        self.log("Generating temporary specification for containing templates.", "DEBUG")
+        self.log(
+            "Generating temporary specification for containing templates.", "DEBUG"
+        )
         containing_templates = OrderedDict(
             {
                 "name": {"type": "str"},
                 "description": {"type": "str"},
                 "project_name": {"type": "str", "source_key": "projectName"},
                 "composite": {"type": "bool"},
-                "language": {"type": "str"}
+                "language": {"type": "str"},
             }
         )
         return containing_templates
@@ -837,10 +865,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log("Generating temporary specification for template projects.", "DEBUG")
         template_projects = OrderedDict(
-            {
-                "name": {"type": "str"},
-                "description": {"type": "str"}
-            }
+            {"name": {"type": "str"}, "description": {"type": "str"}}
         )
         return template_projects
 
@@ -877,12 +902,15 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "failure_policy": {"type": "str", "source_key": "failurePolicy"},
                 "software_type": {"type": "str", "source_key": "softwareType"},
                 "software_version": {"type": "str", "source_key": "softwareVersion"},
-                "custom_params_order": {"type": "bool", "source_key": "customParamsOrder"},
+                "custom_params_order": {
+                    "type": "bool",
+                    "source_key": "customParamsOrder",
+                },
                 "device_types": {
                     "type": "list",
                     "element": "dict",
                     "special_handling": True,
-                    "transform": self.transform_device_types
+                    "transform": self.transform_device_types,
                 },
                 "template_content": {
                     "type": "str",
@@ -899,8 +927,8 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     "type": "list",
                     "element": "dict",
                     "special_handling": True,
-                    "transform": self.transform_tags
-                }
+                    "transform": self.transform_tags,
+                },
             }
         )
         return template_details
@@ -919,7 +947,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         if project_details is None:
             self.log(
                 "Fetching project details from Catalyst Center for project_description_map",
-                "DEBUG"
+                "DEBUG",
             )
             network_element = self.module_schema["network_elements"]["projects"]
             self.get_template_projects_details(
@@ -936,7 +964,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "project_description_map initialized with {0} entries".format(
                 len(self.project_description_map)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
     def transform_project_description(self, template_details):
@@ -957,13 +985,13 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting project description lookup for template: {0}".format(
                 template_details.get("name", "Unknown")
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if self.project_description_map is None:
             self.log(
                 "project_description_map not initialized, triggering lazy initialization",
-                "DEBUG"
+                "DEBUG",
             )
             self.initialize_project_description_map()
 
@@ -972,9 +1000,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Completed project description lookup for project '{0}': {1}".format(
-                project_name, project_description if project_description else "No description found"
+                project_name,
+                project_description if project_description else "No description found",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return project_description
@@ -1007,8 +1036,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return {}
 
@@ -1016,7 +1047,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Getting all template projects using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         template_project_details = self.execute_get_with_pagination(
@@ -1030,7 +1061,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Started Processing {0} filter(s) for projects retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
@@ -1038,14 +1069,16 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 unsupported_keys = set(filter_param.keys()) - {"name"}
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for projects: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for projects: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 filtered_projects = []
                 self.log(
                     "Fetching projects with filter_param: {0}".format(filter_param),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if "name" in filter_param:
@@ -1061,19 +1094,19 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Retrieved {0} project(s): {1}".format(
                             len(template_project_details), template_project_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "No projects found with filter_param: {0}".format(filter_param),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             self.log(
                 "Completed Processing {0} filter(s) for projects retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             if template_project_details:
@@ -1082,7 +1115,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Retrieved {0} project(s) from Catalyst Center".format(
                         len(template_project_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No projects found in Catalyst Center", "DEBUG")
@@ -1095,7 +1128,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Transforming {0} project(s) using projects temp spec".format(
                 len(final_template_projects)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         template_projects_temp_spec = self.projects_temp_spec()
         template_project_details = self.modify_parameters(
@@ -1104,7 +1137,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         modified_template_project_details = {}
         if template_project_details:
-            modified_template_project_details['projects'] = template_project_details
+            modified_template_project_details["projects"] = template_project_details
 
         self.log(
             "Completed retrieving template project(s): {0}".format(
@@ -1144,8 +1177,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         api_function = network_element.get("api_function")
         if not api_family or not api_function:
             self.log(
-                "Missing API family or function in network element: {0}".format(network_element),
-                "ERROR"
+                "Missing API family or function in network element: {0}".format(
+                    network_element
+                ),
+                "ERROR",
             )
             return []
 
@@ -1155,7 +1190,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Getting templates using API family '{0}' and API function '{1}'.".format(
                 api_family, api_function
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         params = {}
@@ -1164,11 +1199,16 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Started Processing {0} filter(s) for templates retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             for filter_param in component_specific_filters:
-                supported_keys = {"template_name", "id", "project_name", "include_uncommitted"}
+                supported_keys = {
+                    "template_name",
+                    "id",
+                    "project_name",
+                    "include_uncommitted",
+                }
 
                 if "template_name" in filter_param:
                     params["name"] = filter_param["template_name"]
@@ -1182,13 +1222,14 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 unsupported_keys = set(filter_param.keys()) - supported_keys
                 if unsupported_keys:
                     self.log(
-                        "Ignoring unsupported filter parameters for templates: {0}".format(unsupported_keys),
-                        "WARNING"
+                        "Ignoring unsupported filter parameters for templates: {0}".format(
+                            unsupported_keys
+                        ),
+                        "WARNING",
                     )
 
                 self.log(
-                    "Fetching templates with parameters: {0}".format(params),
-                    "DEBUG"
+                    "Fetching templates with parameters: {0}".format(params), "DEBUG"
                 )
                 template_details = self.execute_get_with_pagination(
                     api_family, api_function, params
@@ -1200,12 +1241,11 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Retrieved {0} template(s): {1}".format(
                             len(template_details), template_details
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
-                        "No templates found for parameters: {0}".format(params),
-                        "DEBUG"
+                        "No templates found for parameters: {0}".format(params), "DEBUG"
                     )
                 params.clear()
 
@@ -1213,7 +1253,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Completed Processing {0} filter(s) for templates retrieval".format(
                     len(component_specific_filters)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log("Fetching all template details from Catalyst Center", "DEBUG")
@@ -1228,7 +1268,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Retrieved {0} template(s) from Catalyst Center".format(
                         len(template_details)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log("No templates found in Catalyst Center", "DEBUG")
@@ -1238,7 +1278,7 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "Transforming {0} template(s) using templates temp spec".format(
                 len(final_template_details)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         template_projects_temp_spec = self.templates_temp_spec()
         template_details = self.modify_parameters(
@@ -1282,7 +1322,10 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1306,17 +1349,20 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1343,20 +1389,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {
@@ -1394,21 +1492,15 @@ def main():
     # Check if the state is valid
     if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = "State {0} is invalid".format(
-            state
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     config_generator.validate_input().check_return_status()
 
     config = config_generator.validated_config
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

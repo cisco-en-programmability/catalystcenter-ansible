@@ -21,7 +21,9 @@ __metaclass__ = type
 from unittest.mock import patch
 import os
 import tempfile
-from ansible_collections.cisco.catalystcenter.plugins.modules import application_policy_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    application_policy_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -35,22 +37,35 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
     playbook_different_bandwidth = test_data.get("playbook_different_bandwidth")
     playbook_wireless_policy = test_data.get("playbook_wireless_policy")
     playbook_top_level_file_path = test_data.get("playbook_top_level_file_path")
-    playbook_missing_component_specific_filters = test_data.get("playbook_missing_component_specific_filters")
-    playbook_nested_file_path_invalid = test_data.get("playbook_nested_file_path_invalid")
+    playbook_missing_component_specific_filters = test_data.get(
+        "playbook_missing_component_specific_filters"
+    )
+    playbook_nested_file_path_invalid = test_data.get(
+        "playbook_nested_file_path_invalid"
+    )
     playbook_empty_config = test_data.get("playbook_empty_config")
-    playbook_list_wrapped_queuing_profile = test_data.get("playbook_list_wrapped_queuing_profile")
-    playbook_list_wrapped_application_policy = test_data.get("playbook_list_wrapped_application_policy")
-    playbook_dict_wrapped_application_policy_invalid = test_data.get("playbook_dict_wrapped_application_policy_invalid")
+    playbook_list_wrapped_queuing_profile = test_data.get(
+        "playbook_list_wrapped_queuing_profile"
+    )
+    playbook_list_wrapped_application_policy = test_data.get(
+        "playbook_list_wrapped_application_policy"
+    )
+    playbook_dict_wrapped_application_policy_invalid = test_data.get(
+        "playbook_dict_wrapped_application_policy_invalid"
+    )
     playbook_list_wrapped_queuing_profile_duplicate_values = test_data.get(
         "playbook_list_wrapped_queuing_profile_duplicate_values"
     )
-    playbook_duplicate_components_list = test_data.get("playbook_duplicate_components_list")
+    playbook_duplicate_components_list = test_data.get(
+        "playbook_duplicate_components_list"
+    )
 
     def setUp(self):
         super(TestCatalystCenterApplicationPolicyPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -67,11 +82,17 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
         """
         Load fixtures for user.
         """
-        if "playbook_queuing_profile" in self._testMethodName or "duplicate_components_list" in self._testMethodName:
+        if (
+            "playbook_queuing_profile" in self._testMethodName
+            or "duplicate_components_list" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
-        elif "playbook_application_policy" in self._testMethodName or "auto_components_list" in self._testMethodName:
+        elif (
+            "playbook_application_policy" in self._testMethodName
+            or "auto_components_list" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
@@ -105,9 +126,12 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response30"),
                 self.test_data.get("response31"),
                 self.test_data.get("response32"),
-                self.test_data.get("response33")
+                self.test_data.get("response33"),
             ]
-        elif "without_config_defaults_generate_all" in self._testMethodName or "empty_config_defaults_generate_all" in self._testMethodName:
+        elif (
+            "without_config_defaults_generate_all" in self._testMethodName
+            or "empty_config_defaults_generate_all" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile"),
                 self.test_data.get("response1"),
@@ -142,9 +166,12 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response30"),
                 self.test_data.get("response31"),
                 self.test_data.get("response32"),
-                self.test_data.get("response33")
+                self.test_data.get("response33"),
             ]
-        elif "top_level_file_path_success" in self._testMethodName or "file_mode_without_file_path" in self._testMethodName:
+        elif (
+            "top_level_file_path_success" in self._testMethodName
+            or "file_mode_without_file_path" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
@@ -153,9 +180,7 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("queuing_profile")
             ]
         elif "list_wrapped_application_policy" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("response1")
-            ]
+            self.run_catalystcenter_exec.side_effect = [self.test_data.get("response1")]
         elif "playbook_different_bandwidth" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_queuing_profile")
@@ -224,14 +249,14 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_queuing_profile_"),
-                config=self.playbook_queuing_profile
+                config=self.playbook_queuing_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
     def test_backup_and_restore_workflow_manager_playbook_application_policy(self):
@@ -250,14 +275,14 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_application_policy_"),
-                config=self.playbook_application_policy
+                config=self.playbook_application_policy,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
     def test_backup_and_restore_workflow_manager_playbook_different_bandwidth(self):
@@ -276,14 +301,14 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_bandwidth_"),
-                config=self.playbook_different_bandwidth
+                config=self.playbook_different_bandwidth,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
     def test_backup_and_restore_workflow_manager_playbook_wireless_policy(self):
@@ -302,17 +327,19 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_wireless_policy_"),
-                config=self.playbook_wireless_policy
+                config=self.playbook_wireless_policy,
             )
         )
         result = self.execute_module(changed=True, failed=False)
 
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
-    def test_application_policy_playbook_config_generator_top_level_file_path_success(self):
+    def test_application_policy_playbook_config_generator_top_level_file_path_success(
+        self,
+    ):
         """Validate top-level file_path with component filters succeeds."""
 
         set_module_args(
@@ -324,16 +351,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_top_level_"),
-                config=self.playbook_top_level_file_path
+                config=self.playbook_top_level_file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
-    def test_application_policy_playbook_config_generator_without_config_defaults_generate_all_success(self):
+    def test_application_policy_playbook_config_generator_without_config_defaults_generate_all_success(
+        self,
+    ):
         """Validate omitted config defaults to generate_all_configurations=True."""
 
         set_module_args(
@@ -344,16 +373,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                file_path="/tmp/default_generate_all_from_none.yml"
+                file_path="/tmp/default_generate_all_from_none.yml",
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written."
+            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written.",
         )
 
-    def test_application_policy_playbook_config_generator_empty_config_defaults_generate_all_success(self):
+    def test_application_policy_playbook_config_generator_empty_config_defaults_generate_all_success(
+        self,
+    ):
         """Validate empty config defaults to generate_all_configurations=True."""
 
         set_module_args(
@@ -365,16 +396,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path="/tmp/default_generate_all_from_empty.yml",
-                config=self.playbook_empty_config
+                config=self.playbook_empty_config,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written."
+            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written.",
         )
 
-    def test_application_policy_playbook_config_generator_nested_file_path_validation_failure(self):
+    def test_application_policy_playbook_config_generator_nested_file_path_validation_failure(
+        self,
+    ):
         """Validate config.file_path is rejected."""
 
         set_module_args(
@@ -385,13 +418,15 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_nested_file_path_invalid
+                config=self.playbook_nested_file_path_invalid,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Allowed filters are", result.get("msg"))
 
-    def test_application_policy_playbook_config_generator_missing_component_specific_filters_failure(self):
+    def test_application_policy_playbook_config_generator_missing_component_specific_filters_failure(
+        self,
+    ):
         """Validate component_specific_filters is required for non-generate-all mode."""
 
         set_module_args(
@@ -403,13 +438,15 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_file_mode_"),
-                config=self.playbook_missing_component_specific_filters
+                config=self.playbook_missing_component_specific_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("component_specific_filters", result.get("msg"))
 
-    def test_application_policy_playbook_config_generator_file_mode_without_file_path_success(self):
+    def test_application_policy_playbook_config_generator_file_mode_without_file_path_success(
+        self,
+    ):
         """Validate file_mode is ignored when file_path is absent."""
 
         set_module_args(
@@ -421,16 +458,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_mode="append",
-                config=self.playbook_queuing_profile
+                config=self.playbook_queuing_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
-    def test_application_policy_playbook_config_generator_list_wrapped_queuing_profile_success(self):
+    def test_application_policy_playbook_config_generator_list_wrapped_queuing_profile_success(
+        self,
+    ):
         """Validate queuing_profile accepts list-wrapped filter blocks."""
 
         set_module_args(
@@ -442,16 +481,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_list_wrapped_queue_"),
-                config=self.playbook_list_wrapped_queuing_profile
+                config=self.playbook_list_wrapped_queuing_profile,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
-    def test_application_policy_playbook_config_generator_list_wrapped_application_policy_success(self):
+    def test_application_policy_playbook_config_generator_list_wrapped_application_policy_success(
+        self,
+    ):
         """Validate application_policy accepts list-wrapped filter blocks."""
 
         set_module_args(
@@ -463,16 +504,18 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_list_wrapped_policy_"),
-                config=self.playbook_list_wrapped_application_policy
+                config=self.playbook_list_wrapped_application_policy,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )
 
-    def test_application_policy_playbook_config_generator_dict_wrapped_application_policy_failure(self):
+    def test_application_policy_playbook_config_generator_dict_wrapped_application_policy_failure(
+        self,
+    ):
         """Validate application_policy rejects legacy dict-wrapped filter blocks."""
 
         set_module_args(
@@ -483,13 +526,15 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_dict_wrapped_application_policy_invalid
+                config=self.playbook_dict_wrapped_application_policy_invalid,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("filters must be a list", result.get("msg"))
 
-    def test_application_policy_playbook_config_generator_duplicate_filter_values_deduplicated(self):
+    def test_application_policy_playbook_config_generator_duplicate_filter_values_deduplicated(
+        self,
+    ):
         """Validate merged filter entries preserve order while removing duplicate values."""
 
         generator = application_policy_playbook_config_generator.ApplicationPolicyPlaybookGenerator.__new__(
@@ -501,16 +546,17 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
 
         normalized = generator._normalize_component_filter_block(
             "queuing_profile",
-            self.playbook_list_wrapped_queuing_profile_duplicate_values["component_specific_filters"]["queuing_profile"],
-            "profile_names_list"
+            self.playbook_list_wrapped_queuing_profile_duplicate_values[
+                "component_specific_filters"
+            ]["queuing_profile"],
+            "profile_names_list",
         )
 
-        self.assertEqual(
-            normalized,
-            {"profile_names_list": ["ProfileA", "ProfileB"]}
-        )
+        self.assertEqual(normalized, {"profile_names_list": ["ProfileA", "ProfileB"]})
 
-    def test_application_policy_playbook_config_generator_duplicate_components_list_success(self):
+    def test_application_policy_playbook_config_generator_duplicate_components_list_success(
+        self,
+    ):
         """Validate duplicate entries in components_list are handled successfully."""
 
         set_module_args(
@@ -522,11 +568,11 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path=self._fresh_file_path("app_policy_duplicate_components_"),
-                config=self.playbook_duplicate_components_list
+                config=self.playbook_duplicate_components_list,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             self._result_message(result),
-            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'",
         )

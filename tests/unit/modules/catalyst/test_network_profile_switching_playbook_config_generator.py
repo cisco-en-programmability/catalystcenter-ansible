@@ -26,7 +26,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import network_profile_switching_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    network_profile_switching_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -36,16 +38,23 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
     test_data = loadPlaybookData("network_profile_switching_playbook_config_generator")
 
     # Load all playbook configurations
-    playbook_config_generate_all_profile = test_data.get("playbook_config_generate_all_profile")
-    playbook_global_filter_profile_base = test_data.get("playbook_global_filter_profile_base")
-    playbook_global_filter_template_base = test_data.get("playbook_global_filter_template_base")
+    playbook_config_generate_all_profile = test_data.get(
+        "playbook_config_generate_all_profile"
+    )
+    playbook_global_filter_profile_base = test_data.get(
+        "playbook_global_filter_profile_base"
+    )
+    playbook_global_filter_template_base = test_data.get(
+        "playbook_global_filter_template_base"
+    )
     playbook_global_filter_site_base = test_data.get("playbook_global_filter_site_base")
 
     def setUp(self):
         super(TestNetworkProfileSwitchingPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -102,9 +111,11 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("get_site_all"),
             ]
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_switch_profile_generate_all_configurations(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_switch_profile_generate_all_configurations(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network switch profile generator when generating all profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
@@ -122,15 +133,17 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 file_path="tmp/test_switch_profile_demo.yaml",
-                file_mode="overwrite"
+                file_mode="overwrite",
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_switch_profile_generate_global_filter(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_switch_profile_generate_global_filter(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
@@ -149,15 +162,17 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/network_profile_switching_workflow_playbook_profilebase.yml",
                 file_mode="overwrite",
-                config=self.playbook_global_filter_profile_base
+                config=self.playbook_global_filter_profile_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_switch_profile_generate_filter_template_base(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_switch_profile_generate_filter_template_base(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
@@ -176,15 +191,17 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/network_profile_switching_workflow_playbook_templatebase.yml",
                 file_mode="overwrite",
-                config=self.playbook_global_filter_template_base
+                config=self.playbook_global_filter_template_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_switch_profile_generate_filter_site_base(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_switch_profile_generate_filter_site_base(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network switch profile generator when global filter profiles.
         This test case checks the behavior when generate_all_configurations is set to True,
@@ -203,8 +220,8 @@ class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="tmp/network_profile_switching_workflow_playbook_sitebase.yml",
                 file_mode="overwrite",
-                config=self.playbook_global_filter_site_base
+                config=self.playbook_global_filter_site_base,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation Task succeeded", str(result.get("msg")))

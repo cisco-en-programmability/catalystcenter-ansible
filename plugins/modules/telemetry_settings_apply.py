@@ -12,17 +12,17 @@ description:
   - Manage operation create of the resource Telemetry Settings Apply. - > Update a devices telemetry settings to conform to
     the telemetry settings for its site. One Task is created to track the update, for more granular status tracking, split
     your devices into multiple requests.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceIds:
     description: The list of device Ids to perform the provisioning against.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSite
@@ -58,7 +58,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

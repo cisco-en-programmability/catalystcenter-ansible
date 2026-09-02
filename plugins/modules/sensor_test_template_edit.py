@@ -11,10 +11,10 @@ short_description: Resource module for Sensor Test Template Edit
 description:
   - Manage operation update of the resource Sensor Test Template Edit.
   - Intent API to deploy, schedule, or edit and existing SENSOR test template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   _id:
     description: The sensor test template unique identifier, generated at test creation time.
@@ -23,7 +23,7 @@ options:
     description: Indication of inprogress action.
     type: str
   apCoverage:
-    description: Sensor Test Template Edit's apCoverage.
+    description: The WIFI bands where the test will be run.
     elements: dict
     suboptions:
       bands:
@@ -43,7 +43,7 @@ options:
     description: Encryption mode.
     type: str
   frequency:
-    description: Sensor Test Template Edit's frequency.
+    description: Frequency of the test.
     suboptions:
       unit:
         description: Unit of the time value (NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS).
@@ -59,7 +59,7 @@ options:
     description: Location string.
     type: str
   locationInfoList:
-    description: Sensor Test Template Edit's locationInfoList.
+    description: Location information list.
     elements: dict
     suboptions:
       allSensors:
@@ -98,14 +98,14 @@ options:
     description: Number of neighboring AP threshold.
     type: int
   profiles:
-    description: Sensor Test Template Edit's profiles.
+    description: Used for wired the profileName, deviceType, vlan, testMacAddress to use authentication info, etc.
     elements: dict
     suboptions:
       authProtocol:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EAP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       certdownloadurl:
         description: Certificate download URL.
@@ -136,17 +136,17 @@ options:
         description: External WEB Auth access URL.
         type: str
       extWebAuthHtmlTag:
-        description: Sensor Test Template Edit's extWebAuthHtmlTag.
+        description: Array of external WEB Auth information.
         elements: dict
         suboptions:
           label:
-            description: Label.
+            description: Sensor Test Template Edit's label.
             type: str
           tag:
-            description: Tag.
+            description: Sensor Test Template Edit's tag.
             type: str
           value:
-            description: Value.
+            description: Sensor Test Template Edit's value.
             type: str
         type: list
       extWebAuthPortal:
@@ -156,7 +156,7 @@ options:
         description: External WEB Auth virtual IP.
         type: str
       locationVlanList:
-        description: Sensor Test Template Edit's locationVlanList.
+        description: Array of site UUID-vlan map objects.
         elements: dict
         suboptions:
           locationId:
@@ -186,11 +186,11 @@ options:
         description: Secure certificate enrollment protocol true or false or null for not applicable.
         type: bool
       tests:
-        description: Sensor Test Template Edit's tests.
+        description: Array of test objects for this SSID.
         elements: dict
         suboptions:
           config:
-            description: Sensor Test Template Edit's config.
+            description: Array of config objects.
             elements: dict
             suboptions:
               direction:
@@ -314,7 +314,7 @@ options:
     description: Bit-wise value of scheduled test days.
     type: int
   sensors:
-    description: Sensor Test Template Edit's sensors.
+    description: Sensors.
     elements: dict
     suboptions:
       allSensorAddition:
@@ -330,7 +330,7 @@ options:
         description: Host name.
         type: str
       iPerfInfo:
-        description: Sensor Test Template Edit's iPerfInfo.
+        description: A string-stringList iPerf information.
         type: dict
       id:
         description: Sensor ID.
@@ -376,7 +376,7 @@ options:
         elements: str
         type: list
       testMacAddresses:
-        description: Sensor Test Template Edit's testMacAddresses.
+        description: A string-string test MAC address.
         type: dict
       wiredApplicationMessage:
         description: Wired application message.
@@ -395,14 +395,15 @@ options:
     description: Site hierarchy.
     type: str
   ssids:
-    description: Sensor Test Template Edit's ssids.
+    description: The list of SSIDs. Each SSID map has the ssid specific information as well as the test configurations to
+      be used in each ssid. Required at least 1 element.
     elements: dict
     suboptions:
       authProtocol:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X, OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EAP, WEB_AUTH, MAB, DOT1X, OTHER.
         type: str
       bands:
         description: WIFI bands 2.4GHz or 5GHz.
@@ -433,17 +434,17 @@ options:
         description: External WEB Auth access URL.
         type: str
       extWebAuthHtmlTag:
-        description: Sensor Test Template Edit's extWebAuthHtmlTag.
+        description: Array of external WEB Auth information.
         elements: dict
         suboptions:
           label:
-            description: Label.
+            description: Sensor Test Template Edit's label.
             type: str
           tag:
-            description: Tag.
+            description: Sensor Test Template Edit's tag.
             type: str
           value:
-            description: Value.
+            description: Sensor Test Template Edit's value.
             type: str
         type: list
       extWebAuthPortal:
@@ -510,11 +511,11 @@ options:
         description: WLAN status ENABLED or DISABLED.
         type: str
       tests:
-        description: Sensor Test Template Edit's tests.
+        description: Array of test objects for this SSID.
         elements: dict
         suboptions:
           config:
-            description: Sensor Test Template Edit's config.
+            description: Array of config objects.
             elements: dict
             suboptions:
               direction:
@@ -616,10 +617,10 @@ options:
             type: str
         type: list
       thirdParty:
-        description: Sensor Test Template Edit's thirdParty.
+        description: Indication of whether this SSID is third party (true or false).
         suboptions:
           selected:
-            description: true the SSID is third party.
+            description: True the SSID is third party.
             type: bool
         type: dict
       username:
@@ -661,7 +662,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors EditSensorTestTemplate

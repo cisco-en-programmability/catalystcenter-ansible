@@ -11,10 +11,10 @@ short_description: Information module for Images Addon Images
 description:
   - Get all Images Addon Images. - > Retrieves the list of applicable add-on images if available for the given software image.
     `id` can be obtained from the response of API /dna/intent/api/v1/images?hasAddonImages=true .
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
         to get the same.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImage

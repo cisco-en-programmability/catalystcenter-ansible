@@ -13,10 +13,10 @@ description:
     Proximity is defined as presence on the same floor at the same time as the specified wireless user. The Proximity workflow
     requires the subscription to the following event via the Event Notification workflow prior to making this API call NETWORK-CLIENTS-3-506
     - Client Proximity Report.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
         with a minimum 5 minutes.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Clients ClientProximity
@@ -63,7 +63,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    username: string
+    username: application/json
     number_days: 0
     time_resolution: 0
   register: result

@@ -13,39 +13,39 @@ description:
   - This API allows the user to create a custom Power Profile.
   - This API allows the user to delete an Power Profile by specifying the Power Profile ID.
   - This API allows the user to update a custom power Profile.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
-    description: Description of the Power Profile. Max allowed characters is 128.
+    description: Description of the Power Profile. Max length is 32 characters.
     type: str
   id:
     description: Id path parameter. Power Profile ID.
     type: str
   profileName:
-    description: Name of the Power Profile. Max allowed characters is 128.
+    description: Name of the Power Profile. Max length is 32 characters.
     type: str
   rules:
-    description: Wireless Settings Power Profiles's rules.
+    description: List of rules for Power Profile.
     elements: dict
     suboptions:
-      interfaceId:
-        description: Interface Id for the rule.
+      interfaceID:
+        description: Interface ID.
         type: str
       interfaceType:
-        description: Interface Type for the rule.
+        description: Interface Type.
         type: str
       parameterType:
-        description: Parameter Type for the rule.
+        description: Parameter Type.
         type: str
       parameterValue:
-        description: Parameter Value for the rule.
+        description: Parameter Value.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreatePowerProfile
@@ -70,23 +70,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.wireless_settings_power_profiles:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    profileName: string
-    rules:
-      - interfaceId: string
-        interfaceType: string
-        parameterType: string
-        parameterValue: string
 - name: Delete by id
   cisco.catalystcenter.wireless_settings_power_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -113,6 +96,23 @@ EXAMPLES = r"""
     profileName: string
     rules:
       - interfaceID: string
+        interfaceType: string
+        parameterType: string
+        parameterValue: string
+- name: Create
+  cisco.catalystcenter.wireless_settings_power_profiles:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    profileName: string
+    rules:
+      - interfaceId: string
         interfaceType: string
         parameterType: string
         parameterValue: string

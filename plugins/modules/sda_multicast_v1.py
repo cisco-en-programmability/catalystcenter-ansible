@@ -11,24 +11,17 @@ short_description: Resource module for Sda Multicast V1
 description:
   - Manage operation update of the resource Sda Multicast V1.
   - Updates a multicast configuration at a fabric level based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Sda Multicast V1's payload.
+    description: Multicast put request (multicast for only one fabric site can be edited in the put request).
     elements: dict
-    suboptions:
-      fabricId:
-        description: ID of the fabric site (updating this field is not allowed).
-        type: str
-      replicationMode:
-        description: Replication Mode deployed in the fabric site.
-        type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA UpdateMulticast
@@ -54,8 +47,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - fabricId: string
-        replicationMode: string
+      - {}
 """
 RETURN = r"""
 catalystcenter_response:

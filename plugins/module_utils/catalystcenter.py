@@ -1211,7 +1211,7 @@ class CatalystCenterBase:
             the site_id or fails the module with a clear error message if resolution fails.
             The function uses the site_exists() method to validate and retrieve the Global site ID.
         """
-        (site_exists, site_id) = self.site_exists("Global")
+        site_exists, site_id = self.site_exists("Global")
         if site_exists:
             self.log(
                 "Resolved Global site UUID for golden tagging workflow: {0}".format(
@@ -1222,8 +1222,9 @@ class CatalystCenterBase:
             return site_id
 
         self.log(
-            "Global site lookup did not return a valid site ID for Catalyst Center version {0}."
-            .format(self.get_ccc_version()),
+            "Global site lookup did not return a valid site ID for Catalyst Center version {0}.".format(
+                self.get_ccc_version()
+            ),
             "ERROR",
         )
         self.msg = "Unable to resolve the Global site ID in Cisco Catalyst Center."
@@ -2336,9 +2337,7 @@ class CatalystCenterBase:
         self.log(
             "Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, "
             "and failure reason set to '{1}', "
-            "Response: {2}".format(
-                task_id, all_failure_reason, self.pprint(response)
-            ),
+            "Response: {2}".format(task_id, all_failure_reason, self.pprint(response)),
             "DEBUG",
         )
         error_msg = ""
@@ -2866,7 +2865,9 @@ class CatalystCenterBase:
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg, all_reasons=None):
+    def get_task_status_from_tasks_by_id(
+        self, task_id, task_name, success_msg, all_reasons=None
+    ):
         """
         Retrieves and monitors the status of a task by its task ID.
         This function continuously checks the status of a specified task using its task ID.
@@ -3988,7 +3989,11 @@ class CatalystCenterSDK(object):
         try:
             request_params = params.copy() if isinstance(params, dict) else params
 
-            if isinstance(request_params, dict) and not self.validate_response_schema and op_modifies:
+            if (
+                isinstance(request_params, dict)
+                and not self.validate_response_schema
+                and op_modifies
+            ):
                 request_params["active_validation"] = False
                 logger.debug(
                     "Disabled active_validation for mutating REST API call: method=%s endpoint=%s",
@@ -4007,7 +4012,12 @@ class CatalystCenterSDK(object):
             }
             if isinstance(request_params, dict) and request_params:
                 known_request_keys = {
-                    "params", "payload", "data", "headers", "active_validation", "files"
+                    "params",
+                    "payload",
+                    "data",
+                    "headers",
+                    "active_validation",
+                    "files",
                 }
                 if known_request_keys.intersection(set(request_params.keys())):
                     call_api_kwargs.update(request_params)
@@ -4037,8 +4047,12 @@ class CatalystCenterSDK(object):
                     "An error occurred when executing REST API call with method '{method}' "
                     "and endpoint '{endpoint}'."
                     " The error was: status_code: {error_status},  {error}"
-                ).format(error_status=to_native(e.response.status_code), error=to_native(e.response.text),
-                         method=method, endpoint=endpoint)
+                ).format(
+                    error_status=to_native(e.response.status_code),
+                    error=to_native(e.response.text),
+                    method=method,
+                    endpoint=endpoint,
+                )
             )
 
         except exceptions.catalystcentersdkException as e:

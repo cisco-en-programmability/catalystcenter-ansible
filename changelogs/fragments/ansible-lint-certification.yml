@@ -1,9 +1,0 @@
----
-minor_changes:
-  - "Resolved all ansible-lint warnings against ansible-lint 24.12.2 to achieve a clean `production` profile across 4,615 files, enabling certification on Automation Hub."
-  - "Removed unnecessary yaml rule skips from `.ansible-lint` and replaced broad `tests` exclude path with explicit `tests/integration` and `tests/unit` entries."
-  - "Removed yamllint rule overrides from `.yamllint` that were suppressing violations rather than fixing them; violations are now addressed at source."
-  - "Fixed yaml line-length violations in `roles/assurance_device_health_score_settings_config_generator/tasks/main.yml` using block scalar syntax."
-  - "Fixed yaml document start markers in `plugins/inventory/catalystcenter.py` EXAMPLES block."
-  - "Added `catalystcenter.log` to `build_ignore` in `galaxy.yml` to prevent it being included in collection builds."
-  - "Added `.ansible/` to `.gitignore`."

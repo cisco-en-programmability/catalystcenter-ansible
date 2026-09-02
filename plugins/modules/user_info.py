@@ -11,10 +11,10 @@ short_description: Information module for User
 description:
   - Get all User.
   - Get all users in the system.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
         response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for User and Roles GetUsers
@@ -35,7 +35,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-users
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_users,
+    user_and_roles.UserAndRoles.get_users,
   - Paths used are
     get /dna/system/api/v1/user,
 """
@@ -74,7 +74,7 @@ catalystcenter_response:
           "userId": "string",
           "email": "string",
           "username": "string",
-          "rds": [
+          "accessGroups": [
             "string"
           ]
         }

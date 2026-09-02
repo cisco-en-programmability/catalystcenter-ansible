@@ -11,16 +11,16 @@ short_description: Resource module for Connection Mode Setting
 description:
   - Manage operation update of the resource Connection Mode Setting.
   - Update Cisco Smart Software Manager CSSM connection mode for the system.
-version_added: '6.17.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   connectionMode:
     description: The CSSM connection modes of Catalyst Center are DIRECT, ON_PREMISE and SMART_PROXY.
     type: str
   parameters:
-    description: Connection Mode Setting's parameters.
+    description: On-premise CSSM parameters.
     suboptions:
       clientId:
         description: On-premise CSSM client id.
@@ -36,7 +36,7 @@ options:
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses UpdateCSSMConnectionMode
@@ -44,7 +44,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
 notes:
   - SDK Method used are
-    licenses.Licenses.update_c_s_s_m_connection_mode,
+    licenses.Licenses.update_cssm_connection_mode,
   - Paths used are
     put /dna/intent/api/v1/connectionModeSetting,
 """
@@ -77,7 +77,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

@@ -11,24 +11,24 @@ short_description: Resource module for Sp Profile Delete V2
 description:
   - Manage operation delete of the resource Sp Profile Delete V2.
   - API to delete Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   spProfileName:
     description: SpProfileName path parameter. SP profile name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfileV2
-    description: Complete reference of the DeleteSPProfileV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfile
+    description: Complete reference of the DeleteSPProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile_v2,
+    network_settings.NetworkSettings.delete_sp_profile,
   - Paths used are
     delete /dna/intent/api/v2/sp-profile/{spProfileName},
 """

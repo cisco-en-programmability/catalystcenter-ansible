@@ -5,6 +5,15 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  # Cancel a superseded run for the same PR instead of letting it burn CI
+  # minutes alongside the new one.
+  group: ${{ github.workflow }}-${{ (github.head_ref && github.event.number) || github.run_id }}
+  cancel-in-progress: true
+
 env:
   NAMESPACE: cisco
   COLLECTION_NAME: catalystcenter
@@ -12,6 +21,7 @@ env:
 jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
+    timeout-minutes: 60
     strategy:
       matrix:
         ansible:
@@ -35,8 +45,36 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Set cache date key
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache ansible-core (devel) install
+        id: ansible_cache
+        uses: actions/cache@v4
+        with:
+          # The whole interpreter dir, not just site-packages: pip also
+          # drops the ansible/ansible-test console scripts under bin/, and
+          # those need to be restored too for a cache hit to actually work.
+          path: ${{ env.pythonLocation }}
+          # devel moves daily, so this is scoped to the day: at most one
+          # real download per day, reused by retries/re-runs in between.
+          key: ansible-devel-3.13-${{ steps.date.outputs.today }}
+
       - name: Install ansible-base (${{ matrix.ansible }})
+        if: steps.ansible_cache.outputs.cache-hit != 'true'
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Ensure swap space (4 GB)
+        run: |
+          if swapon --show | grep -q '^/mnt/swapfile'; then
+            echo "/mnt/swapfile already active, skipping"
+          else
+            sudo fallocate -l 4G /mnt/swapfile
+            sudo chmod 600 /mnt/swapfile
+            sudo mkswap /mnt/swapfile
+            sudo swapon /mnt/swapfile
+          fi
 
       - name: Get changed files
         id: changed_files
@@ -72,6 +110,12 @@ jobs:
             echo "Running targeted sanity tests on $file_count files..."
             ansible-test sanity --docker -v --color yes $testable_files
           else
+            # The full suite runs every test, import included. The action
+            # plugins defer their ansible-core imports (PEP 562 __getattr__ in
+            # plugins/action/*.py), so the import test no longer re-executes
+            # the ansible-core import graph once per file. The keepalive and
+            # the timeout stay: a full-collection run is still long enough for
+            # the runner to look idle.
             echo "Large changeset ($file_count files). Running full sanity tests..."
             while true; do echo "Sanity tests still running..."; sleep 60; done &
             KEEPALIVE_PID=$!

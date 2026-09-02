@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Rrm Fra Con
 description:
   - Get Feature Templates Wireless Rrm Fra Configurations by id.
   - This API allows users to retrieve a specific RRM FRA configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Id path parameter. RRM FRA Configuration Feature Template Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetRRMFRAConfigurationFeatureTemplate
@@ -32,7 +32,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-rrmfra-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.get_r_r_m_f_r_a_configuration_feature_template,
+    wireless.Wireless.get_rrm_fra_configuration_feature_template,
   - Paths used are
     get /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations/{id},
 """

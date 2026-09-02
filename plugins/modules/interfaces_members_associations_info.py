@@ -12,10 +12,10 @@ description:
   - Get all Interfaces Members Associations. - > Fetches the tags associated with the interfaces. Interfaces that don't have
     any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to group
     resources. When an interface is tagged, it is called a member of the tag.
-version_added: '6.15.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -29,7 +29,7 @@ options:
       - Limit query parameter. The number of records to show for this page. Minimum 1, maximum 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Tag RetrieveTagsAssociatedWithTheInterfaces
@@ -54,8 +54,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

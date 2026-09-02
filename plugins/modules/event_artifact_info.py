@@ -11,10 +11,10 @@ short_description: Information module for Event Artifact
 description:
   - Get all Event Artifact.
   - Gets the list of artifacts based on provided offset and limit.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -33,7 +33,7 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. # of records to return in result set.
+      - Limit query parameter. Number of records to return in result set.
     type: int
   sortBy:
     description:
@@ -48,7 +48,7 @@ options:
       - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management GetEventArtifacts
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     eventIds: string
     tags: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
     search: string
@@ -120,9 +120,7 @@ catalystcenter_response:
           },
           "additionalDetails": {}
         },
-        "eventTemplates": [
-          "string"
-        ],
+        "eventTemplates": [],
         "isTenantAware": true,
         "supportedConnectorTypes": [
           "string"
@@ -130,6 +128,14 @@ catalystcenter_response:
         "configs": {
           "isAlert": true,
           "isACKnowledgeable": true
+        },
+        "policy": {
+          "rate": {
+            "limits": {
+              "day": 0
+            }
+          },
+          "policyType": "string"
         },
         "tenantId": "string"
       }

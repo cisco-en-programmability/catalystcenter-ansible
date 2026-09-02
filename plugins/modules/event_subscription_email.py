@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Event Subscription Email.
   - Create Email Subscription Endpoint for list of registered events.
   - Update Email Subscription Endpoint for list of registered events.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Event Subscription Email's payload.
@@ -25,10 +25,10 @@ options:
         description: Description.
         type: str
       filter:
-        description: Event Subscription Email's filter.
+        description: Filter.
         suboptions:
           categories:
-            description: Categories.
+            description: Event Subscription Email's categories.
             elements: str
             type: list
           domainsSubdomains:
@@ -36,31 +36,31 @@ options:
             elements: dict
             suboptions:
               domain:
-                description: Domain.
+                description: Event Subscription Email's domain.
                 type: str
               subDomains:
-                description: Sub Domains.
+                description: Event Subscription Email's subDomains.
                 elements: str
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated event ids).
+            description: Event Subscription Email's eventIds.
             elements: str
             type: list
           severities:
-            description: Severities.
-            elements: str
+            description: Event Subscription Email's severities.
+            elements: int
             type: list
           siteIds:
-            description: Site Ids.
+            description: Event Subscription Email's siteIds.
             elements: str
             type: list
           sources:
-            description: Sources.
+            description: Event Subscription Email's sources.
             elements: str
             type: list
           types:
-            description: Types.
+            description: Event Subscription Email's types.
             elements: str
             type: list
         type: dict
@@ -68,18 +68,34 @@ options:
         description: Name.
         type: str
       subscriptionEndpoints:
-        description: Event Subscription Email's subscriptionEndpoints.
+        description: Subscription Endpoints.
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
+            description: (From Get Email Subscription Details --> pick InstanceId if available).
             type: str
           subscriptionDetails:
-            description: Event Subscription Email's subscriptionDetails.
+            description: Subscription Details.
             suboptions:
               connectorType:
-                description: Connector Type (Must be REST).
+                description: Connector Type (Must be EMAIL).
                 type: str
+              description:
+                description: Event Subscription Email's description.
+                type: str
+              fromEmailAddress:
+                description: Senders Email Address.
+                type: str
+              name:
+                description: Event Subscription Email's name.
+                type: str
+              subject:
+                description: Email Subject.
+                type: str
+              toEmailAddresses:
+                description: Recipient's Email Addresses (Comma separated).
+                elements: str
+                type: list
             type: dict
         type: list
       subscriptionId:
@@ -90,7 +106,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CreateEmailEventSubscription
@@ -132,7 +148,7 @@ EXAMPLES = r"""
           eventIds:
             - string
           severities:
-            - string
+            - 0
           siteIds:
             - string
           sources:
@@ -144,6 +160,12 @@ EXAMPLES = r"""
           - instanceId: string
             subscriptionDetails:
               connectorType: string
+              description: string
+              fromEmailAddress: string
+              name: string
+              subject: string
+              toEmailAddresses:
+                - string
         subscriptionId: string
         version: string
 - name: Update all
@@ -168,7 +190,7 @@ EXAMPLES = r"""
           eventIds:
             - string
           severities:
-            - string
+            - 0
           siteIds:
             - string
           sources:
@@ -180,6 +202,12 @@ EXAMPLES = r"""
           - instanceId: string
             subscriptionDetails:
               connectorType: string
+              description: string
+              fromEmailAddress: string
+              name: string
+              subject: string
+              toEmailAddresses:
+                - string
         subscriptionId: string
         version: string
 """

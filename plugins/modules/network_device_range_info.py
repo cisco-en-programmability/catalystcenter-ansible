@@ -11,10 +11,10 @@ short_description: Information module for Network Device Range
 description:
   - Get all Network Device Range. - > Returns the list of network devices for the given pagination range. The maximum number
     of records that can be retrieved is 500.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
       - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn <= 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetNetworkDeviceByPaginationRange

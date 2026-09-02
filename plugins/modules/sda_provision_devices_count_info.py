@@ -11,20 +11,20 @@ short_description: Information module for Sda Provision Devices Count
 description:
   - Get all Sda Provision Devices Count.
   - Returns the count of provisioned devices based on query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   siteId:
     description:
-      - SiteId query parameter. ID of the site. This will fetch all the devices in this site hierarchy.
+      - SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetProvisionedDevicesCount

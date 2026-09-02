@@ -13,17 +13,17 @@ description:
   - Creates a building in the network hierarchy under area. - > Deletes building in the network hierarchy. This operations
     fails if there are any floors for this building, or if there are any devices assigned to this building.
   - Updates a building in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   address:
-    description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States. Please
-      note that if only the address is provided when creating a building, the UI will not display the geo-location on the
-      map. To ensure the location is rendered, you must also provide the latitude and longitude. If a building has been created
-      without these coordinates and you wish to display its geo-location on the map later, you can edit the building details
-      via the UI to include the latitude and longitude. This limitation will be resolved in a future release.
+    description: Building address. Please note that if only the address is provided when creating a building, the UI will
+      not display the geo-location on the map. To ensure the location is rendered, you must also provide the latitude and
+      longitude. If a building has been created without these coordinates and you wish to display its geo-location on the
+      map later, you can edit the building details via the UI to include the latitude and longitude. This limitation will
+      be resolved in a future release.
     type: str
   country:
     description: Country name.
@@ -32,35 +32,45 @@ options:
     description: Id path parameter. Building ID.
     type: str
   latitude:
-    description: Building Latitude. Example 37.403712.
+    description: Building Latitude.
     type: float
   longitude:
-    description: Building Longitude. Example -121.971063.
+    description: Building Longitude.
     type: float
   name:
     description: Building name.
     type: str
+  nameHierarchy:
+    description: Building hierarchical name.
+    type: str
   parentId:
     description: Parent Id.
     type: str
+  siteHierarchyId:
+    description: Building Hierarchical Id. Can be used to add the access groups using the API POST /dna/system/api/v1/accessGroups,
+      this value should be used to populate the srcResourceId field of the request payload.
+    type: str
+  type:
+    description: Site type.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design CreatesABuildingV2
-    description: Complete reference of the CreatesABuildingV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2
-  - name: Cisco Catalyst Center documentation for Site Design DeletesABuildingV2
-    description: Complete reference of the DeletesABuildingV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2
-  - name: Cisco Catalyst Center documentation for Site Design UpdatesABuildingV2
-    description: Complete reference of the UpdatesABuildingV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2
+  - name: Cisco Catalyst Center documentation for Site Design CreatesABuilding
+    description: Complete reference of the CreatesABuilding API.
+    link: https://developer.cisco.com/docs/dna-center/#!creates-a-building
+  - name: Cisco Catalyst Center documentation for Site Design DeletesABuilding
+    description: Complete reference of the DeletesABuilding API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building
+  - name: Cisco Catalyst Center documentation for Site Design UpdatesABuilding
+    description: Complete reference of the UpdatesABuilding API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-a-building
 notes:
   - SDK Method used are
-    site_design.SiteDesign.creates_a_building_v2,
-    site_design.SiteDesign.deletes_a_building_v2,
-    site_design.SiteDesign.updates_a_building_v2,
+    site_design.SiteDesign.creates_a_building,
+    site_design.SiteDesign.deletes_a_building,
+    site_design.SiteDesign.updates_a_building,
   - Paths used are
     post /dna/intent/api/v2/buildings,
     delete /dna/intent/api/v2/buildings/{id},
@@ -69,22 +79,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.buildings:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    address: string
-    country: string
-    latitude: 0
-    longitude: 0
-    name: string
-    parentId: string
 - name: Delete by id
   cisco.catalystcenter.buildings:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -106,13 +100,33 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
+    country: United States
+    id: string
+    latitude: 37.403712
+    longitude: -121.971063
+    name: Building1
+    parentId: afc10815-a714-4b11-a1dd-f735294462db
+    type: building
+- name: Create
+  cisco.catalystcenter.buildings:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
     address: string
     country: string
     id: string
     latitude: 0
     longitude: 0
     name: string
+    nameHierarchy: string
     parentId: string
+    siteHierarchyId: string
+    type: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -121,9 +135,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

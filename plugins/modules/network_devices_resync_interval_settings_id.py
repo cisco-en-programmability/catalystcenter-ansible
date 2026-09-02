@@ -11,10 +11,10 @@ short_description: Resource module for Network Devices Resync Interval Settings 
 description:
   - Manage operation update of the resource Network Devices Resync Interval Settings Id.
   - Update the resync interval in minutes for the given network device id.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The id of the network device.
@@ -24,7 +24,7 @@ options:
       use global settings, set interval as `null`.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateResyncIntervalForTheNetworkDevice

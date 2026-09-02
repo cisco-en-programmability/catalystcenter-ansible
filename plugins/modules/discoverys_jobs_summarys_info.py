@@ -11,16 +11,49 @@ short_description: Information module for Discoverys Jobs Summarys
 description:
   - Get all Discoverys Jobs Summarys. - > API to fetch the summary of all discoveries. The response includes the basic details
     of all discoveries, latest job status and the number of reachable devices.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id query parameter. Optional list of the discovery ids to filter by.
+    elements: str
+    type: list
+  name:
+    description:
+      - >
+        Name query parameter. Optional name of the discovery to filter by. This supports partial search. For
+        example, searching for "Disc" will match "Discovery1", "Discovery2", etc.
+    type: str
+  limit:
+    description:
+      - Limit query parameter. The number of records to show for this page.
+    type: int
+  offset:
+    description:
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
+  orderBy:
+    description:
+      - >
+        OrderBy query parameter. To fetch the latest discovery job. Use the orderBy query parameter with values
+        such as lastUpdatedDate, startTime and endTime. By default, jobs are ordered by lastUpdatedDate display
+        the most recent entries first.
+    type: str
+  order:
+    description:
+      - >
+        Order query parameter. To fetch the latest discovery job. Use the order query parameter with values such
+        as asc or des. By default, jobs are ordered by descending order to display the most recent entries
+        first.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices FetchesTheSummaryOfAllDiscoveriesWithLatestJobs
@@ -45,6 +78,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    id: [12, 13]
+    name: string
+    limit: 0
+    offset: 1
+    orderBy: string
+    order: string
   register: result
 """
 RETURN = r"""
@@ -54,95 +93,19 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "name": "string",
-        "managementIpSelectionMethod": "string",
-        "discoveryTypeDetails": {
-          "type": "string",
-          "ipAddress": "string",
-          "range": [
-            {
-              "ipAddressStart": "string",
-              "ipAddressEnd": "string"
-            }
-          ],
-          "cidrAddress": {
-            "cidrPrefix": "string",
-            "cidrSuffix": 0
-          },
-          "subnetFilter": {
-            "ipAddress": "string",
-            "cidrAddress": {
-              "cidrPrefix": "string",
-              "cidrSuffix": 0
-            }
-          },
-          "hopCount": 0
-        },
-        "onlyNewDevice": true,
-        "updateManagementIp": true,
-        "credentials": {
-          "cli": {
-            "description": "string",
-            "username": "string",
-            "globalCredentialIdList": [
-              "string"
-            ],
-            "protocolOrder": "string"
-          },
-          "snmp": {
-            "snmpV2Read": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV2Write": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV3": {
-              "description": "string",
-              "mode": "string",
-              "username": "string",
-              "authType": "string",
-              "privacyType": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "retries": 0,
-            "timeout": 0
-          },
-          "httpRead": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "httpWrite": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "netconf": {
-            "port": 0,
-            "description": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          }
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "discoveryTypeDetails": {},
+          "jobId": "string",
+          "status": "string",
+          "startTime": 0,
+          "endTime": 0,
+          "reachableDevices": 0,
+          "lastUpdatedDate": 0
         }
-      },
+      ],
       "version": "string"
     }
 """

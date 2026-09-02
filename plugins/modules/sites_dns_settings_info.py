@@ -9,12 +9,12 @@ DOCUMENTATION = r"""
 module: sites_dns_settings_info
 short_description: Information module for Sites Dns Settings
 description:
-  - Get all Sites Dns Settings. - > Retrieve DNS settings for a site; `null` values indicate that the setting will be inherited
-    from the parent site; empty objects `{}` indicate that the setting is unset at a site.
-version_added: '6.15.0'
+  - Get all Sites Dns Settings.
+  - Retrieves domain name and DNS servers for the given site.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -31,7 +31,7 @@ options:
         setting from the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings RetrieveDNSSettingsForASite
@@ -39,7 +39,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-dns-settings-for-a-site
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.retrieve_d_n_s_settings_for_a_site,
+    network_settings.NetworkSettings.retrieve_dns_settings_for_a_site,
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/dnsSettings,
 """
@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     _inherited: true
-    id: string
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
   register: result
 """
 RETURN = r"""
@@ -68,14 +68,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "dns": {
-          "domainName": "string",
-          "dnsServers": [
-            "string"
-          ],
-          "inheritedSiteId": "string",
-          "inheritedSiteName": "string"
-        }
+        "dns": {}
       },
       "version": "string"
     }

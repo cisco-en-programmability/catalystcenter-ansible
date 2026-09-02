@@ -11,10 +11,10 @@ short_description: Information module for System Health
 description:
   - Get all System Health.
   - This API retrieves the latest system events.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -48,7 +48,7 @@ options:
         Must be an integer greater than or equal to 0.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Health and Performance SystemHealthAPI
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     summary: true
     domain: string
     subdomain: string
-    limit: 0
+    limit: 20
     offset: 0
   register: result
 """
@@ -89,7 +89,7 @@ catalystcenter_response:
     {
       "healthEvents": [
         {
-          "severity": "string",
+          "severity": 0,
           "hostname": "string",
           "instance": "string",
           "subDomain": "string",

@@ -11,16 +11,15 @@ short_description: Information module for Sda Virtual Network Ip Pool
 description:
   - Get all Sda Virtual Network Ip Pool.
   - Get IP Pool from SDA Virtual Network.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   siteNameHierarchy:
-    version_added: "4.0.0"
     description:
       - SiteNameHierarchy query parameter.
     type: str
@@ -29,14 +28,13 @@ options:
       - VirtualNetworkName query parameter.
     type: str
   ipPoolName:
-    version_added: "4.0.0"
     description:
       - >
         IpPoolName query parameter. IpPoolName. Note Use vlanName as a value for this parameter if same ip pool
         is assigned to multiple virtual networks (e.g.. IpPoolName=vlan1021).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetIPPoolFromSDAVirtualNetwork
@@ -61,9 +59,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteNameHierarchy: string
-    virtualNetworkName: string
-    ipPoolName: string
+    siteNameHierarchy: application/json
+    virtualNetworkName: application/json
+    ipPoolName: application/json
   register: result
 """
 RETURN = r"""

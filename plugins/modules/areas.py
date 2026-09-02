@@ -13,10 +13,10 @@ description:
   - Creates an area in the network hierarchy. - > Deletes an area in the network hierarchy. This operations fails if there
     are any child areas or buildings for this area.
   - Updates an area in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Area ID.
@@ -24,11 +24,21 @@ options:
   name:
     description: Area name.
     type: str
+  nameHierarchy:
+    description: Area hierarchical name.
+    type: str
   parentId:
     description: Parent Id.
     type: str
+  siteHierarchyId:
+    description: Area Hierarchical Id. Can be used to add the access groups using the API POST /dna/system/api/v1/accessGroups,
+      this value should be used to populate the srcResourceId field of the request payload.
+    type: str
+  type:
+    description: Site type.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design CreatesAnArea
@@ -53,18 +63,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.areas:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    name: string
-    parentId: string
 - name: Delete by id
   cisco.catalystcenter.areas:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -88,7 +86,26 @@ EXAMPLES = r"""
     state: present
     id: string
     name: string
+    nameHierarchy: string
     parentId: string
+    siteHierarchyId: string
+    type: string
+- name: Create
+  cisco.catalystcenter.areas:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    id: string
+    name: string
+    nameHierarchy: string
+    parentId: string
+    siteHierarchyId: string
+    type: string
 """
 RETURN = r"""
 catalystcenter_response:
@@ -97,9 +114,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

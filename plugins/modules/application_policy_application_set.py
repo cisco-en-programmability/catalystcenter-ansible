@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Application Policy Application Set.
   - Create new custom application set/s.
   - Delete existing custom application set by id.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of custom application set to delete.
@@ -47,19 +47,19 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSetsV2
-    description: Complete reference of the CreateApplicationSetsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-application-sets-v-2
-  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSetV2
-    description: Complete reference of the DeleteApplicationSetV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSets
+    description: Complete reference of the CreateApplicationSets API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-application-sets
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSet
+    description: Complete reference of the DeleteApplicationSet API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_sets_v2,
-    application_policy.ApplicationPolicy.delete_application_set_v2,
+    application_policy.ApplicationPolicy.create_application_sets,
+    application_policy.ApplicationPolicy.delete_application_set,
   - Paths used are
     post /dna/intent/api/v2/application-policy-application-set,
     delete /dna/intent/api/v2/application-policy-application-set/{id},

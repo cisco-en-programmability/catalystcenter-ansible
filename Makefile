@@ -20,6 +20,8 @@ help:
 	@echo "  info             to show infos about the collection"
 	@echo "  sanity           to run santy tests"
 	@echo "  setup            to set up test, lint"
+	@echo "  changelog        to regenerate changelogs/CHANGELOG.rst from changelog.yaml"
+	@echo "  changelog-lint   to lint changelog fragments and changelog.yaml"
 
 setup: test-setup
 
@@ -44,6 +46,15 @@ doc: $(MANIFEST)
 	mkdir -p ./docs/plugins
 	antsibull-docs collection --use-current --squash-hierarchy --dest-dir ./docs/plugins $(NAMESPACE).$(NAME)
 	make -C docs html
+
+changelog-lint:
+	antsibull-changelog lint
+
+# Regenerates changelogs/CHANGELOG.rst from changelogs/changelog.yaml.
+# Run this after every release (i.e. after `antsibull-changelog release`
+# has cut a new version) so the RST changelog stays in sync.
+changelog:
+	antsibull-changelog generate
 
 
 FORCE:

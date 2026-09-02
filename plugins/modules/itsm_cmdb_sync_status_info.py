@@ -13,10 +13,10 @@ description:
     "status","date".The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD"
     format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail
     will be send as response.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,7 +32,7 @@ options:
       - Date query parameter. Provide date in "YYYY-MM-DD" format.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for ITSM GetCMDBSyncStatus
@@ -57,8 +57,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    status: string
-    date: string
+    status: application/json
+    date: application/json
   register: result
 """
 RETURN = r"""

@@ -11,13 +11,14 @@ short_description: Resource module for Application Visibility Network Devices En
 description:
   - Manage operation create of the resource Application Visibility Network Devices Enable App Telemetry.
   - This API can be used to enable application telemetry feature on multiple network devices.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkDevices:
-    description: Application Visibility Network Devices Enable App Telemetry's networkDevices.
+    description: List of network devices where application telemetry has to be enabled. Please note that `includeWlanModes`
+      and `includeGuestSsids` attributes are applicable only for wireless devices.
     elements: dict
     suboptions:
       id:
@@ -34,7 +35,7 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevices

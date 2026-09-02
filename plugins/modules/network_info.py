@@ -11,10 +11,10 @@ short_description: Information module for Network
 description:
   - Get all Network.
   - API to get DHCP and DNS center server details.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,15 +24,15 @@ options:
       - SiteId query parameter. Site id to get the network settings associated with the site.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings GetNetwork
-    description: Complete reference of the GetNetwork API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-network
+  - name: Cisco Catalyst Center documentation for Network Settings GetNetworkV1
+    description: Complete reference of the GetNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_network,
+    network_settings.NetworkSettings.get_network_v1,
   - Paths used are
     get /dna/intent/api/v1/network,
 """
@@ -49,37 +49,30 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
+    siteId: application/json
   register: result
 """
 RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "response": [
-        {
-          "instanceType": "string",
-          "instanceUuid": "string",
-          "namespace": "string",
-          "type": "string",
-          "key": "string",
-          "version": 0,
-          "value": [
-            {
-              "ipAddresses": [
-                "string"
-              ],
-              "configureDnacIP": true
-            }
-          ],
-          "groupUuid": "string",
-          "inheritedGroupUuid": "string",
-          "inheritedGroupName": "string"
-        }
-      ],
-      "version": "string"
-    }
+    [
+      {
+        "instanceType": "string",
+        "instanceUuid": "string",
+        "namespace": "string",
+        "type": "string",
+        "key": "string",
+        "version": 0,
+        "value": [
+          "string"
+        ],
+        "groupUuid": "string",
+        "inheritedGroupUuid": "string",
+        "inheritedGroupName": "string"
+      }
+    ]
 """

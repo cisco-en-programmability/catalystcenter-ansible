@@ -390,18 +390,31 @@ class BrownFieldHelper:
                     continue
 
                 # Check for missing required filters in this entry
-                for req_filter_name, req_filter_spec in valid_filters_for_component.items():
-                    if req_filter_spec.get("required", False) and req_filter_name not in component_filter:
+                for (
+                    req_filter_name,
+                    req_filter_spec,
+                ) in valid_filters_for_component.items():
+                    if (
+                        req_filter_spec.get("required", False)
+                        and req_filter_name not in component_filter
+                    ):
                         invalid_filters.append(
                             "Component '{0}' filter entry {1}/{2} is missing required filter '{3}'".format(
-                                component_name, index, len(component_filters), req_filter_name
+                                component_name,
+                                index,
+                                len(component_filters),
+                                req_filter_name,
                             )
                         )
 
                 for filter_name, filter_value in component_filter.items():
                     self.log(
                         "Processing filter '{0}' in entry {1}/{2} for component '{3}': value={4}".format(
-                            filter_name, index, len(component_filters), component_name, filter_value
+                            filter_name,
+                            index,
+                            len(component_filters),
+                            component_name,
+                            filter_value,
                         ),
                         "DEBUG",
                     )
@@ -523,7 +536,10 @@ class BrownFieldHelper:
                         self.log(
                             "Validating list elements for component '{0}' filter '{1}': "
                             "element_type='{2}', element_count={3}.".format(
-                                component_name, filter_name, element_type, len(filter_value)
+                                component_name,
+                                filter_name,
+                                element_type,
+                                len(filter_value),
                             ),
                             "DEBUG",
                         )
@@ -590,7 +606,11 @@ class BrownFieldHelper:
                             self.log(
                                 "Validating nested key '{0}' in component '{1}' filter '{2}': "
                                 "expected_type='{3}', value={4}.".format(
-                                    nested_key, component_name, filter_name, nested_type, nested_value
+                                    nested_key,
+                                    component_name,
+                                    filter_name,
+                                    nested_type,
+                                    nested_value,
                                 ),
                                 "DEBUG",
                             )
@@ -627,7 +647,12 @@ class BrownFieldHelper:
                                 self.log(
                                     "Checking range for nested key '{0}' in component '{1}' filter '{2}': "
                                     "value={3}, range=[{4}, {5}].".format(
-                                        nested_key, component_name, filter_name, nested_value, min_val, max_val
+                                        nested_key,
+                                        component_name,
+                                        filter_name,
+                                        nested_value,
+                                        min_val,
+                                        max_val,
                                     ),
                                     "DEBUG",
                                 )
@@ -652,7 +677,11 @@ class BrownFieldHelper:
                                 self.log(
                                     "Checking pattern for nested key '{0}' in component '{1}' filter '{2}': "
                                     "value='{3}', pattern='{4}'.".format(
-                                        nested_key, component_name, filter_name, nested_value, pattern
+                                        nested_key,
+                                        component_name,
+                                        filter_name,
+                                        nested_value,
+                                        pattern,
                                     ),
                                     "DEBUG",
                                 )
@@ -752,13 +781,10 @@ class BrownFieldHelper:
                 "Original count: {1}, After dedup: {2}".format(
                     duplicates_removed, original_count, len(components_list)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
-            self.log(
-                "No duplicate components found in components_list.",
-                "DEBUG"
-            )
+            self.log("No duplicate components found in components_list.", "DEBUG")
 
         # Update the components_list in the config
         component_specific_filters["components_list"] = components_list
@@ -852,7 +878,9 @@ class BrownFieldHelper:
 
             if not filters:
                 self.log(
-                    "Filters list for component '{0}' is empty, skipping.".format(component),
+                    "Filters list for component '{0}' is empty, skipping.".format(
+                        component
+                    ),
                     "DEBUG",
                 )
                 continue
@@ -925,8 +953,7 @@ class BrownFieldHelper:
                 self.log(
                     "Removed {0} duplicate filter(s) from component '{1}'. "
                     "Original count: {2}, After dedup: {3}".format(
-                        duplicates_removed, component,
-                        len(filters), len(unique_filters)
+                        duplicates_removed, component, len(filters), len(unique_filters)
                     ),
                     "INFO",
                 )
@@ -1144,7 +1171,10 @@ class BrownFieldHelper:
         self.validate_config_filters_against_temp_spec(config_dict, temp_spec)
 
         component_specific_filters = config_dict.get("component_specific_filters")
-        if "component_specific_filters" in config_dict and component_specific_filters is None:
+        if (
+            "component_specific_filters" in config_dict
+            and component_specific_filters is None
+        ):
             self.msg = (
                 "Invalid playbook config: 'component_specific_filters' cannot be null when provided. "
                 "Provide at least one filter or omit 'component_specific_filters'."
@@ -1432,7 +1462,10 @@ class BrownFieldHelper:
         )
 
     def yaml_config_generator(
-        self, yaml_config_generator, additional_header_comments=None, dumper=OrderedDumper
+        self,
+        yaml_config_generator,
+        additional_header_comments=None,
+        dumper=OrderedDumper,
     ):
         """
         Generates a YAML configuration file based on the provided parameters.
@@ -1997,7 +2030,9 @@ class BrownFieldHelper:
 
             if not content.strip():
                 self.log(
-                    "File '{0}' is empty or contains only whitespace, returning None".format(file_path),
+                    "File '{0}' is empty or contains only whitespace, returning None".format(
+                        file_path
+                    ),
                     "DEBUG",
                 )
                 return None
@@ -2017,8 +2052,9 @@ class BrownFieldHelper:
             last_doc = yaml.safe_load(content)
 
             self.log(
-                "Extracted last YAML document from '{0}', content: {1}"
-                .format(file_path, last_doc),
+                "Extracted last YAML document from '{0}', content: {1}".format(
+                    file_path, last_doc
+                ),
                 "DEBUG",
             )
 
@@ -2035,9 +2071,7 @@ class BrownFieldHelper:
 
         except (IOError, OSError) as io_err:
             self.log(
-                "File read error for '{0}': {1}".format(
-                    file_path, str(io_err)
-                ),
+                "File read error for '{0}': {1}".format(file_path, str(io_err)),
                 "ERROR",
             )
             return None
@@ -2074,9 +2108,7 @@ class BrownFieldHelper:
         )
 
         lines = content.splitlines()
-        filtered_lines = [
-            line for line in lines if not line.strip().startswith("#")
-        ]
+        filtered_lines = [line for line in lines if not line.strip().startswith("#")]
 
         self.log(
             "Stripped comment lines from content. "
@@ -2154,7 +2186,11 @@ class BrownFieldHelper:
             # Use --- separator only for overwrite mode or when file doesn't exist yet.
             # In append mode, skip --- so the file remains a single YAML document
             # where the last config: key wins (history-style structure).
-            if file_mode == "append" and os.path.isfile(file_path) and os.path.getsize(file_path) > 0:
+            if (
+                file_mode == "append"
+                and os.path.isfile(file_path)
+                and os.path.getsize(file_path) > 0
+            ):
                 self.log(
                     "Append mode with non-empty existing file '{0}'. Building YAML "
                     "content without document separator.".format(file_path),
@@ -2191,10 +2227,14 @@ class BrownFieldHelper:
                         "DEBUG",
                     )
 
-                    if self.strip_comment_lines(existing_content) == self.strip_comment_lines(yaml_content):
+                    if self.strip_comment_lines(
+                        existing_content
+                    ) == self.strip_comment_lines(yaml_content):
                         self.log(
                             "Overwrite mode: File '{0}' already has identical YAML content "
-                            "after excluding header comments. Skipping write.".format(file_path),
+                            "after excluding header comments. Skipping write.".format(
+                                file_path
+                            ),
                             "INFO",
                         )
                         return False
@@ -2207,27 +2247,35 @@ class BrownFieldHelper:
 
                 except Exception as e:
                     self.log(
-                        "Could not read existing file for comparison, proceeding with write: {0}".format(str(e)),
+                        "Could not read existing file for comparison, proceeding with write: {0}".format(
+                            str(e)
+                        ),
                         "DEBUG",
                     )
 
             elif file_mode == "overwrite":
                 self.log(
-                    "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "Overwrite mode: No existing file at '{0}'. Skipping idempotency check.".format(
+                        file_path
+                    ),
                     "DEBUG",
                 )
 
             if file_mode == "append" and os.path.isfile(file_path):
                 self.log(
                     "Append mode: Existing file found at '{0}'. "
-                    "Starting idempotency check by comparing last YAML document.".format(file_path),
+                    "Starting idempotency check by comparing last YAML document.".format(
+                        file_path
+                    ),
                     "DEBUG",
                 )
 
                 last_doc = self._get_last_yaml_document(file_path)
 
                 self.log(
-                    "Append mode: Last document from '{0}': {1}".format(file_path, last_doc),
+                    "Append mode: Last document from '{0}': {1}".format(
+                        file_path, last_doc
+                    ),
                     "DEBUG",
                 )
 
@@ -2240,13 +2288,17 @@ class BrownFieldHelper:
                     return False
 
                 self.log(
-                    "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(file_path),
+                    "Append mode: Last document differs from new data for '{0}'. Proceeding with append.".format(
+                        file_path
+                    ),
                     "DEBUG",
                 )
 
             elif file_mode == "append":
                 self.log(
-                    "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(file_path),
+                    "Append mode: No existing file at '{0}'. Skipping idempotency check.".format(
+                        file_path
+                    ),
                     "DEBUG",
                 )
 
@@ -3122,7 +3174,9 @@ class BrownFieldHelper:
                 "site_id_name_mapping not passed as parameter, creating mapping from API",
                 "INFO",
             )
-            site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
+            site_id_name_mapping = self.get_site_id_name_mapping(
+                site_ids_of_fabric_sites
+            )
 
         for fabric_site in fabric_sites:
             fabric_id = fabric_site.get("id")

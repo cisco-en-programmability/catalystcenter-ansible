@@ -11,10 +11,10 @@ short_description: Resource module for License Device Registration
 description:
   - Manage operation update of the resource License Device Registration.
   - Register devices in CSSM Cisco Smart Software Manager .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   device_uuids:
     description: Comma separated device ids.
@@ -24,7 +24,7 @@ options:
     description: Virtual_account_name path parameter. Name of virtual account.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses DeviceRegistration

@@ -12,16 +12,16 @@ description:
   - Manage operation update of the resource Network Devices Resync Interval Settings. - > Updates the resync interval in minutes
     globally for devices which do not have custom resync interval. To override this setting for all network devices refer
     to /networkDevices/resyncIntervalSettings/override .
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   interval:
     description: Resync Interval should be between 360 to 1440 minutes.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateGlobalResyncInterval

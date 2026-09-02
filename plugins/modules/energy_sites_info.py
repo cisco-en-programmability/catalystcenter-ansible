@@ -11,18 +11,12 @@ short_description: Information module for Energy Sites
 description:
   - Get all Energy Sites.
   - Get Energy Sites by id.
-  - Retrieve the energy summary data for a specific site based on the site ID.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
-  - Retrieves a list of sites with energy data based on the specified query parameters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
-version_added: '6.18.0'
+  - Retrieve the energy summary data for a specific site based on the site ID. For.
+  - Retrieves a list of sites with energy data based on the specified query.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -114,10 +108,10 @@ options:
       - >
         Views query parameter. The specific summary view being requested. This is an optional parameter which
         can be passed to get one or more of the specific health data summaries associated with sites. ###
-        Response data proviced by each view 1. **Site** id, siteHierarchy, siteHierarchyId, siteType, latitude,
-        longitude 2. **Energy** energyConsumed, estimatedCost, estimatedEmission, carbonIntensity,
-        numberOfDevices When this query parameter is not added the default summaries are **site,energy**
-        Examples views=site (single view requested) views=site,energy (multiple views requested).
+        Response data proviced by each view 1. Site id, siteHierarchy, siteHierarchyId, siteType, latitude,
+        longitude 2. Energy energyConsumed, estimatedCost, estimatedEmission, carbonIntensity, numberOfDevices
+        When this query parameter is not added the default summaries are site,energy Examples views=site (single
+        view requested) views=site,energy (multiple views requested).
     type: str
   attribute:
     description:
@@ -138,7 +132,7 @@ options:
       - Id path parameter. The UUID of the Site. (Ex. "6bef213c-19ca-4170-8375-b694e251101c").
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites GetSiteEnergyByID

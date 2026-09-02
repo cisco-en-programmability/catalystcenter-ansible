@@ -11,24 +11,24 @@ short_description: Information module for Issues Enrichment Details
 description:
   - Get all Issues Enrichment Details. - > Enriches a given network issue context an issue id or end user's Mac Address with
     details about the issues, impacted hosts and suggested actions for remediation.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Issues GetIssueEnrichmentDetails
-    description: Complete reference of the GetIssueEnrichmentDetails API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
+  - name: Cisco Catalyst Center documentation for Issues GetIssueEnrichmentDetailsV1
+    description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details-v-1
 notes:
   - SDK Method used are
-    issues.Issues.get_issue_enrichment_details,
+    issues.Issues.get_issue_enrichment_details_v1,
   - Paths used are
     get /dna/intent/api/v1/issue-enrichment-details,
 """
@@ -71,7 +71,7 @@ catalystcenter_response:
             {
               "message": "string",
               "steps": [
-                "string"
+                {}
               ]
             }
           ],

@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Edge Device.
   - Add edge device in SDA Fabric.
   - Delete edge device from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
     description: DeviceManagementIpAddress query parameter.
@@ -23,9 +23,8 @@ options:
   siteNameHierarchy:
     description: SiteNameHierarchy of the Provisioned Device(site should be part of Fabric Site).
     type: str
-    version_added: 4.0.0
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddEdgeDeviceInSDAFabric
@@ -55,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    deviceManagementIpAddress: string
+    deviceManagementIpAddress: application/json
 - name: Create
   cisco.catalystcenter.sda_fabric_edge_device:
     catalystcenter_host: "{{catalystcenter_host}}"

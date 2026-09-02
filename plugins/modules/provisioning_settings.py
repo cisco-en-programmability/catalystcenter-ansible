@@ -11,10 +11,10 @@ short_description: Resource module for Provisioning Settings
 description:
   - Manage operation update of the resource Provisioning Settings.
   - Sets provisioning settings.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   requireItsmApproval:
     description: If require ITSM approval is enabled, the planned configurations must be submitted for ITSM approval. Also
@@ -24,7 +24,7 @@ options:
     description: If require preview is enabled, the device configurations must be reviewed before deploying them.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings SetProvisioningSettings
@@ -61,7 +61,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

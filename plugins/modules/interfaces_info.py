@@ -11,16 +11,15 @@ short_description: Information module for Interfaces
 description:
   - Get all Interfaces.
   - Get Interfaces by id.
-  - Retrieves the list of the interfaces from all network devices based on provided filters.
-  - Returns the interface data for the given interface instance Uuid along with the statistics data.
-  - The latest interface data in the specified start and end time range will be returned.
-  - When there is no start and end time specified returns the latest available data for the given interface Id.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Retrieves the list of the interfaces from all network devices based on. - > Returns the interface data for the given interface
+    instance Uuid along with the statistics data. The latest interface data in the specified start and end time range will
+    be returned. When there is no start and end time specified returns the latest available data for the given interface Id.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- interfaces-2.0.0-resolved.yaml.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -87,17 +86,17 @@ options:
     description:
       - >
         View query parameter. Views which are supported by this API. Each view represents a specific data set.
-        ### Response data provided by each view 1. **configuration** id,name,adminStatus,description,duplexConfi
-        g,duplexOper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,m
-        ediaType,name,operStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networ
-        kDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. **statistics** id,nam
-        e,rxDiscards,rxError,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networ
-        kDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 3. **stackPort** id,name
-        ,peerStackMember,peerStackPort,stackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddr
-        ess,siteName,siteHierarchy,siteHierarchyId 4. **poE** id, name,rxDiscards,rxError,rxRate,rxUtilization,t
-        xDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,si
-        teName,siteHierarchy,siteHierarchyId When this query parameter is not added by default all configuration
-        attributes will be available in the response. **configuration,statistics,stackPort**.
+        ### Response data provided by each view 1. Configuration id,name,adminStatus,description,duplexConfig,du
+        plexOper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,media
+        Type,name,operStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networkDev
+        iceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. Statistics id,name,rxDisc
+        ards,rxError,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceI
+        pAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 3. StackPort id,name,peerStackMe
+        mber,peerStackPort,stackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName
+        ,siteHierarchy,siteHierarchyId 4. PoE id, name,rxDiscards,rxError,rxRate,rxUtilization,txDiscards,txErro
+        r,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHiera
+        rchy,siteHierarchyId When this query parameter is not added by default all configuration attributes will
+        be available in the response. Configuration,statistics,stackPort.
     type: str
   attribute:
     description:
@@ -162,7 +161,7 @@ options:
       - Id path parameter. The interface Uuid.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeData

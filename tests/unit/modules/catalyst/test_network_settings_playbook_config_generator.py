@@ -26,7 +26,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import network_settings_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    network_settings_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -36,23 +38,57 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
     test_data = loadPlaybookData("network_settings_playbook_config_generation")
 
     # Load all playbook configurations
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_global_pools_single = test_data.get("playbook_config_global_pools_single")
-    playbook_config_global_pools_multiple = test_data.get("playbook_config_global_pools_multiple")
-    playbook_config_reserve_pools_by_site_single = test_data.get("playbook_config_reserve_pools_by_site_single")
-    playbook_config_reserve_pools_by_pool_name = test_data.get("playbook_config_reserve_pools_by_pool_name")
-    playbook_config_network_management_by_site = test_data.get("playbook_config_network_management_by_site")
-    playbook_config_network_management_by_server_types = test_data.get("playbook_config_network_management_by_server_types")
-    playbook_config_network_management_by_ip_address = test_data.get("playbook_config_network_management_by_ip_address")
-    playbook_config_network_management_by_ip_address_no_match = test_data.get("playbook_config_network_management_by_ip_address_no_match")
-    playbook_config_network_management_combined_ip_filter = test_data.get("playbook_config_network_management_combined_ip_filter")
-    playbook_config_device_controllability_by_site = test_data.get("playbook_config_device_controllability_by_site")
-    playbook_config_aaa_settings_by_network = test_data.get("playbook_config_aaa_settings_by_network")
-    playbook_config_aaa_settings_by_server_type = test_data.get("playbook_config_aaa_settings_by_server_type")
-    playbook_config_global_filters_by_site = test_data.get("playbook_config_global_filters_by_site")
-    playbook_config_global_filters_by_pool_name = test_data.get("playbook_config_global_filters_by_pool_name")
-    playbook_config_global_filters_by_pool_type = test_data.get("playbook_config_global_filters_by_pool_type")
-    playbook_config_multiple_components = test_data.get("playbook_config_multiple_components")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_global_pools_single = test_data.get(
+        "playbook_config_global_pools_single"
+    )
+    playbook_config_global_pools_multiple = test_data.get(
+        "playbook_config_global_pools_multiple"
+    )
+    playbook_config_reserve_pools_by_site_single = test_data.get(
+        "playbook_config_reserve_pools_by_site_single"
+    )
+    playbook_config_reserve_pools_by_pool_name = test_data.get(
+        "playbook_config_reserve_pools_by_pool_name"
+    )
+    playbook_config_network_management_by_site = test_data.get(
+        "playbook_config_network_management_by_site"
+    )
+    playbook_config_network_management_by_server_types = test_data.get(
+        "playbook_config_network_management_by_server_types"
+    )
+    playbook_config_network_management_by_ip_address = test_data.get(
+        "playbook_config_network_management_by_ip_address"
+    )
+    playbook_config_network_management_by_ip_address_no_match = test_data.get(
+        "playbook_config_network_management_by_ip_address_no_match"
+    )
+    playbook_config_network_management_combined_ip_filter = test_data.get(
+        "playbook_config_network_management_combined_ip_filter"
+    )
+    playbook_config_device_controllability_by_site = test_data.get(
+        "playbook_config_device_controllability_by_site"
+    )
+    playbook_config_aaa_settings_by_network = test_data.get(
+        "playbook_config_aaa_settings_by_network"
+    )
+    playbook_config_aaa_settings_by_server_type = test_data.get(
+        "playbook_config_aaa_settings_by_server_type"
+    )
+    playbook_config_global_filters_by_site = test_data.get(
+        "playbook_config_global_filters_by_site"
+    )
+    playbook_config_global_filters_by_pool_name = test_data.get(
+        "playbook_config_global_filters_by_pool_name"
+    )
+    playbook_config_global_filters_by_pool_type = test_data.get(
+        "playbook_config_global_filters_by_pool_type"
+    )
+    playbook_config_multiple_components = test_data.get(
+        "playbook_config_multiple_components"
+    )
     playbook_config_all_components = test_data.get("playbook_config_all_components")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
@@ -62,7 +98,8 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
         super(TestNetworkSettingsPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
@@ -135,11 +172,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details_with_global"),  # get_sites
                 self.test_data.get("get_aaa_settings_for_site_response"),  # AAA
-                self.test_data.get("get_dhcp_settings_for_site_response"),  # DHCP (10.1.1.10 not in filter)
+                self.test_data.get(
+                    "get_dhcp_settings_for_site_response"
+                ),  # DHCP (10.1.1.10 not in filter)
                 self.test_data.get("get_dns_settings_for_site_response"),  # DNS
-                self.test_data.get("get_telemetry_settings_for_site_response"),  # telemetry
+                self.test_data.get(
+                    "get_telemetry_settings_for_site_response"
+                ),  # telemetry
                 self.test_data.get("get_ntp_settings_for_site_response"),  # NTP
-                self.test_data.get("get_timezone_settings_for_site_response"),  # timezone
+                self.test_data.get(
+                    "get_timezone_settings_for_site_response"
+                ),  # timezone
                 self.test_data.get("get_banner_settings_for_site_response"),  # banner
             ]
 
@@ -148,11 +191,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details_with_global"),  # get_sites
                 self.test_data.get("get_aaa_settings_for_site_response"),  # AAA
-                self.test_data.get("get_dhcp_settings_for_site_response"),  # DHCP (10.1.1.10 matches)
+                self.test_data.get(
+                    "get_dhcp_settings_for_site_response"
+                ),  # DHCP (10.1.1.10 matches)
                 self.test_data.get("get_dns_settings_for_site_response"),  # DNS
-                self.test_data.get("get_telemetry_settings_for_site_response"),  # telemetry
+                self.test_data.get(
+                    "get_telemetry_settings_for_site_response"
+                ),  # telemetry
                 self.test_data.get("get_ntp_settings_for_site_response"),  # NTP
-                self.test_data.get("get_timezone_settings_for_site_response"),  # timezone
+                self.test_data.get(
+                    "get_timezone_settings_for_site_response"
+                ),  # timezone
                 self.test_data.get("get_banner_settings_for_site_response"),  # banner
             ]
 
@@ -161,11 +210,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details_with_global"),  # get_sites
                 self.test_data.get("get_aaa_settings_for_site_response"),  # AAA
-                self.test_data.get("get_dhcp_settings_for_site_response"),  # DHCP (10.1.1.10 matches)
+                self.test_data.get(
+                    "get_dhcp_settings_for_site_response"
+                ),  # DHCP (10.1.1.10 matches)
                 self.test_data.get("get_dns_settings_for_site_response"),  # DNS
-                self.test_data.get("get_telemetry_settings_for_site_response"),  # telemetry
+                self.test_data.get(
+                    "get_telemetry_settings_for_site_response"
+                ),  # telemetry
                 self.test_data.get("get_ntp_settings_for_site_response"),  # NTP
-                self.test_data.get("get_timezone_settings_for_site_response"),  # timezone
+                self.test_data.get(
+                    "get_timezone_settings_for_site_response"
+                ),  # timezone
                 self.test_data.get("get_banner_settings_for_site_response"),  # banner
             ]
 
@@ -245,9 +300,11 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("get_global_pool_response"),
             ]
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_auto_discovery(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_auto_discovery(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network settings playbook config generator auto-discovery.
 
@@ -265,15 +322,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 file_path="/tmp/test_demo.yaml",
-                file_mode="overwrite"
+                file_mode="overwrite",
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_global_pools_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_global_pools_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for a single global pool by pool name.
 
@@ -290,15 +349,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_global_pools_single
+                config=self.playbook_config_global_pools_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_global_pools_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_global_pools_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for multiple global pools by pool names.
 
@@ -315,15 +376,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_global_pools_multiple
+                config=self.playbook_config_global_pools_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_reserve_pools_by_site_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_reserve_pools_by_site_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for reserve pools filtered by a single site when the site is not found.
 
@@ -340,15 +403,19 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_reserve_pools_by_site_single
+                config=self.playbook_config_reserve_pools_by_site_single,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        self.assertIn(
+            "No configurations or components to process", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_reserve_pools_by_pool_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_reserve_pools_by_pool_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for reserve pools filtered by pool names when no pools match.
 
@@ -365,15 +432,19 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_reserve_pools_by_pool_name
+                config=self.playbook_config_reserve_pools_by_pool_name,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        self.assertIn(
+            "No configurations or components to process", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_network_management_by_site(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_network_management_by_site(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network management settings when specified sites are not found.
 
@@ -390,15 +461,19 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_network_management_by_site
+                config=self.playbook_config_network_management_by_site,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        self.assertIn(
+            "No configurations or components to process", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_device_controllability_by_site(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_device_controllability_by_site(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for device controllability settings filtered by sites.
 
@@ -415,15 +490,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_device_controllability_by_site
+                config=self.playbook_config_device_controllability_by_site,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_aaa_settings_by_network(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_aaa_settings_by_network(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for AAA settings filtered by network type.
 
@@ -440,15 +517,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_aaa_settings_by_network
+                config=self.playbook_config_aaa_settings_by_network,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components", str(result.get('msg', '')))
+        self.assertIn("Invalid network components", str(result.get("msg", "")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_aaa_settings_by_server_type(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_aaa_settings_by_server_type(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for AAA settings filtered by server types.
 
@@ -465,15 +544,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_aaa_settings_by_server_type
+                config=self.playbook_config_aaa_settings_by_server_type,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components", str(result.get('msg', '')))
+        self.assertIn("Invalid network components", str(result.get("msg", "")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_global_filters_by_site(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_global_filters_by_site(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration using global filters by site names.
 
@@ -489,15 +570,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_global_filters_by_site
+                config=self.playbook_config_global_filters_by_site,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertTrue(result.get("failed"))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_global_filters_by_pool_name(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_global_filters_by_pool_name(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration using global filters by pool names.
 
@@ -513,15 +596,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_global_filters_by_pool_name
+                config=self.playbook_config_global_filters_by_pool_name,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertTrue(result.get("failed"))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_global_filters_by_pool_type(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_global_filters_by_pool_type(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration using global filters by pool types.
 
@@ -537,15 +622,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_global_filters_by_pool_type
+                config=self.playbook_config_global_filters_by_pool_type,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertTrue(result.get("failed"))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_multiple_components(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_multiple_components(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for multiple components when all return empty data.
 
@@ -562,15 +649,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_multiple_components
+                config=self.playbook_config_multiple_components,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_all_components(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_all_components(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for all network settings components.
 
@@ -587,15 +676,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_all_components
+                config=self.playbook_config_all_components,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_combined_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_combined_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for combined filters when all filtered components return empty data.
 
@@ -612,15 +703,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_combined_filters
+                config=self.playbook_config_combined_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_empty_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with minimal filters.
 
@@ -637,15 +730,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_filters
+                config=self.playbook_config_empty_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_no_file_path(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration without specifying a file path.
 
@@ -662,15 +757,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_no_file_path
+                config=self.playbook_config_no_file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_network_management_by_server_types(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_network_management_by_server_types(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for network management settings
         filtered by server types.
@@ -693,15 +790,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="/tmp/test_server_types.yaml",
                 file_mode="overwrite",
-                config=self.playbook_config_network_management_by_server_types
+                config=self.playbook_config_network_management_by_server_types,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_empty_components_list_fails(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_empty_components_list_fails(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for validation failure when component_specific_filters has only an empty components_list.
         """
@@ -715,19 +814,19 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config={
-                    "component_specific_filters": {
-                        "components_list": []
-                    }
-                }
+                config={"component_specific_filters": {"components_list": []}},
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("must include a non-empty components_list", str(result.get("msg", "")))
+        self.assertIn(
+            "must include a non-empty components_list", str(result.get("msg", ""))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_network_management_by_ip_address(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_network_management_by_ip_address(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network management settings filtered by ip_address_list.
 
@@ -749,15 +848,17 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="/tmp/test_ip_filter.yaml",
                 file_mode="overwrite",
-                config=self.playbook_config_network_management_by_ip_address
+                config=self.playbook_config_network_management_by_ip_address,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_network_management_by_ip_address_no_match(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_network_management_by_ip_address_no_match(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network management settings when no site matches the ip_address_list filter.
 
@@ -777,15 +878,19 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="/tmp/test_ip_filter_no_match.yaml",
                 file_mode="overwrite",
-                config=self.playbook_config_network_management_by_ip_address_no_match
+                config=self.playbook_config_network_management_by_ip_address_no_match,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations or components to process", str(result.get('msg')))
+        self.assertIn(
+            "No configurations or components to process", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_network_settings_playbook_config_generator_network_management_combined_ip_filter(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_network_settings_playbook_config_generator_network_management_combined_ip_filter(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for network management settings with combined site_name_list,
         server_types, and ip_address_list filters (AND logic across all three).
@@ -807,8 +912,8 @@ class TestNetworkSettingsPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 file_path="/tmp/test_combined_ip_filter.yaml",
                 file_mode="overwrite",
-                config=self.playbook_config_network_management_combined_ip_filter
+                config=self.playbook_config_network_management_combined_ip_filter,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation succeeded", str(result.get('msg')))
+        self.assertIn("YAML config generation succeeded", str(result.get("msg")))

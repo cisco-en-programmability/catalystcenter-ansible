@@ -11,10 +11,10 @@ short_description: Information module for Site
 description:
   - Get all Site.
   - Get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,15 +40,15 @@ options:
       - Limit query parameter. Number of sites to be listed.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sites GetSite
-    description: Complete reference of the GetSite API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site
+  - name: Cisco Catalyst Center documentation for Sites GetSiteV1
+    description: Complete reference of the GetSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-v-1
 notes:
   - SDK Method used are
-    sites.Sites.get_site,
+    sites.Sites.get_site_v1,
   - Paths used are
     get /dna/intent/api/v1/site,
 """
@@ -65,9 +65,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    name: string
-    siteId: string
-    type: string
+    name: application/json
+    siteId: application/json
+    type: application/json
     offset: 0
     limit: 0
   register: result
@@ -82,12 +82,25 @@ catalystcenter_response:
     [
       {
         "parentId": "string",
-        "name": "string",
-        "additionalInfo": [
+        "groupTypeList": [
           "string"
         ],
-        "siteHierarchy": "string",
-        "siteNameHierarchy": "string",
+        "groupHierarchy": "string",
+        "additionalInfo": [
+          {
+            "nameSpace": "string",
+            "attributes": {
+              "addressInheritedFrom": "string",
+              "type": "string",
+              "country": "string",
+              "address": "string",
+              "latitude": "string",
+              "longitude": "string"
+            }
+          }
+        ],
+        "groupNameHierarchy": "string",
+        "name": "string",
         "instanceTenantId": "string",
         "id": "string"
       }

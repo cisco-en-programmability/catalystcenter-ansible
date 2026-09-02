@@ -12,20 +12,20 @@ description:
   - Manage operation update of the resource Tags Network Devices Members Associations Bulk. - > Updates the tags associated
     with the devices. A tag is a user-defined or system-defined construct to group resources. When a device is tagged, it
     is called a member of the tag. A tag can be created by using this POST `/dna/intent/api/v1/tag` API.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
-    description: Tags Network Devices Members Associations Bulk's payload.
+    description: Request body minItems 1 maxItems 500.
     elements: dict
     suboptions:
       id:
         description: Network device id.
         type: str
       tags:
-        description: Tags Network Devices Members Associations Bulk's tags.
+        description: List of associated tags minItems 0 maxItems 500.
         elements: dict
         suboptions:
           id:
@@ -34,7 +34,7 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevices

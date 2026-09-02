@@ -11,19 +11,18 @@ short_description: Resource module for Images Delete
 description:
   - Manage operation delete of the resource Images Delete.
   - Delete the image from image repository.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
-    description:
-      - Id path parameter. The software image identifier that needs to be deleted.
-      - Can be obtained from the API `/dna/intent/api/v1/images?imported=true`.
-      - Use this API to obtain the `id` of the image.
+    description: Id path parameter. The software image identifier that needs to be deleted can be obtained from the API
+        `/dna/intent/api/v1/images?imported=true`.
+      Use this API to obtain the `id` of the image.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) DeleteImage

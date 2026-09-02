@@ -10,19 +10,17 @@ module: discoverys_jobs
 short_description: Resource module for Discoverys Jobs
 description:
   - Manage operation create of the resource Discoverys Jobs. - > This API starts a discovery job using the given discovery
-    id. The response includes a task url that provides access to the task's details. By accessing this URL, users will receive
-    a response containing a resultLocation attribute, which provides details of the discovery job that was started, including
-    the jobId. A new discovery job is created every time this API is triggered.
-version_added: '6.46.0'
+    id. The response includes a task `url` that provides access to the task's details.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The id of the discovery.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices StartsTheExistingDiscovery

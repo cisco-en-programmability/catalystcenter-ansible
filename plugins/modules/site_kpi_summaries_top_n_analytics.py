@@ -9,47 +9,45 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_top_n_analytics
 short_description: Resource module for Site Kpi Summaries Top N Analytics
 description:
-  - Manage operation create of the resource Site Kpi Summaries Top N Analytics. - > Gets the Top N entites related based on
-    site analytics for a given kpi type. For detailed information about the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    SiteKpiSummaries-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Site Kpi Summaries Top N Analytics.
+  - Gets the Top N entites related based on site analytics for a given kpi type.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
-    description: End Time.
+    description: Site Kpi Summaries Top N Analytics's endTime.
     type: int
   filters:
     description: Site Kpi Summaries Top N Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Site Kpi Summaries Top N Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Site Kpi Summaries Top N Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Site Kpi Summaries Top N Analytics's value.
         type: str
     type: list
   groupBy:
-    description: Group By.
+    description: Site Kpi Summaries Top N Analytics's groupBy.
     elements: str
     type: list
   headers:
     description: Additional headers.
     type: dict
   startTime:
-    description: Start Time.
+    description: Site Kpi Summaries Top N Analytics's startTime.
     type: int
   topN:
-    description: Top N.
+    description: Site Kpi Summaries Top N Analytics's topN.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalytics

@@ -11,10 +11,10 @@ short_description: Information module for Fabrics Fabric Id Switch Wireless Sett
 description:
   - Get all Fabrics Fabric Id Switch Wireless Setting. - > Get the SDA Wireless details from the switches on the fabric site
     that have wireless capability enabled. A maximum of two switches can have a wireless role in a fabric site.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -23,11 +23,10 @@ options:
     description:
       - >
         FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The
-        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example
-        e290f1ee-6c54-4b01-90e6-d701748f0851.
+        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless GetSDAWirelessDetailsFromSwitches
@@ -52,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    fabricId: string
+    fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
   register: result
 """
 RETURN = r"""
@@ -62,16 +61,13 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "enableWireless": true,
-          "rollingApUpgrade": {
-            "enableRollingApUpgrade": true,
-            "apRebootPercentage": 0
-          }
-        }
-      ],
-      "version": "string"
+      "id": "string",
+      "deviceRoles": "string",
+      "rollingApUpgrade": {
+        "enableRollingApUpgrade": true,
+        "apRebootPercentage": 0
+      },
+      "lscProfileName": "string",
+      "lscPercentage": 0
     }
 """

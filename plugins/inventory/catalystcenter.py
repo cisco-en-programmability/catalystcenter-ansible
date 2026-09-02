@@ -366,7 +366,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         include_aps = self.get_option("include_aps")
 
         safe_filters = {
-            k: v for k, v in device_filters.items()
+            k: v
+            for k, v in device_filters.items()
             if k not in _PAGINATION_RESERVED_KEYS
         }
         if len(safe_filters) != len(device_filters):
@@ -383,9 +384,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         while True:
             try:
                 resp = client.devices.get_device_list(
-                    offset=offset,
-                    limit=page_size,
-                    **safe_filters
+                    offset=offset, limit=page_size, **safe_filters
                 )
                 page_devices = resp.response if resp.response else []
             except ApiError as e:
@@ -421,11 +420,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if hasattr(device, "to_dict"):
             return device.to_dict()
         try:
-            return {
-                k: v
-                for k, v in vars(device).items()
-                if not k.startswith("_")
-            }
+            return {k: v for k, v in vars(device).items() if not k.startswith("_")}
         except TypeError:
             self.display.warning(
                 "Unexpected device object type ({0}), "
@@ -485,8 +480,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         device_site_map = {}
         for node in nodes:
-            node_dict = node if isinstance(node, dict) else (
-                node.to_dict() if hasattr(node, "to_dict") else vars(node)
+            node_dict = (
+                node
+                if isinstance(node, dict)
+                else (node.to_dict() if hasattr(node, "to_dict") else vars(node))
             )
             node_id = node_dict.get("id", "")
             additional_info = node_dict.get("additionalInfo", {})
@@ -520,8 +517,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return tags
 
         for tag_obj in all_tags:
-            tag_dict = tag_obj if isinstance(tag_obj, dict) else (
-                tag_obj.to_dict() if hasattr(tag_obj, "to_dict") else vars(tag_obj)
+            tag_dict = (
+                tag_obj
+                if isinstance(tag_obj, dict)
+                else (
+                    tag_obj.to_dict() if hasattr(tag_obj, "to_dict") else vars(tag_obj)
+                )
             )
             tag_name = tag_dict.get("name", "")
             tag_id = tag_dict.get("id", "")
@@ -544,8 +545,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 continue
 
             for member in members:
-                member_dict = member if isinstance(member, dict) else (
-                    member.to_dict() if hasattr(member, "to_dict") else vars(member)
+                member_dict = (
+                    member
+                    if isinstance(member, dict)
+                    else (
+                        member.to_dict() if hasattr(member, "to_dict") else vars(member)
+                    )
                 )
                 member_id = member_dict.get("instanceUuid", "")
                 if member_id in device_id_set:

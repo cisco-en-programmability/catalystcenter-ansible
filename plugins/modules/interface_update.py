@@ -11,10 +11,10 @@ short_description: Resource module for Interface Update
 description:
   - Manage operation update of the resource Interface Update. - > Add/Update Interface description, VLAN membership, Voice
     VLAN and change Interface admin status 'UP'/'DOWN' from Request body.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   adminStatus:
     description: Admin status as ('UP'/'DOWN').
@@ -36,7 +36,7 @@ options:
     description: Voice Vlan Id to be Updated.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateInterfaceDetails
@@ -61,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     adminStatus: string
-    deploymentMode: string
+    deploymentMode: Deploy
     description: string
     interfaceUuid: string
     vlanId: 0

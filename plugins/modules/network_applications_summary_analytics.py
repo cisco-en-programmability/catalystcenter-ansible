@@ -9,47 +9,43 @@ DOCUMENTATION = r"""
 module: network_applications_summary_analytics
 short_description: Resource module for Network Applications Summary Analytics
 description:
-  - Manage operation create of the resource Network Applications Summary Analytics. - > Retrieves summary analytics data related
-    to network applications while applying complex filtering, aggregate functions, and grouping. This API facilitates obtaining
-    consolidated insights into the performance and status of the network applications. If startTime and endTime are not provided,
-    the API defaults to the last 24 hours. For detailed information about the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    NetworkApplications-1.0.1-resolved.yaml.
-version_added: '6.18.0'
+  - Manage operation create of the resource Network Applications Summary Analytics.
+  - Retrieves summary analytics data related to network applications while.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Network Applications Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Network Applications Summary Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Network Applications Summary Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Network Applications Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Network Applications Summary Analytics's endTime.
     type: int
   filters:
     description: Network Applications Summary Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Network Applications Summary Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Network Applications Summary Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Network Applications Summary Analytics's value.
         type: int
     type: list
   headers:
@@ -59,38 +55,38 @@ options:
     description: Network Applications Summary Analytics's page.
     suboptions:
       cursor:
-        description: Cursor.
+        description: Network Applications Summary Analytics's cursor.
         type: str
       limit:
-        description: Limit.
+        description: Network Applications Summary Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Network Applications Summary Analytics's offset.
         type: int
       sortBy:
         description: Network Applications Summary Analytics's sortBy.
         elements: dict
         suboptions:
           function:
-            description: Function.
+            description: Network Applications Summary Analytics's function.
             type: str
           name:
-            description: Name.
+            description: Network Applications Summary Analytics's name.
             type: str
           order:
-            description: Order.
+            description: Network Applications Summary Analytics's order.
             type: str
         type: list
     type: dict
   siteIds:
-    description: Site Ids.
+    description: Network Applications Summary Analytics's siteIds.
     elements: str
     type: list
   startTime:
-    description: Start Time.
+    description: Network Applications Summary Analytics's startTime.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Applications RetrievesSummaryAnalyticsDataRelatedToNetworkApplicationsAlongWithHealthMetrics

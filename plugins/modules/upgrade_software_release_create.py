@@ -11,16 +11,13 @@ short_description: Resource module for Upgrade Software Release Create
 description:
   - Manage operation create of the resource Upgrade Software Release Create.
   - This api is used to trigger the workflow to upgrade the downloaded release.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be downloaded and upgraded. Use the `/dna/system/api/v1/releases/releaseSummary`
-      API to obtain the optional package IDs. The `releaseName` and `releaseVersion` should correspond to the downloaded release.In
-      the releases summary API response, optional packages can be identified by the attribute `packagesn.optional` is true.
-      Provide the `packagesn.id` of these optional packages.
+    description: Define the list of optional packages to be installed.
     elements: str
     type: list
   releaseName:
@@ -30,7 +27,7 @@ options:
     description: The `releaseVersion` of the downloaded release to be upgraded.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade UpgradeRelease

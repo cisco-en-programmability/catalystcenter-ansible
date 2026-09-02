@@ -13,14 +13,20 @@ description:
   - Get Sites by id.
   - Get a site.
   - Get sites.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - >
+        Id path parameter. Site Id. Represents a unique identifier that corresponds to one of the following -
+        Global Id, Area Id, Building Id, Floor Id.
+    type: str
   name:
     description:
       - Name query parameter. Site name.
@@ -31,11 +37,11 @@ options:
     type: str
   type:
     description:
-      - Type query parameter. Site type. Available values global, area, building, floor.
+      - Type query parameter. Site type.
     type: str
   _unitsOfMeasure:
     description:
-      - _unitsOfMeasure query parameter. Floor units of measure.
+      - _unitsOfMeasure query parameter.
     type: str
   offset:
     description:
@@ -43,16 +49,10 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
-  id:
-    description:
-      - >
-        Id path parameter. Site Id. Represents a unique identifier that corresponds to one of the following -
-        Global Id, Area Id, Building Id, Floor Id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design GetASite
@@ -85,8 +85,8 @@ EXAMPLES = r"""
     name: string
     nameHierarchy: string
     type: string
-    _unitsOfMeasure: string
-    offset: 0
+    _unitsOfMeasure: str
+    offset: 1
     limit: 0
   register: result
 - name: Get Sites by id
@@ -109,23 +109,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "nameHierarchy": "string",
-        "name": "string",
-        "latitude": 0,
-        "longitude": 0,
-        "address": "string",
-        "country": "string",
-        "floorNumber": 0,
-        "rfModel": "string",
-        "width": 0,
-        "length": 0,
-        "height": 0,
-        "unitsOfMeasure": "string",
-        "type": "string",
-        "id": "string",
-        "parentId": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

@@ -11,10 +11,10 @@ short_description: Information module for Endpoint Analytics Endpoints Count
 description:
   - Get all Endpoint Analytics Endpoints Count.
   - Fetch the total count of endpoints that match the given filter criteria.
-version_added: '6.16.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -118,7 +118,7 @@ options:
       - AncPolicy query parameter. ANC policy. Only exact match will be returned.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for AI Endpoint Analytics FetchTheCountOfEndpoints
@@ -126,7 +126,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AiEndpointAnalytics.fetch_the_count_of_endpoints,
+    ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints,
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints/count,
 """
