@@ -36,7 +36,7 @@ description:
     Catalyst Center before it can be distributed.
   - Provides an API to delete software images from Catalyst Center.
   - A golden tag is mandatory for a site, and the workflow cannot proceed without it
-version_added: '6.6.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel) Rishita
@@ -529,7 +529,6 @@ options:
 
               default: 1800
               type: int
-              version_added: 3.1.3.0
           convert_to_wlc:
             description: |
               Flag to indicate device conversion to Wireless LAN Controller (WLC) during image distribution.
@@ -565,7 +564,6 @@ options:
               such as Cisco Catalyst 9300 Series Switches,
               within the Cisco Catalyst Center.
             type: str
-            version_added: 6.12.0
           image_name:
             description: Specifies the name of the SWIM
               image to be distributed.
@@ -698,7 +696,6 @@ options:
 
               type: int
               default: 1800
-              version_added: 3.1.3.0
 
           device_family_name:
             description: Specify the name of the device
@@ -715,7 +712,6 @@ options:
               such as Cisco Catalyst 9300 Series Switches,
               within the Cisco Catalyst Center.
             type: str
-            version_added: 6.12.0
           activate_lower_image_version:
             description: ActivateLowerImageVersion flag.
             type: bool
