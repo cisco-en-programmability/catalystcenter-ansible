@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on Assurance issue settings in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -27,7 +28,7 @@ description:
     including custom profiles site assignment, is currently unavailable
     due to an API/SDK upgrade. It will be accessible under the
     'Network Assurance Profile Workflow Manager' once the updated API is released
-version_added: '6.31.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -498,7 +499,7 @@ options:
             type: str
             required: false
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - The maximum number of user-defined (custom) issue definitions
@@ -1212,8 +1213,8 @@ class AssuranceSettings(CatalystCenterBase):
                     if not self.validate_ignore_duration(ignore_duration):
                         errormsg.append(
                             "ignore_duration: Invalid Ignore Duration '{0}' in playbook. "
-                            "valid duration: '1h' to '30d'.".format(
-                                ignore_duration))
+                            "valid duration: '1h' to '30d'.".format(ignore_duration)
+                        )
 
                 site_hierarchy = each_issue.get("site_hierarchy")
                 if site_hierarchy:
@@ -1611,37 +1612,47 @@ class AssuranceSettings(CatalystCenterBase):
                 - '1x' (invalid unit)
                 - 720 (not a string)
         """
-        self.log("Validation the ignore duration: {0}.".format(
-            duration
-        ))
+        self.log("Validation the ignore duration: {0}.".format(duration))
 
         if not isinstance(duration, str) or len(duration) < 2:
-            self.log("Ignore duration '{0}' is invalid: Must be a string and at least 2 characters long.".format(
-                duration), "ERROR")
+            self.log(
+                "Ignore duration '{0}' is invalid: Must be a string and at least 2 characters long.".format(
+                    duration
+                ),
+                "ERROR",
+            )
             return False
 
         unit = duration[-1]
         number_part = duration[:-1]
 
-        if unit not in ('h', 'd'):
-            self.log("Ignore duration '{0}' is invalid: Unit must be 'h' (hours) or 'd' (days).".format(
-                duration), "ERROR")
+        if unit not in ("h", "d"):
+            self.log(
+                "Ignore duration '{0}' is invalid: Unit must be 'h' (hours) or 'd' (days).".format(
+                    duration
+                ),
+                "ERROR",
+            )
             return False
 
         if not number_part.isdigit():
-            self.log("Ignore duration '{0}' is invalid: Must start with a numeric value.".format(
-                duration), "ERROR")
+            self.log(
+                "Ignore duration '{0}' is invalid: Must start with a numeric value.".format(
+                    duration
+                ),
+                "ERROR",
+            )
             return False
 
         number = int(number_part)
-        if (unit == 'd' and 1 <= number <= 30) or (
-           unit == 'h' and 1 <= number <= 720):
-            self.log("Ignore duration '{0}' is valid.".format(
-                duration), "INFO")
+        if (unit == "d" and 1 <= number <= 30) or (unit == "h" and 1 <= number <= 720):
+            self.log("Ignore duration '{0}' is valid.".format(duration), "INFO")
             return True
 
-        self.log("Ignore duration '{0}' is invalid: Value out of range.".format(
-            duration), "ERROR")
+        self.log(
+            "Ignore duration '{0}' is invalid: Value out of range.".format(duration),
+            "ERROR",
+        )
         return False
 
     def validate_start_end_datetime(self, start_time, end_time, errormsg):
@@ -1743,9 +1754,9 @@ class AssuranceSettings(CatalystCenterBase):
                 return device_response[0]
 
         except Exception as e:
-            self.msg = "The provided device '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(
-                str(input_param)
+            self.msg = (
+                "The provided device '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(str(input_param))
             )
             self.log(self.msg + str(e), "WARNING")
             return None
@@ -2366,7 +2377,7 @@ class AssuranceSettings(CatalystCenterBase):
             "network_device_ip_address",
             "device_name",
             "issue_process_type",
-            "mac_address"
+            "mac_address",
         ]
 
         for key, value in config_data.items():
@@ -2476,7 +2487,8 @@ class AssuranceSettings(CatalystCenterBase):
 
         self.no_issues.append(config_data)
         self.msg = "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
-            config_data)
+            config_data
+        )
         self.log(self.msg, "ERROR")
         self.changed = False
         self.status = "success"
@@ -2556,7 +2568,7 @@ class AssuranceSettings(CatalystCenterBase):
             payload_input = int(number_part)
             ignore_payload["ignoreHours"] = payload_input
 
-            if unit == 'd':
+            if unit == "d":
                 payload_input = payload_input * 24
                 ignore_payload["ignoreHours"] = payload_input
 
@@ -2624,11 +2636,15 @@ class AssuranceSettings(CatalystCenterBase):
                 self.log("No execution ID received from API response.", "ERROR")
                 return None
 
-            resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
+            resync_retry_count = int(
+                self.payload.get("catalystcenter_api_task_timeout", 100)
+            )
 
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
-                resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
+                resync_retry_count = int(
+                    self.payload.get("catalystcenter_api_task_timeout", 100)
+                )
                 resync_retry_interval = int(
                     self.payload.get("catalystcenter_task_poll_interval", 5)
                 )
@@ -2764,8 +2780,9 @@ class AssuranceSettings(CatalystCenterBase):
                     not description or issue.get("description") == description
                 ):
                     if not issue_setting.get("issue_enabled") and (
-                        issue_setting.get("threshold_value") != issue.get("threshold_value") or
-                        issue_setting.get("priority") != issue.get("priority")
+                        issue_setting.get("threshold_value")
+                        != issue.get("threshold_value")
+                        or issue_setting.get("priority") != issue.get("priority")
                     ):
                         self.msg = "For disabled issues, threshold and priority values can't be updated '{0}'.".format(
                             name
@@ -2991,7 +3008,9 @@ class AssuranceSettings(CatalystCenterBase):
                 )
             except Exception as msg:
                 error_str = str(msg)
-                if any(pattern in error_str for pattern in self.UDI_LIMIT_ERROR_PATTERNS):
+                if any(
+                    pattern in error_str for pattern in self.UDI_LIMIT_ERROR_PATTERNS
+                ):
                     self.msg = (
                         "Failed to create the user-defined issue '{name}' in Cisco Catalyst Center. "
                         "The system has reached the maximum limit of {limit} custom issues. "
@@ -3335,7 +3354,9 @@ class AssuranceSettings(CatalystCenterBase):
                         "DEBUG",
                     )
                     # Update result with success message and detailed response
-                    deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                    deleted_issue = assurance_user_defined_issue_details[
+                        assurance_issue_index - 1
+                    ]
                     result_assurance_issue.get("response").update(
                         {"deleted user-defined issue": deleted_issue}
                     )
@@ -3343,7 +3364,10 @@ class AssuranceSettings(CatalystCenterBase):
                         {name: "Assurance issue deleted successfully"}
                     )
                     self.result["changed"] = True
-                    self.log("Assurance Issue '{0}' deleted successfully".format(name), "INFO")
+                    self.log(
+                        "Assurance Issue '{0}' deleted successfully".format(name),
+                        "INFO",
+                    )
                 except Exception as e:
                     expected_exception_msgs = [
                         "Expecting value: line 1 column 1",
@@ -3362,7 +3386,9 @@ class AssuranceSettings(CatalystCenterBase):
                         result_assurance_issue = self.result.get("response")[0].get(
                             "assurance_user_defined_issue_settings"
                         )
-                        deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                        deleted_issue = assurance_user_defined_issue_details[
+                            assurance_issue_index - 1
+                        ]
                         result_assurance_issue.get("response").update(
                             {"deleted user-defined issue": deleted_issue}
                         )
@@ -3472,7 +3498,12 @@ class AssuranceSettings(CatalystCenterBase):
                     issue_ids = self.get_issue_ids_for_names(each_issue)
                     if issue_ids:
                         response = None
-                        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.10") < 0:
+                        if (
+                            self.compare_catalystcenter_versions(
+                                self.get_ccc_version(), "2.3.7.10"
+                            )
+                            < 0
+                        ):
                             response = self.ignore_issue(issue_ids)
                         else:
                             ignore_duration = each_issue.get("ignore_duration")
@@ -3969,7 +4000,8 @@ class AssuranceSettings(CatalystCenterBase):
 
             if self.no_issues:
                 self.msg += "No issues found to resolve or ignore. All issues are already cleared: {0}".format(
-                    self.no_issues)
+                    self.no_issues
+                )
                 self.changed = False
                 self.status = "success"
 
@@ -4187,20 +4219,72 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {
+            "type": "str",
+            "required": True,
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -4215,7 +4299,10 @@ def main():
     current_version = ccc_assurance.get_ccc_version()
     required_version = "2.3.7.6"
 
-    if ccc_assurance.compare_catalystcenter_versions(current_version, required_version) < 0:
+    if (
+        ccc_assurance.compare_catalystcenter_versions(current_version, required_version)
+        < 0
+    ):
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
             "The specified version '{0}' does not support the assurance issue settings workflow feature. "

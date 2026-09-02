@@ -12,34 +12,34 @@ description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Multicast Configurations.
   - This API allows users to create a Multicast configuration feature template.
   - This API allows users to delete a specific Multicast configuration feature template by ID.
-  - This API allows users to update the details of a specific Multicast configuration feature template by ID.
-version_added: '6.18.0'
+  - This API allows users to update the details of a specific Multicast.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   designName:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Multicast Configurations's featureAttributes.
+    description: Multicast Configuration Feature Template.
     suboptions:
       globalMulticastEnabled:
         description: Global Multicast Enabled.
         type: bool
-      multicastIpv4Address:
-        description: Multicast Ipv4 address must be between 224.0.0.0 and 239.255.255.255. Note This is only supported when
-          multicastIpv4Mode is set to MULTICAST.
-        type: str
-      multicastIpv4Mode:
-        description: Multicast Ipv4 Mode.
+      multicastAddress:
+        description: Multicast address must be between 224.0.0.0 - 239.255.255.255. `Note ` multicastAddress is only supported
+          for `MULTICAST` multicastMode.
         type: str
       multicastIpv6Address:
-        description: Multicast Ipv6 Address must start with FF0 or 11,2,3,4,5,8, or E. Note This is only supported when multicastIpv6Mode
-          is set to MULTICAST.
+        description: Multicast Ipv6 Address must start with FF0 or 11,2,3,4,5,8, or E. `Note ` multicastIpv6Address is only
+          supported for `MULTICAST` multicastIpv6Mode.
         type: str
       multicastIpv6Mode:
         description: Multicast Ipv6 Mode.
+        type: str
+      multicastMode:
+        description: Multicast Mode .
         type: str
     type: dict
   id:
@@ -51,7 +51,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateMulticastConfigurationFeatureTemplate
@@ -76,25 +76,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_multicast_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      globalMulticastEnabled: true
-      multicastIpv4Address: string
-      multicastIpv4Mode: string
-      multicastIpv6Address: string
-      multicastIpv6Mode: string
-    unlockedAttributes:
-      - string
 - name: Delete by id
   cisco.catalystcenter.feature_templates_wireless_multicast_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -119,11 +100,30 @@ EXAMPLES = r"""
     designName: string
     featureAttributes:
       globalMulticastEnabled: true
-      multicastIpv4Address: string
-      multicastIpv4Mode: string
+      multicastAddress: string
       multicastIpv6Address: string
       multicastIpv6Mode: string
+      multicastMode: string
     id: string
+    unlockedAttributes:
+      - string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_multicast_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      globalMulticastEnabled: true
+      multicastAddress: string
+      multicastIpv6Address: string
+      multicastIpv6Mode: string
+      multicastMode: string
     unlockedAttributes:
       - string
 """

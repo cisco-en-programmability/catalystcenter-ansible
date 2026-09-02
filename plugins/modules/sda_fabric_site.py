@@ -12,16 +12,15 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Site.
   - Add Site in SDA Fabric.
   - Delete Site from SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   fabricName:
-    description: Warning - Starting Catalyst Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
-      need it anymore. It will be removed in future Catalyst Center releases.
+    description: Warning - Starting DNA Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
+      need it anymore. It will be removed in future DNA Center releases.
     type: str
-    version_added: 4.0.0
   fabricType:
     description: Type of SD-Access Fabric. Allowed values are "FABRIC_SITE" or "FABRIC_ZONE". Default value is "FABRIC_SITE".
     type: str
@@ -29,7 +28,7 @@ options:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddSiteInSDAFabric
@@ -59,7 +58,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
+    siteNameHierarchy: application/json
 - name: Create
   cisco.catalystcenter.sda_fabric_site:
     catalystcenter_host: "{{catalystcenter_host}}"

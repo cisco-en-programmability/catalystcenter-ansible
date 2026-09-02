@@ -9,56 +9,54 @@ DOCUMENTATION = r"""
 module: dhcp_services_trend_analytics
 short_description: Resource module for Dhcp Services Trend Analytics
 description:
-  - Manage operation create of the resource Dhcp Services Trend Analytics. - > Gets the trend analytics data related to DHCP
-    Services based on given filters and group by field. For detailed information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    DHCPServices-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Manage operation create of the resource Dhcp Services Trend Analytics.
+  - Gets the trend analytics data related to DHCP Services based on given filters.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Dhcp Services Trend Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Dhcp Services Trend Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Dhcp Services Trend Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Dhcp Services Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Dhcp Services Trend Analytics's endTime.
     type: int
   filters:
     description: Dhcp Services Trend Analytics's filters.
     elements: dict
     suboptions:
       filters:
-        description: Filters.
+        description: Dhcp Services Trend Analytics's filters.
         elements: str
         type: list
       key:
-        description: Key.
+        description: Dhcp Services Trend Analytics's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Dhcp Services Trend Analytics's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Dhcp Services Trend Analytics's operator.
         type: str
       value:
         description: Dhcp Services Trend Analytics's value.
         type: dict
     type: list
   groupBy:
-    description: Group By.
+    description: Dhcp Services Trend Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -68,23 +66,23 @@ options:
     description: Dhcp Services Trend Analytics's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Dhcp Services Trend Analytics's limit.
         type: int
       offset:
-        description: Offset.
+        description: Dhcp Services Trend Analytics's offset.
         type: int
       timestampOrder:
-        description: Timestamp Order.
+        description: Dhcp Services Trend Analytics's timestampOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Dhcp Services Trend Analytics's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Dhcp Services Trend Analytics's trendInterval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetTrendAnalyticsDataOfDHCPServicesForGivenSetOfComplexFilters
@@ -92,7 +90,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-dhcp-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.get_trend_analytics_data_of_d_h_c_p_services_for_given_set_of_complex_filters,
+    devices.Devices.get_trend_analytics_data_of_dhcp_services_for_given_set_of_complex_filters,
   - Paths used are
     post /dna/data/api/v1/dhcpServices/trendAnalytics,
 """

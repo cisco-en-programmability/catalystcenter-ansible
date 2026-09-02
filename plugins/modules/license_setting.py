@@ -13,10 +13,10 @@ description:
     id and/or virtual account id for auto registration of devices for smart license flow. Virtual account should be part of
     default smart account. Default smart account id cannot be set to 'null'. Auto registration of devices for smart license
     flow is applicable only for direct or on-prem SSM connection mode.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   autoRegistrationVirtualAccountId:
     description: Virtual account id.
@@ -25,7 +25,7 @@ options:
     description: Default smart account id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses UpdateLicenseSetting

@@ -10,11 +10,11 @@ module: sda_layer2_virtual_networks_info
 short_description: Information module for Sda Layer2 Virtual Networks
 description:
   - Get all Sda Layer2 Virtual Networks.
-  - Returns a list of layer 2 virtual networks that match the provided query parameters.
-version_added: '6.15.0'
+  - Returns a list of layer 2 virtual networks that match the provided query.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -54,7 +54,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetLayer2VirtualNetworks
@@ -85,8 +85,8 @@ EXAMPLES = r"""
     vlanId: 0
     trafficType: string
     associatedLayer3VirtualNetworkName: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -98,18 +98,18 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "fabricId": "string",
-          "vlanName": "string",
-          "vlanId": 0,
-          "trafficType": "string",
-          "isFabricEnabledWireless": true,
-          "isWirelessFloodingEnabled": true,
-          "isResourceGuardEnabled": true,
-          "layer2FloodingAddressAssignment": "string",
-          "layer2FloodingAddress": "string",
-          "isMultipleIpToMacAddresses": true,
-          "associatedLayer3VirtualNetworkName": "string"
+          "id": {},
+          "fabricId": {},
+          "vlanName": {},
+          "vlanId": {},
+          "trafficType": {},
+          "isFabricEnabledWireless": {},
+          "isWirelessFloodingEnabled": {},
+          "isResourceGuardEnabled": {},
+          "layer2FloodingAddressAssignment": {},
+          "layer2FloodingAddress": {},
+          "isMultipleIpToMacAddresses": {},
+          "associatedLayer3VirtualNetworkName": {}
         }
       ],
       "version": "string"

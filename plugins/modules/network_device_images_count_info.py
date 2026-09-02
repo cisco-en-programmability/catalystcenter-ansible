@@ -11,14 +11,32 @@ short_description: Information module for Network Device Images Count
 description:
   - Get all Network Device Images Count.
   - Returns the count of network devices based on the given filters.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  siteId:
+    description:
+      - >
+        SiteId query parameter. SiteId to which network devices are assigned. See https
+        //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
+    type: str
+  role:
+    description:
+      - Role query parameter. Role assigned to the network device.
+    type: str
+  productName:
+    description:
+      - ProductName query parameter. Filter with network device product name. Supports partial case-insensitive search.
+    type: str
+  productId:
+    description:
+      - ProductId query parameter. Filter with product ID (PID).
+    type: str
   managementAddress:
     description:
       - ManagementAddress query parameter. IP address or DNS name used to access and manage network devices.
@@ -37,7 +55,7 @@ options:
         ACTIVATION_PENDING, ACTIVATION_IN_PROGRESS, ACTIVATION_FAILED, DEVICE_UP_TO_DATE,UNKNOWN.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) CountOfNetworkDevicesForTheGivenStatusFilters
@@ -62,6 +80,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    siteId: string
+    role: DISTRIBUTION
+    productName: string
+    productId: string
     managementAddress: string
     networkDeviceImageStatus: string
     networkDeviceUpdateStatus: string
@@ -75,8 +97,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

@@ -11,17 +11,17 @@ short_description: Resource module for Qos Policy Setting
 description:
   - Manage operation update of the resource Qos Policy Setting.
   - API to update the application QoS policy setting.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deployByDefaultOnWiredDevices:
     description: Flag to indicate whether QoS policy should be deployed automatically on wired network device when it is provisioned.
       This would be only applicable for cases where the network device is assigned to a site where a QoS policy has been configured.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy UpdatesTheApplicationQoSPolicySetting
@@ -29,7 +29,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!updates-the-application-qo-s-policy-setting
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.updates_the_application_qo_s_policy_setting,
+    application_policy.ApplicationPolicy.updates_the_application_qos_policy_setting,
   - Paths used are
     put /dna/intent/api/v1/qosPolicySetting,
 """
@@ -52,7 +52,7 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: dict
+  type: str
   sample: >
-    {}
+    "'string'"
 """

@@ -12,22 +12,22 @@ description:
   - Manage operations create and delete of the resource Wireless Dynamic Interface.
   - API to create or update an dynamic interface.
   - Delete a dynamic interface.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   interfaceName:
-    description: InterfaceName query parameter. Valid interface-name to be deleted.
+    description: Dynamic-interface name.
     type: str
   vlanId:
     description: Vlan Id.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateUpdateDynamicInterface
@@ -47,18 +47,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.wireless_dynamic_interface:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    headers: '{{my_headers | from_json}}'
-    interfaceName: string
 - name: Create
   cisco.catalystcenter.wireless_dynamic_interface:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -72,6 +60,18 @@ EXAMPLES = r"""
     headers: '{{my_headers | from_json}}'
     interfaceName: string
     vlanId: 0
+- name: Delete all
+  cisco.catalystcenter.wireless_dynamic_interface:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    headers: '{{my_headers | from_json}}'
+    interfaceName: application/json
 """
 RETURN = r"""
 catalystcenter_response:

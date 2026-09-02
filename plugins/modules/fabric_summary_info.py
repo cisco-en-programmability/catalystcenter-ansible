@@ -11,10 +11,10 @@ short_description: Information module for Fabric Summary
 description:
   - Get all Fabric Summary. - > Read Fabric summary for overall deployment. Get an aggregated summary of all fabric entities
     in a deployment including the entity health.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -53,7 +53,7 @@ options:
         /floorUuid2` (multiple siteHierarchyIds requested).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA ReadFabricEntitySummary

@@ -9,57 +9,54 @@ DOCUMENTATION = r"""
 module: network_devices_trend_analytics_id
 short_description: Resource module for Network Devices Trend Analytics Id
 description:
-  - Manage operation create of the resource Network Devices Trend Analytics Id. - > The Trend analytics data for the network
-    Device in the specified time range. The data is grouped based on the trend time Interval, other input parameters like
-    attribute and aggregate attributes. For detailed information about the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Network Devices Trend Analytics Id.
+  - The Trend analytics data for the network Device in the specified time range.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Network Devices Trend Analytics Id's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Network Devices Trend Analytics Id's function.
         type: str
       name:
-        description: Name.
+        description: Network Devices Trend Analytics Id's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Network Devices Trend Analytics Id's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Network Devices Trend Analytics Id's endTime.
     type: int
   filters:
     description: Network Devices Trend Analytics Id's filters.
     elements: dict
     suboptions:
       filters:
-        description: Filters.
+        description: Network Devices Trend Analytics Id's filters.
         elements: str
         type: list
       key:
-        description: Key.
+        description: Network Devices Trend Analytics Id's key.
         type: str
       logicalOperator:
-        description: Logical Operator.
+        description: Network Devices Trend Analytics Id's logicalOperator.
         type: str
       operator:
-        description: Operator.
+        description: Network Devices Trend Analytics Id's operator.
         type: str
       value:
         description: Network Devices Trend Analytics Id's value.
         type: dict
     type: list
   groupBy:
-    description: Group By.
+    description: Network Devices Trend Analytics Id's groupBy.
     elements: str
     type: list
   id:
@@ -69,23 +66,23 @@ options:
     description: Network Devices Trend Analytics Id's page.
     suboptions:
       limit:
-        description: Limit.
+        description: Network Devices Trend Analytics Id's limit.
         type: int
       offset:
-        description: Offset.
+        description: Network Devices Trend Analytics Id's offset.
         type: int
       timestampOrder:
-        description: Timestamp Order.
+        description: Network Devices Trend Analytics Id's timestampOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Network Devices Trend Analytics Id's startTime.
     type: int
   trendIntervalInMinutes:
-    description: Trend Interval In Minutes.
+    description: Network Devices Trend Analytics Id's trendIntervalInMinutes.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRange

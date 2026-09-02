@@ -13,14 +13,18 @@ description:
   - Get Wireless Settings Interfaces by id.
   - This API allows the user to get all Interfaces.
   - This API allows the user to get an interface by ID.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Interface ID.
+    type: str
   limit:
     description:
       - >
@@ -39,12 +43,8 @@ options:
     description:
       - VlanId query parameter. Vlan Id.
     type: float
-  id:
-    description:
-      - Id path parameter. Interface ID.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetInterfaceByID
@@ -74,8 +74,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     interfaceName: string
     vlanId: 0
   register: result
@@ -99,13 +99,11 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "interfaceName": "string",
-          "vlanId": 0,
-          "id": "string"
-        }
-      ],
+      "response": {
+        "interfaceName": "string",
+        "vlanId": 0,
+        "id": "string"
+      },
       "version": "string"
     }
 """

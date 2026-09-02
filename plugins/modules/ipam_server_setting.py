@@ -11,26 +11,32 @@ short_description: Resource module for Ipam Server Setting
 description:
   - Manage operations create, update and delete of the resource Ipam Server Setting. - > Creates configuration details of
     the external IPAM server. You should only create one external IPAM server; delete any existing external server before
-    creating a new one. Please note, the certificate of the external IPAM server must be trusted by the Catalyst Center server
-    before using this API. Trusted certificates can be uploaded using 'Import Trusted Certificate' intent API.
+    creating a new one. To enable communication with an external IPAM server that has a certificate that may not be trusted,
+    add the certificate via `POST /intent/api/v1/trustedCertificates/import`.
   - Deletes configuration details of the external IPAM server.
   - Updates configuration details of the external IPAM server.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   password:
     description: The password for the external IPAM server login username.
     type: str
   provider:
-    description: Type of external IPAM. Can be either INFOBLOX, BLUECAT or GENERIC.
+    description: Type of external IPAM.
     type: str
   serverName:
     description: A descriptive name of this external server, used for identification purposes.
     type: str
   serverUrl:
     description: The URL of this external server.
+    type: str
+  state_:
+    description: State of the the external IPAM. * OK indicates success of most recent periodic communication check with external
+      IPAM. * CRITICAL indicates failure of most recent attempt to communicate with the external IPAM. * SYNCHRONIZING indicates
+      that the process of synchronizing the external IPAM database with the local IPAM database is running and all other IPAM
+      processes will be blocked until the completes. * DISCONNECTED indicates the external IPAM is no longer being used.
     type: str
   syncView:
     description: Synchronize the IP pools from the local IPAM to this external server.
@@ -42,7 +48,7 @@ options:
     description: The view under which pools are created in the external IPAM server.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServer
@@ -56,9 +62,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server,
-    system_settings.SystemSettings.deletes_configuration_details_of_the_external_ip_a_m_server,
-    system_settings.SystemSettings.updates_configuration_details_of_the_external_ip_a_m_server,
+    system_settings.SystemSettings.creates_configuration_details_of_the_external_ipam_server,
+    system_settings.SystemSettings.deletes_configuration_details_of_the_external_ipam_server,
+    system_settings.SystemSettings.updates_configuration_details_of_the_external_ipam_server,
   - Paths used are
     post /dna/intent/api/v1/ipam/serverSetting,
     delete /dna/intent/api/v1/ipam/serverSetting,
@@ -67,16 +73,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.ipam_server_setting:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
 - name: Create
   cisco.catalystcenter.ipam_server_setting:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -88,9 +84,10 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     password: string
-    provider: string
+    provider: {}
     serverName: string
     serverUrl: string
+    state_: string
     syncView: true
     userName: string
     view: string
@@ -105,11 +102,23 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     password: string
+    provider: {}
     serverName: string
     serverUrl: string
+    state_: string
     syncView: true
     userName: string
     view: string
+- name: Delete all
+  cisco.catalystcenter.ipam_server_setting:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
 """
 RETURN = r"""
 catalystcenter_response:

@@ -10,19 +10,19 @@ module: feature_templates_wireless_aaa_radius_attributes_configurations
 short_description: Resource module for Feature Templates Wireless Aaa Radius Attributes Configurations
 description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Aaa Radius Attributes Configurations.
-  - This API allows users to create a AAA Radius Attributes configuration feature template.
+  - This API allows users to create a AAA Radius Attributes configuration feature.
   - This API allows users to delete a specific AAA Radius Attributes configuration feature template by ID.
-  - This API allows users to update the details of a specific AAA Radius Attributes configuration feature template by ID.
-version_added: '6.18.0'
+  - This API allows users to update the details of a specific AAA Radius.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   designName:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Aaa Radius Attributes Configurations's featureAttributes.
+    description: AAA Radius Attributes Configuration Feature Attributes.
     suboptions:
       calledStationId:
         description: Called Station Identifier (calledStationId).
@@ -37,7 +37,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateAAARadiusAttributesConfigurationFeatureTemplate
@@ -62,32 +62,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    designName: string
-    featureAttributes:
-      calledStationId: string
-    unlockedAttributes:
-      - string
-- name: Delete by id
-  cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -102,6 +76,32 @@ EXAMPLES = r"""
     featureAttributes:
       calledStationId: string
     id: string
+    unlockedAttributes:
+      - string
+- name: Delete by id
+  cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+- name: Create
+  cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    designName: string
+    featureAttributes:
+      calledStationId: string
     unlockedAttributes:
       - string
 """

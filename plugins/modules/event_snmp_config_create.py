@@ -11,49 +11,49 @@ short_description: Resource module for Event Snmp Config Create
 description:
   - Manage operation create of the resource Event Snmp Config Create.
   - Create SNMP Destination.
-version_added: '3.1.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authPassword:
-    description: Auth Password.
+    description: Event Snmp Config Create's authPassword.
     type: str
   community:
     description: Required only if snmpVersion is V2C.
     type: str
   description:
-    description: Description.
+    description: Event Snmp Config Create's description.
     type: str
   ipAddress:
-    description: Ip Address.
+    description: Event Snmp Config Create's ipAddress.
     type: str
   name:
-    description: Name.
+    description: Event Snmp Config Create's name.
     type: str
   port:
-    description: Port.
+    description: Event Snmp Config Create's port.
     type: str
   privacyPassword:
-    description: Privacy Password.
+    description: Event Snmp Config Create's privacyPassword.
     type: str
   snmpAuthType:
-    description: Snmp Auth Type.
+    description: Event Snmp Config Create's snmpAuthType.
     type: str
   snmpMode:
     description: If snmpVersion is V3 it is required and cannot be NONE.
     type: str
   snmpPrivacyType:
-    description: Snmp Privacy Type.
+    description: Event Snmp Config Create's snmpPrivacyType.
     type: str
   snmpVersion:
-    description: Snmp Version.
+    description: Event Snmp Config Create's snmpVersion.
     type: str
   userName:
     description: Required only if snmpVersion is V3.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CreateSNMPDestination
@@ -98,9 +98,7 @@ catalystcenter_response:
   sample: >
     {
       "errorMessage": {
-        "errors": [
-          "string"
-        ]
+        "errors": []
       },
       "apiStatus": "string",
       "statusMessage": "string"

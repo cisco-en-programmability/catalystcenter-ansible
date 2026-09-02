@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Version Create
 description:
   - Manage operation create of the resource Configuration Template Version Create.
   - API to version the current contents of the template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   comments:
     description: Template version comments.
@@ -23,7 +23,7 @@ options:
     description: UUID of template.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates VersionTemplate
@@ -58,7 +58,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

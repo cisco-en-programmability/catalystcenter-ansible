@@ -11,10 +11,10 @@ short_description: Information module for Discoverys Count
 description:
   - Get all Discoverys Count.
   - API to fetch the count of discoveries using basic filters.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -22,15 +22,14 @@ options:
   id:
     description:
       - Id query parameter. Optional list of the discovery ids to filter by.
-    type: str
+    elements: str
+    type: list
   name:
     description:
-      - >
-        Name query parameter. Optional name of the discovery to filter by. This supports partial search. For
-        example, searching for "Disc" will match "Discovery1", "Discovery2", etc.
+      - Name query parameter. The name of the discovery job. This will be a unique value.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CountTheNumberOfDiscoveries
@@ -55,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: ['beee4fe6-cbc3-4b39-946c-4b719cd110e7', 'aaaa4fe6-cbc3-4b39-946c-4b719cd110b8']
     name: string
   register: result
 """

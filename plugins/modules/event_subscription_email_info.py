@@ -11,10 +11,10 @@ short_description: Information module for Event Subscription Email
 description:
   - Get all Event Subscription Email.
   - Gets the list of email Subscriptions's based on provided query params.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -62,7 +62,7 @@ options:
       - Name query parameter. List of email subscriptions related to the respective name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management GetEmailEventSubscriptions
@@ -89,7 +89,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
-    limit: 0
+    limit: 10
     sortBy: string
     order: string
     domain: string

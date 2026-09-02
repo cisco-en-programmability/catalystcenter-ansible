@@ -11,16 +11,16 @@ short_description: Information module for Ipam Server Setting
 description:
   - Get all Ipam Server Setting. - > Retrieves configuration details of the external IPAM server. If an external IPAM server
     has not been created, this resource will return a `404` response.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServer
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server,
+    system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ipam_server,
   - Paths used are
     get /dna/intent/api/v1/ipam/serverSetting,
 """
@@ -54,14 +54,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "provider": "string",
-        "serverName": "string",
-        "serverUrl": "string",
-        "state": "string",
-        "userName": "string",
-        "view": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

@@ -11,10 +11,10 @@ short_description: Information module for Site Wise Product Names Count
 description:
   - Get all Site Wise Product Names Count.
   - Returns the count of network device product names for given filters. The default value of `siteId` is global.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,7 +32,7 @@ options:
         search. A minimum of 3 characters are required for search.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ReturnsTheCountOfNetworkDeviceProductNamesForASite
@@ -69,8 +69,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

@@ -9,13 +9,12 @@ DOCUMENTATION = r"""
 module: icap_capture_files_count_info
 short_description: Information module for Icap Capture Files Count
 description:
-  - Get all Icap Capture Files Count. - > Retrieves the total number of packet capture files matching the specified criteria.
-    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Get all Icap Capture Files Count.
+  - Retrieves the total number of packet capture files matching the specified.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,6 +31,10 @@ options:
     description:
       - ApMac query parameter. The base radio macAddress of the access point.
     type: str
+  switchMac:
+    description:
+      - SwitchMac query parameter. The base macAddress of the switch.
+    type: str
   startTime:
     description:
       - >
@@ -45,7 +48,7 @@ options:
         specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors RetrievesTheTotalNumberOfPacketCaptureFilesMatchingSpecifiedCriteria
@@ -73,6 +76,7 @@ EXAMPLES = r"""
     type: string
     clientMac: string
     apMac: string
+    switchMac: string
     startTime: 0
     endTime: 0
   register: result

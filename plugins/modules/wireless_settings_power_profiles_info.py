@@ -13,14 +13,18 @@ description:
   - Get Wireless Settings Power Profiles by id.
   - This API allows the user to get Power Profiles that captured in wireless settings design.
   - This API allows the user to get a Power Profile by Power Profile ID that captured in wireless settings design.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Power Profile ID.
+    type: str
   limit:
     description:
       - Limit query parameter.
@@ -33,12 +37,8 @@ options:
     description:
       - ProfileName query parameter. Power Profile Name.
     type: str
-  id:
-    description:
-      - Id path parameter. Power Profile ID.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetPowerProfileByID
@@ -68,8 +68,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     profileName: string
   register: result
 - name: Get Wireless Settings Power Profiles by id

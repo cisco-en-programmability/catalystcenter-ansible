@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Sda Multicast.
   - Add multicast in SDA fabric.
   - Delete multicast from SDA fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   multicastMethod:
     description: Multicast Method.
@@ -24,7 +24,7 @@ options:
     description: Multicast Type.
     type: str
   multicastVnInfo:
-    description: Sda Multicast's multicastVnInfo.
+    description: Multicast Virtual Network Information.
     elements: dict
     suboptions:
       externalRpIpAddress:
@@ -38,7 +38,7 @@ options:
         description: Ip Pool Name, that is reserved to Fabric Site.
         type: str
       ssmInfo:
-        description: Sda Multicast's ssmInfo.
+        description: Source-specific multicast information, required if multicastType is ssm.
         elements: dict
         suboptions:
           ssmGroupRange:
@@ -56,7 +56,7 @@ options:
     description: SiteNameHierarchy query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddMulticastInSDAFabric
@@ -86,7 +86,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
-    siteNameHierarchy: string
+    siteNameHierarchy: application/json
 - name: Create
   cisco.catalystcenter.sda_multicast:
     catalystcenter_host: "{{catalystcenter_host}}"

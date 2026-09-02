@@ -10,11 +10,11 @@ module: network_v2_info
 short_description: Information module for Network V2
 description:
   - Get all Network V2.
-  - API to get SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
-version_added: '3.1.0'
+  - API to get SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,15 +24,15 @@ options:
       - SiteId query parameter. Site Id to get the network settings associated with the site.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings GetNetworkV2
-    description: Complete reference of the GetNetworkV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-network-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings GetNetwork
+    description: Complete reference of the GetNetwork API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.get_network_v2,
+    network_settings.NetworkSettings.get_network,
   - Paths used are
     get /dna/intent/api/v2/network,
 """

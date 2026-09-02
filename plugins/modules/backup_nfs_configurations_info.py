@@ -11,16 +11,16 @@ short_description: Information module for Backup Nfs Configurations
 description:
   - Get all Backup Nfs Configurations.
   - This api is used to get all the configured NFS.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup GetAllNFSConfigurations
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-all-nfs-configurations
 notes:
   - SDK Method used are
-    backup.Backup.get_all_n_f_s_configurations,
+    backup.Backup.get_all_nfs_configurations,
   - Paths used are
     get /dna/system/api/v1/backupNfsConfigurations,
 """

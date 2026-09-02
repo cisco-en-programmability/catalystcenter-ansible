@@ -9,38 +9,38 @@ DOCUMENTATION = r"""
 module: wireless_settings_certificate_renewal_profiles
 short_description: Resource module for Wireless Settings Certificate Renewal Profiles
 description:
-  - Manage operations create, update and delete of the resource Wireless Settings Certificate Renewal Profiles.
-  - This API is used to Create LSC Certificate Renewal Profile.
-  - Delete LSC Certificate Renewal Profile by ID.
+  - Manage operations create, update and delete of the resource Wireless Settings Certificate Renewal Profiles. - > This API
+    allows users to create an access point certificate renewal profile by specifying the expiry due days, LSC profile name,
+    and type of execution Staggered or Oneshot .
+  - This API allows users to delete access point certificate renewal profiles by profile ID.
   - This API allows users to update access point certificate renewal profiles by profile ID.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
-  CalendarProfileSetting:
-    description: Wireless Settings Certificate Renewal Profiles's CalendarProfileSetting.
+  calendarProfile:
+    description: This entity is the calendar profile setting construct on the wireless controller, which the wireless controller
+      uses for any scheduling mechanism.
     suboptions:
       duration:
         description: Wireless Settings Certificate Renewal Profiles's duration.
         suboptions:
           schedulerDate:
-            description: Dates in a month (1 to 31) on which execution is scheduled. If the specified date does not exist
-              in that month, no execution will be triggered for that date. For example, on the dates 1, 10, 30 in February,
-              execution would occur only on dates 1 and 10.
-            type: str
+            description: Wireless Settings Certificate Renewal Profiles's schedulerDate.
+            elements: int
+            type: list
           schedulerDay:
-            description: List of days in a week on which certificate renewal has to be scheduled. Example SUNDAY, MONDAY,
-              TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATERDAY.
+            description: Wireless Settings Certificate Renewal Profiles's schedulerDay.
             elements: str
             type: list
           schedulerEndTime:
             description: End time on the wireless controller at which the scheduler should stop any execution. Format HH MM
-              in 24-hour notation. Example 23 59.
+              in 24-hour notation.
             type: str
           schedulerStartTime:
             description: Start time on the wireless controller at which the scheduler should begin any execution. Format HH
-              MM in 24-hour notation. Example 13 00.
+              MM in 24-hour notation.
             type: str
         type: dict
       schedulerType:
@@ -52,17 +52,13 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. LSC Certificate Renewal Profile ID.
+    description: Id path parameter. Access point certificate renewal profile ID.
     type: str
   lscProfileName:
     description: Name of the LSC profile.
     type: str
   renewalDueInDays:
-    description: Type of renewal (e.g., ONESHOT, STAGGERED) * STAGGERED execution when configured with calendarProfileSetting
-      requires both start time and end time input from scheduler. STAGGERED execution also requires a percentage input which
-      specifies the percentage of access points that can be considered for certificate renewal per iteration. * ONESHOT execution
-      when configured with calendarProfileSetting requires a start time input. ONESHOT execution does not need percentage
-      input as all the access points certificate renewal happens at oneshot.
+    description: Number of days until renewal is due.
     type: int
   renewalType:
     description: Type of renewal (e.g., ONESHOT, STAGGERED) * STAGGERED execution when configured with calendarProfileSetting
@@ -72,23 +68,23 @@ options:
       input as all the access points certificate renewal happens at oneshot.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless CreateLSCCertificateRenewalProfile
-    description: Complete reference of the CreateLSCCertificateRenewalProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-lsc-certificate-renewal-profile
-  - name: Cisco Catalyst Center documentation for Wireless DeleteLSCCertificateRenewalProfileByID
-    description: Complete reference of the DeleteLSCCertificateRenewalProfileByID API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-lsc-certificate-renewal-profile-by-id
-  - name: Cisco Catalyst Center documentation for Wireless UpdateLSCCertificateRenewalProfile
-    description: Complete reference of the UpdateLSCCertificateRenewalProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-lsc-certificate-renewal-profile
+  - name: Cisco Catalyst Center documentation for Wireless CreateAccessPointCertificateRenewalProfile
+    description: Complete reference of the CreateAccessPointCertificateRenewalProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-access-point-certificate-renewal-profile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteAccessPointCertificateRenewalProfile
+    description: Complete reference of the DeleteAccessPointCertificateRenewalProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-access-point-certificate-renewal-profile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateAccessPointCertificateRenewalProfile
+    description: Complete reference of the UpdateAccessPointCertificateRenewalProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-access-point-certificate-renewal-profile
 notes:
   - SDK Method used are
-    wireless.Wireless.create_l_s_c_certificate_renewal_profile,
-    wireless.Wireless.delete_l_s_c_certificate_renewal_profile_by_id,
-    wireless.Wireless.update_l_s_c_certificate_renewal_profile,
+    wireless.Wireless.create_access_point_certificate_renewal_profile,
+    wireless.Wireless.delete_access_point_certificate_renewal_profile,
+    wireless.Wireless.update_access_point_certificate_renewal_profile,
   - Paths used are
     post /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles,
     delete /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/{id},
@@ -107,9 +103,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    CalendarProfileSetting:
+    calendarProfile:
       duration:
-        schedulerDate: string
+        schedulerDate:
+          - 0
         schedulerDay:
           - string
         schedulerEndTime: string
@@ -139,9 +136,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    CalendarProfileSetting:
+    calendarProfile:
       duration:
-        schedulerDate: string
+        schedulerDate:
+          - 0
         schedulerDay:
           - string
         schedulerEndTime: string

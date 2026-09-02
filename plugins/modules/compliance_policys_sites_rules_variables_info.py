@@ -11,10 +11,10 @@ short_description: Information module for Compliance Policys Sites Rules Variabl
 description:
   - Get all Compliance Policys Sites Rules Variables.
   - Retrieve the site variables for the specified rule within the compliance policy.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -34,12 +34,12 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. Include values explicitly set for this site; when false, null values
+        _inherited query parameter. Include values explicitly set for this site; when `false`, `null` values
         indicate that the site inherits these values from the parent site or a higher level in the site
         hierarchy.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveSiteVariables
@@ -65,9 +65,9 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     _inherited: true
-    policyId: string
-    siteId: string
-    ruleId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 """
 RETURN = r"""
@@ -77,18 +77,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "variableValues": [
-          {
-            "id": "string",
-            "values": [
-              "string"
-            ]
-          }
-        ],
-        "inheritedSiteId": "string",
-        "inheritedSiteName": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

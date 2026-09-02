@@ -10,15 +10,21 @@ module: activities_info
 short_description: Information module for Activities
 description:
   - Get all Activities.
+  - Get Activities by id.
   - Returns activitys based on filter criteria.
-version_added: '6.18.0'
+  - Returns the activity with the given ID.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The id of the activity to retrieve.
+    type: str
   description:
     description:
       - Description query parameter. The description of the activity.
@@ -60,17 +66,22 @@ options:
       - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task GetActivities
     description: Complete reference of the GetActivities API.
     link: https://developer.cisco.com/docs/dna-center/#!get-activities
+  - name: Cisco Catalyst Center documentation for Task GetActivityByID
+    description: Complete reference of the GetActivityByID API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-activity-by-id
 notes:
   - SDK Method used are
     task.Task.get_activities,
+    task.Task.get_activity_by_id,
   - Paths used are
     get /dna/intent/api/v1/activities,
+    get /dna/intent/api/v1/activities/{id},
 """
 
 EXAMPLES = r"""
@@ -91,10 +102,22 @@ EXAMPLES = r"""
     recurring: true
     startTime: string
     endTime: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
+  register: result
+- name: Get Activities by id
+  cisco.catalystcenter.activities_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
   register: result
 """
 RETURN = r"""
@@ -104,18 +127,16 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "description": "string",
-          "endTime": 0,
-          "id": "string",
-          "originatingWorkItemActivityId": "string",
-          "recurring": true,
-          "startTime": 0,
-          "status": "string",
-          "type": "string"
-        }
-      ],
+      "response": {
+        "description": "string",
+        "endTime": 0,
+        "id": "string",
+        "originatingWorkItemActivityId": "string",
+        "recurring": true,
+        "startTime": 0,
+        "status": "string",
+        "type": "string"
+      },
       "version": "string"
     }
 """

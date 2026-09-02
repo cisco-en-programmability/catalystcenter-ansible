@@ -10,18 +10,18 @@ module: discoverys_jobs_discovered_network_devices_count_info
 short_description: Information module for Discoverys Jobs Discovered Network Devices Count
 description:
   - Get all Discoverys Jobs Discovered Network Devices Count.
-  - API to get the details of all the devices discovered by the given jobId and discoveryId.
-version_added: '6.46.0'
+  - API to fetch the number of discovered network devices by using the given discoveryId and jobId.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   discoveryId:
     description:
-      - DiscoveryId path parameter. The id of the discovery.
+      - DiscoveryId path parameter. Discovery id.
     type: str
   jobId:
     description:
@@ -37,34 +37,36 @@ options:
     type: str
   ping:
     description:
-      - Ping query parameter. Ping status for the IP during the job run.
+      - >
+        Ping query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT_PROVIDED' and 'NOT_VALIDATED.
     type: str
   cli:
     description:
-      - Cli query parameter. CLI status for the IP during the job run.
+      - >
+        Cli query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT_PROVIDED' and 'NOT_VALIDATED.
     type: str
   snmp:
     description:
-      - Snmp query parameter. SNMP status for the IP during the job run.
+      - >
+        Snmp query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT_PROVIDED' and 'NOT_VALIDATED.
     type: str
   http:
     description:
-      - Http query parameter. HTTP status for the IP during the job run.
+      - >
+        Http query parameter. HTTP status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT_PROVIDED' and 'NOT_VALIDATED.
     type: str
   netconf:
     description:
-      - Netconf query parameter. Netconf status for the IP during the job run.
+      - >
+        Netconf query parameter. Netconf status for the IP during the job run. Available values are 'SUCCESS',
+        'FAILURE', 'NOT_PROVIDED' and 'NOT_VALIDATED.
     type: str
-  limit:
-    description:
-      - Limit query parameter. The number of records to show for this page.
-    type: int
-  offset:
-    description:
-      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
-    type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CountTheNumberOfDiscoveredNetworkDevicesByDiscoveryId
@@ -96,8 +98,6 @@ EXAMPLES = r"""
     snmp: string
     http: string
     netconf: string
-    limit: 0
-    offset: 0
     discoveryId: string
     jobId: string
   register: result

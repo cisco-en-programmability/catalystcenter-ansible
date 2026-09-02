@@ -11,24 +11,24 @@ short_description: Information module for Releases Release Summary
 description:
   - Get all Releases Release Summary.
   - This API is used to retrieve a specific release and the list of packages available in that release.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   releaseName:
     description:
-      - ReleaseName query parameter. The releaseName of the release to be retrieved.
+      - ReleaseName query parameter. The `releaseName` of the release to be retrieved.
     type: str
   releaseVersion:
     description:
-      - ReleaseVersion query parameter. The releaseVersion of the release to be retrieved.
+      - ReleaseVersion query parameter. The `releaseVersion` of the release to be retrieved.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade GetReleaseDetail

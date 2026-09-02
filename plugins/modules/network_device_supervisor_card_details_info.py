@@ -11,10 +11,10 @@ short_description: Information module for Network Device Supervisor Card Details
 description:
   - Get all Network Device Supervisor Card Details.
   - Get supervisor card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - DeviceUuid path parameter. Instanceuuid of device.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetSupervisorCardDetail

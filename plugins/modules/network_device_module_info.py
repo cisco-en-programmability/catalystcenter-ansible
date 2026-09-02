@@ -16,14 +16,18 @@ description:
     'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/network-device/module/count API to get
     the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve
     all records incrementally.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Module id.
+    type: str
   deviceId:
     description:
       - DeviceId query parameter.
@@ -56,12 +60,8 @@ options:
       - OperationalStateCodeList query parameter.
     elements: str
     type: list
-  id:
-    description:
-      - Id path parameter. Module id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetModuleInfoById
@@ -92,7 +92,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     deviceId: string
-    limit: 0
+    limit: 500
     offset: 0
     nameList: []
     vendorEquipmentTypeList: []

@@ -996,8 +996,10 @@ class NetworkProfileFunctions(CatalystCenterBase):
                         self.result["changed"] = False
                         self.result["response"] = self.get_task_details_by_id(task_id)
                         self.log(
-                            "Task {0} failed: {1}".format(task_id, self.result["response"]),
-                            "ERROR"
+                            "Task {0} failed: {1}".format(
+                                task_id, self.result["response"]
+                            ),
+                            "ERROR",
                         )
                         return None
 

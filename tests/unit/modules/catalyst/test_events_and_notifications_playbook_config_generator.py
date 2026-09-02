@@ -21,7 +21,9 @@ __metaclass__ = type
 import tempfile
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import events_and_notifications_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    events_and_notifications_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -31,13 +33,19 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
 
     test_data = loadPlaybookData("events_and_notifications_playbook_config_generator")
 
-    playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
-    playbook_component_specific_filters = test_data.get("playbook_component_specific_filters")
+    playbook_generate_all_configurations = test_data.get(
+        "playbook_generate_all_configurations"
+    )
+    playbook_component_specific_filters = test_data.get(
+        "playbook_component_specific_filters"
+    )
     playbook_invalid_filter = test_data.get("playbook_invalid_filter")
     playbook_specific_filter = test_data.get("playbook_specific_filter")
     playbook_itsm = test_data.get("playbook_itsm")
     playbook_config_empty = test_data.get("playbook_config_empty")
-    playbook_component_with_empty_filter = test_data.get("playbook_component_with_empty_filter")
+    playbook_component_with_empty_filter = test_data.get(
+        "playbook_component_with_empty_filter"
+    )
     expected_error_missing_component_specific_filters = test_data.get(
         "expected_error_missing_component_specific_filters"
     )
@@ -46,7 +54,8 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
         super(TestCatalystCenterEventsAndNotificationsPlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -55,7 +64,9 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestCatalystCenterEventsAndNotificationsPlaybookGenerator, self).tearDown()
+        super(
+            TestCatalystCenterEventsAndNotificationsPlaybookGenerator, self
+        ).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -161,8 +172,8 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 "file_mode": "overwrite",
                 "components_processed": 8,
                 "components_skipped": 0,
-                "configurations_count": 8
-            }
+                "configurations_count": 8,
+            },
         )
 
     def test_events_and_notifications_playbook_component_specific_filters(self):
@@ -185,7 +196,7 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
                 file_path=file_path,
-                config=self.playbook_component_specific_filters
+                config=self.playbook_component_specific_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -200,7 +211,7 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 "components_processed": 2,
                 "components_skipped": 0,
                 "configurations_count": 2,
-            }
+            },
         )
 
     def test_events_and_notifications_playbook_invalid_filter(self):
@@ -221,7 +232,7 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
                 file_path=file_path,
-                config=self.playbook_invalid_filter
+                config=self.playbook_invalid_filter,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -233,18 +244,18 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
             "['email_destination', 'email_event_notification', 'itsm_setting', "
             "'snmp_destination', 'syslog_destination', 'syslog_event_notification', "
             "'webhook_destination', 'webhook_event_notification']. "
-            "Please provide valid component names and try again."
+            "Please provide valid component names and try again.",
         )
 
     def test_events_and_notifications_playbook_specific_filter(self):
         """
-       Test the Events and Notifications Playbook Generator's specific component filtering functionality.
+        Test the Events and Notifications Playbook Generator's specific component filtering functionality.
 
-        This test verifies that the workflow correctly handles the generation of YAML configuration
-        for a single specific events and notifications component.
+         This test verifies that the workflow correctly handles the generation of YAML configuration
+         for a single specific events and notifications component.
 
-        This validates targeted configuration extraction for specific events and notifications
-        components, enabling users to generate YAML for only the components they need.
+         This validates targeted configuration extraction for specific events and notifications
+         components, enabling users to generate YAML for only the components they need.
         """
 
         file_path = self._temp_output_path("_specific_filter.yml")
@@ -257,7 +268,7 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
                 file_path=file_path,
-                config=self.playbook_specific_filter
+                config=self.playbook_specific_filter,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -272,18 +283,18 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-            }
+            },
         )
 
     def test_events_and_notifications_playbook_itsm(self):
         """
-       Test the Events and Notifications Playbook Generator's ITSM component filtering functionality.
+        Test the Events and Notifications Playbook Generator's ITSM component filtering functionality.
 
-        This test verifies that the workflow correctly handles the generation of YAML configuration
-        for a single specific events and notifications component.
+         This test verifies that the workflow correctly handles the generation of YAML configuration
+         for a single specific events and notifications component.
 
-        This validates targeted configuration extraction for specific events and notifications
-        components, enabling users to generate YAML for only the components they need.
+         This validates targeted configuration extraction for specific events and notifications
+         components, enabling users to generate YAML for only the components they need.
         """
 
         file_path = self._temp_output_path("_itsm.yml")
@@ -296,7 +307,7 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
                 file_path=file_path,
-                config=self.playbook_itsm
+                config=self.playbook_itsm,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -310,11 +321,13 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
                 "file_mode": "overwrite",
                 "components_processed": 1,
                 "components_skipped": 0,
-                "configurations_count": 1
-            }
+                "configurations_count": 1,
+            },
         )
 
-    def test_events_and_notifications_playbook_config_omitted_defaults_generate_all(self):
+    def test_events_and_notifications_playbook_config_omitted_defaults_generate_all(
+        self,
+    ):
         """
         Test omitted config behavior defaults to generate-all mode.
         """
@@ -334,7 +347,9 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
         self.assertEqual(result.get("response", {}).get("status"), "success")
         self.assertEqual(result.get("response", {}).get("components_processed"), 8)
 
-    def test_events_and_notifications_playbook_config_empty_fails_missing_component_specific_filters(self):
+    def test_events_and_notifications_playbook_config_empty_fails_missing_component_specific_filters(
+        self,
+    ):
         """
         Test explicit empty config raises mandatory component_specific_filters error.
         """
@@ -375,10 +390,14 @@ class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModu
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters found in configuration", result.get("response"))
+        self.assertIn(
+            "Invalid parameters found in configuration", result.get("response")
+        )
         self.assertIn("generate_all_configurations", result.get("response"))
 
-    def test_events_and_notifications_playbook_empty_component_filter_block_treated_as_all_for_component(self):
+    def test_events_and_notifications_playbook_empty_component_filter_block_treated_as_all_for_component(
+        self,
+    ):
         """
         Test empty component filter list still retrieves all records for listed component.
         """

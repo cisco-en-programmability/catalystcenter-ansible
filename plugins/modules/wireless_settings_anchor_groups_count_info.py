@@ -10,17 +10,17 @@ module: wireless_settings_anchor_groups_count_info
 short_description: Information module for Wireless Settings Anchor Groups Count
 description:
   - Get all Wireless Settings Anchor Groups Count.
-  - This API allows the user to get count of all AnchorGroups.
-version_added: '6.17.0'
+  - This API allows the user to get count of all anchorGroups.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetCountOfAnchorGroups

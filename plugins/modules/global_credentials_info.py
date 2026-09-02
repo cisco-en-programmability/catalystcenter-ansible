@@ -13,21 +13,26 @@ description:
   - Get Global Credentials by id.
   - API to get global credentials based on the given filters.
   - API to retrieve the global credential details by its unique identifier.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   id:
     description:
-      - Id query parameter. List of unique identifiers of the global credentials. Accepts comma separated values.
+      - Id path parameter. Unique identifier of the global credential.
     type: str
   type:
     description:
-      - Type query parameter. Returns global credentials for the given credential type.
+      - >
+        Type query parameter. Returns global credentials for the given credential type. |Type | Description |
+        |---------------|------------------------------------| | `CLI` | CLI credentials for TELNET/SSH. | |
+        `SNMPV2_READ_COMMUNITY` | SNMP V2 read credentials. | | `SNMPV2_WRITE_COMMUNITY` | SNMP V2 write
+        credentials. | | `SNMPV3` | SNMP V3 credentials. | | `HTTP_WRITE` | HTTP write credentials. |
+        |`HTTP_READ` | HTTP read credentials. | | `NETCONF` | NETCONF port. |.
     type: str
   offset:
     description:
@@ -46,7 +51,7 @@ options:
       - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings GetDetailsOfASingleGlobalCredential
@@ -76,12 +81,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
-    type: string
-    offset: 0
-    limit: 0
-    sortBy: string
-    order: string
+    id: ['3fa85f64-5717-4562-b3fc-2c963f66afa6', 'cfa85f64-5717-4562-b3fc-2c963f66afa6']
+    type: SNMPV2_READ_COMMUNITY
+    offset: 1
+    limit: 500
+    sortBy: id
+    order: asc
   register: result
 - name: Get Global Credentials by id
   cisco.catalystcenter.global_credentials_info:
@@ -93,7 +98,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: 3fa85f64-5717-4562-b3fc-2c963f66afa6
   register: result
 """
 RETURN = r"""
@@ -103,10 +108,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
+      "response": {},
       "version": "string"
     }
 """

@@ -29,7 +29,7 @@ description:
     Catalyst Center.
   - Create/Update Notification using the above destination
     in Cisco Catalyst Center.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author: Abhishek Maheshwari (@abmahesh) Priyadharshini B(@pbalaku2) Madhan Sankaranarayanan
@@ -727,7 +727,7 @@ options:
             type: list
             elements: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - To ensure the module operates correctly with scaled
@@ -1901,10 +1901,9 @@ class Events(CatalystCenterBase):
         if not server_address:
             return
 
-        is_ipv4_literal = bool(re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address))
-        is_ipv6_literal = (
-            ":" in server_address
-            and bool(re.match(r'^[0-9A-Fa-f:.]+$', server_address))
+        is_ipv4_literal = bool(re.match(r"^\d+\.\d+\.\d+\.\d+$", server_address))
+        is_ipv6_literal = ":" in server_address and bool(
+            re.match(r"^[0-9A-Fa-f:.]+$", server_address)
         )
 
         if not (is_ipv4_literal or is_ipv6_literal):
@@ -1919,7 +1918,9 @@ class Events(CatalystCenterBase):
                     "{1} destination. Please provide a valid IPv6 address "
                     "(e.g., 2001:db8::1)."
                 ).format(server_address, destination_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             if is_ipv4_literal:
                 self.msg = (
@@ -1927,7 +1928,9 @@ class Events(CatalystCenterBase):
                     "{1} destination. Please provide a valid IPv4 address "
                     "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
                 ).format(server_address, destination_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
     def collect_snmp_playbook_params(self, snmp_details):
         """
@@ -1968,7 +1971,9 @@ class Events(CatalystCenterBase):
                     "Invalid server address '{0}' given in the playbook for configuring "
                     "SNMP destination. Please provide a valid FQDN, IPv4, or IPv6 address."
                 ).format(server_address)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
             try:
                 self.validate_ip_literal_or_fail(server_address, "SNMP")
@@ -2535,7 +2540,9 @@ class Events(CatalystCenterBase):
         ccc_header = ccc_header or []
         self.log(
             "Comparing playbook headers: {0} with CCC headers: {1} to determine if update is needed.".format(
-                playbook_header, ccc_header), "DEBUG"
+                playbook_header, ccc_header
+            ),
+            "DEBUG",
         )
 
         if len(playbook_header) == 0 and ccc_header:
@@ -2580,7 +2587,9 @@ class Events(CatalystCenterBase):
                 if update_needed:
                     self.log(
                         "Webhook headers differ between playbook and Catalyst Center for "
-                        "key '{0}'. Update required; stopping further field comparisons.".format(key),
+                        "key '{0}'. Update required; stopping further field comparisons.".format(
+                            key
+                        ),
                         "DEBUG",
                     )
                     break
@@ -2626,7 +2635,9 @@ class Events(CatalystCenterBase):
             ) or webhook_dest_detail_in_ccc.get("method")
             update_webhook_params["trustCert"] = webhook_params.get("trustCert")
             update_webhook_params["isProxyRoute"] = webhook_params.get("isProxyRoute")
-            update_webhook_params["webhook_headers"] = webhook_params.get("webhook_headers")
+            update_webhook_params["webhook_headers"] = webhook_params.get(
+                "webhook_headers"
+            )
             update_webhook_params["webhookId"] = webhook_dest_detail_in_ccc.get(
                 "webhookId"
             )
@@ -2647,8 +2658,8 @@ class Events(CatalystCenterBase):
                 and not update_webhook_params["webhook_headers"]
                 and webhook_dest_detail_in_ccc.get("headers")
             ):
-                update_webhook_params["webhook_headers"] = webhook_dest_detail_in_ccc.get(
-                    "headers"
+                update_webhook_params["webhook_headers"] = (
+                    webhook_dest_detail_in_ccc.get("headers")
                 )
 
             response = self.catalystcenter._exec(
@@ -7021,21 +7032,73 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
@@ -7051,7 +7114,12 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
-    if ccc_events.compare_catalystcenter_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_events.compare_catalystcenter_versions(
+            ccc_events.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
         ccc_events.msg = (
             "The specified version '{0}' does not support the events and notifications workflow. "
             "Supported versions start from '2.3.5.3' onwards.".format(

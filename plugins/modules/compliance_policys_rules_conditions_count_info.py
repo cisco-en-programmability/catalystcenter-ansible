@@ -11,10 +11,10 @@ short_description: Information module for Compliance Policys Rules Conditions Co
 description:
   - Get all Compliance Policys Rules Conditions Count.
   - Retrieves the count of conditions under the specified compliance policy and rule.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -25,10 +25,10 @@ options:
     type: str
   ruleId:
     description:
-      - RuleId path parameter.
+      - RuleId path parameter. The `id` of the rule within the compliance policy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveTheCountOfConditions
@@ -53,8 +53,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    ruleId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 """
 RETURN = r"""
@@ -64,21 +64,9 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "runStatus": "string",
-          "submitTime": 0,
-          "startTime": 0,
-          "endTime": 0,
-          "validationStatus": "string",
-          "validationSetIds": [
-            "string"
-          ]
-        }
-      ],
+      "response": {
+        "count": 0
+      },
       "version": "string"
     }
 """

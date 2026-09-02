@@ -10,11 +10,11 @@ module: swim_image_details_info
 short_description: Information module for Swim Image Details
 description:
   - Get all Swim Image Details.
-  - Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
-version_added: '3.1.0'
+  - Returns software image list based on a filter criteria. For example.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -92,7 +92,7 @@ options:
       - Offset query parameter.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) GetSoftwareImageDetails
@@ -132,7 +132,7 @@ EXAMPLES = r"""
     imageSizeGreaterThan: 0
     imageSizeLesserThan: 0
     sortBy: string
-    sortOrder: string
+    sortOrder: asc
     limit: 0
     offset: 0
   register: result

@@ -10,11 +10,11 @@ module: sda_fabric_devices_layer2_handoffs_sda_transits_count_info
 short_description: Information module for Sda Fabric Devices Layer2 Handoffs Sda Transits Count
 description:
   - Get all Sda Fabric Devices Layer2 Handoffs Sda Transits Count.
-  - Returns the count of layer 3 handoffs with sda transit of fabric devices that match the provided query parameters.
-version_added: '6.14.0'
+  - Returns the count of layer 3 handoffs with sda transit of fabric devices that.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -28,7 +28,7 @@ options:
       - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitCount

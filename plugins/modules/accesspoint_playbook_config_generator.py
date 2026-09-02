@@ -4,10 +4,11 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Access Point workflow Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
+__author__ = "A Mohamed Rafeek, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
@@ -26,7 +27,7 @@ description:
     provisioned hostnames, AP configurations, or MAC addresses).
   - Auto-generates timestamped YAML filenames when file path not
     specified.
-version_added: 6.45.0
+version_added: 2.6.0
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -163,7 +164,7 @@ options:
             elements: str
             required: false
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - This module utilizes the following SDK methods
@@ -369,14 +370,15 @@ import copy
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -413,7 +415,11 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
-        self.have["devices_details"], self.have["all_ap_config"], self.have["all_detailed_config"] = [], [], []
+        (
+            self.have["devices_details"],
+            self.have["all_ap_config"],
+            self.have["all_detailed_config"],
+        ) = ([], [], [])
         self.have["all_provision_config"], self.have["unprocessed"] = [], []
 
     def validate_input(self):
@@ -443,7 +449,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting comprehensive input validation for access point playbook config generator "
             "configuration. Validation will check parameter structure, types, and business "
             "logic constraints before proceeding with AP configuration extraction workflow.",
-            "INFO"
+            "INFO",
         )
 
         config_provided = self.params.get("config") is not None
@@ -471,12 +477,9 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
-                "default": False
+                "default": False,
             },
-            "global_filters": {
-                "type": "dict",
-                "required": False
-            },
+            "global_filters": {"type": "dict", "required": False},
         }
 
         valid_temp = self.validate_config_dict(self.config, temp_spec)
@@ -517,7 +520,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "provision_hostname_list",
                 "accesspoint_config_list",
                 "accesspoint_provision_config_list",
-                "accesspoint_provision_config_mac_list"
+                "accesspoint_provision_config_mac_list",
             ]
             provided_filters = {
                 key: global_filters.get(key)
@@ -559,9 +562,9 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "has_global_filters: {1}, file_mode: {2}".format(
                 bool(valid_temp.get("generate_all_configurations")),
                 bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
+                self.params.get("file_mode", "overwrite"),
             ),
-            "INFO"
+            "INFO",
         )
 
         self.set_operation_result("success", False, self.msg, "INFO")
@@ -611,7 +614,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Starting validation of configuration parameters for access point playbook generation. "
             f"Configuration contains {len(config.keys()) if config else 0} parameter(s). Will "
             f"validate file path accessibility and create necessary directories if needed.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check for required parameters
@@ -626,7 +629,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             f"Configuration validation passed basic checks. Configuration keys: {list(config.keys())}",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate file_path if provided
@@ -636,24 +639,25 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Custom file_path provided: '{file_path}'. Validating path accessibility and "
                 f"checking if parent directory exists or needs to be created.",
-                "INFO"
+                "INFO",
             )
 
             import os
+
             directory = os.path.dirname(file_path)
 
             if directory:
                 self.log(
                     f"Extracted parent directory from file_path: '{directory}'. Checking if "
                     f"directory exists in filesystem.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if not os.path.exists(directory):
                     self.log(
                         f"Parent directory '{directory}' does not exist. Attempting to create "
                         f"directory structure with os.makedirs().",
-                        "INFO"
+                        "INFO",
                     )
 
                     try:
@@ -661,7 +665,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"Successfully created directory: '{directory}'. File path validation "
                             f"completed - YAML output will be written to '{file_path}'.",
-                            "INFO"
+                            "INFO",
                         )
                     except Exception as e:
                         self.msg = (
@@ -675,25 +679,25 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Parent directory '{directory}' already exists. File path validation "
                         f"passed - YAML output will be written to '{file_path}'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 self.log(
                     f"No parent directory specified in file_path ('{file_path}'). File will be "
                     f"created in current working directory.",
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 "No custom file_path provided in module parameters. Default filename will be generated "
                 "automatically during YAML generation using timestamp pattern.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Configuration parameters validation completed successfully. All provided parameters "
             "are valid and accessible. Proceeding with access point configuration extraction.",
-            "INFO"
+            "INFO",
         )
         self.status = "success"
         return self
@@ -761,14 +765,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"extraction. Operational state: '{state}'. Configuration contains "
             f"{len(config.keys()) if config else 0} parameter(s). Will validate parameters and "
             f"construct want dictionary for API operations.",
-            "INFO"
+            "INFO",
         )
 
         # Validate configuration parameters
         self.log(
             "Calling validate_params() to ensure configuration parameters are valid and "
             "accessible before constructing want state.",
-            "DEBUG"
+            "DEBUG",
         )
         self.validate_params(config)
 
@@ -776,13 +780,13 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Parameter validation failed in validate_params(). Cannot proceed with want "
                 f"state construction. Error: {self.msg}",
-                "ERROR"
+                "ERROR",
             )
             return self
 
         self.log(
             "Parameter validation completed successfully. Proceeding with want state construction.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Initialize want dictionary
@@ -795,7 +799,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Added yaml_config_generator to want state with configuration: "
             f"{self.pprint(want['yaml_config_generator'])}. This configuration will drive "
             f"the YAML generation workflow including filter processing and file output.",
-            "INFO"
+            "INFO",
         )
 
         # Store want state
@@ -805,7 +809,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Desired State (want) construction completed successfully. Want structure: "
             f"{self.pprint(self.want)}. This will be used by get_diff_gathered() to orchestrate "
             f"access point configuration extraction workflow.",
-            "INFO"
+            "INFO",
         )
 
         self.msg = (
@@ -913,7 +917,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Center. Configuration mode: {'generate_all' if config.get('generate_all_configurations') else 'filtered'}. "
             f"Will query Catalyst Center APIs to collect existing AP configurations including "
             f"device details, radio settings, provisioning status, and site assignments.",
-            "INFO"
+            "INFO",
         )
 
         # Validate config parameter
@@ -929,7 +933,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             f"Configuration validation passed. Configuration contains {len(config.keys())} "
             f"parameter(s): {list(config.keys())}. Determining operational mode.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Process generate_all_configurations mode
@@ -939,7 +943,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Will retrieve ALL access points from Catalyst Center without applying any filters. "
                 "This mode discovers complete wireless access point configurations. Any provided global_filters "
                 "will be IGNORED.",
-                "INFO"
+                "INFO",
             )
 
             self.have["all_ap_config"] = self.get_current_config(config)
@@ -958,7 +962,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Successfully collected all AP configurations in generate_all mode. Total APs "
                 f"retrieved: {len(self.have.get('all_ap_config', []))}. Configurations: "
                 f"{self.pprint(self.have.get('all_ap_config'))}",
-                "INFO"
+                "INFO",
             )
 
         # Process global_filters mode
@@ -969,7 +973,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"only access points matching the specified filter criteria. Filter priority: "
                 f"site_list > provision_hostname_list > accesspoint_config_list > "
                 f"accesspoint_provision_config_list > accesspoint_provision_config_mac_list.",
-                "INFO"
+                "INFO",
             )
 
             # Validate global_filters structure
@@ -990,7 +994,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "provision_hostname_list",
                     "accesspoint_config_list",
                     "accesspoint_provision_config_list",
-                    "accesspoint_provision_config_mac_list"
+                    "accesspoint_provision_config_mac_list",
                 ]
             )
 
@@ -1007,7 +1011,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Global filters validation passed. At least one filter contains values. "
                 "Calling get_current_config() with filters to retrieve matching APs.",
-                "DEBUG"
+                "DEBUG",
             )
 
             self.have["all_ap_config"] = self.get_current_config(global_filters)
@@ -1025,7 +1029,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Successfully collected filtered AP configurations. Total APs matching filters: "
                 f"{len(self.have.get('all_ap_config', []))}. Applied filters: {list(global_filters.keys())}",
-                "INFO"
+                "INFO",
             )
 
         # Log current state
@@ -1035,7 +1039,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"all_detailed_config ({len(self.have.get('all_detailed_config', []))} detailed records), "
             f"devices_details ({len(self.have.get('devices_details', []))} devices). "
             f"Full have state: {self.pprint(self.have)}",
-            "INFO"
+            "INFO",
         )
 
         self.msg = (
@@ -1089,36 +1093,32 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "accesspoint_config_list, accesspoint_provision_config_list, and "
             "accesspoint_provision_config_mac_list. All filters are optional list[str] types "
             "enabling flexible AP filtering for playbook config generation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         schema = {
             "global_filters": {
-                "site_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                },
+                "site_list": {"type": "list", "required": False, "elements": "str"},
                 "provision_hostname_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "accesspoint_config_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "accesspoint_provision_config_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "accesspoint_provision_config_mac_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
-                }
+                    "elements": "str",
+                },
             }
         }
 
@@ -1127,7 +1127,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"key(s) with {len(schema['global_filters'])} filter type(s). This schema enables "
             "structured validation of AP filtering parameters during playbook configuration "
             "validation workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return schema
@@ -1200,7 +1200,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "query device inventory APIs to discover all Unified APs, fetch detailed "
             "configurations for each AP, and parse radio settings to produce normalized "
             "configuration data for YAML playbook generation.",
-            "INFO"
+            "INFO",
         )
 
         # Initialize collection lists
@@ -1213,7 +1213,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Unified AP devices in Catalyst Center. This API call queries the network device "
             "list with family filter 'Unified AP' to discover AP MAC addresses, hostnames, "
             "models, and site assignments required for configuration retrieval.",
-            "DEBUG"
+            "DEBUG",
         )
 
         current_configuration = self.get_accesspoint_details()
@@ -1222,7 +1222,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Retrieved access point device details from Catalyst Center. Device list contains "
             f"{len(current_configuration) if current_configuration else 0} AP device(s). "
             f"Device details: {self.pprint(current_configuration)}",
-            "INFO"
+            "INFO",
         )
 
         # Validate device list is not empty and has correct structure
@@ -1242,7 +1242,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Device inventory validation passed. Found {len(current_configuration)} Unified AP "
             "device(s) in Catalyst Center inventory. Starting configuration retrieval loop to "
             "fetch detailed AP configurations for each device by Ethernet MAC address.",
-            "INFO"
+            "INFO",
         )
 
         # Iterate through each AP device and fetch configurations
@@ -1255,10 +1255,12 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"'{ap_detail.get('model')}'. Calling get_accesspoint_configuration() to retrieve "
                 "detailed configuration including radio settings, admin status, LED config, and "
                 "controller assignments.",
-                "DEBUG"
+                "DEBUG",
             )
 
-            current_eth_configuration = self.get_accesspoint_configuration(eth_mac_address)
+            current_eth_configuration = self.get_accesspoint_configuration(
+                eth_mac_address
+            )
 
             if not current_eth_configuration:
                 self.log(
@@ -1267,7 +1269,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"'{ap_detail.get('hostname')}'. This AP may not have a complete configuration "
                     "in Catalyst Center or API query failed. Skipping this AP and continuing with "
                     "next device in inventory.",
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1276,7 +1278,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"with Ethernet MAC '{eth_mac_address}'. Configuration contains admin status, radio "
                 "settings, LED configuration, and controller details. Attaching configuration to "
                 "device details and calling parse_accesspoint_configuration() for normalization.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Attach configuration to device details
@@ -1288,7 +1290,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"'{eth_mac_address}'. Parser will normalize field names, organize radio settings "
                 "by frequency band, extract provisioning details, and produce standardized "
                 "configuration structure for YAML generation.",
-                "DEBUG"
+                "DEBUG",
             )
 
             parsed_config = self.parse_accesspoint_configuration(
@@ -1299,7 +1301,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Successfully parsed configuration for AP {ap_index}/{len(current_configuration)} "
                 f"with Ethernet MAC '{eth_mac_address}'. Parsed configuration: {parsed_config}. "
                 "Adding parsed config to collection list for YAML generation.",
-                "INFO"
+                "INFO",
             )
 
             # Store parsed configuration and detailed metadata
@@ -1310,7 +1312,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Completed processing for AP {ap_index}/{len(current_configuration)}. Current "
                 f"collection statistics - Parsed configs: {len(collect_all_config)}, Detailed "
                 f"metadata records: {len(collect_all_config_details)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Store detailed configuration for troubleshooting reference
@@ -1319,7 +1321,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "for troubleshooting and reference. Detailed configs include raw API responses, "
             "device UUIDs, and unparsed configuration data. Total detailed records: "
             f"{len(collect_all_config_details)}",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.have["all_detailed_config"] = copy.deepcopy(collect_all_config_details)
@@ -1330,7 +1332,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"retrieved configs: {len(collect_all_config)}, Failed/skipped APs: "
             f"{len(current_configuration) - len(collect_all_config)}. Parsed configurations: "
             f"{self.pprint(collect_all_config)}",
-            "INFO"
+            "INFO",
         )
 
         return collect_all_config
@@ -1370,7 +1372,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "'Unified AP'. This operation will discover all access points registered in Catalyst "
             "Center and extract device metadata (MAC addresses, hostnames, models, sites) required "
             "for configuration retrieval workflow.",
-            "INFO"
+            "INFO",
         )
 
         # Initialize collection variables
@@ -1384,7 +1386,9 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Timeout and retry configuration from payload
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+        resync_retry_interval = int(
+            self.payload.get("catalystcenter_task_poll_interval")
+        )
 
         self.log(
             f"Pagination configuration initialized. Starting offset: {offset}, page size limit: "
@@ -1392,7 +1396,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"{resync_retry_interval} seconds. API call parameters: family='Unified AP', "
             f"offset={offset}, limit={limit}. Loop will continue until all devices retrieved or "
             "timeout exhausted.",
-            "DEBUG"
+            "DEBUG",
         )
 
         page_number = 1
@@ -1406,11 +1410,13 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Params: {request_params}. This request targets Unified AP devices with offset "
                 f"{offset} (starting index) and limit {limit} (max devices per page). Remaining "
                 f"timeout: {resync_retry_count} seconds.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Execute API request
-            response = self.execute_get_request(api_family, api_function, request_params)
+            response = self.execute_get_request(
+                api_family, api_function, request_params
+            )
 
             if not response:
                 self.log(
@@ -1418,7 +1424,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "API returned None or empty response. This indicates either end of available "
                     "devices or potential API connectivity issue. Exiting pagination loop to prevent "
                     "unnecessary API calls and return collected data.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -1430,7 +1436,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"Invalid or empty device list received from API for page {page_number}. "
                     f"Expected list of devices, got {type(device_list).__name__}. Breaking "
                     "pagination loop.",
-                    "WARNING"
+                    "WARNING",
                 )
                 break
 
@@ -1442,7 +1448,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Center API for page {page_number} (offset={offset}). Cumulative devices collected "
                 f"across all pages: {total_devices_collected}. API response contains valid device "
                 "data with IDs, MAC addresses, hostnames, and site assignments.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Process and normalize device data
@@ -1451,7 +1457,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "metadata including ID, MAC addresses, hostname, model, site hierarchy, and "
                 "reachability status. Converting camelCase API field names to snake_case for "
                 f"internal use. Device list: {self.pprint(device_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
             required_data_list = []
@@ -1467,7 +1473,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "serial_number": device_response.get("serialNumber"),
                     "site_hierarchy": device_response.get("snmpLocation"),
                     "reachability_status": device_response.get("reachabilityStatus"),
-                    "type": device_response.get("type")
+                    "type": device_response.get("type"),
                 }
                 required_data_list.append(required_data)
 
@@ -1476,7 +1482,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"hostname='{required_data.get('hostname')}', eth_mac='{required_data.get('eth_mac_address')}', "
                     f"model='{required_data.get('model')}', site='{required_data.get('site_hierarchy')}', "
                     f"reachability='{required_data.get('reachability_status')}'",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Append normalized data to collection
@@ -1486,7 +1492,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Appended {page_device_count} normalized device record(s) to collection. Current "
                 f"total devices in collection: {len(response_all)}. Normalized data includes "
                 "complete device metadata for downstream configuration retrieval.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Check for last page (received fewer devices than limit)
@@ -1496,7 +1502,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"limit ({limit}). This indicates the last page of device inventory has been "
                     "retrieved. No additional Unified AP devices available in Catalyst Center. "
                     "Exiting pagination loop to complete inventory collection operation.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -1509,7 +1515,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Incrementing pagination offset to {offset} for next API request (page {page_number}). "
                 f"Next API call will retrieve devices starting from index {offset}, continuing "
                 "sequential collection of Unified AP inventory from Catalyst Center.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Rate limiting sleep to prevent API throttling
@@ -1518,7 +1524,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "to prevent API rate limiting and throttling by Catalyst Center. This delay ensures "
                 "stable API performance and prevents HTTP 429 (Too Many Requests) errors during "
                 "large device inventory retrieval.",
-                "INFO"
+                "INFO",
             )
             time.sleep(resync_retry_interval)
 
@@ -1529,7 +1535,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Decremented retry timeout counter after sleep interval. Remaining timeout: "
                 f"{resync_retry_count} seconds, next timeout check in: {resync_retry_interval} "
                 "seconds. Pagination loop will exit if timeout exhausted before all devices retrieved.",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Final logging based on collection results
@@ -1540,7 +1546,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Device inventory contains complete metadata (ID, MAC addresses, hostnames, models, "
                 "sites, reachability status) for all access points registered in Catalyst Center. "
                 f"Inventory data: {self.pprint(response_all)}",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
@@ -1550,7 +1556,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "to query device inventory, or (3) Family filter 'Unified AP' returned no matches. "
                 "Verify access points are registered in Catalyst Center before running access point "
                 "playbook config generation.",
-                "WARNING"
+                "WARNING",
             )
 
         return response_all
@@ -1644,7 +1650,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "configuration endpoint to retrieve complete AP settings including radio configurations "
             "(2.4GHz, 5GHz, 6GHz), admin status, LED settings, AP mode, location, failover priority, "
             "and WLC controller assignments.",
-            "INFO"
+            "INFO",
         )
 
         # Validate required parameter
@@ -1662,11 +1668,15 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Ethernet MAC address validation passed: '{eth_mac_address}'. Preparing API request "
             "to query Catalyst Center wireless configuration endpoint with MAC address as key "
             "parameter. Request will retrieve current operational configuration for this AP.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # API call configuration
-        api_family, api_function, param_key = "wireless", "get_access_point_configuration", "key"
+        api_family, api_function, param_key = (
+            "wireless",
+            "get_access_point_configuration",
+            "key",
+        )
         request_params = {param_key: eth_mac_address}
 
         self.log(
@@ -1674,7 +1684,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"'{api_family}', Function: '{api_function}', Parameters: {request_params}. This call "
             "queries the wireless configuration database for AP with Ethernet MAC "
             f"'{eth_mac_address}' and retrieves complete operational settings.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Execute API request
@@ -1687,7 +1697,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "This indicates either: (1) AP does not exist in Catalyst Center inventory, "
                 "(2) AP has no configuration stored, (3) MAC address format incorrect, or "
                 "(4) API connectivity issue. Returning None to skip this AP in processing loop.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -1696,7 +1706,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"address '{eth_mac_address}'. Response contains configuration data with camelCase "
             "field names. Converting field names from camelCase to snake_case for internal "
             f"consistency and YAML generation. Raw API response structure: {self.pprint(response)}",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Convert camelCase to snake_case for consistency
@@ -1708,7 +1718,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "settings, AP mode, location, failover priority, controller assignments (primary, "
             "secondary, tertiary), and radio configurations for all frequency bands. Snake_case "
             f"converted configuration: {self.pprint(current_eth_configuration)}",
-            "INFO"
+            "INFO",
         )
 
         return current_eth_configuration
@@ -1785,7 +1795,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Parser will normalize field names, organize radio settings by frequency band, "
             "extract provisioning details, apply controller inheritance rules, and produce "
             "standardized configuration structure for YAML playbook generation.",
-            "INFO"
+            "INFO",
         )
 
         parsed_config = {}
@@ -1794,7 +1804,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Invalid access point configuration provided for parsing. Expected dictionary, "
                 f"got {type(accesspoint_config).__name__}. Cannot proceed with configuration "
                 "normalization. Returning empty parsed configuration.",
-                "ERROR"
+                "ERROR",
             )
             return parsed_config
 
@@ -1802,21 +1812,30 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Configuration validation passed. Configuration is valid dictionary with "
             f"{len(accesspoint_config.keys())} field(s). Beginning field-by-field parsing and "
             "normalization process.",
-            "DEBUG"
+            "DEBUG",
         )
 
-        list_of_ap_keys_to_parse = ["mac_address", "ap_name", "admin_status",
-                                    "led_status", "led_brightness_level",
-                                    "ap_mode", "location",
-                                    "failover_priority", "secondary_controller_name",
-                                    "secondary_ip_address", "tertiary_controller_name",
-                                    "tertiary_ip_address", "primary_ip_address",
-                                    "primary_controller_name"]
+        list_of_ap_keys_to_parse = [
+            "mac_address",
+            "ap_name",
+            "admin_status",
+            "led_status",
+            "led_brightness_level",
+            "ap_mode",
+            "location",
+            "failover_priority",
+            "secondary_controller_name",
+            "secondary_ip_address",
+            "tertiary_controller_name",
+            "tertiary_ip_address",
+            "primary_ip_address",
+            "primary_controller_name",
+        ]
 
         self.log(
             f"Defined {len(list_of_ap_keys_to_parse)} AP configuration fields to parse: "
             f"{list_of_ap_keys_to_parse}. Starting field extraction and transformation loop.",
-            "DEBUG"
+            "DEBUG",
         )
 
         for key_index, each_key in enumerate(list_of_ap_keys_to_parse, start=1):
@@ -1827,61 +1846,75 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Value is "
                         "'default location', setting is_assigned_site_as_location='Enabled'. Site "
                         "will be used as AP location.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     parsed_config["location"] = accesspoint_config.get(each_key)
                     self.log(
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Custom "
                         f"location '{accesspoint_config.get(each_key)}' assigned to AP.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-            elif each_key in ["tertiary_controller_name", "secondary_controller_name", "primary_controller_name"]:
+            elif each_key in [
+                "tertiary_controller_name",
+                "secondary_controller_name",
+                "primary_controller_name",
+            ]:
                 if accesspoint_config.get(each_key) in ["Clear", None, ""]:
                     parsed_config[each_key] = "Inherit from site / Clear"
                     self.log(
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Value is "
                         f"'{accesspoint_config.get(each_key)}', setting to 'Inherit from site / Clear'. "
                         "Controller assignment will inherit from site configuration.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     parsed_config[each_key] = accesspoint_config.get(each_key)
                     self.log(
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Valid "
                         f"controller name '{accesspoint_config.get(each_key)}' assigned.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-            elif each_key in ["secondary_ip_address", "tertiary_ip_address", "primary_ip_address"]:
+            elif each_key in [
+                "secondary_ip_address",
+                "tertiary_ip_address",
+                "primary_ip_address",
+            ]:
                 if accesspoint_config.get(each_key) != "0.0.0.0":
                     parsed_config[each_key] = {
-                        "address": accesspoint_config.get(each_key)}
+                        "address": accesspoint_config.get(each_key)
+                    }
                     self.log(
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Valid IP "
                         f"address '{accesspoint_config.get(each_key)}' wrapped in address structure.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': IP is "
                         f"'0.0.0.0' (unconfigured), skipping field addition to parsed config.",
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 parsed_config[each_key] = accesspoint_config.get(each_key)
                 self.log(
                     f"Field {key_index}/{len(list_of_ap_keys_to_parse)} '{each_key}': Value "
                     f"'{accesspoint_config.get(each_key)}' copied directly to parsed config.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         # Apply controller inheritance rules
-        if parsed_config.get("primary_controller_name") in ["Inherit from site / Clear", "Clear", None, ""]:
+        if parsed_config.get("primary_controller_name") in [
+            "Inherit from site / Clear",
+            "Clear",
+            None,
+            "",
+        ]:
             self.log(
                 f"Primary controller set to inherit mode ('{parsed_config.get('primary_controller_name')}'). "
                 f"Removing all controller fields (primary, secondary, tertiary) from parsed config as "
                 f"per inheritance rules. AP will use site-level controller assignments.",
-                "DEBUG"
+                "DEBUG",
             )
             del parsed_config["secondary_controller_name"]
             del parsed_config["tertiary_controller_name"]
@@ -1895,7 +1928,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Initialized Clean Air SI fields to 'Disabled' for all bands (2.4GHz, 5GHz, 6GHz). "
             "These will be updated to 'Enabled' if radio configurations specify Clean Air SI.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Parse radio configurations
@@ -1905,25 +1938,37 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Radio configuration found with {len(radio_config)} radio(s). Starting radio "
                 "configuration parsing to extract radio settings for each frequency band. "
                 f"Radio data: {radio_config}",
-                "INFO"
+                "INFO",
             )
             parsed_all_radios = {}
             for radio_index, radio in enumerate(radio_config, start=1):
                 parsed_radio = {}
                 radio_config_key = None
-                list_of_radio_keys_to_parse = ["if_type_value", "admin_status", "radio_role_assignment",
-                                               "channel", "radio_band", "power_assignment_mode", "clean_air_si",
-                                               "channel_width", "powerlevel", "channel_assignment_mode",
-                                               "channel_number", "custom_power_level",
-                                               "antenna_gain"]
+                list_of_radio_keys_to_parse = [
+                    "if_type_value",
+                    "admin_status",
+                    "radio_role_assignment",
+                    "channel",
+                    "radio_band",
+                    "power_assignment_mode",
+                    "clean_air_si",
+                    "channel_width",
+                    "powerlevel",
+                    "channel_assignment_mode",
+                    "channel_number",
+                    "custom_power_level",
+                    "antenna_gain",
+                ]
 
                 self.log(
                     f"Processing radio {radio_index}/{len(radio_config)} with {len(list_of_radio_keys_to_parse)} "
                     f"potential fields to extract. Radio data: {radio}",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
-                for field_index, each_radio_key in enumerate(list_of_radio_keys_to_parse, start=1):
+                for field_index, each_radio_key in enumerate(
+                    list_of_radio_keys_to_parse, start=1
+                ):
                     if each_radio_key == "if_type_value":
                         if_type = radio.get(each_radio_key)
                         if if_type == "2.4 GHz":
@@ -1942,14 +1987,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"Radio {radio_index}/{len(radio_config)} field {field_index}/{len(list_of_radio_keys_to_parse)} "
                             f"'{each_radio_key}': Mapped if_type_value '{if_type}' to radio key '{radio_config_key}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                     elif each_radio_key == "powerlevel":
                         parsed_radio["power_level"] = radio.get(each_radio_key)
                         self.log(
                             f"Radio {radio_index}/{len(radio_config)} field {field_index}/{len(list_of_radio_keys_to_parse)} "
                             f"'{each_radio_key}': Renamed to 'power_level' with value '{radio.get(each_radio_key)}'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                     elif each_radio_key == "clean_air_si":
                         if radio.get(each_radio_key) == "Enabled":
@@ -1964,13 +2009,13 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 f"Radio {radio_index}/{len(radio_config)} field {field_index}/{len(list_of_radio_keys_to_parse)} "
                                 f"'{each_radio_key}': Clean Air SI enabled for radio '{radio_config_key}', "
                                 f"updated global clean_air_si_{radio_config_key.replace('_radio', '')} field.",
-                                "DEBUG"
+                                "DEBUG",
                             )
                         else:
                             self.log(
                                 f"Radio {radio_index}/{len(radio_config)} field {field_index}/{len(list_of_radio_keys_to_parse)} "
                                 f"'{each_radio_key}': Clean Air SI disabled for this radio, no update to global field.",
-                                "DEBUG"
+                                "DEBUG",
                             )
                     else:
                         if radio.get(each_radio_key) is not None:
@@ -1979,7 +2024,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 f"Radio {radio_index}/{len(radio_config)} field "
                                 f"{field_index}/{len(list_of_radio_keys_to_parse)} "
                                 f"'{each_radio_key}': Value '{radio.get(each_radio_key)}' added to radio config.",
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                 # Apply radio-specific rules
@@ -1989,7 +2034,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Radio {radio_index}/{len(radio_config)}: Power assignment mode is 'Global', "
                         f"removed 'power_level' field as power is controlled globally.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 if parsed_radio.get("channel_assignment_mode") == "Global":
@@ -1998,7 +2043,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Radio {radio_index}/{len(radio_config)}: Channel assignment mode is 'Global', "
                         f"removed 'channel_number' field as channel is controlled globally.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 if radio_config_key:
@@ -2006,7 +2051,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Radio {radio_index}/{len(radio_config)}: Successfully parsed radio configuration "
                         f"for '{radio_config_key}'. Parsed radio: {parsed_radio}",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # Add all parsed radio configurations to main config
@@ -2014,13 +2059,13 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Successfully parsed and added {len(parsed_all_radios)} radio configuration(s) "
                 f"to AP config. Radio keys: {list(parsed_all_radios.keys())}",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No radio configuration found in access point config (radio_dtos is None or empty). "
                 "AP configuration will not include radio settings.",
-                "WARNING"
+                "WARNING",
             )
 
         # Parse provisioning details if AP is provisioned
@@ -2029,14 +2074,17 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Access point has provisioning_status=True, indicating AP is provisioned to a site. "
                 "Parsing additional provisioning configuration details including site hierarchy and "
                 "RF profile settings.",
-                "INFO"
+                "INFO",
             )
             site_hierarchy = ap_details.get("site_hierarchy")
-            if site_hierarchy and site_hierarchy not in ["default-location", "default location"]:
+            if site_hierarchy and site_hierarchy not in [
+                "default-location",
+                "default location",
+            ]:
                 self.log(
                     f"Valid site hierarchy found: '{site_hierarchy}'. Parsing to extract parent "
                     "site path and floor name for site assignment configuration.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 try:
@@ -2050,26 +2098,26 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Successfully parsed site hierarchy. Parent path: '{parent_path}', Floor: "
                         f"'{floor}', RF Profile: 'HIGH'. Provisioning details added to parsed config.",
-                        "INFO"
+                        "INFO",
                     )
                 except ValueError:
                     self.log(
                         f"Failed to parse site hierarchy '{site_hierarchy}'. Site path does not "
                         "contain '/' separator for parent/floor split. Skipping site provisioning "
                         "details in parsed config.",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
                     f"Site hierarchy is default or invalid ('{site_hierarchy}'). Skipping site "
                     "provisioning details extraction.",
-                    "DEBUG"
+                    "DEBUG",
                 )
         else:
             self.log(
                 "Access point is not provisioned (provisioning_status=False/None). No site "
                 "hierarchy or RF profile will be added to parsed configuration.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -2077,7 +2125,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"contains {len(parsed_config.keys())} field(s) including AP settings, radio "
             "configurations, controller assignments, and provisioning details. Final parsed "
             f"config: {self.pprint(parsed_config)}",
-            "INFO"
+            "INFO",
         )
         return parsed_config
 
@@ -2133,14 +2181,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "from existing Catalyst Center AP configurations, including parameter validation, "
             "function dispatch, and result aggregation. Workflow execution time will be tracked "
             "for performance monitoring.",
-            "INFO"
+            "INFO",
         )
 
         start_time = time.time()
         self.log(
             f"Workflow start time recorded: {start_time}. Beginning 'get_diff_gathered' operation "
             "to process access point configuration extraction and YAML generation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Define operations to execute in sequence
@@ -2156,7 +2204,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Defined {len(operations)} operation(s) for processing in get_diff_gathered workflow. "
             f"Operations: {[(op[1], op[0]) for op in operations]}. Beginning sequential iteration "
             "to check parameters and execute each operation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Iterate over operations and process them
@@ -2167,7 +2215,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Processing operation {index}/{len(operations)}: '{operation_name}' with parameter "
                 f"key '{param_key}'. Checking if parameters exist in self.want dictionary for "
                 "this operation.",
-                "DEBUG"
+                "DEBUG",
             )
 
             params = self.want.get(param_key)
@@ -2176,7 +2224,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"Operation {index}/{len(operations)}: '{operation_name}' - Parameters found "
                     f"in self.want. Parameter count: {len(params.keys()) if isinstance(params, dict) else 'N/A'}, "
                     f"Parameters: {params}. Starting operation execution by calling {operation_func.__name__}().",
-                    "INFO"
+                    "INFO",
                 )
 
                 operation_func(params).check_return_status()
@@ -2185,7 +2233,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"Operation {index}/{len(operations)}: '{operation_name}' - Execution completed. "
                     "check_return_status() validation passed. Operation processed successfully without "
                     "raising exceptions.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
@@ -2193,7 +2241,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"in self.want for param_key '{param_key}'. Skipping operation execution. This "
                     "may indicate: (1) Operation not requested in playbook, (2) Parameters filtered "
                     "out during validation, or (3) Operation not applicable to current workflow.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -2204,7 +2252,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Total execution duration: {execution_duration:.2f} seconds. All {len(operations)} "
             "operation(s) processed (executed or skipped based on parameter availability). "
             "Checking for unprocessed APs to determine final workflow status.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check for unprocessed APs and log warning without failing the module
@@ -2222,7 +2270,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Continuing workflow with warnings due to {unprocessed_count} unprocessed AP(s). "
                 "This indicates filter mismatches or incomplete AP data in Catalyst Center. Review "
                 f"unprocessed list for troubleshooting: {self.have.get('unprocessed')}",
-                "WARNING"
+                "WARNING",
             )
 
         return self
@@ -2298,7 +2346,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"configurations. Input parameters: {yaml_config_generator}. This operation will "
             "process filters, aggregate AP configurations, and generate Ansible-compatible YAML "
             "playbook file for access point playbook config automation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if generate_all_configurations mode is enabled
@@ -2308,14 +2356,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Generate all configurations mode enabled (generate_all_configurations=True). Will "
                 "collect ALL access point configurations from Cisco Catalyst Center without applying "
                 "any filter criteria. This mode performs complete access point configuration extraction.",
-                "INFO"
+                "INFO",
             )
 
         # Determine output file path
         self.log(
             "Determining output file path for YAML configuration playbook. Checking if custom "
             "file_path provided in input parameters or if default filename generation needed.",
-            "DEBUG"
+            "DEBUG",
         )
 
         file_path = self.params.get("file_path")
@@ -2323,25 +2371,25 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No custom file_path provided by user in module parameters. Generating "
                 "default filename using timestamp pattern for unique playbook identification.",
-                "DEBUG"
+                "DEBUG",
             )
             file_path = self.generate_filename()
             self.log(
                 f"Generated default filename: '{file_path}'. YAML playbook will be written to this "
                 "auto-generated path with timestamp-based naming convention.",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 f"Using user-provided custom file_path: '{file_path}'. YAML playbook output will "
                 "be written to specified location. Ensure parent directory exists and is writable.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             f"YAML configuration file path finalized: '{file_path}'. File will be created at "
             f"this location after configuration aggregation and formatting.",
-            "DEBUG"
+            "DEBUG",
         )
         file_mode = self.params.get("file_mode", "overwrite")
 
@@ -2349,7 +2397,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Initializing filter dictionaries and result collection lists for AP configuration "
             "processing. Empty filters indicate no specific criteria - collect all APs.",
-            "DEBUG"
+            "DEBUG",
         )
 
         global_filters = {}
@@ -2361,7 +2409,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Executing generate_all_configurations workflow. Retrieving complete AP configuration "
                 "list from self.have['all_ap_config'] without filter application. This will include "
                 "ALL access points discovered in Catalyst Center inventory.",
-                "DEBUG"
+                "DEBUG",
             )
 
             final_list = self.have.get("all_ap_config", [])
@@ -2369,7 +2417,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Collected {len(final_list)} access point configuration(s) in generate_all mode. "
                 f"All discovered APs will be included in YAML playbook. Configuration list: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Check if global_filters provided (will be ignored)
@@ -2378,7 +2426,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "WARNING: global_filters provided in configuration parameters but generate_all_configurations "
                     "mode is enabled (True). Global filters WILL BE IGNORED and all AP configurations "
                     "will be included in YAML output. To use filters, set generate_all_configurations=False.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         # Process filtered mode
@@ -2387,7 +2435,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Generate all mode disabled (generate_all_configurations=False). Checking for "
                 "global_filters parameter to determine targeted extraction criteria. Filtered mode "
                 "will apply hierarchical filter priority to match specific APs.",
-                "INFO"
+                "INFO",
             )
 
             # Use provided filters or default to empty
@@ -2399,7 +2447,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     f"{list(global_filters.keys())}. Calling process_global_filters() to apply "
                     "hierarchical filter matching and extract targeted AP configurations. Filters: "
                     f"{global_filters}",
-                    "INFO"
+                    "INFO",
                 )
 
                 final_list = self.process_global_filters(global_filters)
@@ -2409,7 +2457,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         f"Filter processing completed successfully. Matched {len(final_list)} access "
                         "point configuration(s) against provided global filters. Filtered APs will "
                         "be included in YAML playbook.",
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
@@ -2417,14 +2465,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         f"global filters: {global_filters}. This may indicate: (1) Filter values "
                         "don't match existing APs, (2) Filters too restrictive, or (3) No APs "
                         "configured in Catalyst Center. Empty final_list will trigger no-op message.",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
                     "No global_filters provided in configuration parameters and generate_all mode "
                     "disabled. This configuration is invalid - at least one of generate_all_configurations "
                     "or global_filters must be specified. Final list will be empty.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         # Validate final_list is not empty
@@ -2434,13 +2482,13 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "message": (
                     "No configurations found for module '{0}'. Verify filters applied and access "
                     "point data in Catalyst Center.".format(self.module_name)
-                )
+                ),
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
 
             self.log(
                 "YAML generation workflow completed. Final configuration list is empty.",
-                "INFO"
+                "INFO",
             )
             return self
 
@@ -2451,7 +2499,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"Created final YAML dictionary structure with {len(final_list)} AP configuration(s) "
             "wrapped in 'config' key for Ansible playbook compatibility. Final dictionary ready "
             f"for YAML serialization: {final_dict}",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Write dictionary to YAML file
@@ -2459,7 +2507,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Calling write_dict_to_yaml() to serialize final configuration dictionary and write "
             f"YAML content to file '{file_path}'. This will create formatted YAML playbook with "
             "proper indentation and structure.",
-            "DEBUG"
+            "DEBUG",
         )
 
         file_written = self.write_dict_to_yaml(final_dict, file_path, file_mode)
@@ -2472,7 +2520,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "file_mode": file_mode,
-                "configurations_count": len(final_list)
+                "configurations_count": len(final_list),
             }
             self.set_operation_result("success", True, self.msg, "INFO")
 
@@ -2481,7 +2529,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     file_path,
                     len(final_list),
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.msg = {
@@ -2491,7 +2539,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "file_mode": file_mode,
-                "configurations_count": len(final_list)
+                "configurations_count": len(final_list),
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
 
@@ -2500,7 +2548,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     file_path,
                     len(final_list),
                 ),
-                "INFO"
+                "INFO",
             )
 
         return self
@@ -2610,15 +2658,19 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"extraction. Provided global filters: {global_filters}. This operation will apply "
             "hierarchical filter priority (site > provision_hostname > config > combined > MAC) "
             "to match and extract targeted AP configurations from complete inventory.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Extract filter lists from global_filters dictionary
         site_list = global_filters.get("site_list")
         provision_hostname_list = global_filters.get("provision_hostname_list")
         accesspoint_config_list = global_filters.get("accesspoint_config_list")
-        accesspoint_provision_config_list = global_filters.get("accesspoint_provision_config_list")
-        accesspoint_provision_config_mac_list = global_filters.get("accesspoint_provision_config_mac_list")
+        accesspoint_provision_config_list = global_filters.get(
+            "accesspoint_provision_config_list"
+        )
+        accesspoint_provision_config_mac_list = global_filters.get(
+            "accesspoint_provision_config_mac_list"
+        )
 
         final_list = []
         unprocessed_aps = []
@@ -2630,14 +2682,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"accesspoint_provision_config_list={bool(accesspoint_provision_config_list)}, "
             f"accesspoint_provision_config_mac_list={bool(accesspoint_provision_config_mac_list)}. "
             "Hierarchical priority will determine which filter type is processed.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate AP configuration inventory exists
         if not self.have.get("all_ap_config"):
             self.log(
                 "No access point configurations available for filter processing. Returning empty.",
-                "DEBUG"
+                "DEBUG",
             )
             return []
 
@@ -2645,7 +2697,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             f"AP configuration inventory validation passed. Found {len(self.have.get('all_ap_config'))} "
             "access point configuration(s) in self.have['all_ap_config']. Proceeding with "
             "hierarchical filter matching.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # FILTER PRIORITY 1: site_list (location-based filtering)
@@ -2654,14 +2706,14 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Processing HIGHEST priority filter: site_list with {len(site_list)} site(s). "
                 "Will match APs by 'location' field against provided site hierarchies. Site list: "
                 f"{site_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
             if len(site_list) == 1 and site_list[0].lower() == "all":
                 self.log(
                     "Special filter value 'all' detected in site_list. Returning ALL access point "
                     "configurations from inventory without filtering. This matches all sites.",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = self.have.get("all_ap_config", [])
             else:
@@ -2670,26 +2722,29 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Processing site filter {site_index}/{len(site_list)}: '{floor}'. Searching "
                         f"AP configurations for location field matching this site hierarchy.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     ap_site_exist = self.find_multiple_dict_by_key_value(
-                        self.have.get("all_ap_config", []), "location", floor)
+                        self.have.get("all_ap_config", []), "location", floor
+                    )
 
                     if not ap_site_exist:
                         self.log(
                             f"Site filter {site_index}/{len(site_list)}: Site hierarchy '{floor}' NOT "
                             f"found in AP configurations. No APs assigned to this site. Adding to "
                             f"unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        unprocessed_aps.append(f"{floor}: Unable to find the configuration for the site hierarchy in the catalyst center.")
+                        unprocessed_aps.append(
+                            f"{floor}: Unable to find the configuration for the site hierarchy in the catalyst center."
+                        )
                         continue
 
                     self.log(
                         f"Site filter {site_index}/{len(site_list)}: Found {len(ap_site_exist)} AP(s) "
                         f"with location matching '{floor}'. Adding to filtered collection.",
-                        "INFO"
+                        "INFO",
                     )
                     ap_config_site_list.extend(ap_site_exist)
 
@@ -2698,7 +2753,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Site list filtering completed. Collected {len(final_list)} AP configuration(s) "
                 f"matching site filter criteria: {site_list}. Filtered configurations: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # FILTER PRIORITY 2: provision_hostname_list (provisioned AP filtering)
@@ -2707,24 +2762,28 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing SECOND priority filter: provision_hostname_list with "
                 f"{len(provision_hostname_list)} hostname(s). Will match provisioned APs (rf_profile='HIGH') "
                 f"and return minimal provision configs. Hostname list: {provision_hostname_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
-            if len(provision_hostname_list) == 1 and provision_hostname_list[0].lower() == "all":
+            if (
+                len(provision_hostname_list) == 1
+                and provision_hostname_list[0].lower() == "all"
+            ):
                 self.log(
                     "Special filter value 'all' detected in provision_hostname_list. Collecting ALL "
                     "provisioned access points (rf_profile='HIGH') from inventory.",
-                    "INFO"
+                    "INFO",
                 )
 
                 ap_exist = self.find_multiple_dict_by_key_value(
-                    self.have["all_ap_config"], "rf_profile", "HIGH")
+                    self.have["all_ap_config"], "rf_profile", "HIGH"
+                )
 
                 if not ap_exist:
                     self.log(
                         "No provisioned access points found in Catalyst Center inventory. No APs "
                         "have rf_profile='HIGH'. Returning empty.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     return []
 
@@ -2733,7 +2792,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     provision_config = {
                         "mac_address": each_ap.get("mac_address"),
                         "rf_profile": each_ap.get("rf_profile"),
-                        "site": each_ap.get("site")
+                        "site": each_ap.get("site"),
                     }
                     provisioned_aps.append(provision_config)
 
@@ -2741,42 +2800,50 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         f"Provisioned AP {ap_index}/{len(ap_exist)}: Extracted minimal provision "
                         f"config - MAC: '{each_ap.get('mac_address')}', RF Profile: '{each_ap.get('rf_profile')}', "
                         f"Site: {each_ap.get('site')}",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 final_list = provisioned_aps
                 self.log(
                     f"Collected {len(final_list)} provisioned AP configuration(s) for 'all' filter.",
-                    "INFO"
+                    "INFO",
                 )
             else:
                 provisioned_aps = []
-                for host_index, each_host in enumerate(provision_hostname_list, start=1):
+                for host_index, each_host in enumerate(
+                    provision_hostname_list, start=1
+                ):
                     self.log(
                         f"Processing provision hostname filter {host_index}/{len(provision_hostname_list)}: "
                         f"'{each_host}'. Checking if provisioned AP config exists in inventory.",
-                        "INFO"
+                        "INFO",
                     )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_ap_config"], "ap_name", each_host)
+                        self.have["all_ap_config"], "ap_name", each_host
+                    )
 
                     if not ap_exist:
                         self.log(
                             f"Provision hostname filter {host_index}/{len(provision_hostname_list)}: "
                             f"Hostname '{each_host}' NOT found in AP configurations. Adding to unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        unprocessed_aps.append(f"{each_host}: Unable to find the hostname in the catalyst center.")
+                        unprocessed_aps.append(
+                            f"{each_host}: Unable to find the hostname in the catalyst center."
+                        )
                         continue
 
                     selected_ap = ap_exist[0]
-                    if selected_ap.get("rf_profile") is None or selected_ap.get("site") is None:
+                    if (
+                        selected_ap.get("rf_profile") is None
+                        or selected_ap.get("site") is None
+                    ):
                         self.log(
                             f"Provision hostname filter {host_index}/{len(provision_hostname_list)}: "
                             f"Found AP '{each_host}', but it is not provisioned to any floor site. "
                             "Adding to unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         unprocessed_aps.append(
                             f"{each_host}: AP found but not provisioned to any floor site."
@@ -2786,19 +2853,21 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"Provision hostname filter {host_index}/{len(provision_hostname_list)}: "
                         f"Found AP '{each_host}'. Extracting minimal provision config.",
-                        "INFO"
+                        "INFO",
                     )
 
-                    provisioned_aps.append({
-                        "mac_address": selected_ap.get("mac_address"),
-                        "rf_profile": selected_ap.get("rf_profile"),
-                        "site": selected_ap.get("site")
-                    })
+                    provisioned_aps.append(
+                        {
+                            "mac_address": selected_ap.get("mac_address"),
+                            "rf_profile": selected_ap.get("rf_profile"),
+                            "site": selected_ap.get("site"),
+                        }
+                    )
 
                 if not provisioned_aps:
                     self.log(
                         "No provisioned APs matched provision_hostname_list. Returning empty.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if unprocessed_aps:
@@ -2814,7 +2883,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Provision hostname list filtering completed. Collected {len(final_list)} provisioned "
                 f"AP configuration(s) for hostnames: {provision_hostname_list}. Filtered configs: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # FILTER PRIORITY 3: accesspoint_config_list (configuration-only filtering)
@@ -2823,17 +2892,20 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing THIRD priority filter: accesspoint_config_list with "
                 f"{len(accesspoint_config_list)} AP name(s). Will match APs and remove rf_profile/site "
                 f"fields from configs. AP name list: {accesspoint_config_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
             ap_config_list = []
             keys_to_remove = ["rf_profile", "site"]
 
-            if len(accesspoint_config_list) == 1 and accesspoint_config_list[0].lower() == "all":
+            if (
+                len(accesspoint_config_list) == 1
+                and accesspoint_config_list[0].lower() == "all"
+            ):
                 self.log(
                     "Special filter value 'all' detected in accesspoint_config_list. Collecting ALL "
                     "AP configurations and removing provisioning fields (rf_profile, site).",
-                    "INFO"
+                    "INFO",
                 )
 
                 ap_config_list = copy.deepcopy(self.have.get("all_ap_config", []))
@@ -2845,39 +2917,44 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"AP config {ap_index}/{len(ap_config_list)}: Removed provisioning fields "
                         f"from AP '{each_ap.get('ap_name')}'. Config ready for configuration-only operations.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 self.log(
                     f"Collected {len(ap_config_list)} AP configuration(s) for 'all' filter with "
                     f"provisioning fields removed. Configs: {ap_config_list}",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = ap_config_list
             else:
-                for ap_name_index, each_ap_name in enumerate(accesspoint_config_list, start=1):
+                for ap_name_index, each_ap_name in enumerate(
+                    accesspoint_config_list, start=1
+                ):
                     self.log(
                         f"Processing AP config filter {ap_name_index}/{len(accesspoint_config_list)}: "
                         f"'{each_ap_name}'. Checking if AP config exists in inventory.",
-                        "INFO"
+                        "INFO",
                     )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_ap_config"], "ap_name", each_ap_name)
+                        self.have["all_ap_config"], "ap_name", each_ap_name
+                    )
 
                     if not ap_exist:
                         self.log(
                             f"AP config filter {ap_name_index}/{len(accesspoint_config_list)}: AP name "
                             f"'{each_ap_name}' NOT found in configurations. Adding to unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        unprocessed_aps.append(f"{each_ap_name}: Unable to find the hostname in the catalyst center.")
+                        unprocessed_aps.append(
+                            f"{each_ap_name}: Unable to find the hostname in the catalyst center."
+                        )
                         continue
 
                     self.log(
                         f"AP config filter {ap_name_index}/{len(accesspoint_config_list)}: Found AP "
                         f"'{each_ap_name}'. Removing provisioning fields and adding to collection.",
-                        "INFO"
+                        "INFO",
                     )
 
                     for each_ap in ap_exist:
@@ -2891,7 +2968,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         f"No access points found matching the provided list: {accesspoint_config_list}. "
                         "Returning empty.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if unprocessed_aps:
@@ -2907,55 +2984,65 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 f"Access point config list filtering completed. Collected {len(final_list)} AP "
                 f"configuration(s) for AP names: {accesspoint_config_list}. Filtered configs: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # FILTER PRIORITY 4: accesspoint_provision_config_list (combined provision + config filtering)
-        elif accesspoint_provision_config_list and isinstance(accesspoint_provision_config_list, list):
+        elif accesspoint_provision_config_list and isinstance(
+            accesspoint_provision_config_list, list
+        ):
             self.log(
                 "Processing FOURTH priority filter: accesspoint_provision_config_list with "
                 f"{len(accesspoint_provision_config_list)} hostname(s). Will match APs and return "
                 f"complete configs (provision + configuration). Hostname list: {accesspoint_provision_config_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
-            if len(accesspoint_provision_config_list) == 1 and accesspoint_provision_config_list[0].lower() == "all":
+            if (
+                len(accesspoint_provision_config_list) == 1
+                and accesspoint_provision_config_list[0].lower() == "all"
+            ):
                 self.log(
                     "Special filter value 'all' detected in accesspoint_provision_config_list. "
                     "Returning ALL AP configurations (complete with provision + config fields).",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = self.have.get("all_ap_config", [])
                 self.log(
                     f"Collected {len(final_list)} complete AP configuration(s) for 'all' filter. "
                     f"Configs: {final_list}",
-                    "INFO"
+                    "INFO",
                 )
             else:
                 collected_aps = []
-                for host_index, each_host_name in enumerate(accesspoint_provision_config_list, start=1):
+                for host_index, each_host_name in enumerate(
+                    accesspoint_provision_config_list, start=1
+                ):
                     self.log(
                         f"Processing combined filter {host_index}/{len(accesspoint_provision_config_list)}: "
                         f"'{each_host_name}'. Checking if complete AP config exists in inventory.",
-                        "INFO"
+                        "INFO",
                     )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_ap_config"], "ap_name", each_host_name)
+                        self.have["all_ap_config"], "ap_name", each_host_name
+                    )
 
                     if not ap_exist:
                         self.log(
                             f"Combined filter {host_index}/{len(accesspoint_provision_config_list)}: "
                             f"Hostname '{each_host_name}' NOT found in configurations. Adding to unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
-                        unprocessed_aps.append(f"{each_host_name}: Unable to find the hostname in the catalyst center.")
+                        unprocessed_aps.append(
+                            f"{each_host_name}: Unable to find the hostname in the catalyst center."
+                        )
                         continue
 
                     self.log(
                         f"Combined filter {host_index}/{len(accesspoint_provision_config_list)}: Found "
                         f"AP '{each_host_name}'. Adding complete config to collection. Config: {ap_exist}",
-                        "INFO"
+                        "INFO",
                     )
 
                     collected_aps.extend(ap_exist)
@@ -2963,7 +3050,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if not collected_aps:
                     self.log(
                         "No access points found matching the provided hostname list. Returning empty.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if unprocessed_aps:
@@ -2980,55 +3067,64 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Access point provision config list filtering completed. Collected {len(final_list)} "
                 f"complete AP configuration(s) for hostnames: {accesspoint_provision_config_list}. "
                 f"Filtered configs: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # FILTER PRIORITY 5: accesspoint_provision_config_mac_list (MAC address filtering)
-        elif accesspoint_provision_config_mac_list and isinstance(accesspoint_provision_config_mac_list, list):
+        elif accesspoint_provision_config_mac_list and isinstance(
+            accesspoint_provision_config_mac_list, list
+        ):
             self.log(
                 "Processing LOWEST priority filter: accesspoint_provision_config_mac_list with "
                 f"{len(accesspoint_provision_config_mac_list)} MAC address(es). Will match APs by "
                 f"'mac_address' field and return complete configs. MAC list: {accesspoint_provision_config_mac_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
-            if len(accesspoint_provision_config_mac_list) == 1 and accesspoint_provision_config_mac_list[0].lower() == "all":
+            if (
+                len(accesspoint_provision_config_mac_list) == 1
+                and accesspoint_provision_config_mac_list[0].lower() == "all"
+            ):
                 self.log(
                     "Special filter value 'all' detected in accesspoint_provision_config_mac_list. "
                     "Returning ALL AP configurations without MAC-based filtering.",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = self.have.get("all_ap_config", [])
                 self.log(
                     f"Collected {len(final_list)} AP configuration(s) for 'all' filter. Configs: {final_list}",
-                    "INFO"
+                    "INFO",
                 )
             else:
                 collected_aps = []
-                for mac_index, each_mac in enumerate(accesspoint_provision_config_mac_list, start=1):
+                for mac_index, each_mac in enumerate(
+                    accesspoint_provision_config_mac_list, start=1
+                ):
                     self.log(
                         f"Processing MAC filter {mac_index}/{len(accesspoint_provision_config_mac_list)}: "
                         f"'{each_mac}'. Checking if AP config with this MAC exists in inventory.",
-                        "INFO"
+                        "INFO",
                     )
 
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_ap_config"], "mac_address", each_mac)
+                        self.have["all_ap_config"], "mac_address", each_mac
+                    )
 
                     if not ap_exist:
                         self.log(
                             f"MAC filter {mac_index}/{len(accesspoint_provision_config_mac_list)}: MAC "
                             f"address '{each_mac}' NOT found in configurations. Adding to unprocessed list.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         unprocessed_aps.append(
-                            f"{each_mac}: Unable to find configuration for the MAC address in the catalyst center.")
+                            f"{each_mac}: Unable to find configuration for the MAC address in the catalyst center."
+                        )
                         continue
 
                     self.log(
                         f"MAC filter {mac_index}/{len(accesspoint_provision_config_mac_list)}: Found AP "
                         f"with MAC '{each_mac}'. Adding complete config to collection. Config: {ap_exist}",
-                        "INFO"
+                        "INFO",
                     )
 
                     collected_aps.extend(ap_exist)
@@ -3036,7 +3132,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if not collected_aps:
                     self.log(
                         "No access points found matching the provided mac address list. Returning empty.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if unprocessed_aps:
@@ -3053,7 +3149,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Access point MAC address list filtering completed. Collected {len(final_list)} AP "
                 f"configuration(s) for MAC addresses: {accesspoint_provision_config_mac_list}. "
                 f"Filtered configs: {final_list}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # No specific filters provided
@@ -3063,7 +3159,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "hierarchical priority (site_list, provision_hostname_list, accesspoint_config_list, "
                 "accesspoint_provision_config_list, accesspoint_provision_config_mac_list). Final list "
                 "will remain empty.",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Handle unprocessed APs
@@ -3075,7 +3171,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Filter processing completed with {len(unprocessed_aps)} unprocessed AP identifier(s). "
                 "These APs/sites/MACs did not match any configurations in Catalyst Center inventory. "
                 f"Unprocessed list: {self.msg}",
-                "DEBUG"
+                "DEBUG",
             )
             self.have["unprocessed"] = unprocessed_aps
 
@@ -3085,7 +3181,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No access points matched the provided global filter criteria. Final filtered list "
                 "is empty. This may indicate: (1) Filter values don't match existing APs, "
                 "(2) Filters too restrictive, or (3) No APs in Catalyst Center. Returning None.",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
@@ -3093,7 +3189,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Global filter processing completed successfully. Final filtered list contains "
             f"{len(final_list)} access point configuration(s) matching filter criteria. Returning "
             "filtered configurations for YAML generation.",
-            "INFO"
+            "INFO",
         )
 
         return final_list
@@ -3216,7 +3312,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -3235,11 +3330,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -3268,42 +3359,28 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "file_path": {
-            "type": "str",
-            "required": False
-        },
+        "file_path": {"type": "str", "required": False},
         "file_mode": {
             "type": "str",
             "required": False,
             "default": "overwrite",
-            "choices": ["overwrite", "append"]
+            "choices": ["overwrite", "append"],
         },
-        "config": {
-            "required": False,
-            "type": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "config": {"required": False, "type": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the AccessPointPlaybookGenerator object
@@ -3314,7 +3391,7 @@ def main():
     ccc_accesspoint_playbook_generator.log(
         f"Starting Ansible module execution for access point playbook config "
         f"generator at timestamp {initialization_timestamp}",
-        "INFO"
+        "INFO",
     )
 
     ccc_accesspoint_playbook_generator.log(
@@ -3325,7 +3402,7 @@ def main():
         f"catalystcenter_version={module.params.get('catalystcenter_version')}, "
         f"state={module.params.get('state')}, "
         f"has_config={bool(module.params.get('config'))}",
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -3335,11 +3412,15 @@ def main():
         f"Validating Catalyst Center version compatibility - checking if version "
         f"{ccc_accesspoint_playbook_generator.get_ccc_version()} meets minimum requirement "
         f"of 2.3.5.3 for access point configuration APIs",
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_accesspoint_playbook_generator.compare_catalystcenter_versions(
-            ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
+    if (
+        ccc_accesspoint_playbook_generator.compare_catalystcenter_versions(
+            ccc_accesspoint_playbook_generator.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
 
         error_msg = (
             f"The specified Catalyst Center version "
@@ -3352,8 +3433,7 @@ def main():
         )
 
         ccc_accesspoint_playbook_generator.log(
-            f"Version compatibility check failed: {error_msg}",
-            "ERROR"
+            f"Version compatibility check failed: {error_msg}", "ERROR"
         )
 
         ccc_accesspoint_playbook_generator.msg = error_msg
@@ -3365,7 +3445,7 @@ def main():
         f"Version compatibility check passed - Catalyst Center version "
         f"{ccc_accesspoint_playbook_generator.get_ccc_version()} supports "
         f"all required access point configuration APIs",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3376,7 +3456,7 @@ def main():
     ccc_accesspoint_playbook_generator.log(
         f"Validating requested state parameter: '{state}' against supported states: "
         f"{ccc_accesspoint_playbook_generator.supported_states}",
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_accesspoint_playbook_generator.supported_states:
@@ -3387,8 +3467,7 @@ def main():
         )
 
         ccc_accesspoint_playbook_generator.log(
-            f"State validation failed: {error_msg}",
-            "ERROR"
+            f"State validation failed: {error_msg}", "ERROR"
         )
 
         ccc_accesspoint_playbook_generator.status = "invalid"
@@ -3397,7 +3476,7 @@ def main():
 
     ccc_accesspoint_playbook_generator.log(
         f"State validation passed - using state '{state}' for workflow execution",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3405,7 +3484,7 @@ def main():
     # ============================================
     ccc_accesspoint_playbook_generator.log(
         "Starting comprehensive input parameter validation for playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_accesspoint_playbook_generator.validate_input().check_return_status()
@@ -3413,7 +3492,7 @@ def main():
     ccc_accesspoint_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3422,18 +3501,15 @@ def main():
     config = ccc_accesspoint_playbook_generator.validated_config
 
     ccc_accesspoint_playbook_generator.log(
-        f"Starting configuration processing for state '{state}'",
-        "INFO"
+        f"Starting configuration processing for state '{state}'", "INFO"
     )
 
     ccc_accesspoint_playbook_generator.reset_values()
-    ccc_accesspoint_playbook_generator.get_want(
-        config, state
-    ).check_return_status()
-    ccc_accesspoint_playbook_generator.get_have(
-        config
-    ).check_return_status()
-    ccc_accesspoint_playbook_generator.get_diff_state_apply[state]().check_return_status()
+    ccc_accesspoint_playbook_generator.get_want(config, state).check_return_status()
+    ccc_accesspoint_playbook_generator.get_have(config).check_return_status()
+    ccc_accesspoint_playbook_generator.get_diff_state_apply[
+        state
+    ]().check_return_status()
 
     # ============================================
     # Module Completion and Exit
@@ -3442,22 +3518,21 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_accesspoint_playbook_generator.log(
         f"Module execution completed successfully at timestamp {completion_timestamp}. "
         f"Total execution time: {module_duration:.2f} seconds. Processed 1 "
         f"configuration item(s) with final status: {ccc_accesspoint_playbook_generator.status}",
-        "INFO"
+        "INFO",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     ccc_accesspoint_playbook_generator.log(
         f"Exiting Ansible module with result: {ccc_accesspoint_playbook_generator.result}",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_accesspoint_playbook_generator.result)

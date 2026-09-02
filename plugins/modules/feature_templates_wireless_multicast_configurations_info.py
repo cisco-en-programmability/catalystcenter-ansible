@@ -11,10 +11,10 @@ short_description: Information module for Feature Templates Wireless Multicast C
 description:
   - Get Feature Templates Wireless Multicast Configurations by id.
   - This API allows users to retrieve a specific Multicast configuration feature template by ID.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Id path parameter. Multicast Configuration Feature Template Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetMulticastConfigurationFeatureTemplate
@@ -64,8 +64,8 @@ catalystcenter_response:
         "id": "string",
         "featureAttributes": {
           "globalMulticastEnabled": true,
-          "multicastIpv4Mode": "string",
-          "multicastIpv4Address": "string",
+          "multicastMode": "string",
+          "multicastAddress": "string",
           "multicastIpv6Mode": "string",
           "multicastIpv6Address": "string"
         },

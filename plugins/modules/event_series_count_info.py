@@ -11,10 +11,10 @@ short_description: Information module for Event Series Count
 description:
   - Get all Event Series Count.
   - Get the Count of Published Notifications.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -56,7 +56,7 @@ options:
       - Source query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CountOfNotifications
@@ -81,7 +81,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    eventIds: string
+    eventIds:
     startTime: 0
     endTime: 0
     category: string
@@ -96,7 +96,9 @@ RETURN = r"""
 catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "string"
+    {
+      "response": 0
+    }
 """

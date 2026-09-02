@@ -10,19 +10,19 @@ module: feature_templates_wireless_event_driven_rrm_configurations
 short_description: Resource module for Feature Templates Wireless Event Driven Rrm Configurations
 description:
   - Manage operations create, update and delete of the resource Feature Templates Wireless Event Driven Rrm Configurations.
-  - This API allows users to create a Event Driven RRM configuration feature template.
+  - This API allows users to create a Event Driven RRM configuration feature.
   - This API allows users to delete a specific Event Driven RRM configuration feature template by ID.
-  - This API allows users to update the details of a specific Event Driven RRM configuration feature template by ID.
-version_added: '6.18.0'
+  - This API allows users to update the details of a specific Event Driven RRM.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   designName:
     description: The feature template design name. `Note ` The following characters are not allowed % & < > ' /.
     type: str
   featureAttributes:
-    description: Feature Templates Wireless Event Driven Rrm Configurations's featureAttributes.
+    description: Event Driven RRM Configuration Feature Attributes.
     suboptions:
       eventDrivenRrmCustomThresholdVal:
         description: Event Driven Radio Resource Management (RRM) Custom Threshold Val is only supported for `CUSTOM` Event
@@ -48,7 +48,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless CreateEventDrivenRRMConfigurationFeatureTemplate
@@ -62,9 +62,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!update-event-driven-rrm-configuration-feature-template
 notes:
   - SDK Method used are
-    wireless.Wireless.create_event_driven_r_r_m_configuration_feature_template,
-    wireless.Wireless.delete_event_driven_r_r_m_configuration_feature_template,
-    wireless.Wireless.update_event_driven_r_r_m_configuration_feature_template,
+    wireless.Wireless.create_event_driven_rrm_configuration_feature_template,
+    wireless.Wireless.delete_event_driven_rrm_configuration_feature_template,
+    wireless.Wireless.update_event_driven_rrm_configuration_feature_template,
   - Paths used are
     post /dna/intent/api/v1/featureTemplates/wireless/eventDrivenRRMConfigurations,
     delete /dna/intent/api/v1/featureTemplates/wireless/eventDrivenRRMConfigurations/{id},
@@ -91,17 +91,6 @@ EXAMPLES = r"""
       radioBand: string
     unlockedAttributes:
       - string
-- name: Delete by id
-  cisco.catalystcenter.feature_templates_wireless_event_driven_rrm_configurations:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Update by id
   cisco.catalystcenter.feature_templates_wireless_event_driven_rrm_configurations:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -121,6 +110,17 @@ EXAMPLES = r"""
     id: string
     unlockedAttributes:
       - string
+- name: Delete by id
+  cisco.catalystcenter.feature_templates_wireless_event_driven_rrm_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 """
 RETURN = r"""
 catalystcenter_response:

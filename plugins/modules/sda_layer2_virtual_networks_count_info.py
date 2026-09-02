@@ -10,11 +10,11 @@ module: sda_layer2_virtual_networks_count_info
 short_description: Information module for Sda Layer2 Virtual Networks Count
 description:
   - Get all Sda Layer2 Virtual Networks Count.
-  - Returns the count of layer 2 virtual networks that match the provided query parameters.
-version_added: '6.15.0'
+  - Returns the count of layer 2 virtual networks that match the provided query.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - AssociatedLayer3VirtualNetworkName query parameter. Name of the associated layer 3 virtual network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetLayer2VirtualNetworkCount

@@ -11,10 +11,10 @@ short_description: Resource module for Network Device Management Address Update
 description:
   - Manage operation update of the resource Network Device Management Address Update.
   - This is a simple PUT API to edit the management IP Address of the device.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceid:
     description: Deviceid path parameter. The UUID of the device whose management IP address is to be updated.
@@ -23,7 +23,7 @@ options:
     description: New IP Address of the device to be Updated.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateDeviceManagementAddress

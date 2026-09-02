@@ -9,14 +9,12 @@ DOCUMENTATION = r"""
 module: network_device_images_validation_results_info
 short_description: Information module for Network Device Images Validation Results
 description:
-  - Get all Network Device Images Validation Results. - > This API provides a comprehensive overview of the outcomes from
-    various tests and assessments defined by system and custom validations related to network device images. These results
-    are essential for identifying potential issues, verifying configurations, and ensuring that the network meets the requirement
-    for image update.
-version_added: '6.18.0'
+  - Get all Network Device Images Validation Results.
+  - This API provides a comprehensive overview of the outcomes from various tests.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -66,7 +64,7 @@ options:
         minimum value is 1.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) NetworkDeviceImageUpdateValidationResults
@@ -97,9 +95,9 @@ EXAMPLES = r"""
     status: string
     type: string
     sortBy: string
-    order: string
-    limit: 0
-    offset: 0
+    order: asc
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""

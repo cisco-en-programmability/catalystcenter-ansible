@@ -11,16 +11,16 @@ short_description: Resource module for Wireless Access Points Provision
 description:
   - Manage operation create of the resource Wireless Access Points Provision. - > This API is used to provision Access Points.
     Prerequisite Access Point has to be assigned to the site using the API /dna/intent/api/v1/networkDevices/assignToSite/apply.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apZoneName:
     description: AP Zone Name. A custom AP Zone should be passed if no rfProfileName is provided.
     type: str
   networkDevices:
-    description: Wireless Access Points Provision's networkDevices.
+    description: Network Device ID(s) and Roles of Access Point(s).
     elements: dict
     suboptions:
       beamState:
@@ -40,15 +40,15 @@ options:
     description: Site ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless APProvisionConnectivity
-    description: Complete reference of the APProvisionConnectivity API.
-    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
+  - name: Cisco Catalyst Center documentation for Wireless APProvision
+    description: Complete reference of the APProvision API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision_connectivity,
+    wireless.Wireless.ap_provision,
   - Paths used are
     post /dna/intent/api/v1/wirelessAccessPoints/provision,
 """
