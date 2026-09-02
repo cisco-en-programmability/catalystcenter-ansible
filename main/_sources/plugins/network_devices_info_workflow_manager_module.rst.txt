@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_info_workflow_manager module -- Gather fact
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_info_workflow_manager module -- Gather fact
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.31.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -89,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1835,6 +1835,7 @@ Notes
    - Paths used are - GET/dna/intent/api/v1/network-device - GET/dna/intent/api/v1/network-device/{id}/vlan - GET/dna/intent/api/v1/interface/network-device/{deviceId}/{startIndex}/{recordsToReturn} - GET/dna/intent/api/v1/network-device/{deviceUuid}/line-card - GET/dna/intent/api/v1/network-device/insight/{siteId}/device-link - GET/dna/intent/api/v1/network-device/{deviceId}/stack - GET/dna/intent/api/v1/network-device/{networkDeviceId}/config - GET/dna/intent/api/v1/network-device/{id}/collection-schedule - GET/dna/intent/api/v1/network-device/{id}/brief - GET/dna/intent/api/v1/network-device/{deviceUuid}/supervisor-card - GET/dna/intent/api/v1/network-device/{deviceUuid}/poe - GET/dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor - GET/dna/intent/api/v1/interface/network-device/{deviceId} - GET/dna/intent/api/v1/network-device/module/count - GET/dna/intent/api/v1/network-device/ip-address/{ipAddress}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

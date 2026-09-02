@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles module -- Re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles module -- Re
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,9 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Wireless Settings Certificate Renewal Profiles.
-- This API is used to Create LSC Certificate Renewal Profile.
-- Delete LSC Certificate Renewal Profile by ID.
+- Manage operations create, update and delete of the resource Wireless Settings Certificate Renewal Profiles. - \> This API allows users to create an access point certificate renewal profile by specifying the expiry due days, LSC profile name, and type of execution Staggered or Oneshot .
+- This API allows users to delete access point certificate renewal profiles by profile ID.
 - This API allows users to update access point certificate renewal profiles by profile ID.
 
 .. note::
@@ -87,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -113,17 +112,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile:
 
       .. rst-class:: ansible-option-title
 
-      **CalendarProfileSetting**
+      **calendarProfile**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -137,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Certificate Renewal Profiles's CalendarProfileSetting.
+      This entity is the calendar profile setting construct on the wireless controller, which the wireless controller uses for any scheduling mechanism.
 
 
       .. raw:: html
@@ -147,9 +146,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/duration"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/duration"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/duration:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/duration:
 
       .. rst-class:: ansible-option-title
 
@@ -157,7 +156,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/duration" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/duration" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -181,9 +180,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/duration/schedulerDate"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/duration/schedulerDate"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/duration/schedulerdate:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/duration/schedulerdate:
 
       .. rst-class:: ansible-option-title
 
@@ -191,11 +190,11 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/duration/schedulerDate" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/duration/schedulerDate" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
 
       .. raw:: html
 
@@ -205,7 +204,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dates in a month (1 to 31) on which execution is scheduled. If the specified date does not exist in that month, no execution will be triggered for that date. For example, on the dates 1, 10, 30 in February, execution would occur only on dates 1 and 10.
+      Wireless Settings Certificate Renewal Profiles's schedulerDate.
 
 
       .. raw:: html
@@ -215,9 +214,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/duration/schedulerDay"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/duration/schedulerDay"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/duration/schedulerday:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/duration/schedulerday:
 
       .. rst-class:: ansible-option-title
 
@@ -225,7 +224,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/duration/schedulerDay" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/duration/schedulerDay" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -239,7 +238,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of days in a week on which certificate renewal has to be scheduled. Example SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATERDAY.
+      Wireless Settings Certificate Renewal Profiles's schedulerDay.
 
 
       .. raw:: html
@@ -249,9 +248,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/duration/schedulerEndTime"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/duration/schedulerEndTime"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/duration/schedulerendtime:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/duration/schedulerendtime:
 
       .. rst-class:: ansible-option-title
 
@@ -259,7 +258,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/duration/schedulerEndTime" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/duration/schedulerEndTime" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -273,7 +272,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      End time on the wireless controller at which the scheduler should stop any execution. Format HH MM in 24-hour notation. Example 23 59.
+      End time on the wireless controller at which the scheduler should stop any execution. Format HH MM in 24-hour notation.
 
 
       .. raw:: html
@@ -283,9 +282,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/duration/schedulerStartTime"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/duration/schedulerStartTime"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/duration/schedulerstarttime:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/duration/schedulerstarttime:
 
       .. rst-class:: ansible-option-title
 
@@ -293,7 +292,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/duration/schedulerStartTime" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/duration/schedulerStartTime" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -307,7 +306,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Start time on the wireless controller at which the scheduler should begin any execution. Format HH MM in 24-hour notation. Example 13 00.
+      Start time on the wireless controller at which the scheduler should begin any execution. Format HH MM in 24-hour notation.
 
 
       .. raw:: html
@@ -318,9 +317,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-CalendarProfileSetting/schedulerType"></div>
+        <div class="ansibleOptionAnchor" id="parameter-calendarProfile/schedulerType"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofilesetting/schedulertype:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_module__parameter-calendarprofile/schedulertype:
 
       .. rst-class:: ansible-option-title
 
@@ -328,7 +327,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-CalendarProfileSetting/schedulerType" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-calendarProfile/schedulerType" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -689,7 +688,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. LSC Certificate Renewal Profile ID.
+      Id path parameter. Access point certificate renewal profile ID.
 
 
       .. raw:: html
@@ -757,7 +756,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of renewal (e.g., ONESHOT, STAGGERED) \* STAGGERED execution when configured with calendarProfileSetting requires both start time and end time input from scheduler. STAGGERED execution also requires a percentage input which specifies the percentage of access points that can be considered for certificate renewal per iteration. \* ONESHOT execution when configured with calendarProfileSetting requires a start time input. ONESHOT execution does not need percentage input as all the access points certificate renewal happens at oneshot.
+      Number of days until renewal is due.
 
 
       .. raw:: html
@@ -850,11 +849,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_l\_s\_c\_certificate\_renewal\_profile, wireless.Wireless.delete\_l\_s\_c\_certificate\_renewal\_profile\_by\_id, wireless.Wireless.update\_l\_s\_c\_certificate\_renewal\_profile,
+   - SDK Method used are wireless.Wireless.create\_access\_point\_certificate\_renewal\_profile, wireless.Wireless.delete\_access\_point\_certificate\_renewal\_profile, wireless.Wireless.update\_access\_point\_certificate\_renewal\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles, delete /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -863,12 +863,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless CreateLSCCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!create-lsc-certificate-renewal-profile>`_
-       Complete reference of the CreateLSCCertificateRenewalProfile API.
-   `Cisco Catalyst Center documentation for Wireless DeleteLSCCertificateRenewalProfileByID <https://developer.cisco.com/docs/dna-center/#!delete-lsc-certificate-renewal-profile-by-id>`_
-       Complete reference of the DeleteLSCCertificateRenewalProfileByID API.
-   `Cisco Catalyst Center documentation for Wireless UpdateLSCCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!update-lsc-certificate-renewal-profile>`_
-       Complete reference of the UpdateLSCCertificateRenewalProfile API.
+   `Cisco Catalyst Center documentation for Wireless CreateAccessPointCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!create-access-point-certificate-renewal-profile>`_
+       Complete reference of the CreateAccessPointCertificateRenewalProfile API.
+   `Cisco Catalyst Center documentation for Wireless DeleteAccessPointCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!delete-access-point-certificate-renewal-profile>`_
+       Complete reference of the DeleteAccessPointCertificateRenewalProfile API.
+   `Cisco Catalyst Center documentation for Wireless UpdateAccessPointCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!update-access-point-certificate-renewal-profile>`_
+       Complete reference of the UpdateAccessPointCertificateRenewalProfile API.
 
 .. Examples
 
@@ -889,9 +889,10 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        CalendarProfileSetting:
+        calendarProfile:
           duration:
-            schedulerDate: string
+            schedulerDate:
+              - 0
             schedulerDay:
               - string
             schedulerEndTime: string
@@ -921,9 +922,10 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        CalendarProfileSetting:
+        calendarProfile:
           duration:
-            schedulerDate: string
+            schedulerDate:
+              - 0
             schedulerDay:
               - string
             schedulerEndTime: string
@@ -1010,7 +1012,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

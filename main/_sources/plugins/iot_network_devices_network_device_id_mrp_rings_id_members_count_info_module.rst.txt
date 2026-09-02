@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_id_members_count_info module -- Information module for Iot Network Devices  Network Device Id Mrp Rings Id Members Count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_id_members_count_info module -- Information module for Iot Network Devices Network Device Id Mrp Rings Id Members Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_id_members_
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.11.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Iot Network Devices  Network Device Id Mrp Rings Id Members Count. - \> This API returns the count of MRP ring members for the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring. The id of the configured MRP Ring can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings .
+- Get all Iot Network Devices Network Device Id Mrp Rings Id Members Count. - \> This API returns the count of MRP ring members for the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -573,11 +573,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieves\_the\_count\_of\_m\_r\_p\_ring\_members,
+   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieves\_the\_count\_of\_mrp\_ring\_members,
    - Paths used are get /dna/intent/api/v1/iot/networkDevices/{networkDeviceId}/mrpRings/{id}/members/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -598,7 +599,7 @@ Examples
 
     
     ---
-    - name: Get all Iot Network Devices  Network Device Id Mrp Rings Id Members Count
+    - name: Get all Iot Network Devices Network Device Id Mrp Rings Id Members Count
       cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_id_members_count_info:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -688,7 +689,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

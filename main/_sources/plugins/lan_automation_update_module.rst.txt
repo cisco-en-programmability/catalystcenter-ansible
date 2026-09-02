@@ -42,7 +42,7 @@ cisco.catalystcenter.lan_automation_update module -- Resource module for Lan Aut
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.lan_automation_update module -- Resource module for Lan Aut
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -481,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Lan Automation Update's payload.
+      List of Devices, identified by Management IP Address for Loopback0 IP Address update.
 
 
       .. raw:: html
@@ -609,11 +609,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_stop\_and\_update\_devices,
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_stop\_and\_update\_devices\_v1,
    - Paths used are put /dna/intent/api/v1/lan-automation/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -622,8 +623,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevices <https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices>`_
-       Complete reference of the LANAutomationStopAndUpdateDevices API.
+   `Cisco Catalyst Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV1 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-1>`_
+       Complete reference of the LANAutomationStopAndUpdateDevicesV1 API.
 
 .. Examples
 
@@ -724,7 +725,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_profiles module -- Resource module for Wireless Pr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_profiles module -- Resource module for Wireless Pr
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -70,7 +70,7 @@ Synopsis
 
 - Manage operations create, update and delete of the resource Wireless Profiles.
 - This API allows the user to create a Wireless Network Profile.
-- This API allows the user to delete Wireless Network Profile by ID. - \> This API allows the user to update a Wireless Network Profile by ID. Note that, when performing a PUT operation on a wireless network profile, it is essential to provide a complete payload. This is because the wireless network profile is tightly integrated with other network design entities. Consequently, all fields must be included—not just the fields to be updated. Any missing fields will be set to their default or null values. To ensure all fields are accurately populated, consider using the GET operation to retrieve the current resource data before proceeding with the PUT operation.
+- This API allows the user to delete Wireless Network Profile by Id. - \> This API allows the user to update a Wireless Network Profile by Id.Note that, when performing a PUT operation on a wireless network profile, it is essential to provide a complete payload. This is because the wireless network profile is tightly integrated with other network design entities. Consequently, all fields must be included—not just the fields to be updated. Any missing fields will be set to their default or null values. To ensure all fields are accurately populated, consider using the GET operation to retrieve the current resource data before proceeding with the PUT operation.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      These additional interfaces will be configured on the device as independent interfaces in addition to the interfaces mapped to SSIDs. Max Limit 4094.
+      These interfaces will be configured on the device as independent interfaces in addition to the interfaces mapped to SSIDs.
 
 
       .. raw:: html
@@ -170,7 +170,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Profiles's apZones.
+      List of apZones Attached to wireless Profile.
 
 
       .. raw:: html
@@ -204,7 +204,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      AP Zone Name.
+      Name of the apZone.
 
 
       .. raw:: html
@@ -238,7 +238,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      RF Profile Name.
+      Name of the RF profile attached to the AP Zone.
 
 
       .. raw:: html
@@ -272,7 +272,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ssids part of apZone.
+      Wireless Profiles's ssids.
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Profiles's featureTemplates.
+      Feature Templates which needs to be associated to the wireless network profile.
 
 
       .. raw:: html
@@ -687,7 +687,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of SSIDs.
+      Wireless Profiles's ssids.
 
 
       .. raw:: html
@@ -722,7 +722,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Wireless Profile Id.
+      Id.
 
 
       .. raw:: html
@@ -756,7 +756,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Profiles's ssidDetails.
+      SSID Details.
 
 
       .. raw:: html
@@ -790,7 +790,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Anchor Group Name.
+      Anchor Group Name. Below are points to consider - If 'enableFabric' field is set to true,'anchorGroupName' must be null.If 'anchorGroupName' is null,'enableFabric' must be false. - If 'interfaceName' field is non-null,'anchorGroupName' must be null.If 'anchorGroupName' is non-null,'interfaceName' must be null.
 
 
       .. raw:: html
@@ -824,7 +824,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      802.11be Profile ID. Applicable to IOS controllers with version 17.15 and higher.
+      802.11be Profile Id. Applicable to IOS controllers with version 17.15.2 and higher.
 
 
       .. raw:: html
@@ -858,7 +858,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      true if fabric is enabled, else False. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
+      True if fabric is enabled, else false. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
 
 
       .. rst-class:: ansible-option-line
@@ -900,7 +900,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Profiles's flexConnect.
+      FlexConnect.
 
 
       .. raw:: html
@@ -934,7 +934,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      true if flex connect is enabled, else False. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
+      True if flex connect is enabled, else false. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
 
 
       .. rst-class:: ansible-option-line
@@ -1011,7 +1011,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Name.
+      Interface Name. Default Value management.
 
 
       .. raw:: html
@@ -1113,7 +1113,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      VLAN Group Name.
+      VLAN Group Name.Below are points to consider - If 'interfaceName' is non-null in payload,'vlanGroupName' must be null.If 'vlanGroupName' is non-null,'interfaceName' must be null.
 
 
       .. raw:: html
@@ -1147,7 +1147,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      WLAN Profile Name, if not passed autogenerated profile name will be assigned.
+      WLAN Profile Name.
 
 
       .. raw:: html
@@ -1224,7 +1224,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Network Profile Name.
+      Wireless Profile Name.
 
 
       .. raw:: html
@@ -1241,11 +1241,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_wireless\_profile\_connectivity, wireless.Wireless.delete\_wireless\_profile\_connectivity, wireless.Wireless.update\_wireless\_profile\_connectivity,
+   - SDK Method used are wireless.Wireless.create\_wireless\_profile, wireless.Wireless.delete\_wireless\_profile, wireless.Wireless.update\_wireless\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessProfiles, delete /dna/intent/api/v1/wirelessProfiles/{id}, put /dna/intent/api/v1/wirelessProfiles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1254,12 +1255,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless CreateWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity>`_
-       Complete reference of the CreateWirelessProfileConnectivity API.
-   `Cisco Catalyst Center documentation for Wireless DeleteWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity>`_
-       Complete reference of the DeleteWirelessProfileConnectivity API.
-   `Cisco Catalyst Center documentation for Wireless UpdateWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity>`_
-       Complete reference of the UpdateWirelessProfileConnectivity API.
+   `Cisco Catalyst Center documentation for Wireless CreateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile>`_
+       Complete reference of the CreateWirelessProfile API.
+   `Cisco Catalyst Center documentation for Wireless DeleteWirelessProfile <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile>`_
+       Complete reference of the DeleteWirelessProfile API.
+   `Cisco Catalyst Center documentation for Wireless UpdateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile>`_
+       Complete reference of the UpdateWirelessProfile API.
 
 .. Examples
 
@@ -1270,7 +1271,7 @@ Examples
 
     
     ---
-    - name: Create
+    - name: Update by id
       cisco.catalystcenter.wireless_profiles:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1291,6 +1292,7 @@ Examples
           - id: string
             ssids:
               - string
+        id: string
         ssidDetails:
           - anchorGroupName: string
             dot11beProfileId: string
@@ -1315,7 +1317,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
+    - name: Create
       cisco.catalystcenter.wireless_profiles:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1427,7 +1429,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

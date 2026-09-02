@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_ap_profiles_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_ap_profiles_info module -- Information mo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -70,8 +70,8 @@ Synopsis
 
 - Get all Wireless Settings Ap Profiles.
 - Get Wireless Settings Ap Profiles by id.
-- This API allows the user to get AP Profiles that captured in wireless settings design.
 - This API allows the user to get a AP Profile by AP Profile ID that captured in wireless settings design.
+- This API allows the user to get all AP Profiles that captured in wireless settings design.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -137,8 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ApProfileName query parameter. Employ this query parameter to obtain the details of the apProfiles corresponding to the provided apProfileName.
-          
+      ApProfileName query parameter. AP Profiles.
 
 
       .. raw:: html
@@ -518,7 +517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Ap Profile ID.
+      Id path parameter. AP Profile ID.
 
 
       .. raw:: html
@@ -552,8 +551,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
-          
+      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -587,7 +585,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. The first record to show for this page, the first record is numbered 1.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -651,6 +649,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -659,10 +658,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GetAPProfileByID <https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id>`_
-       Complete reference of the GetAPProfileByID API.
-   `Cisco Catalyst Center documentation for Wireless GetAPProfiles <https://developer.cisco.com/docs/dna-center/#!get-ap-profiles>`_
-       Complete reference of the GetAPProfiles API.
+   `Cisco Catalyst Center documentation for Wireless GetApProfileByID <https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id>`_
+       Complete reference of the GetApProfileByID API.
+   `Cisco Catalyst Center documentation for Wireless GetApProfiles <https://developer.cisco.com/docs/dna-center/#!get-ap-profiles>`_
+       Complete reference of the GetApProfiles API.
 
 .. Examples
 
@@ -683,9 +682,9 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        limit: 0
-        offset: 0
         apProfileName: string
+        offset: 1
+        limit: 0
       register: result
     - name: Get Wireless Settings Ap Profiles by id
       cisco.catalystcenter.wireless_settings_ap_profiles_info:
@@ -759,7 +758,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"apPowerProfileName": "string", "apProfileName": "string", "awipsEnabled": true, "awipsForensicEnabled": true, "calendarPowerProfiles": {"duration": {"schedulerDate": ["string"], "schedulerDay": ["string"], "schedulerEndTime": "string", "schedulerStartTime": "string"}, "powerProfileName": "string", "schedulerType": "string"}, "clientLimit": 0, "countryCode": "string", "description": "string", "id": "string", "managementSetting": {"authType": "string", "cdpState": true, "dot1xPassword": "string", "dot1xUsername": "string", "managementEnablePassword": "string", "managementPassword": "string", "managementUserName": "string", "sshEnabled": true, "telnetEnabled": true}, "meshEnabled": true, "meshSetting": {"backhaulClientAccess": true, "bridgeGroupName": "string", "ghz24BackhaulDataRates": "string", "ghz5BackhaulDataRates": "string", "range": 0, "rapDownlinkBackhaul": "string"}, "pmfDenialEnabled": true, "remoteWorkerEnabled": true, "rogueDetectionSetting": {"rogueDetection": true, "rogueDetectionMinRssi": 0, "rogueDetectionReportInterval": 0, "rogueDetectionTransientInterval": 0}, "timeZone": "string", "timeZoneOffsetHour": 0, "timeZoneOffsetMinutes": 0}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"profile": {"apPowerProfileName": "string", "apProfileName": "string", "awipsEnabled": true, "awipsForensicEnabled": true, "calendarPowerProfiles": [{"apPowerProfileName": "string", "calendarProfileName": "string", "duration": {"schedulerDate": ["string"], "schedulerDay": ["string"], "schedulerEndTime": "string", "schedulerStartTime": "string"}, "schedulerType": "string"}], "clientLimit": 0, "countryCode": "string", "description": "string", "id": "string", "managementSetting": {"authType": "string", "cdpState": true, "dot1xPassword": "string", "dot1xUsername": "string", "managementEnablePassword": "string", "managementPassword": "string", "managementUserName": "string", "sshEnabled": true, "telnetEnabled": true}, "meshEnabled": true, "meshSetting": {"backhaulClientAccess": true, "bridgeGroupName": "string", "ghz24BackhaulDataRates": "string", "ghz5BackhaulDataRates": "string", "range": 0, "rapDownlinkBackhaul": "string"}, "pmfDenialEnabled": true, "remoteWorkerEnabled": true, "rogueDetectionSetting": {"rogueDetection": true, "rogueDetectionMinRssi": 0, "rogueDetectionReportInterval": 0, "rogueDetectionTransientInterval": 0}, "timeZone": "string", "timeZoneOffsetHour": 0, "timeZoneOffsetMinutes": 0}, "version": "string"}`
 
 
       .. raw:: html
@@ -776,7 +775,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

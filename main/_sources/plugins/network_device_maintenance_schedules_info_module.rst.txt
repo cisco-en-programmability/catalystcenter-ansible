@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_maintenance_schedules_info module -- Informa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_maintenance_schedules_info module -- Informa
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -70,7 +70,7 @@ Synopsis
 
 - Get all Network Device Maintenance Schedules.
 - Get Network Device Maintenance Schedules by id.
-- API to retrieve the maintenance schedule information for the given id. - \> This API retrieves a list of scheduled maintenance windows for network devices based on filter parameters. Each maintenance window is composed of a start schedule and end schedule, both of which have unique identifiers \`startId\` and \`endId\`. These identifiers can be used to fetch the status of the start schedule and end schedule using the \`GET /dna/intent/api/v1/activities/{id}\` API. Completed maintenance schedules are automatically removed from the system after two weeks. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use '/dna/intent/api/v1/networkDeviceMaintenanceSchedules/count' API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+- API to retrieve the maintenance schedule information for the given id. - \> This API retrieves a list of scheduled maintenance windows for network devices based on filter parameters. Each maintenance window is composed of a start schedule and end schedule, both of which have unique identifiers \`startId\` and \`endId\`. These identifiers can be used to fetch the status of the start schedule and end schedule using the \`GET /dna/intent/api/v1/activities/{id}\` API. Completed maintenance schedules are automatically removed from the system after two weeks.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -516,7 +516,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -540,7 +540,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -686,7 +686,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Status query parameter. The status of the maintenance schedule. Possible values are UPCOMING, IN\_PROGRESS, COMPLETED, FAILED. Refer features for more details.
+      Status query parameter. The status of the maintenance schedule. Possible values are - \`UPCOMING\` The maintenance is scheduled and pending execution. - \`IN\_PROGRESS\` The maintenance is currently in progress. - \`COMPLETED\` The maintenance window has been fully completed (For recurring maintenance, this indicates completion of the most recent occurrence). - \`FAILED\` Updating the device's management state was not successful. For more information on failure use \`GET /dna/intent/api/v1/activities/{id}\` API with \`startId\` and \`endId\` value.
           
 
 
@@ -751,6 +751,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -783,12 +784,12 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        networkDeviceIds: string
+        networkDeviceIds: []
         status: string
         limit: 0
-        offset: 0
+        offset: 1
         sortBy: string
-        order: string
+        order: asc
       register: result
     - name: Get Network Device Maintenance Schedules by id
       cisco.catalystcenter.network_device_maintenance_schedules_info:
@@ -862,7 +863,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"description": "string", "id": "string", "maintenanceSchedule": {"endId": "string", "endTime": 0, "recurrence": {"interval": 0, "recurrenceEndTime": 0}, "startId": "string", "startTime": 0, "status": "string"}, "networkDeviceIds": ["string"]}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "id": "string", "maintenanceSchedule": {"endId": "string", "endTime": {}, "recurrence": {"interval": 0, "recurrenceEndTime": {}}, "startId": "string", "startTime": {}, "status": "string"}, "networkDeviceIds": ["string"]}, "version": "string"}`
 
 
       .. raw:: html
@@ -879,7 +880,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

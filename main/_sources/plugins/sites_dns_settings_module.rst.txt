@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_dns_settings module -- Resource module for Sites Dns 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_dns_settings module -- Resource module for Sites Dns 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Sites Dns Settings. - \> Set DNS settings for a site; \`null\` values indicate that the setting will be inherited from the parent site; empty objects \`{}\` indicate that the settings is unset.
+- Manage operation update of the resource Sites Dns Settings.
+- Sets DNS settings for the given site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -452,75 +453,6 @@ Parameters
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dns/dnsServers"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_dns_settings_module__parameter-dns/dnsservers:
-
-      .. rst-class:: ansible-option-title
-
-      **dnsServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-dns/dnsServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      DNS servers for hostname resolution.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dns/domainName"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_dns_settings_module__parameter-dns/domainname:
-
-      .. rst-class:: ansible-option-title
-
-      **domainName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-dns/domainName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Network's domain name. Example myCompnay.com.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -608,11 +540,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.set\_d\_n\_s\_settings\_for\_a\_site,
+   - SDK Method used are network\_settings.NetworkSettings.set\_dns\_settings\_for\_a\_site,
    - Paths used are put /dna/intent/api/v1/sites/{id}/dnsSettings,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -643,11 +576,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        dns:
-          dnsServers:
-            - string
-          domainName: string
-        id: string
+        dns: {}
+        id: e298f95b-cd70-48ae-a590-b2076bfb6033
 
 
 
@@ -708,7 +638,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -725,7 +655,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

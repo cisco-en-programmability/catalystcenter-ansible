@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_profile module -- Resource module for Wireless Pro
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_profile module -- Resource module for Wireless Pro
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Wireless Profile.
-- Creates Wireless Network Profile on Cisco Catalyst Center and associates sites and SSIDs to it.
+- Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
 - Delete the Wireless Profile whose name is provided. - \> Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided.
 
 .. note::
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -108,6 +108,177 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-additionalInterfaces"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-additionalinterfaces:
+
+      .. rst-class:: ansible-option-title
+
+      **additionalInterfaces**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-additionalInterfaces" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      These interfaces will be configured on the device as independent interfaces in addition to the interfaces mapped to SSIDs.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-apzones:
+
+      .. rst-class:: ansible-option-title
+
+      **apZones**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of apZones Attached to wireless Profile.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/apZoneName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-apzones/apzonename:
+
+      .. rst-class:: ansible-option-title
+
+      **apZoneName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/apZoneName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the apZone.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/rfProfileName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-apzones/rfprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **rfProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/rfProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the RF profile attached to the AP Zone.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/ssids"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-apzones/ssids:
+
+      .. rst-class:: ansible-option-title
+
+      **ssids**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/ssids" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Profile's ssids.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -424,21 +595,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails"></div>
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplates"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-featuretemplates:
 
       .. rst-class:: ansible-option-title
 
-      **profileDetails**
+      **featureTemplates**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-featureTemplates" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -448,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Profile's profileDetails.
+      Feature Templates which needs to be associated to the wireless network profile.
 
 
       .. raw:: html
@@ -458,17 +629,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/name"></div>
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplates/id"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/name:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-featuretemplates/id:
 
       .. rst-class:: ansible-option-title
 
-      **name**
+      **id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-featureTemplates/id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -482,7 +653,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Profile Name.
+      Feature Template UUID.
 
 
       .. raw:: html
@@ -492,17 +663,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/sites"></div>
+        <div class="ansibleOptionAnchor" id="parameter-featureTemplates/ssids"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/sites:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-featuretemplates/ssids:
 
       .. rst-class:: ansible-option-title
 
-      **sites**
+      **ssids**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/sites" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-featureTemplates/ssids" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -516,7 +687,42 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Array of site name hierarchies(eg "Global/aaa/zzz", "Global/aaa/zzz").
+      Wireless Profile's ssids.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id.
 
 
       .. raw:: html
@@ -525,10 +731,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails"></div>
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails:
 
       .. rst-class:: ansible-option-title
 
@@ -536,7 +742,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -548,9 +754,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-cell">
 
-      Wireless Profile's ssidDetails.
+      SSID Details.
 
 
       .. raw:: html
@@ -559,10 +765,78 @@ Parameters
     
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/enableFabric"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/anchorGroupName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/enablefabric:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/anchorgroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **anchorGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/anchorGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Anchor Group Name. Below are points to consider - If 'enableFabric' field is set to true,'anchorGroupName' must be null.If 'anchorGroupName' is null,'enableFabric' must be false. - If 'interfaceName' field is non-null,'anchorGroupName' must be null.If 'anchorGroupName' is non-null,'interfaceName' must be null.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/dot11beProfileId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/dot11beprofileid:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11beProfileId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/dot11beProfileId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      802.11be Profile Id. Applicable to IOS controllers with version 17.15.2 and higher.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/enableFabric"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/enablefabric:
 
       .. rst-class:: ansible-option-title
 
@@ -570,7 +844,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/enableFabric" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/enableFabric" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -582,9 +856,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      true if ssid is fabric else false.
+      True if fabric is enabled, else false. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
 
 
       .. rst-class:: ansible-option-line
@@ -601,10 +875,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/flexConnect"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/flexconnect:
 
       .. rst-class:: ansible-option-title
 
@@ -612,7 +886,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/flexConnect" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/flexConnect" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -624,9 +898,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Profile's flexConnect.
+      FlexConnect.
 
 
       .. raw:: html
@@ -635,10 +909,10 @@ Parameters
     
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect/enableFlexConnect"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/flexConnect/enableFlexConnect"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect/enableflexconnect:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/flexconnect/enableflexconnect:
 
       .. rst-class:: ansible-option-title
 
@@ -646,7 +920,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/flexConnect/enableFlexConnect" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/flexConnect/enableFlexConnect" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -658,9 +932,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      true if flex connect is enabled else false.
+      True if flex connect is enabled, else false. Flex and fabric cannot be enabled simultaneously and a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
 
 
       .. rst-class:: ansible-option-line
@@ -677,10 +951,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/flexConnect/localToVlan"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/flexConnect/localToVlan"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/flexconnect/localtovlan:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/flexconnect/localtovlan:
 
       .. rst-class:: ansible-option-title
 
@@ -688,7 +962,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/flexConnect/localToVlan" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/flexConnect/localToVlan" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -700,9 +974,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Local to VLAN ID. Required if enableFlexConnect is true.
+      Local to VLAN ID.
 
 
       .. raw:: html
@@ -712,10 +986,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/interfaceName"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/interfaceName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/interfacename:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/interfacename:
 
       .. rst-class:: ansible-option-title
 
@@ -723,7 +997,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/interfaceName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/interfaceName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -735,43 +1009,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/name"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Ssid Name.
+      Interface Name. Default Value management.
 
 
       .. raw:: html
@@ -780,10 +1020,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/policyProfileName"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/policyProfileName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/policyprofilename:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/policyprofilename:
 
       .. rst-class:: ansible-option-title
 
@@ -791,7 +1031,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/policyProfileName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/policyProfileName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -803,9 +1043,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Policy Profile Name.
+      Policy Profile Name. If 'policyProfileName' is not provided, the value of 'wlanProfileName' will be assigned to it. If 'profileName' is also not provided, an autogenerated name will be used. Autogenerated name is generated by appending 'ssidName' field's value with '\_profile' (Example If 'ssidName' = 'ExampleSsid', then autogenerated name will be 'ExampleSsid\_profile').
 
 
       .. raw:: html
@@ -814,18 +1054,18 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-profileDetails/ssidDetails/wlanProfileName"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/ssidName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-profiledetails/ssiddetails/wlanprofilename:
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/ssidname:
 
       .. rst-class:: ansible-option-title
 
-      **wlanProfileName**
+      **ssidName**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-profileDetails/ssidDetails/wlanProfileName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/ssidName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -837,7 +1077,75 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SSID Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/vlanGroupName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/vlangroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/vlanGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN Group Name.Below are points to consider - If 'interfaceName' is non-null in payload,'vlanGroupName' must be null.If 'vlanGroupName' is non-null,'interfaceName' must be null.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/wlanProfileName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profile_module__parameter-ssiddetails/wlanprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/wlanProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       WLAN Profile Name.
 
@@ -845,7 +1153,6 @@ Parameters
       .. raw:: html
 
         </div>
-
 
 
   * - .. raw:: html
@@ -917,7 +1224,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      WirelessProfileName path parameter. Wireless Profile Name.
+      Wireless Profile Name.
 
 
       .. raw:: html
@@ -934,11 +1241,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_wireless\_profile, wireless.Wireless.delete\_wireless\_profile, wireless.Wireless.update\_wireless\_profile,
+   - SDK Method used are wireless.Wireless.create\_wireless\_profile\_connectivity, wireless.Wireless.delete\_wireless\_profile\_connectivity, wireless.Wireless.update\_wireless\_profile\_connectivity,
    - Paths used are post /dna/intent/api/v1/wireless/profile, delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName}, put /dna/intent/api/v1/wireless/profile,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -947,12 +1255,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless CreateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile>`_
-       Complete reference of the CreateWirelessProfile API.
-   `Cisco Catalyst Center documentation for Wireless DeleteWirelessProfile <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile>`_
-       Complete reference of the DeleteWirelessProfile API.
-   `Cisco Catalyst Center documentation for Wireless UpdateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile>`_
-       Complete reference of the UpdateWirelessProfile API.
+   `Cisco Catalyst Center documentation for Wireless CreateWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity>`_
+       Complete reference of the CreateWirelessProfileConnectivity API.
+   `Cisco Catalyst Center documentation for Wireless DeleteWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity>`_
+       Complete reference of the DeleteWirelessProfileConnectivity API.
+   `Cisco Catalyst Center documentation for Wireless UpdateWirelessProfileConnectivity <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity>`_
+       Complete reference of the UpdateWirelessProfileConnectivity API.
 
 .. Examples
 
@@ -963,17 +1271,6 @@ Examples
 
     
     ---
-    - name: Delete by name
-      cisco.catalystcenter.wireless_profile:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        wirelessProfileName: string
     - name: Create
       cisco.catalystcenter.wireless_profile:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -984,19 +1281,31 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        profileDetails:
-          name: string
-          sites:
-            - string
-          ssidDetails:
-            - enableFabric: true
-              flexConnect:
-                enableFlexConnect: true
-                localToVlan: 0
-              interfaceName: string
-              name: string
-              policyProfileName: string
-              wlanProfileName: string
+        additionalInterfaces:
+          - string
+        apZones:
+          - apZoneName: string
+            rfProfileName: string
+            ssids:
+              - string
+        featureTemplates:
+          - id: string
+            ssids:
+              - string
+        id: string
+        ssidDetails:
+          - anchorGroupName: string
+            dot11beProfileId: string
+            enableFabric: true
+            flexConnect:
+              enableFlexConnect: true
+              localToVlan: 0
+            interfaceName: string
+            policyProfileName: string
+            ssidName: string
+            vlanGroupName: string
+            wlanProfileName: string
+        wirelessProfileName: string
     - name: Update all
       cisco.catalystcenter.wireless_profile:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1007,19 +1316,42 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        profileDetails:
-          name: string
-          sites:
-            - string
-          ssidDetails:
-            - enableFabric: true
-              flexConnect:
-                enableFlexConnect: true
-                localToVlan: 0
-              interfaceName: string
-              name: string
-              policyProfileName: string
-              wlanProfileName: string
+        additionalInterfaces:
+          - string
+        apZones:
+          - apZoneName: string
+            rfProfileName: string
+            ssids:
+              - string
+        featureTemplates:
+          - id: string
+            ssids:
+              - string
+        id: string
+        ssidDetails:
+          - anchorGroupName: string
+            dot11beProfileId: string
+            enableFabric: true
+            flexConnect:
+              enableFlexConnect: true
+              localToVlan: 0
+            interfaceName: string
+            policyProfileName: string
+            ssidName: string
+            vlanGroupName: string
+            wlanProfileName: string
+        wirelessProfileName: string
+    - name: Delete by name
+      cisco.catalystcenter.wireless_profile:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        wirelessProfileName: application/json
 
 
 
@@ -1097,7 +1429,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

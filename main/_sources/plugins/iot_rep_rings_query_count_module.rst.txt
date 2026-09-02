@@ -42,7 +42,7 @@ cisco.catalystcenter.iot_rep_rings_query_count module -- Resource module for Iot
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.iot_rep_rings_query_count module -- Resource module for Iot
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Iot Rep Rings Query Count. - \> This API returns the count of REP rings for the given fields - networkDeviceId Network device ID of the REP ring member. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices and deploymentMode FABRIC/NON\_FABRIC .
+- Manage operation create of the resource Iot Rep Rings Query Count.
+- This API returns the count of REP rings for the given fields-.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Deployment mode of the configured REP ring.
+      DeploymentMode (FABRIC/NON\_FABRIC) of the configured REP ring.
 
 
       .. raw:: html
@@ -480,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network device id of the REP ring member. API \`/dna/intent/api/v1/networkDevices\` can be used to get the list of networkDeviceIds of the neighbors , \`instanceUuid\` attribute in the response contains networkDeviceId.
+      Network device id of the REP ring member. It is the \`instanceUuid\` attribute in the response of \`/dna/intent/api/v1/networkDevices\` API.
 
 
       .. raw:: html
@@ -539,11 +540,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieves\_the\_count\_of\_r\_e\_p\_rings,
+   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieves\_the\_count\_of\_rep\_rings,
    - Paths used are post /dna/intent/api/v1/iot/repRings/query/count,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -573,8 +575,8 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        deploymentMode: string
-        networkDeviceId: string
+        deploymentMode: FABRIC
+        networkDeviceId: 3eedb9ec-84e9-486c-8a2f-0f6985ccb4b2
 
 
 
@@ -615,7 +617,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -635,7 +637,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"response\\": [\\n      {\\n        \\"count\\": 0\\n      }\\n    ]", "\\n    \\"version\\": 0\\n  }\\n]\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
 
 
       .. raw:: html
@@ -652,7 +654,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_trend_analytics module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_trend_analytics module -- Resource module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,10 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Network Devices Trend Analytics.
-- Gets the Trend analytics Network device data for the given time range.
-- The data will be grouped based on the given trend time Interval.
-- The required property for this API is \`trendInterval\`.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+- Gets the Trend analytics Network device data for the given time range. The.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -138,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Aggregate Attributes.
+      Network Devices Trend Analytics's aggregateAttributes.
 
 
       .. raw:: html
@@ -172,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attributes.
+      Network Devices Trend Analytics's attributes.
 
 
       .. raw:: html
@@ -518,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Network Devices Trend Analytics's endTime.
 
 
       .. raw:: html
@@ -586,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Network Devices Trend Analytics's key.
 
 
       .. raw:: html
@@ -620,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Network Devices Trend Analytics's operator.
 
 
       .. raw:: html
@@ -654,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Network Devices Trend Analytics's value.
 
 
       .. raw:: html
@@ -689,7 +686,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Group By.
+      Network Devices Trend Analytics's groupBy.
 
 
       .. raw:: html
@@ -757,7 +754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Limit.
+      Network Devices Trend Analytics's limit.
 
 
       .. raw:: html
@@ -791,7 +788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Offset.
+      Network Devices Trend Analytics's offset.
 
 
       .. raw:: html
@@ -825,7 +822,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Timestamp Order.
+      Network Devices Trend Analytics's timestampOrder.
 
 
       .. raw:: html
@@ -860,7 +857,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Network Devices Trend Analytics's startTime.
 
 
       .. raw:: html
@@ -894,7 +891,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Trend Interval.
+      Network Devices Trend Analytics's trendInterval.
 
 
       .. raw:: html
@@ -958,6 +955,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -987,8 +985,7 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        aggregateAttributes:
-          - string
+        aggregateAttributes: []
         attributes:
           - string
         endTime: 0
@@ -996,8 +993,7 @@ Examples
           - key: string
             operator: string
             value: string
-        groupBy:
-          - string
+        groupBy: []
         page:
           limit: 0
           offset: 0
@@ -1081,7 +1077,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

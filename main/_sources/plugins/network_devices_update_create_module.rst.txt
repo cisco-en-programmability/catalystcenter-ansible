@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_update_create module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_update_create module -- Resource module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Devices Update Create. - \> Updates specified fields of an existing network device. Only include the fields you wish to update. Omitted fields remain unchanged. To unset a field, explicitly set it to null. If a different managementIpAddress is provided, the device will be updated with the new managementIpAddress.
+- Manage operation create of the resource Network Devices Update Create.
+- Updates specified fields of an existing network device. Only include the fields you wish to update.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Category of the device. Used to determine the type of the device being added.
+      Category of the device. Used to determine the type of the device being added. | Category | Description | Required Credentials | Optional Credentials | | -------------------- | ----------------------------------------------------------------------------------... | -------------------- | -------------------- | | \`NETWORK\_DEVICE\` | Standard Cisco network devices like switches, routers, controllers | CLI, SNMP | HTTP, Netconf | | \`COMPUTE\_DEVICE\` | Server or computing system manufactured by Cisco such as Unified Computing System (UCS) | HTTP | CLI, SNMP | | \`THIRD\_PARTY\_DEVICE\` | Non-Cisco network devices that support SNMP monitoring | SNMP | - | | \`MERAKI\_DASHBOARD\` | Cisco Meraki cloud-managed devices accessed via Meraki Dashboard | Meraki | - | | \`FIREWALL\_MANAGEMENT\_CENTER\` | Cisco Secure Firewall Management Center (FMC) | HTTP | - |.
 
 
       .. raw:: html
@@ -480,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network Devices Update Create's credentials.
+      Credentials used to access the network device.
 
 
       .. raw:: html
@@ -524,74 +525,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/enablePassword"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/cli/enablepassword:
-
-      .. rst-class:: ansible-option-title
-
-      **enablePassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/enablePassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Password that is used to move to a higher privilege level in the CLI. Configure this password only if your network devices require it. Passwords cannot contain spaces or angle brackets(\<\>).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/password"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/cli/password:
-
-      .. rst-class:: ansible-option-title
-
-      **password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      CLI Password. Passwords cannot contain spaces or angle brackets(\<\>).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-credentials/cli/protocol"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/cli/protocol:
@@ -617,40 +550,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Protocol used for CLI access. Default is SSH.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/cli/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      CLI username to login to the device.
 
 
       .. raw:: html
@@ -695,74 +594,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/http/password"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/http/password:
-
-      .. rst-class:: ansible-option-title
-
-      **password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/http/password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      HTTP password. The password cannot contain spaces or angle brackets (\< \>). Note that some Cisco IOS XE devices do not allow a question mark (?).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/http/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/http/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/http/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      HTTP port. The default port is 443 for protocol= HTTPS and 80 for protocol=HTTP.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-credentials/http/protocol"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/http/protocol:
@@ -787,41 +618,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      HTTP protocol. Compute device require HTTPS.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/http/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/http/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/http/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      HTTP username. Username cannot contain spaces or angle brackets (\< \>).
+      HTTP protocol. Compute devices require HTTPS.
 
 
       .. raw:: html
@@ -856,7 +653,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Devices Update Create's meraki.
+      Meraki credentials. Required if type is MERAKI\_DASHBOARD.
 
 
       .. raw:: html
@@ -959,47 +756,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Devices Update Create's netconf.
+      NETCONF credentials used to access the network device. The credentials are used to access the device using NETCONF.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/netconf/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/netconf/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/netconf/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Netconf port of the device. Default port is 830.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1028,7 +790,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Devices Update Create's snmp.
+      Extra properties for SNMP credentials.
 
 
       .. raw:: html
@@ -1038,21 +800,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/authPassword"></div>
+        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/retries"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/authpassword:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/retries:
 
       .. rst-class:: ansible-option-title
 
-      **authPassword**
+      **retries**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/authPassword" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/retries" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1062,7 +824,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMPv3 authentication password.
+      SNMP retry. Default is Global SNMP retry (if exists) or 3.
 
 
       .. raw:: html
@@ -1072,21 +834,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/authType"></div>
+        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/timeout"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/authtype:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/timeout:
 
       .. rst-class:: ansible-option-title
 
-      **authType**
+      **timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/authType" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1096,245 +858,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SNMPv3 authentication type. Required for AUTHPRIV (Authentication and Privacy) and AUTHNOPRIV (Authentication) modes. SHA256 The device will be authenticated using SHA256. SHA The device will be authenticated using SHA. MD5 The device will be authenticated using MD5.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/mode"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/mode:
-
-      .. rst-class:: ansible-option-title
-
-      **mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/mode" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Security level that an SNMP message requires. AUTHPRIV provides both authentication and encryption. AUTHNOPRIV provides authentication, but does not provide encryption. NOAUTHNOPRIV does not provide authentication or encryption.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/privacyPassword"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/privacypassword:
-
-      .. rst-class:: ansible-option-title
-
-      **privacyPassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/privacyPassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SNMPv3 privacy password.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/privacyType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/privacytype:
-
-      .. rst-class:: ansible-option-title
-
-      **privacyType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/privacyType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SNMP privacy type. Required if the SNMP mode is AUTHPRIV. AES128 algorithm used for encryption. AES192 algorithm used for encryption. AES256 algorithm used for encryption. CISCOAES192 algorithm used for encryption. CISCOAES256 algorithm used for encryption.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/readCommunity"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/readcommunity:
-
-      .. rst-class:: ansible-option-title
-
-      **readCommunity**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/readCommunity" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Read-only community string password used only to view SNMP information on the device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name associated with the SNMPv3 settings.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SNMP version to be used for the device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/writeCommunity"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_update_create_module__parameter-credentials/snmp/writecommunity:
-
-      .. rst-class:: ansible-option-title
-
-      **writeCommunity**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/writeCommunity" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Write community string used to make changes to the SNMP information on the device.
+      SNMP timeout in seconds. Default is Global SNMP timeout (if exists) or 5.
 
 
       .. raw:: html
@@ -1394,7 +918,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -1404,7 +928,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Management address of the network device. For meraki dashboard, this is the dashboard URL.
+      Either an IP address or a fully-qualified domain name.
 
 
       .. raw:: html
@@ -1468,6 +992,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1499,34 +1024,16 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         category: string
         credentials:
-          cli:
-            enablePassword: string
-            password: string
-            protocol: string
-            username: string
-          http:
-            password: string
-            port: 0
-            protocol: string
-            username: string
+          cli: {}
+          http: {}
           meraki:
             apiKey: string
             orgIds:
               - string
-          netconf:
-            port: 0
-          snmp:
-            authPassword: string
-            authType: string
-            mode: string
-            privacyPassword: string
-            privacyType: string
-            readCommunity: string
-            username: string
-            version: string
-            writeCommunity: string
+          netconf: {}
+          snmp: {}
         id: string
-        managementAddress: string
+        managementAddress: {}
 
 
 
@@ -1604,7 +1111,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.application_sets module -- Resource module for Application 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.application_sets module -- Resource module for Application 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -516,7 +516,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Application Sets's name.
 
 
       .. raw:: html
@@ -576,11 +576,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_set, application\_policy.ApplicationPolicy.delete\_application\_set,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_set\_v1, application\_policy.ApplicationPolicy.delete\_application\_set\_policy,
    - Paths used are post /dna/intent/api/v1/application-policy-application-set, delete /dna/intent/api/v1/application-policy-application-set,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -589,10 +590,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Application Policy CreateApplicationSet <https://developer.cisco.com/docs/dna-center/#!create-application-set>`_
-       Complete reference of the CreateApplicationSet API.
-   `Cisco Catalyst Center documentation for Application Policy DeleteApplicationSet <https://developer.cisco.com/docs/dna-center/#!delete-application-set>`_
-       Complete reference of the DeleteApplicationSet API.
+   `Cisco Catalyst Center documentation for Application Policy CreateApplicationSetV1 <https://developer.cisco.com/docs/dna-center/#!create-application-set-v-1>`_
+       Complete reference of the CreateApplicationSetV1 API.
+   `Cisco Catalyst Center documentation for Application Policy DeleteApplicationSetPolicy <https://developer.cisco.com/docs/dna-center/#!delete-application-set-policy>`_
+       Complete reference of the DeleteApplicationSetPolicy API.
 
 .. Examples
 
@@ -603,17 +604,6 @@ Examples
 
     
     ---
-    - name: Delete all
-      cisco.catalystcenter.application_sets:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
     - name: Create
       cisco.catalystcenter.application_sets:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -626,6 +616,17 @@ Examples
         state: present
         payload:
           - name: string
+    - name: Delete all
+      cisco.catalystcenter.application_sets:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        id: application/json
 
 
 
@@ -686,7 +687,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"taskId": "string", "url": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -703,7 +704,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

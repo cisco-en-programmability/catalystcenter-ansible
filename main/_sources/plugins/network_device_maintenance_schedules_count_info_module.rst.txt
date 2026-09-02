@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_maintenance_schedules_count_info module -- I
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_maintenance_schedules_count_info module -- I
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -471,7 +471,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -515,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Status query parameter. The status of the maintenance schedule. Possible values are UPCOMING, IN\_PROGRESS, COMPLETED, FAILED. Refer features for more details.
+      Status query parameter. The status of the maintenance schedule. Possible values are - \`UPCOMING\` The maintenance is scheduled and pending execution. - \`IN\_PROGRESS\` The maintenance is currently in progress. - \`COMPLETED\` The maintenance window has been fully completed (For recurring maintenance, this indicates completion of the most recent occurrence). - \`FAILED\` Updating the device's management state was not successful. For more information on failure use \`GET /dna/intent/api/v1/activities/{id}\` API with \`startId\` and \`endId\` value.
           
 
 
@@ -580,6 +580,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -610,7 +611,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        networkDeviceIds: string
+        networkDeviceIds: []
         status: string
       register: result
 
@@ -690,7 +691,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

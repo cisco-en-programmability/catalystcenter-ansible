@@ -42,7 +42,7 @@ cisco.catalystcenter.filter_group_associations module -- Resource module for Fil
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.filter_group_associations module -- Resource module for Fil
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Filter Group Associations. - \> Creates association between a filter group and entity. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst- center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-FilterGroups-1.0.0-resolved.yaml.
+- Manage operation create of the resource Filter Group Associations.
+- Creates association between a filter group and entity.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Entity Id.
+      Entity id with which the Filter Group is associated.
 
 
       .. raw:: html
@@ -480,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Entity Name.
+      Entity name with which the Filter Group is associated.
 
 
       .. raw:: html
@@ -514,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Entity Type.
+      The type of the entity with which the Filter Group is associated.
 
 
       .. raw:: html
@@ -548,7 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Filter Group Id.
+      Filter Group id.
 
 
       .. raw:: html
@@ -646,6 +647,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -758,7 +760,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

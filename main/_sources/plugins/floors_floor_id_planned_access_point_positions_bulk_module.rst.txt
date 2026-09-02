@@ -42,7 +42,7 @@ cisco.catalystcenter.floors_floor_id_planned_access_point_positions_bulk module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.floors_floor_id_planned_access_point_positions_bulk module 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -491,6 +491,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.floors_floor_id_planned_access_point_positions_bulk_module__parameter-payload/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Planned Access Point Id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/macAddress"></div>
 
       .. _ansible_collections.cisco.catalystcenter.floors_floor_id_planned_access_point_positions_bulk_module__parameter-payload/macaddress:
@@ -617,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Planned Access Point X coordinate in feet.
+      Access Point X coordinate in feet.
 
 
       .. raw:: html
@@ -651,7 +685,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Planned Access Point Y coordinate in feet.
+      Access Point Y coordinate in feet.
 
 
       .. raw:: html
@@ -685,7 +719,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Planned Access Point Z coordinate in feet.
+      Access Point Z coordinate in feet.
 
 
       .. raw:: html
@@ -822,7 +856,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Elevation of the antenna. The elevation range is from -90 through 90.
+      Elevation of the antenna. The elevation range is from -180 through 180. For antennas designed to be horizontally mounted, 0° indicates mounted to ceiling pointed straight down to the floor, where 180° indicates mounted on floor (or mounted under a desk) pointed up to the ceiling. Positive elevation angles means AP is tilted in the direction of the configured azimuth, where negative elevation angles means tilted opposite the direction of the configured azimuth. For antennas designed to be vertically mounted (on wall, pole, etc.), 0° means the main lobe is pointed straight out from the wall, where -90° indicates mounted to wall and pointed straight down to the floor, and 90° indicates pointed up to the ceiling. Use \`/dna/intent/api/v1/maps/supported-access-points\` to find supported antennas for a particular Access Point type. Use \`/dna/intent/api/v1/maps/antenna/{antennaName}\` to lookup specific details about an antennas default mounting orientation.
 
 
       .. raw:: html
@@ -856,7 +890,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Antenna type for this Planned Access Point. Use \`/dna/intent/api/v1/maps/supported-acc... to find supported Antennas for a particualr Planned Access Point type.
+      Antenna type for this Access Point. Use \`/dna/intent/api/v1/maps/supported-access-points\` to find supported Antennas for a particular Access Point type.
 
 
       .. raw:: html
@@ -891,7 +925,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio frequencies in GHz. Radio frequencies are expected to be 2.4, 5, and 6. MinItems 1; MaxItems 3.
+      Radio frequency in GHz. Please note that once set, this field cannot be changed.
 
 
       .. raw:: html
@@ -925,7 +959,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Channel to be used by the Planned Access Point. In the context of a Planned Access Point, the channel have no bearing on what the real Access Point will actually be, they are just used for Maps visualization feature set.
+      Channel to be used by the Access Point. In the context of a Planned Access Point, the channel have no bearing on what the real Access Point will actually be, they are just used for Maps visualization feature set.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/radios/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.floors_floor_id_planned_access_point_positions_bulk_module__parameter-payload/radios/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/radios/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radio Id.
 
 
       .. raw:: html
@@ -994,7 +1062,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Planned Access Point type. Use \`dna/intent/api/v1/maps/supported-access-points\` to find the supported models.
+      Planned Access Point type. Use \`dna/intent/api/v1/maps/supported-access-points\` to find the supported types.
 
 
       .. raw:: html
@@ -1054,11 +1122,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.add\_planned\_access\_points\_positions\_v2,
+   - SDK Method used are site\_design.SiteDesign.add\_planned\_access\_points\_positions,
    - Paths used are post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulk,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1067,8 +1136,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Site Design AddPlannedAccessPointsPositionsV2 <https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions-v-2>`_
-       Complete reference of the AddPlannedAccessPointsPositionsV2 API.
+   `Cisco Catalyst Center documentation for Site Design AddPlannedAccessPointsPositions <https://developer.cisco.com/docs/dna-center/#!add-planned-access-points-positions>`_
+       Complete reference of the AddPlannedAccessPointsPositions API.
 
 .. Examples
 
@@ -1090,7 +1159,8 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         floorId: string
         payload:
-          - macAddress: string
+          - id: string
+            macAddress: string
             name: string
             position:
               x: 0
@@ -1104,6 +1174,7 @@ Examples
                 bands:
                   - 0
                 channel: 0
+                id: string
                 txPower: 0
             type: string
 
@@ -1166,7 +1237,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -1183,7 +1254,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

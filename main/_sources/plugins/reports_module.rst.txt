@@ -42,7 +42,7 @@ cisco.catalystcenter.reports module -- Resource module for Reports
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.reports module -- Resource module for Reports
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,8 +69,7 @@ Synopsis
 .. Description
 
 - Manage operations create and delete of the resource Reports.
-- Create/Schedule a report configuration.
-- Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+- Create/Schedule a report configuration. Use "Get view details for a given view.
 - Delete a scheduled report configuration. Deletes the report executions also.
 
 .. note::
@@ -87,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -729,7 +728,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Reports's fieldGroups.
+      Fields selected for specific type of reports(CSV, TDE, JSON). To have all fields selected by default, assign an empty array as the value.
 
 
       .. raw:: html
@@ -831,7 +830,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Reports's fields.
+      Fields selected in the fieldgroup.
 
 
       .. raw:: html
@@ -1106,7 +1105,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Reports's format.
+      Details of selected format for the report.
 
 
       .. raw:: html
@@ -1334,6 +1333,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1356,6 +1356,17 @@ Examples
 
     
     ---
+    - name: Delete by id
+      cisco.catalystcenter.reports:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        reportId: string
     - name: Create
       cisco.catalystcenter.reports:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1367,8 +1378,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         dataCategory: string
-        deliveries:
-          - string
+        deliveries: []
         name: string
         schedule: {}
         tags:
@@ -1392,17 +1402,6 @@ Examples
           viewId: string
         viewGroupId: string
         viewGroupVersion: string
-    - name: Delete by id
-      cisco.catalystcenter.reports:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        reportId: string
 
 
 
@@ -1463,7 +1462,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"dataCategory": "string", "deliveries": ["string"], "executionCount": 0, "executions": [{"endTime": 0, "errors": ["string"], "executionId": "string", "processStatus": "string", "requestStatus": "string", "startTime": 0, "warnings": ["string"]}], "name": "string", "reportId": "string", "reportWasExecuted": true, "schedule": {}, "tags": ["string"], "view": {"description": "string", "fieldGroups": [{"fieldGroupDisplayName": "string", "fieldGroupName": "string", "fields": [{"displayName": "string", "name": "string"}]}], "filters": [{"displayName": "string", "name": "string", "type": "string", "value": {}}], "format": {"formatType": "string", "name": "string"}, "name": "string", "viewId": "string", "viewInfo": "string"}, "viewGroupId": "string", "viewGroupVersion": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"message": "string", "status": 0}`
 
 
       .. raw:: html
@@ -1480,7 +1479,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

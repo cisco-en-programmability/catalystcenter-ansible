@@ -42,7 +42,7 @@ cisco.catalystcenter.compliance_policys_rules module -- Resource module for Comp
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.compliance_policys_rules module -- Resource module for Comp
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -425,6 +425,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionsCount"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_module__parameter-conditionscount:
+
+      .. rst-class:: ansible-option-title
+
+      **conditionsCount**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionsCount" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The total number of conditions present within the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-description"></div>
 
       .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_module__parameter-description:
@@ -483,7 +517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Compliance Policys Rules's deviceTypes.
+      Defines device types by detailing their family, series, and model to enable the application of rules to targeted devices.
 
 
       .. raw:: html
@@ -756,7 +790,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Specifies the software type applicable to the rule. For detailed enum descriptions, refer to the \`Features\` tab.
+      Specifies the software type applicable to the rule. The options include - \`IOS\` Cisco Internetwork Operating System. - \`IOS\_XE\` Cisco IOS-XE software. - \`CISCO\_CONTROLLER\` AireOS operating system for Cisco wireless controllers.
 
 
       .. raw:: html
@@ -839,6 +873,40 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-variablesCount"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_module__parameter-variablescount:
+
+      .. rst-class:: ansible-option-title
+
+      **variablesCount**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-variablesCount" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The total number of variables present within the rule.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -854,6 +922,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -878,26 +947,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.compliance_policys_rules:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        description: string
-        deviceTypes:
-          - deviceFamily: string
-            deviceModel: string
-            deviceSeries: string
-        impact: string
-        name: string
-        policyId: string
-        softwareType: string
-        suggestedFix: string
     - name: Delete by id
       cisco.catalystcenter.compliance_policys_rules:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -908,8 +957,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
-        id: string
-        policyId: string
+        id: e8eef5e2-1eab-426c-be77-97ee81dcba06
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
     - name: Update by id
       cisco.catalystcenter.compliance_policys_rules:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -920,6 +969,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
+        conditionsCount: 0
         description: string
         deviceTypes:
           - deviceFamily: string
@@ -931,6 +981,30 @@ Examples
         policyId: string
         softwareType: string
         suggestedFix: string
+        variablesCount: 0
+    - name: Create
+      cisco.catalystcenter.compliance_policys_rules:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        conditionsCount: 0
+        description: string
+        deviceTypes:
+          - deviceFamily: string
+            deviceModel: string
+            deviceSeries: string
+        id: string
+        impact: string
+        name: string
+        policyId: string
+        softwareType: string
+        suggestedFix: string
+        variablesCount: 0
 
 
 
@@ -1008,7 +1082,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

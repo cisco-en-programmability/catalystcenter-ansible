@@ -42,7 +42,7 @@ cisco.catalystcenter.floors_floor_id_access_point_positions_info module -- Infor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.floors_floor_id_access_point_positions_info module -- Infor
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -515,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -651,7 +651,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. The first record to show for this page; the first record is numbered 1. Minimum 1.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -744,11 +744,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.get\_access\_points\_positions\_v2,
+   - SDK Method used are site\_design.SiteDesign.get\_access\_points\_positions,
    - Paths used are get /dna/intent/api/v2/floors/{floorId}/accessPointPositions,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -757,8 +758,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Site Design GetAccessPointsPositionsV2 <https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-v-2>`_
-       Complete reference of the GetAccessPointsPositionsV2 API.
+   `Cisco Catalyst Center documentation for Site Design GetAccessPointsPositions <https://developer.cisco.com/docs/dna-center/#!get-access-points-positions>`_
+       Complete reference of the GetAccessPointsPositions API.
 
 .. Examples
 
@@ -780,10 +781,10 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
         name: string
-        macAddress: string
+        macAddress: 00:00:0C:15:C0:00
         type: string
         model: string
-        offset: 0
+        offset: 1
         limit: 0
         floorId: string
       register: result
@@ -847,7 +848,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"id": "string", "macAddress": "string", "model": "string", "name": "string", "position": {"x": 0, "y": 0, "z": 0}, "radios": [{"antenna": {"azimuth": 0, "elevation": 0, "name": "string"}, "bands": [0], "channel": 0, "id": "string", "txPower": 0}], "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"id": "string", "macAddress": "string", "model": "string", "name": "string", "position": {"x": 0, "y": 0, "z": 0}, "radios": [{"antenna": {"azimuth": 0, "elevation": 0, "elevationAccelerometer": true, "name": "string"}, "bands": [0], "channel": 0, "id": "string", "txPower": 0}], "type": "string"}], "version": "string"}`
 
 
       .. raw:: html
@@ -864,7 +865,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

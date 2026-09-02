@@ -42,7 +42,7 @@ cisco.catalystcenter.filter_groups module -- Resource module for Filter Groups
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.filter_groups module -- Resource module for Filter Groups
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -69,12 +69,8 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Filter Groups.
-- Creates filter group with given filters.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-FilterGroups-1.0.0-resolved.yaml.
-- Deletes the given filter group.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-FilterGroups-1.0.0-resolved.yaml.
+- Creates filter group with given filters. - \> Deletes the given filter group. Delete will fail and throws validation error if the given filter group is associated with any entity.
 - Updates the filter group for given id. The request payload should contain complete definition of the Filter Group.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-FilterGroups-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -90,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -452,13 +448,47 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Filter Groups's filters.
+      List of filters used in this Filter Group.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/displayValue"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.filter_groups_module__parameter-filters/displayvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **displayValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/displayValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This field stores desriptive equivalent of the \`value\` field. For example, this field can be used to store site hierarchy name while the \`value\` field stores site hierarchy id.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -486,7 +516,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Field names which are supported by this API as filter keys.
 
 
       .. raw:: html
@@ -520,7 +550,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Type of filter operator to use for querying data. \`in\` and \`notIn\` operator takes multiple values and applies the filters.
 
 
       .. raw:: html
@@ -544,7 +574,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -554,7 +584,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      This should be array if \`operator\` is \`in\` and \`notIn\`. For all other operators this should be a string or a number.
 
 
       .. raw:: html
@@ -623,7 +653,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The id of the filter group to be deleted.
+      Id path parameter. The id of the filter group to be updated.
 
 
       .. raw:: html
@@ -657,7 +687,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name.
+      Filter Group name. Only alphabhets, digits and space is allowed for name.
 
 
       .. raw:: html
@@ -691,7 +721,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type.
+      The type of the Filter Group.
 
 
       .. raw:: html
@@ -755,6 +785,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -790,10 +821,30 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         filters:
-          - key: string
+          - displayValue: {}
+            key: string
             operator: string
-            value: string
+            value: {}
         headers: '{{my_headers | from_json}}'
+        name: string
+        type: string
+    - name: Update by id
+      cisco.catalystcenter.filter_groups:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        filters:
+          - displayValue: {}
+            key: string
+            operator: string
+            value: {}
+        headers: '{{my_headers | from_json}}'
+        id: string
         name: string
         type: string
     - name: Delete by id
@@ -808,24 +859,6 @@ Examples
         state: absent
         headers: '{{my_headers | from_json}}'
         id: string
-    - name: Update by id
-      cisco.catalystcenter.filter_groups:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        filters:
-          - key: string
-            operator: string
-            value: string
-        headers: '{{my_headers | from_json}}'
-        id: string
-        name: string
-        type: string
 
 
 
@@ -903,7 +936,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

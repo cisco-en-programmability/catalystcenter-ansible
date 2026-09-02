@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_intent_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_intent_info module -- Information module fo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Devices Intent.
-- Get Network Devices Intent by id. - \> API to fetch the details of network device using the \`id\`. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. The API supports views to fetch only the required fields. Refer features for more details. - \> API to fetch the list of network devices using basic filters. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. Refer features for more details. The API returns a paginated response based on 'limit' and 'offset' parameters, allowing up to 500 records per page. 'limit' specifies the number of records, and 'offset' sets the starting point using 1-based indexing. Use /dna/intent/api/v1/networkDevices/count API to get the total record count. For data sets over 500 records, make multiple calls, adjusting 'limit' and 'offset' to retrieve all records incrementally.
+- Get Network Devices Intent by id. - \> API to fetch the details of network device using the \`id\`. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. The API supports views. - \> API to fetch the list of network devices using basic filters. Use the \`/dna/intent/api/v1/networkDevices/query\` API for advanced filtering. The API supports views to fetch only the required fields.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -515,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. Network device Id.
+      Id path parameter. Unique identifier for the network device.
 
 
       .. raw:: html
@@ -549,7 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -617,7 +617,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ManagementState query parameter. The status of the network device's manageability. Available statuses are MANAGED, UNDER\_MAINTENANCE, NEVER\_MANAGED. Refer features for more details.
+      ManagementState query parameter. The status of the network device's manageability. Possible values are \* \`MANAGED\` Device is managed. \* \`UNDER\_MAINTENANCE\` Device is in service maintenance. \* \`NEVER\_MANAGED\` Device has never been managed.
           
 
 
@@ -720,7 +720,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      ReachabilityStatus query parameter. Reachability status of the network device. Available values REACHABLE, ONLY\_PING\_REACHABLE, UNREACHABLE, UNKNOWN. Refer features for more details.
+      ReachabilityStatus query parameter. Reachability status of the network device. Possible values are \* \`REACHABLE\` - Device is reachable by SNMP (in case of network device) or HTTP (in case of compute device or Meraki device). \* \`ONLY\_PING\_REACHABLE\` - Mandatory protocol (SNMP/HTTP/NETCONF) failed for the device. The device is reachable only by ICMP. \* \`UNREACHABLE\` - Device is not reachable by either SNMP/HTTP or ICMP. \* \`UNKNOWN\` - Device reachability status can't be determined. The product hasn't interacted with the device yet, or the parent device that controls the device is unreachable.
           
 
 
@@ -755,8 +755,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Role query parameter. Role assigned to the network device. Available values BORDER\_ROUTER, CORE, DISTRIBUTION, ACCESS, UNKNOWN.
-          
+      Role query parameter. Role assigned to the network device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secureMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_devices_intent_info_module__parameter-securemode:
+
+      .. rst-class:: ansible-option-title
+
+      **secureMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secureMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SecureMode query parameter. Security mode of the network device.
 
 
       .. raw:: html
@@ -824,8 +857,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SortBy query parameter. A property within the response to sort by. Available values id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, type, family, series, platformids, softwareType, softwareVersion, vendor, bootTime, role, roleSource, apEthernetMacAddress, apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, reachabilityFailureReason, resyncStartTime, resyncEndTime, resyncReasons, pendingResyncRequestCount, pendingResyncRequestReasons, resyncIntervalSource, resyncIntervalMinutes.
-          
+      SortBy query parameter. A property within the response to sort by.
 
 
       .. raw:: html
@@ -849,7 +881,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -860,6 +892,14 @@ Parameters
         <div class="ansible-option-cell">
 
       StackDevice query parameter. Flag indicating if the device is a stack device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -893,7 +933,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Status query parameter. Inventory related status of the network device. Available values MANAGED, SYNC\_NOT\_STARTED, SYNC\_INIT\_FAILED, SYNC\_PRECHECK\_FAILED, SYNC\_IN\_PROGRESS, SYNC\_INTERNAL\_ERROR, SYNC\_DISABLED, DELETING\_DEVICE, UNDER\_MAINTENANCE, QUARANTINED, UNASSOCIATED, UNREACHABLE, UNKNOWN. Refer features for more details.
+      Status query parameter. Inventory related status of the network device. | status | Description | | ---------------------- | ------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------- ------------------ | | \`MANAGED\` | The device is successfully managed. | | \`SYNC\_NOT\_STARTED\` | Sync request is queued and pending processing. | | \`SYNC\_INIT\_FAILED\` | Sync initialization failed due to bootstrap issues. | | \`SYNC\_PRECHECK\_FAILED\` | Device failed to meet necessary preconditions for sync. | | \`SYNC\_IN\_PROGRESS\` | Sync with the device is in progress. | | \`SYNC\_INTERNAL\_ERROR\` | Encountered an internal error during data collection, potentially leading to incomplete or outdated device information. | | \`SYNC\_DISABLED\` | Sync has been disabled on the device. | | \`DELETING\_DEVICE\` | The device is being deleted from Catalyst Center. | | \`UNDER\_MAINTENANCE\` | The device is in maintenance mode. Assurance will not raise alerts when the network device is in maintenance mode. | | \`QUARANTINED\` | The device is in quarantined state. Inventory sync and provisioning are disabled for the device. | | \`UNASSOCIATED\` | Access point is not associated with any WLC. | | \`UNREACHABLE\` | The device is not reachable by either SNMP/HTTP/NETCONF or ICMP. | | \`UNKNOWN\` | All information from the device could not be collected, or inventory collection was not started. It may be a temporary issue. Attempt to resync the device, and if the error persists, contact Cisco TAC. |.
           
 
 
@@ -960,7 +1000,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -970,7 +1010,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Views query parameter. The specific views being requested. This is an optional parameter which can be passed to get one or more of the network device data. If this is not provided, then it will default to BASIC views. If multiple views are provided, the response will contain the union of the views. Refer features for more details. Available values BASIC, RESYNC, USER\_DEFINED\_FIELDS.
+      Views query parameter. The specific views being requested. This is an optional parameter which can be passed to get one or more of the network device data. If this is not provided, then it will default to \`BASIC\` views. If multiple views are provided, the response will contain the union of the views. Attributes covered by the views are \* \`BASIC\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, platformIds, softwareType, softwareVersion, vendor, stackDevice, bootTime, role, roleSource, apEthernetMacAddress, apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, snmpContact, snmpLocation, secureMode \* \`RESYNC\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, reachabilityStatus, reachabilityFailureReason, managementState, lastSuccessfulResyncReasons, resyncStartTime, resyncEndTime, resyncReasons, resyncRequestedByApps, pendingResyncRequestCount, pendingResyncRequestReasons, resyncIntervalSource, resyncIntervalMinutes, errorCode, errorDescription, secureMode \* \`USER\_DEFINED\_FIELDS\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, userDefinedFields \* \`CREDENTIALS\` (without sensitive credentials) id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, credentials, category Note \`CREDENTIALS\` view only returns the non-sensitive credentials of the network device. The sensitive credentials are not returned in the response.
           
 
 
@@ -993,6 +1033,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1025,20 +1066,21 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        id: string
-        managementAddress: string
-        serialNumber: string
-        family: string
-        stackDevice: string
-        role: string
+        id: e910e834-e35b-4800-9401-a40e22ce09f3
+        managementAddress: 1.1.1.1
+        serialNumber: FDO20120QWY
+        family: Switch
+        stackDevice: true
+        role: ACCESS
         status: string
-        reachabilityStatus: string
-        managementState: string
-        views: string
+        reachabilityStatus: REACHABLE
+        managementState: MANAGED
+        secureMode: UNKNOWN
+        views: ['BASIC']
         limit: 0
-        offset: 0
-        sortBy: string
-        order: string
+        offset: 1
+        sortBy: macAddress
+        order: asc
       register: result
     - name: Get Network Devices Intent by id
       cisco.catalystcenter.network_devices_intent_info:
@@ -1050,7 +1092,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        views: string
+        views: ['BASIC']
         id: string
       register: result
 
@@ -1113,7 +1155,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"apEthernetMacAddress": "string", "apManagerInterfaceIpAddress": "string", "apWlcIpAddress": "string", "bootTime": 0, "deviceSupportLevel": "string", "dnsResolvedManagementIpAddress": "string", "errorCode": "string", "errorDescription": "string", "family": "string", "hostname": "string", "id": "string", "lastSuccessfulResyncReasons": ["string"], "macAddress": "string", "managementAddress": "string", "managementState": "string", "pendingResyncRequestCount": 0, "pendingResyncRequestReasons": ["string"], "platformIds": ["string"], "reachabilityFailureReason": "string", "reachabilityStatus": "string", "resyncEndTime": 0, "resyncIntervalMinutes": 0, "resyncIntervalSource": "string", "resyncReasons": ["string"], "resyncRequestedByApps": ["string"], "resyncStartTime": 0, "role": "string", "roleSource": "string", "serialNumbers": ["string"], "series": "string", "snmpContact": "string", "snmpLocation": "string", "softwareType": "string", "softwareVersion": "string", "stackDevice": true, "status": "string", "type": "string", "userDefinedFields": {}, "vendor": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
 
 
       .. raw:: html
@@ -1130,7 +1172,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

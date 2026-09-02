@@ -42,7 +42,7 @@ cisco.catalystcenter.system_performance_info module -- Information module for Sy
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.system_performance_info module -- Information module for Sy
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      EndTime query parameter. In this release this field has been deprecated and no longer supported. Only the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and the current time will be considered.
+      EndTime query parameter. In this release this field has been deprecated and no longer supported. Only the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and the current time will be considered.
           
 
 
@@ -481,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Function query parameter. In this release this field has been deprecated and no longer supported. Previously supported functions were 'sum', 'average', and 'max'. Now, only the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the specified function. For example, if 'sum', 'average', or 'max' is provided, it will be ignored and the 'average' of the last 15 minutes will be returned.
+      Function query parameter. In this release this field has been deprecated and no longer supported. Previously supported functions were 'sum', 'average', and 'max'. Now, only the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the specified function. For example, if 'sum', 'average', or 'max' is provided, it will be ignored and the 'average' of the last 15 minutes will be returned.
           
 
 
@@ -584,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      StartTime query parameter. In this release this field has been deprecated and no longer supported. Only the last 15 minutes average of cluster key performance indicators (KPIs) is returned, regardless of the provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and 15 minutes before the current time will be considered.
+      StartTime query parameter. In this release this field has been deprecated and no longer supported. Only the last 15 minutes average of cluster key performance indicators (KPIs) are returned, regardless of the provided epoch time. For example, if any epoch time is specified for this field, it will be ignored and 15 minutes before the current time will be considered.
           
 
 
@@ -649,6 +649,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -679,8 +680,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        kpi: string
-        function: string
+        kpi: cpu,memory,network
+        function: average
         startTime: 0
         endTime: 0
       register: result
@@ -761,7 +762,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

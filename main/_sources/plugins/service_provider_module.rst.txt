@@ -42,7 +42,7 @@ cisco.catalystcenter.service_provider module -- Resource module for Service Prov
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.service_provider module -- Resource module for Service Prov
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -516,7 +516,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Model.
+      Service Provider's model.
 
 
       .. raw:: html
@@ -550,7 +550,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Profile Name.
+      Service Provider's profileName.
 
 
       .. raw:: html
@@ -584,7 +584,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wan Provider.
+      Service Provider's wanProvider.
 
 
       .. raw:: html
@@ -645,11 +645,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.create\_sp\_profile, network\_settings.NetworkSettings.update\_sp\_profile,
+   - SDK Method used are network\_settings.NetworkSettings.create\_sp\_profile\_v1, network\_settings.NetworkSettings.update\_sp\_profile\_v1,
    - Paths used are post /dna/intent/api/v1/service-provider, put /dna/intent/api/v1/service-provider,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -658,10 +659,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Network Settings CreateSPProfile <https://developer.cisco.com/docs/dna-center/#!create-sp-profile>`_
-       Complete reference of the CreateSPProfile API.
-   `Cisco Catalyst Center documentation for Network Settings UpdateSPProfile <https://developer.cisco.com/docs/dna-center/#!update-sp-profile>`_
-       Complete reference of the UpdateSPProfile API.
+   `Cisco Catalyst Center documentation for Network Settings CreateSPProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-1>`_
+       Complete reference of the CreateSPProfileV1 API.
+   `Cisco Catalyst Center documentation for Network Settings UpdateSPProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-1>`_
+       Complete reference of the UpdateSPProfileV1 API.
 
 .. Examples
 
@@ -780,7 +781,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

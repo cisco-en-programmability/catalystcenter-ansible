@@ -42,7 +42,7 @@ cisco.catalystcenter.access_groups module -- Resource module for Access Groups
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.access_groups module -- Resource module for Access Groups
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Access Groups.
-- Add an access group into the system.
+- Manage operations create, update and delete of the resource Access Groups. - \> Add an access group into the system.This API provides the ability to create an access group. An access group is an entity that provides RBAC and site access to users on the system. Each access group is associated with a role and a site. Each role must be based on the permissions returned by the Get permissions v2 API GET /dna/system/api/v2/roles/permissions and must be created using the Add role v2 API POST /dna/system/api/v2/roles. The site details can be obtained from the get sites API GET /dna/intent/api/v1/sites. The full site hierarchy should a / delimited list of site ids.
 - Delete an access group from the system.
 - Update an access group in the system.
 
@@ -87,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -551,7 +550,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Access Groups's resourceGroups.
+      List of sites to be associated with the access group.
 
 
       .. raw:: html
@@ -619,7 +618,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Id of the resource. This should be the site hierarchy id of the site you wish to scope this access group to. Please refer to the description for more details.
+      Id of the resource.
 
 
       .. raw:: html
@@ -653,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The type of resource. Currently, the only supported value is "site".
+      The type of resource. In the case of Site-based RBAC, this should always be set to "site".
 
 
       .. raw:: html
@@ -747,11 +746,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are userand\_roles.UserandRoles.add\_access\_group, userand\_roles.UserandRoles.delete\_access\_group, userand\_roles.UserandRoles.update\_access\_group,
+   - SDK Method used are user\_and\_roles.UserAndRoles.add\_access\_group, user\_and\_roles.UserAndRoles.delete\_access\_group, user\_and\_roles.UserAndRoles.update\_access\_group,
    - Paths used are post /dna/system/api/v1/accessGroups, delete /dna/system/api/v1/accessGroups/{id}, put /dna/system/api/v1/accessGroups/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -776,24 +776,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.access_groups:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        description: string
-        name: string
-        resourceGroups:
-          - name: string
-            srcResourceId: string
-            type: string
-        role:
-          - string
     - name: Delete by id
       cisco.catalystcenter.access_groups:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -817,6 +799,24 @@ Examples
         state: present
         description: string
         id: string
+        resourceGroups:
+          - name: string
+            srcResourceId: string
+            type: string
+        role:
+          - string
+    - name: Create
+      cisco.catalystcenter.access_groups:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        description: string
+        name: string
         resourceGroups:
           - name: string
             srcResourceId: string
@@ -863,7 +863,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -883,7 +883,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"accessGroupInfo": {"description": "string", "name": "string", "resourceGroups": [{"name": "string", "srcResourceId": "string", "type": "string"}], "role": ["string"]}, "id": "string", "meta": {"created": "string", "createdBy": "string", "lastModified": "string", "lastModifiedBy": "string"}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\\"'string'\\"\\n"`
 
 
       .. raw:: html
@@ -900,7 +900,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_top_n_analytics module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_top_n_analytics module -- Resource module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Devices Top N Analytics.
-- Gets the Top N analytics data related to network devices based on the provided input data.
-- This endpoint is valuable to obtain the top-performing or most impacted network devices.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+- Manage operation create of the resource Network Devices Top N Analytics. - \> Gets the Top N analytics data related to network devices based on the provided input data. This endpoint is valuable to obtain the top-performing or most impacted network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -171,7 +168,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Function.
+      Network Devices Top N Analytics's function.
 
 
       .. raw:: html
@@ -205,7 +202,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Network Devices Top N Analytics's name.
 
 
       .. raw:: html
@@ -240,7 +237,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attributes.
+      Network Devices Top N Analytics's attributes.
 
 
       .. raw:: html
@@ -586,7 +583,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Network Devices Top N Analytics's endTime.
 
 
       .. raw:: html
@@ -654,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Network Devices Top N Analytics's key.
 
 
       .. raw:: html
@@ -688,7 +685,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Network Devices Top N Analytics's operator.
 
 
       .. raw:: html
@@ -722,7 +719,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Network Devices Top N Analytics's value.
 
 
       .. raw:: html
@@ -757,7 +754,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Group By.
+      Network Devices Top N Analytics's groupBy.
 
 
       .. raw:: html
@@ -825,7 +822,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Limit.
+      Network Devices Top N Analytics's limit.
 
 
       .. raw:: html
@@ -859,7 +856,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Offset.
+      Network Devices Top N Analytics's offset.
 
 
       .. raw:: html
@@ -927,7 +924,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Function.
+      Network Devices Top N Analytics's function.
 
 
       .. raw:: html
@@ -961,7 +958,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Network Devices Top N Analytics's name.
 
 
       .. raw:: html
@@ -995,7 +992,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Order.
+      Network Devices Top N Analytics's order.
 
 
       .. raw:: html
@@ -1031,7 +1028,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Network Devices Top N Analytics's startTime.
 
 
       .. raw:: html
@@ -1065,7 +1062,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Top N.
+      Network Devices Top N Analytics's topN.
 
 
       .. raw:: html
@@ -1129,6 +1126,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1161,8 +1159,7 @@ Examples
         aggregateAttributes:
           - function: string
             name: string
-        attributes:
-          - string
+        attributes: []
         endTime: 0
         filters:
           - key: string
@@ -1256,7 +1253,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

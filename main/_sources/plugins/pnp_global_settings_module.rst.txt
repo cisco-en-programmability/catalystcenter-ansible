@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_global_settings module -- Resource module for Pnp Globa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.pnp_global_settings module -- Resource module for Pnp Globa
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Accept Eula.
+      Pnp Global Settings's acceptEula.
 
 
       .. raw:: html
@@ -515,7 +515,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cert.
+      Pnp Global Settings's cert.
 
 
       .. raw:: html
@@ -549,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Fqdn Addresses.
+      Pnp Global Settings's fqdnAddresses.
 
 
       .. raw:: html
@@ -583,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Addresses.
+      Pnp Global Settings's ipAddresses.
 
 
       .. raw:: html
@@ -617,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Port.
+      Pnp Global Settings's port.
 
 
       .. raw:: html
@@ -651,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Proxy.
+      Pnp Global Settings's proxy.
 
 
       .. raw:: html
@@ -686,7 +686,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id.
+      Pnp Global Settings's id.
 
 
       .. raw:: html
@@ -754,7 +754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cco User.
+      Pnp Global Settings's ccoUser.
 
 
       .. raw:: html
@@ -788,7 +788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Expiry.
+      Pnp Global Settings's expiry.
 
 
       .. raw:: html
@@ -856,7 +856,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Address Fqdn.
+      Pnp Global Settings's addressFqdn.
 
 
       .. raw:: html
@@ -890,7 +890,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Address Ip V4.
+      Pnp Global Settings's addressIpV4.
 
 
       .. raw:: html
@@ -924,7 +924,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cert.
+      Pnp Global Settings's cert.
 
 
       .. raw:: html
@@ -958,7 +958,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Make Default.
+      Pnp Global Settings's makeDefault.
 
 
       .. raw:: html
@@ -992,7 +992,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Pnp Global Settings's name.
 
 
       .. raw:: html
@@ -1026,7 +1026,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Port.
+      Pnp Global Settings's port.
 
 
       .. raw:: html
@@ -1060,7 +1060,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Profile Id.
+      Pnp Global Settings's profileId.
 
 
       .. raw:: html
@@ -1094,7 +1094,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Proxy.
+      Pnp Global Settings's proxy.
 
 
       .. raw:: html
@@ -1129,7 +1129,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Smart Account Id.
+      Pnp Global Settings's smartAccountId.
 
 
       .. raw:: html
@@ -1163,7 +1163,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Virtual Account Id.
+      Pnp Global Settings's virtualAccountId.
 
 
       .. raw:: html
@@ -1228,6 +1228,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1359,7 +1360,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

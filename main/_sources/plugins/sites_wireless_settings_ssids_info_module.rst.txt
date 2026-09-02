@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_wireless_settings_ssids_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_wireless_settings_ssids_info module -- Information mo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -70,8 +70,8 @@ Synopsis
 
 - Get all Sites Wireless Settings Ssids.
 - Get Sites Wireless Settings Ssids by id.
-- This API allows the user to get all SSIDs Service Set Identifier at the given site.
-- This API allows the user to get an SSID Service Set Identifier by ID at the given site.
+- This API allows the user to get all SSIDs Service Set Identifier at the given \`siteId\`.
+- This API allows the user to get specific SSID Service Set Identifier at the given \`siteId\` and \`id\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -620,7 +620,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      Offset query parameter. The first record to show for this page, the first record is numbered 1.
 
 
       .. raw:: html
@@ -786,6 +786,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -794,8 +795,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GetSSIDByID <https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id>`_
-       Complete reference of the GetSSIDByID API.
+   `Cisco Catalyst Center documentation for Wireless GETSSIDBYID <https://developer.cisco.com/docs/dna-center/#!g-etssidbyid>`_
+       Complete reference of the GETSSIDBYID API.
    `Cisco Catalyst Center documentation for Wireless GetSSIDBySite <https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site>`_
        Complete reference of the GetSSIDBySite API.
 
@@ -818,8 +819,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        limit: 0
-        offset: 0
+        limit: 500
+        offset: 1
         ssid: string
         wlanType: string
         authType: string
@@ -899,7 +900,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"aaaOverride": true, "acctServers": ["string"], "aclName": "string", "authServer": "string", "authServers": ["string"], "authType": "string", "basicServiceSetClientIdleTimeout": 0, "basicServiceSetMaxIdleEnable": true, "cckmTsfTolerance": 0, "clientExclusionEnable": true, "clientExclusionTimeout": 0, "clientRateLimit": 0, "coverageHoleDetectionEnable": true, "directedMulticastServiceEnable": true, "egressQos": "string", "externalAuthIpAddress": "string", "fastTransition": "string", "fastTransitionOverTheDistributedSystemEnable": true, "ghz24Policy": "string", "ghz6PolicyClientSteering": true, "id": "string", "ingressQos": "string", "inheritedSiteId": "string", "inheritedSiteName": "string", "inheritedSiteNameHierarchy": "string", "isApBeaconProtectionEnabled": true, "isAuthKey8021x": true, "isAuthKey8021xPlusFT": true, "isAuthKey8021x\_SHA256": true, "isAuthKeyEasyPSK": true, "isAuthKeyOWE": true, "isAuthKeyPSK": true, "isAuthKeyPSKPlusFT": true, "isAuthKeyPSKSHA256": true, "isAuthKeySae": true, "isAuthKeySaeExt": true, "isAuthKeySaeExtPlusFT": true, "isAuthKeySaePlusFT": true, "isAuthKeySuiteB1921x": true, "isAuthKeySuiteB1x": true, "isBroadcastSSID": true, "isCckmEnabled": true, "isCustomNasIdOptions": true, "isEnabled": true, "isFastLaneEnabled": true, "isHex": true, "isMacFilteringEnabled": true, "isPosturingEnabled": true, "isRadiusProfilingEnabled": true, "isRandomMacFilterEnabled": true, "isSensorPnp": true, "l3AuthType": "string", "managementFrameProtectionClientprotection": "string", "multiPSKSettings": [{"passphrase": "string", "passphraseType": "string", "priority": 0}], "nasOptions": ["string"], "neighborListEnable": true, "openSsid": "string", "passphrase": "string", "policyProfileName": "string", "profileName": "string", "protectedManagementFrame": "string", "rsnCipherSuiteCcmp128": true, "rsnCipherSuiteCcmp256": true, "rsnCipherSuiteGcmp128": true, "rsnCipherSuiteGcmp256": true, "sessionTimeOut": 0, "sessionTimeOutEnable": true, "sleepingClientEnable": true, "sleepingClientTimeout": 0, "ssid": "string", "ssidRadioType": "string", "webPassthrough": true, "wlanBandSelectEnable": true, "wlanType": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaOverride": true, "acctServers": ["string"], "aclName": "string", "authServer": "string", "authServers": ["string"], "authType": "string", "basicServiceSetClientIdleTimeout": 0, "basicServiceSetMaxIdleEnable": true, "cckmTsfTolerance": 0, "clientExclusionEnable": true, "clientExclusionTimeout": 0, "clientRateLimit": 0, "coverageHoleDetectionEnable": true, "directedMulticastServiceEnable": true, "egressQos": "string", "externalAuthIpAddress": "string", "fastTransition": "string", "fastTransitionOverTheDistributedSystemEnable": true, "ghz24Policy": "string", "ghz6PolicyClientSteering": true, "id": "string", "ingressQos": "string", "inheritedSiteName": "string", "inheritedSiteUUID": "string", "ipv6AclName": "string", "isApBeaconProtectionEnabled": true, "isAuthKey8021x": true, "isAuthKey8021xPlusFT": true, "isAuthKey8021x\_SHA256": true, "isAuthKeyEasyPSK": true, "isAuthKeyOWE": true, "isAuthKeyPSK": true, "isAuthKeyPSKPlusFT": true, "isAuthKeyPSKSHA256": true, "isAuthKeySae": true, "isAuthKeySaeExt": true, "isAuthKeySaeExtPlusFT": true, "isAuthKeySaePlusFT": true, "isAuthKeySuiteB1921x": true, "isAuthKeySuiteB1x": true, "isBroadcastSSID": true, "isCckmEnabled": true, "isCustomNasIdOptions": true, "isEnabled": true, "isFastLaneEnabled": true, "isHex": true, "isLoadBalancingEnabledForAcctGroup": true, "isLoadBalancingEnabledForAuthGroup": true, "isMacFilteringEnabled": true, "isPosturingEnabled": true, "isRadiusProfilingEnabled": true, "isRandomMacFilterEnabled": true, "l3AuthType": "string", "managementFrameProtectionClientprotection": "string", "multiPSKSettings": [{"passphrase": "string", "passphraseType": "string", "priority": 0}], "nasOptions": ["string"], "neighborListEnable": true, "openSsid": "string", "passphrase": "string", "policyProfileName": "string", "profileName": "string", "protectedManagementFrame": "string", "rsnCipherSuiteCcmp128": true, "rsnCipherSuiteCcmp256": true, "rsnCipherSuiteGcmp128": true, "rsnCipherSuiteGcmp256": true, "sessionTimeOut": 0, "sessionTimeOutEnable": true, "sleepingClientEnable": true, "sleepingClientTimeout": 0, "ssid": "string", "ssidRadioType": "string", "urlAclName": "string", "webPassthrough": true, "wlanBandSelectEnable": true, "wlanType": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -916,7 +917,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

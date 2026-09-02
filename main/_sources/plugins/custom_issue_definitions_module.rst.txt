@@ -42,7 +42,7 @@ cisco.catalystcenter.custom_issue_definitions module -- Resource module for Cust
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.custom_issue_definitions module -- Resource module for Cust
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Custom Issue Definitions. - \> Create a new custom issue definition using the provided input request data. The unique identifier for this issue definition is id. Please note that the issue names cannot be duplicated. The definition is based on the syslog. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - \> Deletes an existing custom issue definition based on the Id. Only the Global profile issue has the access to delete the issue definition, so no profile id is required. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - \> Updates an existing custom issue definition based on the provided Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+- Manage operations create, update and delete of the resource Custom Issue Definitions.
+- Create a new custom issue definition using the provided input request data. - \> Deletes an existing custom issue definition based on the Id. Only the Global profile issue has the access to delete the issue definition, so no profile id is required. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - \> Updates an existing custom issue definition based on the provided Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Description.
+      Custom Issue Definitions's description.
 
 
       .. raw:: html
@@ -514,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The custom issue definition unique identifier.
+      Id path parameter. The custom issue definition Identifier.
 
 
       .. raw:: html
@@ -548,7 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Is Enabled.
+      IsEnabled flag.
 
 
       .. rst-class:: ansible-option-line
@@ -590,7 +591,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Is Notification Enabled.
+      IsNotificationEnabled flag.
 
 
       .. rst-class:: ansible-option-line
@@ -632,7 +633,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name.
+      Custom Issue Definitions's name.
 
 
       .. raw:: html
@@ -666,7 +667,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Priority.
+      Custom Issue Definitions's priority.
 
 
       .. raw:: html
@@ -734,7 +735,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Duration In Minutes.
+      Custom Issue Definitions's durationInMinutes.
 
 
       .. raw:: html
@@ -768,7 +769,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Facility.
+      Custom Issue Definitions's facility.
 
 
       .. raw:: html
@@ -802,7 +803,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mnemonic.
+      Custom Issue Definitions's mnemonic.
 
 
       .. raw:: html
@@ -836,7 +837,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Occurrences.
+      Custom Issue Definitions's occurrences.
 
 
       .. raw:: html
@@ -870,7 +871,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pattern.
+      Custom Issue Definitions's pattern.
 
 
       .. raw:: html
@@ -904,7 +905,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Severity.
+      Custom Issue Definitions's severity.
 
 
       .. raw:: html
@@ -969,6 +970,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1016,18 +1018,6 @@ Examples
             occurrences: 0
             pattern: string
             severity: 0
-    - name: Delete by id
-      cisco.catalystcenter.custom_issue_definitions:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        headers: '{{my_headers | from_json}}'
-        id: string
     - name: Update by id
       cisco.catalystcenter.custom_issue_definitions:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1052,6 +1042,18 @@ Examples
             occurrences: 0
             pattern: string
             severity: 0
+    - name: Delete by id
+      cisco.catalystcenter.custom_issue_definitions:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        headers: '{{my_headers | from_json}}'
+        id: string
 
 
 
@@ -1129,7 +1131,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

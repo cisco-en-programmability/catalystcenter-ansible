@@ -42,7 +42,7 @@ cisco.catalystcenter.discovery module -- Resource module for Discovery
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.discovery module -- Resource module for Discovery
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,9 +69,10 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Discovery.
-- Initiates discovery with the given parameters.
-- Stops all the discoveries and removes them. - \> Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get Discoveries by range" API.
-- Stops or starts an existing discovery.
+- Initiates discovery with the given parameters. Deprecated since Catalyst Center Release 3.2.1.
+- Stops all the discoveries and removes them.
+- Stops the discovery for the given Discovery ID and removes it. Deprecated since Catalyst Center Release 3.2.1.
+- Stops or starts an existing discovery. Deprecated since Catalyst Center Release 3.2.1.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -137,7 +138,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's attributeInfo.
+      Deprecated.
 
 
       .. raw:: html
@@ -721,7 +722,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's httpReadCredential.
+      HTTP Read Credential of the devices to be discovered.
 
 
       .. raw:: html
@@ -900,7 +901,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discovery's httpWriteCredential.
+      HTTP Write Credential of the devices to be discovered.
 
 
       .. raw:: html
@@ -1709,17 +1710,22 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-snmpROCommunity"></div>
         <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunity"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_module__parameter-snmprocommunity:
 
       .. rst-class:: ansible-option-title
 
-      **snmpRoCommunity**
+      **snmpROCommunity**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-snmpRoCommunity" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-snmpROCommunity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: snmpRoCommunity`
 
       .. rst-class:: ansible-option-type-line
 
@@ -1733,7 +1739,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP RO community of the devices to be discovered.
+      SNMP RO community of the devices to be discovered. Catalyst Center's create/update API and its get-by-id response use different casing for this same field (snmpROCommunity vs snmpRoCommunity); snmpRoCommunity is kept as an alias so either spelling works.
 
 
       .. raw:: html
@@ -1743,17 +1749,22 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-snmpROCommunityDesc"></div>
         <div class="ansibleOptionAnchor" id="parameter-snmpRoCommunityDesc"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_module__parameter-snmprocommunitydesc:
 
       .. rst-class:: ansible-option-title
 
-      **snmpRoCommunityDesc**
+      **snmpROCommunityDesc**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-snmpRoCommunityDesc" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-snmpROCommunityDesc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: snmpRoCommunityDesc`
 
       .. rst-class:: ansible-option-type-line
 
@@ -1777,17 +1788,22 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunity"></div>
         <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunity"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_module__parameter-snmprwcommunity:
 
       .. rst-class:: ansible-option-title
 
-      **snmpRwCommunity**
+      **snmpRWCommunity**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-snmpRwCommunity" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-snmpRWCommunity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: snmpRwCommunity`
 
       .. rst-class:: ansible-option-type-line
 
@@ -1801,7 +1817,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP RW community of the devices to be discovered.
+      SNMP RW community of the devices to be discovered. Catalyst Center's create/update API and its get-by-id response use different casing for this same field (snmpRWCommunity vs snmpRwCommunity); snmpRwCommunity is kept as an alias so either spelling works.
 
 
       .. raw:: html
@@ -1811,17 +1827,22 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-snmpRWCommunityDesc"></div>
         <div class="ansibleOptionAnchor" id="parameter-snmpRwCommunityDesc"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_module__parameter-snmprwcommunitydesc:
 
       .. rst-class:: ansible-option-title
 
-      **snmpRwCommunityDesc**
+      **snmpRWCommunityDesc**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-snmpRwCommunityDesc" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-snmpRWCommunityDesc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: snmpRwCommunityDesc`
 
       .. rst-class:: ansible-option-type-line
 
@@ -1914,6 +1935,7 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-timeOut"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_module__parameter-timeout:
 
@@ -1927,6 +1949,10 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
+      :ansible-option-aliases:`aliases: timeOut`
+
+      .. rst-class:: ansible-option-type-line
+
       :ansible-option-type:`integer`
 
       .. raw:: html
@@ -1937,7 +1963,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Time to wait for device response in seconds.
+      Time to wait for device response in seconds. Catalyst Center's create/update API and its get-by-id response use different casing for this same field (timeout vs timeOut); timeOut is kept as an alias so either spelling works.
 
 
       .. raw:: html
@@ -2077,6 +2103,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -2155,10 +2182,10 @@ Examples
         snmpMode: string
         snmpPrivPassphrase: string
         snmpPrivProtocol: string
-        snmpRoCommunity: string
-        snmpRoCommunityDesc: string
-        snmpRwCommunity: string
-        snmpRwCommunityDesc: string
+        snmpROCommunity: string
+        snmpROCommunityDesc: string
+        snmpRWCommunity: string
+        snmpRWCommunityDesc: string
         snmpUserName: string
         snmpVersion: string
         timeout: 0
@@ -2228,7 +2255,7 @@ Examples
         snmpRwCommunity: string
         snmpRwCommunityDesc: string
         snmpUserName: string
-        timeout: 0
+        timeOut: 0
         updateMgmtIp: true
         userNameList: string
     - name: Delete by id
@@ -2319,7 +2346,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

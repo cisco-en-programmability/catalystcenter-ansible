@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_anycast_gateways_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_anycast_gateways_info module -- Information module for 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -539,7 +539,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -549,7 +549,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
+      IpPoolName query parameter. Comma-separated list of IP pool names associated with the anycast gateways. For an anycast gateway to be included in the response, it must be associated with all IP pools in this list. However, the anycast gateway can be associated with other additional IP pools as well.
+          
 
 
       .. raw:: html
@@ -718,7 +719,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -785,6 +786,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -818,11 +820,11 @@ Examples
         id: string
         fabricId: string
         virtualNetworkName: string
-        ipPoolName: string
+        ipPoolName: []
         vlanName: string
         vlanId: 0
-        offset: 0
-        limit: 0
+        offset: 1
+        limit: 500
       register: result
 
 
@@ -884,7 +886,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "id": "string", "ipPoolName": "string", "isCriticalPool": true, "isGroupBasedPolicyEnforcementEnabled": true, "isIntraSubnetRoutingEnabled": true, "isIpDirectedBroadcast": true, "isLayer2FloodingEnabled": true, "isMultipleIpToMacAddresses": true, "isResourceGuardEnabled": true, "isSupplicantBasedExtendedNodeOnboarding": true, "isWirelessFloodingEnabled": true, "isWirelessPool": true, "layer2FloodingAddress": "string", "layer2FloodingAddressAssignment": "string", "poolType": "string", "securityGroupName": "string", "tcpMssAdjustment": 0, "trafficType": "string", "virtualNetworkName": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"additionalIpPools": [{"name": "string", "order": 0}], "fabricId": {}, "id": {}, "ipPoolName": {}, "isCriticalPool": {}, "isGroupBasedPolicyEnforcementEnabled": {}, "isIntraSubnetRoutingEnabled": {}, "isIpDirectedBroadcast": {}, "isLayer2FloodingEnabled": {}, "isMacsecEncrypted": {}, "isMultipleIpToMacAddresses": {}, "isResourceGuardEnabled": {}, "isSupplicantBasedExtendedNodeOnboarding": {}, "isWirelessFloodingEnabled": {}, "isWirelessPool": {}, "layer2FloodingAddress": {}, "layer2FloodingAddressAssignment": {}, "poolType": {}, "securityGroupName": {}, "tcpMssAdjustment": {}, "trafficType": {}, "virtualNetworkName": {}, "vlanId": {}, "vlanName": {}}], "version": "string"}`
 
 
       .. raw:: html
@@ -901,7 +903,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

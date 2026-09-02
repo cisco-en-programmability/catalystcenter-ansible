@@ -42,7 +42,7 @@ cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_fe
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_fe
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's cdpGlobalConfig.
+      This feature is for configuring CDP. Cisco Discovery Protocol (CDP) is a device discovery protocol that runs over Layer 2 on all Cisco devices and allows network management applications to discover Cisco devices that are neighbors of already known devices. A CDP-enabled device sends periodic messages to a multicast address, advertising at least one address at which it can receive SNMP messages. The advertisements also contain time-to-live, or holdtime information, which is the length of time a receiving device holds CDP information before discarding it. Each device also listens to the messages sent by other devices to learn about neighboring devices.
 
 
       .. raw:: html
@@ -744,7 +744,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's cdpInterfaceConfig.
+      Configure CDP settings of an interface.
 
 
       .. raw:: html
@@ -966,7 +966,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingGlobalConfig.
+      This feature is for configuring DHCP Snooping, which secures networks by monitoring DHCP traffic, blocking unauthorized servers, and enhancing overall security.
 
 
       .. raw:: html
@@ -1068,7 +1068,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's databaseAgent.
+      Configure the settings for managing and maintaining the DHCP server's database remotely.
 
 
       .. raw:: html
@@ -1204,7 +1204,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      WriteDelay.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's writeDelay.
 
 
       .. raw:: html
@@ -1393,7 +1393,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's dhcpSnoopingInterfaceConfig.
+      This feature is for configuring DHCP Snooping on interfaces, ensuring secure and reliable IP address assignment by controlling packet filtering, rate limiting, logging, and violation actions.
 
 
       .. raw:: html
@@ -1607,7 +1607,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xGlobalConfig.
+      This feature is for configuring 802.1x. IEEE 802.1x is a standard which facilitates access control between a client and a server. Before services can be provided to a client by a Local Access Network (LAN) or switch, the client connected to the switch port has to be authenticated by the authentication server which runs Remote Authentication Dial-In User Service (RADIUS). 802.1x authentication restricts unauthorized clients from connecting to a LAN through publicly-accessible ports.
 
 
       .. raw:: html
@@ -1787,7 +1787,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's dot1xInterfaceConfig.
+      This feature is for configuring 802.1x on interfaces.
 
 
       .. raw:: html
@@ -1855,7 +1855,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's authenticationOrder.
+      Set the order of authentication methods used on a port. Corresponding CLI - authentication order dot1x | mab | webauth.
 
 
       .. raw:: html
@@ -1889,7 +1889,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ConfigType.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
 
 
       .. raw:: html
@@ -2096,7 +2096,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingGlobalConfig.
+      This feature is for configuring IGMP Snooping, which tracks which ports are attached to multicast-capable routers to help the routers forward IGMP membership reports. By default, IGMP snooping is enabled on the device.
 
 
       .. raw:: html
@@ -2198,7 +2198,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanSettings.
+      Configure IGMP Snooping characteristics for VLANs on a device.
 
 
       .. raw:: html
@@ -2232,7 +2232,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ConfigType.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
 
 
       .. raw:: html
@@ -2266,7 +2266,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      IGMP Snooping per VLAN Configuration.
 
 
       .. raw:: html
@@ -2334,7 +2334,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's igmpSnoopingVlanMrouters.
+      IGMP Snooping VLAN Mrouter Configuration.
 
 
       .. raw:: html
@@ -2402,7 +2402,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      IGMP Snooping VLAN Mrouter Configuration.
 
 
       .. raw:: html
@@ -2958,7 +2958,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's lldpGlobalConfig.
+      This feature is for configuring LLDP. Link Layer Discovery Protocol (LLDP) is a protocol used to advertise and discover information about neighboring network devices on a local area network (LAN). LLDP allows devices to exchange information such as device capabilities, system information, and network connectivity details.
 
 
       .. raw:: html
@@ -3206,7 +3206,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's lldpInterfaceConfig.
+      This feature is for configuring LLDP on an interface.
 
 
       .. raw:: html
@@ -3378,7 +3378,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's mabInterfaceConfig.
+      This feature is for configuring MAC Authentication Bypass (MAB), an alternative for devices that don't support 802.1X. The switch checks the MAC address of an endpoint with RADIUS server.
 
 
       .. raw:: html
@@ -3558,7 +3558,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingGlobalConfig.
+      This feature is for configuring MLD Snooping. Multicast Listener Discovery(MLD) is a protocol used by IPv6 multicast routersto discover the presence of multicast listeners (nodes wishing to receive IPv6 multicast packets) on the links that are directly attached to the routers and to discover which multicast packets are of interest to neighboring nodes. MLD snooping allows the switch to examine MLD packets and make forwarding decisions based on their content.
 
 
       .. raw:: html
@@ -3592,7 +3592,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      Configure MLD Snooping global characteristics on a device.
 
 
       .. raw:: html
@@ -3786,7 +3786,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanSettings.
+      Configure MLD Snooping characteristics for VLANs on a device.
 
 
       .. raw:: html
@@ -3854,7 +3854,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      MLD Snooping per VLAN Configuration.
 
 
       .. raw:: html
@@ -4048,7 +4048,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's mldSnoopingVlanMrouters.
+      MLD Snooping VLAN Mrouter configuration.
 
 
       .. raw:: html
@@ -4116,7 +4116,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      MLD Snooping VLAN Mrouter configuration.
 
 
       .. raw:: html
@@ -4462,7 +4462,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's portChannelConfig.
+      This feature is for configuring port-channels on a wired device. Portchannel allows grouping of several physical Ethernet interfaces to create one logical Ethernet interface for the purpose of providing fault-tolerance and high-speed links between switches, routers, and servers.
 
 
       .. raw:: html
@@ -4674,7 +4674,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's portchannels.
+      PortchannelConfig Portchannels.
 
 
       .. raw:: html
@@ -4776,7 +4776,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's AnyOf.
+      Not a payload attribue, defined to represent anyOf structure.
 
 
       .. raw:: html
@@ -4810,7 +4810,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's EtherchannelConfig.
+      Not a payload attribute, defined to represent EtherchannelConfig within anyOf.
 
 
       .. raw:: html
@@ -4878,7 +4878,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+      Member ports of the Etherchannel. They must have compatible port characteristics, such as speed and duplex. Ports that are not compatible are suspended, even though they are configured in the Etherchannel on mode.
 
 
       .. raw:: html
@@ -5014,7 +5014,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      InterfaceName.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's interfaceName.
 
 
       .. raw:: html
@@ -5048,7 +5048,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mode.
 
 
       .. raw:: html
@@ -5153,7 +5153,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's LacpPortchannelConfig.
+      Not a payload attribute, defined to represent LacpPortchannelConfig within anyOf. LACP (Link Aggregation Control Protocol) Portchannel is formed using LACP, a IEEE 802.3ad protocol that facilitates dynamically grouping similarly configured ports into a single logical port.
 
 
       .. raw:: html
@@ -5221,7 +5221,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+      Member ports of the LACP Portchannel.
 
 
       .. raw:: html
@@ -5564,7 +5564,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's PagpPortchannelConfig.
+      Not a payload attribute, defined to represent LacpPortchannelConfig within anyOf. PAgP (Port Aggregation Protocol) Portchannel is formed using PAgP, a Cisco-proprietary protocol that facilitates dynamically grouping similarly configured ports into a single logical port.
 
 
       .. raw:: html
@@ -5632,7 +5632,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's memberPorts.
+      Member ports of the PAgP Portchannel.
 
 
       .. raw:: html
@@ -5700,7 +5700,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      Pagp PortChannel MemberPortConfig.
 
 
       .. raw:: html
@@ -5836,7 +5836,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mode.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's mode.
 
 
       .. raw:: html
@@ -5980,7 +5980,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's stpGlobalConfig.
+      This feature is for configuring Spanning Tree Protocol (STP), which provides path redundancy while preventing loops in the network.
 
 
       .. raw:: html
@@ -6452,7 +6452,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's stpInstances.
+      Configure STP characteristics of a VLAN.
 
 
       .. raw:: html
@@ -6622,7 +6622,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's timers.
+      Configure max age, hello interval and forward delay of a VLAN.
 
 
       .. raw:: html
@@ -6975,7 +6975,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's stpInterfaceConfig.
+      This feature is for configuring STP on interfaces.
 
 
       .. raw:: html
@@ -7281,7 +7281,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's portVlanCostSettings.
+      Configure the cost for VLANs. If a loop occurs, spanning tree uses the path cost when selecting an interface to place into the forwarding state. A lower path cost represents higher-speed transmission.
 
 
       .. raw:: html
@@ -7487,7 +7487,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's portVlanPrioritySettings.
+      Configure the priority for VLANs.
 
 
       .. raw:: html
@@ -7589,7 +7589,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ConfigType.
+      Wired Network Devices Id Config Features Intended Layer2 Feature's configType.
 
 
       .. raw:: html
@@ -7729,7 +7729,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's switchportInterfaceConfig.
+      This feature is for configuring switchport on interfaces.
 
 
       .. raw:: html
@@ -8105,7 +8105,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's trunkInterfaceConfig.
+      This feature is for trunk interface configurations on interfaces.
 
 
       .. raw:: html
@@ -8403,7 +8403,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's vlanConfig.
+      This feature is for configuring VLANs. VLANs are switched networks that are logically segmented by function or application.
 
 
       .. raw:: html
@@ -8617,7 +8617,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's vtpGlobalConfig.
+      This feature is for configuring VTP. VLAN Trunking Protocol (VTP) is a Layer 2 messaging protocol that maintains VLAN configuration consistency by managing the addition, deletion, and renaming of VLANs on a network-wide basis. It can be used to make vlan configuration changes centrally on one or more devices and have those changes automatically communicated to all the other devices in the network. VTP does not work well in a situation where multiple updates to the VLANs occur simultaneously on devices in the same domain, which would result in an inconsistency in the VLAN database. With VTP, trunk ports must be configured on the device so that the device can send and receive VTP advertisements to and from other devices in the domain.
 
 
       .. raw:: html
@@ -8933,7 +8933,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's vtpInterfaceConfig.
+      Configure VTP settings on a per-port basis to control the VTP traffic on trunk interfaces.
 
 
       .. raw:: html
@@ -8967,7 +8967,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wired Network Devices Id Config Features Intended Layer2 Feature's items.
+      Configure VTP settings on a per-port basis to control the VTP traffic on trunk interfaces.
 
 
       .. raw:: html
@@ -9101,6 +9101,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -9137,7 +9138,7 @@ Examples
         state: absent
         feature: string
         id: string
-    - name: Create
+    - name: Update by id
       cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -9391,7 +9392,7 @@ Examples
             - configType: string
               interfaceName: string
               isVtpEnabled: true
-    - name: Update by id
+    - name: Create
       cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -9722,7 +9723,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

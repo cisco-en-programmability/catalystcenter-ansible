@@ -42,7 +42,7 @@ cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations module --
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations module --
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -71,7 +71,7 @@ Synopsis
 - Manage operations create, update and delete of the resource Feature Templates Wireless Rrm Fra Configurations.
 - This API allows users to create a RRM FRA configuration feature template.
 - This API allows users to delete a specific RRM FRA configuration feature template by Id.
-- This API allows users to update the details of a specific RRM FRA configuration feature template by ID.
+- This API allows users to update the details of a specific RRM FRA.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -483,7 +483,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Feature Templates Wireless Rrm Fra Configurations's featureAttributes.
+      RRM-FRA Configuration Response Feature Attributes.
 
 
       .. raw:: html
@@ -797,11 +797,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_r\_r\_m\_f\_r\_a\_configuration\_feature\_template, wireless.Wireless.delete\_r\_r\_m\_f\_r\_a\_configuration\_feature\_template, wireless.Wireless.update\_r\_r\_m\_f\_r\_a\_configuration\_feature\_template,
+   - SDK Method used are wireless.Wireless.create\_rrm\_fra\_configuration\_feature\_template, wireless.Wireless.delete\_rrm\_fra\_configuration\_feature\_template, wireless.Wireless.update\_rrm\_fra\_configuration\_feature\_template,
    - Paths used are post /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations, delete /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations/{id}, put /dna/intent/api/v1/featureTemplates/wireless/rrmFraConfigurations/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -826,25 +827,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        designName: string
-        featureAttributes:
-          fraFreeze: true
-          fraInterval: 0
-          fraSensitivity: string
-          fraStatus: true
-          radioBand: string
-        unlockedAttributes:
-          - string
     - name: Delete by id
       cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -874,6 +856,25 @@ Examples
           fraStatus: true
           radioBand: string
         id: string
+        unlockedAttributes:
+          - string
+    - name: Create
+      cisco.catalystcenter.feature_templates_wireless_rrm_fra_configurations:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        designName: string
+        featureAttributes:
+          fraFreeze: true
+          fraInterval: 0
+          fraSensitivity: string
+          fraStatus: true
+          radioBand: string
         unlockedAttributes:
           - string
 
@@ -953,7 +954,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

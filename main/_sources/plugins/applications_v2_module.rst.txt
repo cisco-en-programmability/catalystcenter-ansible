@@ -42,7 +42,7 @@ cisco.catalystcenter.applications_v2 module -- Resource module for Applications 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.applications_v2 module -- Resource module for Applications 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -493,6 +493,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/displayName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Application id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity"></div>
 
       .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/indicativenetworkidentity:
@@ -517,7 +585,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applications V2's indicativeNetworkIdentity.
+      Indicative network identity.
 
 
       .. raw:: html
@@ -527,21 +595,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/ipv4Subnet"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/displayName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/indicativenetworkidentity/ipv4subnet:
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/indicativenetworkidentity/displayname:
 
       .. rst-class:: ansible-option-title
 
-      **ipv4Subnet**
+      **displayName**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/ipv4Subnet" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/displayName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -551,7 +619,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ipv4 subnet.
+      Display name.
 
 
       .. raw:: html
@@ -561,21 +629,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/ipv6Subnet"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/indicativeNetworkIdentity/id"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/indicativenetworkidentity/ipv6subnet:
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/indicativenetworkidentity/id:
 
       .. rst-class:: ansible-option-title
 
-      **ipv6Subnet**
+      **id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/ipv6Subnet" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/indicativeNetworkIdentity/id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -585,7 +653,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ipv6 subnet.
+      Id.
 
 
       .. raw:: html
@@ -619,7 +687,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The minimum port when used as a port range. For single port number, ports attribute should be used.
+      Lower port.
 
 
       .. raw:: html
@@ -721,13 +789,81 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The maximum port when used as a port range. For single port number, ports attribute should be used.
+      Upper port.
 
 
       .. raw:: html
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/instanceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/instanceid:
+
+      .. rst-class:: ansible-option-title
+
+      **instanceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/instanceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instance id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/instanceVersion"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/instanceversion:
+
+      .. rst-class:: ansible-option-title
+
+      **instanceVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/instanceVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instance version.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -766,6 +902,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/namespace"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/namespace:
+
+      .. rst-class:: ansible-option-title
+
+      **namespace**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/namespace" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Namespace.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications"></div>
 
       .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications:
@@ -790,13 +960,47 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applications V2's networkApplications.
+      Network applications.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/applicationSubType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/applicationsubtype:
+
+      .. rst-class:: ansible-option-title
+
+      **applicationSubType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/applicationSubType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Application sub type, LEARNED discovered application, NONE nbar and custom application.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -824,7 +1028,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Application type.
+      Application type, DEFAULT nbar application, DEFAULT\_MODIFIED nbar modified application, CUSTOM custom application.
 
 
       .. raw:: html
@@ -858,7 +1062,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App protocol, in case of \_servername should not be set, in case of \_url should be set to TCP.
+      App protocol.
 
 
       .. raw:: html
@@ -902,6 +1106,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/displayName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/dscp"></div>
 
       .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/dscp:
@@ -926,7 +1164,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dscp, valid only in case of \_server-ip custom application type.
+      Dscp.
 
 
       .. raw:: html
@@ -950,7 +1188,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -960,7 +1198,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Engine id, should be set to 6.
+      Engine id.
 
 
       .. raw:: html
@@ -995,6 +1233,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Help string.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id.
 
 
       .. raw:: html
@@ -1046,6 +1318,108 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/longDescription"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/longdescription:
+
+      .. rst-class:: ansible-option-title
+
+      **longDescription**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/longDescription" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Long description.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Application name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/popularity"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/popularity:
+
+      .. rst-class:: ansible-option-title
+
+      **popularity**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/popularity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Popularity.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/rank"></div>
 
       .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/rank:
@@ -1070,7 +1444,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rank, should be set to 1.
+      Rank, any value between 1 to 65535.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/selectorId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/selectorid:
+
+      .. rst-class:: ansible-option-title
+
+      **selectorId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/selectorId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Selector id.
 
 
       .. raw:: html
@@ -1104,7 +1512,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Server name, should be set only in case of \_servername.
+      Server name.
 
 
       .. raw:: html
@@ -1148,40 +1556,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/type"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/networkApplications/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Custom application type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/networkApplications/url"></div>
 
       .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkapplications/url:
@@ -1206,7 +1580,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Url, should be set only in case of \_url.
+      Url.
 
 
       .. raw:: html
@@ -1241,13 +1615,81 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applications V2's networkIdentity.
+      Network identity.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/displayName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkidentity/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkIdentity/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkidentity/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkIdentity/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1276,6 +1718,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Ipv4 subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/networkIdentity/ipv6Subnet"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/networkidentity/ipv6subnet:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6Subnet**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/networkIdentity/ipv6Subnet" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ipv6 subnet.
 
 
       .. raw:: html
@@ -1446,7 +1922,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applications V2's parentScalableGroup.
+      Parent scalable group.
 
 
       .. raw:: html
@@ -1487,6 +1963,74 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/qualifier"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/qualifier:
+
+      .. rst-class:: ansible-option-title
+
+      **qualifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/qualifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Qualifier, valid value application.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/scalableGroupExternalHandle"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.applications_v2_module__parameter-payload/scalablegroupexternalhandle:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroupExternalHandle**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/scalableGroupExternalHandle" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Scalable group external handle, should be equal to Application name.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1609,11 +2153,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_applications\_v2, application\_policy.ApplicationPolicy.delete\_application\_v2, application\_policy.ApplicationPolicy.edit\_applications\_v2,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_applications, application\_policy.ApplicationPolicy.delete\_application, application\_policy.ApplicationPolicy.edit\_applications,
    - Paths used are post /dna/intent/api/v2/applications, delete /dna/intent/api/v2/applications/{id}, put /dna/intent/api/v2/applications,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1622,12 +2167,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Application Policy CreateApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!create-applications-v-2>`_
-       Complete reference of the CreateApplicationsV2 API.
-   `Cisco Catalyst Center documentation for Application Policy DeleteApplicationV2 <https://developer.cisco.com/docs/dna-center/#!delete-application-v-2>`_
-       Complete reference of the DeleteApplicationV2 API.
-   `Cisco Catalyst Center documentation for Application Policy EditApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2>`_
-       Complete reference of the EditApplicationsV2 API.
+   `Cisco Catalyst Center documentation for Application Policy CreateApplications <https://developer.cisco.com/docs/dna-center/#!create-applications>`_
+       Complete reference of the CreateApplications API.
+   `Cisco Catalyst Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
+       Complete reference of the DeleteApplication API.
+   `Cisco Catalyst Center documentation for Application Policy EditApplications <https://developer.cisco.com/docs/dna-center/#!edit-applications>`_
+       Complete reference of the EditApplications API.
 
 .. Examples
 
@@ -1638,7 +2183,7 @@ Examples
 
     
     ---
-    - name: Create
+    - name: Delete by id
       cisco.catalystcenter.applications_v2:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1647,42 +2192,8 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        payload:
-          - indicativeNetworkIdentity:
-              - ipv4Subnet:
-                  - string
-                ipv6Subnet:
-                  - string
-                lowerPort: 0
-                ports: string
-                protocol: string
-                upperPort: 0
-            name: string
-            networkApplications:
-              - appProtocol: string
-                applicationType: string
-                categoryId: string
-                dscp: string
-                engineId: 0
-                helpString: string
-                ignoreConflict: true
-                rank: 0
-                serverName: string
-                trafficClass: string
-                type: string
-                url: string
-            networkIdentity:
-              - ipv4Subnet:
-                  - string
-                lowerPort: 0
-                ports: string
-                protocol: string
-                upperPort: 0
-            parentScalableGroup:
-              idRef: string
-            scalableGroupType: string
-            type: string
+        state: absent
+        id: string
     - name: Update all
       cisco.catalystcenter.applications_v2:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1731,8 +2242,7 @@ Examples
                 id: string
                 ipv4Subnet:
                   - string
-                ipv6Subnet:
-                  - string
+                ipv6Subnet: []
                 lowerPort: 0
                 ports: string
                 protocol: string
@@ -1743,7 +2253,7 @@ Examples
             scalableGroupExternalHandle: string
             scalableGroupType: string
             type: string
-    - name: Delete by id
+    - name: Create
       cisco.catalystcenter.applications_v2:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1752,8 +2262,42 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
+        state: present
+        payload:
+          - indicativeNetworkIdentity:
+              - ipv4Subnet:
+                  - string
+                ipv6Subnet:
+                  - string
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            name: string
+            networkApplications:
+              - appProtocol: string
+                applicationType: string
+                categoryId: string
+                dscp: string
+                engineId: 0
+                helpString: string
+                ignoreConflict: true
+                rank: 0
+                serverName: string
+                trafficClass: string
+                type: string
+                url: string
+            networkIdentity:
+              - ipv4Subnet:
+                  - string
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            parentScalableGroup:
+              idRef: string
+            scalableGroupType: string
+            type: string
 
 
 
@@ -1831,7 +2375,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

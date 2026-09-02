@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_ap_profiles module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_ap_profiles module -- Resource module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -137,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name of the existing AP power profile.
+      Name of the AP power profile. Max allowed characters is 128.
 
 
       .. raw:: html
@@ -247,7 +247,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates if AWIPS forensic is enabled on the AP. Forensic Capture is supported from IOS-XE version 17.4 and above. Forensic Capture can be activated only if aWIPS is enabled.
+      Indicates if AWIPS forensic is enabled. Forensic Capture is supported from IOS-XE version 17.4 and above. Forensic Capture can be activated only if aWIPS is enabled.
 
 
       .. rst-class:: ansible-option-line
@@ -279,7 +279,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -289,13 +289,81 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Ap Profiles's calendarPowerProfiles.
+      List of calendar-based power profiles.
 
 
       .. raw:: html
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/apPowerProfileName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_profiles_module__parameter-calendarpowerprofiles/appowerprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **apPowerProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/apPowerProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the AP power profile. The following API is used create AP Power Profile. API-/dna/intent/api/v1/wirelessSettings/powerProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/calendarProfileName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_profiles_module__parameter-calendarpowerprofiles/calendarprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **calendarProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/calendarProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the calendar profile.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -323,7 +391,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Settings Ap Profiles's duration.
+      Details of the duration setting for a calendar scheduler.
 
 
       .. raw:: html
@@ -357,7 +425,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Start and End date of the duration setting, applicable for MONTHLY schedulers. Values must be between 1 and 31.
+      Start and End date of the duration setting, applicable for MONTHLY schedulers.
 
 
       .. raw:: html
@@ -391,7 +459,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Applies every week on the selected days. Ex "sunday","saturday","tuesday","wednesday","thu...
+      Applies every week on the selected days.
 
 
       .. raw:: html
@@ -425,7 +493,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      End time of the duration setting.
+      End time of the duration setting. The value must be provided in 12-hour format with AM/PM (e.g., "07 00 AM", "09 30 PM").
 
 
       .. raw:: html
@@ -459,47 +527,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Start time of the duration setting.
+      Start time of the duration setting. The value must be provided in 12-hour format with AM/PM (e.g., "05 00 AM", "07 30 PM").
 
 
       .. raw:: html
 
         </div>
 
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/powerProfileName"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_profiles_module__parameter-calendarpowerprofiles/powerprofilename:
-
-      .. rst-class:: ansible-option-title
-
-      **powerProfileName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/powerProfileName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name of the existing AP power profile to be mapped to the calendar power profile. API-/intent/api/v1/wirelessSettings/powerProfiles.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -528,7 +562,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of the scheduler.
+      Type of the scheduler (DAILY, WEEKLY, MONTHLY).
 
 
       .. raw:: html
@@ -909,7 +943,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Country Code.
+      Country Code of the AP. Refer below '#/components/schemas/CountryCodes'.
 
 
       .. raw:: html
@@ -977,7 +1011,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. AP Profile ID.
+      AP Profile unique ID.
 
 
       .. raw:: html
@@ -1011,7 +1045,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Ap Profiles's managementSetting.
+      These setting are applicable during PnP claim and for day-N authentication of AP. Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs and Enable SSH and Telnet to add credentials for device management. If SSH and Telnet are disable, credentials can still be added for console access.
 
 
       .. raw:: html
@@ -1045,7 +1079,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Authentication type used in the AP profile. These setting are applicable during PnP claim and for day-N authentication of AP. Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
+      Authentication type used in the AP profile. These setting are applicable during PnP claim and for day-N authentication of AP. Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs. Available values NO-AUTH, EAP-TLS, EAP-PEAP, EAP-FAST.
 
 
       .. raw:: html
@@ -1189,7 +1223,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable password for managing the AP. Length must be 8-120 characters.
+      Enable password for managing the AP. Length 8-120 characters, At least one uppercase character, At least one lowercase character, At least one digit.
 
 
       .. raw:: html
@@ -1223,7 +1257,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Management password for the AP. Length must be 8-120 characters.
+      Management password for the AP. Length 8-120 characters.
 
 
       .. raw:: html
@@ -1291,7 +1325,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Indicates if SSH is enabled on the AP. Enable SSH add credentials for device management.
+      Indicates if SSH is enabled on the AP. Enable SSH add credentials for device management. If SSH is disable, credentials can still be added for console access.
 
 
       .. rst-class:: ansible-option-line
@@ -1333,7 +1367,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Indicates if Telnet is enabled on the AP. Enable Telnet to add credentials for device management.
+      Indicates if Telnet is enabled on the AP. Enable Telnet to add credentials for device management. If Telnet is disable, credentials can still be added for console access.
 
 
       .. rst-class:: ansible-option-line
@@ -1376,7 +1410,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This indicates whether mesh networking is enabled on the AP. For IOS-XE devices, when mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile on the device. When mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will be mapped to the default mesh profile on the device.
+      This indicates whether mesh networking is enabled. For IOS-XE devices, when mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile on the device. When mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will be mapped to the default mesh profile on the device.
 
 
       .. rst-class:: ansible-option-line
@@ -1418,7 +1452,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Ap Profiles's meshSetting.
+      Settings specific to mesh networking. MAC address of APs in mesh mode must be added to the AP Authorization list.
 
 
       .. raw:: html
@@ -1528,7 +1562,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      2.4GHz backhaul data rates.
+      2.4GHz backhaul data rates. Available values auto, 802.11abg, 802.11ax, 802.11n.
 
 
       .. raw:: html
@@ -1562,7 +1596,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      5GHz backhaul data rates.
+      5GHz backhaul data rates. Available values auto, 802.11abg, 802.11ax, 802.11n, 802.12ac.
 
 
       .. raw:: html
@@ -1630,7 +1664,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of downlink backhaul used.
+      Type of downlink backhaul used. Available values 5 GHz, 2.4 GHz.
 
 
       .. raw:: html
@@ -1665,7 +1699,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates if PMF denial is active on the AP. PMF Denial is supported from IOS-XE version 17.12 and above.
+      Indicates if PMF denial is active. PMF Denial is supported from IOS-XE version 17.12 and above.
 
 
       .. rst-class:: ansible-option-line
@@ -1749,7 +1783,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Ap Profiles's rogueDetectionSetting.
+      Detect Access Points that have been installed on a secure network without explicit authorization from a system administrator and configure rogue general configuration parameters.
 
 
       .. raw:: html
@@ -1783,7 +1817,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Indicates if rogue detection is enabled on the AP. Detect Access Points that have been installed on a secure network without explicit authorization from a system administrator and configure rogue general configuration parameters.
+      Indicates if rogue detection is enabled. Detect Access Points that have been installed on a secure network without explicit authorization from a system administrator and configure rogue general configuration parameters.
 
 
       .. rst-class:: ansible-option-line
@@ -1996,7 +2030,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enter the minute value (MM). The valid range is from 0 through 59.
+      Enter the minute value (DD). The valid range is from 0 through 59.
 
 
       .. raw:: html
@@ -2055,11 +2089,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_profile, wireless.Wireless.delete\_ap\_profile\_by\_id, wireless.Wireless.update\_ap\_profile\_by\_id,
+   - SDK Method used are wireless.Wireless.create\_ap\_profile, wireless.Wireless.delete\_ap\_profile\_by\_id, wireless.Wireless.update\_approfile\_by\_id,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/apProfiles, delete /dna/intent/api/v1/wirelessSettings/apProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -2068,12 +2103,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless CreateAPProfile <https://developer.cisco.com/docs/dna-center/#!create-ap-profile>`_
-       Complete reference of the CreateAPProfile API.
-   `Cisco Catalyst Center documentation for Wireless DeleteAPProfileByID <https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id>`_
-       Complete reference of the DeleteAPProfileByID API.
-   `Cisco Catalyst Center documentation for Wireless UpdateAPProfileByID <https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id>`_
-       Complete reference of the UpdateAPProfileByID API.
+   `Cisco Catalyst Center documentation for Wireless CreateApProfile <https://developer.cisco.com/docs/dna-center/#!create-ap-profile>`_
+       Complete reference of the CreateApProfile API.
+   `Cisco Catalyst Center documentation for Wireless DeleteApProfileByID <https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id>`_
+       Complete reference of the DeleteApProfileByID API.
+   `Cisco Catalyst Center documentation for Wireless UpdateApprofileByID <https://developer.cisco.com/docs/dna-center/#!update-approfile-by-id>`_
+       Complete reference of the UpdateApprofileByID API.
 
 .. Examples
 
@@ -2099,18 +2134,77 @@ Examples
         awipsEnabled: true
         awipsForensicEnabled: true
         calendarPowerProfiles:
-          duration:
-            schedulerDate:
-              - string
-            schedulerDay:
-              - string
-            schedulerEndTime: string
-            schedulerStartTime: string
-          powerProfileName: string
-          schedulerType: string
+          - apPowerProfileName: string
+            calendarProfileName: string
+            duration:
+              schedulerDate:
+                - string
+              schedulerDay:
+                - string
+              schedulerEndTime: string
+              schedulerStartTime: string
+            schedulerType: string
         clientLimit: 0
         countryCode: string
         description: string
+        id: string
+        managementSetting:
+          authType: string
+          cdpState: true
+          dot1xPassword: string
+          dot1xUsername: string
+          managementEnablePassword: string
+          managementPassword: string
+          managementUserName: string
+          sshEnabled: true
+          telnetEnabled: true
+        meshEnabled: true
+        meshSetting:
+          backhaulClientAccess: true
+          bridgeGroupName: string
+          ghz24BackhaulDataRates: string
+          ghz5BackhaulDataRates: string
+          range: 0
+          rapDownlinkBackhaul: string
+        pmfDenialEnabled: true
+        remoteWorkerEnabled: true
+        rogueDetectionSetting:
+          rogueDetection: true
+          rogueDetectionMinRssi: 0
+          rogueDetectionReportInterval: 0
+          rogueDetectionTransientInterval: 0
+        timeZone: string
+        timeZoneOffsetHour: 0
+        timeZoneOffsetMinutes: 0
+    - name: Update by id
+      cisco.catalystcenter.wireless_settings_ap_profiles:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        apPowerProfileName: string
+        apProfileName: string
+        awipsEnabled: true
+        awipsForensicEnabled: true
+        calendarPowerProfiles:
+          - apPowerProfileName: string
+            calendarProfileName: string
+            duration:
+              schedulerDate:
+                - string
+              schedulerDay:
+                - string
+              schedulerEndTime: string
+              schedulerStartTime: string
+            schedulerType: string
+        clientLimit: 0
+        countryCode: string
+        description: string
+        id: string
         managementSetting:
           authType: string
           cdpState: true
@@ -2150,62 +2244,6 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
-      cisco.catalystcenter.wireless_settings_ap_profiles:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        apPowerProfileName: string
-        apProfileName: string
-        awipsEnabled: true
-        awipsForensicEnabled: true
-        calendarPowerProfiles:
-          duration:
-            schedulerDate:
-              - string
-            schedulerDay:
-              - string
-            schedulerEndTime: string
-            schedulerStartTime: string
-          powerProfileName: string
-          schedulerType: string
-        clientLimit: 0
-        countryCode: string
-        description: string
-        id: string
-        managementSetting:
-          authType: string
-          cdpState: true
-          dot1xPassword: string
-          dot1xUsername: string
-          managementEnablePassword: string
-          managementPassword: string
-          managementUserName: string
-          sshEnabled: true
-          telnetEnabled: true
-        meshEnabled: true
-        meshSetting:
-          backhaulClientAccess: true
-          bridgeGroupName: string
-          ghz24BackhaulDataRates: string
-          ghz5BackhaulDataRates: string
-          range: 0
-          rapDownlinkBackhaul: string
-        pmfDenialEnabled: true
-        remoteWorkerEnabled: true
-        rogueDetectionSetting:
-          rogueDetection: true
-          rogueDetectionMinRssi: 0
-          rogueDetectionReportInterval: 0
-          rogueDetectionTransientInterval: 0
-        timeZone: string
-        timeZoneOffsetHour: 0
-        timeZoneOffsetMinutes: 0
 
 
 
@@ -2266,7 +2304,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
 
 
       .. raw:: html
@@ -2283,7 +2321,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

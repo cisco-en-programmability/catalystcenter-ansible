@@ -42,7 +42,7 @@ cisco.catalystcenter.device_health_info module -- Information module for Device 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.device_health_info module -- Information module for Device 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -548,7 +548,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Health query parameter. Catalyst Center health catagory POOR, FAIR, or GOOD (case insensitive).
+      Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
 
 
       .. raw:: html
@@ -650,7 +650,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId query parameter. Catalyst Center site UUID.
+      SiteId query parameter. DNAC site UUID.
 
 
       .. raw:: html
@@ -748,6 +748,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -783,8 +784,8 @@ Examples
         health: string
         startTime: 0
         endTime: 0
-        limit: 0
-        offset: 0
+        limit: 50
+        offset: 1
       register: result
 
 
@@ -846,7 +847,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"airQualityHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "apCount": 0, "avgTemperature": 0, "band": {"radio0": "string", "radio1": "string", "radio2": "string", "radio3": 0}, "clientCount": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "cpuHealth": 0, "cpuUlitilization": 0, "cpuUtilization": 0, "deviceFamily": "string", "deviceType": "string", "freeMemoryBuffer": 0, "freeMemoryBufferHealth": 0, "freeTimer": 0, "freeTimerScore": 0, "interDeviceLinkAvailFabric": 0, "interDeviceLinkAvailHealth": 0, "interfaceLinkErrHealth": 0, "interferenceHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "ipAddress": "string", "issueCount": 0, "location": "string", "macAddress": "string", "maxTemperature": 0, "memoryUtilization": 0, "memoryUtilizationHealth": 0, "model": "string", "name": "string", "noiseHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "osVersion": "string", "overallHealth": 0, "packetPool": 0, "packetPoolHealth": 0, "reachabilityHealth": "string", "utilizationHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "uuid": "string", "wanLinkUtilization": 0, "wqePools": 0, "wqePoolsHealth": 0}], "totalCount": 0, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"airQualityHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "apCount": 0, "avgTemperature": 0, "band": {"radio0": "string", "radio1": "string", "radio2": "string", "radio3": 0}, "clientCount": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "cpuHealth": 0, "cpuUlitilization": 0, "cpuUtilization": 0, "deviceFamily": "string", "deviceType": "string", "freeMemoryBuffer": 0, "freeMemoryBufferHealth": 0, "freeTimer": "string", "freeTimerScore": 0, "interDeviceLinkAvailFabric": 0, "interDeviceLinkAvailHealth": 0, "interfaceLinkErrHealth": 0, "interferenceHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "ipAddress": "string", "issueCount": 0, "location": "string", "macAddress": "string", "maxTemperature": 0, "memoryUtilization": 0, "memoryUtilizationHealth": 0, "model": "string", "name": "string", "noiseHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "osVersion": "string", "overallHealth": 0, "packetPool": 0, "packetPoolHealth": 0, "reachabilityHealth": "string", "utilizationHealth": {"Ghz24": 0, "Ghz50": 0, "radio0": 0, "radio1": 0, "radio2": 0, "radio3": 0}, "uuid": "string", "wanLinkUtilization": 0, "wqePools": 0, "wqePoolsHealth": 0}], "totalCount": 0, "version": "string"}`
 
 
       .. raw:: html
@@ -863,7 +864,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

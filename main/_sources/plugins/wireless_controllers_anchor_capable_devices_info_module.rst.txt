@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_controllers_anchor_capable_devices_info module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_controllers_anchor_capable_devices_info module -- 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Wireless Controllers Anchor Capable Devices.
-- This API allows the user to get Anchor capable devices.
+- This API allows the user to get all anchor capable devices.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -506,11 +506,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_anchor\_capable\_devices,
+   - SDK Method used are wireless.Wireless.get\_all\_anchor\_capable\_devices,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/anchorCapableDevices,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -519,8 +520,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GetAnchorCapableDevices <https://developer.cisco.com/docs/dna-center/#!get-anchor-capable-devices>`_
-       Complete reference of the GetAnchorCapableDevices API.
+   `Cisco Catalyst Center documentation for Wireless GetAllAnchorCapableDevices <https://developer.cisco.com/docs/dna-center/#!get-all-anchor-capable-devices>`_
+       Complete reference of the GetAllAnchorCapableDevices API.
 
 .. Examples
 
@@ -582,7 +583,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -602,7 +603,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"deviceIp": "string", "deviceName": "string", "wirelessMgmtIP": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"deviceIp\\": \\"string\\",\\n    \\"deviceName\\": \\"string\\",\\n    \\"wirelessMgmtIP\\": \\"string\\",\\n    \\"wirelessMgmtIPv6\\": {},\\n    \\"interfaceIpAddresses\\": [\\n      \\"string\\"\\n    ]\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -619,7 +620,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_aaa_settings module -- Resource module for Sites Aaa 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_aaa_settings module -- Resource module for Sites Aaa 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Sites Aaa Settings. - \> Set AAA settings for a site; \`null\` values indicate that the settings will be inherited from the parent site; empty objects \`{}\` indicate that the settings is unset.
+- Manage operation update of the resource Sites Aaa Settings.
+- Sets AAA settings for the given site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -134,217 +135,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sites Aaa Settings's aaaClient.
+      AAA/ISE client settings.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/pan"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/pan:
-
-      .. rst-class:: ansible-option-title
-
-      **pan**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/pan" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Administration Node. Required for ISE.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/primaryServerIp"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/primaryserverip:
-
-      .. rst-class:: ansible-option-title
-
-      **primaryServerIp**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/primaryServerIp" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The server to use as a primary.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/protocol"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Protocol.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/secondaryServerIp"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/secondaryserverip:
-
-      .. rst-class:: ansible-option-title
-
-      **secondaryServerIp**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/secondaryServerIp" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The server to use as a secondary.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/serverType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/servertype:
-
-      .. rst-class:: ansible-option-title
-
-      **serverType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/serverType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Server Type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaClient/sharedSecret"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaaclient/sharedsecret:
-
-      .. rst-class:: ansible-option-title
-
-      **sharedSecret**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaClient/sharedSecret" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Shared Secret.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -373,217 +169,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sites Aaa Settings's aaaNetwork.
+      AAA/ISE network settings.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/pan"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/pan:
-
-      .. rst-class:: ansible-option-title
-
-      **pan**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/pan" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Administration Node. Required for ISE.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/primaryServerIp"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/primaryserverip:
-
-      .. rst-class:: ansible-option-title
-
-      **primaryServerIp**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/primaryServerIp" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The server to use as a primary.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/protocol"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Protocol.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/secondaryServerIp"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/secondaryserverip:
-
-      .. rst-class:: ansible-option-title
-
-      **secondaryServerIp**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/secondaryServerIp" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The server to use as a secondary.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/serverType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/servertype:
-
-      .. rst-class:: ansible-option-title
-
-      **serverType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/serverType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Server Type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-aaaNetwork/sharedSecret"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_aaa_settings_module__parameter-aaanetwork/sharedsecret:
-
-      .. rst-class:: ansible-option-title
-
-      **sharedSecret**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-aaaNetwork/sharedSecret" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Shared Secret.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -988,6 +579,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1018,21 +610,9 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        aaaClient:
-          pan: string
-          primaryServerIp: string
-          protocol: string
-          secondaryServerIp: string
-          serverType: string
-          sharedSecret: string
-        aaaNetwork:
-          pan: string
-          primaryServerIp: string
-          protocol: string
-          secondaryServerIp: string
-          serverType: string
-          sharedSecret: string
-        id: string
+        aaaClient: {}
+        aaaNetwork: {}
+        id: e298f95b-cd70-48ae-a590-b2076bfb6033
 
 
 
@@ -1093,7 +673,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -1110,7 +690,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

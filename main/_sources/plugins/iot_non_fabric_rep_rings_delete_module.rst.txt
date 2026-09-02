@@ -42,7 +42,7 @@ cisco.catalystcenter.iot_non_fabric_rep_rings_delete module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.iot_non_fabric_rep_rings_delete module -- Resource module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation delete of the resource Iot Non Fabric Rep Rings Delete. - \> This API deletes the REP ring configured in the NON-FABRIC deployment for the given id. The id of configured REP ring can be retrieved using the API /dna/intent/api/v1/iot/repRings/query.The taskid returned can be used to monitor the status of delete operation using following API -/intent/api/v1/task/{taskId}.
+- Manage operation delete of the resource Iot Non Fabric Rep Rings Delete. - \> This API deletes the REP ring configured in the NON-FABRIC deployment for the given id. The id of configured REP ring can be retrieved using the API \`/dna/intent/api/v1/iot/repRings/query\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -422,6 +422,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-forceDelete"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_delete_module__parameter-forcedelete:
+
+      .. rst-class:: ansible-option-title
+
+      **forceDelete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-forceDelete" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ForceDelete query parameter. When set as true, REP Ring force delete will be invoked. \`Force Delete\` is supported only after REP Ring delete has been attempted and has either failed or partially completed where REP configurations are not cleared from all the REP Ring members. Force Delete of REP Ring would delete the REP Ring from Catalyst center alone, it would not remove REP configurations from any REP Ring members. Manual cleanup would be needed to clear REP configuration on the failed or unreachable devices.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-id"></div>
 
       .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_delete_module__parameter-id:
@@ -505,11 +547,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are industrial\_configuration.IndustrialConfiguration.delete\_r\_e\_p\_ring\_configured\_in\_the\_n\_o\_n\_f\_a\_b\_r\_i\_c\_deployment,
+   - SDK Method used are industrial\_configuration.IndustrialConfiguration.delete\_rep\_ring\_configured\_in\_the\_non\_fabric\_deployment,
    - Paths used are delete /dna/intent/api/v1/iot/nonFabric/repRings/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -539,7 +582,8 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        id: string
+        forceDelete: true
+        id: 0bb11acd-5f3f-42bd-9509-8d7c8891aa84
 
 
 
@@ -617,7 +661,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

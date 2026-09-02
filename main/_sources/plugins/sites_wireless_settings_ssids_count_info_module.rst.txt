@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_wireless_settings_ssids_count_info module -- Informat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_wireless_settings_ssids_count_info module -- Informat
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Sites Wireless Settings Ssids Count.
-- This API allows the user to get count of all SSIDs Service Set Identifier .
+- This API allows the user to get count of all SSIDs Service Set Identifier at \`siteId\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \_inherited query parameter. This query parameter indicates whether the current SSID count at the given 'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+      \_inherited query parameter. \`\_inherited\` query parameter indicates wether the current SSID count at \`siteId\` is of the SSID it is inheriting or count of non-inheriting SSIDs. - When \`\_inherited\` is \`false\` then - Should a request include a non-global \`siteId\` with the \`\_inherited\` flag set to \`false\`, the API will respond with a count of all SSIDs that have been explicitly overridden at the specified site identifier (\`siteId\`). - When \`\_inherited\` is \`true\` then - In the case where a non-global \`siteId\` is accompanied by the \`\_inherited\` flag set to true, the API is tasked with returning a count that aggregates the following - The number of SSIDs inherited from the global level. - The number of SSIDs derived from the immediate parent site where an override is present.
           
 
 
@@ -588,6 +588,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -596,8 +597,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GetSSIDCountBySite <https://developer.cisco.com/docs/dna-center/#!get-ssid-count-by-site>`_
-       Complete reference of the GetSSIDCountBySite API.
+   `Cisco Catalyst Center documentation for Wireless GETSSIDCOUNTBYSITE <https://developer.cisco.com/docs/dna-center/#!g-etssidcountbysite>`_
+       Complete reference of the GETSSIDCOUNTBYSITE API.
 
 .. Examples
 
@@ -698,7 +699,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

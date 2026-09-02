@@ -42,7 +42,7 @@ cisco.catalystcenter.dhcp_services_query module -- Resource module for Dhcp Serv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.dhcp_services_query module -- Resource module for Dhcp Serv
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Dhcp Services Query. - \> Retrieves the list of DHCP Services and offers complex filtering and sorting capabilities. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- DHCPServices-1.0.0-resolved.yaml.
+- Manage operation create of the resource Dhcp Services Query.
+- Retrieves the list of DHCP Services and offers complex filtering and sorting.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Dhcp Services Query's endTime.
 
 
       .. raw:: html
@@ -514,7 +515,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Dhcp Services Query's key.
 
 
       .. raw:: html
@@ -548,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Dhcp Services Query's operator.
 
 
       .. raw:: html
@@ -582,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Dhcp Services Query's value.
 
 
       .. raw:: html
@@ -685,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Limit.
+      Dhcp Services Query's limit.
 
 
       .. raw:: html
@@ -719,7 +720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Offset.
+      Dhcp Services Query's offset.
 
 
       .. raw:: html
@@ -787,7 +788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Dhcp Services Query's name.
 
 
       .. raw:: html
@@ -821,7 +822,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Order.
+      Dhcp Services Query's order.
 
 
       .. raw:: html
@@ -857,7 +858,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Dhcp Services Query's startTime.
 
 
       .. raw:: html
@@ -916,11 +917,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.retrieves\_the\_list\_of\_d\_h\_c\_p\_services\_for\_given\_set\_of\_complex\_filters,
+   - SDK Method used are devices.Devices.retrieves\_the\_list\_of\_dhcp\_services\_for\_given\_set\_of\_complex\_filters,
    - Paths used are post /dna/data/api/v1/dhcpServices/query,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1041,7 +1043,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

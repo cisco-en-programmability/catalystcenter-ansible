@@ -42,7 +42,7 @@ cisco.catalystcenter.activities_info module -- Information module for Activities
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.activities_info module -- Information module for Activities
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Activities.
+- Get Activities by id.
 - Returns activitys based on filter criteria.
+- Returns the activity with the given ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -525,6 +527,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.activities_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The id of the activity to retrieve.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.catalystcenter.activities_info_module__parameter-limit:
@@ -854,11 +890,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are task.Task.get\_activities,
-   - Paths used are get /dna/intent/api/v1/activities,
+   - SDK Method used are task.Task.get\_activities, task.Task.get\_activity\_by\_id,
+   - Paths used are get /dna/intent/api/v1/activities, get /dna/intent/api/v1/activities/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -869,6 +906,8 @@ See Also
 
    `Cisco Catalyst Center documentation for Task GetActivities <https://developer.cisco.com/docs/dna-center/#!get-activities>`_
        Complete reference of the GetActivities API.
+   `Cisco Catalyst Center documentation for Task GetActivityByID <https://developer.cisco.com/docs/dna-center/#!get-activity-by-id>`_
+       Complete reference of the GetActivityByID API.
 
 .. Examples
 
@@ -895,10 +934,22 @@ Examples
         recurring: true
         startTime: string
         endTime: string
-        offset: 0
-        limit: 0
+        offset: 1
+        limit: 500
         sortBy: string
-        order: string
+        order: asc
+      register: result
+    - name: Get Activities by id
+      cisco.catalystcenter.activities_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -960,7 +1011,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"description": "string", "endTime": 0, "id": "string", "originatingWorkItemActivityId": "string", "recurring": true, "startTime": 0, "status": "string", "type": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "endTime": 0, "id": "string", "originatingWorkItemActivityId": "string", "recurring": true, "startTime": 0, "status": "string", "type": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -977,7 +1028,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

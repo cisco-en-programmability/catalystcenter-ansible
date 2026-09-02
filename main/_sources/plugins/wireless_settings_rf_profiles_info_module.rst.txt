@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_rf_profiles_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_rf_profiles_info module -- Information mo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -776,6 +776,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -808,8 +809,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        limit: 0
-        offset: 0
+        limit: 500
+        offset: 1
         rfProfileName: string
         enableRadioTypeA: true
         enableRadioTypeB: true
@@ -887,7 +888,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"broadcastProbeResponseInterval": 0, "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "discoveryFrames6GHz": "string", "enableStandardPowerService": true, "fraPropertiesC": {"clientResetCount": 0, "clientUtilizationThreshold": 0}, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "maxRadioClients": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "pscEnforcingEnabled": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "radioTypeAProperties": {"channelWidth": "string", "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "fraPropertiesA": {"clientAware": true, "clientReset": 0, "clientSelect": 0}, "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}, "zeroWaitDfsEnable": true}, "radioTypeBProperties": {"coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "rfProfileName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"broadcastProbeResponseInterval": 0, "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "discoveryFrames6GHz": "string", "enableStandardPowerService": true, "fraPropertiesC": {"clientResetCount": 0, "clientUtilizationThreshold": 0}, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "maxRadioClients": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "pscEnforcingEnabled": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "radioTypeAProperties": {"channelWidth": "string", "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "fraPropertiesA": {"clientAware": true, "clientReset": 0, "clientSelect": 0}, "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}, "zeroWaitDfsEnable": true}, "radioTypeBProperties": {"coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "rfProfileName": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -904,7 +905,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

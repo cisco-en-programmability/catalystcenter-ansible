@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_device_import module -- Resource module for Pnp Device 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.pnp_device_import module -- Resource module for Pnp Device 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -481,7 +481,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Id.
+      Pnp Device Import's \_id.
 
 
       .. raw:: html
@@ -549,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Description.
+      Pnp Device Import's description.
 
 
       .. raw:: html
@@ -583,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Device Sudi Serial Nos.
+      Pnp Device Import's deviceSudiSerialNos.
 
 
       .. raw:: html
@@ -617,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Hostname.
+      Pnp Device Import's hostname.
 
 
       .. raw:: html
@@ -651,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mac Address.
+      Pnp Device Import's macAddress.
 
 
       .. raw:: html
@@ -685,7 +685,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pid.
+      Pnp Device Import's pid.
 
 
       .. raw:: html
@@ -719,7 +719,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Serial Number.
+      Pnp Device Import's serialNumber.
 
 
       .. raw:: html
@@ -753,7 +753,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Id.
+      Pnp Device Import's siteId.
 
 
       .. raw:: html
@@ -787,7 +787,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Stack.
+      Stack flag.
 
 
       .. rst-class:: ansible-option-line
@@ -863,7 +863,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Is Full Ring.
+      IsFullRing flag.
 
 
       .. rst-class:: ansible-option-line
@@ -939,7 +939,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Hardware Version.
+      Pnp Device Import's hardwareVersion.
 
 
       .. raw:: html
@@ -973,7 +973,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      License Level.
+      Pnp Device Import's licenseLevel.
 
 
       .. raw:: html
@@ -1007,7 +1007,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      License Type.
+      Pnp Device Import's licenseType.
 
 
       .. raw:: html
@@ -1041,7 +1041,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mac Address.
+      Pnp Device Import's macAddress.
 
 
       .. raw:: html
@@ -1075,7 +1075,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pid.
+      Pnp Device Import's pid.
 
 
       .. raw:: html
@@ -1109,7 +1109,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Priority.
+      Pnp Device Import's priority.
 
 
       .. raw:: html
@@ -1143,7 +1143,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Role.
+      Pnp Device Import's role.
 
 
       .. raw:: html
@@ -1177,7 +1177,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Serial Number.
+      Pnp Device Import's serialNumber.
 
 
       .. raw:: html
@@ -1211,7 +1211,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Software Version.
+      Pnp Device Import's softwareVersion.
 
 
       .. raw:: html
@@ -1245,7 +1245,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Stack Number.
+      Pnp Device Import's stackNumber.
 
 
       .. raw:: html
@@ -1279,7 +1279,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      State.
+      Pnp Device Import's state.
 
 
       .. raw:: html
@@ -1313,7 +1313,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sudi Serial Number.
+      Pnp Device Import's sudiSerialNumber.
 
 
       .. raw:: html
@@ -1348,7 +1348,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Stack Ring Protocol.
+      Pnp Device Import's stackRingProtocol.
 
 
       .. raw:: html
@@ -1382,7 +1382,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Supports Stack Workflows.
+      SupportsStackWorkflows flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1424,7 +1424,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Total Member Count.
+      Pnp Device Import's totalMemberCount.
 
 
       .. raw:: html
@@ -1458,7 +1458,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Valid License Levels.
+      Pnp Device Import's validLicenseLevels.
 
 
       .. raw:: html
@@ -1493,7 +1493,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Is Sudi Required.
+      SudiRequired flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1535,7 +1535,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      User Mic Numbers.
+      Pnp Device Import's userMicNumbers.
 
 
       .. raw:: html
@@ -1569,7 +1569,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      User Sudi Serial Nos.
+      Pnp Device Import's userSudiSerialNos.
 
 
       .. raw:: html
@@ -1603,7 +1603,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Workflow Id.
+      Pnp Device Import's workflowId.
 
 
       .. raw:: html
@@ -1637,7 +1637,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Workflow Name.
+      Pnp Device Import's workflowName.
 
 
       .. raw:: html
@@ -1703,6 +1703,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1848,7 +1849,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

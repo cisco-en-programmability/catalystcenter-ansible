@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_anchor_groups module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_anchor_groups module -- Resource module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Wireless Settings Anchor Groups.
-- This API allows the user to create an AnchorGroup.
-- This API allows the user to delete an AnchorGroup by specifying the AnchorGroup ID.
-- This API allows the user to update an AnchorGroup.
+- This API allows the user to create an anchor group.
+- This API allows the user to delete an Anchor Group by specifying the AnchorGroup ID.
+- This API allows the user to update an anchor group.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -517,7 +517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wireless Settings Anchor Groups's mobilityAnchors.
+      Peer details. Maximum 24 peers are allowed.
 
 
       .. raw:: html
@@ -585,7 +585,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Peer Host Name.
+      Peer Device Host Name.
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      This indicates Mobility public IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+      IPv4 address in dotted decimal notation (e.g., 192.168.1.1).
 
 
       .. raw:: html
@@ -763,7 +763,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Indicates peer device mobility belongs to AireOS or IOS-XE family.
+      Indicates peer device mobility belongs to AireOS or IOX-XE family. 0 - indicates AireOS and 1 - indicates C9800.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/peerIpV6Address"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_anchor_groups_module__parameter-mobilityanchors/peeripv6address:
+
+      .. rst-class:: ansible-option-title
+
+      **peerIpV6Address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/peerIpV6Address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPv6 address in standard notation (e.g., 2001 db8 1).
 
 
       .. raw:: html
@@ -797,7 +831,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      This indicates private management IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+      IPv4 address in dotted decimal notation (e.g., 192.168.1.1).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/privateIpV6Address"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_anchor_groups_module__parameter-mobilityanchors/privateipv6address:
+
+      .. rst-class:: ansible-option-title
+
+      **privateIpV6Address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/privateIpV6Address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPv6 address in standard notation (e.g., 2001 db8 1).
 
 
       .. raw:: html
@@ -862,6 +930,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -886,7 +955,7 @@ Examples
 
     
     ---
-    - name: Create
+    - name: Update by id
       cisco.catalystcenter.wireless_settings_anchor_groups:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -896,16 +965,48 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        anchorGroupName: string
+        anchorGroupName: anchorGroup01
+        id: string
         mobilityAnchors:
-          - anchorPriority: string
-            deviceName: string
-            ipAddress: string
-            macAddress: string
+          - anchorPriority: PRIMARY
+            deviceName: ewlc-NS-01-ipv4-single-stack
+            ipAddress: 19.19.19.19
             managedAnchorWlc: true
-            mobilityGroupName: string
-            peerDeviceType: string
-            privateIp: string
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-02-ipv6-single-stack
+            managedAnchorWlc: true
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1a2b
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-03-ipv6-dual-stack
+            ipAddress: 29.29.29.29
+            managedAnchorWlc: true
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1a3b
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-04-external-ipv4
+            ipAddress: 31.31.31.31
+            macAddress: 22:33:55:55:77:89
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            privateIp: 12.12.12.12
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-05-external-ipv6
+            macAddress: 22:33:55:55:77:90
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1aaa
+            privateIpV6Address: 2001:db8:3c4d:15::1a2f:1111
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-05-external-dual-stack
+            ipAddress: 41.41.41.41
+            macAddress: 22:33:55:55:77:91
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1bbb
+            privateIp: 12.12.12.12
+            privateIpV6Address: 2001:db8:3c4d:15::1a2f:1111
     - name: Delete by id
       cisco.catalystcenter.wireless_settings_anchor_groups:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -917,7 +1018,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
+    - name: Create
       cisco.catalystcenter.wireless_settings_anchor_groups:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -927,17 +1028,47 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        anchorGroupName: string
-        id: string
+        anchorGroupName: anchorGroup01
         mobilityAnchors:
-          - anchorPriority: string
-            deviceName: string
-            ipAddress: string
-            macAddress: string
+          - anchorPriority: PRIMARY
+            deviceName: ewlc-NS-01-ipv4-single-stack
+            ipAddress: 19.19.19.19
             managedAnchorWlc: true
-            mobilityGroupName: string
-            peerDeviceType: string
-            privateIp: string
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-02-ipv6-single-stack
+            managedAnchorWlc: true
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1a2b
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-03-ipv6-dual-stack
+            ipAddress: 29.29.29.29
+            managedAnchorWlc: true
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1a3b
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-04-external-ipv4
+            ipAddress: 31.31.31.31
+            macAddress: 22:33:55:55:77:89
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            privateIp: 12.12.12.12
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-05-external-ipv6
+            macAddress: 22:33:55:55:77:90
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1aaa
+            privateIpV6Address: 2001:db8:3c4d:15::1a2f:1111
+          - anchorPriority: SECONDARY
+            deviceName: ewlc-NS-05-external-dual-stack
+            ipAddress: 41.41.41.41
+            macAddress: 22:33:55:55:77:91
+            managedAnchorWlc: false
+            mobilityGroupName: default
+            peerDeviceType: IOS-XE
+            peerIpV6Address: 2001:db8:3c4d:15::1a2f:1bbb
+            privateIp: 12.12.12.12
+            privateIpV6Address: 2001:db8:3c4d:15::1a2f:1111
 
 
 
@@ -998,7 +1129,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
 
 
       .. raw:: html
@@ -1015,7 +1146,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

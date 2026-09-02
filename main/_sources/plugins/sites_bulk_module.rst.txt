@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_bulk module -- Resource module for Sites Bulk
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_bulk module -- Resource module for Sites Bulk
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Sites Bulk. - \> Create area/building/floor together in bulk. If site already exist, then that will be ignored. Sites in the request payload need not to be ordered. Once the request is accepted, a task ID is provided in the response, which you can use to check the status via the Get Task by ID API GET /dna/intent/api/v1/tasks/${id}. If the task fails, use the Get Tasks API GET /dna/intent/api/v1/tasks with the parentId filter to check the status of individual sites.
+- Manage operation create of the resource Sites Bulk. - \> Create area/building/floor together in bulk. If site already exist, then that will be ignored. Sites in the request payload need not to be ordered.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -456,40 +456,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/address"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_bulk_module__parameter-payload/address:
-
-      .. rst-class:: ansible-option-title
-
-      **address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/country"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_bulk_module__parameter-payload/country:
@@ -514,7 +480,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Country name. Required for building.
+      Country name.
 
 
       .. raw:: html
@@ -548,7 +514,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor number. Required for floor.
+      Floor number.
 
 
       .. raw:: html
@@ -582,41 +548,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor height. Required for floor. Example 10.1.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/latitude"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_bulk_module__parameter-payload/latitude:
-
-      .. rst-class:: ansible-option-title
-
-      **latitude**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/latitude" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`float`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Building Latitude. Example 37.403712.
+      Floor height.
 
 
       .. raw:: html
@@ -650,41 +582,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor length. Required for floor. Example 110.3.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/longitude"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_bulk_module__parameter-payload/longitude:
-
-      .. rst-class:: ansible-option-title
-
-      **longitude**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/longitude" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`float`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Building Longitude. Example -121.971063.
+      Floor length.
 
 
       .. raw:: html
@@ -718,7 +616,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site name.
+      Floor name.
 
 
       .. raw:: html
@@ -752,7 +650,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent hierarchical name. Example Global/USA/San Jose/Building1.
+      Parent hierarchical name.
 
 
       .. raw:: html
@@ -786,7 +684,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor RF Model. Required for floor.
+      RF Model.
 
 
       .. raw:: html
@@ -820,7 +718,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type.
+      Site Type.
 
 
       .. raw:: html
@@ -854,7 +752,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor unit of measure. Required for floor.
+      Unit of measure for length, width, and height.
 
 
       .. raw:: html
@@ -888,7 +786,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor width. Required for floor. Example 100.5.
+      Floor width.
 
 
       .. raw:: html
@@ -953,6 +851,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -983,18 +882,15 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         payload:
-          - address: string
-            country: string
+          - country: string
             floorNumber: 0
             height: 0
-            latitude: 0
             length: 0
-            longitude: 0
             name: string
             parentNameHierarchy: string
             rfModel: string
             type: string
-            unitsOfMeasure: string
+            unitsOfMeasure: {}
             width: 0
 
 
@@ -1056,7 +952,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -1073,7 +969,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

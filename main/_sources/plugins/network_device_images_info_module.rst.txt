@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_images_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_images_info module -- Information module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -69,7 +69,9 @@ Synopsis
 .. Description
 
 - Get all Network Device Images.
-- Get Network Device Images by id. - \> The API retrieves information about running images and golden image bundle, if they are available for the network device. It also provides network device update status and image update status related to the golden image bundle and the compatible features supported by the network device. Network device with \`networkDeviceImageStatus\` set as \`OUTDATED\` is considered ready for update based on the golden image bundle. - \> This API retrieves information about running images and golden image bundle, if they are available for network devices. It also provides network device update status and image update status related to the golden image bundle and the compatible features supported by the network devices.
+- Get Network Device Images by id.
+- The API retrieves information about running images and golden image bundle, if.
+- This API retrieves information about running images and golden image bundle,.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -700,6 +702,143 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_info_module__parameter-productid:
+
+      .. rst-class:: ansible-option-title
+
+      **productId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductId query parameter. Filter with product ID (PID).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-productName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_info_module__parameter-productname:
+
+      .. rst-class:: ansible-option-title
+
+      **productName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-productName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProductName query parameter. Filter with network device product name. Supports partial case-insensitive search.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-role"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_info_module__parameter-role:
+
+      .. rst-class:: ansible-option-title
+
+      **role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Role query parameter. Role assigned to the network device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_info_module__parameter-siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SiteId query parameter. SiteId to which network devices are assigned. See https //developer.cisco.com/docs/dna-center(#!get-site) for \`siteId\`.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_device_images_info_module__parameter-sortby:
@@ -789,6 +928,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -821,13 +961,17 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
+        siteId: string
+        role: DISTRIBUTION
+        productName: string
+        productId: string
         managementAddress: string
         networkDeviceImageStatus: string
         networkDeviceUpdateStatus: string
-        sortBy: string
-        order: string
-        offset: 0
-        limit: 0
+        sortBy: id
+        order: asc
+        offset: 1
+        limit: 500
       register: result
     - name: Get Network Device Images by id
       cisco.catalystcenter.network_device_images_info:
@@ -901,7 +1045,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"compatibleFeatures": [{"key": "string", "value": "string"}], "goldenImages": [{"goldenTaggingDetails": {"deviceRoles": "string", "deviceTags": "string", "isInherited": true, "siteId": "string", "siteName": "string"}, "id": "string", "imageType": "string", "name": "string", "version": "string"}], "id": "string", "installedImages": [{"id": "string", "imageType": "string", "name": "string", "version": "string"}], "managementAddress": "string", "networkDevice": {"id": "string", "productName": "string", "productNameOrdinal": 0, "supervisorProductName": "string", "supervisorProductNameOrdinal": 0}, "networkDeviceImageStatus": "string", "networkDeviceUpdateStatus": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"compatibleFeatures": [{"key": "string", "value": "string"}], "goldenImages": [{"goldenTaggingDetails": {"deviceRoles": "string", "deviceTags": "string", "isInherited": true, "nameHierarchy": "string", "siteId": "string", "siteName": "string"}, "id": "string", "imageType": "string", "name": "string", "version": "string"}], "id": "string", "incompatibleAppDetails": [{"appName": "string", "compatibleImages": [{"imageName": "string", "imageType": "string", "imageVersion": "string", "recommended": true}], "incompatibleWith": ["string"]}], "installedImages": [{"id": "string", "imageType": "string", "name": "string", "version": "string"}], "managementAddress": "string", "networkDevice": {"id": "string", "productName": "string", "productNameOrdinal": 0, "supervisorProductName": "string", "supervisorProductNameOrdinal": 0}, "networkDeviceImageCompatibilityStatus": "string", "networkDeviceImageStatus": "string", "networkDeviceUpdateStatus": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -918,7 +1062,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

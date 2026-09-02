@@ -42,7 +42,7 @@ cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting module -- Resourc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting module -- Resourc
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -422,48 +422,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-enableWireless"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-enablewireless:
-
-      .. rst-class:: ansible-option-title
-
-      **enableWireless**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-enableWireless" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Enable Wireless.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-fabricId"></div>
 
       .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-fabricid:
@@ -488,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example e290f1ee-6c54-4b01-90e6-d701748f0851.
+      FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
 
 
       .. raw:: html
@@ -498,17 +456,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-id:
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload:
 
       .. rst-class:: ansible-option-title
 
-      **id**
+      **payload**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Fabrics Fabric Id Switch Wireless Setting's payload.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/deviceRoles"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/deviceroles:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceRoles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/deviceRoles" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -520,9 +512,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device ID of the wireless capable switch.
+      Description.
 
 
       .. raw:: html
@@ -531,22 +523,22 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-rollingApUpgrade"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-rollingapupgrade:
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/id:
 
       .. rst-class:: ansible-option-title
 
-      **rollingApUpgrade**
+      **id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-rollingApUpgrade" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -554,29 +546,29 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Fabrics Fabric Id Switch Wireless Setting's rollingApUpgrade.
+      Description.
 
 
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-rollingApUpgrade/apRebootPercentage"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/lscPercentage"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-rollingapupgrade/aprebootpercentage:
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/lscpercentage:
 
       .. rst-class:: ansible-option-title
 
-      **apRebootPercentage**
+      **lscPercentage**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-rollingApUpgrade/apRebootPercentage" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/lscPercentage" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -590,7 +582,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      AP Reboot Percentage. Permissible values - 5, 15, 25.
+      Permissible values are 1, 5, 15, 25 and 1000. This represents the percentage of access points that can be affected due to certificate renewal execution in the current iteration. This field is applicable only when the selected LSC profile is of staggered execution type. \* 1 - 1% of access points will be considered for certificate renewal in each iteration \* 5 - 5% of access points will be considered for certificate renewal in each iteration \* 15 - 15% of access points will be considered for certificate renewal in each iteration \* 25 - 25% of access points will be considered for certificate renewal in each iteration \* 1000 - Access points are selected one after another in a serial manner for certificate renewal. The corresponding device option is 'Serial'.
 
 
       .. raw:: html
@@ -600,9 +592,111 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-rollingApUpgrade/enableRollingApUpgrade"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/lscProfileName"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-rollingapupgrade/enablerollingapupgrade:
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/lscprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **lscProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/lscProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      LSC profile name. Obtain the LSC profile names by using the GET API call /dna/intent/api/v1/wirelessSettings/lscRenewalProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/rollingApUpgrade"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/rollingapupgrade:
+
+      .. rst-class:: ansible-option-title
+
+      **rollingApUpgrade**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/rollingApUpgrade" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Fabrics Fabric Id Switch Wireless Setting's rollingApUpgrade.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/rollingApUpgrade/apRebootPercentage"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/rollingapupgrade/aprebootpercentage:
+
+      .. rst-class:: ansible-option-title
+
+      **apRebootPercentage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/rollingApUpgrade/apRebootPercentage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      AP Reboot Percentage. Permissible values - 1, 5, 15, 25 and 1000 \* 1 - 1% of access points will be rebooted in each iteration \* 5 - 5% of access points will be rebooted in each iteration \* 15 - 15% of access points will be rebooted in each iteration \* 25 - 25% of access points will be rebooted in each iteration \* 1000 - Access points are rebooted one after another in a serial manner. The corresponding device option is labeled 'Serial'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/rollingApUpgrade/enableRollingApUpgrade"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_module__parameter-payload/rollingapupgrade/enablerollingapupgrade:
 
       .. rst-class:: ansible-option-title
 
@@ -610,7 +704,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-rollingApUpgrade/enableRollingApUpgrade" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/rollingApUpgrade/enableRollingApUpgrade" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -622,9 +716,9 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable Rolling Ap Upgrade.
+      True if Rolling AP Upgrade is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -638,6 +732,7 @@ Parameters
       .. raw:: html
 
         </div>
+
 
 
   * - .. raw:: html
@@ -697,6 +792,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -728,10 +824,12 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         enableWireless: true
-        fabricId: string
-        id: string
+        fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
+        id: 5259d6b3-3569-405f-9c5f-4d642809add2
+        lscPercentage: 1000
+        lscProfileName: autoLscStraggeredProfile
         rollingApUpgrade:
-          apRebootPercentage: 0
+          apRebootPercentage: 1000
           enableRollingApUpgrade: true
 
 
@@ -810,7 +908,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

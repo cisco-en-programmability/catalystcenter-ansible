@@ -42,7 +42,7 @@ cisco.catalystcenter.events_and_notifications_workflow_manager module -- Configu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.events_and_notifications_workflow_manager module -- Configu
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -89,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -4231,6 +4231,7 @@ Notes
    - SDK Method used are events.Events.get\_syslog\_destination, events.Events.create\_syslog\_destination, events.Events.update\_syslog\_destination, events.Events.get\_snmp\_destination, events.Events.create\_snmp\_destination, events.Events.update\_snmp\_destination, events.Events.get\_webhook\_destination, events.Events.create\_webhook\_destination, events.Events.update\_webhook\_destination, events.Events.get\_email\_destination, events.Events.create\_email\_destination, events.Events.get\_status\_api\_for\_events, events.Events.get\_all\_itsm\_integration\_settings, events.Events.get\_itsm\_integration\_setting\_by\_id, events.Events.create\_itsm\_integration\_setting, events.Events.update\_itsm\_integration\_setting, events.Events.delete\_itsm\_integration\_setting, events.Events.get\_eventartifacts, events.Events.get\_site, events.Events.get\_syslog\_event\_subscriptions, events.Events.get\_syslog\_subscription\_details, events.Events.create\_syslog\_event\_subscription, events.Events.update\_syslog\_event\_subscription, events.Events.get\_rest\_webhook\_event\_subscriptions, events.Events.get\_rest\_webhook\_subscription\_details, events.Events.create\_rest\_webhook\_event\_subscription, events.Events.update\_rest\_webhook\_event\_subscription, events.Events.get\_email\_event\_subscriptions, events.Events.get\_email\_subscription\_details, events.Events.create\_email\_event\_subscription, events.Events.update\_email\_event\_subscription, events.Events.delete\_event\_subscriptions
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

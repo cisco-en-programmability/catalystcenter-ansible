@@ -42,7 +42,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.6.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -111,6 +111,94 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-activation_batch_size"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-activation_batch_size:
+
+      .. rst-class:: ansible-option-title
+
+      **activation_batch_size**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-activation_batch_size" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Number of devices included in each bulk image activation API request.
+
+      The Cisco Catalyst Center bulk API accepts at most 500 devices per request, so this value must be between 1 and 500.
+
+      Lower this value to reduce the load per request on very large jobs.
+
+      Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.
+
+      Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`50`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-activation_poll_interval"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-activation_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **activation_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-activation_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interval in seconds between successive status polls of an image activation task.
+
+      The value must be at least 1 second.
+
+      Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during activations that involve device reboots.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`30`
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -781,15 +869,44 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parameters for specifying the target device(s) for SWIM image activation. The device can be identified using one of the following options:
-          - device\_serial\_number
-          - device\_ip\_address
-          - device\_hostname
-          - device\_mac\_address
-          - site\_name (if specified, the image will be activated on all devices within the site)
-          At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
-          such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+      Parameters for selecting target devices for SWIM image activation.
+          
+          Target selection:
+          - 'device\_serial\_number' identifies one device by serial number.
+          - 'device\_serial\_numbers' identifies multiple devices by serial number.
+          - 'device\_ip\_address' identifies one device by management IP address.
+          - 'device\_ip\_addresses' identifies multiple devices by management IP address.
+          - 'device\_hostname' identifies one device by hostname.
+          - 'device\_hostnames' identifies multiple devices by hostname.
+          - 'device\_mac\_address' identifies one device by MAC address.
+          - 'device\_mac\_addresses' identifies multiple devices by MAC address.
+          - 'site\_name' selects devices assigned to the specified site.
+          If no device identifier or site is provided, the module selects devices from the Global site.
+          When 'site\_name' is provided, 'device\_role', 'device\_family\_name', and 'device\_series\_name'
+          can further filter the devices within that site.
+          
+          Bulk device targeting:
+          When any plural device identifier is provided:
+          - All supplied singular and plural identifiers are resolved independently.
+          - The resolved devices are combined and duplicate device IDs are removed.
+          - Site-based device selection is skipped.
+          - Any identifier that cannot be resolved causes the operation to fail, and the error identifies
+            the problematic entry.
+          
+          Recommended usage:
+          Use one consistent identifier type and provide only one identifier per device when possible.
+          This reduces device lookup calls and simplifies troubleshooting. Customers may combine IP
+          addresses, serial numbers, hostnames, and MAC addresses when the same identifier type is not
+          available for every device.
+          
+          Device filtering:
+          - Access Points and devices whose reachability status is not 'Reachable' are excluded when using
+            site-based or plural-identifier selection.
           - SAPRO devices are not eligible for image activation.
+          
+          Input validation:
+          - Blank, whitespace-only, or non-string entries in plural device identifier lists cause validation
+            to fail.
           
 
 
@@ -1077,6 +1194,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_hostnames"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **device_hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device hostnames for bulk image activation. Any value in
+          'device\_hostname' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_ip_address"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_ip_address:
@@ -1111,6 +1264,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device IP addresses for bulk image activation. When provided, it takes
+          precedence over site-based selection and reuses the bulk activation path. Any value
+          in 'device\_ip\_address' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_mac_address"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_mac_address:
@@ -1136,6 +1326,42 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Device MAC address where the image needs to be activated
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_mac_addresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **device_mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device MAC addresses for bulk image activation. Any value in
+          'device\_mac\_address' is merged into this list and duplicate entries are removed.
+          
 
 
       .. raw:: html
@@ -1213,6 +1439,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_serial_numbers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_serial_numbers:
+
+      .. rst-class:: ansible-option-title
+
+      **device_serial_numbers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_serial_numbers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device serial numbers for bulk image activation. Any value in
+          'device\_serial\_number' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_series_name"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_series_name:
@@ -1228,9 +1490,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.12.0`
-
 
       .. raw:: html
 
@@ -1413,7 +1672,6 @@ Parameters
           
           type: int
           default: 1800
-          version\_added: 3.1.3.0
           
 
 
@@ -1593,15 +1851,44 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parameters for specifying the target device(s) for SWIM image distribution. The device can be identified using one of the following options:
-          - device\_serial\_number
-          - device\_ip\_address
-          - device\_hostname
-          - device\_mac\_address
-          - site\_name (if specified, the image will be distributed to all devices within the site)
-          At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
-          such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+      Parameters for selecting target devices for SWIM image distribution.
+          
+          Target selection:
+          - 'device\_serial\_number' identifies one device by serial number.
+          - 'device\_serial\_numbers' identifies multiple devices by serial number.
+          - 'device\_ip\_address' identifies one device by management IP address.
+          - 'device\_ip\_addresses' identifies multiple devices by management IP address.
+          - 'device\_hostname' identifies one device by hostname.
+          - 'device\_hostnames' identifies multiple devices by hostname.
+          - 'device\_mac\_address' identifies one device by MAC address.
+          - 'device\_mac\_addresses' identifies multiple devices by MAC address.
+          - 'site\_name' selects devices assigned to the specified site.
+          If no device identifier or site is provided, the module selects devices from the Global site.
+          When 'site\_name' is provided, 'device\_role', 'device\_family\_name', and 'device\_series\_name'
+          can further filter the devices within that site.
+          
+          Bulk device targeting:
+          When any plural device identifier is provided:
+          - All supplied singular and plural identifiers are resolved independently.
+          - The resolved devices are combined and duplicate device IDs are removed.
+          - Site-based device selection is skipped.
+          - Any identifier that cannot be resolved causes the operation to fail, and the error identifies
+            the problematic entry.
+          
+          Recommended usage:
+          Use one consistent identifier type and provide only one identifier per device when possible.
+          This reduces device lookup calls and simplifies troubleshooting. Customers may combine IP
+          addresses, serial numbers, hostnames, and MAC addresses when the same identifier type is not
+          available for every device.
+          
+          Device filtering:
+          - Access Points and devices whose reachability status is not 'Reachable' are excluded when using
+            site-based or plural-identifier selection.
           - SAPRO devices are not eligible for image distribution.
+          
+          Input validation:
+          - Blank, whitespace-only, or non-string entries in plural device identifier lists cause validation
+            to fail.
           
 
 
@@ -1742,6 +2029,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_hostnames"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_hostnames:
+
+      .. rst-class:: ansible-option-title
+
+      **device_hostnames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_hostnames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device hostnames for bulk image distribution. Any value in
+          'device\_hostname' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_address"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_ip_address:
@@ -1776,6 +2099,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_ip_addresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_ip_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **device_ip_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_ip_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device IP addresses for bulk image distribution. When provided, it takes
+          precedence over site-based selection and reuses the bulk distribution path. Any value
+          in 'device\_ip\_address' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_address"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_mac_address:
@@ -1801,6 +2161,42 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Device MAC address where the image needs to be distributed
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_mac_addresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **device_mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device MAC addresses for bulk image distribution. Any value in
+          'device\_mac\_address' is merged into this list and duplicate entries are removed.
+          
 
 
       .. raw:: html
@@ -1878,6 +2274,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_serial_numbers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_serial_numbers:
+
+      .. rst-class:: ansible-option-title
+
+      **device_serial_numbers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_serial_numbers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device serial numbers for bulk image distribution. Any value in
+          'device\_serial\_number' is merged into this list and duplicate entries are removed.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_series_name"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_series_name:
@@ -1893,9 +2325,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.12.0`
-
 
       .. raw:: html
 
@@ -1999,7 +2428,6 @@ Parameters
           
           default: 1800
           type: int
-          version\_added: 3.1.3.0
           
 
 
@@ -3223,6 +3651,96 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-distribution_batch_size"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-distribution_batch_size:
+
+      .. rst-class:: ansible-option-title
+
+      **distribution_batch_size**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-distribution_batch_size" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Number of devices included in each bulk image distribution API request.
+
+      The Cisco Catalyst Center bulk API accepts at most 500 devices per request, so this value must be between 1 and 500.
+
+      Lower this value to reduce the load per request on very large jobs.
+
+      Applicable only to Cisco Catalyst Center version 3.1.3.0 and later. Earlier versions use the legacy sequential workflow, so this value has no effect.
+
+      Each batch is processed as a separate API call with its own task ID, enabling independent monitoring and status tracking of each batch.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`50`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-distribution_poll_interval"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-distribution_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **distribution_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-distribution_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Interval in seconds between successive status polls of an image distribution task.
+
+      The value must be at least 1 second.
+
+      Also applies to the distribution phase that runs implicitly during an activation when \ :literal:`distribute\_if\_needed`\  is set.
+
+      Increase this value to lower the API request frequency and help avoid rate-limiting (HTTP 429) during large or long-running distributions.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`30`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-state:
@@ -3316,9 +3834,9 @@ Notes
 .. note::
    - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.remove\_golden\_tag\_for\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.get\_golden\_tag\_status\_of\_an\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.tagging\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.untagging\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.returns\_network\_device\_product\_names\_for\_a\_site, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation, software\_image\_management\_swim.SoftwareImageManagementSwim.delete\_image\_v1,
    - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId}, post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden, post /dna/intent/api/v1/images/{id}/sites/{siteId}/untagGolden, get /dna/intent/api/v1/siteWiseProductNames, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},
-   - Added the parameter 'catalystcenter\_api\_task\_timeout', 'catalystcenter\_task\_poll\_interval' options in v6.13.2.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -3572,6 +4090,25 @@ Examples
               device_series_name: Cisco Catalyst 9300 Series
                 Switches
 
+    - name: Distribute an image to specific devices using IP addresses
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        distribution_batch_size: 20
+        config:
+          - image_distribution_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              device_ip_addresses:
+                - 10.1.1.1
+                - 10.1.1.2
+
     - name: Distribute the given image on devices associated with device tag
         to that site with specified role.
       cisco.catalystcenter.swim_workflow_manager:
@@ -3614,6 +4151,28 @@ Examples
               device_tag: AUTO_INV_EVENT_SYNC_DISABLED
               schedule_validate: false
               activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: Activate an image on specific devices using serial numbers
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        activation_batch_size: 20
+        config:
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              device_serial_numbers:
+                - FJC2327U0S2
+                - FJC2327U0S3
+              schedule_validate: false
+              activate_lower_image_version: false
               distribute_if_needed: true
 
     - name: Activate the given image on devices associated

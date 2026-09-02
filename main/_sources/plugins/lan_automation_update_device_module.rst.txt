@@ -42,7 +42,7 @@ cisco.catalystcenter.lan_automation_update_device module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.lan_automation_update_device module -- Resource module for 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -480,7 +480,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Lan Automation Update Device's hostnameUpdateDevices.
+      The list of Devices identified by its Management IP Address for Hostname Update.
 
 
       .. raw:: html
@@ -583,7 +583,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Lan Automation Update Device's linkUpdate.
+      Link Update Details.
 
 
       .. raw:: html
@@ -695,6 +695,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-linkUpdate/ipV6Only"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_update_device_module__parameter-linkupdate/ipv6only:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV6Only**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-linkUpdate/ipV6Only" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to enable ipv6 for lan automation.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-linkUpdate/sourceDeviceInterfaceName"></div>
 
       .. _ansible_collections.cisco.catalystcenter.lan_automation_update_device_module__parameter-linkupdate/sourcedeviceinterfacename:
@@ -760,6 +802,48 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-linkUpdate/useP2PLinkLocalAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_update_device_module__parameter-linkupdate/usep2plinklocaladdress:
+
+      .. rst-class:: ansible-option-title
+
+      **useP2PLinkLocalAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-linkUpdate/useP2PLinkLocalAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to enable local link ip enablement for ipv6, can be true only when ipv6 flag is set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -788,7 +872,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Lan Automation Update Device's loopbackUpdateDeviceList.
+      The list of Devices identified by its Management IP Address for Loopback0 IP Address Update.
 
 
       .. raw:: html
@@ -921,6 +1005,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -958,8 +1043,10 @@ Examples
           destinationDeviceInterfaceName: string
           destinationDeviceManagementIPAddress: string
           ipPoolName: string
+          ipV6Only: true
           sourceDeviceInterfaceName: string
           sourceDeviceManagementIPAddress: string
+          useP2PLinkLocalAddress: true
         loopbackUpdateDeviceList:
           - deviceManagementIPAddress: string
             newLoopback0IPAddress: string
@@ -1040,7 +1127,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issues_count_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.assurance_issues_count_info module -- Information module fo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Assurance Issues Count. - \> Returns the total number issues for given set of filters. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- IssuesList-1.0.0-resolved.yaml.
+- Get all Assurance Issues Count. - \> Returns the total number issues for given set of filters. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- IssuesList-3.2.2-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -489,6 +489,41 @@ Parameters
         <div class="ansible-option-cell">
 
       Category query parameter. Categories of the issue. Supports single category and multiple categories. Examples category=availability (single status requested) category=availability&category=onboarding (multiple categories requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceFamily"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_issues_count_info_module__parameter-devicefamily:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceFamily**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceFamily" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      DeviceFamily query parameter. Device Family of the device to which this issue belongs to. Supports single device type and multiple device types. Examples deviceFamily=Unified AP (single device type requested) deviceFamily=Unified AP&deviceFamily=Routers (multiple device types requested).
           
 
 
@@ -1528,11 +1563,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_the\_total\_number\_of\_issues\_for\_given\_set\_of\_filters,
+   - SDK Method used are issues.Issues.get\_the\_total\_number\_of\_issues\_for\_given\_set\_of\_filters\_know\_your\_network,
    - Paths used are get /dna/data/api/v1/assuranceIssues/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1541,8 +1577,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFilters <https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters>`_
-       Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFilters API.
+   `Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork <https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network>`_
+       Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork API.
 
 .. Examples
 
@@ -1572,6 +1608,7 @@ Examples
         entityType: string
         category: string
         deviceType: string
+        deviceFamily: string
         name: string
         issueId: string
         entityId: string
@@ -1669,7 +1706,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

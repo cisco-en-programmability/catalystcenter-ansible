@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_telemetry_settings module -- Resource module for Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_telemetry_settings module -- Resource module for Site
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -174,109 +174,6 @@ Parameters
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-applicationVisibility/collector/address"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_telemetry_settings_module__parameter-applicationvisibility/collector/address:
-
-      .. rst-class:: ansible-option-title
-
-      **address**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-applicationVisibility/collector/address" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IP Address. If collection type is 'TelemetryBrokerOrUDPDirector', this field value is mandatory otherwise it is optional. Examples "250.162.252.170", "2001 db8 3c4d 15 1a2f 1a2b".
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-applicationVisibility/collector/collectorType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_telemetry_settings_module__parameter-applicationvisibility/collector/collectortype:
-
-      .. rst-class:: ansible-option-title
-
-      **collectorType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-applicationVisibility/collector/collectorType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Collector Type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-applicationVisibility/collector/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_telemetry_settings_module__parameter-applicationvisibility/collector/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-applicationVisibility/collector/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Min 1; Max 65535. If collection type is 'TelemetryBrokerOrUDPDirector', this field value is mandatory otherwise it is optional.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -660,7 +557,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Site Id, retrievable from the \`id\` attribute in \`/dna/intent/api/v1/sites\`.
+      Id path parameter. Site Id, retrievable from the \`id\` attribute in \`/intent/api/v1/sites\`.
 
 
       .. raw:: html
@@ -718,7 +615,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -728,7 +625,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      External SNMP trap servers. Example "250.162.252.170","2001 db8 3c4d 15 1a2f 1a2b".
+      External SNMP trap servers.
 
 
       .. raw:: html
@@ -805,7 +702,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sites Telemetry Settings's syslogs.
+      Devices will be configured to send syslog messages to these servers with syslog severity level 6 (information) or worse.
 
 
       .. raw:: html
@@ -829,7 +726,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -839,7 +736,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      External syslog servers. Example "250.162.252.170", "2001 db8 3c4d 15 1a2f 1a2b".
+      External syslog servers.
 
 
       .. raw:: html
@@ -1100,6 +997,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1130,25 +1028,12 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        applicationVisibility:
-          collector:
-            address: string
-            collectorType: string
-            port: 0
-          enableOnWiredAccessDevices: true
-        id: string
-        snmpTraps:
-          externalTrapServers:
-            - string
-          useBuiltinTrapServer: true
-        syslogs:
-          externalSyslogServers:
-            - string
-          useBuiltinSyslogServer: true
-        wiredDataCollection:
-          enableWiredDataCollection: true
-        wirelessTelemetry:
-          enableWirelessTelemetry: true
+        applicationVisibility: {}
+        id: e298f95b-cd70-48ae-a590-b2076bfb6033
+        snmpTraps: {}
+        syslogs: {}
+        wiredDataCollection: {}
+        wirelessTelemetry: {}
 
 
 
@@ -1209,7 +1094,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -1226,7 +1111,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

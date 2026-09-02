@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits module -- Re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits module -- Re
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -71,8 +71,8 @@ Synopsis
 - Manage operations create, update and delete of the resource Sda Fabric Devices Layer2 Handoffs Ip Transits.
 - Adds layer 3 handoffs with ip transit in fabric devices based on user input.
 - Deletes a layer 3 handoff with ip transit of a fabric device by id.
-- Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
-- Updates layer 3 handoffs with ip transit of fabric devices based on user input.
+- Deletes layer 3 handoffs with ip transit of a fabric device based on user.
+- Updates layer 3 handoffs with ip transit of fabric devices based on user.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -552,7 +552,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sda Fabric Devices Layer2 Handoffs Ip Transits's payload.
+      Layer 3 handoff ip transit create request root element.
 
 
       .. raw:: html
@@ -1025,6 +1025,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1198,7 +1199,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

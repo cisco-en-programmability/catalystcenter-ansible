@@ -42,7 +42,7 @@ cisco.catalystcenter.app_policy_queuing_profile module -- Resource module for Ap
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.app_policy_queuing_profile module -- Resource module for Ap
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 4.0.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -517,7 +517,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App Policy Queuing Profile's clause.
+      The clause array can contain 'interfaceSpeedBandwidthClauses' and/or 'tcDscpSettings' objects, determined based on the value of the 'type' attribute. To add data for 'interfaceSpeedBandwidthClauses', 'BANDWIDTH' type value should be selected. While to add 'tcDscpSettings' data, 'DSCP\_CUSTOMIZATION' type value should be selected. Note that each data object in the clause array, should contain a 'type' attribute. Example {'clause' {'type' 'BANDWIDTH', 'interfaceSpeedBandwidthClauses' {...}}, {'type' 'DSCP\_CUSTOMIZATION', 'tcDscpSettings' ...}}.
 
 
       .. raw:: html
@@ -551,7 +551,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App Policy Queuing Profile's interfaceSpeedBandwidthClauses.
+      Interface speed bandwidth settings.
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App Policy Queuing Profile's tcBandwidthSettings.
+      The Traffic Class bandwidth settings contain objects for traffic classes, each object holding the traffic class name and its bandwidth percentages. Note that the sum of all traffic class bandwidth percentages should be 100%.
 
 
       .. raw:: html
@@ -765,7 +765,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App Policy Queuing Profile's tcDscpSettings.
+      The Traffic DSCP settings contain the traffic class DSCP settings. Note that duplicate traffic class settings are not allowed.
 
 
       .. raw:: html
@@ -1002,6 +1002,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1167,7 +1168,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

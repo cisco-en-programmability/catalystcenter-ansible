@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_count_info m
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_count_info m
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Wireless Settings Certificate Renewal Profiles Count. - \> Retrieves the count of access point certificate renewal profiles that are created in the catalyst centre network design for wireless.
+- Get all Wireless Settings Certificate Renewal Profiles Count.
+- This API allows the user to get the count of all access point certificate renewal profiles.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -505,11 +506,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_l\_s\_c\_certificate\_renewal\_profile\_count,
+   - SDK Method used are wireless.Wireless.get\_access\_point\_certificate\_renewal\_profile\_count,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/count,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -518,8 +520,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GetLSCCertificateRenewalProfileCount <https://developer.cisco.com/docs/dna-center/#!get-lsc-certificate-renewal-profile-count>`_
-       Complete reference of the GetLSCCertificateRenewalProfileCount API.
+   `Cisco Catalyst Center documentation for Wireless GetAccessPointCertificateRenewalProfileCount <https://developer.cisco.com/docs/dna-center/#!get-access-point-certificate-renewal-profile-count>`_
+       Complete reference of the GetAccessPointCertificateRenewalProfileCount API.
 
 .. Examples
 
@@ -618,7 +620,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

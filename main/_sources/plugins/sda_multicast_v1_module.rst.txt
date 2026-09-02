@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_multicast_v1 module -- Resource module for Sda Multicas
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_multicast_v1 module -- Resource module for Sda Multicas
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -447,81 +447,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sda Multicast V1's payload.
+      Multicast put request (multicast for only one fabric site can be edited in the put request).
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/fabricId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_multicast_v1_module__parameter-payload/fabricid:
-
-      .. rst-class:: ansible-option-title
-
-      **fabricId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/fabricId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      ID of the fabric site (updating this field is not allowed).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/replicationMode"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_multicast_v1_module__parameter-payload/replicationmode:
-
-      .. rst-class:: ansible-option-title
-
-      **replicationMode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-payload/replicationMode" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Replication Mode deployed in the fabric site.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -580,6 +511,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -611,8 +543,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         payload:
-          - fabricId: string
-            replicationMode: string
+          - {}
 
 
 
@@ -690,7 +621,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

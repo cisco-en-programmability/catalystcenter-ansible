@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_info module -- Information module for Netwo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_devices_info module -- Information module for Netwo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,13 +69,7 @@ Synopsis
 .. Description
 
 - Get all Network Devices.
-- Get Network Devices by id.
-- Gets the Network Device details based on the provided query parameters.
-- When there is no start and end time specified returns the latest device details.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
-- Returns the device data for the given device Uuid in the specified start and end time range.
-- When there is no start and end time specified returns the latest available data for the given Id.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
+- Get Network Devices by id. - \> Gets the Network Device details based on the provided query parameters. When there is no start and end time specified returns the latest device details. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml. - \> Returns the device data for the given device Uuid in the specified start and end time range. When there is no start and end time specified returns the latest available data for the given Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -91,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -697,8 +691,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375- b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79b233318ba0 (multiple entity uuid with '&' separator).
-          
+      Id path parameter. The device Uuid.
 
 
       .. raw:: html
@@ -1018,6 +1011,41 @@ Parameters
         <div class="ansible-option-cell">
 
       Role query parameter. The list of network device role. Examples role=CORE, role=CORE&role=ACCESS&role=ROUTER (multiple Network device roles with & separator). This field is not case sensitive.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-secureMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_devices_info_module__parameter-securemode:
+
+      .. rst-class:: ansible-option-title
+
+      **secureMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-secureMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SecureMode query parameter. The list of secureMode statuses. Examples secureMode=ENABLED, secureMode=DISABLED&secureMode=NOT\_APPLICABLE Available values ENABLED, DISABLED, NOT\_APPLICABLE, UNKNOWN.
           
 
 
@@ -1431,6 +1459,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1489,6 +1518,7 @@ Examples
         l3Vn: string
         transitNetworkId: string
         fabricRole: string
+        secureMode: string
       register: result
     - name: Get Network Devices by id
       cisco.catalystcenter.network_devices_info:
@@ -1566,7 +1596,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aggregateAttributes": [{"function": "string", "name": "string", "value": 0}], "apDetails": {"adminState": "string", "apGroup": "string", "apOperationalState": "string", "apType": "string", "connectedTime": 0, "connectedWlcName": "string", "ethernetMac": "string", "flexGroup": "string", "homeApEnabled": true, "icapCapability": "string", "ledFlashEnabled": true, "ledFlashSeconds": 0, "operationalMode": "string", "policyTagName": "string", "powerCalendarProfile": "string", "powerMode": "string", "powerProfile": "string", "powerSaveMode": "string", "powerSaveModeCapable": "string", "powerType": "string", "protocol": "string", "radios": [{"airQuality": 0, "band": "string", "clientCount": 0, "id": "string", "interference": 0, "noise": 0, "trafficUtil": 0, "utilization": 0}], "regulatoryDomain": "string", "resetReason": "string", "rfTagName": "string", "siteTagName": "string", "subMode": "string"}, "clientCount": 0, "collectionStatus": "string", "communicationState": "string", "deviceFamily": "string", "deviceGroupHierarchyId": "string", "deviceRole": "string", "deviceSeries": "string", "deviceType": "string", "fabricDetails": {"fabricRole": ["string"], "fabricSiteId": "string", "fabricSiteName": "string", "l2Vns": ["string"], "l3Vns": ["string"], "networkProtocol": "string", "transitFabrics": ["string"]}, "fabricMetricsDetails": {"aaaStatusScore": 0, "bgpBgpSiteScore": 0, "bgpEvpnScore": 0, "bgpPeerInfraVnScore": 0, "bgpPeerScore": 0, "bgpPubsubSiteScore": 0, "bgpTcpScore": 0, "ctsEnvDataDownloadScore": 0, "fabricSiteScore": 0, "fabricTransitScore": 0, "fabricVnScore": 0, "fabsiteFcpScore": 0, "fabsiteFsconnScore": 0, "fabsiteInfraScore": 0, "internetAvailScore": 0, "lispCpConnScore": 0, "lispTransitConnScore": 0, "mcastScore": 0, "overallFabricScore": 0, "peerScore": 0, "portChannelScore": 0, "pubsubInfraVnScore": 0, "pubsubSessionScore": 0, "pubsubTransitConnScore": 0, "remoteInternetAvailScore": 0, "tcpConnScore": 0, "transitControlPlaneScore": 0, "transitServicesScore": 0, "vnExitScore": 0, "vnFcpScore": 0, "vnServiceScore": 0, "vnStatusScore": 0, "vniStatusScore": 0}, "featureFlagList": ["string"], "haLastResetReason": "string", "haStatus": "string", "id": "string", "ipv4Address": "string", "ipv6Address": "string", "lastBootTime": 0, "macAddress": "string", "maintenanceModeEnabled": true, "managementIpAddress": "string", "metricsDetails": {"airQualityScore": 0, "apCount": 0, "avgTemperature": 0, "cpuScore": 0, "cpuUtilization": 0, "discardInterfaces": ["string"], "discardScore": 0, "errorInterfaces": ["string"], "errorScore": 0, "freeMemoryBuffer": 0, "freeMemoryBufferScore": 0, "freeTimer": 0, "freeTimerScore": 0, "highLinkUtilizationInterfaces": ["string"], "interDeviceConnectedDownInterfaces": ["string"], "interDeviceLinkScore": 0, "interferenceScore": 0, "linkUtilizationScore": 0, "maxTemperature": 0, "memoryScore": 0, "memoryUtilization": 0, "noiseScore": 0, "overallHealthScore": 0, "packetPool": 0, "packetPoolScore": 0, "utilizationScore": 0, "wqePool": 0, "wqePoolScore": 0}, "name": "string", "osType": "string", "physicalPortCount": 0, "platformId": "string", "portCount": 0, "productVendor": "string", "reachabilityHealthStatus": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyPeerStateDerived": "string", "redundancyState": "string", "redundancyStateDerived": "string", "ringStatus": true, "serialNumber": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string", "softwareVersion": "string", "stackType": "string", "switchPoeDetails": {"chassisCount": 0, "freePortCount": 0, "moduleCount": 0, "moduleDetails": [{"chassisId": "string", "interfacePowerMax": 0, "moduleFreePortCount": 0, "moduleId": "string", "modulePoePowerAllocated": 0, "modulePoePowerConsumed": 0, "modulePortCount": 0, "modulePowerBudget": 0, "modulePowerConsumed": 0, "modulePowerRemaining": 0, "moduleSystemPowerAllocated": 0, "moduleSystemPowerConsumed": 0, "moduleUsedPortCount": 0}], "poePowerAllocated": 0, "poePowerConsumed": 0, "poeVersion": "string", "portCount": 0, "powerBudget": 0, "powerConsumed": 0, "powerRemaining": 0, "systemPowerAllocated": 0, "systemPowerConsumed": 0, "usedPortCount": 0}, "tagNames": ["string"], "upTime": 0, "virtualPortCount": 0, "wiredClientCount": 0, "wirelessClientCount": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aggregateAttributes": [{"function": "string", "name": "string", "value": 0}], "apDetails": {"adminState": "string", "apGroup": "string", "apOperationalState": "string", "apType": "string", "connectedTime": 0, "connectedWlcName": "string", "ethernetMac": "string", "flexGroup": "string", "homeApEnabled": true, "icapCapability": "string", "ledFlashEnabled": true, "ledFlashSeconds": 0, "operationalMode": "string", "policyTagName": "string", "powerCalendarProfile": "string", "powerMode": "string", "powerProfile": "string", "powerSaveMode": "string", "powerSaveModeCapable": "string", "powerType": "string", "protocol": "string", "radios": [{"airQuality": 0, "band": "string", "clientCount": 0, "id": "string", "interference": 0, "noise": 0, "trafficUtil": 0, "utilization": 0}], "regulatoryDomain": "string", "resetReason": "string", "rfTagName": "string", "siteTagName": "string", "subMode": "string"}, "clientCount": 0, "collectionStatus": "string", "communicationState": "string", "deviceFamily": "string", "deviceGroupHierarchyId": "string", "deviceRole": "string", "deviceSeries": "string", "deviceType": "string", "fabricDetails": {"fabricRole": ["string"], "fabricSiteId": "string", "fabricSiteName": "string", "l2Vns": ["string"], "l3Vns": ["string"], "networkProtocol": "string", "transitFabrics": ["string"]}, "fabricMetricsDetails": {"aaaStatusScore": 0, "bgpBgpSiteScore": 0, "bgpEvpnScore": 0, "bgpPeerInfraVnScore": 0, "bgpPeerScore": 0, "bgpPubsubSiteScore": 0, "bgpTcpScore": 0, "ctsEnvDataDownloadScore": 0, "fabricSiteScore": 0, "fabricTransitScore": 0, "fabricVnScore": 0, "fabsiteFcpScore": 0, "fabsiteFsconnScore": 0, "fabsiteInfraScore": 0, "internetAvailScore": 0, "lispCpConnScore": 0, "lispTransitConnScore": 0, "mcastScore": 0, "overallFabricScore": 0, "peerScore": 0, "portChannelScore": 0, "pubsubInfraVnScore": 0, "pubsubSessionScore": 0, "pubsubTransitConnScore": 0, "remoteInternetAvailScore": 0, "tcpConnScore": 0, "transitControlPlaneScore": 0, "transitServicesScore": 0, "vnExitScore": 0, "vnFcpScore": 0, "vnServiceScore": 0, "vnStatusScore": 0, "vniStatusScore": 0}, "featureFlagList": ["string"], "haLastResetReason": "string", "haStatus": "string", "id": "string", "ipv4Address": "string", "ipv6Address": "string", "lastBootTime": 0, "macAddress": "string", "maintenanceModeEnabled": true, "managementIpAddress": "string", "metricsDetails": {"airQualityScore": 0, "apCount": 0, "avgTemperature": 0, "cpuScore": 0, "cpuUtilization": 0, "discardInterfaces": ["string"], "discardScore": 0, "errorInterfaces": ["string"], "errorScore": 0, "freeMemoryBuffer": 0, "freeMemoryBufferScore": 0, "freeTimer": 0, "freeTimerScore": 0, "highLinkUtilizationInterfaces": ["string"], "interDeviceConnectedDownInterfaces": ["string"], "interDeviceLinkScore": 0, "interferenceScore": 0, "linkUtilizationScore": 0, "maxTemperature": 0, "memoryScore": 0, "memoryUtilization": 0, "noiseScore": 0, "overallHealthScore": 0, "packetPool": 0, "packetPoolScore": 0, "utilizationScore": 0, "wqePool": 0, "wqePoolScore": 0}, "name": "string", "osType": "string", "physicalPortCount": 0, "platformId": "string", "portCount": 0, "productVendor": "string", "reachabilityHealthStatus": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyPeerStateDerived": "string", "redundancyState": "string", "redundancyStateDerived": "string", "ringStatus": true, "secureMode": "string", "serialNumber": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string", "softwareVersion": "string", "stackType": "string", "switchPoeDetails": {"chassisCount": 0, "freePortCount": 0, "moduleCount": 0, "moduleDetails": [{"chassisId": "string", "interfacePowerMax": 0, "moduleFreePortCount": 0, "moduleId": "string", "modulePoePowerAllocated": 0, "modulePoePowerConsumed": 0, "modulePortCount": 0, "modulePowerBudget": 0, "modulePowerConsumed": 0, "modulePowerRemaining": 0, "moduleSystemPowerAllocated": 0, "moduleSystemPowerConsumed": 0, "moduleUsedPortCount": 0}], "poePowerAllocated": 0, "poePowerConsumed": 0, "poeVersion": "string", "portCount": 0, "powerBudget": 0, "powerConsumed": 0, "powerRemaining": 0, "systemPowerAllocated": 0, "systemPowerConsumed": 0, "usedPortCount": 0}, "tagNames": ["string"], "upTime": 0, "virtualPortCount": 0, "wiredClientCount": 0, "wirelessClientCount": 0}, "version": "string"}`
 
 
       .. raw:: html
@@ -1583,7 +1613,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

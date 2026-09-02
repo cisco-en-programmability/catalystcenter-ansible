@@ -42,7 +42,7 @@ cisco.catalystcenter.compliance_policys_rules_info module -- Information module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.compliance_policys_rules_info module -- Information module 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -517,8 +517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
-          
+      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -650,6 +649,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -682,9 +682,9 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        offset: 0
+        offset: 1
         limit: 0
-        policyId: string
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
       register: result
     - name: Get Compliance Policys Rules by id
       cisco.catalystcenter.compliance_policys_rules_info:
@@ -696,8 +696,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        policyId: string
-        id: string
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+        id: e8eef5e2-1eab-426c-be77-97ee81dcba06
       register: result
 
 
@@ -759,7 +759,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "name": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"conditionsCount": 0, "description": "string", "deviceTypes": [{"deviceFamily": "string", "deviceModel": "string", "deviceSeries": "string"}], "id": "string", "impact": "string", "name": "string", "policyId": "string", "softwareType": "string", "suggestedFix": "string", "variablesCount": 0}, "version": "string"}`
 
 
       .. raw:: html
@@ -776,7 +776,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

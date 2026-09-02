@@ -42,7 +42,7 @@ cisco.catalystcenter.iot_non_fabric_rep_rings module -- Resource module for Iot 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.iot_non_fabric_rep_rings module -- Resource module for Iot 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Iot Non Fabric Rep Rings. - \> This API configures a REP ring on NON-FABRIC deployment. The input payload contains the following fields - ringName unique ring name , rootNetworkDeviceId Network device ID of the root node of the REP Ring and rootNeighbourNetworkDeviceIds Network device IDs of the two immediate neighbour devices of the root node of the REP Ring. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices.
+- Manage operation create of the resource Iot Non Fabric Rep Rings.
+- This API configures a REP ring on NON-FABRIC deployment. The input payload contains the following fields-.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,12 +447,729 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Deployment mode of the configured REP ring.
+      FABRIC as well as NON\_FABRIC deployments.
 
 
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      REP ring identifier.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig:
+
+      .. rst-class:: ansible-option-title
+
+      **macsecConfig**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      MACsec configuration for REP Ring create requests (PSK / SHOULD\_SECURE only).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/accessControlMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/accesscontrolmode:
+
+      .. rst-class:: ansible-option-title
+
+      **accessControlMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/accessControlMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MACsec access control mode. Only \`SHOULD\_SECURE\` is currently supported for PSK Encryption mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/ciphersuite"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/ciphersuite:
+
+      .. rst-class:: ansible-option-title
+
+      **ciphersuite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/ciphersuite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MACsec cipher suite - \`GCM\_AES\_128\` or \`GCM\_AES\_256\`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/encryptionMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/encryptionmode:
+
+      .. rst-class:: ansible-option-title
+
+      **encryptionMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/encryptionMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MACsec encryption mode. Only \`PSK\` (Pre-Shared Key) is currently supported.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/keys"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/keys:
+
+      .. rst-class:: ansible-option-title
+
+      **keys**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/keys" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of MACsec keys for the keychain (maximum 12 keys).
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/keys/cryptoAlgo"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/keys/cryptoalgo:
+
+      .. rst-class:: ansible-option-title
+
+      **cryptoAlgo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/keys/cryptoAlgo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Cryptographic algorithm \`AES\_128\_CMAC\` (requires 32 hex digit passPhrase) or \`AES\_256\_CMAC\`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/keys/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/keys/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/keys/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Unique integer identifier for the key in the keychain.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/keys/passPhrase"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/keys/passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **passPhrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/keys/passPhrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MACsec pre-shared key in cleartext hex. Must be exactly 32 hex digits for \`AES\_128\_CMAC\` or 64 hex digits for \`AES\_256\_CMAC\`.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macsecConfig/keys/startTime"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-macsecconfig/keys/starttime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macsecConfig/keys/startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Activation date/time for this key in HH mm ss dd MMM yyyy format (e.g., 00 00 00 09 Apr 2026). Lifetime is set to infinite.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-networkdeviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **networkDeviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-networkDeviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Network device id of the REP ring member. It is the \`instanceUuid\` attribute in the response of \`/dna/intent/api/v1/networkDevices\` API.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-repSegmentId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-repsegmentid:
+
+      .. rst-class:: ansible-option-title
+
+      **repSegmentId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-repSegmentId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      REP segment is a chain of ports connected to each other and configured with a segment ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-repZtpMsg"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-repztpmsg:
+
+      .. rst-class:: ansible-option-title
+
+      **repZtpMsg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-repZtpMsg" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Summary of REP ring members that either do not have REP ZTP supported and those that have REP ZTP supported but not enabled.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers:
+
+      .. rst-class:: ansible-option-title
+
+      **ringMembers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Discovered member nodes in the REP ring.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/networkDeviceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/networkdeviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **networkDeviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/networkDeviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Network device id of the ring member.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/nodeName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/nodename:
+
+      .. rst-class:: ansible-option-title
+
+      **nodeName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/nodeName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the ring member.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/portName1"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/portname1:
+
+      .. rst-class:: ansible-option-title
+
+      **portName1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/portName1" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name of the node.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/portName2"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/portname2:
+
+      .. rst-class:: ansible-option-title
+
+      **portName2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/portName2" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Interface name of the node.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/portRepZtpStatus1"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/portrepztpstatus1:
+
+      .. rst-class:: ansible-option-title
+
+      **portRepZtpStatus1**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/portRepZtpStatus1" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      REP ZTP status for Port 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/portRepZtpStatus2"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/portrepztpstatus2:
+
+      .. rst-class:: ansible-option-title
+
+      **portRepZtpStatus2**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/portRepZtpStatus2" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      REP ZTP status for Port 2.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ringMembers/ringOrder"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-ringmembers/ringorder:
+
+      .. rst-class:: ansible-option-title
+
+      **ringOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ringMembers/ringOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Order of the node in the REP ring.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -480,7 +1198,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Unique name of REP ring to be configured.
+      Unique name of REP ring configured.
 
 
       .. raw:: html
@@ -514,7 +1232,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      It contains the network device IDs of the immediate neighboring ring members of the root node. API \`/dna/intent/api/v1/networkDevices\` can be used to get the list of networkDeviceIds of the neighbors , \`instanceUuid\` attribute in the response contains rootNeighbourNetworkDeviceIds.
+      Hostname of the root node neighbor device.
 
 
       .. raw:: html
@@ -548,7 +1266,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      RootNetworkDeviceId is the network device ID of the root node in the REP ring. API \`/dna/intent/api/v1/networkDevices\` can be used to get the rootNetworkDeviceId , \`instanceUuid\` attribute in the response contains rootNetworkDeviceId.
+      Root node network device id of the REP ring member. It is the \`instanceUuid\` attribute in the response of \`/dna/intent/api/v1/networkDevices\` API.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-status"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.iot_non_fabric_rep_rings_module__parameter-status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Status of the previous REP ring operation.
 
 
       .. raw:: html
@@ -607,11 +1359,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are industrial\_configuration.IndustrialConfiguration.configure\_a\_r\_e\_p\_ring\_on\_n\_o\_n\_f\_a\_b\_r\_i\_c\_deployment,
+   - SDK Method used are industrial\_configuration.IndustrialConfiguration.configure\_a\_rep\_ring\_on\_non\_fabric\_deployment,
    - Paths used are post /dna/intent/api/v1/iot/nonFabric/repRings,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -642,10 +1395,32 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         deploymentMode: string
+        id: string
+        macsecConfig:
+          accessControlMode: string
+          ciphersuite: string
+          encryptionMode: string
+          keys:
+            - cryptoAlgo: string
+              id: 0
+              passPhrase: string
+              startTime: string
+        networkDeviceId: string
+        repSegmentId: 0
+        repZtpMsg: string
+        ringMembers:
+          - networkDeviceId: string
+            nodeName: string
+            portName1: string
+            portName2: string
+            portRepZtpStatus1: string
+            portRepZtpStatus2: string
+            ringOrder: 0
         ringName: string
         rootNeighbourNetworkDeviceIds:
           - string
         rootNetworkDeviceId: string
+        status: string
 
 
 
@@ -723,7 +1498,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

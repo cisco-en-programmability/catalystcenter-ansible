@@ -42,7 +42,7 @@ cisco.catalystcenter.network_applications_trend_analytics module -- Resource mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_applications_trend_analytics module -- Resource mod
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,12 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Network Applications Trend Analytics.
-- Retrieves the trend analytics of applications experience data for the specified time range.
-- The data will be grouped based on the given trend time interval.
-- This API facilitates obtaining consolidated insights into the performance and status of the network applications.
-- If startTime and endTime are not provided, the API defaults to the last 24 hours.
-- siteId and trendInterval are mandatory. siteId must be a site UUID of a building.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-NetworkApplications-1.0.0-resolved.yaml.
+- Retrieves the trend analytics of applications experience data for the.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -90,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -174,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Function.
+      Network Applications Trend Analytics's function.
 
 
       .. raw:: html
@@ -208,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Network Applications Trend Analytics's name.
 
 
       .. raw:: html
@@ -243,7 +238,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attributes.
+      Network Applications Trend Analytics's attributes.
 
 
       .. raw:: html
@@ -589,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Network Applications Trend Analytics's endTime.
 
 
       .. raw:: html
@@ -657,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Network Applications Trend Analytics's key.
 
 
       .. raw:: html
@@ -691,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Network Applications Trend Analytics's operator.
 
 
       .. raw:: html
@@ -725,7 +720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Network Applications Trend Analytics's value.
 
 
       .. raw:: html
@@ -760,7 +755,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Group By.
+      Network Applications Trend Analytics's groupBy.
 
 
       .. raw:: html
@@ -862,7 +857,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Cursor.
+      Network Applications Trend Analytics's cursor.
 
 
       .. raw:: html
@@ -896,7 +891,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Limit.
+      Network Applications Trend Analytics's limit.
 
 
       .. raw:: html
@@ -930,7 +925,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Time Sort Order.
+      Network Applications Trend Analytics's timeSortOrder.
 
 
       .. raw:: html
@@ -965,7 +960,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Site Ids.
+      Network Applications Trend Analytics's siteIds.
 
 
       .. raw:: html
@@ -999,7 +994,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Network Applications Trend Analytics's startTime.
 
 
       .. raw:: html
@@ -1033,7 +1028,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Trend Interval.
+      Network Applications Trend Analytics's trendInterval.
 
 
       .. raw:: html
@@ -1097,6 +1092,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1224,7 +1220,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

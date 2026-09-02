@@ -42,7 +42,7 @@ cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations mod
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Feature Templates Wireless Advanced Ssid Configurations.
-- This API allows users to create a Advanced SSID configuration feature template.
+- This API allows users to create a Advanced SSID configuration feature.
 - This API allows users to delete a specific Advanced SSID configuration feature template by Id.
-- This API allows users to update the details of a specific Advanced SSID configuration feature template by ID.
+- This API allows users to update the details of a specific Advanced SSID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -483,7 +483,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Feature Templates Wireless Advanced Ssid Configurations's featureAttributes.
+      Advanced SSID Configuration.
 
 
       .. raw:: html
@@ -2864,6 +2864,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -2958,17 +2959,6 @@ Examples
           wmmPolicy: string
         unlockedAttributes:
           - string
-    - name: Delete by id
-      cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
     - name: Update by id
       cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -3040,6 +3030,17 @@ Examples
         id: string
         unlockedAttributes:
           - string
+    - name: Delete by id
+      cisco.catalystcenter.feature_templates_wireless_advanced_ssid_configurations:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        id: string
 
 
 
@@ -3117,7 +3118,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

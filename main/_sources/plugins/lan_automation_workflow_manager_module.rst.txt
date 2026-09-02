@@ -42,7 +42,7 @@ cisco.catalystcenter.lan_automation_workflow_manager module -- Automate network 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.lan_automation_workflow_manager module -- Automate network 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.20.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -2725,6 +2725,7 @@ Notes
    - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start\_v2 lan\_automation.LanAutomation.lan\_automation\_stop lan\_automation.LanAutomation.lan\_automation\_device\_update lan\_automation.LanAutomation.lan\_automation\_active\_sessions lan\_automation.LanAutomation.lan\_automation\_status lan\_automation.LanAutomation.lan\_automation\_log lan\_automation.LanAutomation.get\_port\_channels lan\_automation.LanAutomation.create\_a\_new\_port\_channel\_between\_devices lan\_automation.LanAutomation.add\_a\_lan\_automated\_link\_to\_a\_port\_channel lan\_automation.LanAutomation.delete\_port\_channel lan\_automation.LanAutomation.remove\_a\_link\_from\_port\_channel devices.Devices.get\_interface\_details devices.Devices.get\_device\_list device\_onboarding\_pnp.DeviceOnboardingPnp.authorize\_device device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

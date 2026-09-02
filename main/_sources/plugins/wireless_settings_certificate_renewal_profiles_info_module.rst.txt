@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_info module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_info module 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -69,8 +69,7 @@ Synopsis
 .. Description
 
 - Get all Wireless Settings Certificate Renewal Profiles.
-- Get Wireless Settings Certificate Renewal Profiles by id.
-- GET LSC Certificate Renewal Profile by ID. - \> Retrieves the access point certificate renewal profiles that are created in the catalyst centre network design for wireless. Filtering can be done on access point certificate renewal profile name and renewal type.
+- Get Wireless Settings Certificate Renewal Profiles by id. - \> Retrieves the access point certificate renewal profiles that are created in the Catalyst Centre network by profile ID. - \> Retrieves the access point certificate renewal profiles that are created in the catalyst centre network design for wireless. Filtering can be done on access point certificate renewal profile name and renwal type.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -482,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. LSC Certificate Renewal Profile ID.
+      Id path parameter. Access point certificate renewal profile ID.
 
 
       .. raw:: html
@@ -516,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. Pagination limit.
+      Limit query parameter.
 
 
       .. raw:: html
@@ -550,7 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      LscProfileName query parameter. Access point certificate renewal profile name. Use this query parameter to obtain the details of access point certificate renewal profile by its name.
+      LscProfileName query parameter. Access point certificate renewal profile name. Use this query parameter to obtain the details of ap certificate renewal profile by its name.
           
 
 
@@ -585,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Pagination offset.
+      Offset query parameter.
 
 
       .. raw:: html
@@ -619,7 +618,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      RenewalType query parameter. Access point certificate renewal profile renewal type. Use this query parameter to obtain the details of access point certificate renewal profile by its renewal type name. Example STAGGERED, ONESHOT.
+      RenewalType query parameter. Access point certificate renewal profile renewal type. Use this query parameter to obtain the details of acess point certificate renewal profile by its renewal type name.
           
 
 
@@ -679,11 +678,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_l\_s\_c\_certificate\_renewal\_profile\_by\_id, wireless.Wireless.get\_l\_s\_c\_certificate\_renewal\_profiles,
+   - SDK Method used are wireless.Wireless.get\_access\_point\_certificate\_renewal\_profile, wireless.Wireless.retrieve\_the\_access\_point\_certificate\_renewal\_profile\_by\_id,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles, get /dna/intent/api/v1/wirelessSettings/certificateRenewalProfiles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -692,10 +692,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless GETLSCCertificateRenewalProfileByID <https://developer.cisco.com/docs/dna-center/#!g-etlsc-certificate-renewal-profile-by-id>`_
-       Complete reference of the GETLSCCertificateRenewalProfileByID API.
-   `Cisco Catalyst Center documentation for Wireless GetLSCCertificateRenewalProfiles <https://developer.cisco.com/docs/dna-center/#!get-lsc-certificate-renewal-profiles>`_
-       Complete reference of the GetLSCCertificateRenewalProfiles API.
+   `Cisco Catalyst Center documentation for Wireless GetAccessPointCertificateRenewalProfile <https://developer.cisco.com/docs/dna-center/#!get-access-point-certificate-renewal-profile>`_
+       Complete reference of the GetAccessPointCertificateRenewalProfile API.
+   `Cisco Catalyst Center documentation for Wireless RetrieveTheAccessPointCertificateRenewalProfileByID <https://developer.cisco.com/docs/dna-center/#!retrieve-the-access-point-certificate-renewal-profile-by-id>`_
+       Complete reference of the RetrieveTheAccessPointCertificateRenewalProfileByID API.
 
 .. Examples
 
@@ -718,8 +718,8 @@ Examples
         headers: "{{my_headers | from_json}}"
         lscProfileName: string
         renewalType: string
-        limit: 0
-        offset: 0
+        limit: 20
+        offset: 1
       register: result
     - name: Get Wireless Settings Certificate Renewal Profiles by id
       cisco.catalystcenter.wireless_settings_certificate_renewal_profiles_info:
@@ -793,7 +793,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"CalendarProfileSetting": {"duration": {"schedulerDate": "string", "schedulerDay": ["string"], "schedulerEndTime": "string", "schedulerStartTime": "string"}, "schedulerType": "string"}, "lscProfileName": "string", "renewalDueInDays": 0, "renewalType": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"calendarProfile": {"duration": {"schedulerDate": [0], "schedulerDay": ["string"], "schedulerEndTime": "string", "schedulerStartTime": "string"}, "schedulerType": "string"}, "lscProfileName": "string", "renewalDueInDays": 0, "renewalType": "string"}`
 
 
       .. raw:: html
@@ -810,7 +810,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

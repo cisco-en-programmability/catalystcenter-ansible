@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_images_validations module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_images_validations module -- Resource module
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Network Device Images Validations. - \> Custom network device validation refers to the tailored process of verifying and assessing the configurations of network devices based on specific organizational requirements and unique network environments. Unlike standard validations, custom network device validations are designed to address the distinctive needs and challenges of a particular network infrastructure, ensuring that devices operate optimally within the defined parameters. Upon task completion, the task API response's \`resultLocation\` attribute will provide the URL to retrieve the validation id.
+- Manage operations create, update and delete of the resource Network Device Images Validations.
+- Custom network device validation refers to the tailored process of verifying.
 - Delete the custom network device validation.
 - Update the custom network device validation details.
 
@@ -86,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -448,9 +449,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Show commands that will be executed.
-
-      Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands...
+      Edit the Command line interface (CLI). Validate the CLI - Cisco DevNet https //developer.cisco.com/docs/dna-center/2-3-7/run-read-only-commands-on-devices-to-get-their-real-time-co...
 
 
       .. raw:: html
@@ -620,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The custom check will be mapped to the product series and devices that belong to this series. These devices will consume this check when triggered. Fetch productSeriesOrdinal from API \`/dna/intent/api/v1/productSeries\`.
+      The custom check will be mapped to the product series and devices that belong to this series. These devices will consume this check when triggered.
 
 
       .. raw:: html
@@ -718,6 +717,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -742,23 +742,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.network_device_images_validations:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        cli: string
-        description: string
-        name: string
-        operationType: string
-        productSeriesOrdinals:
-          - 0
-        type: string
     - name: Delete by id
       cisco.catalystcenter.network_device_images_validations:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -785,6 +768,23 @@ Examples
         id: string
         productSeriesOrdinals:
           - 0
+    - name: Create
+      cisco.catalystcenter.network_device_images_validations:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        cli: string
+        description: string
+        name: string
+        operationType: string
+        productSeriesOrdinals:
+          - 0
+        type: string
 
 
 
@@ -862,7 +862,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 
