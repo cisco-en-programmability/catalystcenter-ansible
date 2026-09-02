@@ -75,6 +75,9 @@ options:
       - The Cisco Catalyst Center bulk API accepts at most 500 devices per
         request, so this value must be between 1 and 500.
       - Lower this value to reduce the load per request on very large jobs.
+      - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
+        Earlier versions use the legacy sequential workflow, so this value
+        has no effect.
     type: int
     default: 50
   activation_batch_size:
@@ -83,6 +86,9 @@ options:
       - The Cisco Catalyst Center bulk API accepts at most 500 devices per
         request, so this value must be between 1 and 500.
       - Lower this value to reduce the load per request on very large jobs.
+      - Applicable only to Cisco Catalyst Center version 3.1.3.0 and later.
+        Earlier versions use the legacy sequential workflow, so this value
+        has no effect.
     type: int
     default: 50
   state:
@@ -423,6 +429,10 @@ options:
           When any plural device identifier is provided, all supplied singular and plural identifiers are
           resolved independently. Their devices are combined, duplicates are removed, and site-based device
           selection is skipped.
+          Recommended usage: Use one consistent identifier type and provide only one identifier per device
+          when possible. This reduces device lookup calls and simplifies troubleshooting. Customers may
+          combine IP addresses, serial numbers, hostnames, and MAC addresses when the same identifier type
+          is not available for every device.
           Access Points and devices whose reachability status is not 'Reachable' are excluded from the
           resolved device list.
           Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
@@ -607,6 +617,10 @@ options:
           When any plural device identifier is provided, all supplied singular and plural identifiers are
           resolved independently. Their devices are combined, duplicates are removed, and site-based device
           selection is skipped.
+          Recommended usage: Use one consistent identifier type and provide only one identifier per device
+          when possible. This reduces device lookup calls and simplifies troubleshooting. Customers may
+          combine IP addresses, serial numbers, hostnames, and MAC addresses when the same identifier type
+          is not available for every device.
           Access Points and devices whose reachability status is not 'Reachable' are excluded from the
           resolved device list.
           Blank, whitespace-only, or non-string entries in device identifier lists cause validation to fail.
