@@ -3068,6 +3068,19 @@ class Swim(CatalystCenterBase):
                     for entry in device_family_db
                     if entry.get("deviceFamily")
                 )
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    # On 3.1.3.0+, tagging uses the global product-name catalog, so a family missing
+                    # from this inventory-scoped list (e.g. not yet onboarded) is not a fatal error.
+                    self.log(
+                        "Device Family '{0}' not present in the SWIM family list; proceeding via "
+                        "product name ordinal lookup. Valid family name(s): {1}".format(
+                            str(family_name), ", ".join(available_families) or "None"
+                        ),
+                        "WARNING",
+                    )
+                    self.have.update(have)
+                    return
+
                 self.msg = (
                     "Device Family: {0} not found. Valid SWIM image family name(s): "
                     "{1}"
@@ -4292,10 +4305,19 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
-                tagging_details.get("device_image_family_name"),
-                self.have.get("site_id")
+                tagging_details.get("device_image_family_name")
             )
             self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
+
+            # No ordinal means the family is absent from the global catalog, i.e. genuinely invalid.
+            if product_name_ordinal is None:
+                self.msg = (
+                    "Device Family: {0} not found in Cisco Catalyst Center. "
+                    "Provide a valid 'device_image_family_name' for golden tagging.".format(
+                        tagging_details.get("device_image_family_name")
+                    )
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # -----------------------------------------------------
             # STEP 1: Per-role idempotency check using get_golden_tag_status_of_an_image
@@ -4506,28 +4528,26 @@ class Swim(CatalystCenterBase):
 
             return self
 
-    def get_product_name_ordinal_from_image_name(self, device_image_family_name, site_id):
+    def get_product_name_ordinal_from_image_name(self, device_image_family_name):
         """
-        Retrieve the product name ordinal for a given device image family and site.
+        Retrieve the product name ordinal for a given device image family.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - device_image_family_name (str): The name of the device image family.
-            - site_id (str): The site ID to query product names for.
         Returns:
-            int: The product name ordinal associated with the given device image family and site.
+            int: The product name ordinal associated with the given device image family.
         Description:
-            This method queries Cisco Catalyst Center to retrieve the product name ordinal for a specified
-            device image family and site. It uses the 'returns_network_device_product_names_for_a_site' function in the
-            'software_image_management_swim' family and extracts the ordinal from the response.
+            This method resolves the product name ordinal for a specified device image family from the global
+            network-device product-name catalog via 'retrieves_the_list_of_network_device_product_names'. The
+            global catalog is independent of device onboarding, so families tagged before onboarding still resolve.
         """
 
         try:
             response = self.catalystcenter._exec(
                 family="software_image_management_swim",
-                function="returns_network_device_product_names_for_a_site",
+                function="retrieves_the_list_of_network_device_product_names",
                 op_modifies=True,
                 params={
-                    "site_id": site_id,
                     "product_name": device_image_family_name,
                 },
             )
@@ -4537,14 +4557,18 @@ class Swim(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            response = response.get("response")
+            product_names = response.get("response") or []
             self.log(
-                "Parsed response for product name ordinal: {0}".format(str(response)),
+                "Parsed response for product name ordinal: {0}".format(str(product_names)),
                 "DEBUG",
             )
-            product_name_ordinal = response[0].get("productNameOrdinal")
+            target = " ".join(str(device_image_family_name).strip().casefold().split())
+            for entry in product_names:
+                candidate = " ".join(str(entry.get("productName", "")).strip().casefold().split())
+                if candidate == target:
+                    return entry.get("productNameOrdinal")
 
-            return product_name_ordinal
+            return None
 
         except Exception as e:
             self.msg = "Error occurred while getting the product name ordinal from Cisco Catalyst Center: {0}".format(
@@ -8056,8 +8080,7 @@ class Swim(CatalystCenterBase):
 
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
-                tagging_details.get("device_image_family_name"),
-                self.have.get("site_id"),
+                tagging_details.get("device_image_family_name")
             )
             if product_name_ordinal is None:
                 self.log(
