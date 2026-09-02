@@ -10,11 +10,11 @@ module: sda_port_assignments_count_info
 short_description: Information module for Sda Port Assignments Count
 description:
   - Get all Sda Port Assignments Count.
-  - Returns the count of port assignments that match the provided query parameters.
-version_added: '6.14.0'
+  - Returns the count of port assignments that match the provided query.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -40,7 +40,7 @@ options:
       - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetPortAssignmentCount

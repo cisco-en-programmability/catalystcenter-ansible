@@ -7,20 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list_count_info
-short_description: Information module for Security Threats Rogue Allowed-List Count
+short_description: Information module for Security Threats Rogue Allowed List Count
 description:
-  - Get all Security Threats Rogue Allowed-List Count.
+  - Get all Security Threats Rogue Allowed List Count.
   - Intent API to fetch the count of allowed mac addresses in the system.
-version_added: '6.16.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetAllowedMacAddressCount
@@ -35,7 +35,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Security Threats Rogue Allowed-List Count
+- name: Get all Security Threats Rogue Allowed List Count
   cisco.catalystcenter.security_threats_rogue_allowed_list_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

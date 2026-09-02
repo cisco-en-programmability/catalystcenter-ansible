@@ -13,10 +13,10 @@ description:
   - Get Eox Status Device by id.
   - Retrieves EoX details for a device.
   - Retrieves EoX status for all devices in the network.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,7 +36,7 @@ options:
       - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for EoX GetEoXDetailsPerDevice
@@ -47,8 +47,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are
-    eox.Eox.get_eox_details_per_device,
-    eox.Eox.get_eox_status_for_all_devices,
+    eox.EoX.get_eox_details_per_device,
+    eox.EoX.get_eox_status_for_all_devices,
   - Paths used are
     get /dna/intent/api/v1/eox-status/device,
     get /dna/intent/api/v1/eox-status/device/{deviceId},
@@ -66,8 +66,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 - name: Get Eox Status Device by id
   cisco.catalystcenter.eox_status_device_info:

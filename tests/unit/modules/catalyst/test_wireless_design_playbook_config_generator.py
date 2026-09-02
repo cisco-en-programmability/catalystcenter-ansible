@@ -24,7 +24,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import wireless_design_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    wireless_design_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -32,18 +34,40 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
     module = wireless_design_playbook_config_generator
     test_data = loadPlaybookData("wireless_design_playbook_config_generator")
 
-    playbook_config_ssids_with_filters = test_data.get("playbook_config_ssids_with_filters")
-    playbook_config_interfaces_with_filters = test_data.get("playbook_config_interfaces_with_filters")
-    playbook_config_feature_template_with_filters = test_data.get("playbook_config_feature_template_with_filters")
-    playbook_config_flex_connect_with_filters = test_data.get("playbook_config_flex_connect_with_filters")
-    playbook_config_invalid_minimum_requirements = test_data.get("playbook_config_invalid_minimum_requirements")
-    playbook_config_interfaces_without_filters = test_data.get("playbook_config_interfaces_without_filters")
-    playbook_config_feature_template_type_only = test_data.get("playbook_config_feature_template_type_only")
-    playbook_config_feature_template_invalid_type = test_data.get("playbook_config_feature_template_invalid_type")
+    playbook_config_ssids_with_filters = test_data.get(
+        "playbook_config_ssids_with_filters"
+    )
+    playbook_config_interfaces_with_filters = test_data.get(
+        "playbook_config_interfaces_with_filters"
+    )
+    playbook_config_feature_template_with_filters = test_data.get(
+        "playbook_config_feature_template_with_filters"
+    )
+    playbook_config_flex_connect_with_filters = test_data.get(
+        "playbook_config_flex_connect_with_filters"
+    )
+    playbook_config_invalid_minimum_requirements = test_data.get(
+        "playbook_config_invalid_minimum_requirements"
+    )
+    playbook_config_interfaces_without_filters = test_data.get(
+        "playbook_config_interfaces_without_filters"
+    )
+    playbook_config_feature_template_type_only = test_data.get(
+        "playbook_config_feature_template_type_only"
+    )
+    playbook_config_feature_template_invalid_type = test_data.get(
+        "playbook_config_feature_template_invalid_type"
+    )
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
-    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
-    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
+    playbook_config_invalid_component = test_data.get(
+        "playbook_config_invalid_component"
+    )
+    playbook_config_invalid_component_filters = test_data.get(
+        "playbook_config_invalid_component_filters"
+    )
 
     def setUp(self):
         super(TestWirelessDesignPlaybookConfigGenerator, self).setUp()
@@ -85,12 +109,16 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
         elif "feature_template_with_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_feature_template_summary_response"),
-                self.test_data.get("get_advanced_ssid_configuration_feature_template_response"),
+                self.test_data.get(
+                    "get_advanced_ssid_configuration_feature_template_response"
+                ),
             ]
         elif "feature_template_type_only" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_feature_template_summary_response"),
-                self.test_data.get("get_advanced_ssid_configuration_feature_template_response"),
+                self.test_data.get(
+                    "get_advanced_ssid_configuration_feature_template_response"
+                ),
             ]
         elif "feature_template_invalid_type" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -162,7 +190,9 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_wireless_design_feature_template_with_filters(self, mock_exists, mock_file):
+    def test_wireless_design_feature_template_with_filters(
+        self, mock_exists, mock_file
+    ):
         mock_exists.return_value = True
 
         set_module_args(
@@ -269,7 +299,9 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_wireless_design_feature_template_invalid_type(self, mock_exists, mock_file):
+    def test_wireless_design_feature_template_invalid_type(
+        self, mock_exists, mock_file
+    ):
         mock_exists.return_value = True
 
         set_module_args(
@@ -310,7 +342,9 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
-    def test_wireless_design_empty_component_specific_filters(self, mock_exists, mock_file):
+    def test_wireless_design_empty_component_specific_filters(
+        self, mock_exists, mock_file
+    ):
         mock_exists.return_value = True
 
         set_module_args(
@@ -347,7 +381,9 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Invalid network components provided for module", str(result.get("msg"))
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")

@@ -10,18 +10,18 @@ module: wireless_accespoint_configuration
 short_description: Resource module for Wireless Accespoint Configuration
 description:
   - Manage operation create of the resource Wireless Accespoint Configuration.
-  - User can configure multiple access points with required options using this intent API.
-version_added: '3.1.0'
+  - User can configure multiple access points with required options using this.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   adminStatus:
     description: Configure the access point's admin status. Set this parameter's value to "true" to enable it and "false"
       to disable it.
     type: bool
   apList:
-    description: Wireless Accespoint Configuration's apList.
+    description: The list of access points to configure.
     elements: dict
     suboptions:
       apName:
@@ -79,14 +79,14 @@ options:
     description: Configure the hostname for an access point's primary controller.
     type: str
   primaryIpAddress:
-    description: Wireless Accespoint Configuration's primaryIpAddress.
+    description: The list of IP address for an access point's primary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's primary controller.
         type: str
     type: dict
   radioConfigurations:
-    description: Wireless Accespoint Configuration's radioConfigurations.
+    description: Radio parameters configuration for the selected access points.
     elements: dict
     suboptions:
       adminStatus:
@@ -121,6 +121,10 @@ options:
         description: Configure the channel width on the specified radio for an access point for 20 MHz, set "3"; for 40 MHz,
           set "4"; for 80 MHz, set "5"; for 160 MHz, set "6", and for 320 MHz, set "7".
         type: int
+      cleanAirSI:
+        description: Configure CleanAir or Spectrum Intelligence on the specified radio for an access point. Set this parameter's
+          value to "0" to disable the feature or "1" to enable it.
+        type: int
       configureAdminStatus:
         description: To change the admin status on the specified radio for an access point, set this parameter's value to
           "true".
@@ -139,6 +143,10 @@ options:
       configureChannelWidth:
         description: To change the channel width on the specified radio for an access point, set this parameter's value to
           "true".
+        type: bool
+      configureCleanAirSI:
+        description: To enable or disable either CleanAir or Spectrum Intelligence on the specified radio for an access point,
+          set this parameter's value to "true".
         type: bool
       configurePower:
         description: To change the power assignment mode on the specified radio for an access point, set this parameter's
@@ -172,7 +180,7 @@ options:
     description: Configure the hostname for an access point's secondary controller.
     type: str
   secondaryIpAddress:
-    description: Wireless Accespoint Configuration's secondaryIpAddress.
+    description: The list of IP address for an access point's secondary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's secondary controller.
@@ -182,14 +190,14 @@ options:
     description: Configure the hostname for an access point's tertiary controller.
     type: str
   tertiaryIpAddress:
-    description: Wireless Accespoint Configuration's tertiaryIpAddress.
+    description: The list of IP address for an access point's tertiary controller.
     suboptions:
       address:
         description: Configure the IP address for an access point's tertiary controller.
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless ConfigureAccessPointsV1
@@ -243,11 +251,13 @@ EXAMPLES = r"""
         channelAssignmentMode: 0
         channelNumber: 0
         channelWidth: 0
+        cleanAirSI: 0
         configureAdminStatus: true
         configureAntennaCable: true
         configureAntennaPatternName: true
         configureChannel: true
         configureChannelWidth: true
+        configureCleanAirSI: true
         configurePower: true
         configureRadioRoleAssignment: true
         powerAssignmentMode: 0

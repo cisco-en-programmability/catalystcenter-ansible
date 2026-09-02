@@ -9,20 +9,19 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models_preview_activity_id_deploy
 short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Deploy
 description:
-  - Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Deploy. - > Deploys the
-    ICAP configuration intent by activity ID, which was returned in property "taskId" of the TaskResponse of the POST. POST'ing
-    the intent prior to generating the intent CLI for preview-approve has the same effect as direct-deploy'ing the intent
-    to the device.
-version_added: '6.17.0'
+  - Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Deploy.
+  - Deploys the ICAP configuration intent by preview activity ID.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   previewActivityId:
-    description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
+    description: PreviewActivityId path parameter. Activity ID value from POST /dna/intent/api/v1/icapSettings/devi... task
+      response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors DeploysTheICAPConfigurationIntentByActivityID
@@ -30,7 +29,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!deploys-the-icap-configuration-intent-by-activity-id
 notes:
   - SDK Method used are
-    sensors.Sensors.deploys_the_i_cap_configuration_intent_by_activity_id,
+    sensors.Sensors.deploys_the_icap_configuration_intent_by_activity_id,
   - Paths used are
     post /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy,
 """

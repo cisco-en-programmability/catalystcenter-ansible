@@ -11,31 +11,35 @@ short_description: Resource module for Wireless Controllers Provision
 description:
   - Manage operation create of the resource Wireless Controllers Provision.
   - This API is used to provision wireless controller.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   apAuthorizationListName:
-    description:
-      - AP Authorization List name.
-      - Obtain the names using API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
-      - During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id.
+    description: AP Authorization List name. 'Obtain the AP Authorization List names by using the API call GET
+        /intent/api/v1/wirelessSettings/apAuthorizationLists.
+      During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id using the
+      API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev... (Mandatory for Mesh and Remote Teleworker enabled
+      sites).
     type: str
   authorizeMeshAndNonMeshAccessPoints:
-    description: true if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization
+    description: True if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization
       List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
-    description:
-      - DeviceId path parameter. Network Device ID.
-      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   featureTemplatesOverridenAttributes:
     description: Wireless Controllers Provision's featureTemplatesOverridenAttributes.
     suboptions:
       editFeatureTemplates:
-        description: Wireless Controllers Provision's editFeatureTemplates.
+        description: This array consists of Feature Templates that need to be overridden during the provisioning process for
+          the current provision instance. These edits will not alter the original designs of the Feature Templates but will
+          only apply to the values for the current provisioning instance. Note Locked attributes cannot be edited in the Provision
+          API. Additionally, default feature templates ('systemTemplate') cannot be included in the payload, as they are not
+          editable.
         elements: dict
         suboptions:
           additionalIdentifiers:
@@ -51,7 +55,9 @@ options:
                 type: str
             type: dict
           attributes:
-            description: Wireless Controllers Provision's attributes.
+            description: This dynamic map should contain attribute name and overridden value of respective Feature Template
+              whose `featureTemplateId`. List of attributes applicable to given `featureTemplateId` can be retrieved from
+              its GET API call /dna/intent/api/v1/featureTemplates/wireless/<featureTemplateName>/featureTemplateId.
             type: dict
           excludedAttributes:
             description: List of attributes which will NOT be provisioned.
@@ -78,6 +84,18 @@ options:
       interfaceNetmaskInCIDR:
         description: Interface Netmask In CIDR, range is 1-30.
         type: int
+      ipV6Addresses:
+        description: Wireless Controllers Provision's ipV6Addresses.
+        elements: dict
+        suboptions:
+          ipAddress:
+            description: IpV6 Address for the Dynamic Interface.
+            type: str
+          prefixLength:
+            description: The network portion of an address, indicating how many of the leftmost bits are used for the network
+              identifier.
+            type: float
+        type: list
       lagOrPortNumber:
         description: Lag Or Port Number.
         type: int
@@ -86,28 +104,38 @@ options:
         type: int
     type: list
   lscPercentage:
-    description: Permissible values are 5, 15, and 25. This represents the percentage of access points that can be affected
-      due to certificate renewal execution in the current iteration. This field is applicable only when the selected LSC profile
-      is of staggered execution type.
+    description: Permissible values are 1, 5, 15, 25 and 1000. This represents the percentage of access points that can be
+      affected due to certificate renewal execution in the current iteration. This field is applicable only when the selected
+      LSC profile is of staggered execution type. * 1 - 1% of access points will be considered for certificate renewal in
+      each iteration * 5 - 5% of access points will be considered for certificate renewal in each iteration * 15 - 15% of
+      access points will be considered for certificate renewal in each iteration * 25 - 25% of access points will be considered
+      for certificate renewal in each iteration * 1000 - Access points are selected one after another in a serial manner for
+      certificate renewal. The corresponding device option is 'Serial'.
     type: int
   lscProfileName:
-    description: Obtain the LSC profile names by using the API call GET /dna/intent/api/v1/wirelessSettings/lscRene...
+    description: LSC profile name. 'Obtain the LSC profile names by using the API call GET /dna/intent/api/v1/wirelessSettings/lscRenewalProfiles.
+    type: str
+  natIpAddress:
+    description: NAT IP Address that can be configured for Remote Teleworker enabled controller.
     type: str
   rollingApUpgrade:
-    description: Wireless Controllers Provision's rollingApUpgrade.
+    description: Rolling AP Upgrade.
     suboptions:
       apRebootPercentage:
-        description: AP Reboot Percentage. Permissible values - 5, 15, 25.
+        description: AP Reboot Percentage. Permissible values - 1, 5, 15, 25 and 1000 * 1 - 1% of access points will be rebooted
+          in each iteration * 5 - 5% of access points will be rebooted in each iteration * 15 - 15% of access points will
+          be rebooted in each iteration * 25 - 25% of access points will be rebooted in each iteration * 1000 - Access points
+          are rebooted one after another in a serial manner. The corresponding device option is labeled 'Serial'.
         type: int
       enableRollingApUpgrade:
-        description: true if Rolling AP Upgrade is enabled, else False.
+        description: True if Rolling AP Upgrade is enabled, else False.
         type: bool
     type: dict
   skipApProvision:
-    description: true if Skip AP Provision is enabled, else False.
+    description: True if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless WirelessControllerProvision
@@ -148,10 +176,14 @@ EXAMPLES = r"""
         interfaceIPAddress: string
         interfaceName: string
         interfaceNetmaskInCIDR: 0
+        ipV6Addresses:
+          - ipAddress: string
+            prefixLength: 0
         lagOrPortNumber: 0
         vlanId: 0
     lscPercentage: 0
     lscProfileName: string
+    natIpAddress: string
     rollingApUpgrade:
       apRebootPercentage: 0
       enableRollingApUpgrade: true

@@ -9,15 +9,14 @@ DOCUMENTATION = r"""
 module: cisco_imcs
 short_description: Resource module for Cisco Imcs
 description:
-  - Manage operations create, update and delete of the resource Cisco Imcs. - > This API adds a Cisco Integrated Management
-    Controller IMC configuration to a Cisco Catalyst Center node, identified by its `nodeId`. Obtain the `nodeId` from the
-    `id` attribute in the response of the `/dna/intent/api/v1/nodes-config` API. - > This API removes a specific Cisco Integrated
-    Management Controller IMC configuration from a Catalyst Center node using the provided identifier. - > This API updates
-    the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
-version_added: '6.17.0'
+  - Manage operations create, update and delete of the resource Cisco Imcs.
+  - This API adds a Cisco Integrated Management Controller IMC configuration to. - > This API removes a specific Cisco Integrated
+    Management Controller IMC configuration from a Catalyst Center node using the provided identifier.
+  - This API updates the Cisco Integrated Management Controller IMC.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The unique identifier for this Cisco IMC configuration.
@@ -36,7 +35,7 @@ options:
     description: Username of the Cisco IMC.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNode
@@ -50,9 +49,9 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!updates-the-cisco-imc-configuration-for-a-catalyst-center-node
 notes:
   - SDK Method used are
-    cisco_i_m_c.CiscoIMC.adds_cisco_i_m_c_configuration_to_a_catalyst_center_node,
-    cisco_i_m_c.CiscoIMC.deletes_the_cisco_i_m_c_configuration_for_a_catalyst_center_node,
-    cisco_i_m_c.CiscoIMC.updates_the_cisco_i_m_c_configuration_for_a_catalyst_center_node,
+    cisco_imc.CiscoIMC.adds_cisco_imc_configuration_to_a_catalyst_center_node,
+    cisco_imc.CiscoIMC.deletes_the_cisco_imc_configuration_for_a_catalyst_center_node,
+    cisco_imc.CiscoIMC.updates_the_cisco_imc_configuration_for_a_catalyst_center_node,
   - Paths used are
     post /dna/system/api/v1/ciscoImcs,
     delete /dna/system/api/v1/ciscoImcs/{id},

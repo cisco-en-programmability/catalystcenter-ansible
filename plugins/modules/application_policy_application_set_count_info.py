@@ -11,10 +11,10 @@ short_description: Information module for Application Policy Application Set Cou
 description:
   - Get all Application Policy Application Set Count.
   - Get the number of all existing application sets.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,15 +24,15 @@ options:
       - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION_GROUP.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetCountV2
-    description: Complete reference of the GetApplicationSetCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetCount
+    description: Complete reference of the GetApplicationSetCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_set_count_v2,
+    application_policy.ApplicationPolicy.get_application_set_count,
   - Paths used are
     get /dna/intent/api/v2/application-policy-application-set-count,
 """
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    scalableGroupType: string
+    scalableGroupType: APPLICATION_GROUP
   register: result
 """
 RETURN = r"""

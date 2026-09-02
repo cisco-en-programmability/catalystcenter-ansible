@@ -14,16 +14,16 @@ description:
     have permission to provision the network device. Although the API operation does not change the device configuration,
     removing a device without cleaning up its configuration could lead to a network behaviour that is not consistent with
     the configurations that are known to the system.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: The unique identifier of the network device to be deleted.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices DeleteANetworkDeviceWithoutConfigurationCleanup

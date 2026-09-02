@@ -11,10 +11,10 @@ short_description: Information module for Golden Tag Image Details
 description:
   - Get Golden Tag Image Details by id.
   - Get golden tag status of an image. Set siteId as -1 for Global site.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
       - ImageId path parameter. Image Id in uuid format.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImage

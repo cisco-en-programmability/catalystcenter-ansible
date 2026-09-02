@@ -7,15 +7,15 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list
-short_description: Resource module for Security Threats Rogue Allowed-List
+short_description: Resource module for Security Threats Rogue Allowed List
 description:
-  - Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
+  - Manage operations create and delete of the resource Security Threats Rogue Allowed List.
   - Intent API to add the threat mac address to allowed list.
   - Intent API to remove the threat mac address from allowed list.
-version_added: '6.16.0'
+version_added: '2.11.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   macAddress:
     description: MacAddress path parameter. Threat mac address which needs to be removed from the allowed list. Multiple mac
@@ -34,7 +34,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices AddAllowedMacAddress

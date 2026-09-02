@@ -11,71 +11,73 @@ short_description: Resource module for Wireless Profiles
 description:
   - Manage operations create, update and delete of the resource Wireless Profiles.
   - This API allows the user to create a Wireless Network Profile.
-  - This API allows the user to delete Wireless Network Profile by ID. - > This API allows the user to update a Wireless Network
-    Profile by ID. Note that, when performing a PUT operation on a wireless network profile, it is essential to provide a
-    complete payload. This is because the wireless network profile is tightly integrated with other network design entities.
-    Consequently, all fields must be included—not just the fields to be updated. Any missing fields will be set to their default
-    or null values. To ensure all fields are accurately populated, consider using the GET operation to retrieve the current
-    resource data before proceeding with the PUT operation.
-version_added: '6.15.0'
+  - This API allows the user to delete Wireless Network Profile by Id. - > This API allows the user to update a Wireless Network
+    Profile by Id.Note that, when performing a PUT operation on a wireless network profile, it is essential to provide a complete
+    payload. This is because the wireless network profile is tightly integrated with other network design entities. Consequently,
+    all fields must be included—not just the fields to be updated. Any missing fields will be set to their default or null
+    values. To ensure all fields are accurately populated, consider using the GET operation to retrieve the current resource
+    data before proceeding with the PUT operation.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   additionalInterfaces:
-    description: These additional interfaces will be configured on the device as independent interfaces in addition to the
-      interfaces mapped to SSIDs. Max Limit 4094.
+    description: These interfaces will be configured on the device as independent interfaces in addition to the interfaces
+      mapped to SSIDs.
     elements: str
     type: list
   apZones:
-    description: Wireless Profiles's apZones.
+    description: List of apZones Attached to wireless Profile.
     elements: dict
     suboptions:
       apZoneName:
-        description: AP Zone Name.
+        description: Name of the apZone.
         type: str
       rfProfileName:
-        description: RF Profile Name.
+        description: Name of the RF profile attached to the AP Zone.
         type: str
       ssids:
-        description: Ssids part of apZone.
+        description: Wireless Profiles's ssids.
         elements: str
         type: list
     type: list
   featureTemplates:
-    description: Wireless Profiles's featureTemplates.
+    description: Feature Templates which needs to be associated to the wireless network profile.
     elements: dict
     suboptions:
       id:
         description: Feature Template UUID.
         type: str
       ssids:
-        description: List of SSIDs.
+        description: Wireless Profiles's ssids.
         elements: str
         type: list
     type: list
   id:
-    description: Id path parameter. Wireless Profile Id.
+    description: Id.
     type: str
   ssidDetails:
-    description: Wireless Profiles's ssidDetails.
+    description: SSID Details.
     elements: dict
     suboptions:
       anchorGroupName:
-        description: Anchor Group Name.
+        description: Anchor Group Name. Below are points to consider - If 'enableFabric' field is set to true,'anchorGroupName'
+          must be null.If 'anchorGroupName' is null,'enableFabric' must be false. - If 'interfaceName' field is non-null,'anchorGroupName'
+          must be null.If 'anchorGroupName' is non-null,'interfaceName' must be null.
         type: str
       dot11beProfileId:
-        description: 802.11be Profile ID. Applicable to IOS controllers with version 17.15 and higher.
+        description: 802.11be Profile Id. Applicable to IOS controllers with version 17.15.2 and higher.
         type: str
       enableFabric:
-        description: true if fabric is enabled, else False. Flex and fabric cannot be enabled simultaneously and a profile
+        description: True if fabric is enabled, else false. Flex and fabric cannot be enabled simultaneously and a profile
           can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
         type: bool
       flexConnect:
-        description: Wireless Profiles's flexConnect.
+        description: FlexConnect.
         suboptions:
           enableFlexConnect:
-            description: true if flex connect is enabled, else False. Flex and fabric cannot be enabled simultaneously and
+            description: True if flex connect is enabled, else false. Flex and fabric cannot be enabled simultaneously and
               a profile can only contain either flex SSIDs or fabric SSIDs and not both at the same time.
             type: bool
           localToVlan:
@@ -83,7 +85,7 @@ options:
             type: int
         type: dict
       interfaceName:
-        description: Interface Name.
+        description: Interface Name. Default Value management.
         type: str
       policyProfileName:
         description: "Policy Profile Name. If 'policyProfileName' is not provided, the value of 'wlanProfileName' will be
@@ -95,33 +97,34 @@ options:
         description: SSID Name.
         type: str
       vlanGroupName:
-        description: VLAN Group Name.
+        description: VLAN Group Name.Below are points to consider - If 'interfaceName' is non-null in payload,'vlanGroupName'
+          must be null.If 'vlanGroupName' is non-null,'interfaceName' must be null.
         type: str
       wlanProfileName:
-        description: WLAN Profile Name, if not passed autogenerated profile name will be assigned.
+        description: WLAN Profile Name.
         type: str
     type: list
   wirelessProfileName:
-    description: Wireless Network Profile Name.
+    description: Wireless Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless CreateWirelessProfileConnectivity
-    description: Complete reference of the CreateWirelessProfileConnectivity API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity
-  - name: Cisco Catalyst Center documentation for Wireless DeleteWirelessProfileConnectivity
-    description: Complete reference of the DeleteWirelessProfileConnectivity API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity
-  - name: Cisco Catalyst Center documentation for Wireless UpdateWirelessProfileConnectivity
-    description: Complete reference of the UpdateWirelessProfileConnectivity API.
-    link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity
+  - name: Cisco Catalyst Center documentation for Wireless CreateWirelessProfile
+    description: Complete reference of the CreateWirelessProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteWirelessProfile
+    description: Complete reference of the DeleteWirelessProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateWirelessProfile
+    description: Complete reference of the UpdateWirelessProfile API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
 notes:
   - SDK Method used are
-    wireless.Wireless.create_wireless_profile_connectivity,
-    wireless.Wireless.delete_wireless_profile_connectivity,
-    wireless.Wireless.update_wireless_profile_connectivity,
+    wireless.Wireless.create_wireless_profile,
+    wireless.Wireless.delete_wireless_profile,
+    wireless.Wireless.update_wireless_profile,
   - Paths used are
     post /dna/intent/api/v1/wirelessProfiles,
     delete /dna/intent/api/v1/wirelessProfiles/{id},
@@ -130,7 +133,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update by id
   cisco.catalystcenter.wireless_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -151,6 +154,7 @@ EXAMPLES = r"""
       - id: string
         ssids:
           - string
+    id: string
     ssidDetails:
       - anchorGroupName: string
         dot11beProfileId: string
@@ -175,7 +179,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
-- name: Update by id
+- name: Create
   cisco.catalystcenter.wireless_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

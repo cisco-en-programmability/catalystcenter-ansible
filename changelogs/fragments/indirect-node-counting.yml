@@ -1,4 +1,0 @@
----
-minor_changes:
-  - "Added ``extensions/audit/event_query.yml`` for AAP 2.6+ indirect node counting support."
-  - "AAP can now accurately count network devices managed indirectly through the Catalyst Center API."

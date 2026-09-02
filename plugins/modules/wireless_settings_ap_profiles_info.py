@@ -11,45 +11,41 @@ short_description: Information module for Wireless Settings Ap Profiles
 description:
   - Get all Wireless Settings Ap Profiles.
   - Get Wireless Settings Ap Profiles by id.
-  - This API allows the user to get AP Profiles that captured in wireless settings design.
   - This API allows the user to get a AP Profile by AP Profile ID that captured in wireless settings design.
-version_added: '6.17.0'
+  - This API allows the user to get all AP Profiles that captured in wireless settings design.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
-  limit:
-    description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
-    type: int
-  offset:
-    description:
-      - Offset query parameter. The first record to show for this page, the first record is numbered 1.
-    type: int
   apProfileName:
     description:
-      - >
-        ApProfileName query parameter. Employ this query parameter to obtain the details of the apProfiles
-        corresponding to the provided apProfileName.
+      - ApProfileName query parameter. AP Profiles.
     type: str
+  offset:
+    description:
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
+  limit:
+    description:
+      - Limit query parameter. The number of records to show for this page.
+    type: int
   id:
     description:
-      - Id path parameter. Ap Profile ID.
+      - Id path parameter. AP Profile ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetAPProfileByID
-    description: Complete reference of the GetAPProfileByID API.
+  - name: Cisco Catalyst Center documentation for Wireless GetApProfileByID
+    description: Complete reference of the GetApProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id
-  - name: Cisco Catalyst Center documentation for Wireless GetAPProfiles
-    description: Complete reference of the GetAPProfiles API.
+  - name: Cisco Catalyst Center documentation for Wireless GetApProfiles
+    description: Complete reference of the GetApProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles
 notes:
   - SDK Method used are
@@ -72,9 +68,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
     apProfileName: string
+    offset: 1
+    limit: 0
   register: result
 - name: Get Wireless Settings Ap Profiles by id
   cisco.catalystcenter.wireless_settings_ap_profiles_info:
@@ -96,44 +92,45 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "apProfileName": "string",
-          "description": "string",
-          "remoteWorkerEnabled": true,
-          "managementSetting": {
-            "authType": "string",
-            "dot1xUsername": "string",
-            "dot1xPassword": "string",
-            "sshEnabled": true,
-            "telnetEnabled": true,
-            "managementUserName": "string",
-            "managementPassword": "string",
-            "managementEnablePassword": "string",
-            "cdpState": true
-          },
-          "awipsEnabled": true,
-          "awipsForensicEnabled": true,
-          "rogueDetectionSetting": {
-            "rogueDetection": true,
-            "rogueDetectionMinRssi": 0,
-            "rogueDetectionTransientInterval": 0,
-            "rogueDetectionReportInterval": 0
-          },
-          "pmfDenialEnabled": true,
-          "meshEnabled": true,
-          "meshSetting": {
-            "bridgeGroupName": "string",
-            "backhaulClientAccess": true,
-            "range": 0,
-            "ghz5BackhaulDataRates": "string",
-            "ghz24BackhaulDataRates": "string",
-            "rapDownlinkBackhaul": "string"
-          },
-          "apPowerProfileName": "string",
-          "calendarPowerProfiles": {
-            "powerProfileName": "string",
+      "profile": {
+        "id": "string",
+        "apProfileName": "string",
+        "description": "string",
+        "remoteWorkerEnabled": true,
+        "managementSetting": {
+          "authType": "string",
+          "dot1xUsername": "string",
+          "dot1xPassword": "string",
+          "sshEnabled": true,
+          "telnetEnabled": true,
+          "managementUserName": "string",
+          "managementPassword": "string",
+          "managementEnablePassword": "string",
+          "cdpState": true
+        },
+        "awipsEnabled": true,
+        "awipsForensicEnabled": true,
+        "rogueDetectionSetting": {
+          "rogueDetection": true,
+          "rogueDetectionMinRssi": 0,
+          "rogueDetectionTransientInterval": 0,
+          "rogueDetectionReportInterval": 0
+        },
+        "pmfDenialEnabled": true,
+        "meshEnabled": true,
+        "meshSetting": {
+          "bridgeGroupName": "string",
+          "backhaulClientAccess": true,
+          "range": 0,
+          "ghz5BackhaulDataRates": "string",
+          "ghz24BackhaulDataRates": "string",
+          "rapDownlinkBackhaul": "string"
+        },
+        "apPowerProfileName": "string",
+        "calendarPowerProfiles": [
+          {
+            "calendarProfileName": "string",
+            "apPowerProfileName": "string",
             "schedulerType": "string",
             "duration": {
               "schedulerStartTime": "string",
@@ -145,14 +142,14 @@ catalystcenter_response:
                 "string"
               ]
             }
-          },
-          "countryCode": "string",
-          "timeZone": "string",
-          "timeZoneOffsetHour": 0,
-          "timeZoneOffsetMinutes": 0,
-          "clientLimit": 0
-        }
-      ],
+          }
+        ],
+        "countryCode": "string",
+        "timeZone": "string",
+        "timeZoneOffsetHour": 0,
+        "timeZoneOffsetMinutes": 0,
+        "clientLimit": 0
+      },
       "version": "string"
     }
 """

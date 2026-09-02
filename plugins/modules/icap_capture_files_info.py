@@ -11,22 +11,21 @@ short_description: Information module for Icap Capture Files
 description:
   - Get all Icap Capture Files.
   - Get Icap Capture Files by id.
-  - Lists the ICAP packet capture pcap files matching the specified criteria.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
-  - Retrieves details of a specific ICAP packet capture file.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Lists the ICAP packet capture pcap files matching the specified criteria. - > Retrieves details of a specific ICAP packet
+    capture file. For detailed information about the usage of the API, please refer to the Open API specification document
+    - https //github.com/cisco-en-programmability/catalyst- center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The name of the packet capture file, as given by the GET /captureFiles API response.
+    type: str
   type:
     description:
       - Type query parameter. Capture Type.
@@ -38,6 +37,10 @@ options:
   apMac:
     description:
       - ApMac query parameter. The base radio macAddress of the access point.
+    type: str
+  switchMac:
+    description:
+      - SwitchMac query parameter. The base macAddress of the switch.
     type: str
   startTime:
     description:
@@ -69,12 +72,8 @@ options:
     description:
       - Order query parameter. The sort order of the field ascending or descending.
     type: str
-  id:
-    description:
-      - Id path parameter. The name of the packet capture file, as given by the GET /captureFiles API response.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors ListsICAPPacketCaptureFilesMatchingSpecifiedCriteria
@@ -85,8 +84,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-details-of-a-specific-icap-packet-capture-file
 notes:
   - SDK Method used are
-    sensors.Sensors.lists_i_cap_packet_capture_files_matching_specified_criteria,
-    sensors.Sensors.retrieves_details_of_a_specific_i_cap_packet_capture_file,
+    sensors.Sensors.lists_icap_packet_capture_files_matching_specified_criteria,
+    sensors.Sensors.retrieves_details_of_a_specific_icap_packet_capture_file,
   - Paths used are
     get /dna/data/api/v1/icap/captureFiles,
     get /dna/data/api/v1/icap/captureFiles/{id},
@@ -107,6 +106,7 @@ EXAMPLES = r"""
     type: string
     clientMac: string
     apMac: string
+    switchMac: string
     startTime: 0
     endTime: 0
     limit: 0

@@ -13,26 +13,23 @@ description:
   - Get Discoverys Jobs by id. - > API to get all the discovery job details by discovery id. A discovery can have multiple
     discovery jobs, created against the same discovery id.
   - This API retrieves the details of a specific discovery job using the given job id and discovery id.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
-  discoveryId:
-    description:
-      - DiscoveryId path parameter. The id of the discovery.
-    type: str
-  jobId:
-    description:
-      - JobId path parameter. The id of the discovery job.
-    type: str
   id:
     description:
       - Id path parameter. The id of the discovery.
     type: str
+  jobId:
+    description:
+      - JobId query parameter. Optional list of the discovery job ids to filter by.
+    elements: str
+    type: list
   limit:
     description:
       - Limit query parameter. The number of records to show for this page.
@@ -48,8 +45,12 @@ options:
         such as startTime or endTime. By default, jobs are ordered by startTime in descending order to display
         the most recent entries first.
     type: str
+  discoveryId:
+    description:
+      - DiscoveryId path parameter. The id of the discovery.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices FetchesAllTheDiscoveryJobDetailsByDiscoveryId
@@ -79,9 +80,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    jobId: string
+    jobId: ['1739936077107', '17399360774307']
     limit: 0
-    offset: 0
+    offset: 1
     orderBy: string
     id: string
   register: result
@@ -106,95 +107,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "name": "string",
-        "managementIpSelectionMethod": "string",
-        "discoveryTypeDetails": {
-          "type": "string",
-          "ipAddress": "string",
-          "range": [
-            {
-              "ipAddressStart": "string",
-              "ipAddressEnd": "string"
-            }
-          ],
-          "cidrAddress": {
-            "cidrPrefix": "string",
-            "cidrSuffix": 0
-          },
-          "subnetFilter": {
-            "ipAddress": "string",
-            "cidrAddress": {
-              "cidrPrefix": "string",
-              "cidrSuffix": 0
-            }
-          },
-          "hopCount": 0
-        },
-        "onlyNewDevice": true,
-        "updateManagementIp": true,
-        "credentials": {
-          "cli": {
-            "description": "string",
-            "username": "string",
-            "globalCredentialIdList": [
-              "string"
-            ],
-            "protocolOrder": "string"
-          },
-          "snmp": {
-            "snmpV2Read": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV2Write": {
-              "description": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "snmpV3": {
-              "description": "string",
-              "mode": "string",
-              "username": "string",
-              "authType": "string",
-              "privacyType": "string",
-              "globalCredentialIdList": [
-                "string"
-              ]
-            },
-            "retries": 0,
-            "timeout": 0
-          },
-          "httpRead": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "httpWrite": {
-            "description": "string",
-            "username": "string",
-            "port": 0,
-            "protocol": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          },
-          "netconf": {
-            "port": 0,
-            "description": "string",
-            "globalCredentialIdList": [
-              "string"
-            ]
-          }
-        }
-      },
+      "response": {},
       "version": "string"
     }
 """

@@ -11,20 +11,20 @@ short_description: Resource module for Compliance Policys Site Assignments
 description:
   - Manage operation update of the resource Compliance Policys Site Assignments. - > Use this API to assign new sites to the
     policy, update existing site allocations, or delete all site assignments by passing an empty list.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   policyId:
     description: PolicyId path parameter. The `id` of the compliance policy.
     type: str
   siteIds:
-    description: An array of root site IDs linked to the policy. The `id` of the policy root site.
+    description: An array of root site IDs linked to the policy.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance SetSiteAssignmentsForPolicy
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    policyId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
     siteIds:
       - string
 """

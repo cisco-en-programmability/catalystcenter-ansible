@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Application Sets.
   - Create new custom application-set/s.
   - Delete existing application-set by it's id.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id query parameter.
@@ -25,23 +25,23 @@ options:
     elements: dict
     suboptions:
       name:
-        description: Name.
+        description: Application Sets's name.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSet
-    description: Complete reference of the CreateApplicationSet API.
-    link: https://developer.cisco.com/docs/dna-center/#!create-application-set
-  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSet
-    description: Complete reference of the DeleteApplicationSet API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSetV1
+    description: Complete reference of the CreateApplicationSetV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-application-set-v-1
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSetPolicy
+    description: Complete reference of the DeleteApplicationSetPolicy API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-policy
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_set,
-    application_policy.ApplicationPolicy.delete_application_set,
+    application_policy.ApplicationPolicy.create_application_set_v1,
+    application_policy.ApplicationPolicy.delete_application_set_policy,
   - Paths used are
     post /dna/intent/api/v1/application-policy-application-set,
     delete /dna/intent/api/v1/application-policy-application-set,
@@ -49,17 +49,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.application_sets:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    id: string
 - name: Create
   cisco.catalystcenter.application_sets:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -72,6 +61,17 @@ EXAMPLES = r"""
     state: present
     payload:
       - name: string
+- name: Delete all
+  cisco.catalystcenter.application_sets:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: application/json
 """
 RETURN = r"""
 catalystcenter_response:
@@ -80,7 +80,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "taskId": "string",
-      "url": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

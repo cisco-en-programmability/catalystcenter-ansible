@@ -25,7 +25,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_transits_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_fabric_transits_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -35,30 +37,59 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
     test_data = loadPlaybookData("sda_fabric_transits_playbook_config_generator")
 
     # Load all playbook configurations
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
-    playbook_config_component_specific_filters_only = test_data.get("playbook_config_component_specific_filters_only")
-    playbook_config_transit_type_ip_based_single = test_data.get("playbook_config_transit_type_ip_based_single")
-    playbook_config_transit_type_ip_based_multiple = test_data.get("playbook_config_transit_type_ip_based_multiple")
-    playbook_config_transit_name_single = test_data.get("playbook_config_transit_name_single")
-    playbook_config_transit_name_multiple = test_data.get("playbook_config_transit_name_multiple")
-    playbook_config_transit_name_and_type = test_data.get("playbook_config_transit_name_and_type")
-    playbook_config_transit_type_sda_lisp_pub_sub_single = test_data.get("playbook_config_transit_type_sda_lisp_pub_sub_single")
-    playbook_config_transit_type_sda_lisp_bgp_single = test_data.get("playbook_config_transit_type_sda_lisp_bgp_single")
-    playbook_config_all_transit_types = test_data.get("playbook_config_all_transit_types")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
+    playbook_config_component_specific_filters_only = test_data.get(
+        "playbook_config_component_specific_filters_only"
+    )
+    playbook_config_transit_type_ip_based_single = test_data.get(
+        "playbook_config_transit_type_ip_based_single"
+    )
+    playbook_config_transit_type_ip_based_multiple = test_data.get(
+        "playbook_config_transit_type_ip_based_multiple"
+    )
+    playbook_config_transit_name_single = test_data.get(
+        "playbook_config_transit_name_single"
+    )
+    playbook_config_transit_name_multiple = test_data.get(
+        "playbook_config_transit_name_multiple"
+    )
+    playbook_config_transit_name_and_type = test_data.get(
+        "playbook_config_transit_name_and_type"
+    )
+    playbook_config_transit_type_sda_lisp_pub_sub_single = test_data.get(
+        "playbook_config_transit_type_sda_lisp_pub_sub_single"
+    )
+    playbook_config_transit_type_sda_lisp_bgp_single = test_data.get(
+        "playbook_config_transit_type_sda_lisp_bgp_single"
+    )
+    playbook_config_all_transit_types = test_data.get(
+        "playbook_config_all_transit_types"
+    )
     playbook_config_mixed_filters = test_data.get("playbook_config_mixed_filters")
     playbook_config_empty_filters = test_data.get("playbook_config_empty_filters")
     playbook_config_no_file_path = test_data.get("playbook_config_no_file_path")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
-    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
-    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
-    playbook_config_invalid_transit_type = test_data.get("playbook_config_invalid_transit_type")
+    playbook_config_empty_component_specific_filters = test_data.get(
+        "playbook_config_empty_component_specific_filters"
+    )
+    playbook_config_invalid_component = test_data.get(
+        "playbook_config_invalid_component"
+    )
+    playbook_config_invalid_component_filters = test_data.get(
+        "playbook_config_invalid_component_filters"
+    )
+    playbook_config_invalid_transit_type = test_data.get(
+        "playbook_config_invalid_transit_type"
+    )
 
     def setUp(self):
         super(TestSdaFabricTransitsPlaybookConfigGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
@@ -81,114 +112,158 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
 
         if "generate_all_configurations" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "component_specific_filters_only" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "transit_type_ip_based_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),
-                self.test_data.get("get_site_details")
+                self.test_data.get("get_site_details"),
             ]
 
         elif "transit_type_ip_based_multiple" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),  # First filter
-                self.test_data.get("get_ip_based_transits_only"),  # Second filter (duplicate)
-                self.test_data.get("get_site_details")
+                self.test_data.get(
+                    "get_ip_based_transits_only"
+                ),  # Second filter (duplicate)
+                self.test_data.get("get_site_details"),
             ]
 
         elif "transit_name_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_sample_transit3"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "transit_name_multiple" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
-                self.test_data.get("get_transit_by_name_sample_transit1"),  # First filter: name="sample_transit1"
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_transit_by_name_sample_transit1"
+                ),  # First filter: name="sample_transit1"
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_transit_by_name_sample_transit2"),  # Second filter: name="sample_transit2"
-                self.test_data.get("get_site_details")
+                self.test_data.get(
+                    "get_transit_by_name_sample_transit2"
+                ),  # Second filter: name="sample_transit2"
+                self.test_data.get("get_site_details"),
             ]
 
         elif "transit_name_and_type" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_sample_transit2"),
-                self.test_data.get("get_site_details")
+                self.test_data.get("get_site_details"),
             ]
 
         elif "transit_type_sda_lisp_pub_sub_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_sda_lisp_pub_sub_transits_only"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "transit_type_sda_lisp_bgp_single" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_sda_lisp_bgp_transits_only"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "all_transit_types" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
-                self.test_data.get("get_ip_based_transits_only"),  # First filter: IP_BASED_TRANSIT
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_ip_based_transits_only"
+                ),  # First filter: IP_BASED_TRANSIT
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_sda_lisp_pub_sub_transits_only"),  # Second filter: SDA_LISP_PUB_SUB_TRANSIT
+                self.test_data.get(
+                    "get_sda_lisp_pub_sub_transits_only"
+                ),  # Second filter: SDA_LISP_PUB_SUB_TRANSIT
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_device_details"),
-                self.test_data.get("get_sda_lisp_bgp_transits_only"),  # Third filter: SDA_LISP_BGP_TRANSIT
+                self.test_data.get(
+                    "get_sda_lisp_bgp_transits_only"
+                ),  # Third filter: SDA_LISP_BGP_TRANSIT
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "mixed_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
-                self.test_data.get("get_transit_by_name_ip_transit_1"),  # First filter: name="IP_TRANSIT_1"
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_transit_by_name_ip_transit_1"
+                ),  # First filter: name="IP_TRANSIT_1"
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_sda_lisp_bgp_transits_only"),  # Second filter: transit_type="SDA_LISP_BGP_TRANSIT"
+                self.test_data.get(
+                    "get_sda_lisp_bgp_transits_only"
+                ),  # Second filter: transit_type="SDA_LISP_BGP_TRANSIT"
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_device_details"),
-                self.test_data.get("get_transit_by_name_sample_transit3"),  # Third filter: name="sample_transit3" + type="SDA_LISP_PUB_SUB_TRANSIT"
+                self.test_data.get(
+                    "get_transit_by_name_sample_transit3"
+                ),  # Third filter: name="sample_transit3" + type="SDA_LISP_PUB_SUB_TRANSIT"
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "empty_filters" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_details")
+                self.test_data.get("get_device_details"),
             ]
 
         elif "no_file_path" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_device_details"),  # Initial call for device ID mapping
+                self.test_data.get(
+                    "get_device_details"
+                ),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),
-                self.test_data.get("get_site_details")
+                self.test_data.get("get_site_details"),
             ]
         elif "empty_config" in self._testMethodName:
             # No side effects needed - validation happens before API calls
@@ -206,9 +281,11 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             # No side effects needed - validation happens before API calls
             pass
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_generate_all_configurations(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_generate_all_configurations(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for all fabric transits.
 
@@ -225,15 +302,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_generate_all_configurations
+                config=self.playbook_config_generate_all_configurations,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_component_specific_filters_only(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_component_specific_filters_only(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with component-specific filters.
 
@@ -250,15 +332,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_component_specific_filters_only
+                config=self.playbook_config_component_specific_filters_only,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering fabric transits by IP_BASED_TRANSIT type.
 
@@ -275,15 +362,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_type_ip_based_single
+                config=self.playbook_config_transit_type_ip_based_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_ip_based_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering multiple IP-based fabric transits.
 
@@ -300,15 +392,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_type_ip_based_multiple
+                config=self.playbook_config_transit_type_ip_based_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_name_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering fabric transits by name.
 
@@ -325,15 +422,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_name_single
+                config=self.playbook_config_transit_name_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_name_multiple(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_multiple(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering multiple fabric transits by name.
 
@@ -350,15 +452,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_name_multiple
+                config=self.playbook_config_transit_name_multiple,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_name_and_type(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_name_and_type(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering fabric transits by both name and type.
 
@@ -375,15 +482,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_name_and_type
+                config=self.playbook_config_transit_name_and_type,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_pub_sub_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_pub_sub_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering fabric transits by SDA_LISP_PUB_SUB_TRANSIT type.
 
@@ -400,15 +512,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_type_sda_lisp_pub_sub_single
+                config=self.playbook_config_transit_type_sda_lisp_pub_sub_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_bgp_single(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_transit_type_sda_lisp_bgp_single(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for filtering fabric transits by SDA_LISP_BGP_TRANSIT type.
 
@@ -425,15 +542,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_transit_type_sda_lisp_bgp_single
+                config=self.playbook_config_transit_type_sda_lisp_bgp_single,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_all_transit_types(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_all_transit_types(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration for all transit types.
 
@@ -450,15 +572,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_all_transit_types
+                config=self.playbook_config_all_transit_types,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_mixed_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_mixed_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with mixed filters.
 
@@ -475,15 +602,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_mixed_filters
+                config=self.playbook_config_mixed_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_empty_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_empty_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration with empty filters.
 
@@ -500,15 +632,20 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_filters
+                config=self.playbook_config_empty_filters,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_no_file_path(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_no_file_path(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for generating YAML configuration without specifying file_path.
 
@@ -525,16 +662,21 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_no_file_path
+                config=self.playbook_config_no_file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get('msg').get("message")))
-        self.assertIn("sda_fabric_transits_playbook_config", str(result.get('msg')))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg").get("message")),
+        )
+        self.assertIn("sda_fabric_transits_playbook_config", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_empty_config(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_empty_config(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty configuration dictionary.
 
@@ -551,7 +693,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_config
+                config=self.playbook_config_empty_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -560,9 +702,11 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_empty_component_specific_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_empty_component_specific_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for empty component_specific_filters dictionary.
 
@@ -579,7 +723,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_empty_component_specific_filters
+                config=self.playbook_config_empty_component_specific_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -588,9 +732,11 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             str(result.get("msg")),
         )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_invalid_component(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_invalid_component(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid component in component_specific_filters.
 
@@ -607,15 +753,19 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component
+                config=self.playbook_config_invalid_component,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+        self.assertIn(
+            "Invalid network components provided for module", str(result.get("msg"))
+        )
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_invalid_component_filters(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_invalid_component_filters(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid filter keys in component_specific_filters.
 
@@ -632,15 +782,17 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_component_filters
+                config=self.playbook_config_invalid_component_filters,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Invalid filters provided for module", str(result.get("msg")))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('os.path.exists')
-    def test_sda_fabric_transits_playbook_config_generator_invalid_transit_type(self, mock_exists, mock_file):
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("os.path.exists")
+    def test_sda_fabric_transits_playbook_config_generator_invalid_transit_type(
+        self, mock_exists, mock_file
+    ):
         """
         Test case for invalid transit type in component_specific_filters.
 
@@ -657,12 +809,12 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="gathered",
-                config=self.playbook_config_invalid_transit_type
+                config=self.playbook_config_invalid_transit_type,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Invalid filters provided for module", str(result.get("msg")))
         self.assertIn(
             "Valid choices: ['IP_BASED_TRANSIT', 'SDA_LISP_PUB_SUB_TRANSIT', 'SDA_LISP_BGP_TRANSIT']",
-            str(result.get("msg"))
+            str(result.get("msg")),
         )

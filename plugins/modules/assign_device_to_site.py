@@ -11,13 +11,13 @@ short_description: Resource module for Assign Device To Site
 description:
   - Manage operation create of the resource Assign Device To Site.
   - Assigns unassigned devices to a site. This API does not move assigned devices to other sites.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   device:
-    description: Assign Device To Site's device.
+    description: Device IP array.
     elements: dict
     suboptions:
       ip:
@@ -32,7 +32,7 @@ options:
     description: SiteId path parameter. Site Id where device(s) needs to be assigned.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites AssignDevicesToSite
@@ -59,7 +59,7 @@ EXAMPLES = r"""
     device:
       - ip: string
     headers: '{{my_headers | from_json}}'
-    siteId: string
+    siteId: application/json
 """
 RETURN = r"""
 catalystcenter_response:

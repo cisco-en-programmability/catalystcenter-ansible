@@ -11,25 +11,25 @@ short_description: Resource module for Network Device Config Write Memory
 description:
   - Manage operation create of the resource Network Device Config Write Memory.
   - This operation would commit device running configuration to startup by issuing "write memory" to device.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceId:
     description: UUID of the device.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Archive CommitDeviceConfiguration
+  - name: Cisco Catalyst Center documentation for Compliance CommitDeviceConfiguration
     description: Complete reference of the CommitDeviceConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!commit-device-configuration
 notes:
   - SDK Method used are
-    configuration_archive.ConfigurationArchive.commit_device_configuration,
+    compliance.Compliance.commit_device_configuration,
   - Paths used are
     post /dna/intent/api/v1/network-device-config/write-memory,
 """

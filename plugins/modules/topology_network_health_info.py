@@ -11,10 +11,10 @@ short_description: Information module for Topology Network Health
 description:
   - Get all Topology Network Health. - > Returns Overall Network Health information by Device category Access, Distribution,
     Core, Router, Wireless for any given point of time.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Timestamp query parameter. UTC timestamp of network health data in milliseconds.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Topology GetOverallNetworkHealth

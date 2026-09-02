@@ -10,11 +10,11 @@ module: sites_wireless_settings_ssids_count_info
 short_description: Information module for Sites Wireless Settings Ssids Count
 description:
   - Get all Sites Wireless Settings Ssids Count.
-  - This API allows the user to get count of all SSIDs Service Set Identifier .
-version_added: '6.15.0'
+  - This API allows the user to get count of all SSIDs Service Set Identifier at `siteId`.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,16 +26,22 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. This query parameter indicates whether the current SSID count at the given
-        'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+        _inherited query parameter. `_inherited` query parameter indicates wether the current SSID count at
+        `siteId` is of the SSID it is inheriting or count of non-inheriting SSIDs. - When `_inherited` is
+        `false` then - Should a request include a non-global `siteId` with the `_inherited` flag set to `false`,
+        the API will respond with a count of all SSIDs that have been explicitly overridden at the specified
+        site identifier (`siteId`). - When `_inherited` is `true` then - In the case where a non-global `siteId`
+        is accompanied by the `_inherited` flag set to true, the API is tasked with returning a count that
+        aggregates the following - The number of SSIDs inherited from the global level. - The number of SSIDs
+        derived from the immediate parent site where an override is present.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Wireless GetSSIDCountBySite
-    description: Complete reference of the GetSSIDCountBySite API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-ssid-count-by-site
+  - name: Cisco Catalyst Center documentation for Wireless GETSSIDCOUNTBYSITE
+    description: Complete reference of the GETSSIDCOUNTBYSITE API.
+    link: https://developer.cisco.com/docs/dna-center/#!g-etssidcountbysite
 notes:
   - SDK Method used are
     wireless.Wireless.get_ssid_count_by_site,

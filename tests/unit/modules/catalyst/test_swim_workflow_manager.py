@@ -11,10 +11,13 @@
 
 # Make coding more python3-ish
 from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import swim_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    swim_workflow_manager,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -23,14 +26,24 @@ class TestswimWorkflowManager(TestCatalystModule):
     module = swim_workflow_manager
     test_data = loadPlaybookData("swim_workflow_manager")
 
-    playbook_untag_image_as_golden_and_load_on_device = test_data.get("playbook_untag_image_as_golden_and_load_on_device")
-    playbook_import_image_already_exist = test_data.get("playbook_import_image_already_exist")
-    playbook_swim_image_golden_already_tagged = test_data.get("playbook_swim_image_golden_already_tagged")
+    playbook_untag_image_as_golden_and_load_on_device = test_data.get(
+        "playbook_untag_image_as_golden_and_load_on_device"
+    )
+    playbook_import_image_already_exist = test_data.get(
+        "playbook_import_image_already_exist"
+    )
+    playbook_swim_image_golden_already_tagged = test_data.get(
+        "playbook_swim_image_golden_already_tagged"
+    )
     playbook_swim_image_cant_found = test_data.get("playbook_swim_image_cant_found")
-    playbook_image_details_distribution_not_provided = test_data.get("playbook_image_details_distribution_not_provided")
+    playbook_image_details_distribution_not_provided = test_data.get(
+        "playbook_image_details_distribution_not_provided"
+    )
     playbook_device_family_not_found = test_data.get("playbook_device_family_not_found")
     playbook_swim_image_golden_tag = test_data.get("playbook_swim_image_golden_tag")
-    playbook_inheritted_tag_cannot_be_untagged = test_data.get("playbook_inheritted_tag_cannot_be_untagged")
+    playbook_inheritted_tag_cannot_be_untagged = test_data.get(
+        "playbook_inheritted_tag_cannot_be_untagged"
+    )
     playbook_image_activation = test_data.get("playbook_image_activation")
     playbook_image_activation_global_parent_device = test_data.get(
         "playbook_image_activation_global_parent_device"
@@ -38,18 +51,36 @@ class TestswimWorkflowManager(TestCatalystModule):
     playbook_image_distribution = test_data.get("playbook_image_distribution")
     playbook_image_activation_device = test_data.get("playbook_image_activation_device")
     playbook_import_image = test_data.get("playbook_import_image")
-    playbook_multiple_image_distribution_1 = test_data.get("playbook_multiple_image_distribution_1")
+    playbook_multiple_image_distribution_1 = test_data.get(
+        "playbook_multiple_image_distribution_1"
+    )
     playbook_sub_package_images = test_data.get("playbook_sub_package_images")
-    playbook_sub_package_images_with_api_task_timeout = test_data.get("playbook_sub_package_images_with_api_task_timeout")
-    playbook_swim_golden_tag_without_device_tags = test_data.get("playbook_swim_golden_tag_without_device_tags")
+    playbook_sub_package_images_with_api_task_timeout = test_data.get(
+        "playbook_sub_package_images_with_api_task_timeout"
+    )
+    playbook_swim_golden_tag_without_device_tags = test_data.get(
+        "playbook_swim_golden_tag_without_device_tags"
+    )
 
     # Golden-tag idempotence test playbooks (new API path, CC >= 3.1.3.0)
-    playbook_golden_all_idempotent_tag = test_data.get("playbook_golden_all_idempotent_tag")
-    playbook_golden_all_to_dist_proceeds = test_data.get("playbook_golden_all_to_dist_proceeds")
-    playbook_golden_distribution_idempotent_tag = test_data.get("playbook_golden_distribution_idempotent_tag")
-    playbook_golden_distribution_idempotent_untag = test_data.get("playbook_golden_distribution_idempotent_untag")
-    playbook_golden_all_idempotent_untag = test_data.get("playbook_golden_all_idempotent_untag")
-    playbook_golden_all_covers_specific_roles_idempotent_tag = test_data.get("playbook_golden_all_covers_specific_roles_idempotent_tag")
+    playbook_golden_all_idempotent_tag = test_data.get(
+        "playbook_golden_all_idempotent_tag"
+    )
+    playbook_golden_all_to_dist_proceeds = test_data.get(
+        "playbook_golden_all_to_dist_proceeds"
+    )
+    playbook_golden_distribution_idempotent_tag = test_data.get(
+        "playbook_golden_distribution_idempotent_tag"
+    )
+    playbook_golden_distribution_idempotent_untag = test_data.get(
+        "playbook_golden_distribution_idempotent_untag"
+    )
+    playbook_golden_all_idempotent_untag = test_data.get(
+        "playbook_golden_all_idempotent_untag"
+    )
+    playbook_golden_all_covers_specific_roles_idempotent_tag = test_data.get(
+        "playbook_golden_all_covers_specific_roles_idempotent_tag"
+    )
 
     def setUp(self):
         super(TestswimWorkflowManager, self).setUp()
@@ -87,7 +118,7 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_device_family_identifiers_1"),
                 self.test_data.get("get_software_image_details_3"),
                 self.test_data.get("get_golden_tag_status_of_an_image_1"),
-                self.test_data.get("untag_image_as_golden_and_load_on_device_response")
+                self.test_data.get("untag_image_as_golden_and_load_on_device_response"),
             ]
 
         elif "playbook_import_image_already_exist" in self._testMethodName:
@@ -100,16 +131,30 @@ class TestswimWorkflowManager(TestCatalystModule):
         elif "playbook_swim_image_golden_tag" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_swim_image_golden_tag"),
-                self.test_data.get("get_device_family_identifiers_swim_image_golden_tag"),
-                self.test_data.get("get_software_image_details_swim_image_golden_tag_1"),
-                self.test_data.get("get_golden_tag_status_of_an_image_swim_image_golden_tag"),
+                self.test_data.get(
+                    "get_device_family_identifiers_swim_image_golden_tag"
+                ),
+                self.test_data.get(
+                    "get_software_image_details_swim_image_golden_tag_1"
+                ),
+                self.test_data.get(
+                    "get_golden_tag_status_of_an_image_swim_image_golden_tag"
+                ),
                 self.test_data.get("tag_as_golden_image_swim_image_golden_tag"),
                 self.test_data.get("TaskDetails_start"),
                 self.test_data.get("TaskDetails_end"),
-                self.test_data.get("get_software_image_details_swim_image_golden_tag_2"),
-                self.test_data.get("get_device_family_identifiers_swim_image_golden_tag_1"),
-                self.test_data.get("get_software_image_details_swim_image_golden_tag_3"),
-                self.test_data.get("get_golden_tag_status_of_an_image_swim_image_golden_tag_1"),
+                self.test_data.get(
+                    "get_software_image_details_swim_image_golden_tag_2"
+                ),
+                self.test_data.get(
+                    "get_device_family_identifiers_swim_image_golden_tag_1"
+                ),
+                self.test_data.get(
+                    "get_software_image_details_swim_image_golden_tag_3"
+                ),
+                self.test_data.get(
+                    "get_golden_tag_status_of_an_image_swim_image_golden_tag_1"
+                ),
                 self.test_data.get("import__swim_image_golden_tag_response"),
             ]
 
@@ -142,20 +187,36 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         elif "playbook_device_family_not_found" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_software_image_details_device_family_not_found"),
+                self.test_data.get(
+                    "get_software_image_details_device_family_not_found"
+                ),
                 self.test_data.get("get_site_device_family_not_found"),
-                self.test_data.get("get_device_family_identifiers_device_family_not_found"),
+                self.test_data.get(
+                    "get_device_family_identifiers_device_family_not_found"
+                ),
                 self.test_data.get("device_family_not_found_response"),
             ]
 
         elif "playbook_inheritted_tag_cannot_be_untagged" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_software_image_details_playbook_inheritted_tag_cannot_be_untagged"),
-                self.test_data.get("get_site_playbook_inheritted_tag_cannot_be_untagged"),
-                self.test_data.get("get_device_family_identifiers_playbook_inheritted_tag_cannot_be_untagged"),
-                self.test_data.get("get_software_image_details_playbook_inheritted_tag_cannot_be_untagged_1"),
-                self.test_data.get("get_golden_tag_status_of_an_image_playbook_inheritted_tag_cannot_be_untagged"),
-                self.test_data.get("remove_golden_tag_for_image_playbook_inheritted_tag_cannot_be_untagged"),
+                self.test_data.get(
+                    "get_software_image_details_playbook_inheritted_tag_cannot_be_untagged"
+                ),
+                self.test_data.get(
+                    "get_site_playbook_inheritted_tag_cannot_be_untagged"
+                ),
+                self.test_data.get(
+                    "get_device_family_identifiers_playbook_inheritted_tag_cannot_be_untagged"
+                ),
+                self.test_data.get(
+                    "get_software_image_details_playbook_inheritted_tag_cannot_be_untagged_1"
+                ),
+                self.test_data.get(
+                    "get_golden_tag_status_of_an_image_playbook_inheritted_tag_cannot_be_untagged"
+                ),
+                self.test_data.get(
+                    "remove_golden_tag_for_image_playbook_inheritted_tag_cannot_be_untagged"
+                ),
                 self.test_data.get("TaskDetails_end_1"),
                 self.test_data.get("inheritted_tag_cannot_be_untagged_response"),
             ]
@@ -359,27 +420,47 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("Task_Status__"),
             ]
 
-        elif "playbook_sub_package_images_with_api_task_timeout" in self._testMethodName:
+        elif (
+            "playbook_sub_package_images_with_api_task_timeout" in self._testMethodName
+        ):
             self.run_catalystcenter_exec.side_effect = [
-                self.test_data.get("get_software_image_details10_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "get_software_image_details10_images_with_api_task_timeout"
+                ),
                 self.test_data.get("get_sites2_images_with_api_task_timeout"),
                 self.test_data.get("get_sites3_images_with_api_task_timeout"),
                 self.test_data.get("get_sites1_images_with_api_task_timeout"),
                 self.test_data.get("get_sites1_images_with_api_task_timeout"),
                 self.test_data.get("get_sites1_images_with_api_task_timeout"),
-                self.test_data.get("get_site_assigned_network_devices1_images_with_api_task_timeout"),
-                self.test_data.get("get_site_assigned_network_devices2_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "get_site_assigned_network_devices1_images_with_api_task_timeout"
+                ),
+                self.test_data.get(
+                    "get_site_assigned_network_devices2_images_with_api_task_timeout"
+                ),
                 self.test_data.get("get_device_list1_images_with_api_task_timeout"),
-                self.test_data.get("device_list_response1_images_with_api_task_timeout"),
-                self.test_data.get("device_list_response2_images_with_api_task_timeout"),
-                self.test_data.get("get_software_image_details1_images_with_api_task_timeout"),
-                self.test_data.get("get_software_image_details2_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "device_list_response1_images_with_api_task_timeout"
+                ),
+                self.test_data.get(
+                    "device_list_response2_images_with_api_task_timeout"
+                ),
+                self.test_data.get(
+                    "get_software_image_details1_images_with_api_task_timeout"
+                ),
+                self.test_data.get(
+                    "get_software_image_details2_images_with_api_task_timeout"
+                ),
                 self.test_data.get("Task_Details__images_with_api_task_timeout"),
                 self.test_data.get("Task_Status___images_with_api_task_timeout"),
                 self.test_data.get("get_device_list2_images_with_api_task_timeout"),
-                self.test_data.get("compliance_details_of_device1_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "compliance_details_of_device1_images_with_api_task_timeout"
+                ),
                 self.test_data.get("get_device_list5_images_with_api_task_timeout"),
-                self.test_data.get("bulk_update_images_on_network_devices_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "bulk_update_images_on_network_devices_images_with_api_task_timeout"
+                ),
                 self.test_data.get("Task_Details__images_with_api_task_timeout"),
                 self.test_data.get("Task_Status___images_with_api_task_timeout"),
             ]
@@ -439,10 +520,16 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_device_family_identifiers"),
                 self.test_data.get("get_software_image_details_without_device_tags"),
                 self.test_data.get("get_product_name_ordinal_without_device_tags"),
-                self.test_data.get("golden_tag_status_not_tagged_for_without_device_tags"),
+                self.test_data.get(
+                    "golden_tag_status_not_tagged_for_without_device_tags"
+                ),
                 self.test_data.get("tagging_golden_image_without_device_tags"),
-                self.test_data.get("Task_Details__sub_package_images_with_api_task_timeout"),
-                self.test_data.get("Task_Status___sub_package_images_with_api_task_timeout"),
+                self.test_data.get(
+                    "Task_Details__sub_package_images_with_api_task_timeout"
+                ),
+                self.test_data.get(
+                    "Task_Status___sub_package_images_with_api_task_timeout"
+                ),
             ]
 
         # -----------------------------------------------------------------
@@ -469,7 +556,9 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_all_tagged_true"),
                 self.test_data.get("golden_tag_status_all_tagged_true"),
@@ -484,7 +573,9 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_tagged_false"),
                 self.test_data.get("tagging_golden_image_golden_idempotence"),
@@ -498,7 +589,9 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_tagged_true"),
             ]
@@ -509,7 +602,9 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_tagged_false"),
             ]
@@ -520,7 +615,9 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_all_tagged_false"),
                 self.test_data.get("golden_tag_status_all_tagged_false"),
@@ -529,14 +626,19 @@ class TestswimWorkflowManager(TestCatalystModule):
                 self.test_data.get("golden_tag_status_all_tagged_false"),
             ]
 
-        elif "playbook_golden_all_covers_specific_roles_idempotent_tag" in self._testMethodName:
+        elif (
+            "playbook_golden_all_covers_specific_roles_idempotent_tag"
+            in self._testMethodName
+        ):
             # Image already tagged with ALL; requesting DISTRIBUTION,ACCESS → both per-role
             # checks return tagged=True (ALL covers them) → skip (changed=False)
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_software_image_details_golden_idempotence"),
                 self.test_data.get("get_sites_global_golden_idempotence"),
                 self.test_data.get("get_device_family_identifiers_golden_idempotence"),
-                self.test_data.get("get_software_image_details_by_uuid_golden_idempotence"),
+                self.test_data.get(
+                    "get_software_image_details_by_uuid_golden_idempotence"
+                ),
                 self.test_data.get("product_name_ordinal_golden_idempotence"),
                 self.test_data.get("golden_tag_status_tagged_true"),
                 self.test_data.get("golden_tag_status_access_tagged_true"),
@@ -549,47 +651,49 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.7.6',
+                catalystcenter_version="2.3.7.6",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_inheritted_tag_cannot_be_untagged
+                config=self.playbook_inheritted_tag_cannot_be_untagged,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get("msg"),
-            "NCSW10395: An inheritted tag cannot be un-tagged. Go to corresponding site to untag."
+            "NCSW10395: An inheritted tag cannot be un-tagged. Go to corresponding site to untag.",
         )
 
-    def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(self):
+    def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(
+        self,
+    ):
         """
         Test case for swim workflow manager when giving untag image as golden and load on device
         This test case checks the behavior of the swim workflow when giving untag image as golden and load on device
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_untag_image_as_golden_and_load_on_device
+                config=self.playbook_untag_image_as_golden_and_load_on_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             (
                 "Un-Tagging image cat9k_iosxe.17.12.02.SPA.bin golden for site Global/LTTS "
                 "for family Cisco Catalyst 9000 UADP 8 Port Virtual Switch for device role ALL successful."
-            )
+            ),
         )
 
     def test_swim_workflow_manager_playbook_swim_image_golden_tag(self):
@@ -599,20 +703,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_swim_image_golden_tag
+                config=self.playbook_swim_image_golden_tag,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Tagging image cat9k_iosxe.17.12.02.SPA.bin golden for site Global for family Cisco Catalyst 9300 Switch for device role ALL successful."
+            result.get("msg"),
+            "Tagging image cat9k_iosxe.17.12.02.SPA.bin golden for site Global for family Cisco Catalyst 9300 Switch for device role ALL successful.",
         )
 
     def test_swim_workflow_manager_playbook_swim_image_cant_found(self):
@@ -622,43 +726,45 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_swim_image_cant_found
+                config=self.playbook_swim_image_cant_found,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "The device with the following parameter(s): serialNumber: FOC2225U12L could not be found in the Cisco Catalyst Center."
+            result.get("msg"),
+            "The device with the following parameter(s): serialNumber: FOC2225U12L could not be found in the Cisco Catalyst Center.",
         )
 
-    def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(self):
+    def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(
+        self,
+    ):
         """
         Test case for swim workflow manager when giving image details distribution not provided
         This test case checks the behavior of the swim workflow when giving image details distribution not provided
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.7.6',
+                catalystcenter_version="2.3.7.6",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_image_details_distribution_not_provided
+                config=self.playbook_image_details_distribution_not_provided,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "An exception occurred: Site 'Global/LTTS/FLOOR1' does not exist in the Cisco Catalyst Center."
+            result.get("msg"),
+            "An exception occurred: Site 'Global/LTTS/FLOOR1' does not exist in the Cisco Catalyst Center.",
         )
 
     def test_swim_workflow_manager_playbook_device_family_not_found(self):
@@ -668,14 +774,14 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_device_family_not_found
+                config=self.playbook_device_family_not_found,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -693,20 +799,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_import_image
+                config=self.playbook_import_image,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Image(s) cat9k_iosxe.17.07.01.SPA.bin have been imported successfully into Cisco Catalyst Center."
+            result.get("msg"),
+            "Image(s) cat9k_iosxe.17.07.01.SPA.bin have been imported successfully into Cisco Catalyst Center.",
         )
 
     def test_swim_workflow_manager_playbook_import_local_image_with_directory_path(self):
@@ -772,20 +878,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_swim_image_golden_already_tagged
+                config=self.playbook_swim_image_golden_already_tagged,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already tagged as Golden image in Cisco Catalyst Center for the roles - ALL."
+            result.get("msg"),
+            "SWIM Image 'cat9k_iosxe.17.12.02.SPA.bin' already tagged as Golden image in Cisco Catalyst Center for the roles - ALL.",
         )
 
     def test_swim_workflow_manager_playbook_import_image_already_exist(self):
@@ -795,20 +901,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.5.3',
+                catalystcenter_version="2.3.5.3",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_import_image_already_exist
+                config=self.playbook_import_image_already_exist,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Image(s) cat9k_iosxe.17.12.02.SPA.bin were skipped as they already exist in Cisco Catalyst Center."
+            result.get("msg"),
+            "Image(s) cat9k_iosxe.17.12.02.SPA.bin were skipped as they already exist in Cisco Catalyst Center.",
         )
 
     def test_swim_workflow_manager_playbook_image_activation_global_parent_device(self):
@@ -817,20 +923,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='2.3.7.9',
+                catalystcenter_version="2.3.7.9",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_image_activation_global_parent_device
+                config=self.playbook_image_activation_global_parent_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
+            result.get("msg"),
+            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26",
         )
 
     def test_swim_workflow_manager_playbook_image_distribution_payload(self):
@@ -843,14 +949,14 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_image_distribution
+                config=self.playbook_image_distribution,
             )
         )
         with patch.object(
@@ -866,24 +972,23 @@ class TestswimWorkflowManager(TestCatalystModule):
         # Guard: a specific device IP must bypass site-wide enumeration.
         mock_get_device_uuids.assert_not_called()
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             "Image distribution completed successfully for the device IP 204.1.2.4 "
-            "(ID: 0be10e21-34c7-4c76-b217-56327ed1f418)."
+            "(ID: 0be10e21-34c7-4c76-b217-56327ed1f418).",
         )
 
         distribution_call = [
-            call for call in self.run_catalystcenter_exec.call_args_list
+            call
+            for call in self.run_catalystcenter_exec.call_args_list
             if call.kwargs.get("function") == "distribute_images_on_the_network_device"
         ][0]
         self.assertEqual(
             distribution_call.kwargs.get("params"),
             {
                 "id": "0be10e21-34c7-4c76-b217-56327ed1f418",
-                "distributedImages": [
-                    {"id": "19212447-6b00-4a83-a995-4f6a96aee576"}
-                ],
-                "networkValidationIds": None
-            }
+                "distributedImages": [{"id": "19212447-6b00-4a83-a995-4f6a96aee576"}],
+                "networkValidationIds": None,
+            },
         )
         self.assertEqual(distribution_call.kwargs.get("id"), None)
 
@@ -897,20 +1002,20 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         set_module_args(
             dict(
-                catalystcenter_version='2.3.7.9',
+                catalystcenter_version="2.3.7.9",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_multiple_image_distribution_1
+                config=self.playbook_multiple_image_distribution_1,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Successfully distributed: cat9k_iosxe.17.12.03.SPA.bin to 204.1.1.2"
+            result.get("msg"),
+            "Successfully distributed: cat9k_iosxe.17.12.03.SPA.bin to 204.1.1.2",
         )
 
     def test_swim_workflow_manager_playbook_image_activation(self):
@@ -924,20 +1029,20 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         set_module_args(
             dict(
-                catalystcenter_version='2.3.7.9',
+                catalystcenter_version="2.3.7.9",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_image_activation
+                config=self.playbook_image_activation,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26"
+            result.get("msg"),
+            "Successfully activated: cat9k_iosxe.17.12.02.SPA.bin to 204.1.1.26",
         )
 
     def test_swim_workflow_manager_playbook_image_activation_device(self):
@@ -1026,13 +1131,13 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_sub_package_images
+                config=self.playbook_sub_package_images,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -1042,7 +1147,9 @@ class TestswimWorkflowManager(TestCatalystModule):
             "Successful task IDs: 01997ad6-f6f4-75a7-8227-508d56a067ca."
         )
 
-    def test_swim_workflow_manager_playbook_sub_package_images_with_api_task_timeout(self):
+    def test_swim_workflow_manager_playbook_sub_package_images_with_api_task_timeout(
+        self,
+    ):
         """
         Test SWIM workflow manager's image activation process.
 
@@ -1053,13 +1160,13 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_sub_package_images_with_api_task_timeout
+                config=self.playbook_sub_package_images_with_api_task_timeout,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -1525,19 +1632,19 @@ class TestswimWorkflowManager(TestCatalystModule):
 
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_swim_golden_tag_without_device_tags
+                config=self.playbook_swim_golden_tag_without_device_tags,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Tagging image cat9k_iosxe.17.12.05.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) ACCESS successful."
+            result.get("msg"),
+            "Tagging image cat9k_iosxe.17.12.05.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) ACCESS successful.",
         )
 
     def test_swim_workflow_manager_playbook_golden_all_idempotent_tag(self):
@@ -1550,20 +1657,20 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_all_idempotent_tag
+                config=self.playbook_golden_all_idempotent_tag,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s)"
-            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation.",
         )
 
     def test_swim_workflow_manager_playbook_golden_all_to_dist_proceeds(self):
@@ -1577,19 +1684,19 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_all_to_dist_proceeds
+                config=self.playbook_golden_all_to_dist_proceeds,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "Tagging image cat9k_iosxe.17.12.01.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) DISTRIBUTION successful."
+            result.get("msg"),
+            "Tagging image cat9k_iosxe.17.12.01.SPA.bin golden for site Global, family Cisco Catalyst 9300 Switch, device role(s) DISTRIBUTION successful.",
         )
 
     def test_swim_workflow_manager_playbook_golden_distribution_idempotent_tag(self):
@@ -1602,19 +1709,19 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_distribution_idempotent_tag
+                config=self.playbook_golden_distribution_idempotent_tag,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) DISTRIBUTION. Skipping operation."
+            result.get("msg"),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) DISTRIBUTION. Skipping operation.",
         )
 
     def test_swim_workflow_manager_playbook_golden_distribution_idempotent_untag(self):
@@ -1627,19 +1734,19 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_distribution_idempotent_untag
+                config=self.playbook_golden_distribution_idempotent_untag,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s) DISTRIBUTION. Skipping operation."
+            result.get("msg"),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s) DISTRIBUTION. Skipping operation.",
         )
 
     def test_swim_workflow_manager_playbook_golden_all_idempotent_untag(self):
@@ -1652,23 +1759,25 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_all_idempotent_untag
+                config=self.playbook_golden_all_idempotent_untag,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already not Golden tagged for device role(s)"
-            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation."
+            " ACCESS, BORDER_ROUTER, CORE, DISTRIBUTION, UNKNOWN. Skipping operation.",
         )
 
-    def test_swim_workflow_manager_playbook_golden_all_covers_specific_roles_idempotent_tag(self):
+    def test_swim_workflow_manager_playbook_golden_all_covers_specific_roles_idempotent_tag(
+        self,
+    ):
         """
         Test golden tag idempotence: ALL already tagged covers specific roles.
 
@@ -1680,17 +1789,17 @@ class TestswimWorkflowManager(TestCatalystModule):
         """
         set_module_args(
             dict(
-                catalystcenter_version='3.1.3.0',
+                catalystcenter_version="3.1.3.0",
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_golden_all_covers_specific_roles_idempotent_tag
+                config=self.playbook_golden_all_covers_specific_roles_idempotent_tag,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get('msg'),
-            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) ACCESS, DISTRIBUTION. Skipping operation."
+            result.get("msg"),
+            "SWIM Image 'cat9k_iosxe.17.12.01.SPA.bin' is already Golden tagged for device role(s) ACCESS, DISTRIBUTION. Skipping operation.",
         )

@@ -11,20 +11,20 @@ short_description: Resource module for App Policy Intent Create
 description:
   - Manage operation create of the resource App Policy Intent Create.
   - Create/Update/Delete application policy.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   createList:
-    description: App Policy Intent Create's createList.
+    description: Create list of Group Based Policy.
     elements: dict
     suboptions:
       advancedPolicyScope:
-        description: App Policy Intent Create's advancedPolicyScope.
+        description: Advanced policy scope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's advancedPolicyScopeElement.
+            description: Advanced policy scope element.
             elements: dict
             suboptions:
               groupId:
@@ -41,10 +41,10 @@ options:
             type: str
         type: dict
       consumer:
-        description: App Policy Intent Create's consumer.
+        description: Consumer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -53,7 +53,7 @@ options:
             type: list
         type: dict
       contract:
-        description: App Policy Intent Create's contract.
+        description: Contract.
         suboptions:
           idRef:
             description: Id ref to Queueing profile.
@@ -63,10 +63,10 @@ options:
         description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
-        description: App Policy Intent Create's exclusiveContract.
+        description: Exclusive contract.
         suboptions:
           clause:
-            description: App Policy Intent Create's clause.
+            description: Clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -94,10 +94,10 @@ options:
         description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
-        description: App Policy Intent Create's producer.
+        description: Producer.
         suboptions:
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -111,14 +111,14 @@ options:
     elements: str
     type: list
   updateList:
-    description: App Policy Intent Create's updateList.
+    description: Update list of Group Based Policy.
     elements: dict
     suboptions:
       advancedPolicyScope:
-        description: App Policy Intent Create's advancedPolicyScope.
+        description: Advanced policy scope.
         suboptions:
           advancedPolicyScopeElement:
-            description: App Policy Intent Create's advancedPolicyScopeElement.
+            description: Advanced policy scope element.
             elements: dict
             suboptions:
               groupId:
@@ -141,13 +141,13 @@ options:
             type: str
         type: dict
       consumer:
-        description: App Policy Intent Create's consumer.
+        description: Consumer.
         suboptions:
           id:
             description: Id of Consumer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -156,7 +156,7 @@ options:
             type: list
         type: dict
       contract:
-        description: App Policy Intent Create's contract.
+        description: Contract.
         suboptions:
           idRef:
             description: Id ref to Queueing profile.
@@ -166,10 +166,10 @@ options:
         description: NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
         type: str
       exclusiveContract:
-        description: App Policy Intent Create's exclusiveContract.
+        description: Exclusive contract.
         suboptions:
           clause:
-            description: App Policy Intent Create's clause.
+            description: Clause.
             elements: dict
             suboptions:
               deviceRemovalBehavior:
@@ -206,13 +206,13 @@ options:
         description: Set to 4095 while producer refer to application Scalable group otherwise 100.
         type: str
       producer:
-        description: App Policy Intent Create's producer.
+        description: Producer.
         suboptions:
           id:
             description: Id of Producer.
             type: str
           scalableGroup:
-            description: App Policy Intent Create's scalableGroup.
+            description: Scalable group.
             elements: dict
             suboptions:
               idRef:
@@ -222,7 +222,7 @@ options:
         type: dict
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy ApplicationPolicyIntent

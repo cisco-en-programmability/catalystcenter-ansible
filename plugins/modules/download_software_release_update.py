@@ -10,16 +10,19 @@ module: download_software_release_update
 short_description: Resource module for Download Software Release Update
 description:
   - Manage operation update of the resource Download Software Release Update. - > After the specified release has been downloaded
-    successfully, users can download additional optional packages using this API.
-version_added: '6.46.0'
+    successfully, users can download additional optional packages using this API. Provide the `releaseName` and `releaseVersion`
+    used for downloading the release and the list of `optionalPackages` to be downloaded in the request body. Use the
+        `/dna/system/api/v1/releases/releaseSummary`
+    API to obtain the optional package IDs, where releaseName and releaseVersion are the one used during download process.
+    From the API response, provide the `id` of the optional packages, which can be identified by the attribute `"optional"
+    true`.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   optionalPackages:
-    description: Provide the list of optional package's id to be downloaded.Obtain the `id` from the `packagesn.id` attribute
-      where `packagesn.optional` is true from the `/dna/system/api/v1/releases/releaseSummary` API where the `releaseName`
-      and `releaseVersion` is the requested download version.
+    description: Define the list of optional packages to be downloaded.
     elements: str
     type: list
   releaseName:
@@ -29,7 +32,7 @@ options:
     description: The `releaseVersion` of the downloaded release to be updated.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for System Software Upgrade UpdateDownloadedRelease

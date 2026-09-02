@@ -11,10 +11,10 @@ short_description: Information module for Application Policy Application Set
 description:
   - Get all Application Policy Application Set.
   - Get application set/s by offset/limit or by name.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,15 +38,15 @@ options:
         results, max value 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetsV2
-    description: Complete reference of the GetApplicationSetsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-v-2
+  - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSets
+    description: Complete reference of the GetApplicationSets API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_v2,
+    application_policy.ApplicationPolicy.get_application_sets,
   - Paths used are
     get /dna/intent/api/v2/application-policy-application-set,
 """
@@ -63,10 +63,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    attributes: string
+    attributes: applicationSet
     name: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""

@@ -11,16 +11,16 @@ short_description: Information module for Eox Status Summary
 description:
   - Get all Eox Status Summary.
   - Retrieves EoX summary for all devices in the network.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for EoX GetEoXSummary
@@ -28,7 +28,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary
 notes:
   - SDK Method used are
-    eox.Eox.get_eox_summary,
+    eox.EoX.get_eox_summary,
   - Paths used are
     get /dna/intent/api/v1/eox-status/summary,
 """

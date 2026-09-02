@@ -8,3 +8,4 @@ ansible
 ansible-runner
 requests
 yamale
+antsibull-changelog

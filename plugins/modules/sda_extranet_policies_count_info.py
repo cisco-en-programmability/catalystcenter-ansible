@@ -10,17 +10,17 @@ module: sda_extranet_policies_count_info
 short_description: Information module for Sda Extranet Policies Count
 description:
   - Get all Sda Extranet Policies Count.
-  - Returns the count of extranet policies that match the provided query parameters.
-version_added: '6.14.0'
+  - Returns the count of extranet policies that match the provided query.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetExtranetPolicyCount

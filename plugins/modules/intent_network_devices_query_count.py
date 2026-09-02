@@ -10,24 +10,31 @@ module: intent_network_devices_query_count
 short_description: Resource module for Intent Network Devices Query Count
 description:
   - Manage operation create of the resource Intent Network Devices Query Count.
-  - API to fetch the count of network devices for the given filter query.
-version_added: '6.17.0'
+  - API to fetch the count of network devices for the given filter query. How.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   filter:
-    description: Intent Network Devices Query Count's filter.
+    description: Filter to query network devices. The result will contain the network devices that match ALL the filter criteria
+      (AND condition) unless specified in 'logicalOperator'. Total number of filter criteria should not exceed 20.
     suboptions:
       filters:
-        description: Intent Network Devices Query Count's filters.
+        description: List of filter criteria to query network devices.
         elements: dict
         suboptions:
           key:
             description: The key to filter by.
             type: str
           operator:
-            description: The operator to use for filtering the values.
+            description: The operator to use for filtering the values. * `eq` - The result will contain the network devices
+              that match the exact value. * `contains` - The result will contain the network devices that contain the value.
+              * `in` - The result will contain the network devices that match any of the values in the list. * `lt` - The
+              result will contain the network devices that are less than the value. * `gt` - The result will contain the network
+              devices that are greater than the value. * `lte` - The result will contain the network devices that are less
+              than or equal to the value. * `gte` - The result will contain the network devices that are greater than or equal
+              to the value.
             type: str
           value:
             description: Value to filter by. For `in` operator, the value should be a list of values.
@@ -35,11 +42,12 @@ options:
         type: list
       logicalOperator:
         description: The logical operator to use for combining the filter criteria. If not provided, the default value is
-          AND.
+          `AND`. * `AND` - The result will contain the network devices that match ALL the filter criteria. * `OR` - The result
+          will contain the network devices that match ANY of the filter criteria.
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CountTheNumberOfNetworkDevicesWithFilters

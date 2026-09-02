@@ -10,12 +10,12 @@ module: swim_import_via_url
 short_description: Resource module for Swim Import Via Url
 description:
   - Manage operation create of the resource Swim Import Via Url. - > Fetches a software image from remote file system using
-    URL for HTTP/FTP and uploads to Catalyst Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova,
+    URL for HTTP/FTP and uploads to DNA Center. Supported image files extensions are bin, img, tar, smu, pie, aes, iso, ova,
     tar_gz and qcow2.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Swim Import Via Url's payload.
@@ -48,7 +48,7 @@ options:
     description: ScheduleOrigin query parameter. Originator of this call (Optional).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURL
@@ -90,7 +90,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

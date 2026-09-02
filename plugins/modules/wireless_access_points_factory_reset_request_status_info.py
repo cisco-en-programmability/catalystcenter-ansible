@@ -11,10 +11,10 @@ short_description: Information module for Wireless Access Points Factory Reset R
 description:
   - Get all Wireless Access Points Factory Reset Request Status.
   - This API returns each AP Factory Reset initiation status.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetAccessPointsFactoryResetStatus

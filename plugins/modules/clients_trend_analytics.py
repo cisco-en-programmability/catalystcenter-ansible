@@ -9,50 +9,47 @@ DOCUMENTATION = r"""
 module: clients_trend_analytics
 short_description: Resource module for Clients Trend Analytics
 description:
-  - Manage operation create of the resource Clients Trend Analytics. - > Retrieves the trend analytics of client data for
-    the specified time range. The data will be grouped based on the given trend time interval. This API facilitates obtaining
-    consolidated insights into the performance and status of the clients over the specified start and end time. For detailed
-    information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
-version_added: '6.15.0'
+  - Manage operation create of the resource Clients Trend Analytics.
+  - Retrieves the trend analytics of client data for the specified time range. The.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   aggregateAttributes:
     description: Clients Trend Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
-        description: Function.
+        description: Clients Trend Analytics's function.
         type: str
       name:
-        description: Name.
+        description: Clients Trend Analytics's name.
         type: str
     type: list
   attributes:
-    description: Attributes.
+    description: Clients Trend Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Clients Trend Analytics's endTime.
     type: int
   filters:
     description: Clients Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
-        description: Key.
+        description: Clients Trend Analytics's key.
         type: str
       operator:
-        description: Operator.
+        description: Clients Trend Analytics's operator.
         type: str
       value:
-        description: Value.
+        description: Clients Trend Analytics's value.
         type: int
     type: list
   groupBy:
-    description: Group By.
+    description: Clients Trend Analytics's groupBy.
     elements: str
     type: list
   headers:
@@ -62,23 +59,23 @@ options:
     description: Clients Trend Analytics's page.
     suboptions:
       cursor:
-        description: Cursor.
+        description: Clients Trend Analytics's cursor.
         type: str
       limit:
-        description: Limit.
+        description: Clients Trend Analytics's limit.
         type: int
       timeSortOrder:
-        description: Time Sort Order.
+        description: Clients Trend Analytics's timeSortOrder.
         type: str
     type: dict
   startTime:
-    description: Start Time.
+    description: Clients Trend Analytics's startTime.
     type: int
   trendInterval:
-    description: Trend Interval.
+    description: Clients Trend Analytics's trendInterval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClients

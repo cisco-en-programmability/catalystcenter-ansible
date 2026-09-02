@@ -11,13 +11,10 @@ short_description: Information module for Icap Settings
 description:
   - Get all Icap Settings.
   - Retrieves deployed ICAP configurations while supporting basic filtering.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
-    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -51,7 +48,7 @@ options:
       - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors RetrievesDeployedICAPConfigurationsWhileSupportingBasicFiltering
@@ -59,7 +56,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-deployed-icap-configurations-while-supporting-basic-filtering
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering,
+    sensors.Sensors.retrieves_deployed_icap_configurations_while_supporting_basic_filtering,
   - Paths used are
     get /dna/intent/api/v1/icapSettings,
 """

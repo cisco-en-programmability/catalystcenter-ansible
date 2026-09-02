@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on SDA fabric devices in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -23,7 +24,7 @@ description:
   - Configure wireless controller settings on fabric devices, including enabling/disabling
     wireless mode, managing AP location scopes, setting rolling AP upgrade behavior,
     and optionally reloading the device for cleanup.
-version_added: '6.21.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -575,7 +576,7 @@ options:
                             4094.
                         type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
@@ -1652,7 +1653,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            (site_exists, site_id) = self.get_site_id(fabric_name)
+            site_exists, site_id = self.get_site_id(fabric_name)
             self.log(
                 "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
                     site_name=fabric_name, site_exists=site_exists
@@ -2711,7 +2712,7 @@ class FabricDevices(CatalystCenterBase):
             ),
             "INFO",
         )
-        (site_exists, site_id) = self.get_site_id(fabric_name)
+        site_exists, site_id = self.get_site_id(fabric_name)
         self.log(
             "Retrieved site ID: {site_id}. Site exists: {site_exists}.".format(
                 site_id=site_id, site_exists=site_exists
@@ -4143,7 +4144,7 @@ class FabricDevices(CatalystCenterBase):
                 internal_vlan_id, external_vlan_id, device_ip
             )
             if error:
-                (self.msg, self.status) = error
+                self.msg, self.status = error
                 self.log(
                     "Validation error for device IP {ip}: {msg}".format(
                         ip=device_ip, msg=self.msg
@@ -7562,9 +7563,7 @@ class FabricDevices(CatalystCenterBase):
                 ).check_return_status()
             else:
                 result_fabric_device_msg.update(
-                    {
-                        "l2_handoff": "L2 Handoff not found in the Cisco Catalyst Center."
-                    }
+                    {"l2_handoff": "L2 Handoff not found in the Cisco Catalyst Center."}
                 )
 
             device_exists = have_fabric_device.get("exists")
@@ -8243,20 +8242,72 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {
+            "type": "str",
+            "required": True,
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

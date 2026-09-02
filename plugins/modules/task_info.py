@@ -13,14 +13,18 @@ description:
   - Get Task by id.
   - Returns a task by specified id.
   - Returns tasks based on filter criteria.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  taskId:
+    description:
+      - TaskId path parameter. UUID of the Task.
+    type: str
   startTime:
     description:
       - StartTime query parameter. This is the epoch start time from which tasks need to be fetched.
@@ -77,12 +81,8 @@ options:
     description:
       - Order query parameter. Sort order - asc or dsc.
     type: str
-  taskId:
-    description:
-      - TaskId path parameter. UUID of the Task.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Task GetTaskById
@@ -122,8 +122,8 @@ EXAMPLES = r"""
     isError: string
     failureReason: string
     parentId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
     order: string
   register: result

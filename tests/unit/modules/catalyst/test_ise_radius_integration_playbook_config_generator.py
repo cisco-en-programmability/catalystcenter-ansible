@@ -212,9 +212,7 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
         written_yaml = self._get_written_yaml(mock_file)
         generated_config = yaml.safe_load(written_yaml)
         auth_servers = generated_config["config"][0]["authentication_policy_server"]
-        servers_by_ip = {
-            server["server_ip_address"]: server for server in auth_servers
-        }
+        servers_by_ip = {server["server_ip_address"]: server for server in auth_servers}
 
         self.assertEqual(str(result.get("response").get("status")), "success")
         self.assertFalse(servers_by_ip["10.197.156.40"]["trusted_server"])

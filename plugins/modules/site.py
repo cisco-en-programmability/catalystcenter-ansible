@@ -11,19 +11,19 @@ short_description: Resource module for Site
 description:
   - Manage operation create of the resource Site.
   - Creates site with area/building/floor with specified hierarchy.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   site:
-    description: Site's site.
+    description: Site details.
     suboptions:
       area:
-        description: Site's area.
+        description: Area details.
         suboptions:
           name:
             description: Name of the area (eg Area1).
@@ -33,7 +33,7 @@ options:
             type: str
         type: dict
       building:
-        description: Site's building.
+        description: Building details.
         suboptions:
           address:
             description: Address of the building to be created.
@@ -84,7 +84,7 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites CreateSite

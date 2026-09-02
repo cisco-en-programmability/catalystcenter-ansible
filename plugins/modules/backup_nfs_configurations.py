@@ -12,10 +12,10 @@ description:
   - Manage operations create and delete of the resource Backup Nfs Configurations.
   - This api is used to create NFS configuration.
   - This api is used to delete the NFS configuration.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. The `id` of the NFS configuration to be deleted.Obtain the `id` from the id attribute
@@ -37,7 +37,7 @@ options:
     description: NFS server path.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup CreateNFSConfiguration
@@ -48,8 +48,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!delete-nfs-configuration
 notes:
   - SDK Method used are
-    backup.Backup.create_n_f_s_configuration,
-    backup.Backup.delete_n_f_s_configuration,
+    backup.Backup.create_nfs_configuration,
+    backup.Backup.delete_nfs_configuration,
   - Paths used are
     post /dna/system/api/v1/backupNfsConfigurations,
     delete /dna/system/api/v1/backupNfsConfigurations/{id},

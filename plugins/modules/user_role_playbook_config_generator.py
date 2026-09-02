@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML playbook for User and Role Management in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -25,7 +26,7 @@ description:
   and role names.
 - Generated YAML can be directly used with C(user_role_workflow_manager)
   for configuration management and disaster recovery scenarios.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -185,7 +186,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Minimum supported Catalyst Center version is 2.3.5.3 which
@@ -428,16 +429,18 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 import time
+
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -493,7 +496,11 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {"type": "bool", "required": False, "default": False},
+            "generate_all_configurations": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "component_specific_filters": {"type": "dict", "required": False},
         }
 
@@ -505,7 +512,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Expected parameter schema defined with {0} allowed parameter(s): {1}".format(
                 len(allowed_keys), sorted(list(allowed_keys))
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate that only allowed keys are present in the configuration
@@ -542,13 +549,15 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "user_details",
                 "role_details",
             }
-            invalid_filter_keys = set(component_filters.keys()) - allowed_component_filter_keys
+            invalid_filter_keys = (
+                set(component_filters.keys()) - allowed_component_filter_keys
+            )
             if invalid_filter_keys:
                 self.msg = (
                     "Invalid keys found in 'component_specific_filters': {0}. "
                     "Allowed keys are: {1}.".format(
                         sorted(list(invalid_filter_keys)),
-                        sorted(list(allowed_component_filter_keys))
+                        sorted(list(allowed_component_filter_keys)),
                     )
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -558,15 +567,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             if components_list is None:
                 components_list = []
             elif not isinstance(components_list, list):
-                self.msg = (
-                    "'components_list' must be a list, got: {0}.".format(
-                        type(components_list).__name__
-                    )
+                self.msg = "'components_list' must be a list, got: {0}.".format(
+                    type(components_list).__name__
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
             else:
-                invalid_components = set(components_list) - {"user_details", "role_details"}
+                invalid_components = set(components_list) - {
+                    "user_details",
+                    "role_details",
+                }
                 if invalid_components:
                     self.msg = (
                         "Invalid component names found in 'components_list': {0}. "
@@ -583,15 +593,15 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             user_details_filters = component_filters.get("user_details")
             if user_details_filters is not None:
                 if not isinstance(user_details_filters, list):
-                    self.msg = (
-                        "'user_details' must be a list of filter dictionaries, got: {0}.".format(
-                            type(user_details_filters).__name__
-                        )
+                    self.msg = "'user_details' must be a list of filter dictionaries, got: {0}.".format(
+                        type(user_details_filters).__name__
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                for filter_index, filter_param in enumerate(user_details_filters, start=1):
+                for filter_index, filter_param in enumerate(
+                    user_details_filters, start=1
+                ):
                     if not isinstance(filter_param, dict):
                         self.msg = (
                             "Each entry in 'user_details' must be a dictionary, "
@@ -602,14 +612,17 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    invalid_user_keys = set(filter_param.keys()) - allowed_user_filter_keys
+                    invalid_user_keys = (
+                        set(filter_param.keys()) - allowed_user_filter_keys
+                    )
                     if invalid_user_keys:
                         self.msg = (
                             "Invalid parameters found in 'user_details' filter entry {0}: {1}. "
                             "Only the following parameters are allowed: {2}. "
                             "Please remove the invalid parameters and try again.".format(
-                                filter_index, sorted(list(invalid_user_keys)),
-                                sorted(list(allowed_user_filter_keys))
+                                filter_index,
+                                sorted(list(invalid_user_keys)),
+                                sorted(list(allowed_user_filter_keys)),
                             )
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -620,15 +633,15 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             role_details_filters = component_filters.get("role_details")
             if role_details_filters is not None:
                 if not isinstance(role_details_filters, list):
-                    self.msg = (
-                        "'role_details' must be a list of filter dictionaries, got: {0}.".format(
-                            type(role_details_filters).__name__
-                        )
+                    self.msg = "'role_details' must be a list of filter dictionaries, got: {0}.".format(
+                        type(role_details_filters).__name__
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                for filter_index, filter_param in enumerate(role_details_filters, start=1):
+                for filter_index, filter_param in enumerate(
+                    role_details_filters, start=1
+                ):
                     if not isinstance(filter_param, dict):
                         self.msg = (
                             "Each entry in 'role_details' must be a dictionary, "
@@ -639,14 +652,17 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
-                    invalid_role_keys = set(filter_param.keys()) - allowed_role_filter_keys
+                    invalid_role_keys = (
+                        set(filter_param.keys()) - allowed_role_filter_keys
+                    )
                     if invalid_role_keys:
                         self.msg = (
                             "Invalid parameters found in 'role_details' filter entry {0}: {1}. "
                             "Only the following parameters are allowed: {2}. "
                             "Please remove the invalid parameters and try again.".format(
-                                filter_index, sorted(list(invalid_role_keys)),
-                                sorted(list(allowed_role_filter_keys))
+                                filter_index,
+                                sorted(list(invalid_role_keys)),
+                                sorted(list(allowed_role_filter_keys)),
                             )
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -674,8 +690,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 return self
 
         self.log(
-            "Configuration structure and key validation completed successfully.",
-            "INFO"
+            "Configuration structure and key validation completed successfully.", "INFO"
         )
 
         # Set the validated configuration and update the result with success status
@@ -687,14 +702,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         config_summary = {
             "has_file_path": "file_path" in validated_config,
             "file_mode": validated_config.get("file_mode", "overwrite"),
-            "generate_all_configurations": validated_config.get("generate_all_configurations", False),
-            "has_component_specific_filters": "component_specific_filters" in validated_config,
+            "generate_all_configurations": validated_config.get(
+                "generate_all_configurations", False
+            ),
+            "has_component_specific_filters": "component_specific_filters"
+            in validated_config,
             "has_global_filters": "global_filters" in validated_config,
         }
-        self.log(
-            "Validated configuration summary: {0}".format(config_summary),
-            "DEBUG"
-        )
+        self.log("Validated configuration summary: {0}".format(config_summary), "DEBUG")
 
         # Success message
         success_msg = (
@@ -709,7 +724,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Input parameter validation completed successfully. Validated configuration "
             "across 4 validation steps (availability, invalid params, schema, minimum "
             "requirements). Configuration is ready for user and role retrieval workflow.",
-            "INFO"
+            "INFO",
         )
         return self
 
@@ -790,13 +805,18 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         Returns:
             list: List of role names corresponding to the role IDs.
         """
-        self.log("Transforming user role list for user: {0}".format(user_details.get("username")), "DEBUG")
+        self.log(
+            "Transforming user role list for user: {0}".format(
+                user_details.get("username")
+            ),
+            "DEBUG",
+        )
 
         if not user_details:
             self.log(
                 "Transformation aborted - user_details parameter is empty or None. "
                 "Cannot extract role information from empty user data.",
-                "WARNING"
+                "WARNING",
             )
             return []
 
@@ -806,7 +826,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Expected dict, got {0}. Cannot extract roleList from non-dictionary.".format(
                     type(user_details).__name__
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -815,7 +835,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "User details validated successfully for user '{0}' - extracting roleList".format(
                 username
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         role_ids = user_details.get("roleList", [])
@@ -825,7 +845,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "got {1}. Returning empty role list.".format(
                     username, type(role_ids).__name__
                 ),
-                "ERROR"
+                "ERROR",
             )
             return []
 
@@ -833,7 +853,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "User '{0}' has empty roleList - no roles assigned to this user. "
                 "Returning empty role name list.".format(username),
-                "INFO"
+                "INFO",
             )
             return []
 
@@ -841,7 +861,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "User '{0}' has {1} role ID(s) to transform: {2}".format(
                 username, len(role_ids), role_ids
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         role_names = []
@@ -853,7 +873,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         cache_misses = 0
 
         # Check if role cache is available
-        if hasattr(self, '_role_cache') and self._role_cache:
+        if hasattr(self, "_role_cache") and self._role_cache:
             cache_hits = len([rid for rid in role_ids if rid in self._role_cache])
             cache_misses = len(role_ids) - cache_hits
 
@@ -862,20 +882,20 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "{1} role(s). Expected cache hits: {2}, cache misses: {3}".format(
                     username, len(self._role_cache), cache_hits, cache_misses
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "Role cache not yet initialized for user '{0}' transformation - will "
                 "trigger cache population on first role lookup".format(username),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Transform each role ID to role name
         self.log(
             "Beginning role ID to role name transformation for user '{0}' - processing "
             "{1} role ID(s)".format(username, len(role_ids)),
-            "DEBUG"
+            "DEBUG",
         )
 
         for role_index, role_id in enumerate(role_ids, start=1):
@@ -883,7 +903,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing role {0}/{1} for user '{2}': role_id='{3}'".format(
                     role_index, len(role_ids), username, role_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate role ID format
@@ -892,7 +912,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Role {0}/{1} for user '{2}' has empty role_id - skipping this role".format(
                         role_index, len(role_ids), username
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 failed_lookups += 1
                 continue
@@ -903,7 +923,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "got {3}. Skipping this role.".format(
                         role_index, len(role_ids), username, type(role_id).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 failed_lookups += 1
                 continue
@@ -913,7 +933,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Looking up role name for role_id '{0}' (role {1}/{2} for user '{3}')".format(
                     role_id, role_index, len(role_ids), username
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             role_name = self.get_role_name_by_id(role_id)
@@ -924,7 +944,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "'{3}') - get_role_name_by_id returned empty value. Skipping this role.".format(
                         role_id, role_index, len(role_ids), username
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 failed_lookups += 1
                 continue
@@ -936,7 +956,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "name (API returned name directly instead of ID).".format(
                         role_id, username, role_index, len(role_ids)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 # Still count as successful since we have a value
                 successful_lookups += 1
@@ -946,7 +966,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "{2}/{3} for user '{4}'".format(
                         role_id, role_name, role_index, len(role_ids), username
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 successful_lookups += 1
 
@@ -956,7 +976,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Added role name '{0}' to role list for user '{1}' (role {2}/{3})".format(
                     role_name, username, role_index, len(role_ids)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         if role_names:
@@ -964,21 +984,21 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Transformed role IDs {0} to role names {1} for user '{2}'".format(
                     role_ids, role_names, username
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No valid role names resolved for user '{0}' after transformation. "
                 "Original role IDs: {1}. This may indicate data inconsistency or "
                 "deleted roles.".format(username, role_ids),
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             "Transformation completed for user '{0}' - returning {1} role name(s): {2}".format(
                 username, len(role_names), role_names
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return role_names
@@ -1003,14 +1023,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting role name lookup for role_id '{0}' using cached role mapping".format(
                 role_id
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not role_id:
             self.log(
                 "Role ID lookup received empty or None role_id parameter. Returning "
                 "empty value as fallback.",
-                "WARNING"
+                "WARNING",
             )
             return role_id
 
@@ -1020,7 +1040,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "str, got {0}. Returning original value as fallback.".format(
                     type(role_id).__name__
                 ),
-                "WARNING"
+                "WARNING",
             )
             return role_id
 
@@ -1028,15 +1048,15 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Role ID parameter validated successfully: role_id='{0}' (type=str)".format(
                 role_id
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
-            if not hasattr(self, '_role_cache'):
+            if not hasattr(self, "_role_cache"):
                 self.log(
                     "Role cache not initialized - triggering cache population via API "
                     "call to retrieve all roles from Catalyst Center",
-                    "INFO"
+                    "INFO",
                 )
                 self._role_cache = {}
                 roles_response = self.catalystcenter._exec(
@@ -1050,13 +1070,13 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "API response contains no roles - received empty roles list. "
                         "Cache will be empty. This may indicate no roles exist in "
                         "Catalyst Center or API access issues.",
-                        "WARNING"
+                        "WARNING",
                     )
                 else:
                     self.log(
                         "Received API response for {0} role(s) - "
                         "building role ID to name cache mapping".format(len(roles)),
-                        "INFO"
+                        "INFO",
                     )
 
                 roles_cached = 0
@@ -1071,7 +1091,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Role {0}/{1} is missing roleId field - skipping cache entry. "
                             "Role data: {2}".format(role_index, len(roles), role),
-                            "WARNING"
+                            "WARNING",
                         )
                         roles_skipped += 1
                         continue
@@ -1082,7 +1102,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "skipping cache entry".format(
                                 role_index, len(roles), role_id_key
                             ),
-                            "WARNING"
+                            "WARNING",
                         )
                         roles_skipped += 1
                         continue
@@ -1095,11 +1115,11 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Cached role {0}/{1}: roleId='{2}' → name='{3}'".format(
                             role_index, len(roles), role_id_key, role_name_value
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
             self.log(
                 "Role name lookup using cache for role_id '{0}'".format(role_id),
-                "DEBUG"
+                "DEBUG",
             )
 
             # First, check if role_id is an actual role ID in the cache
@@ -1109,7 +1129,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Found role name '{0}' for role_id '{1}' in cache".format(
                         cached_name, role_id
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return cached_name
 
@@ -1120,19 +1140,22 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Value '{0}' is already a valid role name (found in cache "
                     "values) - returning as-is".format(role_id),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return role_id
 
             self.log(
                 "Role name lookup completed with cache miss for role_id '{0}' - "
                 "returning original value as fallback".format(role_id),
-                "DEBUG"
+                "DEBUG",
             )
             return role_id
 
         except Exception as e:
-            self.log("Error getting role name for ID {0}: {1}".format(role_id, str(e)), "ERROR")
+            self.log(
+                "Error getting role name for ID {0}: {1}".format(role_id, str(e)),
+                "ERROR",
+            )
             return role_id
 
     def transform_role_resource_types(self, role_details):
@@ -1156,14 +1179,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "permission structure for role '{0}'".format(
                 role_details.get("name", "unknown")
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if not role_details:
             self.log(
                 "Transformation aborted - role_details parameter is empty or None. "
                 "Cannot extract resource types from empty role data.",
-                "WARNING"
+                "WARNING",
             )
             return {}
 
@@ -1172,7 +1195,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Transformation aborted - role_details parameter has invalid type. "
                 "Expected dict, got {0}. Cannot extract resourceTypes from "
                 "non-dictionary.".format(type(role_details).__name__),
-                "ERROR"
+                "ERROR",
             )
             return {}
 
@@ -1181,15 +1204,17 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Role details validated successfully for role '{0}' - extracting "
             "resourceTypes".format(role_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         resource_types = role_details.get("resourceTypes", [])
         if resource_types is None:
             self.log(
                 "Role '{0}' has resourceTypes=None in role_details. Treating as empty "
-                "resource types - role has no permissions configured.".format(role_name),
-                "WARNING"
+                "resource types - role has no permissions configured.".format(
+                    role_name
+                ),
+                "WARNING",
             )
             resource_types = []
 
@@ -1199,7 +1224,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "list, got {1}. Returning empty permissions structure.".format(
                     role_name, type(resource_types).__name__
                 ),
-                "ERROR"
+                "ERROR",
             )
             return {}
 
@@ -1209,20 +1234,20 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "this role. Returning structure with all empty categories.".format(
                     role_name
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "Role '{0}' has {1} resource type(s) to transform".format(
                     role_name, len(resource_types)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Initializing permission structure with 9 standard categories for role "
             "'{0}'".format(role_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Initialize the structure for all categories
@@ -1235,14 +1260,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "platform": {},
             "security": {},
             "system": {},
-            "utilities": {}
+            "utilities": {},
         }
 
         self.log(
             "Initialized empty permission structure for categories: {0}".format(
                 list(transformed_permissions.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Track transformation statistics
@@ -1256,7 +1281,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Beginning resource type transformation for role '{0}' - processing {1} "
             "resource(s)".format(role_name, total_resources),
-            "DEBUG"
+            "DEBUG",
         )
 
         for resource_index, resource in enumerate(resource_types, start=1):
@@ -1264,17 +1289,19 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing resource {0}/{1} for role '{2}'".format(
                     resource_index, total_resources, role_name
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if not isinstance(resource, dict):
                 self.log(
                     "Resource {0}/{1} for role '{2}' has invalid type - expected dict, "
                     "got {3}. Skipping this resource.".format(
-                        resource_index, total_resources, role_name,
-                        type(resource).__name__
+                        resource_index,
+                        total_resources,
+                        role_name,
+                        type(resource).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 invalid_resources += 1
                 resources_skipped += 1
@@ -1287,7 +1314,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Resource {0}/{1} details: type='{2}', operations={3}".format(
                     resource_index, total_resources, resource_type, operations
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             if resource_type == "System.Basic":
@@ -1295,7 +1322,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Skipping System.Basic resource (resource {0}/{1}) from playbook "
                     "generation for role '{2}' - system basic permissions are not "
                     "configurable".format(resource_index, total_resources, role_name),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 system_basic_skipped += 1
                 resources_skipped += 1
@@ -1309,7 +1336,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "permission='deny'".format(
                         resource_index, total_resources, resource_type
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             elif len(operations) == 1 and "gRead" in operations:
                 permission = "read"
@@ -1318,7 +1345,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "mapped to permission='read'".format(
                         resource_index, total_resources, resource_type
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 permission = "write"
@@ -1327,7 +1354,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "permission='write'".format(
                         resource_index, total_resources, resource_type, operations
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Parse resource type and create nested structure
@@ -1338,7 +1365,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Resource {0}/{1} ('{2}') parsed into {3} level(s): {4}".format(
                     resource_index, total_resources, resource_type, parts_count, parts
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Handle different hierarchy levels
@@ -1348,10 +1375,8 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                 self.log(
                     "Resource {0}/{1}: Level 1 (category-only) - normalized '{2}' to "
-                    "'{3}'".format(
-                        resource_index, total_resources, parts[0], category
-                    ),
-                    "DEBUG"
+                    "'{3}'".format(resource_index, total_resources, parts[0], category),
+                    "DEBUG",
                 )
 
                 if category in transformed_permissions:
@@ -1363,7 +1388,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "resource {2}/{3}".format(
                                 category, permission, resource_index, total_resources
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
@@ -1371,7 +1396,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "overall permission for resource {1}/{2}".format(
                                 category, resource_index, total_resources
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                 else:
                     self.log(
@@ -1379,7 +1404,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "not in predefined category list".format(
                             category, resource_index, total_resources
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     resources_skipped += 1
                     continue
@@ -1392,27 +1417,34 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Resource {0}/{1}: Level 2 (category.subcategory) - normalized "
                     "'{2}.{3}' to '{4}.{5}'".format(
-                        resource_index, total_resources, parts[0], parts[1],
-                        category, subcategory
+                        resource_index,
+                        total_resources,
+                        parts[0],
+                        parts[1],
+                        category,
+                        subcategory,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if category in transformed_permissions:
                     transformed_permissions[category][subcategory] = permission
                     self.log(
                         "Set permission '{0}.{1}' = '{2}' for resource {3}/{4}".format(
-                            category, subcategory, permission, resource_index,
-                            total_resources
+                            category,
+                            subcategory,
+                            permission,
+                            resource_index,
+                            total_resources,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Unknown category '{0}' encountered in resource {1}/{2}".format(
                             category, resource_index, total_resources
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     resources_skipped += 1
                     continue
@@ -1426,10 +1458,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Resource {0}/{1}: Level 3 (category.parent.nested) - normalized "
                     "'{2}.{3}.{4}' to '{5}.{6}.{7}'".format(
-                        resource_index, total_resources, parts[0], parts[1], parts[2],
-                        category, parent_subcategory, nested_subcategory
+                        resource_index,
+                        total_resources,
+                        parts[0],
+                        parts[1],
+                        parts[2],
+                        category,
+                        parent_subcategory,
+                        nested_subcategory,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if category in transformed_permissions:
@@ -1438,24 +1476,31 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         transformed_permissions[category][parent_subcategory] = {}
                         self.log(
                             "Created nested structure for '{0}.{1}' (resource {2}/{3})".format(
-                                category, parent_subcategory, resource_index,
-                                total_resources
+                                category,
+                                parent_subcategory,
+                                resource_index,
+                                total_resources,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                     elif not isinstance(
                         transformed_permissions[category][parent_subcategory], dict
                     ):
                         # If it was a simple permission, convert to dict
-                        old_value = transformed_permissions[category][parent_subcategory]
+                        old_value = transformed_permissions[category][
+                            parent_subcategory
+                        ]
                         transformed_permissions[category][parent_subcategory] = {}
                         self.log(
                             "Converted '{0}.{1}' from simple permission '{2}' to "
                             "nested structure for resource {3}/{4}".format(
-                                category, parent_subcategory, old_value,
-                                resource_index, total_resources
+                                category,
+                                parent_subcategory,
+                                old_value,
+                                resource_index,
+                                total_resources,
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                     transformed_permissions[category][parent_subcategory][
@@ -1465,17 +1510,21 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Set nested permission '{0}.{1}.{2}' = '{3}' for resource "
                         "{4}/{5}".format(
-                            category, parent_subcategory, nested_subcategory,
-                            permission, resource_index, total_resources
+                            category,
+                            parent_subcategory,
+                            nested_subcategory,
+                            permission,
+                            resource_index,
+                            total_resources,
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Unknown category '{0}' encountered in resource {1}/{2}".format(
                             category, resource_index, total_resources
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     resources_skipped += 1
                     continue
@@ -1485,7 +1534,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "'{3}'. Skipping this resource.".format(
                         resource_index, total_resources, parts_count, resource_type
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 invalid_resources += 1
                 resources_skipped += 1
@@ -1498,17 +1547,21 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Resource type transformation statistics for role '{0}': total={1}, "
             "processed={2}, skipped={3} (system_basic={4}, invalid={5})".format(
-                role_name, total_resources, resources_processed, resources_skipped,
-                system_basic_skipped, invalid_resources
+                role_name,
+                total_resources,
+                resources_processed,
+                resources_skipped,
+                system_basic_skipped,
+                invalid_resources,
             ),
-            "INFO"
+            "INFO",
         )
 
         # Convert to the expected list format for YAML generation
         self.log(
             "Converting transformed permissions to list format for YAML compatibility "
             "for role '{0}'".format(role_name),
-            "DEBUG"
+            "DEBUG",
         )
 
         final_structure = {}
@@ -1522,12 +1575,17 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     final_structure[category] = [{}]
                     empty_categories += 1
                     self.log(
-                        "Category '{0}' is empty - using [{{}}] format".format(category),
-                        "DEBUG"
+                        "Category '{0}' is empty - using [{{}}] format".format(
+                            category
+                        ),
+                        "DEBUG",
                     )
                 else:
                     # Handle nested inventory_management structure
-                    if category == "network_provision" and "inventory_management" in permissions:
+                    if (
+                        category == "network_provision"
+                        and "inventory_management" in permissions
+                    ):
                         inventory_mgmt = permissions["inventory_management"]
                         if isinstance(inventory_mgmt, dict):
                             # Convert inventory_management to list format
@@ -1535,7 +1593,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             self.log(
                                 "Converted '{0}.inventory_management' to list format "
                                 "for YAML compatibility".format(category),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     final_structure[category] = [permissions]
@@ -1547,7 +1605,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             "Category '{0}' has {1} permission(s) configured".format(
                                 category, permission_count
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
             else:
                 # Empty category
@@ -1557,24 +1615,28 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Category '{0}' has no permissions - using [{{}}] format".format(
                         category
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
         self.log(
             "List format conversion completed for role '{0}': categories_with_permissions={1}, "
             "empty_categories={2}, total_categories={3}".format(
-                role_name, categories_with_permissions, empty_categories,
-                len(final_structure)
+                role_name,
+                categories_with_permissions,
+                empty_categories,
+                len(final_structure),
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Transformation completed for role '{0}' - returning permission structure "
             "with {1} categories ({2} with permissions, {3} empty)".format(
-                role_name, len(final_structure), categories_with_permissions,
-                empty_categories
+                role_name,
+                len(final_structure),
+                categories_with_permissions,
+                empty_categories,
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         return final_structure
@@ -1608,7 +1670,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Platform": "platform",
             "Security": "security",
             "System": "system",
-            "Utilities": "utilities"
+            "Utilities": "utilities",
         }
         return category_mapping.get(category, category.lower().replace(" ", "_"))
 
@@ -1658,10 +1720,12 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Event Viewer": "event_viewer",
             "Network Reasoner": "network_reasoner",
             "Scheduler": "scheduler",
-            "Search": "search"
+            "Search": "search",
         }
 
-        return name_mapping.get(subcategory, subcategory.lower().replace(" ", "_").replace("-", "_"))
+        return name_mapping.get(
+            subcategory, subcategory.lower().replace(" ", "_").replace("-", "_")
+        )
 
     def role_details_temp_spec(self):
         """
@@ -1672,61 +1736,81 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             OrderedDict: An ordered dictionary defining the structure of role detail attributes.
         """
         self.log("Generating temporary specification for role details.", "DEBUG")
-        role_details = OrderedDict({
-            "role_name": {"type": "str", "source_key": "name"},
-            "description": {"type": "str", "source_key": "description"},
-            # Transform resource types into structured permissions
-            "assurance": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("assurance", [{}]),
-            },
-            "network_analytics": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_analytics", [{}]),
-            },
-            "network_design": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_design", [{}]),
-            },
-            "network_provision": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_provision", [{}]),
-            },
-            "network_services": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("network_services", [{}]),
-            },
-            "platform": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("platform", [{}]),
-            },
-            "security": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("security", [{}]),
-            },
-            "system": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("system", [{}]),
-            },
-            "utilities": {
-                "type": "list",
-                "special_handling": True,
-                "transform": lambda x: self.transform_role_resource_types(x).get("utilities", [{}]),
-            },
-        })
+        role_details = OrderedDict(
+            {
+                "role_name": {"type": "str", "source_key": "name"},
+                "description": {"type": "str", "source_key": "description"},
+                # Transform resource types into structured permissions
+                "assurance": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "assurance", [{}]
+                    ),
+                },
+                "network_analytics": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "network_analytics", [{}]
+                    ),
+                },
+                "network_design": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "network_design", [{}]
+                    ),
+                },
+                "network_provision": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "network_provision", [{}]
+                    ),
+                },
+                "network_services": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "network_services", [{}]
+                    ),
+                },
+                "platform": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "platform", [{}]
+                    ),
+                },
+                "security": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "security", [{}]
+                    ),
+                },
+                "system": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "system", [{}]
+                    ),
+                },
+                "utilities": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": lambda x: self.transform_role_resource_types(x).get(
+                        "utilities", [{}]
+                    ),
+                },
+            }
+        )
         self.log(
             "Temporary specification generation completed for role details. Specification "
             "ready for use in modify_parameters() to transform API response data into "
             "YAML playbook format. Total fields defined: {0}".format(len(role_details)),
-            "DEBUG"
+            "DEBUG",
         )
         return role_details
 
@@ -1746,26 +1830,28 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting generation of temporary specification for user details "
             "transformation to define structure and field mappings for YAML "
             "playbook generation",
-            "DEBUG"
+            "DEBUG",
         )
-        user_details = OrderedDict({
-            "username": {"type": "str", "source_key": "username"},
-            "first_name": {"type": "str", "source_key": "firstName"},
-            "last_name": {"type": "str", "source_key": "lastName"},
-            "email": {"type": "str", "source_key": "email"},
-            "role_list": {
-                "type": "list",
-                "special_handling": True,
-                "transform": self.transform_user_role_list,
-            },
-        })
+        user_details = OrderedDict(
+            {
+                "username": {"type": "str", "source_key": "username"},
+                "first_name": {"type": "str", "source_key": "firstName"},
+                "last_name": {"type": "str", "source_key": "lastName"},
+                "email": {"type": "str", "source_key": "email"},
+                "role_list": {
+                    "type": "list",
+                    "special_handling": True,
+                    "transform": self.transform_user_role_list,
+                },
+            }
+        )
         self.log(
             "Temporary specification generation completed for user details. "
             "Specification ready for use in modify_parameters() to transform API "
             "response data into YAML playbook format. Total fields defined: {0}".format(
                 len(user_details)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         return user_details
 
@@ -1817,19 +1903,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracted component-specific filters for user_details: {0} filter "
             "parameter(s) defined".format(len(user_filters)),
-            "DEBUG"
+            "DEBUG",
         )
 
         if user_filters:
-            self.log(
-                "User filters configuration: {0}".format(user_filters),
-                "DEBUG"
-            )
+            self.log("User filters configuration: {0}".format(user_filters), "DEBUG")
         else:
             self.log(
                 "No user-specific filters provided - will retrieve all users from "
                 "Catalyst Center",
-                "INFO"
+                "INFO",
             )
 
         final_users = []
@@ -1854,7 +1937,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Received API response for users retrieval - extracting users array "
                 "from response",
-                "DEBUG"
+                "DEBUG",
             )
             users = response.get("response", {}).get("users", [])
 
@@ -1862,14 +1945,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Successfully retrieved {0} total user(s) from Catalyst Center API".format(
                     len(users)
                 ),
-                "INFO"
+                "INFO",
             )
 
             if not users:
                 self.log(
                     "API returned empty users list - no users exist in Catalyst Center "
                     "or API access restricted",
-                    "WARNING"
+                    "WARNING",
                 )
 
             if user_filters:
@@ -1878,7 +1961,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "processing {1} filter parameter set(s)".format(
                         len(users), len(user_filters)
                     ),
-                    "INFO"
+                    "INFO",
                 )
                 filtered_users = []
                 total_matches = 0
@@ -1888,7 +1971,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Processing filter parameter set {0}/{1}: {2}".format(
                             filter_index, len(user_filters), filter_param
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     filter_matches = 0
@@ -1899,10 +1982,13 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Evaluating user {0}/{1} (username='{2}') against "
                             "filter set {3}/{4}".format(
-                                user_index, len(users), username, filter_index,
-                                len(user_filters)
+                                user_index,
+                                len(users),
+                                username,
+                                filter_index,
+                                len(user_filters),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         for key, value in filter_param.items():
                             if not isinstance(value, list):
@@ -1924,8 +2010,10 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                             self.log(
                                 "Filter criterion '{0}' with {1} value(s) (normalized "
-                                "to lowercase): {2}".format(key, len(value_list), value_list),
-                                "DEBUG"
+                                "to lowercase): {2}".format(
+                                    key, len(value_list), value_list
+                                ),
+                                "DEBUG",
                             )
 
                             if key == "username":
@@ -1937,7 +2025,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "values {2} - marking as non-match".format(
                                             username, user_username, value_list
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     match = False
                                     break
@@ -1945,7 +2033,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     self.log(
                                         "User '{0}' username matches filter - criterion "
                                         "satisfied".format(username),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                             elif key == "email":
                                 user_email = user.get("email", "").lower()
@@ -1956,7 +2044,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "values {2} - marking as non-match".format(
                                             username, user_email, value_list
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     match = False
                                     break
@@ -1964,14 +2052,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     self.log(
                                         "User '{0}' email matches filter - criterion "
                                         "satisfied".format(username),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
 
                             elif key == "role_name":
                                 self.log(
                                     "Transforming role IDs to role names for user '{0}' "
                                     "to check role_name filter".format(username),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
                                 user_role_names = self.transform_user_role_list(user)
@@ -1983,7 +2071,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     "User '{0}' has roles: {1} (normalized: {2})".format(
                                         username, user_role_names, user_role_names_lower
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                                 if not any(
                                     filter_role in user_role_names_lower
@@ -1994,7 +2082,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "values {2} - marking as non-match".format(
                                             username, user_role_names_lower, value_list
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     match = False
                                     break
@@ -2002,7 +2090,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     self.log(
                                         "User '{0}' has at least one matching role - "
                                         "criterion satisfied".format(username),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
 
                         if match:
@@ -2014,23 +2102,25 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 self.log(
                                     "User '{0}' matched all criteria in filter set "
                                     "{1}/{2} - added to filtered list (total matches: {3})".format(
-                                        username, filter_index, len(user_filters),
-                                        total_matches
+                                        username,
+                                        filter_index,
+                                        len(user_filters),
+                                        total_matches,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 self.log(
                                     "User '{0}' already in filtered list - skipping "
                                     "duplicate".format(username),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
                     self.log(
                         "Filter set {0}/{1} resulted in {2} matching user(s)".format(
                             filter_index, len(user_filters), filter_matches
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                 final_users = filtered_users
@@ -2040,7 +2130,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "total users retrieved (filtered out: {2})".format(
                         len(final_users), len(users), len(users) - len(final_users)
                     ),
-                    "INFO"
+                    "INFO",
                 )
             else:
                 final_users = users
@@ -2049,7 +2139,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "No filters applied - using all {0} retrieved user(s)".format(
                         len(final_users)
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         except Exception as e:
@@ -2073,22 +2163,23 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "user_details_temp_spec to generate playbook-compatible structure".format(
                 len(final_users)
             ),
-            "INFO"
+            "INFO",
         )
         user_details = self.modify_parameters(user_details_temp_spec, final_users)
         self.log(
             "Successfully transformed {0} user(s) into playbook format with fields: "
             "{1}".format(
-                len(user_details), list(user_details_temp_spec.keys()) if user_details else []
+                len(user_details),
+                list(user_details_temp_spec.keys()) if user_details else [],
             ),
-            "INFO"
+            "INFO",
         )
 
         modified_user_details = {"user_details": user_details}
         self.log(
             "User retrieval and transformation completed successfully - returning "
             "{0} user detail(s) for YAML generation".format(len(user_details)),
-            "INFO"
+            "INFO",
         )
 
         return modified_user_details
@@ -2139,19 +2230,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Extracted component-specific filters for role_details: {0} filter "
             "parameter(s) defined".format(len(role_filters)),
-            "DEBUG"
+            "DEBUG",
         )
 
         if role_filters:
-            self.log(
-                "Role filters configuration: {0}".format(role_filters),
-                "DEBUG"
-            )
+            self.log("Role filters configuration: {0}".format(role_filters), "DEBUG")
         else:
             self.log(
                 "No role-specific filters provided - will retrieve all custom roles "
                 "from Catalyst Center (excluding system/default roles)",
-                "INFO"
+                "INFO",
             )
 
         final_roles = []
@@ -2175,29 +2263,31 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Received API response for roles retrieval - extracting roles array "
                 "from response",
-                "DEBUG"
+                "DEBUG",
             )
             roles = response.get("response", {}).get("roles", [])
 
             self.log(
                 "Successfully retrieved {0} total role(s) from Catalyst Center API "
                 "(includes system and custom roles)".format(len(roles)),
-                "INFO"
+                "INFO",
             )
 
             if not roles:
                 self.log(
                     "API returned empty roles list - no roles exist in Catalyst Center "
                     "or API access restricted",
-                    "WARNING"
+                    "WARNING",
                 )
 
             if role_filters:
                 self.log(
                     "Applying role-specific filters to {0} retrieved role(s) - "
                     "processing {1} filter parameter set(s). System/default roles "
-                    "will be excluded automatically.".format(len(roles), len(role_filters)),
-                    "INFO"
+                    "will be excluded automatically.".format(
+                        len(roles), len(role_filters)
+                    ),
+                    "INFO",
                 )
 
                 filtered_roles = []
@@ -2210,7 +2300,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Processing filter parameter set {0}/{1}: {2}".format(
                             filter_index, len(role_filters), filter_param
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     filter_matches = 0
                     for role_index, role in enumerate(roles, start=1):
@@ -2220,10 +2310,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             "Evaluating role {0}/{1} (name='{2}', type='{3}') against "
                             "filter set {4}/{5}".format(
-                                role_index, len(roles), role_name, role_type,
-                                filter_index, len(role_filters)
+                                role_index,
+                                len(roles),
+                                role_name,
+                                role_type,
+                                filter_index,
+                                len(role_filters),
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         if role_type in ["default", "system"]:
                             self.log(
@@ -2231,22 +2325,22 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "excluded from playbook generation".format(
                                     role_type, role_name
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             system_roles_skipped += 1
                             continue
 
                         if (
-                            role_name.startswith("SUPER-ADMIN") or
-                            role_name.startswith("NETWORK-ADMIN") or
-                            role_name.startswith("OBSERVER")
+                            role_name.startswith("SUPER-ADMIN")
+                            or role_name.startswith("NETWORK-ADMIN")
+                            or role_name.startswith("OBSERVER")
                         ):
                             self.log(
                                 "Skipping system default role by name prefix: '{0}' - "
                                 "system roles are excluded from playbook generation".format(
                                     role_name
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
                             system_roles_skipped += 1
                             continue
@@ -2269,7 +2363,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 "Filter criterion '{0}' with {1} value(s): {2}".format(
                                     key, len(value), value
                                 ),
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                             if key == "role_name":
@@ -2277,7 +2371,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                     self.log(
                                         "Role '{0}' does not match filter values {1} - "
                                         "marking as non-match".format(role_name, value),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                                     match = False
                                     break
@@ -2286,7 +2380,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                         "Role '{0}' matches filter - criterion satisfied".format(
                                             role_name
                                         ),
-                                        "DEBUG"
+                                        "DEBUG",
                                     )
                         if match:
                             if role not in filtered_roles:
@@ -2297,23 +2391,25 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                                 self.log(
                                     "Role '{0}' matched all criteria in filter set {1}/{2} - "
                                     "added to filtered list (total matches: {3})".format(
-                                        role_name, filter_index, len(role_filters),
-                                        total_matches
+                                        role_name,
+                                        filter_index,
+                                        len(role_filters),
+                                        total_matches,
                                     ),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
                             else:
                                 self.log(
                                     "Role '{0}' already in filtered list - skipping "
                                     "duplicate".format(role_name),
-                                    "DEBUG"
+                                    "DEBUG",
                                 )
 
                     self.log(
                         "Filter set {0}/{1} resulted in {2} matching role(s)".format(
                             filter_index, len(role_filters), filter_matches
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                 final_roles = filtered_roles
@@ -2322,17 +2418,21 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Role filtering completed - {0} custom role(s) matched out of {1} "
                     "total roles retrieved (system/default roles skipped: {2}, filtered "
                     "out: {3})".format(
-                        len(final_roles), len(roles), system_roles_skipped,
-                        len(roles) - len(final_roles) - system_roles_skipped
+                        len(final_roles),
+                        len(roles),
+                        system_roles_skipped,
+                        len(roles) - len(final_roles) - system_roles_skipped,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
             else:
                 self.log(
                     "No user filters applied - excluding system/default roles and "
-                    "including all custom roles from {0} total roles".format(len(roles)),
-                    "INFO"
+                    "including all custom roles from {0} total roles".format(
+                        len(roles)
+                    ),
+                    "INFO",
                 )
 
                 system_roles_skipped = 0
@@ -2345,19 +2445,19 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Processing role {0}/{1}: name='{2}', type='{3}'".format(
                             role_index, len(roles), role_name, role_type
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     if (
-                        role_name.startswith("SUPER-ADMIN") or
-                        role_name.startswith("NETWORK-ADMIN") or
-                        role_name.startswith("OBSERVER")
+                        role_name.startswith("SUPER-ADMIN")
+                        or role_name.startswith("NETWORK-ADMIN")
+                        or role_name.startswith("OBSERVER")
                     ):
                         self.log(
                             "Skipping system default role by name prefix: '{0}'".format(
                                 role_name
                             ),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         system_roles_skipped += 1
                         continue
@@ -2365,7 +2465,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     if role_type in ["default", "system"]:
                         self.log(
                             "Skipping {0} role: '{1}'".format(role_type, role_name),
-                            "DEBUG"
+                            "DEBUG",
                         )
                         system_roles_skipped += 1
                         continue
@@ -2376,7 +2476,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Added custom role '{0}' to final list (total custom roles: {1})".format(
                             role_name, len(final_roles)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 self.log(
@@ -2384,7 +2484,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "included, {1} system/default role(s) excluded".format(
                         len(final_roles), system_roles_skipped
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
         except Exception as e:
@@ -2405,7 +2505,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Retrieving temporary specification for role details transformation using "
             "role_details_temp_spec()",
-            "DEBUG"
+            "DEBUG",
         )
 
         role_details_temp_spec = self.role_details_temp_spec()
@@ -2414,7 +2514,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Transforming {0} role record(s) using modify_parameters() with "
             "role_details_temp_spec to generate playbook-compatible structure with "
             "all 9 permission categories".format(len(final_roles)),
-            "INFO"
+            "INFO",
         )
 
         role_details = self.modify_parameters(role_details_temp_spec, final_roles)
@@ -2422,9 +2522,10 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Successfully transformed {0} role(s) into playbook format with fields: "
             "{1}".format(
-                len(role_details), list(role_details_temp_spec.keys()) if role_details else []
+                len(role_details),
+                list(role_details_temp_spec.keys()) if role_details else [],
             ),
-            "INFO"
+            "INFO",
         )
 
         modified_role_details = {"role_details": role_details}
@@ -2434,7 +2535,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "role detail(s) for YAML generation (all custom roles only)".format(
                 len(role_details)
             ),
-            "INFO"
+            "INFO",
         )
 
         return modified_role_details
@@ -2463,15 +2564,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No file_path provided in input parameters - generating default "
                 "filename using pattern '{module_name}_playbook_{timestamp}.yml'",
-                "INFO"
+                "INFO",
             )
             file_path = self.generate_filename()
-            self.log(
-                "Auto-generated file path: {0}".format(file_path),
-                "INFO"
-            )
+            self.log("Auto-generated file path: {0}".format(file_path), "INFO")
 
-        self.log("YAML configuration file path determined: {0}".format(file_path), "DEBUG")
+        self.log(
+            "YAML configuration file path determined: {0}".format(file_path), "DEBUG"
+        )
 
         file_mode = yaml_config_generator.get("file_mode", "overwrite")
         self.log("File write mode: {0}".format(file_mode), "DEBUG")
@@ -2485,17 +2585,19 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted component-specific filters from input: {0}".format(
                 component_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Retrieve the supported network elements for the module
-        module_supported_network_elements = self.module_schema.get("network_elements", {})
+        module_supported_network_elements = self.module_schema.get(
+            "network_elements", {}
+        )
         self.log(
             "Module schema contains {0} supported network element type(s): {1}".format(
                 len(module_supported_network_elements),
-                list(module_supported_network_elements.keys())
+                list(module_supported_network_elements.keys()),
             ),
-            "DEBUG"
+            "DEBUG",
         )
         components_list = component_specific_filters.get(
             "components_list", list(module_supported_network_elements.keys())
@@ -2505,20 +2607,20 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Using user-specified components_list from filters: {0}".format(
                     components_list
                 ),
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "No components_list specified in filters - defaulting to all "
                 "supported components: {0}".format(components_list),
-                "INFO"
+                "INFO",
             )
 
         self.log(
             "Components to process in YAML generation: {0} component(s) - {1}".format(
                 len(components_list), components_list
             ),
-            "INFO"
+            "INFO",
         )
         # NEW: Initialize tracking variables
         components_processed = 0
@@ -2530,14 +2632,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "components_skipped={1}, total_configurations={2}".format(
                 components_processed, components_skipped, total_configurations
             ),
-            "DEBUG"
+            "DEBUG",
         )
         config_dict = {}
         self.log(
             "Beginning component processing loop - iterating over {0} component(s)".format(
                 len(components_list)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         for component_index, component in enumerate(components_list, start=1):
@@ -2545,7 +2647,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Processing component {0}/{1}: '{2}'".format(
                     component_index, len(components_list), component
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Validate component is supported
@@ -2555,53 +2657,57 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Component '{0}' (component {1}/{2}) is not supported by module "
                     "'{3}'. Skipping this component. Supported components: {4}".format(
-                        component, component_index, len(components_list),
-                        self.module_name, list(module_supported_network_elements.keys())
+                        component,
+                        component_index,
+                        len(components_list),
+                        self.module_name,
+                        list(module_supported_network_elements.keys()),
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 components_skipped += 1
                 self.log(
                     "Incremented components_skipped counter to {0} due to unsupported "
                     "component '{1}'".format(components_skipped, component),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 continue
 
             self.log(
                 "Component '{0}' validated successfully - network element configuration "
                 "found in module schema".format(component),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Construct filter parameters
             self.log(
                 "Constructing filter parameters for component '{0}' with global_filters "
                 "and component_specific_filters".format(component),
-                "DEBUG"
+                "DEBUG",
             )
 
             filters = {
                 "global_filters": yaml_config_generator.get("global_filters", {}),
-                "component_specific_filters": component_specific_filters
+                "component_specific_filters": component_specific_filters,
             }
 
             self.log(
                 "Filter parameters constructed for component '{0}': global_filters={1}, "
                 "component_specific_filters={2}".format(
-                    component, filters["global_filters"],
-                    filters["component_specific_filters"]
+                    component,
+                    filters["global_filters"],
+                    filters["component_specific_filters"],
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             operation_func = network_element.get("get_function_name")
             self.log(
                 "Retrieved operation function for component '{0}': {1}".format(
-                    component, operation_func.__name__ if callable(operation_func)
-                    else "None"
+                    component,
+                    operation_func.__name__ if callable(operation_func) else "None",
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             if not callable(operation_func):
                 self.log(
@@ -2610,23 +2716,23 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "function is not callable. Skipping component.".format(
                         component, component_index, len(components_list)
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 components_skipped += 1
                 self.log(
                     "Incremented components_skipped counter to {0} due to missing "
-                    "operation function for '{1}'".format(components_skipped, component),
-                    "DEBUG"
+                    "operation function for '{1}'".format(
+                        components_skipped, component
+                    ),
+                    "DEBUG",
                 )
                 continue
 
             # Execute component retrieval function
             self.log(
                 "Calling operation function '{0}' for component '{1}' with network "
-                "element config and filters".format(
-                    operation_func.__name__, component
-                ),
-                "INFO"
+                "element config and filters".format(operation_func.__name__, component),
+                "INFO",
             )
 
             try:
@@ -2635,15 +2741,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Successfully executed operation function for component '{0}' - "
                     "received details response".format(component),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 self.log(
                     "Details retrieved for component '{0}': keys={1}, data_type={2}".format(
-                        component, list(details.keys()) if isinstance(details, dict) else "N/A",
-                        type(details).__name__
+                        component,
+                        list(details.keys()) if isinstance(details, dict) else "N/A",
+                        type(details).__name__,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Validate and extract component data
@@ -2654,7 +2761,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Component '{0}' has data in response - extracting configurations".format(
                             component
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                     config_dict[component] = component_data
@@ -2674,42 +2781,53 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Successfully processed component '{0}' (component {1}/{2}): "
                         "added {3} configuration(s) to output. Updated statistics: "
                         "components_processed={4}, total_configurations={5}".format(
-                            component, component_index, len(components_list),
-                            config_count, components_processed, total_configurations
+                            component,
+                            component_index,
+                            len(components_list),
+                            config_count,
+                            components_processed,
+                            total_configurations,
                         ),
-                        "INFO"
+                        "INFO",
                     )
 
                     self.log(
-                        "Component '{0}' data added to config_dict".format(
-                            component
-                        ),
-                        "DEBUG"
+                        "Component '{0}' data added to config_dict".format(component),
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Component '{0}' (component {1}/{2}) returned no data or empty "
                         "data. Response keys: {3}. Skipping component.".format(
-                            component, component_index, len(components_list),
-                            list(details.keys()) if isinstance(details, dict) else "N/A"
+                            component,
+                            component_index,
+                            len(components_list),
+                            (
+                                list(details.keys())
+                                if isinstance(details, dict)
+                                else "N/A"
+                            ),
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     components_skipped += 1
                     self.log(
                         "Incremented components_skipped counter to {0} due to no data "
                         "for component '{1}'".format(components_skipped, component),
-                        "DEBUG"
+                        "DEBUG",
                     )
             except Exception as e:
                 self.log(
                     "Error occurred while processing component '{0}' (component {1}/{2}). "
                     "Exception type: {3}, Exception message: {4}. Skipping component and "
                     "continuing with next component.".format(
-                        component, component_index, len(components_list),
-                        type(e).__name__, str(e)
+                        component,
+                        component_index,
+                        len(components_list),
+                        type(e).__name__,
+                        str(e),
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 components_skipped += 1
                 self.log(
@@ -2717,17 +2835,19 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "during processing of component '{1}'".format(
                         components_skipped, component
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 continue
             self.log(
                 "Component processing loop completed. Final statistics: "
                 "components_processed={0}, components_skipped={1}, "
                 "total_configurations={2}, total_components_attempted={3}".format(
-                    components_processed, components_skipped, total_configurations,
-                    len(components_list)
+                    components_processed,
+                    components_skipped,
+                    total_configurations,
+                    len(components_list),
                 ),
-                "INFO"
+                "INFO",
             )
 
         if not config_dict:
@@ -2735,7 +2855,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No configuration data collected from any component - config_dict is "
                 "empty. This may indicate no matching users/roles found or all "
                 "components were skipped.",
-                "WARNING"
+                "WARNING",
             )
 
             no_config_message = (
@@ -2750,7 +2870,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Generating response for no-data scenario: {0}".format(
                     no_config_message
                 ),
-                "INFO"
+                "INFO",
             )
 
             response_data = {
@@ -2758,11 +2878,10 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "components_skipped": components_skipped,
                 "configurations_count": 0,
                 "message": no_config_message,
-                "status": "success"
+                "status": "success",
             }
             self.log(
-                "Response data for no-data scenario: {0}".format(response_data),
-                "DEBUG"
+                "Response data for no-data scenario: {0}".format(response_data), "DEBUG"
             )
 
             # Set both msg and response to the same structure
@@ -2771,7 +2890,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Operation completed successfully with no data - returning success "
                 "status with informational message",
-                "INFO"
+                "INFO",
             )
             self.set_operation_result("success", False, no_config_message, "INFO")
             return self
@@ -2780,7 +2899,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Creating final dictionary structure for YAML generation with 'config' "
             "root key and {0} component(s)".format(len(config_dict)),
-            "DEBUG"
+            "DEBUG",
         )
 
         final_dict = {"config": config_dict}
@@ -2788,7 +2907,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Final dictionary structure created: root_keys={0}, component_keys={1}".format(
                 list(final_dict.keys()), list(config_dict.keys())
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Write YAML to file
@@ -2797,7 +2916,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "configuration(s) to file: {2}".format(
                 len(config_dict), total_configurations, file_path
             ),
-            "INFO"
+            "INFO",
         )
 
         write_success = self.write_dict_to_yaml(final_dict, file_path, file_mode)
@@ -2805,7 +2924,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "YAML file is already up-to-date - write_dict_to_yaml returned False "
                 "for file path: {0}. Treating as idempotent success.".format(file_path),
-                "INFO"
+                "INFO",
             )
 
             response_data = {
@@ -2821,29 +2940,30 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             }
 
             self.log(
-                "Idempotent response data prepared: {0}".format(response_data),
-                "DEBUG"
+                "Idempotent response data prepared: {0}".format(response_data), "DEBUG"
             )
 
             self.log(
                 "Setting operation result to success with changed=False for idempotent run",
-                "DEBUG"
+                "DEBUG",
             )
-            self.set_operation_result("success", False, response_data["message"], "INFO")
+            self.set_operation_result(
+                "success", False, response_data["message"], "INFO"
+            )
             self.msg = response_data
             self.result["response"] = response_data
 
             self.log(
                 "YAML configuration generation workflow completed with no changes "
                 "(idempotent success).",
-                "INFO"
+                "INFO",
             )
 
             return self
         self.log(
             "YAML file write operation completed successfully - file created at: "
             "{0}".format(file_path),
-            "INFO"
+            "INFO",
         )
 
         success_message = (
@@ -2858,18 +2978,15 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "configurations_count": total_configurations,
             "file_path": file_path,
             "message": success_message,
-            "status": "success"
+            "status": "success",
         }
 
-        self.log(
-            "Success response data prepared: {0}".format(response_data),
-            "DEBUG"
-        )
+        self.log("Success response data prepared: {0}".format(response_data), "DEBUG")
 
         self.log(
             "Setting operation result to success with changed=True to indicate "
             "file was created",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.set_operation_result("success", True, success_message, "INFO")
@@ -2881,10 +2998,12 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "YAML configuration generation workflow completed successfully. "
             "Summary: {0} component(s) processed, {1} component(s) skipped, "
             "{2} total configuration(s) written to {3}".format(
-                components_processed, components_skipped, total_configurations,
-                file_path
+                components_processed,
+                components_skipped,
+                total_configurations,
+                file_path,
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -2900,7 +3019,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting parameter preparation for API operations with state '{0}' and "
             "configuration provided".format(state),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -2908,14 +3027,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "component_filters={2}".format(
                 config.get("generate_all_configurations"),
                 config.get("file_path"),
-                config.get("component_specific_filters")
+                config.get("component_specific_filters"),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Calling validate_params to validate configuration structure and values",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.validate_params(config)
@@ -2923,7 +3042,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Configuration parameters validated successfully - proceeding with parameter "
             "preparation",
-            "DEBUG"
+            "DEBUG",
         )
 
         generate_all = config.get("generate_all_configurations", False)
@@ -2933,7 +3052,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Generate all configurations is enabled - ignoring any user-provided "
                 "component_specific_filters and retrieving all users and custom roles",
-                "INFO"
+                "INFO",
             )
 
             config["component_specific_filters"] = {
@@ -2944,7 +3063,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "component_specific_filters overridden for generate_all mode: {0}".format(
                     config["component_specific_filters"]
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         component_specific_filters = config.get("component_specific_filters") or {}
         components_list = component_specific_filters.get("components_list", [])
@@ -2953,31 +3072,31 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted component_specific_filters from configuration: {0}".format(
                 component_specific_filters
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Extracted components_list for validation: {0} component(s) specified - {1}".format(
-                len(components_list), components_list if components_list else "empty (will default to all)"
+                len(components_list),
+                components_list if components_list else "empty (will default to all)",
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if components_list:
             self.log(
                 "Components_list provided - validating {0} component(s) against allowed "
                 "component list".format(len(components_list)),
-                "INFO"
+                "INFO",
             )
             allowed_components = ["user_details", "role_details"]
             self.log(
                 "Allowed components for this module: {0}".format(allowed_components),
-                "DEBUG"
+                "DEBUG",
             )
             invalid_components = []
             self.log(
-                "Starting validation of each component in components_list",
-                "DEBUG"
+                "Starting validation of each component in components_list", "DEBUG"
             )
 
             # Check each component in the list
@@ -2986,7 +3105,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Validating component {0}/{1}: '{2}' against allowed list".format(
                         component_index, len(components_list), component
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 if component not in allowed_components:
@@ -2995,10 +3114,12 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     self.log(
                         "Component '{0}' (component {1}/{2}) is INVALID - not in allowed "
                         "components list {3}. Adding to invalid components list.".format(
-                            component, component_index, len(components_list),
-                            allowed_components
+                            component,
+                            component_index,
+                            len(components_list),
+                            allowed_components,
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                 else:
                     self.log(
@@ -3006,7 +3127,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "components list".format(
                             component, component_index, len(components_list)
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # If invalid components found, return error
@@ -3024,19 +3145,18 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "Component validation PASSED - all {0} component(s) are valid: {1}".format(
                         len(components_list), components_list
                     ),
-                    "INFO"
+                    "INFO",
                 )
         else:
             self.log(
                 "No components_list specified - will default to all supported components "
                 "during YAML generation: {0}".format(["user_details", "role_details"]),
-                "INFO"
+                "INFO",
             )
 
         # Build want dictionary
         self.log(
-            "Building want dictionary with yaml_config_generator parameters",
-            "DEBUG"
+            "Building want dictionary with yaml_config_generator parameters", "DEBUG"
         )
 
         want = {}
@@ -3045,7 +3165,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Want dictionary constructed successfully with yaml_config_generator key. "
             "Config keys: {0}".format(list(config.keys())),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -3053,9 +3173,9 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "file_path={1}, components_count={2}".format(
                 config.get("generate_all_configurations"),
                 config.get("file_path", "auto-generated"),
-                len(components_list) if components_list else "all"
+                len(components_list) if components_list else "all",
             ),
-            "INFO"
+            "INFO",
         )
 
         self.want = want
@@ -3065,7 +3185,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Parameter preparation completed successfully for state '{0}'. Ready for "
             "diff operations.".format(state),
-            "INFO"
+            "INFO",
         )
         return self
 
@@ -3081,7 +3201,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting diff gathered operation for state 'gathered' to generate YAML "
             "configuration file for user and role management",
-            "DEBUG"
+            "DEBUG",
         )
 
         start_time = time.time()
@@ -3090,14 +3210,14 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Operation start time recorded: {0} (epoch timestamp for performance tracking)".format(
                 start_time
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Define operations to be processed
         self.log(
             "Defining operations list for processing - currently supports 1 operation: "
             "YAML Config Generator",
-            "DEBUG"
+            "DEBUG",
         )
         # Define workflow operations
         workflow_operations = [
@@ -3115,7 +3235,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Beginning sequential iteration over {0} defined operation(s) for processing".format(
                 len(workflow_operations)
             ),
-            "DEBUG"
+            "DEBUG",
         )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
@@ -3125,7 +3245,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "if parameters exist in want dictionary".format(
                     index, len(workflow_operations), operation_name, param_key
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
@@ -3140,23 +3260,28 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     operation_func(params)
                     self.log(
                         "Operation {0}/{1} ('{2}') executed successfully and passed return "
-                        "status validation".format(index, len(workflow_operations), operation_name),
-                        "INFO"
+                        "status validation".format(
+                            index, len(workflow_operations), operation_name
+                        ),
+                        "INFO",
                     )
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -3167,14 +3292,16 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "next operation.".format(
                         index, len(workflow_operations), operation_name, param_key
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
                 self.log(
                     "Want dictionary contents for debugging: keys={0}".format(
-                        list(self.want.keys()) if isinstance(self.want, dict) else "non-dict"
+                        list(self.want.keys())
+                        if isinstance(self.want, dict)
+                        else "non-dict"
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         end_time = time.time()
@@ -3182,7 +3309,7 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Operation end time recorded: {0} (epoch timestamp)".format(end_time),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -3190,13 +3317,13 @@ class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Operations completed: {1}/{2}".format(
                 elapsed_time, len(workflow_operations), len(workflow_operations)
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Diff gathered operation completed successfully for state 'gathered'. "
             "Returning self instance for method chaining.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -3317,7 +3444,6 @@ def main():
             "default": True,
             "aliases": ["dnac_verify"],
         },
-
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -3336,11 +3462,7 @@ def main():
             "default": 2,
             "aliases": ["dnac_task_poll_interval"],
         },
-        "validate_response_schema": {
-            "type": "bool",
-            "default": True
-        },
-
+        "validate_response_schema": {"type": "bool", "default": True},
         # ============================================
         # Logging Configuration Parameters
         # ============================================
@@ -3369,42 +3491,28 @@ def main():
             "default": False,
             "aliases": ["dnac_log"],
         },
-
         # ============================================
         # Playbook Configuration Parameters
         # ============================================
-        "file_path": {
-            "required": False,
-            "type": "str"
-        },
+        "file_path": {"required": False, "type": "str"},
         "file_mode": {
             "required": False,
             "type": "str",
             "default": "overwrite",
-            "choices": ["overwrite", "append"]
+            "choices": ["overwrite", "append"],
         },
-        "config": {
-            "required": False,
-            "type": "dict"
-        },
-        "state": {
-            "default": "gathered",
-            "choices": ["gathered"]
-        },
+        "config": {"required": False, "type": "dict"},
+        "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with argument specification
     # supports_check_mode=True allows module to run in check mode (dry-run)
-    module = AnsibleModule(
-        argument_spec=element_spec,
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Create initial log entry with module initialization timestamp
     # Note: Logging is not yet available since object isn't created
     initialization_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_start_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_start_time)
     )
 
     # Initialize the UserRolePlaybookGenerator object
@@ -3415,7 +3523,7 @@ def main():
     ccc_user_role_playbook_generator.log(
         "Starting Ansible module execution for brownfield user and role playbook "
         "generator at timestamp {0}".format(initialization_timestamp),
-        "INFO"
+        "INFO",
     )
 
     ccc_user_role_playbook_generator.log(
@@ -3426,9 +3534,9 @@ def main():
             module.params.get("catalystcenter_username"),
             module.params.get("catalystcenter_verify"),
             module.params.get("catalystcenter_version"),
-            module.params.get("state")
+            module.params.get("state"),
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # ============================================
@@ -3439,11 +3547,15 @@ def main():
         "meets minimum requirement of 2.3.5.3 for user and role management APIs".format(
             ccc_user_role_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
-    if (ccc_user_role_playbook_generator.compare_catalystcenter_versions(
-            ccc_user_role_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
+    if (
+        ccc_user_role_playbook_generator.compare_catalystcenter_versions(
+            ccc_user_role_playbook_generator.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
 
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
@@ -3457,8 +3569,7 @@ def main():
         )
 
         ccc_user_role_playbook_generator.log(
-            "Version compatibility check failed: {0}".format(error_msg),
-            "ERROR"
+            "Version compatibility check failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_user_role_playbook_generator.msg = error_msg
@@ -3471,7 +3582,7 @@ def main():
         "all required user and role management APIs".format(
             ccc_user_role_playbook_generator.get_ccc_version()
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3483,7 +3594,7 @@ def main():
         "Validating requested state parameter: '{0}' against supported states: {1}".format(
             state, ccc_user_role_playbook_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in ccc_user_role_playbook_generator.supported_states:
@@ -3495,8 +3606,7 @@ def main():
         )
 
         ccc_user_role_playbook_generator.log(
-            "State validation failed: {0}".format(error_msg),
-            "ERROR"
+            "State validation failed: {0}".format(error_msg), "ERROR"
         )
 
         ccc_user_role_playbook_generator.status = "invalid"
@@ -3507,7 +3617,7 @@ def main():
         "State validation passed - using state '{0}' for user and role workflow execution".format(
             state
         ),
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3515,7 +3625,7 @@ def main():
     # ============================================
     ccc_user_role_playbook_generator.log(
         "Starting comprehensive input parameter validation for user and role playbook configuration",
-        "INFO"
+        "INFO",
     )
 
     ccc_user_role_playbook_generator.validate_input().check_return_status()
@@ -3523,7 +3633,7 @@ def main():
     ccc_user_role_playbook_generator.log(
         "Input parameter validation completed successfully - all configuration "
         "parameters meet user and role module requirements",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3532,8 +3642,7 @@ def main():
     config = ccc_user_role_playbook_generator.validated_config
 
     ccc_user_role_playbook_generator.log(
-        "Processing configuration from playbook",
-        "INFO"
+        "Processing configuration from playbook", "INFO"
     )
 
     config_provided = module.params.get("config") not in (None, {})
@@ -3558,15 +3667,16 @@ def main():
     ccc_user_role_playbook_generator.log(
         "Processing configuration for state '{0}' with components: {1}".format(
             state,
-            (config.get("component_specific_filters") or {}).get("components_list", "all")
+            (config.get("component_specific_filters") or {}).get(
+                "components_list", "all"
+            ),
         ),
-        "INFO"
+        "INFO",
     )
 
     # Reset values for clean state
     ccc_user_role_playbook_generator.log(
-        "Resetting module state variables for clean configuration processing",
-        "DEBUG"
+        "Resetting module state variables for clean configuration processing", "DEBUG"
     )
     ccc_user_role_playbook_generator.reset_values()
 
@@ -3574,24 +3684,22 @@ def main():
     ccc_user_role_playbook_generator.log(
         "Collecting desired state parameters from configuration - "
         "building want dictionary for user and role operations",
-        "DEBUG"
+        "DEBUG",
     )
-    ccc_user_role_playbook_generator.get_want(
-        config, state
-    ).check_return_status()
+    ccc_user_role_playbook_generator.get_want(config, state).check_return_status()
 
     # Execute state-specific operation (gathered workflow)
     ccc_user_role_playbook_generator.log(
         "Executing state-specific operation for '{0}' workflow - will retrieve "
         "users and roles from Catalyst Center".format(state),
-        "INFO"
+        "INFO",
     )
     ccc_user_role_playbook_generator.get_diff_state_apply[state]().check_return_status()
 
     ccc_user_role_playbook_generator.log(
         "Successfully completed processing - user and role data extraction "
         "and YAML generation completed",
-        "INFO"
+        "INFO",
     )
 
     # ============================================
@@ -3601,8 +3709,7 @@ def main():
     module_duration = module_end_time - module_start_time
 
     completion_timestamp = time.strftime(
-        "%Y-%m-%d %H:%M:%S",
-        time.localtime(module_end_time)
+        "%Y-%m-%d %H:%M:%S", time.localtime(module_end_time)
     )
 
     ccc_user_role_playbook_generator.log(
@@ -3610,25 +3717,25 @@ def main():
         "at timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
             completion_timestamp,
             module_duration,
-            ccc_user_role_playbook_generator.status
+            ccc_user_role_playbook_generator.status,
         ),
-        "INFO"
+        "INFO",
     )
 
     ccc_user_role_playbook_generator.log(
         "Final module result summary: changed={0}, msg_type={1}, response_available={2}".format(
             ccc_user_role_playbook_generator.result.get("changed", False),
             type(ccc_user_role_playbook_generator.result.get("msg")).__name__,
-            "response" in ccc_user_role_playbook_generator.result
+            "response" in ccc_user_role_playbook_generator.result,
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     # Exit module with results
     # This is a terminal operation - function does not return after this
     ccc_user_role_playbook_generator.log(
         "Exiting Ansible module with result containing user and role extraction results",
-        "DEBUG"
+        "DEBUG",
     )
 
     module.exit_json(**ccc_user_role_playbook_generator.result)

@@ -9,12 +9,12 @@ DOCUMENTATION = r"""
 module: sda_multicast_virtual_networks_count_info
 short_description: Information module for Sda Multicast Virtual Networks Count
 description:
-  - Get all Sda Multicast Virtual Networks Count. - > Returns the count of multicast configurations associated to virtual
-    networks that match the provided query parameters.
-version_added: '6.15.0'
+  - Get all Sda Multicast Virtual Networks Count.
+  - Returns the count of multicast configurations associated to virtual networks.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - FabricId query parameter. ID of the fabric site the multicast configuration is associated with.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetMulticastVirtualNetworkCount

@@ -16,7 +16,7 @@ description:
     users and roles in Cisco Catalyst Center.
   - Provides APIs to create, update, and delete users
     and roles.
-version_added: "6.17.0"
+version_added: "1.0.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -674,7 +674,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - SDK Methods used - user_and_roles.UserandRoles.get_user_api
@@ -1380,9 +1380,7 @@ class UserandRole(CatalystCenterBase):
                 self.status = "success"
                 return self
 
-        if (
-            "access_group_details" in config
-        ):
+        if "access_group_details" in config:
             access_group_details = {
                 "name": {"required": False, "type": "str"},
                 "description": {"required": False, "type": "str"},
@@ -1395,25 +1393,21 @@ class UserandRole(CatalystCenterBase):
                     config["access_group_details"], access_group_details
                 )
             except Exception as e:
-                self.msg = (
-                    "Unexpected error occurred: {0}".format(str(e))
-                )
+                self.msg = "Unexpected error occurred: {0}".format(str(e))
 
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             if invalid_param:
-                self.msg = (
-                    "Invalid parameter(s) found in playbook: "
-                    "{0}".format(", ".join(invalid_param))
+                self.msg = "Invalid parameter(s) found in playbook: " "{0}".format(
+                    ", ".join(invalid_param)
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             self.validated_config = valid_param
-            self.msg = (
-                "Successfully validated playbook config "
-                "params: {0}".format(str(valid_param[0]))
+            self.msg = "Successfully validated playbook config " "params: {0}".format(
+                str(valid_param[0])
             )
             self.set_operation_result("success", True, self.msg, "INFO")
             return self
@@ -1796,9 +1790,7 @@ class UserandRole(CatalystCenterBase):
 
         password = user_config.get("password")
 
-        self.log(
-            "Checking whether password is required for user creation.", "DEBUG"
-        )
+        self.log("Checking whether password is required for user creation.", "DEBUG")
 
         if is_create and not password:
             error_messages.append(
@@ -1990,17 +1982,11 @@ class UserandRole(CatalystCenterBase):
         if "name" in input_config:
             ag_name = input_config.get("name")
             self.log(
-                "Processing access group config "
-                "for name '{0}'".format(ag_name),
+                "Processing access group config " "for name '{0}'".format(ag_name),
                 "DEBUG",
             )
             ccc_version = self.get_ccc_version()
-            version = (
-                self.compare_catalystcenter_versions(
-                    ccc_version, "3.1.6.0"
-                )
-                >= 0
-            )
+            version = self.compare_catalystcenter_versions(ccc_version, "3.1.6.0") >= 0
             self.log(
                 "Catalyst Center version '{0}', "
                 "access group API supported: "
@@ -2009,39 +1995,29 @@ class UserandRole(CatalystCenterBase):
             )
             if version:
                 self.log(
-                    "Querying access group by "
-                    "name '{0}'".format(ag_name),
+                    "Querying access group by " "name '{0}'".format(ag_name),
                     "DEBUG",
                 )
-                ag_exists, current_ag_config = (
-                    self.get_access_group_by_name(ag_name)
-                )
+                ag_exists, current_ag_config = self.get_access_group_by_name(ag_name)
             else:
                 self.log(
-                    "Version < 3.1.6.0, skipping "
-                    "access group lookup.",
+                    "Version < 3.1.6.0, skipping access group lookup.",
                     "DEBUG",
                 )
                 ag_exists = False
                 current_ag_config = {}
             self.log(
                 "Access group exists: {0}, "
-                "current config: {1}".format(
-                    ag_exists, str(current_ag_config)
-                ),
+                "current config: {1}".format(ag_exists, str(current_ag_config)),
                 "DEBUG",
             )
             have["access_group_exists"] = ag_exists
             if ag_exists:
-                have["current_access_group_config"] = (
-                    current_ag_config
-                )
+                have["current_access_group_config"] = current_ag_config
                 have["access_group_name"] = ag_name
                 self.log(
                     "Stored current access group "
-                    "config in have for '{0}'".format(
-                        ag_name
-                    ),
+                    "config in have for '{0}'".format(ag_name),
                     "DEBUG",
                 )
 
@@ -2125,15 +2101,20 @@ class UserandRole(CatalystCenterBase):
             # update the user if role exists
             if self.have.get("user_exists"):
                 self.valid_user_config_parameters(config).check_return_status()
-                (consolidated_data, update_required_param) = self.user_requires_update(
+                consolidated_data, update_required_param = self.user_requires_update(
                     self.have["current_user_config"],
                     self.have["current_role_id_config"],
                 )
 
                 if self.want.get("password_update"):
                     if update_required_param.get("role_list"):
-                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
-                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        if (
+                            self.want["username"].lower()
+                            not in self.have["current_user_config"]["username"]
+                        ):
+                            task_response = {
+                                "error_message": "Username for an existing user cannot be updated."
+                            }
                         else:
                             self.get_diff_deleted(self.want)
                             update_required_param["password"] = self.want.get(
@@ -2163,8 +2144,13 @@ class UserandRole(CatalystCenterBase):
 
                     if update_required_param.get("role_list"):
 
-                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
-                            task_response = {"error_message": "Username for an existing user cannot be updated."}
+                        if (
+                            self.want["username"].lower()
+                            not in self.have["current_user_config"]["username"]
+                        ):
+                            task_response = {
+                                "error_message": "Username for an existing user cannot be updated."
+                            }
                         else:
                             user_in_have = self.have["current_user_config"]
                             update_param = update_required_param
@@ -2178,7 +2164,9 @@ class UserandRole(CatalystCenterBase):
                         }
             else:
                 # Create the user
-                self.valid_user_config_parameters(config, is_create=True).check_return_status()
+                self.valid_user_config_parameters(
+                    config, is_create=True
+                ).check_return_status()
                 self.log("Creating user with config {0}".format(str(config)), "DEBUG")
                 user_params = self.want
 
@@ -2227,8 +2215,7 @@ class UserandRole(CatalystCenterBase):
             version_check = self.check_access_group_version_support()
             if version_check is not None:
                 self.log(
-                    "Access group version "
-                    "check failed",
+                    "Access group version check failed",
                     "ERROR",
                 )
                 return version_check
@@ -2241,32 +2228,24 @@ class UserandRole(CatalystCenterBase):
                     "have: {0}".format(str(self.have)),
                     "DEBUG",
                 )
-                self.valid_access_group_config_parameters(
-                    config
-                ).check_return_status()
+                self.valid_access_group_config_parameters(config).check_return_status()
 
                 self.log(
                     "Checking if access "
                     "group requires update. Current: {0}, "
                     "Desired: {1}".format(
-                        str(self.have[
-                            "current_access_group_config"
-                        ]),
+                        str(self.have["current_access_group_config"]),
                         str(self.want),
                     ),
                     "DEBUG",
                 )
-                update_required, update_payload = (
-                    self.access_group_requires_update(
-                        self.have["current_access_group_config"],
-                        self.want,
-                    )
+                update_required, update_payload = self.access_group_requires_update(
+                    self.have["current_access_group_config"],
+                    self.want,
                 )
                 self.log(
                     "update_required={0}, "
-                    "update_payload={1}".format(
-                        update_required, str(update_payload)
-                    ),
+                    "update_payload={1}".format(update_required, str(update_payload)),
                     "DEBUG",
                 )
 
@@ -2285,27 +2264,19 @@ class UserandRole(CatalystCenterBase):
                     )
                     self.no_update_access_group.append(ag_name)
                     self.log(self.msg, "INFO")
-                    responses["access_group_operation"] = {
-                        "response": config
-                    }
+                    responses["access_group_operation"] = {"response": config}
                     self.result["response"] = self.msg
                     self.status = "success"
                     return self
 
-                current_ag = self.have[
-                    "current_access_group_config"
-                ]
+                current_ag = self.have["current_access_group_config"]
                 ag_id = current_ag.get("id")
                 self.log(
                     "Calling update api with"
-                    "ag_id='{0}', payload={1}".format(
-                        ag_id, str(update_payload)
-                    ),
+                    "ag_id='{0}', payload={1}".format(ag_id, str(update_payload)),
                     "DEBUG",
                 )
-                task_response = self.update_access_group_api(
-                    ag_id, update_payload
-                )
+                task_response = self.update_access_group_api(ag_id, update_payload)
                 self.log(
                     "get_diff_merged: update_access_group_api "
                     "returned: {0} (type: {1})".format(
@@ -2319,71 +2290,53 @@ class UserandRole(CatalystCenterBase):
                     and isinstance(task_response, dict)
                     and "error_message" in task_response
                 ):
-                    self.msg = task_response.get(
-                        "error_message"
-                    )
+                    self.msg = task_response.get("error_message")
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
                 ag_name = self.have.get("access_group_name")
                 self.updated_access_group.append(ag_name)
-                self.msg = (
-                    "Access group '{0}' updated "
-                    "successfully.".format(ag_name)
-                )
+                self.msg = "Access group '{0}' updated " "successfully.".format(ag_name)
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
             else:
                 # Create the access group
                 self.log(
-                    "Access group does "
-                    "not exist, proceeding with create.",
+                    "Access group does not exist, proceeding with create.",
                     "DEBUG",
                 )
                 self.valid_access_group_config_parameters(
                     config, is_create=True
                 ).check_return_status()
 
-                site_hierarchy = self.want.get(
-                    "site_hierarchy"
-                )
+                site_hierarchy = self.want.get("site_hierarchy")
                 self.log(
                     "Resolving site "
                     "hierarchy '{0}' to resource "
                     "group.".format(site_hierarchy),
                     "DEBUG",
                 )
-                resource_group = (
-                    self.resolve_site_to_resource_group(
-                        site_hierarchy
-                    )
-                )
+                resource_group = self.resolve_site_to_resource_group(site_hierarchy)
                 self.log(
-                    "Resolved resource "
-                    "group: {0}".format(str(resource_group)),
+                    "Resolved resource " "group: {0}".format(str(resource_group)),
                     "DEBUG",
                 )
                 if resource_group is None:
                     self.log(
-                        "Failed to resolve "
-                        "site hierarchy, returning.",
+                        "Failed to resolve site hierarchy, returning.",
                         "ERROR",
                     )
                     return self
 
                 role_name = self.want.get("role_name")
                 self.log(
-                    "Resolving role name "
-                    "'{0}' to role ID.".format(role_name),
+                    "Resolving role name " "'{0}' to role ID.".format(role_name),
                     "DEBUG",
                 )
-                role_id = self.resolve_role_name_to_id(
-                    role_name
-                )
+                role_id = self.resolve_role_name_to_id(role_name)
                 self.log(
-                    "Resolved role_id: "
-                    "{0}".format(role_id),
+                    "Resolved role_id: " "{0}".format(role_id),
                     "DEBUG",
                 )
                 if not role_id:
@@ -2411,9 +2364,7 @@ class UserandRole(CatalystCenterBase):
                     "{0}".format(str(create_params)),
                     "DEBUG",
                 )
-                task_response = self.create_access_group(
-                    create_params
-                )
+                task_response = self.create_access_group(create_params)
                 self.log(
                     "create_access_group "
                     "returned: {0} (type: {1})".format(
@@ -2427,20 +2378,13 @@ class UserandRole(CatalystCenterBase):
                     and isinstance(task_response, dict)
                     and "error_message" in task_response
                 ):
-                    self.msg = task_response.get(
-                        "error_message"
-                    )
+                    self.msg = task_response.get("error_message")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                self.created_access_group.append(
+                self.created_access_group.append(self.want.get("name"))
+                self.msg = "Access group '{0}' created " "successfully.".format(
                     self.want.get("name")
-                )
-                self.msg = (
-                    "Access group '{0}' created "
-                    "successfully.".format(
-                        self.want.get("name")
-                    )
                 )
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
@@ -2531,7 +2475,12 @@ class UserandRole(CatalystCenterBase):
 
             for user in users:
                 if input_config.get("username") is not None:
-                    if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+                    if (
+                        self.compare_catalystcenter_versions(
+                            self.get_ccc_version(), "2.3.7.9"
+                        )
+                        <= 0
+                    ):
                         if user.get("username") == input_config.get("username").lower():
                             current_user_configuration = user
                             user_exists = True
@@ -2914,9 +2863,8 @@ class UserandRole(CatalystCenterBase):
 
                 if resource_name == "overall" or resource_name == "data_access":
                     new_entry = {
-
                         "type": "Network Analytics.Data Access",
-                        "operations": operations
+                        "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
                     self.log(
@@ -3504,7 +3452,7 @@ class UserandRole(CatalystCenterBase):
             self.add_entries(entry_types, ["gRead"], unique_types)
             new_entry = {
                 "type": "System.Basic",
-                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"]
+                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"],
             }
             unique_types[new_entry["type"]] = new_entry
             self.log("Added entry for resource basic: {0}".format(new_entry), "DEBUG")
@@ -4504,23 +4452,20 @@ class UserandRole(CatalystCenterBase):
 
             if self.have.get("access_group_exists"):
                 ag_name = self.have.get("access_group_name")
-                current_ag = self.have[
-                    "current_access_group_config"
-                ]
+                current_ag = self.have["current_access_group_config"]
                 ag_id = current_ag.get("id")
                 self.log(
                     "get_diff_deleted: Access group '{0}' "
                     "exists with id '{1}', proceeding "
                     "with deletion. Current config: "
                     "{2}".format(
-                        ag_name, ag_id,
+                        ag_name,
+                        ag_id,
                         str(current_ag),
                     ),
                     "DEBUG",
                 )
-                task_response = self.delete_access_group_api(
-                    ag_id
-                )
+                task_response = self.delete_access_group_api(ag_id)
                 self.log(
                     "get_diff_deleted: "
                     "delete_access_group_api returned: "
@@ -4536,18 +4481,13 @@ class UserandRole(CatalystCenterBase):
                     and isinstance(task_response, dict)
                     and "error_message" in task_response
                 ):
-                    self.msg = task_response.get(
-                        "error_message"
-                    )
+                    self.msg = task_response.get("error_message")
                     self.log(self.msg, "ERROR")
                     self.status = "failed"
                     return self
 
                 self.deleted_access_group.append(ag_name)
-                self.msg = (
-                    "Access group '{0}' deleted "
-                    "successfully.".format(ag_name)
-                )
+                self.msg = "Access group '{0}' deleted " "successfully.".format(ag_name)
                 self.log(self.msg, "INFO")
                 self.result["response"] = self.msg
                 self.result["changed"] = True
@@ -4557,14 +4497,10 @@ class UserandRole(CatalystCenterBase):
             self.log(
                 "get_diff_deleted: Access group '{0}' "
                 "does not exist, nothing to "
-                "delete.".format(
-                    self.want.get("name")
-                ),
+                "delete.".format(self.want.get("name")),
                 "INFO",
             )
-            self.no_deleted_access_group.append(
-                self.want.get("name")
-            )
+            self.no_deleted_access_group.append(self.want.get("name"))
             return self
 
     def delete_user(self, user_params):
@@ -4739,7 +4675,7 @@ class UserandRole(CatalystCenterBase):
                 )
 
             desired_role = self.generate_role_payload(self.want, "update")
-            (require_update, updated_role_info) = self.role_requires_update(
+            require_update, updated_role_info = self.role_requires_update(
                 self.have["current_role_config"], desired_role
             )
             if not require_update:
@@ -4775,7 +4711,7 @@ class UserandRole(CatalystCenterBase):
                     "INFO",
                 )
 
-            (require_update, updated_user_info) = self.user_requires_update(
+            require_update, updated_user_info = self.user_requires_update(
                 self.have["current_user_config"], self.have["current_role_id_config"]
             )
             if not require_update:
@@ -4796,8 +4732,7 @@ class UserandRole(CatalystCenterBase):
             )
             self.get_have(config)
             self.log(
-                "Current State "
-                "(have): {0}".format(str(self.have)),
+                "Current State " "(have): {0}".format(str(self.have)),
                 "DEBUG",
             )
             ag_exist = self.have.get("access_group_exists")
@@ -4896,8 +4831,7 @@ class UserandRole(CatalystCenterBase):
             )
             self.get_have(config)
             self.log(
-                "Current State "
-                "(have): {0}".format(str(self.have)),
+                "Current State " "(have): {0}".format(str(self.have)),
                 "DEBUG",
             )
             ag_exist = self.have.get("access_group_exists")
@@ -5066,11 +5000,7 @@ class UserandRole(CatalystCenterBase):
             no_delete_ag_msg = (
                 "Access group(s) '{0}' is already absent in "
                 "Cisco Catalyst Center. Nothing to "
-                "delete.".format(
-                    "', '".join(
-                        self.no_deleted_access_group
-                    )
-                )
+                "delete.".format("', '".join(self.no_deleted_access_group))
             )
             no_update_list.append(no_delete_ag_msg)
 
@@ -5102,18 +5032,11 @@ class UserandRole(CatalystCenterBase):
             None — sets self.status to 'failed' and returns
             self if the version is unsupported.
         """
-        if (
-            self.compare_catalystcenter_versions(
-                self.get_ccc_version(), "3.1.6.0"
-            )
-            < 0
-        ):
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.6.0") < 0:
             self.msg = (
                 "Access group operations are not supported "
                 "on Cisco Catalyst Center version '{0}'. "
-                "Minimum supported version is '3.1.6.0'.".format(
-                    self.get_ccc_version()
-                )
+                "Minimum supported version is '3.1.6.0'.".format(self.get_ccc_version())
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
@@ -5141,8 +5064,7 @@ class UserandRole(CatalystCenterBase):
             return response
         except Exception as e:
             self.log(
-                "Error retrieving access groups: "
-                "{0}".format(str(e)),
+                "Error retrieving access groups: " "{0}".format(str(e)),
                 "ERROR",
             )
             return {"error_message": str(e)}
@@ -5161,23 +5083,24 @@ class UserandRole(CatalystCenterBase):
         """
         self.log("Searching for access group with name: '{0}'".format(name), "DEBUG")
         response = self.get_access_groups()
-        self.log("Retrieved response for access group '{0}': {1}".format(name, str(response)), "DEBUG")
+        self.log(
+            "Retrieved response for access group '{0}': {1}".format(
+                name, str(response)
+            ),
+            "DEBUG",
+        )
 
         if isinstance(response, dict) and "error_message" in response:
             self.log(
                 "get_access_groups "
-                "returned an error: {0}".format(
-                    response.get("error_message")
-                ),
+                "returned an error: {0}".format(response.get("error_message")),
                 "ERROR",
             )
             return False, {}
         raw = response.get("response", [])
         self.log(
             "Raw response for access group '{0}': "
-            "type: {1}, value: {2}".format(
-                name, type(raw).__name__, str(raw)
-            ),
+            "type: {1}, value: {2}".format(name, type(raw).__name__, str(raw)),
             "DEBUG",
         )
         if isinstance(raw, dict):
@@ -5194,9 +5117,7 @@ class UserandRole(CatalystCenterBase):
             info = ag.get("accessGroupInfo", {})
             ag_name = info.get("name") or ag.get("name")
             self.log(
-                "Checking access group '{0}' (id: {1})".format(
-                    ag_name, ag.get("id")
-                ),
+                "Checking access group '{0}' (id: {1})".format(ag_name, ag.get("id")),
                 "DEBUG",
             )
             if ag_name == name:
@@ -5211,21 +5132,19 @@ class UserandRole(CatalystCenterBase):
                         "resourceGroups",
                         ag.get("resourceGroups", []),
                     ),
-                    "role": info.get(
-                        "role", ag.get("role", [])
-                    ),
+                    "role": info.get("role", ag.get("role", [])),
                     "meta": ag.get("meta", {}),
                 }
                 self.log(
                     "Found match for access group '{0}'! Flattened config: {1}".format(
-                        name, str(flat)),
+                        name, str(flat)
+                    ),
                     "DEBUG",
                 )
 
                 return True, flat
         self.log(
-            "No access group "
-            "found with name '{0}'".format(name),
+            "No access group " "found with name '{0}'".format(name),
             "DEBUG",
         )
         return False, {}
@@ -5242,7 +5161,9 @@ class UserandRole(CatalystCenterBase):
             IDs) rather than the plain site id.
         """
         self.log(
-            "Resolving site hierarchy '{0}' to resource group...".format(site_hierarchy),
+            "Resolving site hierarchy '{0}' to resource group...".format(
+                site_hierarchy
+            ),
             "DEBUG",
         )
         try:
@@ -5269,20 +5190,15 @@ class UserandRole(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            site_hierarchy_id = site[0].get(
-                "siteHierarchyId"
-            )
+            site_hierarchy_id = site[0].get("siteHierarchyId")
             self.log(
                 "Resolved site '{0}' to "
-                "siteHierarchyId: '{1}'".format(
-                    site_hierarchy, site_hierarchy_id
-                ),
+                "siteHierarchyId: '{1}'".format(site_hierarchy, site_hierarchy_id),
                 "DEBUG",
             )
         except Exception as e:
-            self.msg = (
-                "An error occurred while resolving site "
-                "'{0}': {1}".format(site_hierarchy, e)
+            self.msg = "An error occurred while resolving site " "'{0}': {1}".format(
+                site_hierarchy, e
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
@@ -5310,8 +5226,7 @@ class UserandRole(CatalystCenterBase):
             str or None: The role ID, or None if not found.
         """
         self.log(
-            "Looking up role "
-            "name '{0}'".format(role_name),
+            "Looking up role " "name '{0}'".format(role_name),
             "DEBUG",
         )
         try:
@@ -5356,13 +5271,8 @@ class UserandRole(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            if (
-                role.get("name", "").lower()
-                == role_name.lower()
-            ):
-                role_id = role.get("id") or role.get(
-                    "roleId"
-                )
+            if role.get("name", "").lower() == role_name.lower():
+                role_id = role.get("id") or role.get("roleId")
                 self.log(
                     "Found match! role_id='{0}'".format(role_id),
                     "DEBUG",
@@ -5383,8 +5293,7 @@ class UserandRole(CatalystCenterBase):
             response (dict): API response or error dict.
         """
         self.log(
-            "Creating access group with params: "
-            "{0}".format(str(params)),
+            "Creating access group with params: " "{0}".format(str(params)),
             "DEBUG",
         )
         try:
@@ -5402,8 +5311,7 @@ class UserandRole(CatalystCenterBase):
             return response
         except Exception as e:
             self.log(
-                "Error creating access group: "
-                "{0}".format(str(e)),
+                "Error creating access group: " "{0}".format(str(e)),
                 "ERROR",
             )
             return {"error_message": str(e)}
@@ -5437,8 +5345,7 @@ class UserandRole(CatalystCenterBase):
             return response
         except Exception as e:
             self.log(
-                "Error updating access group: "
-                "{0}".format(str(e)),
+                "Error updating access group: " "{0}".format(str(e)),
                 "ERROR",
             )
             return {"error_message": str(e)}
@@ -5452,8 +5359,7 @@ class UserandRole(CatalystCenterBase):
             response (dict): API response or error dict.
         """
         self.log(
-            "Deleting access group with id: "
-            "{0}".format(ag_id),
+            "Deleting access group with id: " "{0}".format(ag_id),
             "DEBUG",
         )
         try:
@@ -5471,15 +5377,12 @@ class UserandRole(CatalystCenterBase):
             return response
         except Exception as e:
             self.log(
-                "Error deleting access group: "
-                "{0}".format(str(e)),
+                "Error deleting access group: " "{0}".format(str(e)),
                 "ERROR",
             )
             return {"error_message": str(e)}
 
-    def valid_access_group_config_parameters(
-        self, ag_config, is_create=False
-    ):
+    def valid_access_group_config_parameters(self, ag_config, is_create=False):
         """
         Validate access group configuration parameters.
         Parameters:
@@ -5498,8 +5401,7 @@ class UserandRole(CatalystCenterBase):
 
         if not name:
             error_messages.append(
-                "name: The 'name' field is required for "
-                "access group operations."
+                "name: The 'name' field is required for access group operations."
             )
         else:
             name_regex = re.compile(r"^[a-zA-Z0-9._\- ]{3,25}$")
@@ -5516,37 +5418,31 @@ class UserandRole(CatalystCenterBase):
             site_hierarchy = ag_config.get("site_hierarchy")
             if not site_hierarchy:
                 error_messages.append(
-                    "site_hierarchy: Required when creating "
-                    "a new access group."
+                    "site_hierarchy: Required when creating a new access group."
                 )
             role_name = ag_config.get("role_name")
             if not role_name:
                 error_messages.append(
-                    "role_name: Required when creating a "
-                    "new access group."
+                    "role_name: Required when creating a new access group."
                 )
 
         if error_messages:
-            self.msg = (
-                "Invalid parameters in playbook config: "
-                "{0}".format(", ".join(error_messages))
+            self.msg = "Invalid parameters in playbook config: " "{0}".format(
+                ", ".join(error_messages)
             )
             self.log(self.msg, "ERROR")
             self.result["response"] = self.msg
             self.status = "failed"
             return self
 
-        self.msg = (
-            "Successfully validated access group config "
-            "params: {0}".format(str(ag_config))
+        self.msg = "Successfully validated access group config " "params: {0}".format(
+            str(ag_config)
         )
         self.log(self.msg, "INFO")
         self.status = "success"
         return self
 
-    def access_group_requires_update(
-        self, current_config, desired_config
-    ):
+    def access_group_requires_update(self, current_config, desired_config):
         """
         Determine if an access group requires an update.
         Parameters:
@@ -5574,17 +5470,14 @@ class UserandRole(CatalystCenterBase):
             current_desc = current_config.get("description", "")
             self.log(
                 "Comparing description - current: '{0}', "
-                "desired: '{1}'".format(
-                    current_desc, desired_desc
-                ),
+                "desired: '{1}'".format(current_desc, desired_desc),
                 "DEBUG",
             )
             if desired_desc != current_desc:
                 update_payload["description"] = desired_desc
                 update_required = True
                 self.log(
-                    "access_group_requires_update: "
-                    "Description update required.",
+                    "access_group_requires_update: Description update required.",
                     "DEBUG",
                 )
 
@@ -5597,42 +5490,29 @@ class UserandRole(CatalystCenterBase):
                 "site: '{0}'".format(desired_site),
                 "DEBUG",
             )
-            resource_group = self.resolve_site_to_resource_group(
-                desired_site
-            )
+            resource_group = self.resolve_site_to_resource_group(desired_site)
             if resource_group is None:
                 self.msg = (
                     "Site '{0}' not found in Cisco "
                     "Catalyst Center. Please provide "
-                    "a valid site_hierarchy.".format(
-                        desired_site
-                    )
+                    "a valid site_hierarchy.".format(desired_site)
                 )
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return None, None
-            current_rgs = current_config.get(
-                "resourceGroups", []
-            )
-            current_site_names = [
-                rg.get("name") for rg in current_rgs
-            ]
+            current_rgs = current_config.get("resourceGroups", [])
+            current_site_names = [rg.get("name") for rg in current_rgs]
             self.log(
                 "access_group_requires_update: Current "
                 "site names: {0}, desired "
-                "site: '{1}'".format(
-                    current_site_names, desired_site
-                ),
+                "site: '{1}'".format(current_site_names, desired_site),
                 "DEBUG",
             )
             if desired_site not in current_site_names:
-                update_payload["resourceGroups"] = [
-                    resource_group
-                ]
+                update_payload["resourceGroups"] = [resource_group]
                 update_required = True
                 self.log(
-                    "access_group_requires_update: "
-                    "Site hierarchy update required.",
+                    "access_group_requires_update: Site hierarchy update required.",
                     "DEBUG",
                 )
 
@@ -5667,26 +5547,21 @@ class UserandRole(CatalystCenterBase):
             self.log(
                 "access_group_requires_update: Current "
                 "roles: {0}, desired role_id: "
-                "'{1}'".format(
-                    current_roles, role_id
-                ),
+                "'{1}'".format(current_roles, role_id),
                 "DEBUG",
             )
             if role_id not in current_roles:
                 update_payload["role"] = [role_id]
                 update_required = True
                 self.log(
-                    "access_group_requires_update: "
-                    "Role update required.",
+                    "access_group_requires_update: Role update required.",
                     "DEBUG",
                 )
 
         self.log(
             "access_group_requires_update: Final result "
             "- update_required={0}, "
-            "update_payload={1}".format(
-                update_required, str(update_payload)
-            ),
+            "update_payload={1}".format(update_required, str(update_payload)),
             "DEBUG",
         )
         return update_required, update_payload
@@ -5764,20 +5639,72 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check or assign default.
     user_role_details = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": "True",
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"required": True, "type": "dict"},
         "validate_response_schema": {"type": "bool", "default": True},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
@@ -5789,7 +5716,9 @@ def main():
     state = ccc_user_role.params.get("state")
 
     if (
-        ccc_user_role.compare_catalystcenter_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
+        ccc_user_role.compare_catalystcenter_versions(
+            ccc_user_role.get_ccc_version(), "2.3.5.3"
+        )
         < 0
     ):
         ccc_user_role.msg = (

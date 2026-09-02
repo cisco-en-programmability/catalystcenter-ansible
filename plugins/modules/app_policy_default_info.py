@@ -11,16 +11,16 @@ short_description: Information module for App Policy Default
 description:
   - Get all App Policy Default.
   - Get default application policy.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy GetApplicationPolicyDefault
@@ -72,16 +72,10 @@ catalystcenter_response:
           "provisioningState": "string",
           "qualifier": "string",
           "resourceVersion": 0,
-          "targetIdList": [
-            "string"
-          ],
+          "targetIdList": [],
           "type": "string",
-          "cfsChangeInfo": [
-            "string"
-          ],
-          "customProvisions": [
-            "string"
-          ],
+          "cfsChangeInfo": [],
+          "customProvisions": [],
           "deletePolicyStatus": "string",
           "internal": true,
           "isDeleted": true,
@@ -91,9 +85,7 @@ catalystcenter_response:
           "policyStatus": "string",
           "priority": 0,
           "pushed": true,
-          "contractList": [
-            "string"
-          ],
+          "contractList": [],
           "exclusiveContract": {
             "id": "string",
             "instanceId": 0,

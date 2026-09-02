@@ -11,10 +11,10 @@ short_description: Information module for Ipam Global Ip Address Pools Global Ip
 description:
   - Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools. - > Retrieves subpools IDs of a global IP address
     pool. The IDs can be fetched with `/dna/intent/api/v1/ipam/siteIpAddressPools/{id}`.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -29,10 +29,10 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page; the minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings RetrievesSubpoolsIDsOfAGlobalIPAddressPool
@@ -57,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
     globalIpAddressPoolId: string
   register: result

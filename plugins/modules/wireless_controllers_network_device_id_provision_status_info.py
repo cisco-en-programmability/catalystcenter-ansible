@@ -9,12 +9,12 @@ DOCUMENTATION = r"""
 module: wireless_controllers_network_device_id_provision_status_info
 short_description: Information module for Wireless Controllers Network Device Id Provision Status
 description:
-  - Get all Wireless Controllers Network Device Id Provision Status.
-  - Retrieves wireless controller's provision status.
-version_added: '6.18.0'
+  - Get all Wireless Controllers Network Device Id Provision Status. - > API to get wireless controller's provision status.
+    This API allows you to get a wireless controller's provision status.
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
         /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless WirelessControllerProvisionStatus

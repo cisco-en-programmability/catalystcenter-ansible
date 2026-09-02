@@ -11,10 +11,10 @@ short_description: Information module for Discoverys Jobs Count
 description:
   - Get all Discoverys Jobs Count. - > API to fetch the count of discovery jobs for given discovery id. A discovery can have
     multiple discovery jobs, created against the same discovery id.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,9 +26,10 @@ options:
   jobId:
     description:
       - JobId query parameter. Optional list of the discovery job ids to filter by.
-    type: str
+    elements: str
+    type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CountTheNumberOfDiscoveryJobsForGivenDiscoveryId
@@ -53,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    jobId: string
+    jobId: ['1739936077107', '17399360774307']
     id: string
   register: result
 """

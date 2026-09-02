@@ -11,10 +11,10 @@ short_description: Information module for Applications Health
 description:
   - Get all Applications Health. - > Intent API to get a list of applications for a specific site, a device, or a client device's
     MAC address. For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -62,7 +62,7 @@ options:
       - ApplicationName query parameter. The name of the application to get information on.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Applications Applications
@@ -87,15 +87,15 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
-    deviceId: string
-    macAddress: string
+    siteId: application/json
+    deviceId: application/json
+    macAddress: application/json
     startTime: 0
     endTime: 0
-    applicationHealth: string
+    applicationHealth: application/json
     offset: 0
     limit: 0
-    applicationName: string
+    applicationName: application/json
   register: result
 """
 RETURN = r"""

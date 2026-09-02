@@ -11,10 +11,10 @@ short_description: Information module for Sda Anycast Gateways
 description:
   - Get all Sda Anycast Gateways.
   - Returns a list of anycast gateways that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -33,8 +33,12 @@ options:
     type: str
   ipPoolName:
     description:
-      - IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
-    type: str
+      - >
+        IpPoolName query parameter. Comma-separated list of IP pool names associated with the anycast gateways.
+        For an anycast gateway to be included in the response, it must be associated with all IP pools in this
+        list. However, the anycast gateway can be associated with other additional IP pools as well.
+    elements: str
+    type: list
   vlanName:
     description:
       - VlanName query parameter. VLAN name of the anycast gateways.
@@ -44,7 +48,7 @@ options:
       - >
         VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except
         for reserved VLANs 1002-1005, 2046, and 4094.
-    type: float
+    type: int
   offset:
     description:
       - Offset query parameter. Starting record for pagination.
@@ -56,7 +60,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetAnycastGateways
@@ -84,11 +88,11 @@ EXAMPLES = r"""
     id: string
     fabricId: string
     virtualNetworkName: string
-    ipPoolName: string
+    ipPoolName: []
     vlanName: string
     vlanId: 0
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -100,28 +104,35 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "fabricId": "string",
-          "virtualNetworkName": "string",
-          "ipPoolName": "string",
-          "tcpMssAdjustment": 0,
-          "vlanName": "string",
-          "vlanId": 0,
-          "trafficType": "string",
-          "poolType": "string",
-          "securityGroupName": "string",
-          "isCriticalPool": true,
-          "isLayer2FloodingEnabled": true,
-          "layer2FloodingAddressAssignment": "string",
-          "layer2FloodingAddress": "string",
-          "isWirelessPool": true,
-          "isWirelessFloodingEnabled": true,
-          "isResourceGuardEnabled": true,
-          "isIpDirectedBroadcast": true,
-          "isIntraSubnetRoutingEnabled": true,
-          "isMultipleIpToMacAddresses": true,
-          "isSupplicantBasedExtendedNodeOnboarding": true,
-          "isGroupBasedPolicyEnforcementEnabled": true
+          "id": {},
+          "fabricId": {},
+          "virtualNetworkName": {},
+          "ipPoolName": {},
+          "additionalIpPools": [
+            {
+              "name": "string",
+              "order": 0
+            }
+          ],
+          "tcpMssAdjustment": {},
+          "vlanName": {},
+          "vlanId": {},
+          "trafficType": {},
+          "poolType": {},
+          "securityGroupName": {},
+          "isCriticalPool": {},
+          "isLayer2FloodingEnabled": {},
+          "layer2FloodingAddressAssignment": {},
+          "layer2FloodingAddress": {},
+          "isWirelessPool": {},
+          "isWirelessFloodingEnabled": {},
+          "isResourceGuardEnabled": {},
+          "isIpDirectedBroadcast": {},
+          "isIntraSubnetRoutingEnabled": {},
+          "isMultipleIpToMacAddresses": {},
+          "isSupplicantBasedExtendedNodeOnboarding": {},
+          "isGroupBasedPolicyEnforcementEnabled": {},
+          "isMacsecEncrypted": {}
         }
       ],
       "version": "string"
