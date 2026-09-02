@@ -206,7 +206,6 @@ options:
                 are provided, the 'ipv4_global_pool'
                 will be given priority.
             type: str
-            version_added: 6.14.0
           ipv4_subnet:
             description:
               - Indicates the IPv4 subnet address, for example, "175.175.0.0".
@@ -238,7 +237,6 @@ options:
             description: Provides the gateway's IPv4
               address, for example, "175.175.0.1".
             type: str
-            version_added: 4.0.0
           ipv4_dhcp_servers:
             description: Specifies the IPv4 addresses
               for DHCP servers, for example, "1.1.1.1".
@@ -284,7 +282,6 @@ options:
                 are provided, the 'ipv6_global_pool'
                 will be given priority.
             type: str
-            version_added: 6.14.0
           ipv6_subnet:
             description:
               - IPv6 Subnet address, example 2001:db8:85a3:0:100.
@@ -396,21 +393,18 @@ options:
                       - PAN IP address for the ISE server.
                       - For example, 1.1.1.1.
                     type: str
-                    version_added: 6.14.0
                   primary_server_address:
                     description:
                       - Primary IP address for the ISE/AAA
                         server.
                       - For example, 1.1.1.2.
                     type: str
-                    version_added: 6.14.0
                   secondary_server_address:
                     description:
                       - Secondary IP address for the
                         AAA server.
                       - For example, 1.1.1.3.
                     type: str
-                    version_added: 6.14.0
                   shared_secret:
                     description:
                       - Shared secret for ISE Server.
@@ -440,21 +434,18 @@ options:
                       - PAN IP address for the ISE server.
                       - For example, 1.1.1.1.
                     type: str
-                    version_added: 6.14.0
                   primary_server_address:
                     description:
                       - Primary IP address for the ISE/AAA
                         server.
                       - For example, 1.1.1.2.
                     type: str
-                    version_added: 6.14.0
                   secondary_server_address:
                     description:
                       - Secondary IP address for the
                         AAA server.
                       - For example, 1.1.1.3.
                     type: str
-                    version_added: 6.14.0
                   shared_secret:
                     description:
                       - Shared secret for ISE Server.
