@@ -229,11 +229,11 @@
                 ansible_failed_task.name ==
                 'Validate generated Discovery batch overrides'
 
-    - name: Set valid LAN Automation batch
+    - name: Set valid fabric-zone LAN Automation batch
       ansible.builtin.set_fact:
         refresh_item:
-          name: valid-lan-automation-batch
-          fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23
+          name: valid-fabric-zone-lan-automation-batch
+          fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
           onboarding_method: lan_automation
           new_devices:
             device_ips:
@@ -253,12 +253,12 @@
                     - device_serial_number: NEW-SERIAL-0001
                       device_host_name: new-edge-01
                       device_site_name_hierarchy: >-
-                        Global/USA/San Jose/BLDG23
+                        Global/USA/San Jose/BLDG23/Floor1
                       device_management_ip_address: "192.0.2.30"
                     - device_serial_number: NEW-SERIAL-0002
                       device_host_name: new-edge-02
                       device_site_name_hierarchy: >-
-                        Global/USA/San Jose/BLDG23
+                        Global/USA/San Jose/BLDG23/Floor1
                       device_management_ip_address: "192.0.2.31"
                   launch_and_wait: true
           device_mapping:
@@ -273,13 +273,24 @@
               port_assignment_interface_mappings: []
               port_channel_interface_mappings: []
 
-    - name: Build valid LAN Automation batch plan
+    - name: Build valid fabric-zone LAN Automation batch plan
       ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
 
-    - name: Verify LAN Automation batch target normalization
+    - name: Verify fabric-zone LAN Automation hierarchy targets
       ansible.builtin.assert:
         that:
           - switch_refresh_sda_fabric_edge_batch_onboarding_method == 'lan_automation'
+          - >-
+            switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy ==
+            'Global/USA/San Jose/BLDG23'
+          - >-
+            switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovery_devices |
+            map(attribute='device_site_name_hierarchy') |
+            unique |
+            list == ['Global/USA/San Jose/BLDG23/Floor1']
+          - >-
+            switch_refresh_sda_fabric_edge_batch_fabric_devices_config[0].fabric_devices.fabric_name ==
+            'Global/USA/San Jose/BLDG23/Floor1'
           - >-
             switch_refresh_sda_fabric_edge_batch_lan_automation_target_ips ==
             switch_refresh_sda_fabric_edge_batch_device_ips
@@ -287,6 +298,78 @@
             switch_refresh_sda_fabric_edge_batch_lan_automation_serial_numbers ==
             ['NEW-SERIAL-0001', 'NEW-SERIAL-0002']
           - switch_refresh_sda_fabric_edge_batch_device_mappings | length == 2
+
+    - name: Set fabric-zone LAN Automation input without optional device hierarchy
+      ansible.builtin.set_fact:
+        refresh_item:
+          name: optional-lan-automation-device-zone
+          fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
+          onboarding_method: lan_automation
+          new_devices:
+            device_ips:
+              - "192.0.2.69"
+            lan_automation_config:
+              - lan_automation:
+                  discovered_device_site_name_hierarchy: >-
+                    Global/USA/San Jose/BLDG23
+                  discovery_devices:
+                    - device_serial_number: NEW-SERIAL-0069
+                      device_management_ip_address: "192.0.2.69"
+                  launch_and_wait: true
+          device_mapping:
+            - old:
+                management_ip: "198.51.100.69"
+              new_device_management_ip: "192.0.2.69"
+
+    - name: Build fabric-zone input without optional device hierarchy
+      ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+    - name: Verify device site hierarchy remains optional
+      ansible.builtin.assert:
+        that:
+          - >-
+            switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovery_devices[0].device_site_name_hierarchy
+            is not defined
+
+    - name: Verify partial LAN Automation hierarchy segment is rejected
+      block:
+        - name: Set partial-segment LAN Automation hierarchy input
+          ansible.builtin.set_fact:
+            refresh_item:
+              name: partial-lan-automation-hierarchy-segment
+              fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
+              onboarding_method: lan_automation
+              new_devices:
+                device_ips:
+                  - "192.0.2.70"
+                lan_automation_config:
+                  - lan_automation:
+                      discovered_device_site_name_hierarchy: >-
+                        Global/USA/San Jose/BLDG2
+                      discovery_devices:
+                        - device_serial_number: NEW-SERIAL-0070
+                          device_site_name_hierarchy: >-
+                            Global/USA/San Jose/BLDG23/Floor1
+                          device_management_ip_address: "192.0.2.70"
+                      launch_and_wait: true
+              device_mapping:
+                - old:
+                    management_ip: "198.51.100.70"
+                  new_device_management_ip: "192.0.2.70"
+
+        - name: Build partial-segment LAN Automation hierarchy input
+          ansible.builtin.include_tasks: ../tasks/build_batch_plan.yml
+
+        - name: Fail when partial hierarchy segment was accepted
+          ansible.builtin.fail:
+            msg: Partial LAN Automation hierarchy segment unexpectedly passed.
+      rescue:
+        - name: Confirm partial hierarchy segment failed validation
+          ansible.builtin.assert:
+            that:
+              - >-
+                'Partial hierarchy-segment matches are not accepted' in
+                (ansible_failed_result | string)
 
     - name: Set valid disabled-launch LAN Automation resume batch
       ansible.builtin.set_fact:

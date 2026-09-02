@@ -211,6 +211,7 @@ configuration rather than merging with it.
 LAN Automation uses one launch configuration containing every replacement:
 
 ```yaml
+fabric_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
 onboarding_method: lan_automation
 new_devices:
   device_ips:
@@ -230,14 +231,23 @@ new_devices:
         discovery_devices:
           - device_serial_number: NEW-SERIAL-0001
             device_host_name: new-edge-01
-            device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+            device_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
             device_management_ip_address: "192.0.2.30"
           - device_serial_number: NEW-SERIAL-0002
             device_host_name: new-edge-02
-            device_site_name_hierarchy: Global/USA/San Jose/BLDG23
+            device_site_name_hierarchy: Global/USA/San Jose/BLDG23/Floor1
             device_management_ip_address: "192.0.2.31"
         launch_and_wait: true
 ```
+
+These hierarchy values are intentionally different when the fabric target is
+below the LAN Automation discovery site. `fabric_site_name_hierarchy` uses the
+complete target hierarchy. `discovered_device_site_name_hierarchy` can use that
+same hierarchy or any complete ancestor hierarchy, including when multiple
+hierarchy levels follow the discovery site. A discovery device's
+`device_site_name_hierarchy` is optional, but must equal the complete
+`fabric_site_name_hierarchy` when supplied. Partial hierarchy-segment matches
+are rejected.
 
 The discovered management IP set must exactly match `device_ips`.
 `launch_and_wait` must be the boolean `true`. After the manager returns, the

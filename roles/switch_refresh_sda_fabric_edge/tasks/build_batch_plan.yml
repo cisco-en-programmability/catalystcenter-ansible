@@ -362,15 +362,31 @@
         switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy
         is defined
       - >-
-        switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy
-        == refresh_item.fabric_site_name_hierarchy
+        (switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy |
+        type_debug) == 'str'
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy |
+        trim |
+        length > 0
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy ==
+        (switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy |
+        trim)
+      - >-
+        switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy ==
+        refresh_item.fabric_site_name_hierarchy or
+        refresh_item.fabric_site_name_hierarchy.startswith(
+          switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovered_device_site_name_hierarchy ~
+          '/'
+        )
     fail_msg: >-
       LAN Automation onboarding requires one launch-only
       new_devices.lan_automation_config entry, merged state, an explicit boolean
       launch_and_wait: true, between 1 and 50 discovery_devices, and the batch
-      fabric site as discovered_device_site_name_hierarchy. Its completion
-      barrier remains mandatory even when the launch stage is disabled for a
-      resume run.
+      fabric hierarchy or a complete ancestor hierarchy as
+      discovered_device_site_name_hierarchy. Partial hierarchy-segment matches
+      are not accepted. Its completion barrier remains mandatory even when the
+      launch stage is disabled for a resume run.
   when: switch_refresh_sda_fabric_edge_batch_onboarding_method == 'lan_automation'
 
 - name: Validate LAN Automation discovery device entries
@@ -403,7 +419,7 @@
     fail_msg: >-
       Every LAN Automation discovery device must contain a non-empty serial
       number and management IP. When device_site_name_hierarchy is supplied,
-      it must match the batch fabric site.
+      it must match the full batch fabric hierarchy.
   loop: >-
     {{
       switch_refresh_sda_fabric_edge_batch_new_devices.lan_automation_config[0].lan_automation.discovery_devices |
