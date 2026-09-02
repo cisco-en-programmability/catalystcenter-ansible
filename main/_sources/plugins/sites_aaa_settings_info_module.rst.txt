@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_aaa_settings_info module -- Information module for Si
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_aaa_settings_info module -- Information module for Si
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Sites Aaa Settings. - \> Retrieve AAA settings for a site; \`null\` values indicate that the setting will be inherited from the parent site; empty objects \`{}\` indicate that the setting is unset at a site.
+- Get all Sites Aaa Settings.
+- Retrieves AAA settings for the given site.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -587,6 +588,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -618,7 +620,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
         _inherited: true
-        id: string
+        id: e298f95b-cd70-48ae-a590-b2076bfb6033
       register: result
 
 
@@ -680,7 +682,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaClient": {"inheritedSiteId": "string", "inheritedSiteName": "string", "pan": "string", "primaryServerIp": "string", "protocol": "string", "secondaryServerIp": "string", "serverType": "string", "sharedSecret": "string"}, "aaaNetwork": {"inheritedSiteId": "string", "inheritedSiteName": "string", "pan": "string", "primaryServerIp": "string", "protocol": "string", "secondaryServerIp": "string", "serverType": "string", "sharedSecret": "string"}}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaClient": {}, "aaaNetwork": {}}, "version": "string"}`
 
 
       .. raw:: html
@@ -697,7 +699,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_images_activate_bulk module -- Resource modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_images_activate_bulk module -- Resource modu
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Device Images Activate Bulk.
-- This API initiates the process of updating the software image on the given network devices.
-- Providing value for the \`installedImages\` in request payload will initiate both distribution and activation.
-- At the end of this process, only the images which are part of \`installedImages\` will be running on the devices.
-- To monitor the progress and completion of the update task, call the GET API \`/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}\`, where \`taskId\` is from the response.
+- Manage operation create of the resource Network Device Images Activate Bulk. - \> This API initiates the process of updating the software image on the given network devices. Providing value for the \`installedImages\` in request payload will initiate both distribution and activation of the images. At the end of this process, only the images which are part of \`installedImages\` will be running on the network devices. To monitor the progress and completion of the update task, call the GET API \`/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}\`, where \`taskId\` is from the response of the current endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -484,7 +480,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device Images Activate Bulk's compatibleFeatures.
+      The list of functionalities or capabilities that are supported or compatible with a particular device. For example, it determines whether ISSU, Rommon update, etc. Can be enabled on the device.
 
 
       .. raw:: html
@@ -621,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device Images Activate Bulk's installedImages.
+      Initiate both the distribution and activation of the images. At the end of this process, only the images that are fetched from the GET API \`/dna/intent/api/v1/images?imported=true\` and are part of the \`installedImages\` will be running on the network device. If there are no image ids available, they will be retrieved from the golden bundle as part of the workflow.
 
 
       .. raw:: html
@@ -755,6 +751,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -870,7 +867,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.interfaces_id_trend_analytics module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.interfaces_id_trend_analytics module -- Resource module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Interfaces Id Trend Analytics. - \> The Trend analytcis data for the interface, identified by its instanceUuid, in the specified time range. The data is grouped based on the trend time Interval, other input parameters like attributes and aggregate attributes. The default time interval range is 3 hours when start and endTime is not provided.
+- Manage operation create of the resource Interfaces Id Trend Analytics.
+- The Trend analytcis data for the interface, identified by its instanceUuid, in.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -168,7 +169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Function.
+      Interfaces Id Trend Analytics's function.
 
 
       .. raw:: html
@@ -202,7 +203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Interfaces Id Trend Analytics's name.
 
 
       .. raw:: html
@@ -237,7 +238,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attributes.
+      Interfaces Id Trend Analytics's attributes.
 
 
       .. raw:: html
@@ -583,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Interfaces Id Trend Analytics's endTime.
 
 
       .. raw:: html
@@ -651,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Interfaces Id Trend Analytics's key.
 
 
       .. raw:: html
@@ -685,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Interfaces Id Trend Analytics's operator.
 
 
       .. raw:: html
@@ -719,7 +720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Interfaces Id Trend Analytics's value.
 
 
       .. raw:: html
@@ -788,7 +789,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Interfaces Id Trend Analytics's startTime.
 
 
       .. raw:: html
@@ -822,7 +823,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Timestamp Order.
+      Interfaces Id Trend Analytics's timestampOrder.
 
 
       .. raw:: html
@@ -856,7 +857,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Trend Interval In Minutes.
+      Interfaces Id Trend Analytics's trendIntervalInMinutes.
 
 
       .. raw:: html
@@ -920,6 +921,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1040,7 +1042,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update module -- R
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update module -- R
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Sites Site Id Wireless Settings Ssids Id Update.
-- This API allows to either update SSID at global 'siteId' or override SSID at given non-global 'siteId'.
+- This API allows to either update SSID at global \`siteId\` or override SSID at non-global \`siteId\`.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -245,7 +245,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      For Guest SSIDs ('wlanType' is 'Guest' and 'l3AuthType' is 'web\_auth'), the Authentication Server('authServer') is mandatory. Otherwise, it defaults to 'auth\_external'.
+      Authentication Server, Mandatory for Guest SSIDs with wlanType=Guest and l3AuthType=web\_auth.
 
 
       .. raw:: html
@@ -735,7 +735,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The default value is the Cckm Timestamp Tolerance (in milliseconds, if specified); otherwise, it is 0.
+      CCKM Timestamp Tolerance(in milliseconds).
 
 
       .. raw:: html
@@ -997,7 +997,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest, l3AuthType = web\_auth and authServer = auth\_external).
+      External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest , l3AuthType = web\_auth and authServer = auth\_external).
 
 
       .. raw:: html
@@ -1141,7 +1141,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      true if 6 GHz Policy Client Steering is enabled, else False.
+      True if 6 GHz Policy Client Steering is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1183,7 +1183,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. SSID ID.
+      SSID ID.
 
 
       .. raw:: html
@@ -1218,6 +1218,108 @@ Parameters
         <div class="ansible-option-cell">
 
       Ingress QOS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-inheritedSiteName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-inheritedsitename:
+
+      .. rst-class:: ansible-option-title
+
+      **inheritedSiteName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-inheritedSiteName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the group ssid is inherited from.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-inheritedSiteUUID"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-inheritedsiteuuid:
+
+      .. rst-class:: ansible-option-title
+
+      **inheritedSiteUUID**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-inheritedSiteUUID" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      UUID of the site from which the SSID is inherited from. - An empty inheritedSiteUUID signifies that the SSID configuration is not inherited and is defined at the specified site level. - A non-empty inheritedSiteUUID indicates that the SSID configuration is inherited from either the immediate parent site with an override or from the global site level, if no such parent exists. - Example -Given the site hierarchy as Global/Area/BGL-1/FLR-1 and an SSID (SSID-1) that is overridden at BGL-1 - If ${siteId} is the Global Site Identifier, the API will return SSID data associated with the Global Site Identifier, and inheritedSiteUUID will be an empty string. - If ${siteId} is the Area Site Identifier, the API will return SSID data associated with the Area Site Identifier, and inheritedSiteUUID will contain the Global Site Identifier. - If ${siteId} is the BGL-1 Site Identifier, the API will return SSID data that has been overridden at the BGL-1 Site Identifier level, and inheritedSiteUUID will be an empty string. - If ${siteId} is the FLR-1 Site Identifier, the API will return SSID data that has been overridden at the BGL-1 Site Identifier level, and inheritedSiteUUID will contain the BGL-1 Site Identifier.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipv6AclName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-ipv6aclname:
+
+      .. rst-class:: ansible-option-title
+
+      **ipv6AclName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipv6AclName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pre-Auth IPv6 Access Control List (ACL) Name.
 
 
       .. raw:: html
@@ -1923,7 +2025,49 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      true if CCKM is enabled, else False.
+      True if CCKM is enabled, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isCustomNasIdOptions"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-iscustomnasidoptions:
+
+      .. rst-class:: ansible-option-title
+
+      **isCustomNasIdOptions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isCustomNasIdOptions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to true if Custom NAS ID Options provided.
 
 
       .. rst-class:: ansible-option-line
@@ -2007,7 +2151,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      true if FastLane is enabled, else False.
+      True if FastLane is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -2049,7 +2193,91 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      true if passphrase is in Hex format, else False.
+      True if passphrase is in Hex format, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isLoadBalancingEnabledForAcctGroup"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-isloadbalancingenabledforacctgroup:
+
+      .. rst-class:: ansible-option-title
+
+      **isLoadBalancingEnabledForAcctGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isLoadBalancingEnabledForAcctGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when more that one acctServers configured.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isLoadBalancingEnabledForAuthGroup"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-isloadbalancingenabledforauthgroup:
+
+      .. rst-class:: ansible-option-title
+
+      **isLoadBalancingEnabledForAuthGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isLoadBalancingEnabledForAuthGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Load Balancing config for the Radius Server group will be enabled when set to true. Can be enabled only when more that one authServers configured.
 
 
       .. rst-class:: ansible-option-line
@@ -2259,7 +2487,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      L3 Authentication Type. When 'wlanType' is 'Enterprise', 'l3AuthType' is optional and defaults to 'open' if not specified. If 'wlanType' is 'Guest' then 'l3AuthType' is mandatory.
+      L3 Authentication Type.
 
 
       .. raw:: html
@@ -2327,7 +2555,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sites Site Id Wireless Settings Ssids Id Update's multiPSKSettings.
+      Multi PSK Settings (Only applicable for SSID with PERSONAL auth type and PSK).
 
 
       .. raw:: html
@@ -2395,7 +2623,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Passphrase Type(default ASCII).
+      Passphrase Type.
 
 
       .. raw:: html
@@ -2574,7 +2802,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Passphrase (Only applicable for SSID with PERSONAL security level). Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+      Passphrase (Only applicable for SSID with PERSONAL security level).
 
 
       .. raw:: html
@@ -2608,7 +2836,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Policy Profile Name.
+      Policy Profile Name. If 'policyProfileName' is not provided, the value of 'profileName' will be assigned to it. If 'profileName' is also not provided, an autogenerated name will be used. Autogenerated name is generated by appending 'ssid' field's value with '\_profile' (Example If 'ssid' = 'ExampleSsid', then autogenerated name will be 'ExampleSsid\_profile').
 
 
       .. raw:: html
@@ -2642,7 +2870,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      WLAN Profile Name, if not passed autogenerated profile name will be assigned.
+      WLAN Profile Name , if not passed autogenerated profile name will be assigned.
 
 
       .. raw:: html
@@ -2878,7 +3106,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity. Default sessionTimeOut is 1800.
+      This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity.
 
 
       .. raw:: html
@@ -3108,6 +3336,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-urlAclName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-urlaclname:
+
+      .. rst-class:: ansible-option-title
+
+      **urlAclName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-urlAclName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pre-Auth URL Access Control List (ACL) Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-validate_response_schema:
@@ -3258,7 +3520,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Wlan Type.
+      WLAN type.
 
 
       .. raw:: html
@@ -3280,6 +3542,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -3333,6 +3596,9 @@ Examples
         ghz6PolicyClientSteering: true
         id: string
         ingressQos: string
+        inheritedSiteName: string
+        inheritedSiteUUID: string
+        ipv6AclName: string
         isApBeaconProtectionEnabled: true
         isAuthKey8021x: true
         isAuthKey8021xPlusFT: true
@@ -3350,9 +3616,12 @@ Examples
         isAuthKeySuiteB1x: true
         isBroadcastSSID: true
         isCckmEnabled: true
+        isCustomNasIdOptions: true
         isEnabled: true
         isFastLaneEnabled: true
         isHex: true
+        isLoadBalancingEnabledForAcctGroup: true
+        isLoadBalancingEnabledForAuthGroup: true
         isMacFilteringEnabled: true
         isPosturingEnabled: true
         isRadiusProfilingEnabled: true
@@ -3382,6 +3651,7 @@ Examples
         sleepingClientTimeout: 0
         ssid: string
         ssidRadioType: string
+        urlAclName: string
         webPassthrough: true
         wlanBandSelectEnable: true
         wlanType: string
@@ -3462,7 +3732,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

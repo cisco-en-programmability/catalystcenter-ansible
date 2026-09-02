@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issues_query module -- Resource module for Assura
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.assurance_issues_query module -- Resource module for Assura
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Assurance Issues Query. - \> Returns all details of each issue along with suggested actions for given set of filters specified in request body. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https //github.com/cisco-en-programmability/catalyst-center- api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
+- Manage operation create of the resource Assurance Issues Query.
+- Returns all details of each issue along with suggested actions for given set.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Assurance Issues Query's endTime.
 
 
       .. raw:: html
@@ -548,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Assurance Issues Query's key.
 
 
       .. raw:: html
@@ -582,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Assurance Issues Query's operator.
 
 
       .. raw:: html
@@ -616,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Assurance Issues Query's value.
 
 
       .. raw:: html
@@ -651,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Assurance Issues Query's key.
 
 
       .. raw:: html
@@ -685,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Logical Operator.
+      Assurance Issues Query's logicalOperator.
 
 
       .. raw:: html
@@ -719,7 +720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Operator.
+      Assurance Issues Query's operator.
 
 
       .. raw:: html
@@ -753,7 +754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Assurance Issues Query's value.
 
 
       .. raw:: html
@@ -822,7 +823,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Assurance Issues Query's startTime.
 
 
       .. raw:: html
@@ -886,6 +887,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -987,7 +989,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": ["string"]}], "summary": "string", "updatedBy": {}, "updatedTime": {}}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": []}], "summary": "string", "updatedBy": {}, "updatedTime": {}}], "version": "string"}`
 
 
       .. raw:: html
@@ -1004,7 +1006,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

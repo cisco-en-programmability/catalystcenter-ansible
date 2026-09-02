@@ -42,7 +42,7 @@ cisco.catalystcenter.icap_capture_files_info module -- Information module for Ic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.icap_capture_files_info module -- Information module for Ic
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -70,10 +70,7 @@ Synopsis
 
 - Get all Icap Capture Files.
 - Get Icap Capture Files by id.
-- Lists the ICAP packet capture pcap files matching the specified criteria.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
-- Retrieves details of a specific ICAP packet capture file.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
+- Lists the ICAP packet capture pcap files matching the specified criteria. - \> Retrieves details of a specific ICAP packet capture file. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst- center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-icap-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -89,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -770,6 +767,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-switchMac"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.icap_capture_files_info_module__parameter-switchmac:
+
+      .. rst-class:: ansible-option-title
+
+      **switchMac**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-switchMac" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SwitchMac query parameter. The base macAddress of the switch.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.icap_capture_files_info_module__parameter-type:
@@ -853,11 +884,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.lists\_i\_cap\_packet\_capture\_files\_matching\_specified\_criteria, sensors.Sensors.retrieves\_details\_of\_a\_specific\_i\_cap\_packet\_capture\_file,
+   - SDK Method used are sensors.Sensors.lists\_icap\_packet\_capture\_files\_matching\_specified\_criteria, sensors.Sensors.retrieves\_details\_of\_a\_specific\_icap\_packet\_capture\_file,
    - Paths used are get /dna/data/api/v1/icap/captureFiles, get /dna/data/api/v1/icap/captureFiles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -893,6 +925,7 @@ Examples
         type: string
         clientMac: string
         apMac: string
+        switchMac: string
         startTime: 0
         endTime: 0
         limit: 0
@@ -989,7 +1022,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

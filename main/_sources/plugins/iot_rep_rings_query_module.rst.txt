@@ -42,7 +42,7 @@ cisco.catalystcenter.iot_rep_rings_query module -- Resource module for Iot Rep R
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.iot_rep_rings_query module -- Resource module for Iot Rep R
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -607,11 +607,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieves\_the\_list\_of\_r\_e\_p\_rings,
+   - SDK Method used are industrial\_configuration.IndustrialConfiguration.retrieve\_the\_list\_rep\_rings,
    - Paths used are post /dna/intent/api/v1/iot/repRings/query,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -620,8 +621,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Industrial Configuration RetrievesTheListOfREPRings <https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-rep-rings>`_
-       Complete reference of the RetrievesTheListOfREPRings API.
+   `Cisco Catalyst Center documentation for Industrial Configuration RetrieveTheListREPRings <https://developer.cisco.com/docs/dna-center/#!retrieve-the-list-rep-rings>`_
+       Complete reference of the RetrieveTheListREPRings API.
 
 .. Examples
 
@@ -705,7 +706,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"response\\": [\\n      {\\n        \\"id\\": \\"string\\"", "\\n        \\"rootNetworkDeviceId\\": \\"string\\"", "\\n        \\"rootNeighbourNetworkDeviceIds\\": [\\n          \\"string\\"\\n        ]", "\\n        \\"status\\": \\"string\\"", "\\n        \\"repSegmentId\\": 0", "\\n        \\"deploymentMode\\": \\"string\\"", "\\n        \\"ringName\\": \\"string\\"", "\\n        \\"ringMembers\\": [\\n          {\\n            \\"networkDeviceId\\": \\"string\\"", "\\n            \\"nodeName\\": \\"string\\"", "\\n            \\"portName1\\": \\"string\\"", "\\n            \\"portName2\\": \\"string\\"", "\\n            \\"ringOrder\\": 0\\n          }\\n        ]\\n      }\\n    ]", "\\n    \\"version\\": 0\\n  }\\n]\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["[\\n  {\\n    \\"name\\": \\"string\\"", "\\n    \\"displayName\\": \\"string\\"", "\\n    \\"subDomains\\": [\\n      {\\n        \\"name\\": \\"string\\"", "\\n        \\"displayName\\": \\"string\\"", "\\n        \\"description\\": \\"string\\"", "\\n        \\"deprecated\\": true", "\\n        \\"deprecationMessage\\": \\"string\\"\\n      }\\n    ]", "\\n    \\"description\\": \\"string\\"", "\\n    \\"deprecated\\": true", "\\n    \\"deprecationMessage\\": \\"string\\"\\n  }\\n]\\n"]`
 
 
       .. raw:: html
@@ -722,7 +723,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

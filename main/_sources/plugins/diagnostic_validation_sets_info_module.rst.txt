@@ -42,7 +42,7 @@ cisco.catalystcenter.diagnostic_validation_sets_info module -- Information modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.diagnostic_validation_sets_info module -- Information modul
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -582,6 +582,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -614,7 +615,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        view: string
+        view: DEFAULT
       register: result
     - name: Get Diagnostic Validation Sets by id
       cisco.catalystcenter.diagnostic_validation_sets_info:
@@ -688,7 +689,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"description": "string", "endTime": 0, "id": "string", "name": "string", "runStatus": "string", "startTime": 0, "submitTime": 0, "validationSetIds": ["string"], "validationStatus": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "id": "string", "name": "string", "validationGroups": [{"description": "string", "id": "string", "name": "string", "validations": [{"id": "string", "name": "string"}]}], "version": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -705,7 +706,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

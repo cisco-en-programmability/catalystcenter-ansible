@@ -42,7 +42,7 @@ cisco.catalystcenter.sensor_test_template_edit module -- Resource module for Sen
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sensor_test_template_edit module -- Resource module for Sen
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -203,7 +203,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's apCoverage.
+      The WIFI bands where the test will be run.
 
 
       .. raw:: html
@@ -720,7 +720,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's frequency.
+      Frequency of the test.
 
 
       .. raw:: html
@@ -891,7 +891,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's locationInfoList.
+      Location information list.
 
 
       .. raw:: html
@@ -1316,7 +1316,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's profiles.
+      Used for wired the profileName, deviceType, vlan, testMacAddress to use authentication info, etc.
 
 
       .. raw:: html
@@ -1384,7 +1384,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Authentication type OPEN, WPA2\_PSK, WPA2\_EaP, WEB\_AUTH, MAB, DOT1X, OTHER.
+      Authentication type OPEN, WPA2\_PSK, WPA2\_EAP, WEB\_AUTH, MAB, DOT1X, OTHER.
 
 
       .. raw:: html
@@ -1732,7 +1732,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's extWebAuthHtmlTag.
+      Array of external WEB Auth information.
 
 
       .. raw:: html
@@ -1766,7 +1766,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Label.
+      Sensor Test Template Edit's label.
 
 
       .. raw:: html
@@ -1800,7 +1800,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag.
+      Sensor Test Template Edit's tag.
 
 
       .. raw:: html
@@ -1834,7 +1834,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Sensor Test Template Edit's value.
 
 
       .. raw:: html
@@ -1937,7 +1937,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's locationVlanList.
+      Array of site UUID-vlan map objects.
 
 
       .. raw:: html
@@ -2252,7 +2252,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's tests.
+      Array of test objects for this SSID.
 
 
       .. raw:: html
@@ -2286,7 +2286,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's config.
+      Array of config objects.
 
 
       .. raw:: html
@@ -3647,7 +3647,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's sensors.
+      Sensors.
 
 
       .. raw:: html
@@ -3901,7 +3901,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's iPerfInfo.
+      A string-stringList iPerf information.
 
 
       .. raw:: html
@@ -4351,7 +4351,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's testMacAddresses.
+      A string-string test MAC address.
 
 
       .. raw:: html
@@ -4572,7 +4572,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sensor Test Template Edit's ssids.
+      The list of SSIDs. Each SSID map has the ssid specific information as well as the test configurations to be used in each ssid. Required at least 1 element.
 
 
       .. raw:: html
@@ -4640,7 +4640,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Authentication type OPEN, WPA2\_PSK, WPA2\_EaP, WEB\_AUTH, MAB, DOT1X, OTHER.
+      Authentication type OPEN, WPA2\_PSK, WPA2\_EAP, WEB\_AUTH, MAB, DOT1X, OTHER.
 
 
       .. raw:: html
@@ -4988,7 +4988,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's extWebAuthHtmlTag.
+      Array of external WEB Auth information.
 
 
       .. raw:: html
@@ -5022,7 +5022,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Label.
+      Sensor Test Template Edit's label.
 
 
       .. raw:: html
@@ -5056,7 +5056,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Tag.
+      Sensor Test Template Edit's tag.
 
 
       .. raw:: html
@@ -5090,7 +5090,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Sensor Test Template Edit's value.
 
 
       .. raw:: html
@@ -5847,7 +5847,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's tests.
+      Array of test objects for this SSID.
 
 
       .. raw:: html
@@ -5881,7 +5881,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's config.
+      Array of config objects.
 
 
       .. raw:: html
@@ -6987,7 +6987,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sensor Test Template Edit's thirdParty.
+      Indication of whether this SSID is third party (true or false).
 
 
       .. raw:: html
@@ -7021,7 +7021,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      true the SSID is third party.
+      True the SSID is third party.
 
 
       .. rst-class:: ansible-option-line
@@ -7511,6 +7511,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -7827,7 +7828,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

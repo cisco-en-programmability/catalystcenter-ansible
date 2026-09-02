@@ -42,7 +42,7 @@ cisco.catalystcenter.provision_workflow_manager module -- Resource module for pr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.provision_workflow_manager module -- Resource module for pr
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.6.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -2189,10 +2189,10 @@ Notes
 .. note::
    - SDK Methods used are sites.Sites.get\_site, devices.Devices.get\_network\_device\_by\_ip, task.Task.get\_task\_by\_id, sda.Sda.get\_provisioned\_wired\_device, sda.Sda.re\_provision\_wired\_device, sda.Sda.provision\_wired\_device, wireless.Wireless.provision devices.Device.delete\_network\_device\_with\_configuration\_cleanup, devices.Device.delete\_a\_network\_device\_without\_configuration\_cleanup, application\_policy.ApplicationPolicy.enable\_application\_telemetry\_feature\_on\_multiple\_network\_devices\_v1, application\_policy.ApplicationPolicy.disable\_application\_telemetry\_feature\_on\_multiple\_network\_devices\_v1
    - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress} get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/wireless/provision delete /dna/intent/api/v1/networkDevices/deleteWithCleanup delete /dna/intent/api/v1/networkDevices/deleteWithoutCleanup post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry post /dna/intent/api/v1/applicationVisibility/networkDevices/disableAppTelemetry
-   - Added 'provisioning' option in v6.16.0
-   - Added provisioning and reprovisioning of wireless devices in v6.16.0
+   - When \ :literal:`state=deleted`\  targets a device that is not present in Cisco Catalyst Center, the operation succeeds without changes because the device is already un-provisioned.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

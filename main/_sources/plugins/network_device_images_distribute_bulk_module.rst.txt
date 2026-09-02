@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_images_distribute_bulk module -- Resource mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_images_distribute_bulk module -- Resource mo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Device Images Distribute Bulk.
-- This API initiates the process of distributing the software image on the given network devices.
-- Providing value for the \`distributedImages\` will only trigger the distribution process.
-- To monitor the progress and completion of the update task, call the GET API \`/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}\`, where \`taskId\` is from the response.
+- Manage operation create of the resource Network Device Images Distribute Bulk. - \> This API initiates the process of distributing the software image on the given network devices. Providing value for the \`distributedImages\` will only trigger the distribution process. To monitor the progress and completion of the update task, please call the GET API \`/dna/intent/api/v1/networkDeviceImageUpdates?parentId={taskId}\`, where \`taskId\` is from the response of the current endpoint.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -459,6 +456,109 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/compatibleFeatures"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_distribute_bulk_module__parameter-payload/compatiblefeatures:
+
+      .. rst-class:: ansible-option-title
+
+      **compatibleFeatures**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/compatibleFeatures" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The list of functionalities or capabilities that are supported or compatible with a particular device. For example, it determines whether ISSU, Rommon update, etc. Can be enabled on the device.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/compatibleFeatures/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_distribute_bulk_module__parameter-payload/compatiblefeatures/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/compatibleFeatures/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the compatible feature.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/compatibleFeatures/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_images_distribute_bulk_module__parameter-payload/compatiblefeatures/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/compatibleFeatures/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature that can be enabled or disabled.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/distributedImages"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_device_images_distribute_bulk_module__parameter-payload/distributedimages:
@@ -483,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network Device Images Distribute Bulk's distributedImages.
+      Initiate the distribution of the images that can be fetched from the GET API \`/dna/intent/api/v1/images?imported=true\`. If there are no image ids available, they will be fetched from the golden bundle as part of the workflow.
 
 
       .. raw:: html
@@ -651,6 +751,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -681,7 +782,10 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         payload:
-          - distributedImages:
+          - compatibleFeatures:
+              - key: string
+                value: string
+            distributedImages:
               - id: string
             id: string
             networkValidationIds:
@@ -763,7 +867,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

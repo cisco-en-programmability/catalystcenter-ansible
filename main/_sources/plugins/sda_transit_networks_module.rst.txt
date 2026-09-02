@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_transit_networks module -- Resource module for Sda Tran
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_transit_networks module -- Resource module for Sda Tran
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -458,6 +458,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_transit_networks_module__parameter-payload/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ID of the transit network (updating this field is not allowed).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/ipTransitSettings"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_transit_networks_module__parameter-payload/iptransitsettings:
@@ -482,7 +516,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sda Transit Networks's ipTransitSettings.
+      Settings of the transit network of type IP\_BASED\_TRANSIT (updating this field is not allowed).
 
 
       .. raw:: html
@@ -585,7 +619,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the transit network.
+      Name of the transit network (updating this field is not allowed).
 
 
       .. raw:: html
@@ -619,7 +653,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sda Transit Networks's sdaTransitSettings.
+      Settings of the transit network of type SDA\_LISP\_PUB\_SUB\_TRANSIT or SDA\_LISP\_BGP\_TRANSIT.
 
 
       .. raw:: html
@@ -754,7 +788,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -764,7 +798,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of the transit network.
+      Type of the transit network (updating this field is not allowed).
 
 
       .. raw:: html
@@ -829,6 +863,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -851,27 +886,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.sda_transit_networks:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        payload:
-          - ipTransitSettings:
-              autonomousSystemNumber: string
-              routingProtocolName: string
-            name: string
-            sdaTransitSettings:
-              controlPlaneNetworkDeviceIds:
-                - string
-              isMulticastOverTransitEnabled: true
-            siteId: string
-            type: string
     - name: Update all
       cisco.catalystcenter.sda_transit_networks:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -893,7 +907,30 @@ Examples
                 - string
               isMulticastOverTransitEnabled: true
             siteId: string
-            type: string
+            type:
+              - string
+    - name: Create
+      cisco.catalystcenter.sda_transit_networks:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        payload:
+          - ipTransitSettings:
+              autonomousSystemNumber: string
+              routingProtocolName: string
+            name: string
+            sdaTransitSettings:
+              controlPlaneNetworkDeviceIds:
+                - string
+              isMulticastOverTransitEnabled: true
+            siteId: string
+            type:
+              - string
 
 
 
@@ -971,7 +1008,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

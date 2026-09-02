@@ -42,7 +42,7 @@ cisco.catalystcenter.network_settings_workflow_manager module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_settings_workflow_manager module -- Resource module
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.6.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1436,9 +1436,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
-
       .. raw:: html
 
         </div>
@@ -1474,9 +1471,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -1555,9 +1549,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -2181,9 +2172,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
-
       .. raw:: html
 
         </div>
@@ -2219,9 +2207,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -2300,9 +2285,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -3119,9 +3101,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.0.0`
-
-
       .. raw:: html
 
         </div>
@@ -3193,9 +3172,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -3689,9 +3665,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.14.0`
-
 
       .. raw:: html
 
@@ -4246,6 +4219,7 @@ Notes
    - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id}, put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId}, delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId}, put /dna/intent/api/v2/network/{siteId}, GET /intent/api/v1/ipam/globalIpAddressPools GET /intent/api/v1/ipam/siteIpAddressPools POST /intent/api/v1/ipam/globalIpAddressPools POST /intent/api/v1/ipam/siteIpAddressPools PUT /intent/api/v1/ipam/globalIpAddressPools/{id} PUT /intent/api/v1/ipam/siteIpAddressPools/{id} DELETE  /intent/api/v1/ipam/globalIpAddressPools/{id} DELETE  /intent/api/v1/ipam/siteIpAddressPools/{id} GET /networkDevices/deviceControllability/settings PUT /dna/intent/api/v1/networkDevices/deviceControllability/settings
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_accesspoint_configuration_summary_info module -- I
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_accesspoint_configuration_summary_info module -- I
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -784,6 +784,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -820,8 +821,8 @@ Examples
         apModel: string
         meshRole: string
         provisioned: string
-        limit: 0
-        offset: 0
+        limit: 500
+        offset: 1
       register: result
 
 
@@ -863,7 +864,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -883,7 +884,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"adminStatus": "string", "apHeight": 0, "apMode": "string", "apName": "string", "ethMac": "string", "failoverPriority": "string", "ledBrightnessLevel": 0, "ledStatus": "string", "location": "string", "macAddress": "string", "managementIpAddress": "string", "meshDTOs": ["string"], "model": "string", "primaryControllerName": "string", "primaryIpAddress": "string", "provisioningStatus": "string", "radioDTOs": [{"adminStatus": "string", "antennaAngle": 0, "antennaElevAngle": 0, "antennaGain": 0, "antennaPatternName": "string", "channelAssignmentMode": "string", "channelNumber": 0, "channelWidth": "string", "cleanAirSI": "string", "dualRadioMode": "string", "ifType": 0, "ifTypeValue": "string", "macAddress": "string", "powerAssignmentMode": "string", "powerlevel": 0, "radioBand": {}, "radioRoleAssignment": {}, "slotId": 0}], "reachabilityStatus": "string", "secondaryControllerName": "string", "secondaryIpAddress": "string", "tertiaryControllerName": "string", "tertiaryIpAddress": "string", "wlcIpAddress": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"adminStatus\\": \\"string\\",\\n    \\"apHeight\\": 0,\\n    \\"apMode\\": \\"string\\",\\n    \\"apName\\": \\"string\\",\\n    \\"ethMac\\": \\"string\\",\\n    \\"failoverPriority\\": \\"string\\",\\n    \\"ledBrightnessLevel\\": 0,\\n    \\"ledStatus\\": \\"string\\",\\n    \\"location\\": \\"string\\",\\n    \\"macAddress\\": \\"string\\",\\n    \\"primaryControllerName\\": \\"string\\",\\n    \\"primaryIpAddress\\": \\"string\\",\\n    \\"secondaryControllerName\\": \\"string\\",\\n    \\"secondaryIpAddress\\": \\"string\\",\\n    \\"tertiaryControllerName\\": \\"string\\",\\n    \\"tertiaryIpAddress\\": \\"string\\",\\n    \\"meshDTOs\\": [\\n      \\"string\\"\\n    ],\\n    \\"model\\": \\"string\\",\\n    \\"wlcIpAddress\\": \\"string\\",\\n    \\"reachabilityStatus\\": \\"string\\",\\n    \\"managementIpAddress\\": \\"string\\",\\n    \\"provisioningStatus\\": \\"string\\",\\n    \\"radioDTOs\\": [\\n      {\\n        \\"ifType\\": 0,\\n        \\"ifTypeValue\\": \\"string\\",\\n        \\"slotId\\": 0,\\n        \\"macAddress\\": \\"string\\",\\n        \\"adminStatus\\": \\"string\\",\\n        \\"powerAssignmentMode\\": \\"string\\",\\n        \\"powerlevel\\": 0,\\n        \\"channelAssignmentMode\\": \\"string\\",\\n        \\"channelNumber\\": 0,\\n        \\"channelWidth\\": \\"string\\",\\n        \\"antennaPatternName\\": \\"string\\",\\n        \\"antennaAngle\\": 0,\\n        \\"antennaElevAngle\\": 0,\\n        \\"antennaGain\\": 0,\\n        \\"radioRoleAssignment\\": {},\\n        \\"radioBand\\": {},\\n        \\"cleanAirSI\\": \\"string\\",\\n        \\"dualRadioMode\\": \\"string\\"\\n      }\\n    ]\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -900,7 +901,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

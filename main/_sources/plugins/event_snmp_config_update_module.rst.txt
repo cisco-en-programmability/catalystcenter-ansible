@@ -42,7 +42,7 @@ cisco.catalystcenter.event_snmp_config_update module -- Resource module for Even
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.event_snmp_config_update module -- Resource module for Even
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Auth Password.
+      Event Snmp Config Update's authPassword.
 
 
       .. raw:: html
@@ -515,7 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Config Id.
+      Event Snmp Config Update's configId.
 
 
       .. raw:: html
@@ -583,7 +583,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Ip Address.
+      Event Snmp Config Update's ipAddress.
 
 
       .. raw:: html
@@ -617,7 +617,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name.
+      Event Snmp Config Update's name.
 
 
       .. raw:: html
@@ -651,7 +651,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Port.
+      Event Snmp Config Update's port.
 
 
       .. raw:: html
@@ -685,7 +685,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Privacy Password.
+      Event Snmp Config Update's privacyPassword.
 
 
       .. raw:: html
@@ -719,7 +719,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp Auth Type.
+      Event Snmp Config Update's snmpAuthType.
 
 
       .. raw:: html
@@ -787,7 +787,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp Privacy Type.
+      Event Snmp Config Update's snmpPrivacyType.
 
 
       .. raw:: html
@@ -821,7 +821,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp Version.
+      Event Snmp Config Update's snmpVersion.
 
 
       .. raw:: html
@@ -919,6 +919,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1038,7 +1039,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

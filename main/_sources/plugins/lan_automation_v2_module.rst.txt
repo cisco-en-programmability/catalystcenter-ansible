@@ -42,7 +42,7 @@ cisco.catalystcenter.lan_automation_v2 module -- Resource module for Lan Automat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.lan_automation_v2 module -- Resource module for Lan Automat
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -456,6 +456,116 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/advertiseLANAutomationRoutesIntoBGP"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/advertiselanautomationroutesintobgp:
+
+      .. rst-class:: ansible-option-title
+
+      **advertiseLANAutomationRoutesIntoBGP**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/advertiseLANAutomationRoutesIntoBGP" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Advertise LAN Automation summary route into BGP.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/areaId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/areaid:
+
+      .. rst-class:: ansible-option-title
+
+      **areaId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/areaId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      OSPF area Id to be used for underlay devices. Default value if not provided is 0.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/authenticationKey"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/authenticationkey:
+
+      .. rst-class:: ansible-option-title
+
+      **authenticationKey**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/authenticationKey" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication key string to be used in key chain configuration on interface level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/discoveredDeviceSiteNameHierarchy"></div>
 
       .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/discovereddevicesitenamehierarchy:
@@ -514,7 +624,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Lan Automation V2's discoveryDevices.
+      Specific devices that will be LAN Automated in this session. Any other device discovered via DHCP will be attempted for a reset and reload to bring it back to the PnP agent state at the end of the LAN Automation process before process completion. The maximum supported devices that can be provided for a session is 50. If only the discovery devices list is provided and no timeout is provided, then the LAN Automation stop processing will get triggered when all devices from the list are discovered and added to inventory. If both the discovery devices list and timeout are provided, the stop processing will be attempted whichever happens earlier. Users can always use the LAN Automation Stop API to force stop processing.
 
 
       .. raw:: html
@@ -821,7 +931,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Lan Automation V2's ipPools.
+      The list of IP pools with their names and roles.
 
 
       .. raw:: html
@@ -896,6 +1006,48 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/ipV6Only"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/ipv6only:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV6Only**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/ipV6Only" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to enable ipv6 for lan automation.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1078,6 +1230,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/processId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/processid:
+
+      .. rst-class:: ansible-option-title
+
+      **processId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/processId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      OSPF process Id to be used for underlay devices. Default value if not provided is 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/redistributeIsisToBgp"></div>
 
       .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/redistributeisistobgp:
@@ -1103,6 +1289,82 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Advertise LAN Automation summary route into BGP.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/routingProtocol"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/routingprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **routingProtocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/routingProtocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Underlay routing protocol to be used OSPF or ISIS. ISIS being default if not provided.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/useP2PLinkLocalAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.lan_automation_v2_module__parameter-payload/usep2plinklocaladdress:
+
+      .. rst-class:: ansible-option-title
+
+      **useP2PLinkLocalAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/useP2PLinkLocalAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to enable local link ip enablement for ipv6, can be true only when ipv6 flag is set to true.
 
 
       .. rst-class:: ansible-option-line
@@ -1170,11 +1432,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start\_v2,
+   - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start,
    - Paths used are post /dna/intent/api/v2/lan-automation,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1183,8 +1446,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for LAN Automation LANAutomationStartV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start-v-2>`_
-       Complete reference of the LANAutomationStartV2 API.
+   `Cisco Catalyst Center documentation for LAN Automation LANAutomationStart <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start>`_
+       Complete reference of the LANAutomationStart API.
 
 .. Examples
 
@@ -1205,7 +1468,10 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         payload:
-          - discoveredDeviceSiteNameHierarchy: string
+          - advertiseLANAutomationRoutesIntoBGP: true
+            areaId: 0
+            authenticationKey: string
+            discoveredDeviceSiteNameHierarchy: string
             discoveryDevices:
               - deviceHostName: string
                 deviceManagementIPAddress: string
@@ -1218,13 +1484,17 @@ Examples
             ipPools:
               - ipPoolName: string
                 ipPoolRole: string
+            ipV6Only: true
             isisDomainPwd: string
             multicastEnabled: true
             peerDeviceManagmentIPAddress: string
             primaryDeviceInterfaceNames:
               - string
             primaryDeviceManagmentIPAddress: string
+            processId: 0
             redistributeIsisToBgp: true
+            routingProtocol: {}
+            useP2PLinkLocalAddress: true
 
 
 
@@ -1302,7 +1572,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

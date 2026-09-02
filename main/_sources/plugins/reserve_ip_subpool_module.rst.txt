@@ -42,7 +42,7 @@ cisco.catalystcenter.reserve_ip_subpool module -- Resource module for Reserve Ip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.reserve_ip_subpool module -- Resource module for Reserve Ip
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -449,7 +449,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Id of reserve ip subpool to be deleted.
+      Id query parameter. Id of subpool group.
 
 
       .. raw:: html
@@ -542,9 +542,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.0.0`
-
 
       .. raw:: html
 
@@ -766,7 +763,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If the value is omitted or false only ipv4 input are required, otherwise both ipv6 and ipv4 are required.
+      If the value is false only ipv4 input are required. NOTE if value is false then any existing ipv6 subpool in the group will be removed.
 
 
       .. rst-class:: ansible-option-line
@@ -944,7 +941,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Ipv6 prefix value is true, the ip6 prefix length input field is enabled , if it is false ipv6 total Host input is enable.
+      Ipv6 prefix value is true, the ip6 prefix length input field is enabled, if it is false ipv6 total Host input is enable.
 
 
       .. rst-class:: ansible-option-line
@@ -1020,7 +1017,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv6 Subnet address, example 2001 db8 85a3 0 100. Either ipv6Subnet or ipv6TotalHost needs to be passed if creating IPv6 subpool.
+      IPv6 Subnet address, example 2001 db8 85a3 0 100 .
 
 
       .. raw:: html
@@ -1054,7 +1051,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IPv6 total host is required when ipv6prefix value is false.
+      Size of pool in terms of number of IPs. IPv6 total host is required when ipv6prefix value is false.
 
 
       .. raw:: html
@@ -1122,7 +1119,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId path parameter. Site id to reserve the ip sub pool.
+      SiteId path parameter. Site id of site to update sub pool.
 
 
       .. raw:: html
@@ -1156,7 +1153,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Slaac Support.
+      SlaacSupport flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1262,6 +1259,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1286,7 +1284,7 @@ Examples
 
     
     ---
-    - name: Delete by id
+    - name: Update by id
       cisco.catalystcenter.reserve_ip_subpool:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1295,8 +1293,27 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
+        state: present
+        id: application/json
+        ipv4DhcpServers:
+          - string
+        ipv4DnsServers:
+          - string
+        ipv4GateWay: string
+        ipv6AddressSpace: true
+        ipv6DhcpServers:
+          - string
+        ipv6DnsServers:
+          - string
+        ipv6GateWay: string
+        ipv6GlobalPool: string
+        ipv6Prefix: true
+        ipv6PrefixLength: 0
+        ipv6Subnet: string
+        ipv6TotalHost: 0
+        name: string
+        siteId: application/json
+        slaacSupport: true
     - name: Create
       cisco.catalystcenter.reserve_ip_subpool:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1329,10 +1346,10 @@ Examples
         ipv6Subnet: string
         ipv6TotalHost: 0
         name: string
-        siteId: string
+        siteId: application/json
         slaacSupport: true
         type: string
-    - name: Update by id
+    - name: Delete by id
       cisco.catalystcenter.reserve_ip_subpool:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1341,27 +1358,8 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        id: string
-        ipv4DhcpServers:
-          - string
-        ipv4DnsServers:
-          - string
-        ipv4GateWay: string
-        ipv6AddressSpace: true
-        ipv6DhcpServers:
-          - string
-        ipv6DnsServers:
-          - string
-        ipv6GateWay: string
-        ipv6GlobalPool: string
-        ipv6Prefix: true
-        ipv6PrefixLength: 0
-        ipv6Subnet: string
-        ipv6TotalHost: 0
-        name: string
-        siteId: string
-        slaacSupport: true
+        state: absent
+        id: application/json
 
 
 
@@ -1439,7 +1437,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

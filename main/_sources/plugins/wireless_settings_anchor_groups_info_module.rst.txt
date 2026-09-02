@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_anchor_groups_info module -- Information 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_settings_anchor_groups_info module -- Information 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -70,8 +70,8 @@ Synopsis
 
 - Get all Wireless Settings Anchor Groups.
 - Get Wireless Settings Anchor Groups by id.
-- This API allows the user to get AnchorGroups that captured in wireless settings design.
-- This API allows the user to get an AnchorGroup by AnchorGroup ID.
+- This API allows the user to get all Anchor Groups that captured in wireless settings design.
+- This API allows the user to get an anchorGroup by anchorGroup ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -483,7 +483,75 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. AnchorGroup ID.
+      Id path parameter. Anchor Group ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_anchor_groups_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. The number of records to show for this page.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_anchor_groups_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -542,11 +610,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_anchor\_group\_by\_id, wireless.Wireless.get\_anchor\_groups,
+   - SDK Method used are wireless.Wireless.get\_all\_anchor\_groups, wireless.Wireless.get\_anchor\_group\_by\_id,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/anchorGroups, get /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -555,10 +624,10 @@ See Also
 
 .. seealso::
 
+   `Cisco Catalyst Center documentation for Wireless GetAllAnchorGroups <https://developer.cisco.com/docs/dna-center/#!get-all-anchor-groups>`_
+       Complete reference of the GetAllAnchorGroups API.
    `Cisco Catalyst Center documentation for Wireless GetAnchorGroupByID <https://developer.cisco.com/docs/dna-center/#!get-anchor-group-by-id>`_
        Complete reference of the GetAnchorGroupByID API.
-   `Cisco Catalyst Center documentation for Wireless GetAnchorGroups <https://developer.cisco.com/docs/dna-center/#!get-anchor-groups>`_
-       Complete reference of the GetAnchorGroups API.
 
 .. Examples
 
@@ -579,6 +648,8 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
+        offset: 1
+        limit: 0
       register: result
     - name: Get Wireless Settings Anchor Groups by id
       cisco.catalystcenter.wireless_settings_anchor_groups_info:
@@ -652,7 +723,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"anchorGroupName": "string", "id": "string", "mobilityAnchors": [{"anchorPriority": "string", "deviceName": "string", "ipAddress": "string", "macAddress": "string", "managedAnchorWlc": true, "mobilityGroupName": "string", "peerDeviceType": "string", "privateIp": "string"}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"anchorGroupName": "string", "id": "string", "mobilityAnchors": [{"anchorPriority": "string", "deviceName": "string", "ipAddress": {}, "macAddress": "string", "managedAnchorWlc": true, "mobilityGroupName": "string", "peerDeviceType": "string", "peerIpV6Address": {}, "privateIp": {}, "privateIpV6Address": {}}]}, "version": "string"}`
 
 
       .. raw:: html
@@ -669,7 +740,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

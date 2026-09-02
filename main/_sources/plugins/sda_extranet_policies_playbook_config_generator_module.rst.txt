@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_extranet_policies_playbook_config_generator module -- G
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_extranet_policies_playbook_config_generator module -- G
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.45.0
+New in cisco.catalystcenter 2.6.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 - Cisco Catalyst Center \>= 2.3.7.9
 - Requires minimum Cisco Catalyst Center version 2.3.7.9 for SDA extranet policies API support.
@@ -1116,6 +1116,7 @@ Notes
    - Paths used are - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/sda/extranet-policies - GET /dna/intent/api/v1/sda/fabric-sites - GET /dna/intent/api/v1/sda/fabric-zones - GET /dna/intent/api/v1/sda/fabric-sites/{id} - GET /dna/intent/api/v1/sda/fabric-zones/{id}
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

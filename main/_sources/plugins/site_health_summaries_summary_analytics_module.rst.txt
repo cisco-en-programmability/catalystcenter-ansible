@@ -42,7 +42,7 @@ cisco.catalystcenter.site_health_summaries_summary_analytics module -- Resource 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.site_health_summaries_summary_analytics module -- Resource 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Site Health Summaries Summary Analytics.
-- Query an aggregated summary of all site health.
+- Query an aggregated summary of all site health This API provides the latest.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attributes.
+      Site Health Summaries Summary Analytics's attributes.
 
 
       .. raw:: html
@@ -481,7 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      End Time.
+      Site Health Summaries Summary Analytics's endTime.
 
 
       .. raw:: html
@@ -549,11 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. The list of entity Uuids.
-
-      Example "6bef213c-19ca-4170-8375-b694e251101c".
-
-      Multiple entity uuids can be provided with '&' separator.
+      Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79... (multiple entity uuid with '&' separator).
 
 
       .. raw:: html
@@ -587,13 +583,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteHierarchy query parameter. The full hierarchical breakdown of the site tree.
-
-      Starting from Global site name and ending with the specific site name.
-
-      The Root site is named "Global" (Ex. \`Global/AreaName/BuildingName/FloorName\`).
-
-      This field supports wildcard asterisk (\`\*\`) character search support.
+      SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global site name and ending with the specific site name. The Root site is named "Global" (Ex. \`Global/AreaName/BuildingName/FloorName\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*/San\*, \*/San, /San\*\` Examples \`?siteHierarchy=Global/AreaName/BuildingName/FloorName\` (single siteHierarchy requested) \`?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global/... (multiple siteHierarchies requested).
 
 
       .. raw:: html
@@ -695,7 +685,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Start Time.
+      Site Health Summaries Summary Analytics's startTime.
 
 
       .. raw:: html
@@ -771,7 +761,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Views.
+      Site Health Summaries Summary Analytics's views.
 
 
       .. raw:: html
@@ -793,6 +783,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -911,7 +902,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

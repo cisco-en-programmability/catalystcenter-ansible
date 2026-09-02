@@ -42,7 +42,7 @@ cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload module -- 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -422,40 +422,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload_module__parameter-deviceid:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-deviceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Network Device ID.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-fabricId"></div>
 
       .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload_module__parameter-fabricid:
@@ -480,12 +446,81 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example e290f1ee-6c54-4b01-90e6-d701748f0851.
+      FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
 
 
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload_module__parameter-response:
+
+      .. rst-class:: ansible-option-title
+
+      **response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-response" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Fabrics Fabric Id Switch Wireless Setting Reload's response.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-response/deviceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload_module__parameter-response/deviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-response/deviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device ID.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -529,6 +564,40 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.fabrics_fabric_id_switch_wireless_setting_reload_module__parameter-version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Fabrics Fabric Id Switch Wireless Setting Reload's version.
+
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -544,6 +613,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -573,8 +643,8 @@ Examples
         catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        deviceId: string
-        fabricId: string
+        deviceId: 41828dc1-7481-4ff7-94dc-5b43af9319cb
+        fabricId: e290f1ee-6c54-4b01-90e6-d701748f0851
 
 
 
@@ -652,7 +722,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

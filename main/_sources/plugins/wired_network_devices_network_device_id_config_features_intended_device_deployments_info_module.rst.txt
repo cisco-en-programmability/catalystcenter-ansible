@@ -42,7 +42,7 @@ cisco.catalystcenter.wired_network_devices_network_device_id_config_features_int
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wired_network_devices_network_device_id_config_features_int
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -423,6 +423,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deployActivityId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_device_deployments_info_module__parameter-deployactivityid:
+
+      .. rst-class:: ansible-option-title
+
+      **deployActivityId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deployActivityId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      DeployActivityId path parameter. Activity Id from the /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/deploy or /intent/api/v1/w ired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}/de ploy task response.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_device_deployments_info_module__parameter-headers:
@@ -541,11 +576,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wired.Wired.get\_device\_deployment\_status\_connectivity,
+   - SDK Method used are wired.Wired.get\_device\_deployment\_status\_wired,
    - Paths used are get /dna/intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/deviceDeployments,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -554,8 +590,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wired GetDeviceDeploymentStatusConnectivity <https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-connectivity>`_
-       Complete reference of the GetDeviceDeploymentStatusConnectivity API.
+   `Cisco Catalyst Center documentation for Wired GetDeviceDeploymentStatusWired <https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-wired>`_
+       Complete reference of the GetDeviceDeploymentStatusWired API.
 
 .. Examples
 
@@ -577,6 +613,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
         networkDeviceId: string
+        deployActivityId: string
       register: result
 
 
@@ -655,7 +692,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

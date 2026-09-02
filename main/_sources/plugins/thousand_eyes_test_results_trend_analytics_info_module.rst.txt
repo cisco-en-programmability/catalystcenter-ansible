@@ -42,7 +42,7 @@ cisco.catalystcenter.thousand_eyes_test_results_trend_analytics_info module -- I
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.thousand_eyes_test_results_trend_analytics_info module -- I
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -136,6 +136,41 @@ Parameters
         <div class="ansible-option-cell">
 
       AgentId query parameter. Unique identifier of the ThousandEyes agent. Examples \`agentId=199345\` (filter for single agentId) \`agentId=1993458&agentId=499387\` (filter for multiple agentIds).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-attribute"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.thousand_eyes_test_results_trend_analytics_info_module__parameter-attribute:
+
+      .. rst-class:: ansible-option-title
+
+      **attribute**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-attribute" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Attribute query parameter. List of attributes related to resource that can be requested to only be part of the response. Supported attributes are failurePercentage, averagePacketLoss, latestPacketLoss, maxPacketLoss, averageJitter, latestJitter, maxJitter, averageLatency, latestLatency, maxLatency Examples attribute=failurePercentage (single attribute requested) attribute=failurePercentage&attribute=maxLatency (multiple attribute requested).
           
 
 
@@ -864,7 +899,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      TrendInterval query parameter. The time interval to aggregate the metrics. Recommendation |Time duration |Recommended \`trendInterval\`| |--------------|---------------------------| |Up to 6 hr | \`5MIN\` | |6 hr to 2 days| \`1HR\` | |More than 2 days| \`3HR\` |.
+      TrendInterval query parameter. The time interval to aggregate the metrics. Available values 5MIN, 30MIN, 1HR, 3HR Recommendation |Time duration |Recommended \`trendInterval\`| |--------------|---------------------------| |Up to 6 hr | \`5MIN\` | |6 hr to 2 days| \`1HR\` | |More than 2 days| \`3HR\` |.
           
 
 
@@ -929,6 +964,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -963,13 +999,14 @@ Examples
         startTime: 0
         endTime: 0
         trendInterval: string
+        attribute: string
         testId: string
         testName: string
         testType: string
         agentId: string
         networkDeviceName: string
-        limit: 0
-        offset: 0
+        limit: 100
+        offset: 1
         order: string
       register: result
 
@@ -1049,7 +1086,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

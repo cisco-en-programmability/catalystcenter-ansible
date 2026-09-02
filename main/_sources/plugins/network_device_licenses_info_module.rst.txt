@@ -1,0 +1,1155 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.network_device_licenses_info module -- Information module for Network Device Licenses
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.network_device_licenses_info_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.network_device_licenses_info`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Network Device Licenses.
+- Get Network Device Licenses by id.
+- API to retrieve the details of a network device and their licenses.
+- API to retrieve the list of network devices and their licenses based on given filters.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authCodeStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-authcodestatus:
+
+      .. rst-class:: ansible-option-title
+
+      **authCodeStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authCodeStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AuthCodeStatus query parameter. Status of authorization code for network device. Smart Licensing authorization code enables the use of a HSEC license on the device. It is applicable for routers only. | Auth Code Status | Description | |------------------|--------------------------------------------------- --------------------------------------------| | \`INSTALLED\` | If authorization code is installed on the device, the status will be INSTALLED. | | \`NOT\_INSTALLED\` | If authorization code is not installed, the status will be NOT\_INSTALLED. | | \`NA\` | If authorization code is not applicable for the device, then the status will be NA. |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authorizationStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-authorizationstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **authorizationStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authorizationStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AuthorizationStatus query parameter. Smart License authorization status | Authorization Status | Description | | ---------------------- | --------------------------------------------------------------- -------------------------------------------------------------------------------------------------------- ---------------------------------- | | \`AUTHORIZED\` | Registration has been completed with a valid Smart Account and license consumption has begun. The number of licenses consumed is less than the licenses available for use. This is an indication of being in compliance. | | \`EVALUATION\_MODE\` | The network device is running in evaluation mode when it is not registered. | | \`OUT\_OF\_COMPLIANCE\` | The device's license consumption has exceeded the number of licenses that were purchased. The virtual account containing the product instance has a shortage of one or more of license types used. | | \`EVALUATION\_EXPIRED\` | The evaluation period has expired and the device will be in unlicensed state. | | \`AUTHORIZATION\_EXPIRED\` | The authorization has expired. | | \`NOT\_AUTHORIZED\` | The authorization is not valid. | | \`AUTHORIZED\_RESERVED\` | Registration of device has been completed using SLR/PLR with a valid Smart Account and license consumption has begun. The number of licenses consumed is less than the licenses available for use. This is an indication of being in compliance. | | \`NA\` | The authorization is not applicable for device. 'NA' can be seen for devices having RTU mode or device for which smart licensing using policy is applicable | | \`UNKNOWN\` | The authorization state is not known on the device. |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-family"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-family:
+
+      .. rst-class:: ansible-option-title
+
+      **family**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-family" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Family query parameter. Product family of the network device. | Family | Description | |--------------|------------------------------------------| | \`ROUTERS\` | Router product family | | \`SWITCHES\_AND\_HUBS\` | Switches and Hubs product family | | \`WIRELESS\_CONTROLLER\` | Wireless controller product family | | \`UNIFIED\_AP\` | Unified Access Point product family |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id query parameter. Unique ID of the license details of the network device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-licenseMode"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-licensemode:
+
+      .. rst-class:: ansible-option-title
+
+      **licenseMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-licenseMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LicenseMode query parameter. Mode of license on the device. | License Mode | Description | |--------------|------------------------------------------| | \`SMART\_LICENSE\` | Smart License mode | | \`RIGHT\_TO\_USE\` | Right to use | | \`UNKNOWN\` | Mode of license on the device is not known. |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-licenseStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-licensestatus:
+
+      .. rst-class:: ansible-option-title
+
+      **licenseStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-licenseStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LicenseStatus query parameter. Status of license on the network device. | License Status | Description | |-------------------------|----------------------------------------------------------------------------- -----------------| | \`IN\_USE\` | A license is actively being used by a Cisco device and is currently authorized for features it enables. | | \`NOT\_IN\_USE\` | A license is available on the device but is not currently being used by device. | | \`EXPIRED\_IN\_USE\` | A license has expired but the device continues to use its features. | | \`EXPIRED\_NOT\_IN\_USE\` | A license has expired and its features are not currently being utilized on the device. | | \`USAGE\_COUNT\_CONSUMED\` | The allowed usage limit for the license has been fully utilized. It is only applicable for Cisco Nexus devices. | | \`OUT\_OF\_COMPLIANCE\` | A device is using features that require licenses it does not have assigned to it, potentially leading to functionality limitations. | | \`EVALUATION\_IN\_USE\` | A device is currently using a trial or evaluation license for its features. | | \`INACTIVE\` | A license is available on the device but is not currently being used by device. This license status is only applicable for virtual wireless controllers. |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-licenseType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-licensetype:
+
+      .. rst-class:: ansible-option-title
+
+      **licenseType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-licenseType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      LicenseType query parameter. Type of license available on the network device. | License Type | Description | |-------------------------|--------------------------------------------------------------- -------------------------------| | \`NETWORK\_ESSENTIALS\` | Network Essentials license | | \`NETWORK\_ADVANTAGE\` | Network Advantage license | | \`AIR\_NETWORK\_ESSENTIALS\` | Air Network Essentials license. It is applicable for wireless controllers or switches having wireless capability. | | \`AIR\_NETWORK\_ADVANTAGE\` | Air Network Advantage license. It is applicable for wireless controllers or switches having wireless capability. | | \`DNA\_ESSENTIALS\` | DNA Essentials license | | \`DNA\_ADVANTAGE\` | DNA Advantage license | | \`AIR\_DNA\_ESSENTIALS\` | Air DNA Essentials license. It is applicable for wireless controllers or switches having wireless capability. | | \`AIR\_DNA\_ADVANTAGE\` | Air DNA Advantage license. It is applicable for wireless controllers or switches having wireless capability | | \`CNS\_ESSENTIALS\` | Cisco Networking Subscription Essentials license | | \`CNS\_ADVANTAGE\` | Cisco Networking Subscription Advantage license |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. The number of records to show for this page.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-order"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Order query parameter. Whether ascending or descending order should be used to sort the response.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-registrationStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-registrationstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **registrationStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-registrationStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RegistrationStatus query parameter. Smart License registration status | Registration status | Description | | ---------------------- | --------------------------------------------------------------- -------------------------------------------------------------------------------------------------------- ---------------------------------- | | \`REGISTERED\` | The network device instance is registered with CSSM.| | \`UNREGISTERED\` | Smart Licensing is enabled on the network device, but the network device is not registered with CSSM. | | \`REGISTRATION\_EXPIRED\` | The registration has expired. | | \`RESERVATION\_IN\_PROGRESS\` | The license reservation is in progress on the network device. | | \`REGISTERED\_SLR\` | The device has successfully completed the process of SLR and is now registered. | | \`REGISTERED\_PLR\` | The device has successfully completed the process of PLR and is now registered. | | \`REGISTERED\_SATELLITE\` | The device is successfully registered with a On Prem CSSM server for Smart Licensing. | | \`NA\` | The registration is not applicable for device. 'NA' can be seen for devices having RTU license mode or device for which smart licensing using policy is applicable. | | \`UNKNOWN\` | The registration state is not known on the device. |.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-smartAccountId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-smartaccountid:
+
+      .. rst-class:: ansible-option-title
+
+      **smartAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-smartAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SmartAccountId query parameter. Smart Account id where device is registered. Use \`GET /dna/intent/api/v1/licenses/smartAccounts\` intent API to find the smart account Id.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-sortby:
+
+      .. rst-class:: ansible-option-title
+
+      **sortBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sortBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SortBy query parameter. A property within the response to sort by.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-virtualAccountId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__parameter-virtualaccountid:
+
+      .. rst-class:: ansible-option-title
+
+      **virtualAccountId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-virtualAccountId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      VirtualAccountId query parameter. Virtual Account id where device is registered. Use \`GET /dna/intent/api/v1/licenses/smartAccount/${id}/virtualAccounts\` intent API to find the virtual account Id.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are licenses.Licenses.retrieves\_license\_details\_of\_a\_network\_device, licenses.Licenses.retrieves\_license\_details\_of\_network\_devices,
+   - Paths used are get /dna/intent/api/v1/networkDeviceLicenses, get /dna/intent/api/v1/networkDeviceLicenses/{id},
+   - Supports \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Licenses RetrievesLicenseDetailsOfANetworkDevice <https://developer.cisco.com/docs/dna-center/#!retrieves-license-details-of-a-network-device>`_
+       Complete reference of the RetrievesLicenseDetailsOfANetworkDevice API.
+   `Cisco Catalyst Center documentation for Licenses RetrievesLicenseDetailsOfNetworkDevices <https://developer.cisco.com/docs/dna-center/#!retrieves-license-details-of-network-devices>`_
+       Complete reference of the RetrievesLicenseDetailsOfNetworkDevices API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Get all Network Device Licenses
+      cisco.catalystcenter.network_device_licenses_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: e910e834-e35b-4800-9401-a40e22ce09f3
+        family: ROUTERS
+        licenseMode: SMART_LICENSE
+        licenseType: string
+        licenseStatus: string
+        registrationStatus: UNREGISTERED
+        authorizationStatus: AUTHORIZED
+        smartAccountId: 1034567234567
+        virtualAccountId: 10345
+        authCodeStatus: string
+        limit: 0
+        offset: 1
+        sortBy: registrationStatus
+        order: asc
+      register: result
+    - name: Get Network Device Licenses by id
+      cisco.catalystcenter.network_device_licenses_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
+      register: result
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_licenses_info_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

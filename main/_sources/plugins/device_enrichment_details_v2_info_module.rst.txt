@@ -42,7 +42,7 @@ cisco.catalystcenter.device_enrichment_details_v2_info module -- Information mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.device_enrichment_details_v2_info module -- Information mod
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -505,11 +505,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_enrichment\_details\_v2,
+   - SDK Method used are devices.Devices.get\_device\_enrichment\_details,
    - Paths used are get /dna/intent/api/v2/device-enrichment-details,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -518,8 +519,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetailsV2 <https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details-v-2>`_
-       Complete reference of the GetDeviceEnrichmentDetailsV2 API.
+   `Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetails <https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details>`_
+       Complete reference of the GetDeviceEnrichmentDetails API.
 
 .. Examples
 
@@ -601,7 +602,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"deviceDetails\\": {\\n      \\"family\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"location\\": {},\\n      \\"errorCode\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"tunnelUdpPort\\": {},\\n      \\"waasDeviceMode\\": {},\\n      \\"series\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"errorDescription\\": \\"string\\",\\n      \\"locationName\\": {},\\n      \\"tagCount\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"neighborTopology\\": [\\n        {\\n          \\"nodes\\": [\\n            {\\n              \\"role\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"deviceType\\": \\"string\\",\\n              \\"platformId\\": \\"string\\",\\n              \\"family\\": \\"string\\",\\n              \\"ip\\": \\"string\\",\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"userId\\": {},\\n              \\"nodeType\\": \\"string\\",\\n              \\"radioFrequency\\": {},\\n              \\"clients\\": {},\\n              \\"count\\": {},\\n              \\"healthScore\\": 0,\\n              \\"level\\": 0,\\n              \\"fabricGroup\\": {},\\n              \\"connectedDevice\\": {}\\n            }\\n          ],\\n          \\"links\\": [\\n            {\\n              \\"source\\": \\"string\\",\\n              \\"linkStatus\\": \\"string\\",\\n              \\"label\\": [\\n                \\"string\\"\\n              ],\\n              \\"target\\": \\"string\\",\\n              \\"id\\": {},\\n              \\"portUtilization\\": {}\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"deviceDetails\\": {\\n      \\"family\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"location\\": {},\\n      \\"errorCode\\": \\"string\\",\\n      \\"macAddress\\": \\"string\\",\\n      \\"role\\": \\"string\\",\\n      \\"apManagerInterfaceIp\\": \\"string\\",\\n      \\"associatedWlcIp\\": \\"string\\",\\n      \\"bootDateTime\\": \\"string\\",\\n      \\"collectionStatus\\": \\"string\\",\\n      \\"interfaceCount\\": \\"string\\",\\n      \\"lineCardCount\\": \\"string\\",\\n      \\"lineCardId\\": \\"string\\",\\n      \\"managementIpAddress\\": \\"string\\",\\n      \\"memorySize\\": \\"string\\",\\n      \\"platformId\\": \\"string\\",\\n      \\"reachabilityFailureReason\\": \\"string\\",\\n      \\"reachabilityStatus\\": \\"string\\",\\n      \\"snmpContact\\": \\"string\\",\\n      \\"snmpLocation\\": \\"string\\",\\n      \\"tunnelUdpPort\\": {},\\n      \\"waasDeviceMode\\": {},\\n      \\"series\\": \\"string\\",\\n      \\"inventoryStatusDetail\\": \\"string\\",\\n      \\"collectionInterval\\": \\"string\\",\\n      \\"serialNumber\\": \\"string\\",\\n      \\"softwareVersion\\": \\"string\\",\\n      \\"roleSource\\": \\"string\\",\\n      \\"hostname\\": \\"string\\",\\n      \\"upTime\\": \\"string\\",\\n      \\"lastUpdateTime\\": 0,\\n      \\"errorDescription\\": \\"string\\",\\n      \\"locationName\\": {},\\n      \\"tagCount\\": \\"string\\",\\n      \\"lastUpdated\\": \\"string\\",\\n      \\"instanceUuid\\": \\"string\\",\\n      \\"id\\": \\"string\\",\\n      \\"neighborTopology\\": [\\n        {\\n          \\"nodes\\": [\\n            {\\n              \\"role\\": \\"string\\",\\n              \\"name\\": \\"string\\",\\n              \\"id\\": \\"string\\",\\n              \\"description\\": \\"string\\",\\n              \\"deviceType\\": \\"string\\",\\n              \\"platformId\\": \\"string\\",\\n              \\"family\\": \\"string\\",\\n              \\"ip\\": \\"string\\",\\n              \\"softwareVersion\\": \\"string\\",\\n              \\"userId\\": {},\\n              \\"nodeType\\": \\"string\\",\\n              \\"radioFrequency\\": {},\\n              \\"clients\\": {},\\n              \\"count\\": {},\\n              \\"healthScore\\": 0,\\n              \\"level\\": 0,\\n              \\"fabricGroup\\": {},\\n              \\"connectedDevice\\": {}\\n            }\\n          ],\\n          \\"links\\": [\\n            {\\n              \\"source\\": \\"string\\",\\n              \\"linkStatus\\": \\"string\\",\\n              \\"label\\": [\\n                {}\\n              ],\\n              \\"target\\": \\"string\\",\\n              \\"id\\": {},\\n              \\"portUtilization\\": {}\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -618,7 +619,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

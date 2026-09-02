@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_device_claim_to_site module -- Resource module for Pnp 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.pnp_device_claim_to_site module -- Resource module for Pnp 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -438,9 +438,6 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.2.0`
-
-
       .. raw:: html
 
         </div>
@@ -449,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's configInfo.
+      For Default/StackSwitch.
 
 
       .. raw:: html
@@ -483,7 +480,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Config Id.
+      Pnp Device Claim To Site's configId.
 
 
       .. raw:: html
@@ -551,7 +548,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key.
+      Pnp Device Claim To Site's key.
 
 
       .. raw:: html
@@ -585,7 +582,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Value.
+      Pnp Device Claim To Site's value.
 
 
       .. raw:: html
@@ -621,7 +618,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Device Id.
+      Pnp Device Claim To Site's deviceId.
 
 
       .. raw:: html
@@ -646,9 +643,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.4.0`
-
 
       .. raw:: html
 
@@ -684,9 +678,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.2.0`
-
-
       .. raw:: html
 
         </div>
@@ -721,9 +712,6 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.2.0`
-
-
       .. raw:: html
 
         </div>
@@ -732,7 +720,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Device Claim To Site's imageInfo.
+      For Default/StackSwitch.
 
 
       .. raw:: html
@@ -766,7 +754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Image Id.
+      Pnp Device Claim To Site's imageId.
 
 
       .. raw:: html
@@ -800,7 +788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Skip.
+      Skip flag.
 
 
       .. rst-class:: ansible-option-line
@@ -835,9 +823,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.4.0`
-
-
       .. raw:: html
 
         </div>
@@ -871,9 +856,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.1.0`
-
 
       .. raw:: html
 
@@ -951,7 +933,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Site Id.
+      Pnp Device Claim To Site's siteId.
 
 
       .. raw:: html
@@ -976,9 +958,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.4.0`
-
 
       .. raw:: html
 
@@ -1056,7 +1035,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type.
+      Pnp Device Claim To Site's type.
 
 
       .. raw:: html
@@ -1124,9 +1103,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 6.4.0`
-
-
       .. raw:: html
 
         </div>
@@ -1157,6 +1133,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1282,7 +1259,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

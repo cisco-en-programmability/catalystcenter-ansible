@@ -42,7 +42,7 @@ cisco.catalystcenter.roles_v2 module -- Resource module for Roles V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.roles_v2 module -- Resource module for Roles V2
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Roles V2.
-- Add a new role into system v2-.
-- Delete a role in the system.
-- Update a role in the system v2-.
+- Manage operations create, update and delete of the resource Roles V2. - \> Add a new role into system v2-.This API is intended to allow users to create roles based on the new set of permissions returned by the v2 Get permissions API GET /dna/system/api/v2/roles/permissions. There are a few key differences between the v1 Get permissions API and the v2 version. Please refer to the v2 Get permissions API for more details. - \> Delete a role in the system.This API is the successor to the v1 delete role API DELETE /dna/system/api/v1/role. It can be used to delete any role system, including roles created using the v1 Add role API POST /dna/system/api/v1/role and the v2 Add role API POST /dna/system/api/v2/roles . - \> Update a role in the system v2-.This API is the successor to the v1 Update role API PUT /dna/system/api/v1/role. It can be used to update a role that exists in the system, regardless of whether it was created using the v1 Add role API POST /dna/system/api/v1/role or the v2 Add role API POST /dna/system/api/v2/roles .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -551,7 +548,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Roles V2's permissions.
+      List of permissions to be associated with the role.
 
 
       .. raw:: html
@@ -561,51 +558,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-permissions/operations"></div>
+        <div class="ansibleOptionAnchor" id="parameter-permissions/id"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.roles_v2_module__parameter-permissions/operations:
-
-      .. rst-class:: ansible-option-title
-
-      **operations**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-permissions/operations" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of operations allowed for the application. Possible values are "gRead", "gCreate", "gUpdate", "gRemove", or some combination of these.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-permissions/type"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.roles_v2_module__parameter-permissions/type:
+      .. _ansible_collections.cisco.catalystcenter.roles_v2_module__parameter-permissions/id:
 
       .. rst-class:: ansible-option-title
 
-      **type**
+      **id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-permissions/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-permissions/id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -619,7 +582,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the application in the System.
+      Name of the permission.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-permissions/privilege"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.roles_v2_module__parameter-permissions/privilege:
+
+      .. rst-class:: ansible-option-title
+
+      **privilege**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-permissions/privilege" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The privilege allowed for the given permission. The possible values are "Read", "Write", and "Deny".
 
 
       .. raw:: html
@@ -679,11 +676,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are userand\_roles.UserandRoles.add\_role\_v2, userand\_roles.UserandRoles.delete\_role\_v2, userand\_roles.UserandRoles.update\_role\_v2,
+   - SDK Method used are user\_and\_roles.UserAndRoles.add\_role, user\_and\_roles.UserAndRoles.delete\_role, user\_and\_roles.UserAndRoles.update\_role,
    - Paths used are post /dna/system/api/v2/roles, delete /dna/system/api/v2/roles/{id}, put /dna/system/api/v2/roles/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -692,12 +690,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for User and Roles AddRoleV2 <https://developer.cisco.com/docs/dna-center/#!add-role-v-2>`_
-       Complete reference of the AddRoleV2 API.
-   `Cisco Catalyst Center documentation for User and Roles DeleteRoleV2 <https://developer.cisco.com/docs/dna-center/#!delete-role-v-2>`_
-       Complete reference of the DeleteRoleV2 API.
-   `Cisco Catalyst Center documentation for User and Roles UpdateRoleV2 <https://developer.cisco.com/docs/dna-center/#!update-role-v-2>`_
-       Complete reference of the UpdateRoleV2 API.
+   `Cisco Catalyst Center documentation for User and Roles AddRole <https://developer.cisco.com/docs/dna-center/#!add-role>`_
+       Complete reference of the AddRole API.
+   `Cisco Catalyst Center documentation for User and Roles DeleteRole <https://developer.cisco.com/docs/dna-center/#!delete-role>`_
+       Complete reference of the DeleteRole API.
+   `Cisco Catalyst Center documentation for User and Roles UpdateRole <https://developer.cisco.com/docs/dna-center/#!update-role>`_
+       Complete reference of the UpdateRole API.
 
 .. Examples
 
@@ -721,9 +719,8 @@ Examples
         description: string
         name: string
         permissions:
-          - operations:
-              - string
-            type: string
+          - id: string
+            privilege: string
     - name: Delete by id
       cisco.catalystcenter.roles_v2:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -746,12 +743,11 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         description: string
-        id: string
+        id: application/json
         name: string
         permissions:
-          - operations:
-              - string
-            type: string
+          - id: string
+            privilege: string
 
 
 
@@ -829,7 +825,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

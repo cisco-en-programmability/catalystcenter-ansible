@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits module -- R
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits module -- R
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -70,8 +70,8 @@ Synopsis
 
 - Manage operations create, update and delete of the resource Sda Fabric Devices Layer2 Handoffs Sda Transits.
 - Adds layer 3 handoffs with sda transit in fabric devices based on user input.
-- Deletes layer 3 handoffs with sda transit of a fabric device based on user input.
-- Updates layer 3 handoffs with sda transit of fabric devices based on user input.
+- Deletes layer 3 handoffs with sda transit of a fabric device based on user.
+- Updates layer 3 handoffs with sda transit of fabric devices based on user.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -517,7 +517,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sda Fabric Devices Layer2 Handoffs Sda Transits's payload.
+      Layer 3 handoff sda transit root element.
 
 
       .. raw:: html
@@ -671,6 +671,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isDualStack"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits_module__parameter-payload/isdualstack:
+
+      .. rst-class:: ansible-option-title
+
+      **isDualStack**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isDualStack" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      By default, a Border Node connected to SD-Access transit registers its Loopback 0 IPv4 address as the LISP RLOC with the Transit Control Plane Nodes. Set it to 'true' to enable this feature to register both Loopback 0 IPv4 and IPv6 addresses as LISP RLOCs.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-payload/isMulticastOverTransitEnabled"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits_module__parameter-payload/ismulticastovertransitenabled:
@@ -704,6 +746,40 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/lispTransportType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits_module__parameter-payload/lisptransporttype:
+
+      .. rst-class:: ansible-option-title
+
+      **lispTransportType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/lispTransportType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the IP protocol to be used for the LISP peering session between the Border Node and the Transit Control Plane Nodes. Allowed values are 'IPV4' or 'IPV6'. Default value will be the underlay type of the fabric site.
 
 
       .. raw:: html
@@ -836,6 +912,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -860,18 +937,6 @@ Examples
 
     
     ---
-    - name: Delete all
-      cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        fabricId: string
-        networkDeviceId: string
     - name: Create
       cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -887,9 +952,23 @@ Examples
             affinityIdPrime: 0
             connectedToInternet: true
             fabricId: string
+            isDualStack: true
             isMulticastOverTransitEnabled: true
+            lispTransportType: string
             networkDeviceId: string
             transitNetworkId: string
+    - name: Delete all
+      cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        fabricId: string
+        networkDeviceId: string
     - name: Update all
       cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_sda_transits:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -905,7 +984,9 @@ Examples
             affinityIdPrime: 0
             connectedToInternet: true
             fabricId: string
+            isDualStack: true
             isMulticastOverTransitEnabled: true
+            lispTransportType: string
             networkDeviceId: string
             transitNetworkId: string
 
@@ -985,7 +1066,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.buildings module -- Resource module for Buildings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.buildings module -- Resource module for Buildings
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States. Please note that if only the address is provided when creating a building, the UI will not display the geo-location on the map. To ensure the location is rendered, you must also provide the latitude and longitude. If a building has been created without these coordinates and you wish to display its geo-location on the map later, you can edit the building details via the UI to include the latitude and longitude. This limitation will be resolved in a future release.
+      Building address. Please note that if only the address is provided when creating a building, the UI will not display the geo-location on the map. To ensure the location is rendered, you must also provide the latitude and longitude. If a building has been created without these coordinates and you wish to display its geo-location on the map later, you can edit the building details via the UI to include the latitude and longitude. This limitation will be resolved in a future release.
 
 
       .. raw:: html
@@ -550,7 +550,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Building Latitude. Example 37.403712.
+      Building Latitude.
 
 
       .. raw:: html
@@ -584,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Building Longitude. Example -121.971063.
+      Building Longitude.
 
 
       .. raw:: html
@@ -628,6 +628,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nameHierarchy"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.buildings_module__parameter-namehierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **nameHierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nameHierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Building hierarchical name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-parentId"></div>
 
       .. _ansible_collections.cisco.catalystcenter.buildings_module__parameter-parentid:
@@ -653,6 +687,74 @@ Parameters
         <div class="ansible-option-cell">
 
       Parent Id.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteHierarchyId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.buildings_module__parameter-sitehierarchyid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteHierarchyId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteHierarchyId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Building Hierarchical Id. Can be used to add the access groups using the API POST /dna/system/api/v1/accessGroups, this value should be used to populate the srcResourceId field of the request payload.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-type"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.buildings_module__parameter-type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Site type.
 
 
       .. raw:: html
@@ -711,11 +813,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.creates\_a\_building\_v2, site\_design.SiteDesign.deletes\_a\_building\_v2, site\_design.SiteDesign.updates\_a\_building\_v2,
+   - SDK Method used are site\_design.SiteDesign.creates\_a\_building, site\_design.SiteDesign.deletes\_a\_building, site\_design.SiteDesign.updates\_a\_building,
    - Paths used are post /dna/intent/api/v2/buildings, delete /dna/intent/api/v2/buildings/{id}, put /dna/intent/api/v2/buildings/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -724,12 +827,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Site Design CreatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2>`_
-       Complete reference of the CreatesABuildingV2 API.
-   `Cisco Catalyst Center documentation for Site Design DeletesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2>`_
-       Complete reference of the DeletesABuildingV2 API.
-   `Cisco Catalyst Center documentation for Site Design UpdatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2>`_
-       Complete reference of the UpdatesABuildingV2 API.
+   `Cisco Catalyst Center documentation for Site Design CreatesABuilding <https://developer.cisco.com/docs/dna-center/#!creates-a-building>`_
+       Complete reference of the CreatesABuilding API.
+   `Cisco Catalyst Center documentation for Site Design DeletesABuilding <https://developer.cisco.com/docs/dna-center/#!deletes-a-building>`_
+       Complete reference of the DeletesABuilding API.
+   `Cisco Catalyst Center documentation for Site Design UpdatesABuilding <https://developer.cisco.com/docs/dna-center/#!updates-a-building>`_
+       Complete reference of the UpdatesABuilding API.
 
 .. Examples
 
@@ -740,22 +843,6 @@ Examples
 
     
     ---
-    - name: Create
-      cisco.catalystcenter.buildings:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        address: string
-        country: string
-        latitude: 0
-        longitude: 0
-        name: string
-        parentId: string
     - name: Delete by id
       cisco.catalystcenter.buildings:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -777,13 +864,33 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
+        country: United States
+        id: string
+        latitude: 37.403712
+        longitude: -121.971063
+        name: Building1
+        parentId: afc10815-a714-4b11-a1dd-f735294462db
+        type: building
+    - name: Create
+      cisco.catalystcenter.buildings:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
         address: string
         country: string
         id: string
         latitude: 0
         longitude: 0
         name: string
+        nameHierarchy: string
         parentId: string
+        siteHierarchyId: string
+        type: string
 
 
 
@@ -844,7 +951,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -861,7 +968,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.ipam_site_ip_address_pools module -- Resource module for Ip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.ipam_site_ip_address_pools module -- Resource module for Ip
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Ipam Site Ip Address Pools. - \> Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool must be either an IPv4 or dual-stack pool, with \`ipV4AddressSpace\` and optionally \`ipV6AddressSpace\` properties specified.
+- Manage operations create, update and delete of the resource Ipam Site Ip Address Pools. - \> Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool may be either IPv4 with an \`ipV4AddressSpace\` specified , IPv6 with an \`ipV6AddressSpace\` specified or Dual-stack with both an \`ipV4AddressSpace\` and \`ipV6AddressSpace\` specified .
 - Releases an IP address subpool.
 - Updates an IP address subpool, which reserves address space from a global pool or global pools for a particular site.
 
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -448,7 +448,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The \`id\` of the IP address subpool to delete.
+      The UUID for this reserve IP pool (subpool).
 
 
       .. raw:: html
@@ -488,465 +488,6 @@ Parameters
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/addressSpaceId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/addressspaceid:
-
-      .. rst-class:: ansible-option-title
-
-      **addressSpaceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/addressSpaceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the address space containing this pool. Leave it as null to place the pool in the default address space. Pools with the same addressSpaceId may not overlap, regardless of the value of overlapping. This value cannot be changed once the pool is created.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/assignedAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/assignedaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **assignedAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/assignedAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses assigned from the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/defaultAssignedAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/defaultassignedaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **defaultAssignedAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/defaultAssignedAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses that are assigned from the pool by default. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/dhcpServers"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/dhcpservers:
-
-      .. rst-class:: ansible-option-title
-
-      **dhcpServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/dhcpServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The DHCP server(s) for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/dnsServers"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/dnsservers:
-
-      .. rst-class:: ansible-option-title
-
-      **dnsServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/dnsServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The DNS server(s) for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/gatewayIpAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/gatewayipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **gatewayIpAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/gatewayIpAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The gateway IP address for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/globalPoolId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/globalpoolid:
-
-      .. rst-class:: ansible-option-title
-
-      **globalPoolId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/globalPoolId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/overlapping"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/overlapping:
-
-      .. rst-class:: ansible-option-title
-
-      **overlapping**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/overlapping" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      If false, no other pool may have a CIDR that overlaps with this pool's CIDR. Defaults to false.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/prefixLength"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/prefixlength:
-
-      .. rst-class:: ansible-option-title
-
-      **prefixLength**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/prefixLength" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`float`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The network mask component, as a decimal, for the CIDR notation of this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/slaacSupport"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/slaacsupport:
-
-      .. rst-class:: ansible-option-title
-
-      **slaacSupport**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/slaacSupport" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      If the prefixLength is 64, this option may be enabled. Stateless Address Auto-configuration (SLAAC) allows network devices to select their IP address without the use of DHCP servers.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/subnet"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/subnet:
-
-      .. rst-class:: ansible-option-title
-
-      **subnet**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/subnet" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The IP address component of the CIDR notation for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/totalAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/totaladdresses:
-
-      .. rst-class:: ansible-option-title
-
-      **totalAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/totalAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The total number of addresses in the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/unassignableAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv4addressspace/unassignableaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **unassignableAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/unassignableAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses in the pool that cannot be assigned. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -981,465 +522,6 @@ Parameters
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/addressSpaceId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/addressspaceid:
-
-      .. rst-class:: ansible-option-title
-
-      **addressSpaceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/addressSpaceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the address space containing this pool. Leave it as null to place the pool in the default address space. Pools with the same addressSpaceId may not overlap, regardless of the value of overlapping. This value cannot be changed once the pool is created.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/assignedAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/assignedaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **assignedAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/assignedAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses assigned from the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/defaultAssignedAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/defaultassignedaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **defaultAssignedAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/defaultAssignedAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses that are assigned from the pool by default. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/dhcpServers"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/dhcpservers:
-
-      .. rst-class:: ansible-option-title
-
-      **dhcpServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/dhcpServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The DHCP server(s) for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/dnsServers"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/dnsservers:
-
-      .. rst-class:: ansible-option-title
-
-      **dnsServers**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/dnsServers" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The DNS server(s) for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/gatewayIpAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/gatewayipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **gatewayIpAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/gatewayIpAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The gateway IP address for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/globalPoolId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/globalpoolid:
-
-      .. rst-class:: ansible-option-title
-
-      **globalPoolId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/globalPoolId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/overlapping"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/overlapping:
-
-      .. rst-class:: ansible-option-title
-
-      **overlapping**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/overlapping" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      If false, no other pool may have a CIDR that overlaps with this pool's CIDR. Defaults to false.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/prefixLength"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/prefixlength:
-
-      .. rst-class:: ansible-option-title
-
-      **prefixLength**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/prefixLength" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`float`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The network mask component, as a decimal, for the CIDR notation of this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/slaacSupport"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/slaacsupport:
-
-      .. rst-class:: ansible-option-title
-
-      **slaacSupport**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/slaacSupport" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      If the prefixLength is 64, this option may be enabled. Stateless Address Auto-configuration (SLAAC) allows network devices to select their IP address without the use of DHCP servers.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/subnet"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/subnet:
-
-      .. rst-class:: ansible-option-title
-
-      **subnet**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/subnet" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The IP address component of the CIDR notation for this subnet.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/totalAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/totaladdresses:
-
-      .. rst-class:: ansible-option-title
-
-      **totalAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/totalAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The total number of addresses in the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/unassignableAddresses"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_module__parameter-ipv6addressspace/unassignableaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **unassignableAddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/unassignableAddresses" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The number of addresses in the pool that cannot be assigned. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1502,7 +584,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Once created, a subpool type cannot be changed. LAN Assigns IP addresses to LAN interfaces of applicable VNFs and underlay LAN automation. Management Assigns IP addresses to management interfaces. A management network is a dedicated network connected to VNFs for VNF management. Service Assigns IP addresses to service interfaces. Service networks are used for communication within VNFs. WAN Assigns IP addresses to NFVIS for UCS-E provisioning. Generic used for all other network types.
+      Once created, a subpool type cannot be changed. - LAN - Assigns IP addresses to LAN interfaces of applicable VNFs and underlay LAN automation. - Management - Assigns IP addresses to management interfaces. A management network is a dedicated network connected to VNFs for VNF management. - Service - Assigns IP addresses to service interfaces. Service networks are used for communication within VNFs. - WAN - Assigns IP addresses to NFVIS for UCS-E provisioning. - Generic - used for all other network types.
 
 
       .. raw:: html
@@ -1634,6 +716,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1658,7 +741,7 @@ Examples
 
     
     ---
-    - name: Create
+    - name: Update by id
       cisco.catalystcenter.ipam_site_ip_address_pools:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1668,39 +751,10 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        ipV4AddressSpace:
-          addressSpaceId: string
-          assignedAddresses: string
-          defaultAssignedAddresses: string
-          dhcpServers:
-            - string
-          dnsServers:
-            - string
-          gatewayIpAddress: string
-          globalPoolId: string
-          overlapping: true
-          prefixLength: 0
-          slaacSupport: true
-          subnet: string
-          totalAddresses: string
-          unassignableAddresses: string
-        ipV6AddressSpace:
-          addressSpaceId: string
-          assignedAddresses: string
-          defaultAssignedAddresses: string
-          dhcpServers:
-            - string
-          dnsServers:
-            - string
-          gatewayIpAddress: string
-          globalPoolId: string
-          overlapping: true
-          prefixLength: 0
-          slaacSupport: true
-          subnet: string
-          totalAddresses: string
-          unassignableAddresses: string
-        name: string
+        id: string
+        ipV4AddressSpace: {}
+        ipV6AddressSpace: {}
+        name: {}
         poolType: string
         siteId: string
         siteName: string
@@ -1715,7 +769,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
+    - name: Create
       cisco.catalystcenter.ipam_site_ip_address_pools:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1726,33 +780,12 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         id: string
-        ipV4AddressSpace:
-          addressSpaceId: string
-          dhcpServers:
-            - string
-          dnsServers:
-            - string
-          gatewayIpAddress: string
-          globalPoolId: string
-          overlapping: true
-          prefixLength: 0
-          slaacSupport: true
-          subnet: string
-        ipV6AddressSpace:
-          addressSpaceId: string
-          dhcpServers:
-            - string
-          dnsServers:
-            - string
-          gatewayIpAddress: string
-          globalPoolId: string
-          overlapping: true
-          prefixLength: 0
-          slaacSupport: true
-          subnet: string
-        name: string
+        ipV4AddressSpace: {}
+        ipV6AddressSpace: {}
+        name: {}
         poolType: string
         siteId: string
+        siteName: string
 
 
 
@@ -1813,7 +846,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -1830,7 +863,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.configuration_template_import_template module -- Resource m
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.configuration_template_import_template module -- Resource m
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -599,7 +599,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's containingTemplates.
+      Containing templates for composite template.
 
 
       .. raw:: html
@@ -709,7 +709,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's deviceTypes.
+      Applicable device types.
 
 
       .. raw:: html
@@ -982,7 +982,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's rollbackTemplateParams.
+      Rollback template params(variables).
 
 
       .. raw:: html
@@ -1542,7 +1542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's range.
+      Range of param.
 
 
       .. raw:: html
@@ -1721,7 +1721,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selection.
+      Selection of param.
 
 
       .. raw:: html
@@ -1857,7 +1857,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selectionValues.
+      Selection values.
 
 
       .. raw:: html
@@ -1893,7 +1893,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's tags.
+      Tag object which needs to be applied on the template.
 
 
       .. raw:: html
@@ -2030,7 +2030,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's templateParams.
+      Template params(variables).
 
 
       .. raw:: html
@@ -2590,7 +2590,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's range.
+      Range of param.
 
 
       .. raw:: html
@@ -2769,7 +2769,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selection.
+      Selection of param.
 
 
       .. raw:: html
@@ -2905,7 +2905,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selectionValues.
+      Selection values.
 
 
       .. raw:: html
@@ -3086,7 +3086,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's deviceTypes.
+      Applicable device types.
 
 
       .. raw:: html
@@ -3563,7 +3563,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's rollbackTemplateParams.
+      Rollback template params(variables).
 
 
       .. raw:: html
@@ -4123,7 +4123,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's range.
+      Range of param.
 
 
       .. raw:: html
@@ -4302,7 +4302,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selection.
+      Selection of param.
 
 
       .. raw:: html
@@ -4438,7 +4438,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selectionValues.
+      Selection values.
 
 
       .. raw:: html
@@ -4576,7 +4576,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's tags.
+      Tag object which needs to be applied on the template.
 
 
       .. raw:: html
@@ -4713,7 +4713,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's templateParams.
+      Template params(variables).
 
 
       .. raw:: html
@@ -5273,7 +5273,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's range.
+      Range of param.
 
 
       .. raw:: html
@@ -5452,7 +5452,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selection.
+      Selection of param.
 
 
       .. raw:: html
@@ -5588,7 +5588,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's selectionValues.
+      Selection values.
 
 
       .. raw:: html
@@ -5624,7 +5624,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Import Template's validationErrors.
+      Validation Errors of template content.
 
 
       .. raw:: html
@@ -5894,6 +5894,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -6142,7 +6143,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": {}, "url": "string"}, "version": "string"}`
 
 
       .. raw:: html
@@ -6159,7 +6160,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

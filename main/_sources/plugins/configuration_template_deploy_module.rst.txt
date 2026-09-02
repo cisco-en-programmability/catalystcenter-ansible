@@ -42,7 +42,7 @@ cisco.catalystcenter.configuration_template_deploy module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.configuration_template_deploy module -- Resource module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -599,7 +599,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Configuration Template Deploy's targetInfo.
+      Target info to deploy template.
 
 
       .. raw:: html
@@ -701,7 +701,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Template Deploy's params.
+      Template params/values to be provisioned.
 
 
       .. raw:: html
@@ -897,11 +897,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.deploy\_template,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.deploy\_template\_v1,
    - Paths used are post /dna/intent/api/v1/template-programmer/template/deploy,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -910,8 +911,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Configuration Templates DeployTemplate <https://developer.cisco.com/docs/dna-center/#!deploy-template>`_
-       Complete reference of the DeployTemplate API.
+   `Cisco Catalyst Center documentation for Configuration Templates DeployTemplateV1 <https://developer.cisco.com/docs/dna-center/#!deploy-template-v-1>`_
+       Complete reference of the DeployTemplateV1 API.
 
 .. Examples
 
@@ -1022,7 +1023,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

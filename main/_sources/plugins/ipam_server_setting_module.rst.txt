@@ -42,7 +42,7 @@ cisco.catalystcenter.ipam_server_setting module -- Resource module for Ipam Serv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.ipam_server_setting module -- Resource module for Ipam Serv
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Ipam Server Setting. - \> Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete any existing external server before creating a new one. Please note, the certificate of the external IPAM server must be trusted by the Catalyst Center server before using this API. Trusted certificates can be uploaded using 'Import Trusted Certificate' intent API.
+- Manage operations create, update and delete of the resource Ipam Server Setting. - \> Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete any existing external server before creating a new one. To enable communication with an external IPAM server that has a certificate that may not be trusted, add the certificate via \`POST /intent/api/v1/trustedCertificates/import\`.
 - Deletes configuration details of the external IPAM server.
 - Updates configuration details of the external IPAM server.
 
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -482,7 +482,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of external IPAM. Can be either INFOBLOX, BLUECAT or GENERIC.
+      Type of external IPAM.
 
 
       .. raw:: html
@@ -551,6 +551,40 @@ Parameters
         <div class="ansible-option-cell">
 
       The URL of this external server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state_"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.ipam_server_setting_module__parameter-state_:
+
+      .. rst-class:: ansible-option-title
+
+      **state_**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state_" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      State of the the external IPAM. \* OK indicates success of most recent periodic communication check with external IPAM. \* CRITICAL indicates failure of most recent attempt to communicate with the external IPAM. \* SYNCHRONIZING indicates that the process of synchronizing the external IPAM database with the local IPAM database is running and all other IPAM processes will be blocked until the completes. \* DISCONNECTED indicates the external IPAM is no longer being used.
 
 
       .. raw:: html
@@ -719,11 +753,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are system\_settings.SystemSettings.creates\_configuration\_details\_of\_the\_external\_ip\_a\_m\_server, system\_settings.SystemSettings.deletes\_configuration\_details\_of\_the\_external\_ip\_a\_m\_server, system\_settings.SystemSettings.updates\_configuration\_details\_of\_the\_external\_ip\_a\_m\_server,
+   - SDK Method used are system\_settings.SystemSettings.creates\_configuration\_details\_of\_the\_external\_ipam\_server, system\_settings.SystemSettings.deletes\_configuration\_details\_of\_the\_external\_ipam\_server, system\_settings.SystemSettings.updates\_configuration\_details\_of\_the\_external\_ipam\_server,
    - Paths used are post /dna/intent/api/v1/ipam/serverSetting, delete /dna/intent/api/v1/ipam/serverSetting, put /dna/intent/api/v1/ipam/serverSetting,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -748,16 +783,6 @@ Examples
 
     
     ---
-    - name: Delete all
-      cisco.catalystcenter.ipam_server_setting:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
     - name: Create
       cisco.catalystcenter.ipam_server_setting:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -769,9 +794,10 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         password: string
-        provider: string
+        provider: {}
         serverName: string
         serverUrl: string
+        state_: string
         syncView: true
         userName: string
         view: string
@@ -786,11 +812,23 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         password: string
+        provider: {}
         serverName: string
         serverUrl: string
+        state_: string
         syncView: true
         userName: string
         view: string
+    - name: Delete all
+      cisco.catalystcenter.ipam_server_setting:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
 
 
 
@@ -868,7 +906,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

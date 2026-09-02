@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_profiles_id_site_tags_bulk module -- Resource modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_profiles_id_site_tags_bulk module -- Resource modu
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Profiles Id Site Tags Bulk. - \> This endpoint allows the creation of multiple \`Site Tags\` associated with a specific \`Wireless Profile\` in a single request. The \`id\` of the \`Wireless Profile\` must be provided as a path parameter, and a list of \`Site Tags\` should be included in the request body.
+- Manage operation create of the resource Wireless Profiles Id Site Tags Bulk. - \> This endpoint allows the creation of multiple \`Site Tags\` associated with a specific \`Wireless Profile\` in a single request. The \`id\` of the \`Wireless Profile\` must be provided as a path parameter, and a list of \`Site Tags\` should be included in the request body. \`Note \` Only one Site Tag siteTag can be created per siteId. If multiple siteTags are specified for the same siteId within a request, only the last one will be saved, overriding any previously configured tags. When creating a Site Tag under a Flex-enabled Wireless Profile i.e., a Wireless Profile with one or more Flex SSIDs , a non-default Flex Profile Name flexProfileName will be used. If no custom flexProfileName is defined, the System will automatically generate one and configure it in the controller.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -446,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. Network profile id.
+      Id path parameter. Wireless Profile ID.
 
 
       .. raw:: html
@@ -514,7 +514,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ap Profile Name.
+      Wireless Profiles Id Site Tags Bulk's apProfileName.
 
 
       .. raw:: html
@@ -548,7 +548,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Flex Profile Name.
+      Wireless Profiles Id Site Tags Bulk's flexProfileName.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-items/load"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profiles_id_site_tags_bulk_module__parameter-items/load:
+
+      .. rst-class:: ansible-option-title
+
+      **load**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-items/load" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configure a \`load\` factor for this Site Tag. - The load factor is defined on a scale of 0 to 1000. As a starting point, you can set the load factor to match the number of APs, with adjustments made for any unusual or exceptional client loads. - This feature is supported in IOS-XE versions 17.9.3 and above. - The default \`load\` value is null. Leaving it as \`null\` does not reset the controller's existing value; any previously configured \`load\` value remains unchanged on the controller. - All APs on controller must disconnect and reconnect for load balancing to take effect. - Examples - Custom Load - \`load\` is set to 10. - After provisioning, the \`load\` value (10) is pushed to the controller for the Site Tag. - Out Of Band (OOB) Load - For a Site Tag, \`load\` is configured as 10 directly on controller (Out-Of-Band). - No \`load\` value is set through this API, upon provisioning no value will be pushed to the controller. - The existing \`load\` value (10) for the Site Tag is retained on the controller. - Reset Load - \`load\` is configured as 10 within the Site Tag and successfully provisioned to the controller. - \`load\` is reset to null in the design via \`PUT\` API. - During provisioning, no value is pushed to the controller, and the previous \`load\` value (10) for the Site Tag is retained on controller. - Load configuration for indexed Site Tags - Assign the load value relative to AP count or other load factors like client density for the Site Tag. - Flex Site Tag - Can support up to 300 APs. - If \`load\` is configured as 1000 and 600 AP's are provisioned, Catalyst Centre will automatically create 2 indexed Site Tags, each with Load = 1000. - Non Flex Site Tag - Can support up to 1600 APs. - If \`load\` is configured as 1000 and 2000 AP's are provisioned, the system will automatically create 2 indexed Site Tags, each with Load = 1000.
 
 
       .. raw:: html
@@ -582,7 +616,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Ids.
+      Wireless Profiles Id Site Tags Bulk's siteIds.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-items/siteTagId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_profiles_id_site_tags_bulk_module__parameter-items/sitetagid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteTagId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-items/siteTagId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Profiles Id Site Tags Bulk's siteTagId.
 
 
       .. raw:: html
@@ -681,6 +749,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -714,8 +783,10 @@ Examples
         items:
           - apProfileName: string
             flexProfileName: string
+            load: {}
             siteIds:
               - string
+            siteTagId: string
             siteTagName: string
 
 
@@ -794,7 +865,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.discoverys_jobs_summarys_info module -- Information module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.discoverys_jobs_summarys_info module -- Information module 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -456,6 +456,213 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id query parameter. Optional list of the discovery ids to filter by.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. The number of records to show for this page.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name query parameter. Optional name of the discovery to filter by. This supports partial search. For example, searching for "Disc" will match "Discovery1", "Discovery2", etc.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-order"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Order query parameter. To fetch the latest discovery job. Use the order query parameter with values such as asc or des. By default, jobs are ordered by descending order to display the most recent entries first.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-orderBy"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-orderby:
+
+      .. rst-class:: ansible-option-title
+
+      **orderBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-orderBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      OrderBy query parameter. To fetch the latest discovery job. Use the orderBy query parameter with values such as lastUpdatedDate, startTime and endTime. By default, jobs are ordered by lastUpdatedDate display the most recent entries first.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_summarys_info_module__parameter-validate_response_schema:
@@ -510,6 +717,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -540,6 +748,12 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
+        id: [12, 13]
+        name: string
+        limit: 0
+        offset: 1
+        orderBy: string
+        order: string
       register: result
 
 
@@ -601,7 +815,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"credentials": {"cli": {"description": "string", "globalCredentialIdList": ["string"], "protocolOrder": "string", "username": "string"}, "httpRead": {"description": "string", "globalCredentialIdList": ["string"], "port": 0, "protocol": "string", "username": "string"}, "httpWrite": {"description": "string", "globalCredentialIdList": ["string"], "port": 0, "protocol": "string", "username": "string"}, "netconf": {"description": "string", "globalCredentialIdList": ["string"], "port": 0}, "snmp": {"retries": 0, "snmpV2Read": {"description": "string", "globalCredentialIdList": ["string"]}, "snmpV2Write": {"description": "string", "globalCredentialIdList": ["string"]}, "snmpV3": {"authType": "string", "description": "string", "globalCredentialIdList": ["string"], "mode": "string", "privacyType": "string", "username": "string"}, "timeout": 0}}, "discoveryTypeDetails": {"cidrAddress": {"cidrPrefix": "string", "cidrSuffix": 0}, "hopCount": 0, "ipAddress": "string", "range": [{"ipAddressEnd": "string", "ipAddressStart": "string"}], "subnetFilter": {"cidrAddress": {"cidrPrefix": "string", "cidrSuffix": 0}, "ipAddress": "string"}, "type": "string"}, "managementIpSelectionMethod": "string", "name": "string", "onlyNewDevice": true, "updateManagementIp": true}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"discoveryTypeDetails": {}, "endTime": 0, "id": "string", "jobId": "string", "lastUpdatedDate": 0, "name": "string", "reachableDevices": 0, "startTime": 0, "status": "string"}], "version": "string"}`
 
 
       .. raw:: html
@@ -618,7 +832,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

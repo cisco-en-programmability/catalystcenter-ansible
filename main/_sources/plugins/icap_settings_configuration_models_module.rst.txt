@@ -42,7 +42,7 @@ cisco.catalystcenter.icap_settings_configuration_models module -- Resource modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.icap_settings_configuration_models module -- Resource modul
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,11 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Icap Settings Configuration Models.
-- This creates an ICAP configuration intent for preview approval.
-- The intent is not deployed to the device until further preview-approve APIs are applied.
-- This API is the first step in the preview-approve workflow, which consists of several APIs.
-- Skipping any API in the process is not recommended for a complete preview-approve use case.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-ICAP\_APIs-1.0.0-resolved.yaml.
+- Creates an ICAP configuration intent for preview-approve.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -89,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -485,7 +481,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ap Id.
+      Icap Settings Configuration Models's apId.
 
 
       .. raw:: html
@@ -519,7 +515,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Capture Type.
+      Icap Settings Configuration Models's captureType.
 
 
       .. raw:: html
@@ -553,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Client Mac.
+      Icap Settings Configuration Models's clientMac.
 
 
       .. raw:: html
@@ -587,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Duration In Mins.
+      Icap Settings Configuration Models's durationInMins.
 
 
       .. raw:: html
@@ -621,7 +617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ota Band.
+      Icap Settings Configuration Models's otaBand.
 
 
       .. raw:: html
@@ -655,7 +651,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ota Channel.
+      Icap Settings Configuration Models's otaChannel.
 
 
       .. raw:: html
@@ -689,7 +685,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ota Channel Width.
+      Icap Settings Configuration Models's otaChannelWidth.
 
 
       .. raw:: html
@@ -699,17 +695,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/slot"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/slots"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.icap_settings_configuration_models_module__parameter-payload/slot:
+      .. _ansible_collections.cisco.catalystcenter.icap_settings_configuration_models_module__parameter-payload/slots:
 
       .. rst-class:: ansible-option-title
 
-      **slot**
+      **slots**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-payload/slot" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/slots" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -723,7 +719,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Slot.
+      Icap Settings Configuration Models's slots.
 
 
       .. raw:: html
@@ -757,7 +753,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wlc Id.
+      Icap Settings Configuration Models's wlcId.
 
 
       .. raw:: html
@@ -851,11 +847,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.creates\_an\_i\_cap\_configuration\_intent\_for\_preview\_approve,
+   - SDK Method used are sensors.Sensors.creates\_an\_icap\_configuration\_intent\_for\_preview\_approve,
    - Paths used are post /dna/intent/api/v1/icapSettings/configurationModels,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -893,7 +890,7 @@ Examples
             otaBand: string
             otaChannel: 0
             otaChannelWidth: 0
-            slot:
+            slots:
               - 0
             wlcId: string
         previewDescription: string
@@ -974,7 +971,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

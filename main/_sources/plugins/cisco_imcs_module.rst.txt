@@ -42,7 +42,7 @@ cisco.catalystcenter.cisco_imcs module -- Resource module for Cisco Imcs
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.cisco_imcs module -- Resource module for Cisco Imcs
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Cisco Imcs. - \> This API adds a Cisco Integrated Management Controller IMC configuration to a Cisco Catalyst Center node, identified by its \`nodeId\`. Obtain the \`nodeId\` from the \`id\` attribute in the response of the \`/dna/intent/api/v1/nodes-config\` API. - \> This API removes a specific Cisco Integrated Management Controller IMC configuration from a Catalyst Center node using the provided identifier. - \> This API updates the Cisco Integrated Management Controller IMC configuration for a Catalyst Center node, identified by the specified ID.
+- Manage operations create, update and delete of the resource Cisco Imcs.
+- This API adds a Cisco Integrated Management Controller IMC configuration to. - \> This API removes a specific Cisco Integrated Management Controller IMC configuration from a Catalyst Center node using the provided identifier.
+- This API updates the Cisco Integrated Management Controller IMC.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -641,11 +643,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are cisco\_i\_m\_c.CiscoIMC.adds\_cisco\_i\_m\_c\_configuration\_to\_a\_catalyst\_center\_node, cisco\_i\_m\_c.CiscoIMC.deletes\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node, cisco\_i\_m\_c.CiscoIMC.updates\_the\_cisco\_i\_m\_c\_configuration\_for\_a\_catalyst\_center\_node,
+   - SDK Method used are cisco\_imc.CiscoIMC.adds\_cisco\_imc\_configuration\_to\_a\_catalyst\_center\_node, cisco\_imc.CiscoIMC.deletes\_the\_cisco\_imc\_configuration\_for\_a\_catalyst\_center\_node, cisco\_imc.CiscoIMC.updates\_the\_cisco\_imc\_configuration\_for\_a\_catalyst\_center\_node,
    - Paths used are post /dna/system/api/v1/ciscoImcs, delete /dna/system/api/v1/ciscoImcs/{id}, put /dna/system/api/v1/ciscoImcs/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -786,7 +789,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

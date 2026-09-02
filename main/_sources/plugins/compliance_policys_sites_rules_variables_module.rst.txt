@@ -42,7 +42,7 @@ cisco.catalystcenter.compliance_policys_sites_rules_variables module -- Resource
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.compliance_policys_sites_rules_variables module -- Resource
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -423,6 +423,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-inheritedSiteId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_sites_rules_variables_module__parameter-inheritedsiteid:
+
+      .. rst-class:: ansible-option-title
+
+      **inheritedSiteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-inheritedSiteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Site Id of the site that this setting is inherited from.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-inheritedSiteName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_sites_rules_variables_module__parameter-inheritedsitename:
+
+      .. rst-class:: ansible-option-title
+
+      **inheritedSiteName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-inheritedSiteName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The name of the site that this setting is inherited from.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-policyId"></div>
 
       .. _ansible_collections.cisco.catalystcenter.compliance_policys_sites_rules_variables_module__parameter-policyid:
@@ -591,7 +659,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Compliance Policys Sites Rules Variables's variableValues.
+      An array of variable value assignments.
 
 
       .. raw:: html
@@ -659,7 +727,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of variable values. The order of the list is preserved for compliance checks. The variable value is formatted as a string. It must be a valid string representation of the data and conform to the specified type. For variables with an input type of \`SINGLE\_SELECT\` or \`MULTI\_SELECT\`, pass the actual value, not the key.
+      List of variable values. The order of the list is preserved for compliance checks.
 
 
       .. raw:: html
@@ -682,6 +750,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -712,9 +781,11 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
-        policyId: string
-        ruleId: string
-        siteId: string
+        inheritedSiteId: string
+        inheritedSiteName: string
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+        ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
+        siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
         variableValues:
           - id: string
             values:
@@ -796,7 +867,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

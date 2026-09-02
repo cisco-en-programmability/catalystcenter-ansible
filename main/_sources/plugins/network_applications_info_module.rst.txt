@@ -42,7 +42,7 @@ cisco.catalystcenter.network_applications_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_applications_info module -- Information module for 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Network Applications.
-- Retrieves the list of network applications along with experience and health metrics.
-- If startTime and endTime are not provided, the API defaults to the last 24 hours.
-- siteId is mandatory. siteId must be a site UUID of a building.
-- For detailed information about the usage of the API, please refer to the Open API specification document. https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-NetworkApplications-1.0.0-resolved.yaml.
+- Get all Network Applications. - \> Retrieves the list of network applications along with experience and health metrics. If startTime and endTime are not provided, the API defaults to the last 24 hours. \`siteId\` is mandatory. \`siteId\` must be a site UUID of a building. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-NetworkApplications-1.0.2-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -566,6 +562,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-exporterNetworkDeviceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_applications_info_module__parameter-exporternetworkdeviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **exporterNetworkDeviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-exporterNetworkDeviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ExporterNetworkDeviceId query parameter. Unique ID of the netflow exporter device. Examples \`exporterNetworkDeviceId=5b234dbc-583e-491b-bf1a-318bba6c017f\` (single exporterNetworkDeviceId requested) \`exporterNetworkDeviceId=5b234dbc-583e-491b-bf1a- 318bba6c017f&exporterNetworkDeviceId=8b234dbc-583e-491b-bf1a-318bba6c017f\` (multiple exporterNetworkDeviceId requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_applications_info_module__parameter-headers:
@@ -591,6 +622,41 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-healthScore"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_applications_info_module__parameter-healthscore:
+
+      .. rst-class:: ansible-option-title
+
+      **healthScore**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-healthScore" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      HealthScore query parameter. Application health score. Examples \`healthScore=7\` (single healthScore requested) \`healthScore=7&healthScore=3\` (multiple healthScore requested).
+          
 
 
       .. raw:: html
@@ -896,6 +962,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -928,14 +995,16 @@ Examples
         headers: "{{my_headers | from_json}}"
         startTime: 0
         endTime: 0
-        limit: 0
-        offset: 0
+        limit: 100
+        offset: 1
         sortBy: string
         order: string
         siteId: string
+        exporterNetworkDeviceId: string
         ssid: string
         applicationName: string
         businessRelevance: string
+        healthScore: 0
         attribute: string
       register: result
 
@@ -1015,7 +1084,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

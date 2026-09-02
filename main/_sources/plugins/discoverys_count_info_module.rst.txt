@@ -42,7 +42,7 @@ cisco.catalystcenter.discoverys_count_info module -- Information module for Disc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.discoverys_count_info module -- Information module for Disc
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -471,7 +471,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -515,8 +515,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Name query parameter. Optional name of the discovery to filter by. This supports partial search. For example, searching for "Disc" will match "Discovery1", "Discovery2", etc.
-          
+      Name query parameter. The name of the discovery job. This will be a unique value.
 
 
       .. raw:: html
@@ -580,6 +579,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -610,7 +610,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        id: string
+        id: ['beee4fe6-cbc3-4b39-946c-4b719cd110e7', 'aaaa4fe6-cbc3-4b39-946c-4b719cd110b8']
         name: string
       register: result
 
@@ -690,7 +690,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

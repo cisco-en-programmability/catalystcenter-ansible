@@ -42,7 +42,7 @@ cisco.catalystcenter.roles_v2_info module -- Information module for Roles V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.roles_v2_info module -- Information module for Roles V2
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -69,9 +69,7 @@ Synopsis
 .. Description
 
 - Get all Roles V2.
-- Get Roles V2 by id.
-- Get a role in the system v2-.
-- Get all roles in the system v2-.
+- Get Roles V2 by id. - \> Get a role in the system v2-.This API is the successor to the v1 get role API GET /dna/system/api/v1/role/${id}. It can be used to get a role that exists in the system, regardless of whether it was created using the v1 Add role API POST /dna/system/api/v1/role or the v2 Add role API POST /dna/system/api/v2/roles . - \> Get all roles in the system v2-.This API is the successor to the v1 Get roles API GET /dna/system/api/v1/role. It can be used to get all roles that exist in the system, regardless of whether it was created using the v1 Add role API POST /dna/system/api/v1/role or the v2 Add role API POST /dna/system/api/v2/roles .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -542,11 +540,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are userand\_roles.UserandRoles.get\_role\_v2, userand\_roles.UserandRoles.get\_roles\_v2,
+   - SDK Method used are user\_and\_roles.UserAndRoles.get\_role, user\_and\_roles.UserAndRoles.get\_roles,
    - Paths used are get /dna/system/api/v2/roles, get /dna/system/api/v2/roles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -555,10 +554,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for User and Roles GetRoleV2 <https://developer.cisco.com/docs/dna-center/#!get-role-v-2>`_
-       Complete reference of the GetRoleV2 API.
-   `Cisco Catalyst Center documentation for User and Roles GetRolesV2 <https://developer.cisco.com/docs/dna-center/#!get-roles-v-2>`_
-       Complete reference of the GetRolesV2 API.
+   `Cisco Catalyst Center documentation for User and Roles GetRole <https://developer.cisco.com/docs/dna-center/#!get-role>`_
+       Complete reference of the GetRole API.
+   `Cisco Catalyst Center documentation for User and Roles GetRoles <https://developer.cisco.com/docs/dna-center/#!get-roles>`_
+       Complete reference of the GetRoles API.
 
 .. Examples
 
@@ -590,7 +589,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        id: string
+        id: application/json
       register: result
 
 
@@ -669,7 +668,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

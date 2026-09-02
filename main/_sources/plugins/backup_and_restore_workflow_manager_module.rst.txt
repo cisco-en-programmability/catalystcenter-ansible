@@ -43,7 +43,7 @@ cisco.catalystcenter.backup_and_restore_workflow_manager module -- Resource modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -55,7 +55,7 @@ cisco.catalystcenter.backup_and_restore_workflow_manager module -- Resource modu
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.31.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -88,7 +88,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -2020,6 +2020,7 @@ Notes
    - Paths used are - GET/dna/system/api/v1/backupRestoreExecutions/${id} - GET/dna/system/api/v1/backups/${id} - GET/dna/system/api/v1/backupRestoreExecutions - GET/dna/system/api/v1/backupConfiguration - POST/dna/system/api/v1/backupNfsConfigurations - GET/dna/system/api/v1/backups - DELETE/dna/system/api/v1/backupNfsConfigurations/${id} - POST/dna/system/api/v1/backups - DELETE/dna/system/api/v1/backups/${id} - GET/dna/system/api/v1/backupStorages - GET/dna/system/api/v1/backupNfsConfigurations - POST/dna/system/api/v1/backupConfiguration - POST/dna/system/api/v1/backups/${id}/restore
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 

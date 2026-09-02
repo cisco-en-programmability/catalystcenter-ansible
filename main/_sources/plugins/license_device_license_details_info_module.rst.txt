@@ -42,7 +42,7 @@ cisco.catalystcenter.license_device_license_details_info module -- Information m
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.license_device_license_details_info module -- Information m
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -545,6 +545,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -637,7 +638,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`[{}]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"access\_points": [{"ap\_type": "string", "count": "string"}], "chassis\_details": {"board\_serial\_number": "string", "modules": [{"id": 0, "module\_name": "string", "module\_type": "string", "serial\_number": "string"}], "port": 0, "supervisor\_cards": [{"serial\_number": "string", "status": "string", "supervisor\_card\_type": "string"}]}, "device\_name": "string", "device\_type": "string", "device\_uuid": "string", "dna\_level": "string", "evaluation\_license\_expiry": "string", "feature\_license": ["string"], "has\_sup\_cards": true, "ip\_address": "string", "is\_license\_expired": true, "is\_stacked\_device": true, "license\_mode": "string", "mac\_address": "string", "model": "string", "network\_license": "string", "site": "string", "sntc\_status": "string", "software\_version": "string", "stacked\_devices": [{"id": 0, "mac\_address": "string", "role": "string", "serial\_number": "string"}], "udi": "string", "virtual\_account\_name": "string"}`
 
 
       .. raw:: html
@@ -654,7 +655,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

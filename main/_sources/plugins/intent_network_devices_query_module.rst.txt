@@ -42,7 +42,7 @@ cisco.catalystcenter.intent_network_devices_query module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.intent_network_devices_query module -- Resource module for 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.17.0
+New in cisco.catalystcenter 2.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Intent Network Devices Query.
-- Returns the list of network devices, determined by the filters.
+- Returns the list of network devices, determined by the filters. It is possible.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -447,7 +447,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Intent Network Devices Query's filter.
+      Filter to query network devices. The result will contain the network devices that match ALL the filter criteria (AND condition) unless specified in 'logicalOperator'. Total number of filter criteria should not exceed 20.
 
 
       .. raw:: html
@@ -481,7 +481,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Intent Network Devices Query's filters.
+      List of filter criteria to query network devices.
 
 
       .. raw:: html
@@ -549,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The operator to use for filtering the values.
+      The operator to use for filtering the values. \* \`eq\` - The result will contain the network devices that match the exact value. \* \`contains\` - The result will contain the network devices that contain the value. \* \`in\` - The result will contain the network devices that match any of the values in the list. \* \`lt\` - The result will contain the network devices that are less than the value. \* \`gt\` - The result will contain the network devices that are greater than the value. \* \`lte\` - The result will contain the network devices that are less than or equal to the value. \* \`gte\` - The result will contain the network devices that are greater than or equal to the value.
 
 
       .. raw:: html
@@ -618,7 +618,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The logical operator to use for combining the filter criteria. If not provided, the default value is AND.
+      The logical operator to use for combining the filter criteria. If not provided, the default value is \`AND\`. \* \`AND\` - The result will contain the network devices that match ALL the filter criteria. \* \`OR\` - The result will contain the network devices that match ANY of the filter criteria.
 
 
       .. raw:: html
@@ -653,7 +653,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Intent Network Devices Query's page.
+      Pagination related parameters. This is an optional parameter which can be passed to get the paginated response.
 
 
       .. raw:: html
@@ -687,7 +687,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The number of records to show for this page. Min 1, Max 500.
+      The number of records to show for this page.
 
 
       .. raw:: html
@@ -755,7 +755,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Intent Network Devices Query's sortBy.
+      The field to sort by. The default sorting field is \`hostname\`. The order is ascending by default.
 
 
       .. raw:: html
@@ -789,7 +789,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The field to sort by. Default is hostname.
+      The field to sort by.
 
 
       .. raw:: html
@@ -823,7 +823,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The order to sort by.
+      The order to sort by Possible values are \* \`asc\` - Ascending order \* \`des\` - Descending order.
 
 
       .. raw:: html
@@ -901,7 +901,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The specific views being requested. This is an optional parameter which can be passed to get one or more of the network device data. If this is not provided, then it will default to BASIC views. If multiple views are provided, the response will contain the union of the views.
+      The specific views being requested. This is an optional parameter which can be passed to get one or more of the network device data. If this is not provided, then it will default to \`BASIC\` views. If multiple views are provided, the response will contain the union of the views. Attributes covered by the views are Attributes covered by the views are \* \`BASIC\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, platformIds, softwareType, softwareVersion, vendor, stackDevice, bootTime, role, roleSource, apEthernetMacAddress, apManagerInterfaceIpAddress, apWlcIpAddress, deviceSupportLevel, snmpContact, snmpLocation, secureMode \* \`RESYNC\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, reachabilityStatus, reachabilityFailureReason, managementState, lastSuccessfulResyncReasons, resyncStartTime, resyncEndTime, resyncReasons, resyncRequestedByApps, pendingResyncRequestCount, pendingResyncRequestReasons, resyncIntervalSource, resyncIntervalMinutes, errorCode, errorDescription, secureMode \* \`USER\_DEFINED\_FIELDS\` id, managementAddress, dnsResolvedManagementIpAddress, hostname, macAddress, serialNumbers, type, family, series, status, userDefinedFields.
 
 
       .. raw:: html
@@ -923,6 +923,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1026,7 +1027,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"apEthernetMacAddress": "string", "apManagerInterfaceIpAddress": "string", "apWlcIpAddress": "string", "bootTime": 0, "deviceSupportLevel": "string", "dnsResolvedManagementIpAddress": "string", "errorCode": "string", "errorDescription": "string", "family": "string", "hostname": "string", "id": "string", "lastSuccessfulResyncReasons": ["string"], "macAddress": "string", "managementAddress": "string", "managementState": "string", "pendingResyncRequestCount": 0, "pendingResyncRequestReasons": ["string"], "platformIds": ["string"], "reachabilityFailureReason": "string", "reachabilityStatus": "string", "resyncEndTime": 0, "resyncIntervalMinutes": 0, "resyncIntervalSource": "string", "resyncReasons": ["string"], "resyncRequestedByApps": ["string"], "resyncStartTime": 0, "role": "string", "roleSource": "string", "serialNumbers": ["string"], "series": "string", "snmpContact": "string", "snmpLocation": "string", "softwareType": "string", "softwareVersion": "string", "stackDevice": true, "status": "string", "type": "string", "userDefinedFields": {}, "vendor": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"apEthernetMacAddress": "string", "apManagerInterfaceIpAddress": {}, "apWlcIpAddress": {}, "bootTime": {}, "deviceSupportLevel": "string", "dnsResolvedManagementIpAddress": {}, "errorCode": "string", "errorDescription": "string", "family": "string", "hostname": "string", "id": "string", "lastSuccessfulResyncReasons": ["string"], "macAddress": "string", "managementAddress": {}, "managementState": "string", "pendingResyncRequestCount": 0, "pendingResyncRequestReasons": ["string"], "platformIds": "string", "reachabilityFailureReason": "string", "reachabilityStatus": "string", "resyncEndTime": {}, "resyncIntervalMinutes": 0, "resyncIntervalSource": "string", "resyncReasons": ["string"], "resyncRequestedByApps": ["string"], "resyncStartTime": {}, "role": "string", "roleSource": "string", "secureMode": "string", "serialNumbers": ["string"], "series": "string", "snmpContact": "string", "snmpLocation": "string", "softwareType": "string", "softwareVersion": "string", "stackDevice": true, "status": "string", "type": "string", "userDefinedFields": {}, "vendor": "string"}], "version": "string"}`
 
 
       .. raw:: html
@@ -1043,7 +1044,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

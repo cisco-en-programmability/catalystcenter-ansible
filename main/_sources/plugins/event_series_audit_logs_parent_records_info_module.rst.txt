@@ -42,7 +42,7 @@ cisco.catalystcenter.event_series_audit_logs_parent_records_info module -- Infor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.event_series_audit_logs_parent_records_info module -- Infor
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1241,6 +1241,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1287,11 +1288,11 @@ Examples
         isSystemEvents: true
         description: string
         offset: 0
-        limit: 0
+        limit: 25
         startTime: 0
         endTime: 0
         sortBy: string
-        order: string
+        order: desc
       register: result
 
 
@@ -1353,7 +1354,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"instanceId\\": \\"string\\",\\n    \\"eventId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"category\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"severity\\": 0,\\n    \\"source\\": \\"string\\",\\n    \\"timestamp\\": 0,\\n    \\"tags\\": [\\n      \\"string\\"\\n    ],\\n    \\"details\\": {},\\n    \\"ciscoDnaEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"tntId\\": \\"string\\",\\n    \\"context\\": \\"string\\",\\n    \\"userId\\": \\"string\\",\\n    \\"i18n\\": \\"string\\",\\n    \\"eventHierarchy\\": \\"string\\",\\n    \\"message\\": \\"string\\",\\n    \\"messageParams\\": \\"string\\",\\n    \\"additionalDetails\\": {},\\n    \\"parentInstanceId\\": \\"string\\",\\n    \\"network\\": \\"string\\",\\n    \\"childCount\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"instanceId\\": \\"string\\",\\n    \\"eventId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"type\\": \\"string\\",\\n    \\"category\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"severity\\": 0,\\n    \\"source\\": \\"string\\",\\n    \\"timestamp\\": 0,\\n    \\"tags\\": [],\\n    \\"details\\": {},\\n    \\"ciscoDnaEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"tntId\\": \\"string\\",\\n    \\"context\\": \\"string\\",\\n    \\"userId\\": \\"string\\",\\n    \\"i18n\\": \\"string\\",\\n    \\"eventHierarchy\\": \\"string\\",\\n    \\"message\\": \\"string\\",\\n    \\"messageParams\\": \\"string\\",\\n    \\"additionalDetails\\": {},\\n    \\"parentInstanceId\\": \\"string\\",\\n    \\"network\\": \\"string\\",\\n    \\"childCount\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -1370,7 +1371,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

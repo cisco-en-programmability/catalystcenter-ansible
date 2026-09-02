@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_authentication_profile module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_fabric_authentication_profile module -- Resource module
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -449,7 +449,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sda Fabric Authentication Profile's payload.
+      Update Default Authentication profile template (will be applied to all Fabric Edge host ports, unless overridden by a static port assignment.) in SDA Fabric.
 
 
       .. raw:: html
@@ -475,9 +475,6 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in cisco.catalystcenter 4.0.0`
-
-
       .. raw:: html
 
         </div>
@@ -487,6 +484,108 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Authenticate Template Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/authenticationOrder"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_authentication_profile_module__parameter-payload/authenticationorder:
+
+      .. rst-class:: ansible-option-title
+
+      **authenticationOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/authenticationOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication Order.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/dot1xToMabFallbackTimeout"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_authentication_profile_module__parameter-payload/dot1xtomabfallbacktimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dot1xToMabFallbackTimeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/dot1xToMabFallbackTimeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot1x To MabFallback Timeout( Allowed range is 3-120).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/numberOfHosts"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_authentication_profile_module__parameter-payload/numberofhosts:
+
+      .. rst-class:: ansible-option-title
+
+      **numberOfHosts**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/numberOfHosts" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number Of Hosts.
 
 
       .. raw:: html
@@ -521,6 +620,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Path of sda Fabric Site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/wakeOnLan"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_authentication_profile_module__parameter-payload/wakeonlan:
+
+      .. rst-class:: ansible-option-title
+
+      **wakeOnLan**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/wakeOnLan" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wake On Lan.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -619,6 +760,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -653,20 +795,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
-        siteNameHierarchy: string
-    - name: Create
-      cisco.catalystcenter.sda_fabric_authentication_profile:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        payload:
-          - authenticateTemplateName: string
-            siteNameHierarchy: string
+        siteNameHierarchy: application/json
     - name: Update all
       cisco.catalystcenter.sda_fabric_authentication_profile:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -684,6 +813,19 @@ Examples
             numberOfHosts: string
             siteNameHierarchy: string
             wakeOnLan: true
+    - name: Create
+      cisco.catalystcenter.sda_fabric_authentication_profile:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        payload:
+          - authenticateTemplateName: string
+            siteNameHierarchy: string
 
 
 
@@ -761,7 +903,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

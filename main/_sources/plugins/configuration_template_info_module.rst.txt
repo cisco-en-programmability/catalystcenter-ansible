@@ -42,7 +42,7 @@ cisco.catalystcenter.configuration_template_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.configuration_template_info module -- Information module fo
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -974,11 +974,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.get\_template\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.get\_template\_details, configuration\_templates.ConfigurationTemplates.gets\_the\_templates\_available\_v1,
    - Paths used are get /dna/intent/api/v1/template-programmer/template, get /dna/intent/api/v1/template-programmer/template/{templateId},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -989,8 +990,8 @@ See Also
 
    `Cisco Catalyst Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate <https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template>`_
        Complete reference of the GetsDetailsOfAGivenTemplate API.
-   `Cisco Catalyst Center documentation for Configuration Templates GetsTheTemplatesAvailable <https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available>`_
-       Complete reference of the GetsTheTemplatesAvailable API.
+   `Cisco Catalyst Center documentation for Configuration Templates GetsTheTemplatesAvailableV1 <https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available-v-1>`_
+       Complete reference of the GetsTheTemplatesAvailableV1 API.
 
 .. Examples
 
@@ -1021,7 +1022,7 @@ Examples
         tags: []
         projectNames: []
         unCommitted: true
-        sortOrder: string
+        sortOrder: ASC
       register: result
     - name: Get Configuration Template by id
       cisco.catalystcenter.configuration_template_info:
@@ -1113,7 +1114,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

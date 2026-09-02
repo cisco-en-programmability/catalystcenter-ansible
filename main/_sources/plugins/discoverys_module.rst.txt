@@ -42,7 +42,7 @@ cisco.catalystcenter.discoverys module -- Resource module for Discoverys
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.discoverys module -- Resource module for Discoverys
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Discoverys. - \> This API creates a discovery. The response includes a task url that provides access to the task's details. By accessing this URL, users will receive a response containing a resultLocation attribute, which provides details of the discovery settings that was created, including the discovery id.
+- Manage operations create, update and delete of the resource Discoverys.
+- This API creates a discovery. The response includes a task \`url\` that provides access to the task's details.
 - API to delete discovery by the given discovery id. - \> API to edit the discovery details of the given discovery id. Updating the discovery details while the discovery is in progress is not allowed.
 
 .. note::
@@ -85,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -447,7 +448,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discoverys's credentials.
+      Credentials to be used for discovering devices. If multiple credentials are provided, they will be prioritized based on specificity and protocol version. Device-specific credentials take precedence over global credentials. Among SNMP versions, SNMPv3 credentials are given higher priority over SNMPv2 credentials.
 
 
       .. raw:: html
@@ -481,81 +482,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discoverys's cli.
+      CLI credentials for device.
 
 
       .. raw:: html
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/cli/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for CLI credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/cli/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -573,7 +506,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -584,40 +517,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Connection protocol for the device. Default value is SSH.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/cli/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/cli/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/cli/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      CLI username to login to the device.
 
 
       .. raw:: html
@@ -652,183 +551,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discoverys's httpRead.
+      HTTP(S) read credentials for device.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpRead/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpread/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpRead/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for HTTP(S) read credentials.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpRead/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpread/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpRead/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpRead/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpread/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpRead/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of the TCP/UDP port that is used for HTTPS traffic. The default is port number 443 (the well-known port for HTTPS).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpRead/protocol"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpread/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpRead/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Protocol for HTTP credentials.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpRead/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpread/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpRead/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name that is used to authenticate the HTTPS connection. Username cannot contain spaces or angle brackets (\< \>).
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -857,183 +585,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discoverys's httpWrite.
+      HTTP(S) write credentials for device.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpWrite/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpwrite/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpWrite/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for HTTP(S) write credentials.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpWrite/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpwrite/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpWrite/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpWrite/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpwrite/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpWrite/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Number of the TCP/UDP port that is used for HTTPS traffic. The default is port number 443 (the well-known port for HTTPS).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpWrite/protocol"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpwrite/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpWrite/protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Protocol for HTTP credentials.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/httpWrite/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/httpwrite/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/httpWrite/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name that is used to authenticate the HTTPS connection. Username cannot contain spaces or angle brackets (\< \>).
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1062,115 +619,12 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discoverys's netconf.
+      NETCONF credentials for device.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/netconf/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/netconf/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/netconf/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for NETCONF credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/netconf/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/netconf/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/netconf/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/netconf/port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/netconf/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/netconf/port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Netconf Port of the device. Recommended port number is 830.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1199,7 +653,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Discoverys's snmp.
+      SNMP credentials for device.
 
 
       .. raw:: html
@@ -1239,451 +693,6 @@ Parameters
       .. raw:: html
 
         </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Read"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2read:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpV2Read**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Read" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's snmpV2Read.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Read/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2read/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Read/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for SNMP read-only community.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Read/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2read/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Read/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Write"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2write:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpV2Write**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Write" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's snmpV2Write.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Write/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2write/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Write/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for SNMP read-write community.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV2Write/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv2write/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV2Write/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3:
-
-      .. rst-class:: ansible-option-title
-
-      **snmpV3**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's snmpV3.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/authType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/authtype:
-
-      .. rst-class:: ansible-option-title
-
-      **authType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/authType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SNMP authentication type. Required if the SNMP security mode is AUTHPRIV or AUTHNOPRIV.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description for SNMP V3 credential.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/globalCredentialIdList"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/globalcredentialidlist:
-
-      .. rst-class:: ansible-option-title
-
-      **globalCredentialIdList**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/globalCredentialIdList" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      List of global credential ids.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/mode"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/mode:
-
-      .. rst-class:: ansible-option-title
-
-      **mode**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/mode" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Security level that an SNMP message requires.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/privacyType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/privacytype:
-
-      .. rst-class:: ansible-option-title
-
-      **privacyType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/privacyType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      SNMP privacy type. Required if the SNMP mode is AUTHPRIV.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-credentials/snmp/snmpV3/username"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-credentials/snmp/snmpv3/username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-credentials/snmp/snmpV3/username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Username associated with the SNMPv3 settings. The username can only contain letters, numbers and -\_.@ characters.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -1748,493 +757,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Discoverys's discoveryTypeDetails.
+      Details of the discovery type.
 
 
       .. raw:: html
 
         </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/cidrAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/cidraddress:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/cidrAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's cidrAddress.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/cidrAddress/cidrPrefix"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/cidraddress/cidrprefix:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrPrefix**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/cidrAddress/cidrPrefix" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      CIDR prefix for the IP address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/cidrAddress/cidrSuffix"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/cidraddress/cidrsuffix:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrSuffix**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/cidrAddress/cidrSuffix" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The CIDR suffix length indicates the number of bits for host addresses, following the prefix. For IPv4, supported lengths range from 20 to 30, where default is 30. For IPv6, they range from 116 to 126, where default is 126.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/hopCount"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/hopcount:
-
-      .. rst-class:: ansible-option-title
-
-      **hopCount**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/hopCount" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      This field defines the CDP level, indicating the number of hops from the seed device to scan. Acceptable values range from 1 to 16, with a default of 16. For instance, a CDP level of 3 means scanning will include up to three hops from the seed device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/ipAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/ipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **ipAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/ipAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IPv4 or IPv6 address of the device.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/range"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/range:
-
-      .. rst-class:: ansible-option-title
-
-      **range**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/range" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's range.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/range/ipAddressEnd"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/range/ipaddressend:
-
-      .. rst-class:: ansible-option-title
-
-      **ipAddressEnd**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/range/ipAddressEnd" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      End IP address of devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/range/ipAddressStart"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/range/ipaddressstart:
-
-      .. rst-class:: ansible-option-title
-
-      **ipAddressStart**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/range/ipAddressStart" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Start IP address of the devices to be discovered.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/subnetFilter"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/subnetfilter:
-
-      .. rst-class:: ansible-option-title
-
-      **subnetFilter**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/subnetFilter" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's subnetFilter.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/subnetFilter/cidrAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/subnetfilter/cidraddress:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/subnetFilter/cidrAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Discoverys's cidrAddress.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/subnetFilter/cidrAddress/cidrPrefix"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/subnetfilter/cidraddress/cidrprefix:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrPrefix**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/subnetFilter/cidrAddress/cidrPrefix" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      CIDR prefix for the IP address.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/subnetFilter/cidrAddress/cidrSuffix"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/subnetfilter/cidraddress/cidrsuffix:
-
-      .. rst-class:: ansible-option-title
-
-      **cidrSuffix**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/subnetFilter/cidrAddress/cidrSuffix" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The CIDR suffix length indicates the number of bits for host addresses, following the prefix. For IPv4, supported lengths range from 20 to 30, where default is 30. For IPv6, they range from 116 to 126, where default is 126.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/subnetFilter/ipAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/subnetfilter/ipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **ipAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/subnetFilter/ipAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IPv4 or IPv6 address of the device.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-discoveryTypeDetails/type"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-discoverytypedetails/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-discoveryTypeDetails/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Type of the discovery.
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -2263,7 +791,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The id of the discovery.
+      Unique identifier of the discovery settings.
 
 
       .. raw:: html
@@ -2297,7 +825,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When Catalyst Center discovers a device, it uses one of the device's IP addresses as the preferred management IP address for the device. The IP address can be that of a built-in management interface of the device, another physical interface, or a logical interface like Loopback0. You can configure Catalyst Center to log the device's loopback IP address as the preferred management IP address, provided the IP address is reachable from Catalyst Center.
+      When Catalyst Center discovers a device, it uses one of the device's IP addresses as the preferred management IP address for the device. The IP address can be that of a built-in management interface of the device, another physical interface, or a logical interface like Loopback0. You can configure Catalyst Center to log the device's loopback IP address as the preferred management IP address, provided the IP address is reachable from Catalyst Center. - \`DEFAULT\` \* Uses the IP address provided in the discovery request as the management IP. - \`LOOPBACK\` If you choose to use a device's loopback IP address as the preferred management IP address, Catalyst Center determines the preferred management IP address as follows \* If the device has one loopback interface, that loopback interface IP address is used. \* If the device has multiple loopback interfaces, the loopback interface with the highest IP address is used. \* If there are no loopback interfaces, the Ethernet interface with the highest IP address is used. (Subinterface IP addresses are not considered.) \* If there are no Ethernet interfaces, the serial interface with the highest IP address is used. Example LOOPBACK.
 
 
       .. raw:: html
@@ -2365,7 +893,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This flag indicates to discover only new devices that are not in inventory. If set to true, only devices that are not in the inventory will be discovered. If set to false, devices that already exist in the inventory will not be listed in the discovered devices list.
+      This flag indicates to discover only new devices that are not in inventory. If set to \`true\`, only devices that are not in the inventory will be discovered. If set to \`false\`, devices that already exist in the inventory will not be listed in the \`discovered devices\` list.
 
 
       .. rst-class:: ansible-option-line
@@ -2374,6 +902,40 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discoverys_module__parameter-siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The site id to which the discovered devices will be assigned.
 
 
       .. raw:: html
@@ -2479,6 +1041,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -2514,67 +1077,41 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         credentials:
-          cli:
-            description: string
-            globalCredentialIdList:
-              - string
-            protocolOrder: string
-            username: string
-          httpRead:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-            protocol: string
-            username: string
-          httpWrite:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-            protocol: string
-            username: string
-          netconf:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-          snmp:
-            retries: 0
-            snmpV2Read:
-              description: string
-              globalCredentialIdList:
-                - string
-            snmpV2Write:
-              description: string
-              globalCredentialIdList:
-                - string
-            snmpV3:
-              authType: string
-              description: string
-              globalCredentialIdList:
-                - string
-              mode: string
-              privacyType: string
-              username: string
-            timeout: 0
-        discoveryTypeDetails:
-          cidrAddress:
-            cidrPrefix: string
-            cidrSuffix: 0
-          hopCount: 0
-          ipAddress: string
-          range:
-            - ipAddressEnd: string
-              ipAddressStart: string
-          subnetFilter:
-            cidrAddress:
-              cidrPrefix: string
-              cidrSuffix: 0
-            ipAddress: string
-          type: string
+          cli: {}
+          httpRead: {}
+          httpWrite: {}
+          netconf: {}
+          snmp: {}
+        discoveryTypeDetails: {}
+        id: string
         managementIpSelectionMethod: string
         name: string
+        onlyNewDevice: true
+        siteId: string
+        updateManagementIp: true
+    - name: Update by id
+      cisco.catalystcenter.discoverys:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        credentials:
+          cli: {}
+          httpRead: {}
+          httpWrite: {}
+          netconf: {}
+          snmp: {}
+        discoveryTypeDetails:
+          range:
+            - ipAddressEnd: {}
+              ipAddressStart: {}
+          type: string
+        id: string
+        managementIpSelectionMethod: string
         onlyNewDevice: true
         updateManagementIp: true
     - name: Delete by id
@@ -2588,80 +1125,6 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
-      cisco.catalystcenter.discoverys:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        credentials:
-          cli:
-            description: string
-            globalCredentialIdList:
-              - string
-            protocolOrder: string
-            username: string
-          httpRead:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-            protocol: string
-            username: string
-          httpWrite:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-            protocol: string
-            username: string
-          netconf:
-            description: string
-            globalCredentialIdList:
-              - string
-            port: 0
-          snmp:
-            retries: 0
-            snmpV2Read:
-              description: string
-              globalCredentialIdList:
-                - string
-            snmpV2Write:
-              description: string
-              globalCredentialIdList:
-                - string
-            snmpV3:
-              authType: string
-              description: string
-              globalCredentialIdList:
-                - string
-              mode: string
-              privacyType: string
-              username: string
-            timeout: 0
-        discoveryTypeDetails:
-          cidrAddress:
-            cidrPrefix: string
-            cidrSuffix: 0
-          hopCount: 0
-          ipAddress: string
-          range:
-            - ipAddressEnd: string
-              ipAddressStart: string
-          subnetFilter:
-            cidrAddress:
-              cidrPrefix: string
-              cidrSuffix: 0
-            ipAddress: string
-          type: string
-        id: string
-        managementIpSelectionMethod: string
-        onlyNewDevice: true
-        updateManagementIp: true
 
 
 
@@ -2739,7 +1202,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

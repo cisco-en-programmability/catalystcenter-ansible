@@ -42,7 +42,7 @@ cisco.catalystcenter.discoverys_jobs_discovered_network_devices_count_info modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.discoverys_jobs_discovered_network_devices_count_info modul
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Discoverys Jobs Discovered Network Devices Count.
-- API to get the details of all the devices discovered by the given jobId and discoveryId.
+- API to fetch the number of discovered network devices by using the given discoveryId and jobId.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -447,7 +447,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Cli query parameter. CLI status for the IP during the job run.
+      Cli query parameter. CLI status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT\_PROVIDED' and 'NOT\_VALIDATED.
+          
 
 
       .. raw:: html
@@ -481,7 +482,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DiscoveryId path parameter. The id of the discovery.
+      DiscoveryId path parameter. Discovery id.
 
 
       .. raw:: html
@@ -549,7 +550,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Http query parameter. HTTP status for the IP during the job run.
+      Http query parameter. HTTP status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT\_PROVIDED' and 'NOT\_VALIDATED.
+          
 
 
       .. raw:: html
@@ -584,40 +586,6 @@ Parameters
         <div class="ansible-option-cell">
 
       JobId path parameter. The id of the discovery job.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_discovered_network_devices_count_info_module__parameter-limit:
-
-      .. rst-class:: ansible-option-title
-
-      **limit**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Limit query parameter. The number of records to show for this page.
 
 
       .. raw:: html
@@ -685,41 +653,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Netconf query parameter. Netconf status for the IP during the job run.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discoverys_jobs_discovered_network_devices_count_info_module__parameter-offset:
-
-      .. rst-class:: ansible-option-title
-
-      **offset**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      Netconf query parameter. Netconf status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT\_PROVIDED' and 'NOT\_VALIDATED.
+          
 
 
       .. raw:: html
@@ -753,7 +688,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Ping query parameter. Ping status for the IP during the job run.
+      Ping query parameter. Ping status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT\_PROVIDED' and 'NOT\_VALIDATED.
+          
 
 
       .. raw:: html
@@ -821,7 +757,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Snmp query parameter. SNMP status for the IP during the job run.
+      Snmp query parameter. SNMP status for the IP during the job run. Available values are 'SUCCESS', 'FAILURE', 'NOT\_PROVIDED' and 'NOT\_VALIDATED.
+          
 
 
       .. raw:: html
@@ -885,6 +822,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -922,8 +860,6 @@ Examples
         snmp: string
         http: string
         netconf: string
-        limit: 0
-        offset: 0
         discoveryId: string
         jobId: string
       register: result
@@ -1004,7 +940,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

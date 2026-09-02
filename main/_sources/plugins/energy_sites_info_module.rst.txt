@@ -42,7 +42,7 @@ cisco.catalystcenter.energy_sites_info module -- Information module for Energy S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.energy_sites_info module -- Information module for Energy S
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.18.0
+New in cisco.catalystcenter 2.2.0
 
 .. contents::
    :local:
@@ -70,10 +70,8 @@ Synopsis
 
 - Get all Energy Sites.
 - Get Energy Sites by id.
-- Retrieve the energy summary data for a specific site based on the site ID.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-sitesEnergy-1.0.1-resolved.yaml.
-- Retrieves a list of sites with energy data based on the specified query parameters.
-- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-sitesEnergy-1.0.1-resolved.yaml.
+- Retrieve the energy summary data for a specific site based on the site ID. For.
+- Retrieves a list of sites with energy data based on the specified query.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -89,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1048,7 +1046,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Views query parameter. The specific summary view being requested. This is an optional parameter which can be passed to get one or more of the specific health data summaries associated with sites. ### Response data proviced by each view 1. \*\*Site\*\* id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude 2. \*\*Energy\*\* energyConsumed, estimatedCost, estimatedEmission, carbonIntensity, numberOfDevices When this query parameter is not added the default summaries are \*\*site,energy\*\* Examples views=site (single view requested) views=site,energy (multiple views requested).
+      Views query parameter. The specific summary view being requested. This is an optional parameter which can be passed to get one or more of the specific health data summaries associated with sites. ### Response data proviced by each view 1. Site id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude 2. Energy energyConsumed, estimatedCost, estimatedEmission, carbonIntensity, numberOfDevices When this query parameter is not added the default summaries are site,energy Examples views=site (single view requested) views=site,energy (multiple views requested).
           
 
 
@@ -1071,6 +1069,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1214,7 +1213,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

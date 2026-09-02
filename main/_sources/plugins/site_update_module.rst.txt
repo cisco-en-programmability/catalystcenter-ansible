@@ -42,7 +42,7 @@ cisco.catalystcenter.site_update module -- Resource module for Site Update
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.site_update module -- Resource module for Site Update
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -549,7 +549,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the area (eg Area1).
+      Area name.
 
 
       .. raw:: html
@@ -652,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Address of the building to be created.
+      Building address (Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States).
 
 
       .. raw:: html
@@ -686,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Country (eg United States).
+      Country name. This field is mandatory for air-gapped networks (Example United States).
 
 
       .. raw:: html
@@ -720,7 +720,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Latitude coordinate of the building (eg 37.338).
+      Building latitude (Example 37.403712).
 
 
       .. raw:: html
@@ -754,7 +754,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Longitude coordinate of the building (eg -121.832).
+      Building longitude (Example -121.971063).
 
 
       .. raw:: html
@@ -788,7 +788,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the building (eg building1).
+      Building name.
 
 
       .. raw:: html
@@ -891,7 +891,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Floor number. (eg 5).
+      Floor Number (Example 3).
 
 
       .. raw:: html
@@ -925,7 +925,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Height of the floor. Unit of measure is ft. (eg 15).
+      Floor height in feet (Example 10).
 
 
       .. raw:: html
@@ -959,7 +959,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Length of the floor. Unit of measure is ft. (eg 100).
+      Floor length in feet (Example 100).
 
 
       .. raw:: html
@@ -993,7 +993,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the floor (eg floor-1).
+      Floor name.
 
 
       .. raw:: html
@@ -1061,7 +1061,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type of floor (eg Cubes And Walled Offices0.
+      RF model (Example Cubes And Walled Offices).
 
 
       .. raw:: html
@@ -1095,7 +1095,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Width of the floor. Unit of measure is ft. (eg 100).
+      Floor width in feet (Example 200).
 
 
       .. raw:: html
@@ -1229,6 +1229,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1278,7 +1279,7 @@ Examples
             parentName: string
             rfModel: string
             width: 0
-        siteId: string
+        siteId: application/json
         type: string
 
 
@@ -1357,7 +1358,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

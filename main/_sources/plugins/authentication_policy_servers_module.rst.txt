@@ -42,7 +42,7 @@ cisco.catalystcenter.authentication_policy_servers module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.authentication_policy_servers module -- Resource module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -515,47 +515,13 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Authentication Policy Servers's ciscoIseDtos.
+      Cisco ISE Server DTOs.
 
 
       .. raw:: html
 
         </div>
     
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.authentication_policy_servers_module__parameter-ciscoisedtos/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Description about the Cisco ISE server.
-
-
-      .. raw:: html
-
-        </div>
-
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -584,40 +550,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Fully-qualified domain name of the Cisco ISE server. E.g. Xi-62.my.com.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/ipAddress"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.authentication_policy_servers_module__parameter-ciscoisedtos/ipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **ipAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/ipAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      IP Address of the Cisco ISE Server.
 
 
       .. raw:: html
@@ -686,40 +618,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       SSH key of the Cisco ISE server.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ciscoIseDtos/subscriberName"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.authentication_policy_servers_module__parameter-ciscoisedtos/subscribername:
-
-      .. rst-class:: ansible-option-title
-
-      **subscriberName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-ciscoIseDtos/subscriberName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Subscriber name of the Cisco ISE server. E.g. Pxgrid\_client\_1662589467.
 
 
       .. raw:: html
@@ -856,7 +754,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Authentication Policy Servers's externalCiscoIseIpAddrDtos.
+      For future use.
 
 
       .. raw:: html
@@ -924,7 +822,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      External IP Address.
+      Authentication Policy Servers's externalIpAddress.
 
 
       .. raw:: html
@@ -959,7 +857,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Type.
+      Authentication Policy Servers's type.
 
 
       .. raw:: html
@@ -1456,6 +1354,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1480,6 +1379,45 @@ Examples
 
     
     ---
+    - name: Delete by id
+      cisco.catalystcenter.authentication_policy_servers:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.catalystcenter.authentication_policy_servers:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        accountingPort: 0
+        authenticationPort: 0
+        ciscoIseDtos:
+          - fqdn: string
+            password: string
+            sshkey: string
+            userName: string
+        externalCiscoIseIpAddrDtos:
+          - externalCiscoIseIpAddresses:
+              - externalIpAddress: string
+            type: string
+        id: string
+        port: 0
+        protocol: string
+        pxgridEnabled: true
+        retries: string
+        timeoutSeconds: string
+        useDnacCertForPxgrid: true
     - name: Create
       cisco.catalystcenter.authentication_policy_servers:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1515,48 +1453,6 @@ Examples
         retries: string
         role: string
         sharedSecret: string
-        timeoutSeconds: string
-        useDnacCertForPxgrid: true
-    - name: Delete by id
-      cisco.catalystcenter.authentication_policy_servers:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
-    - name: Update by id
-      cisco.catalystcenter.authentication_policy_servers:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        accountingPort: 0
-        authenticationPort: 0
-        ciscoIseDtos:
-          - description: string
-            fqdn: string
-            ipAddress: string
-            password: string
-            sshkey: string
-            subscriberName: string
-            userName: string
-        externalCiscoIseIpAddrDtos:
-          - externalCiscoIseIpAddresses:
-              - externalIpAddress: string
-            type: string
-        id: string
-        port: 0
-        protocol: string
-        pxgridEnabled: true
-        retries: string
         timeoutSeconds: string
         useDnacCertForPxgrid: true
 
@@ -1636,7 +1532,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

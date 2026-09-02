@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_workflow module -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.pnp_workflow module -- Resource module for Pnp Workflow
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1679,6 +1679,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1703,7 +1704,7 @@ Examples
 
     
     ---
-    - name: Create
+    - name: Update by id
       cisco.catalystcenter.pnp_workflow:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1721,6 +1722,7 @@ Examples
         description: string
         endTime: 0
         execTime: 0
+        id: string
         imageId: string
         instanceType: string
         lastupdateOn: 0
@@ -1758,7 +1760,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
-    - name: Update by id
+    - name: Create
       cisco.catalystcenter.pnp_workflow:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
@@ -1776,7 +1778,6 @@ Examples
         description: string
         endTime: 0
         execTime: 0
-        id: string
         imageId: string
         instanceType: string
         lastupdateOn: 0
@@ -1880,7 +1881,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

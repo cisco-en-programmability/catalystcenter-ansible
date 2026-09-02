@@ -42,7 +42,7 @@ cisco.catalystcenter.floors_info module -- Information module for Floors
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.floors_info module -- Information module for Floors
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      \_unitsOfMeasure query parameter. Floor units of measure.
+      \_unitsOfMeasure query parameter.
 
 
       .. raw:: html
@@ -574,11 +574,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.gets\_a\_floor\_v2,
+   - SDK Method used are site\_design.SiteDesign.gets\_a\_floor,
    - Paths used are get /dna/intent/api/v2/floors/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -587,8 +588,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Site Design GetsAFloorV2 <https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2>`_
-       Complete reference of the GetsAFloorV2 API.
+   `Cisco Catalyst Center documentation for Site Design GetsAFloor <https://developer.cisco.com/docs/dna-center/#!gets-a-floor>`_
+       Complete reference of the GetsAFloor API.
 
 .. Examples
 
@@ -609,7 +610,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        _unitsOfMeasure: string
+        _unitsOfMeasure: str
         id: string
       register: result
 
@@ -672,7 +673,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"floorNumber": 0, "height": 0, "id": "string", "length": 0, "name": "string", "nameHierarchy": "string", "parentId": "string", "rfModel": "string", "siteHierarchyId": "string", "type": "string", "unitsOfMeasure": "string", "width": 0}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
 
 
       .. raw:: html
@@ -689,7 +690,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

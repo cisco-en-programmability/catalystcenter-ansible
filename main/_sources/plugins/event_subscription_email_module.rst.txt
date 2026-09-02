@@ -42,7 +42,7 @@ cisco.catalystcenter.event_subscription_email module -- Resource module for Even
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.event_subscription_email module -- Resource module for Even
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -516,7 +516,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Subscription Email's filter.
+      Filter.
 
 
       .. raw:: html
@@ -550,7 +550,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Categories.
+      Event Subscription Email's categories.
 
 
       .. raw:: html
@@ -618,7 +618,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Domain.
+      Event Subscription Email's domain.
 
 
       .. raw:: html
@@ -652,7 +652,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sub Domains.
+      Event Subscription Email's subDomains.
 
 
       .. raw:: html
@@ -687,7 +687,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Ids (Comma separated event ids).
+      Event Subscription Email's eventIds.
 
 
       .. raw:: html
@@ -711,7 +711,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
 
       .. raw:: html
 
@@ -721,7 +721,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Severities.
+      Event Subscription Email's severities.
 
 
       .. raw:: html
@@ -755,7 +755,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site Ids.
+      Event Subscription Email's siteIds.
 
 
       .. raw:: html
@@ -789,7 +789,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Sources.
+      Event Subscription Email's sources.
 
 
       .. raw:: html
@@ -823,7 +823,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Types.
+      Event Subscription Email's types.
 
 
       .. raw:: html
@@ -892,7 +892,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Subscription Email's subscriptionEndpoints.
+      Subscription Endpoints.
 
 
       .. raw:: html
@@ -926,7 +926,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      (From Get Rest/Webhook Subscription Details --\> pick instanceId).
+      (From Get Email Subscription Details --\> pick InstanceId if available).
 
 
       .. raw:: html
@@ -960,7 +960,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Event Subscription Email's subscriptionDetails.
+      Subscription Details.
 
 
       .. raw:: html
@@ -994,7 +994,177 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Connector Type (Must be REST).
+      Connector Type (Must be EMAIL).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/description"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Event Subscription Email's description.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/fromEmailAddress"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/fromemailaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **fromEmailAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/fromEmailAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Senders Email Address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Event Subscription Email's name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/subject"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/subject:
+
+      .. rst-class:: ansible-option-title
+
+      **subject**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/subject" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Email Subject.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/subscriptionEndpoints/subscriptionDetails/toEmailAddresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.event_subscription_email_module__parameter-payload/subscriptionendpoints/subscriptiondetails/toemailaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **toEmailAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/subscriptionEndpoints/subscriptionDetails/toEmailAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Recipient's Email Addresses (Comma separated).
 
 
       .. raw:: html
@@ -1129,6 +1299,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1173,7 +1344,7 @@ Examples
               eventIds:
                 - string
               severities:
-                - string
+                - 0
               siteIds:
                 - string
               sources:
@@ -1185,6 +1356,12 @@ Examples
               - instanceId: string
                 subscriptionDetails:
                   connectorType: string
+                  description: string
+                  fromEmailAddress: string
+                  name: string
+                  subject: string
+                  toEmailAddresses:
+                    - string
             subscriptionId: string
             version: string
     - name: Update all
@@ -1209,7 +1386,7 @@ Examples
               eventIds:
                 - string
               severities:
-                - string
+                - 0
               siteIds:
                 - string
               sources:
@@ -1221,6 +1398,12 @@ Examples
               - instanceId: string
                 subscriptionDetails:
                   connectorType: string
+                  description: string
+                  fromEmailAddress: string
+                  name: string
+                  subject: string
+                  toEmailAddresses:
+                    - string
             subscriptionId: string
             version: string
 
@@ -1300,7 +1483,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

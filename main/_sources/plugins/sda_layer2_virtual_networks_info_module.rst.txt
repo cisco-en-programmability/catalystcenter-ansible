@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_layer2_virtual_networks_info module -- Information modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.sda_layer2_virtual_networks_info module -- Information modu
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Sda Layer2 Virtual Networks.
-- Returns a list of layer 2 virtual networks that match the provided query parameters.
+- Returns a list of layer 2 virtual networks that match the provided query.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -784,6 +784,7 @@ Notes
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -820,8 +821,8 @@ Examples
         vlanId: 0
         trafficType: string
         associatedLayer3VirtualNetworkName: string
-        offset: 0
-        limit: 0
+        offset: 1
+        limit: 500
       register: result
 
 
@@ -883,7 +884,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"associatedLayer3VirtualNetworkName": "string", "fabricId": "string", "id": "string", "isFabricEnabledWireless": true, "isMultipleIpToMacAddresses": true, "isResourceGuardEnabled": true, "isWirelessFloodingEnabled": true, "layer2FloodingAddress": "string", "layer2FloodingAddressAssignment": "string", "trafficType": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"associatedLayer3VirtualNetworkName": {}, "fabricId": {}, "id": {}, "isFabricEnabledWireless": {}, "isMultipleIpToMacAddresses": {}, "isResourceGuardEnabled": {}, "isWirelessFloodingEnabled": {}, "layer2FloodingAddress": {}, "layer2FloodingAddressAssignment": {}, "trafficType": {}, "vlanId": {}, "vlanName": {}}], "version": "string"}`
 
 
       .. raw:: html
@@ -900,7 +901,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

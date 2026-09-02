@@ -42,7 +42,7 @@ cisco.catalystcenter.applications_info module -- Information module for Applicat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.applications_info module -- Information module for Applicat
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -608,11 +608,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.get\_applications,
+   - SDK Method used are application\_policy.ApplicationPolicy.get\_applications\_v1,
    - Paths used are get /dna/intent/api/v1/applications,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -621,8 +622,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Application Policy GetApplications <https://developer.cisco.com/docs/dna-center/#!get-applications>`_
-       Complete reference of the GetApplications API.
+   `Cisco Catalyst Center documentation for Application Policy GetApplicationsV1 <https://developer.cisco.com/docs/dna-center/#!get-applications-v-1>`_
+       Complete reference of the GetApplicationsV1 API.
 
 .. Examples
 
@@ -645,7 +646,7 @@ Examples
         headers: "{{my_headers | from_json}}"
         offset: 0
         limit: 0
-        name: string
+        name: application/json
       register: result
 
 
@@ -687,7 +688,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -707,7 +708,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"networkApplications\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"appProtocol\\": \\"string\\",\\n        \\"applicationSubType\\": \\"string\\",\\n        \\"applicationType\\": \\"string\\",\\n        \\"categoryId\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"engineId\\": \\"string\\",\\n        \\"helpString\\": \\"string\\",\\n        \\"longDescription\\": \\"string\\",\\n        \\"name\\": \\"string\\",\\n        \\"popularity\\": \\"string\\",\\n        \\"rank\\": \\"string\\",\\n        \\"trafficClass\\": \\"string\\",\\n        \\"serverName\\": \\"string\\",\\n        \\"url\\": \\"string\\",\\n        \\"dscp\\": \\"string\\",\\n        \\"ignoreConflict\\": \\"string\\"\\n      }\\n    ],\\n    \\"networkIdentity\\": [\\n      {\\n        \\"id\\": \\"string\\",\\n        \\"displayName\\": \\"string\\",\\n        \\"lowerPort\\": \\"string\\",\\n        \\"ports\\": \\"string\\",\\n        \\"protocol\\": \\"string\\",\\n        \\"upperPort\\": \\"string\\"\\n      }\\n    ],\\n    \\"applicationSet\\": {\\n      \\"idRef\\": \\"string\\"\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"displayName": "string", "id": "string", "identitySource": {"id": "string", "type": "string"}, "indicativeNetworkIdentity": [{"displayName": "string", "id": "string", "lowerPort": 0, "ports": "string", "protocol": "string", "upperPort": 0}], "instanceId": 0, "instanceVersion": 0, "name": "string", "namespace": "string", "networkApplications": [{"appProtocol": "string", "applicationSubType": "string", "applicationType": "string", "categoryId": "string", "displayName": "string", "dscp": "string", "engineId": "string", "helpString": "string", "id": "string", "longDescription": "string", "name": "string", "popularity": 0, "rank": 0, "selectorId": "string", "serverName": "string", "trafficClass": "string", "url": "string"}], "networkIdentity": [{"displayName": "string", "id": "string", "ipv4Subnet": ["string"], "ipv6Subnet": [], "lowerPort": 0, "ports": "string", "protocol": "string", "upperPort": 0}], "parentScalableGroup": {"id": "string", "idRef": "string"}, "qualifier": "string", "scalableGroupExternalHandle": "string", "scalableGroupType": "string", "type": "string"}], "version": "string"}`
 
 
       .. raw:: html
@@ -724,7 +725,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

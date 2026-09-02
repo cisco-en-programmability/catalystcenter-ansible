@@ -42,7 +42,7 @@ cisco.catalystcenter.user_enrichment_details_info module -- Information module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.user_enrichment_details_info module -- Information module f
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -505,11 +505,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are users.Users.get\_user\_enrichment\_details,
+   - SDK Method used are users.Users.get\_user\_enrichment\_details\_v1,
    - Paths used are get /dna/intent/api/v1/user-enrichment-details,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -518,8 +519,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Users GetUserEnrichmentDetails <https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details>`_
-       Complete reference of the GetUserEnrichmentDetails API.
+   `Cisco Catalyst Center documentation for Users GetUserEnrichmentDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details-v-1>`_
+       Complete reference of the GetUserEnrichmentDetailsV1 API.
 
 .. Examples
 
@@ -601,7 +602,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": {},\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": \\"string\\",\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        \\"string\\"\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"frequency\\": {},\\n      \\"channel\\": {},\\n      \\"apGroup\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        \\"string\\"\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"avgRssi\\": {},\\n      \\"snr\\": {},\\n      \\"avgSnr\\": {},\\n      \\"dataRate\\": {},\\n      \\"txBytes\\": {},\\n      \\"rxBytes\\": {},\\n      \\"dnsSuccess\\": {},\\n      \\"dnsFailure\\": {},\\n      \\"onboarding\\": {\\n        \\"averageRunDuration\\": {},\\n        \\"maxRunDuration\\": {},\\n        \\"averageAssocDuration\\": {},\\n        \\"maxAssocDuration\\": {},\\n        \\"averageAuthDuration\\": {},\\n        \\"maxAuthDuration\\": {},\\n        \\"averageDhcpDuration\\": {},\\n        \\"maxDhcpDuration\\": {},\\n        \\"aaaServerIp\\": {},\\n        \\"dhcpServerIp\\": {}\\n      },\\n      \\"onboardingTime\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": {},\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": \\"string\\",\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": \\"string\\",\\n          \\"lineCardCount\\": \\"string\\",\\n          \\"lineCardId\\": \\"string\\",\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": {},\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"errorCode\\": 0,\\n              \\"message\\": \\"string\\",\\n              \\"detail\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      }\\n    ]\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": {},\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": \\"string\\",\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        {}\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"frequency\\": {},\\n      \\"channel\\": {},\\n      \\"apGroup\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        {}\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"avgRssi\\": {},\\n      \\"snr\\": {},\\n      \\"avgSnr\\": {},\\n      \\"dataRate\\": {},\\n      \\"txBytes\\": {},\\n      \\"rxBytes\\": {},\\n      \\"dnsSuccess\\": {},\\n      \\"dnsFailure\\": {},\\n      \\"onboarding\\": {\\n        \\"averageRunDuration\\": {},\\n        \\"maxRunDuration\\": {},\\n        \\"averageAssocDuration\\": {},\\n        \\"maxAssocDuration\\": {},\\n        \\"averageAuthDuration\\": {},\\n        \\"maxAuthDuration\\": {},\\n        \\"averageDhcpDuration\\": {},\\n        \\"maxDhcpDuration\\": {},\\n        \\"aaaServerIp\\": {},\\n        \\"dhcpServerIp\\": {}\\n      },\\n      \\"onboardingTime\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": {},\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": \\"string\\",\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": \\"string\\",\\n          \\"lineCardCount\\": \\"string\\",\\n          \\"lineCardId\\": \\"string\\",\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": {},\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"errorCode\\": 0,\\n              \\"message\\": \\"string\\",\\n              \\"detail\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      }\\n    ]\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -618,7 +619,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

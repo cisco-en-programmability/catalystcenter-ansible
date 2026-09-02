@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.catalystcenter.endpoint_analytics_profiling_rules module -- Resource module for Endpoint Analytics Profiling-Rules
+cisco.catalystcenter.endpoint_analytics_profiling_rules module -- Resource module for Endpoint Analytics Profiling Rules
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.endpoint_analytics_profiling_rules module -- Resource modul
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.16.0
+New in cisco.catalystcenter 2.11.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Endpoint Analytics Profiling-Rules.
+- Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
 - Creates profiling rule from the request body.
 - Deletes the profiling rule for the given 'ruleId'.
 - Updates the profiling rule for the given 'ruleId'.
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -1411,11 +1411,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ai\_endpoint\_analytics.AiEndpointAnalytics.create\_a\_profiling\_rule, ai\_endpoint\_analytics.AiEndpointAnalytics.delete\_an\_existing\_profiling\_rule, ai\_endpoint\_analytics.AiEndpointAnalytics.update\_an\_existing\_profiling\_rule,
+   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule, ai\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule, ai\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1603,7 +1604,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

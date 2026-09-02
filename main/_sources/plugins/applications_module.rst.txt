@@ -42,7 +42,7 @@ cisco.catalystcenter.applications module -- Resource module for Applications
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.applications module -- Resource module for Applications
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -551,7 +551,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Id Ref.
+      Applications's idRef.
 
 
       .. raw:: html
@@ -586,7 +586,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Applications's name.
 
 
       .. raw:: html
@@ -654,7 +654,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Application Sub Type.
+      Applications's applicationSubType.
 
 
       .. raw:: html
@@ -688,7 +688,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Application Type.
+      Applications's applicationType.
 
 
       .. raw:: html
@@ -722,7 +722,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      App Protocol.
+      Applications's appProtocol.
 
 
       .. raw:: html
@@ -756,7 +756,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Category Id.
+      Applications's categoryId.
 
 
       .. raw:: html
@@ -790,7 +790,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Display Name.
+      Applications's displayName.
 
 
       .. raw:: html
@@ -824,7 +824,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Dscp.
+      Applications's dscp.
 
 
       .. raw:: html
@@ -858,7 +858,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Engine Id.
+      Applications's engineId.
 
 
       .. raw:: html
@@ -892,7 +892,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Help String.
+      Applications's helpString.
 
 
       .. raw:: html
@@ -926,7 +926,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ignore Conflict.
+      Applications's ignoreConflict.
 
 
       .. raw:: html
@@ -960,7 +960,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Long Description.
+      Applications's longDescription.
 
 
       .. raw:: html
@@ -994,7 +994,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name.
+      Applications's name.
 
 
       .. raw:: html
@@ -1028,7 +1028,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Popularity.
+      Applications's popularity.
 
 
       .. raw:: html
@@ -1062,7 +1062,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rank.
+      Applications's rank.
 
 
       .. raw:: html
@@ -1096,7 +1096,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Server Name.
+      Applications's serverName.
 
 
       .. raw:: html
@@ -1130,7 +1130,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Traffic Class.
+      Applications's trafficClass.
 
 
       .. raw:: html
@@ -1164,7 +1164,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Url.
+      Applications's url.
 
 
       .. raw:: html
@@ -1233,7 +1233,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Display Name.
+      Applications's displayName.
 
 
       .. raw:: html
@@ -1267,7 +1267,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Lower Port.
+      Applications's lowerPort.
 
 
       .. raw:: html
@@ -1301,7 +1301,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ports.
+      Applications's ports.
 
 
       .. raw:: html
@@ -1335,7 +1335,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Protocol.
+      Applications's protocol.
 
 
       .. raw:: html
@@ -1369,7 +1369,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Upper Port.
+      Applications's upperPort.
 
 
       .. raw:: html
@@ -1430,11 +1430,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_application, application\_policy.ApplicationPolicy.delete\_application, application\_policy.ApplicationPolicy.edit\_application,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_v1, application\_policy.ApplicationPolicy.delete\_application\_policy, application\_policy.ApplicationPolicy.edit\_application\_v1,
    - Paths used are post /dna/intent/api/v1/applications, delete /dna/intent/api/v1/applications, put /dna/intent/api/v1/applications,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1443,12 +1444,12 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Application Policy CreateApplication <https://developer.cisco.com/docs/dna-center/#!create-application>`_
-       Complete reference of the CreateApplication API.
-   `Cisco Catalyst Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
-       Complete reference of the DeleteApplication API.
-   `Cisco Catalyst Center documentation for Application Policy EditApplication <https://developer.cisco.com/docs/dna-center/#!edit-application>`_
-       Complete reference of the EditApplication API.
+   `Cisco Catalyst Center documentation for Application Policy CreateApplicationV1 <https://developer.cisco.com/docs/dna-center/#!create-application-v-1>`_
+       Complete reference of the CreateApplicationV1 API.
+   `Cisco Catalyst Center documentation for Application Policy DeleteApplicationPolicy <https://developer.cisco.com/docs/dna-center/#!delete-application-policy>`_
+       Complete reference of the DeleteApplicationPolicy API.
+   `Cisco Catalyst Center documentation for Application Policy EditApplicationV1 <https://developer.cisco.com/docs/dna-center/#!edit-application-v-1>`_
+       Complete reference of the EditApplicationV1 API.
 
 .. Examples
 
@@ -1469,7 +1470,7 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
-        id: string
+        id: application/json
     - name: Create
       cisco.catalystcenter.applications:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1624,7 +1625,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

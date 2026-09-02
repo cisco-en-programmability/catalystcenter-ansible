@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_controllers_certificate_renewal_create module -- R
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_controllers_certificate_renewal_create module -- R
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -481,9 +481,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceId path parameter. Network Device ID.
-
-      This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+      DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
 
 
       .. raw:: html
@@ -551,7 +549,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Site tag IDs on which LSC instantaneous certificate renewal has to be performed.
+      Site tag IDs.
 
 
       .. raw:: html
@@ -610,11 +608,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.access\_points\_l\_s\_c\_certificate\_instantaneous\_renewal,
+   - SDK Method used are wireless.Wireless.renewal\_of\_lsc\_certificate\_on\_access\_points,
    - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/certificateRenewal,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -623,8 +622,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Wireless AccessPointsLSCCertificateInstantaneousRenewal <https://developer.cisco.com/docs/dna-center/#!access-points-lsc-certificate-instantaneous-renewal>`_
-       Complete reference of the AccessPointsLSCCertificateInstantaneousRenewal API.
+   `Cisco Catalyst Center documentation for Wireless RenewalOfLSCCertificateOnAccessPoints <https://developer.cisco.com/docs/dna-center/#!renewal-of-lsc-certificate-on-access-points>`_
+       Complete reference of the RenewalOfLSCCertificateOnAccessPoints API.
 
 .. Examples
 
@@ -646,7 +645,7 @@ Examples
         catalystcenter_debug: "{{catalystcenter_debug}}"
         accessPointMacs:
           - string
-        deviceId: string
+        deviceId: a7fdcfad-816a-43bc-bd0f-ff605ab3da6f
         expiryTime: 0
         siteTagIds:
           - string
@@ -727,7 +726,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -1,0 +1,883 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create module -- Resource module for Wireless Controllers Intended Radio Frequencies Update Create
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Wireless Controllers Intended Radio Frequencies Update Create. - \> This API operation creates/updates/deletes an intended feature resource, and the subsequent "deploy" API call will configure the changes on the underlying wireless controller, and this API is applicable for per-device based configuration.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiBssidProfiles"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-multibssidprofiles:
+
+      .. rst-class:: ansible-option-title
+
+      **multiBssidProfiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiBssidProfiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Intended Radio Frequencies Update Create's multiBssidProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-networkdeviceid:
+
+      .. rst-class:: ansible-option-title
+
+      **networkDeviceId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-networkDeviceId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      NetworkDeviceId path parameter. Network device ID of the wireless controller to provision. The API /dna/intent/api/v1/network-device can be used to get the network device ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioProfiles"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-radioprofiles:
+
+      .. rst-class:: ansible-option-title
+
+      **radioProfiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioProfiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Intended Radio Frequencies Update Create's radioProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rfProfiles"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-rfprofiles:
+
+      .. rst-class:: ansible-option-title
+
+      **rfProfiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rfProfiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Intended Radio Frequencies Update Create's rfProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rfTags"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-rftags:
+
+      .. rst-class:: ansible-option-title
+
+      **rfTags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rfTags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Intended Radio Frequencies Update Create's rfTags.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-urwbProfiles"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-urwbprofiles:
+
+      .. rst-class:: ansible-option-title
+
+      **urwbProfiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-urwbProfiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Intended Radio Frequencies Update Create's urwbProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.update\_configurations\_for\_an\_intended\_radio\_frequency\_feature\_on\_a\_wireless\_controller,
+   - Paths used are post /dna/campus/api/v1/wirelessControllers/{networkDeviceId}/intended/radioFrequencies/update,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Wireless UpdateConfigurationsForAnIntendedRadioFrequencyFeatureOnAWirelessController <https://developer.cisco.com/docs/dna-center/#!update-configurations-for-an-intended-radio-frequency-feature-on-a-wireless-controller>`_
+       Complete reference of the UpdateConfigurationsForAnIntendedRadioFrequencyFeatureOnAWirelessController API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create
+      cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        networkDeviceId: dd584a8a-a7ae-4323-97f4-ab950cab52a6
+        rfProfiles:
+          bandSelectAgeOutDualBand: 60
+          bandSelectAgeOutSuppression: 20
+          bandSelectClientMidRssi: -80
+          bandSelectClientRssi: -80
+          bandSelectCycleCount: 2
+          bandSelectCycleThreshold: 200
+          bandSelectProbeResponse: true
+          clientNetworkPreference: DEFAULT
+          clientResetThresh6Ghz: 5
+          clientResetThreshold: 5
+          clientSelectThreshold: 50
+          configType: RF_PROFILE
+          coverageDataPacketRssiThreshold: -80
+          coverageVoicePacketRssiThreshold: -80
+          dcaContributionInterference: true
+          deviceVersion: '17.12'
+          dot11axBcastProbeRespIntvl: 20
+          loadBalancingDenialCount: 3
+          op: MERGE
+          optRoamRssiCheckEnabled: false
+          rfProfileAirtimeAllocation: 5
+          rfProfileAtfOperMode: APF_ATF_MODE_DISABLE
+          rfProfileAtfOptimization: APF_ATF_STEALING_POLICY_DISABLE
+          rfProfileBand: DOT11_6_GHZ_BAND
+          rfProfileBridgeClientAccess: false
+          rfProfileChannelWidthMax: DCA_EWLC_CHAN_WIDTH_CAP_MAX
+          rfProfileChannelWidthMin: DCA_EWLC_CHAN_WIDTH_CAP_20_MHZ
+          rfProfileClientAwareFra: false
+          rfProfileClientCountReset6Ghz: 1
+          rfProfileDataRate11M: APF_TX_RATE_BASIC
+          rfProfileDataRate12M: APF_TX_RATE_BASIC
+          rfProfileDataRate18M: APF_TX_RATE_SUPPORTED
+          rfProfileDataRate1M: APF_TX_RATE_BASIC
+          rfProfileDataRate24M: APF_TX_RATE_BASIC
+          rfProfileDataRate2M: APF_TX_RATE_BASIC
+          rfProfileDataRate36M: APF_TX_RATE_SUPPORTED
+          rfProfileDataRate48M: APF_TX_RATE_SUPPORTED
+          rfProfileDataRate54M: APF_TX_RATE_UNSUPPORTED
+          rfProfileDataRate55M: APF_TX_RATE_BASIC
+          rfProfileDataRate6M: APF_TX_RATE_BASIC
+          rfProfileDataRate9M: APF_TX_RATE_SUPPORTED
+          rfProfileDot11Ax6GhzFeature: HE_6GHZ_NONE
+          rfProfileDot11axNonSrgObssPdMax: -62
+          rfProfileDot11axObssPdEnabled: false
+          rfProfileDot11axSrgObssPdEnabled: false
+          rfProfileDot11axSrgObssPdMax: -62
+          rfProfileDot11axSrgObssPdMin: -62
+          rfProfileExceptionLevel: 25
+          rfProfileFraAction: FRA_ACTION_DEFAULT
+          rfProfileGuardIntervalExt: GUARD_INTERVAL_NONE
+          rfProfileHsrMode: false
+          rfProfileHsrNeighborTimeout: 5
+          rfProfileLoadBalancingWindow: 5
+          rfProfileMaxRadioClients: 200
+          rfProfileMbssidProfName: mb1
+          rfProfileMinNumClients: 3
+          rfProfileMulticastDataRate: MCAST_DATA_RATE_DEFAULT
+          rfProfileName: testrf
+          rfProfileNdpMode: NDP_MODE_OFF_CHANNEL
+          rfProfileOptRoamRssiThreshold: -127
+          rfProfilePscBias: false
+          rfProfileRfDcaChannelWidth: RF_DCA_CHAN_WIDTH_BEST
+          rfProfileStatus: false
+          rfProfileTrapThresholdClients: 12
+          rfProfileTxPowerMax: 30
+          rfProfileTxPowerMin: -10
+          rfProfileTxPowerV1Threshold: -70
+          rfProfileTxPowerV2Threshold: -67
+          rfProfileZerowtDfs: false
+          rxSopSensitivityCustom: -85
+          rxSopSensitivityThreshold: RRM_EWLC_RXSENSOP_THRESHOLD_AUTO
+          trapThresholdInterference: 10
+          trapThresholdNoise: -70
+          trapThresholdUtilization: 80
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_intended_radio_frequencies_update_create_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

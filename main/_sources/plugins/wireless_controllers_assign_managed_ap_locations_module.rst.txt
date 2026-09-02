@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_controllers_assign_managed_ap_locations module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.wireless_controllers_assign_managed_ap_locations module -- 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations.
-- This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID.
-- The payload should always be a complete list.
-- The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
+- Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations. - \> This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID. The payload should always be a complete list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -449,9 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceId path parameter. Network Device ID.
-
-      This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+      DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
 
 
       .. raw:: html
@@ -578,11 +573,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.assign\_managed\_ap\_locations\_for\_w\_l\_c,
+   - SDK Method used are wireless.Wireless.assign\_managed\_ap\_locations\_for\_wlc,
    - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/assignManagedApLocations,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -694,7 +690,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

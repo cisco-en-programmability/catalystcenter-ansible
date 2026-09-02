@@ -42,7 +42,7 @@ cisco.catalystcenter.compliance_policys_rules_variables module -- Resource modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.compliance_policys_rules_variables module -- Resource modul
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.46.0
+New in cisco.catalystcenter 2.3.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -551,7 +551,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. The \`id\` of the variable.
+      The \`id\` of the variable.
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The input type of the variable. For detailed enum descriptions, refer to the \`Features\` tab.
+      The input type of the variable. - \`SINGLE\_SELECT\` The variable allows for the selection of a single value from a predefined list of options specified in the \`selectionList\`. It is applicable only when the \`dataType\` is \`STRING\`, \`INTEGER\`, or \`BOOLEAN\`. - \`MULTI\_SELECT\` The variable permits the selection of multiple values from a predefined list of options specified in the \`selectionList\`. It is applicable only when the \`dataType\` is \`STRING\` or \`INTEGER\`. - \`SINGLE\_TEXT\` The variable accepts a single text input from the user after policy assignment. - \`MULTI\_TEXT\` The variable allows the user to enter multiple text inputs after policy assignment. It is not applicable when the \`dataType\` is \`BOOLEAN\`.
 
 
       .. raw:: html
@@ -695,7 +695,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The maximum length constraint for the \`STRING\` values. This is only applicable when the \`inputType\` is \`SINGLE\_TEXT\` or \`MULTI\_TEXT\`. Max length must be between 1 and 255, both inclusive.
+      The maximum length constraint for the \`STRING\` values. This is only applicable when the \`inputType\` is \`SINGLE\_TEXT\` or \`MULTI\_TEXT\`.
 
 
       .. raw:: html
@@ -797,7 +797,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This is the name of the variable. It should be a concise and descriptive title that clearly identifies the variable. The name must be unique within the specified rule. Pattern ^\\w\\ \\-\\(\\)+$.
+      This is the name of the variable. It should be a concise and descriptive title that clearly identifies the variable. The name must be unique within the specified rule.
 
 
       .. raw:: html
@@ -899,7 +899,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Compliance Policys Rules Variables's selectionList.
+      A list of selection options from which to choose a value. This is applicable when the \`dataType\` is \`STRING\`, \`INTEGER\`, or \`BOOLEAN\`, and it is required when the \`inputType\` is either \`SINGLE\_SELECT\` or \`MULTI\_SELECT\`.
 
 
       .. raw:: html
@@ -1020,6 +1020,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sequenceNumber"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_variables_module__parameter-sequencenumber:
+
+      .. rst-class:: ansible-option-title
+
+      **sequenceNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sequenceNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The sequence number of the variable that determines the display order, helping to provide values in a structured manner.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-usedByConditions"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_variables_module__parameter-usedbyconditions:
+
+      .. rst-class:: ansible-option-title
+
+      **usedByConditions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-usedByConditions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      An array of condition IDs that are using this variable.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.compliance_policys_rules_variables_module__parameter-validate_response_schema:
@@ -1108,6 +1176,7 @@ Notes
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1145,6 +1214,7 @@ Examples
         dataType: string
         defaultValue: string
         description: string
+        id: string
         identifier: string
         inputType: string
         mandatory: true
@@ -1152,26 +1222,16 @@ Examples
         maxValue: 0
         minValue: 0
         name: string
-        policyId: string
-        ruleId: string
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+        ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
         selectionList:
           - default: true
             key: string
             value: string
+        sequenceNumber: 0
+        usedByConditions:
+          - string
         validationRegex: string
-    - name: Delete by id
-      cisco.catalystcenter.compliance_policys_rules_variables:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: absent
-        id: string
-        policyId: string
-        ruleId: string
     - name: Update by id
       cisco.catalystcenter.compliance_policys_rules_variables:
         catalystcenter_host: "{{catalystcenter_host}}"
@@ -1192,13 +1252,27 @@ Examples
         maxValue: 0
         minValue: 0
         name: string
-        policyId: string
-        ruleId: string
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+        ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
         selectionList:
           - default: true
             key: string
             value: string
+        sequenceNumber: 0
         validationRegex: string
+    - name: Delete by id
+      cisco.catalystcenter.compliance_policys_rules_variables:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        id: 7aa85f96-fac2-49c0-89a5-b6c2df2bfa48
+        policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+        ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
 
 
 
@@ -1276,7 +1350,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.site_info module -- Information module for Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.site_info module -- Information module for Site
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -676,11 +676,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_site,
+   - SDK Method used are sites.Sites.get\_site\_v1,
    - Paths used are get /dna/intent/api/v1/site,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -689,8 +690,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Sites GetSite <https://developer.cisco.com/docs/dna-center/#!get-site>`_
-       Complete reference of the GetSite API.
+   `Cisco Catalyst Center documentation for Sites GetSiteV1 <https://developer.cisco.com/docs/dna-center/#!get-site-v-1>`_
+       Complete reference of the GetSiteV1 API.
 
 .. Examples
 
@@ -711,9 +712,9 @@ Examples
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        name: string
-        siteId: string
-        type: string
+        name: application/json
+        siteId: application/json
+        type: application/json
         offset: 0
         limit: 0
       register: result
@@ -777,7 +778,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      \\"string\\"\\n    ],\\n    \\"siteHierarchy\\": \\"string\\",\\n    \\"siteNameHierarchy\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"parentId\\": \\"string\\",\\n    \\"groupTypeList\\": [\\n      \\"string\\"\\n    ],\\n    \\"groupHierarchy\\": \\"string\\",\\n    \\"additionalInfo\\": [\\n      {\\n        \\"nameSpace\\": \\"string\\",\\n        \\"attributes\\": {\\n          \\"addressInheritedFrom\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"country\\": \\"string\\",\\n          \\"address\\": \\"string\\",\\n          \\"latitude\\": \\"string\\",\\n          \\"longitude\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"groupNameHierarchy\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"instanceTenantId\\": \\"string\\",\\n    \\"id\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html
@@ -794,7 +795,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.network_v2 module -- Resource module for Network V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_v2 module -- Resource module for Network V2
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 3.1.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operations create and update of the resource Network V2. - \> API to create network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings. - \> API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS center server settings.
+- Manage operations create and update of the resource Network V2.
+- API to create network settings for DHCP, Syslog, SNMP, NTP, Network AAA,.
+- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA,.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -719,7 +721,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's dnsServer.
+      DNS Server detail.
 
 
       .. raw:: html
@@ -856,7 +858,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's messageOfTheday.
+      Message of the detail.
 
 
       .. raw:: html
@@ -959,7 +961,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's netflowcollector.
+      NetFlow Collector details.
 
 
       .. raw:: html
@@ -1062,7 +1064,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's network\_aaa.
+      AAA Network Settings detail.
 
 
       .. raw:: html
@@ -1301,7 +1303,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's snmpServer.
+      Snmp Server details.
 
 
       .. raw:: html
@@ -1335,7 +1337,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Catalyst Center IP for SNMP Server (eg true).
+      Configuration DNAC IP for SNMP Server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1412,7 +1414,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Network V2's syslogServer.
+      Syslog Server detail.
 
 
       .. raw:: html
@@ -1446,7 +1448,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configuration Catalyst Center IP for syslog server (eg true).
+      Configuration DNAC IP for syslog server (eg true).
 
 
       .. rst-class:: ansible-option-line
@@ -1617,11 +1619,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.create\_network\_v2, network\_settings.NetworkSettings.update\_network\_v2,
+   - SDK Method used are network\_settings.NetworkSettings.create\_network, network\_settings.NetworkSettings.update\_network,
    - Paths used are post /dna/intent/api/v2/network/{siteId}, put /dna/intent/api/v2/network/{siteId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -1630,10 +1633,10 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Network Settings CreateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!create-network-v-2>`_
-       Complete reference of the CreateNetworkV2 API.
-   `Cisco Catalyst Center documentation for Network Settings UpdateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!update-network-v-2>`_
-       Complete reference of the UpdateNetworkV2 API.
+   `Cisco Catalyst Center documentation for Network Settings CreateNetwork <https://developer.cisco.com/docs/dna-center/#!create-network>`_
+       Complete reference of the CreateNetwork API.
+   `Cisco Catalyst Center documentation for Network Settings UpdateNetwork <https://developer.cisco.com/docs/dna-center/#!update-network>`_
+       Complete reference of the UpdateNetwork API.
 
 .. Examples
 
@@ -1815,7 +1818,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 

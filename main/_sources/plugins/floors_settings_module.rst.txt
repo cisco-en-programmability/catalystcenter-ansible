@@ -42,7 +42,7 @@ cisco.catalystcenter.floors_settings module -- Resource module for Floors Settin
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.10.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.floors_settings module -- Resource module for Floors Settin
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.15.0
+New in cisco.catalystcenter 1.0.0
 
 .. contents::
    :local:
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Floors Settings.
-- Updates UI user preference for floor unit system. Unit sytem change will effect for all floors across all sites.
+- Manage operation update of the resource Floors Settings. - \> Updates UI user preference for floor unit system. Unit sytem change will effect for all floors and outdoor areas across all sites.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.2
+- catalystcentersdk \>= 3.2.3.0.0
 - python \>= 3.12
 
 
@@ -447,7 +446,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Floor units of measure.
+      Unit of measure for length, width, and height.
 
 
       .. raw:: html
@@ -506,11 +505,12 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are site\_design.SiteDesign.updates\_floor\_settings\_v2,
+   - SDK Method used are site\_design.SiteDesign.updates\_floor\_settings,
    - Paths used are put /dna/intent/api/v2/floors/settings,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
 
 .. Seealso
 
@@ -519,8 +519,8 @@ See Also
 
 .. seealso::
 
-   `Cisco Catalyst Center documentation for Site Design UpdatesFloorSettingsV2 <https://developer.cisco.com/docs/dna-center/#!updates-floor-settings-v-2>`_
-       Complete reference of the UpdatesFloorSettingsV2 API.
+   `Cisco Catalyst Center documentation for Site Design UpdatesFloorSettings <https://developer.cisco.com/docs/dna-center/#!updates-floor-settings>`_
+       Complete reference of the UpdatesFloorSettings API.
 
 .. Examples
 
@@ -602,7 +602,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {}, "version": "string"}`
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rafael Campos (@racampos)
+- Bryan Vargas (@bvargasre)
 
 
 
