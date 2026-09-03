@@ -46,20 +46,17 @@
   ansible.builtin.assert:
     that:
       - >-
-        switch_refresh_sda_fabric_edge_provision_validation_raw_result
-        .catalystcenter_response.status |
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.status |
         default('') |
         string |
         lower == 'success'
       - >-
-        switch_refresh_sda_fabric_edge_provision_validation_raw_result
-        .catalystcenter_response.deviceManagementIpAddress |
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.deviceManagementIpAddress |
         default('') |
         string ==
         switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip | string
       - >-
-        switch_refresh_sda_fabric_edge_provision_validation_raw_result
-        .catalystcenter_response.siteNameHierarchy |
+        switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.siteNameHierarchy |
         default('') |
         string == switch_refresh_sda_fabric_edge_provision_validation_request.expected_site
     fail_msg: >-
@@ -68,11 +65,11 @@
       Expected IP={{ switch_refresh_sda_fabric_edge_provision_validation_request.expected_ip }}
       at site={{ switch_refresh_sda_fabric_edge_provision_validation_request.expected_site }};
       controller returned status={{
-      switch_refresh_sda_fabric_edge_provision_validation_raw_result
-      .catalystcenter_response.status | default('missing') }}, IP={{
-      switch_refresh_sda_fabric_edge_provision_validation_raw_result
-      .catalystcenter_response.deviceManagementIpAddress | default('missing') }}, site={{
-      switch_refresh_sda_fabric_edge_provision_validation_raw_result
-      .catalystcenter_response.siteNameHierarchy | default('missing') }}, description={{
-      switch_refresh_sda_fabric_edge_provision_validation_raw_result
-      .catalystcenter_response.description | default('missing') }}.
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.status |
+      default('missing') }}, IP={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.deviceManagementIpAddress |
+      default('missing') }}, site={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.siteNameHierarchy |
+      default('missing') }}, description={{
+      switch_refresh_sda_fabric_edge_provision_validation_raw_result.catalystcenter_response.description |
+      default('missing') }}.
