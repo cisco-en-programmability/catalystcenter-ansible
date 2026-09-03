@@ -13,10 +13,10 @@ description:
   - Get Projects by id.
   - Get a template project by the project's ID.
   - Get all matching template projects based on the filters selected.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
       - ProjectId path parameter. The id of the project to get, retrieveable from `GET /dna/intent/api/v1/projects`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates GetTemplateProject
@@ -69,8 +69,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 - name: Get Projects by id
   cisco.catalystcenter.projects_info:

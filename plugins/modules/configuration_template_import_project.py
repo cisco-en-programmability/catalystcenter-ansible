@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Import Project
 description:
   - Manage operation create of the resource Configuration Template Import Project.
   - Imports the Projects provided in the DTO.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   doVersion:
     description: DoVersion query parameter. If this flag is true then it creates a new version of the template with the imported
@@ -22,7 +22,7 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates ImportsTheProjectsProvided
@@ -56,7 +56,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

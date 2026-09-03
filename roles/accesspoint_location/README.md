@@ -9,7 +9,7 @@ Resource module for managing Access Point planned positions and real positions i
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - Python >= 3.9
 
 ## Role Variables

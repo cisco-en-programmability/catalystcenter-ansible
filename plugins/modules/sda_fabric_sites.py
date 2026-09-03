@@ -13,30 +13,20 @@ description:
   - Adds a fabric site based on user input.
   - Deletes a fabric site based on id.
   - Updates a fabric site based on user input.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. ID of the fabric site.
     type: str
   payload:
-    description: Sda Fabric Sites's payload.
+    description: Fabric site post request body.
     elements: dict
-    suboptions:
-      authenticationProfileName:
-        description: Authentication profile used for this fabric.
-        type: str
-      isPubSubEnabled:
-        description: Specifies whether this fabric site will use pub/sub for control nodes.
-        type: bool
-      siteId:
-        description: ID of the network hierarchy.
-        type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddFabricSite
@@ -72,9 +62,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        isPubSubEnabled: true
-        siteId: string
+      - {}
 - name: Update all
   cisco.catalystcenter.sda_fabric_sites:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -86,10 +74,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
-      - authenticationProfileName: string
-        id: string
-        isPubSubEnabled: true
-        siteId: string
+      - {}
 - name: Delete by id
   cisco.catalystcenter.sda_fabric_sites:
     catalystcenter_host: "{{catalystcenter_host}}"

@@ -27,7 +27,9 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from unittest.mock import patch, mock_open
-from ansible_collections.cisco.catalystcenter.plugins.modules import inventory_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    inventory_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -36,20 +38,38 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     module = inventory_playbook_config_generator
     test_data = loadPlaybookData("inventory_playbook_config_generator")
 
-    playbook_config_generate_all_configurations = test_data.get("playbook_config_generate_all_configurations")
+    playbook_config_generate_all_configurations = test_data.get(
+        "playbook_config_generate_all_configurations"
+    )
     playbook_config_devices_by_ip = test_data.get("playbook_config_devices_by_ip")
-    playbook_config_devices_by_hostname = test_data.get("playbook_config_devices_by_hostname")
-    playbook_config_devices_by_serial = test_data.get("playbook_config_devices_by_serial")
-    playbook_config_devices_by_serial_stack_switch = test_data.get("playbook_config_devices_by_serial_stack_switch")
+    playbook_config_devices_by_hostname = test_data.get(
+        "playbook_config_devices_by_hostname"
+    )
+    playbook_config_devices_by_serial = test_data.get(
+        "playbook_config_devices_by_serial"
+    )
+    playbook_config_devices_by_serial_stack_switch = test_data.get(
+        "playbook_config_devices_by_serial_stack_switch"
+    )
     playbook_config_devices_by_mac = test_data.get("playbook_config_devices_by_mac")
     playbook_config_filter_by_role = test_data.get("playbook_config_filter_by_role")
     playbook_config_combined_filters = test_data.get("playbook_config_combined_filters")
-    playbook_config_empty_global_filters = test_data.get("playbook_config_empty_global_filters")
-    playbook_config_included_component_specific_filters = test_data.get("playbook_config_included_component_specific_filters")
-    playbook_config_unknown_filter_ignored = test_data.get("playbook_config_unknown_filter_ignored")
-    playbook_config_no_matching_devices = test_data.get("playbook_config_no_matching_devices")
+    playbook_config_empty_global_filters = test_data.get(
+        "playbook_config_empty_global_filters"
+    )
+    playbook_config_included_component_specific_filters = test_data.get(
+        "playbook_config_included_component_specific_filters"
+    )
+    playbook_config_unknown_filter_ignored = test_data.get(
+        "playbook_config_unknown_filter_ignored"
+    )
+    playbook_config_no_matching_devices = test_data.get(
+        "playbook_config_no_matching_devices"
+    )
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
-    playbook_config_null_global_filters = test_data.get("playbook_config_null_global_filters")
+    playbook_config_null_global_filters = test_data.get(
+        "playbook_config_null_global_filters"
+    )
 
     def setUp(self):
         super(TestInventoryPlaybookConfigGenerator, self).setUp()
@@ -86,104 +106,138 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "no_devices_in_inventory" in self._testMethodName:
-            self.run_get_with_pagination.return_value = self.test_data.get("get_empty_device_list_response", {}).get("response", [])
+            self.run_get_with_pagination.return_value = self.test_data.get(
+                "get_empty_device_list_response", {}
+            ).get("response", [])
             self.run_write_yaml.return_value = True
             return
 
         if "file_already_up_to_date" in self._testMethodName:
-            self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
+            self.run_get_with_pagination.return_value = self.test_data.get(
+                "get_device_list_response", {}
+            ).get("response", [])
             self.run_write_yaml.return_value = False
             return
 
         if "stack_switch_comma_separated_serial_filter" in self._testMethodName:
-            self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response_stack_switch", {}).get("response", [])
+            self.run_get_with_pagination.return_value = self.test_data.get(
+                "get_device_list_response_stack_switch", {}
+            ).get("response", [])
             self.run_write_yaml.return_value = True
             return
 
-        self.run_get_with_pagination.return_value = self.test_data.get("get_device_list_response", {}).get("response", [])
+        self.run_get_with_pagination.return_value = self.test_data.get(
+            "get_device_list_response", {}
+        ).get("response", [])
         self.run_write_yaml.return_value = True
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_generate_all_configurations(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_generate_all_configurations,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_generate_all_configurations,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_devices_by_ip(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_devices_by_ip,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_devices_by_ip,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_devices_by_hostname(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_devices_by_hostname,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_devices_by_hostname,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_devices_by_serial(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_devices_by_serial,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_devices_by_serial,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_stack_switch_comma_separated_serial_filter(self, mock_exists, mock_file):
         """Verify that filtering by individual stack-member serials matches a single device record
-        where Catalyst Center returns serialNumber as a comma-separated string (e.g. a C9500 stack)."""
+        where Catalyst Center returns serialNumber as a comma-separated string (e.g. a C9500 stack).
+        """
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_devices_by_serial_stack_switch,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_devices_by_serial_stack_switch,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
         # Verify result status
         self.assertEqual(result.get("msg", {}).get("status"), "success")
@@ -204,114 +258,153 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     @patch("os.path.exists")
     def test_devices_by_mac(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_devices_by_mac,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_devices_by_mac,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_filter_by_device_role(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_filter_by_role,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_filter_by_role,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_combined_filters(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_combined_filters,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_combined_filters,
+            )
+        )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
+        self.assertIn(
+            "YAML configuration file generated successfully",
+            str(result.get("msg", {}).get("message")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_empty_global_filters(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_empty_global_filters,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_global_filters,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid playbook config: 'global_filters' is empty.", str(result.get("msg", "")))
-        self.assertIn("Provide at least one filter or omit 'global_filters'.", str(result.get("msg", "")))
+        self.assertIn(
+            "Invalid playbook config: 'global_filters' is empty.",
+            str(result.get("msg", "")),
+        )
+        self.assertIn(
+            "Provide at least one filter or omit 'global_filters'.",
+            str(result.get("msg", "")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_null_global_filters(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_null_global_filters,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_null_global_filters,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid playbook config: 'global_filters' cannot be null when provided.", str(result.get("msg", "")))
-        self.assertIn("Provide at least one filter or omit 'global_filters'.", str(result.get("msg", "")))
+        self.assertIn(
+            "Invalid playbook config: 'global_filters' cannot be null when provided.",
+            str(result.get("msg", "")),
+        )
+        self.assertIn(
+            "Provide at least one filter or omit 'global_filters'.",
+            str(result.get("msg", "")),
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_included_component_specific_filters_empty(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_included_component_specific_filters,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_included_component_specific_filters,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid filters found in playbook config", str(result.get("msg", "")))
-        self.assertIn("Allowed filters are: ['global_filters'].", str(result.get("msg", "")))
+        self.assertIn(
+            "Invalid filters found in playbook config", str(result.get("msg", ""))
+        )
+        self.assertIn(
+            "Allowed filters are: ['global_filters'].", str(result.get("msg", ""))
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_unknown_filter_is_ignored(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_unknown_filter_ignored,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_unknown_filter_ignored,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("Filter 'unknown_filter' not supported", str(result.get("msg")))
 
@@ -319,64 +412,82 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     @patch("os.path.exists")
     def test_no_matching_devices(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_no_matching_devices,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_no_matching_devices,
+            )
+        )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations found", str(result.get("msg", {}).get("message", "")))
+        self.assertIn(
+            "No configurations found", str(result.get("msg", {}).get("message", ""))
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_no_devices_in_inventory(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        self.run_get_with_pagination.return_value = self.test_data.get("get_empty_device_list_response", {}).get("response", [])
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_generate_all_configurations,
-        ))
+        self.run_get_with_pagination.return_value = self.test_data.get(
+            "get_empty_device_list_response", {}
+        ).get("response", [])
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_generate_all_configurations,
+            )
+        )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations found", str(result.get("msg", {}).get("message", "")))
+        self.assertIn(
+            "No configurations found", str(result.get("msg", {}).get("message", ""))
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_file_already_up_to_date(self, mock_exists, mock_file):
         mock_exists.return_value = True
         self.run_write_yaml.return_value = False
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_generate_all_configurations,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_generate_all_configurations,
+            )
+        )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("already up-to-date", str(result.get("msg", {}).get("message", "")))
+        self.assertIn(
+            "already up-to-date", str(result.get("msg", {}).get("message", ""))
+        )
 
     @patch("builtins.open", new_callable=mock_open)
     @patch("os.path.exists")
     def test_empty_config_fails_validation(self, mock_exists, mock_file):
         mock_exists.return_value = True
-        set_module_args(dict(
-            catalystcenter_host="1.1.1.1",
-            catalystcenter_username="dummy",
-            catalystcenter_password="dummy",
-            catalystcenter_version="2.3.7.9",
-            catalystcenter_log=True,
-            state="gathered",
-            config=self.playbook_config_empty_config,
-        ))
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_empty_config,
+            )
+        )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Configuration cannot be an empty dictionary", str(result.get("msg", "")))
+        self.assertIn(
+            "Configuration cannot be an empty dictionary", str(result.get("msg", ""))
+        )

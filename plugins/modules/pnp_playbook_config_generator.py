@@ -85,6 +85,7 @@ Usage Patterns:
 Author: Syed Khadeer Ahmed, Madhan Sankaranarayanan
 Version: 6.40.0
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -111,7 +112,7 @@ description:
   templates, projects, images, or advanced claim parameters.
 - Supports extraction of both claimed and unclaimed devices across all PnP
   workflow states.
-version_added: 6.40.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -204,7 +205,7 @@ options:
             required: false
             choices: ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - SDK Methods used are
@@ -493,7 +494,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting playbook configuration validation. Checking if config parameter "
             "provided in playbook.",
-            "DEBUG"
+            "DEBUG",
         )
 
         config = self.config
@@ -501,14 +502,12 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if config is None:
             self.log(
                 "config is not provided. Defaulting to retrieve all PnP devices.",
-                "INFO"
+                "INFO",
             )
             config = {}
         elif not isinstance(config, dict):
-            self.msg = (
-                "config must be a dictionary when provided. Got: {0}.".format(
-                    type(config).__name__
-                )
+            self.msg = "config must be a dictionary when provided. Got: {0}.".format(
+                type(config).__name__
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
@@ -530,11 +529,8 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "parameters, not under config."
                 )
             else:
-                self.msg = (
-                    "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
-                        sorted(list(invalid_config_keys)),
-                        sorted(list(allowed_config_keys))
-                    )
+                self.msg = "Invalid keys found in 'config': {0}. Allowed keys are: {1}.".format(
+                    sorted(list(invalid_config_keys)), sorted(list(allowed_config_keys))
                 )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
@@ -554,8 +550,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         if not file_path and file_mode != "overwrite":
             self.log(
-                "file_mode='{0}' is ignored because file_path is not provided.".format(file_mode),
-                "WARNING"
+                "file_mode='{0}' is ignored because file_path is not provided.".format(
+                    file_mode
+                ),
+                "WARNING",
             )
 
         component_filters = config.get("component_specific_filters")
@@ -574,15 +572,15 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         normalized_component_filters = None
         if component_filters is not None:
             if not isinstance(component_filters, dict):
-                self.msg = (
-                    "'component_specific_filters' must be a dictionary, got: {0}.".format(
-                        type(component_filters).__name__
-                    )
+                self.msg = "'component_specific_filters' must be a dictionary, got: {0}.".format(
+                    type(component_filters).__name__
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            unknown_comp_keys = [k for k in component_filters.keys() if k not in ["components_list"]]
+            unknown_comp_keys = [
+                k for k in component_filters.keys() if k not in ["components_list"]
+            ]
             if unknown_comp_keys:
                 self.msg = (
                     "Unknown parameter(s) in component_specific_filters: {0}. "
@@ -595,18 +593,16 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
             components_list = component_filters.get("components_list")
             if not components_list or not isinstance(components_list, list):
-                self.msg = (
-                    "'components_list' must be a non-empty list in component_specific_filters."
-                )
+                self.msg = "'components_list' must be a non-empty list in component_specific_filters."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            invalid_components = [c for c in components_list if c not in valid_components]
+            invalid_components = [
+                c for c in components_list if c not in valid_components
+            ]
             if invalid_components:
-                self.msg = (
-                    "Invalid value(s) in components_list: {0}. Valid choices are: {1}".format(
-                        invalid_components, valid_components
-                    )
+                self.msg = "Invalid value(s) in components_list: {0}. Valid choices are: {1}".format(
+                    invalid_components, valid_components
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
@@ -617,20 +613,18 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         normalized_global_filters = None
         if global_filters is not None:
             if not isinstance(global_filters, dict):
-                self.msg = (
-                    "'global_filters' must be a dictionary, got: {0}.".format(
-                        type(global_filters).__name__
-                    )
+                self.msg = "'global_filters' must be a dictionary, got: {0}.".format(
+                    type(global_filters).__name__
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            unknown_global_keys = [k for k in global_filters.keys() if k not in ["device_state"]]
+            unknown_global_keys = [
+                k for k in global_filters.keys() if k not in ["device_state"]
+            ]
             if unknown_global_keys:
-                self.msg = (
-                    "Unknown parameter(s) in global_filters: {0}. Valid parameters are: ['device_state']".format(
-                        unknown_global_keys
-                    )
+                self.msg = "Unknown parameter(s) in global_filters: {0}. Valid parameters are: ['device_state']".format(
+                    unknown_global_keys
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
@@ -643,10 +637,8 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     return self
                 invalid_states = [s for s in device_states if s not in valid_states]
                 if invalid_states:
-                    self.msg = (
-                        "Invalid value(s) in device_state: {0}. Valid choices are: {1}".format(
-                            invalid_states, valid_states
-                        )
+                    self.msg = "Invalid value(s) in device_state: {0}. Valid choices are: {1}".format(
+                        invalid_states, valid_states
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
@@ -660,10 +652,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.validated_config = valid_config
         self.msg = "Successfully validated playbook config"
-        self.log(
-            "Playbook configuration validation completed successfully.",
-            "INFO"
-        )
+        self.log("Playbook configuration validation completed successfully.", "INFO")
         self.status = "success"
 
         return self
@@ -700,7 +689,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Defining workflow elements schema for PnP brownfield playbook generation. "
             "Configuring module metadata, global filters, component filters, and network "
             "element mappings.",
-            "DEBUG"
+            "DEBUG",
         )
 
         schema = {
@@ -713,22 +702,22 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Planned",
                         "Onboarding",
                         "Provisioned",
-                        "Error"
-                    ]
+                        "Error",
+                    ],
                 },
             },
             "component_specific_filters": {
                 "components_list": {
                     "type": "list",
                     "valid_values": ["device_info"],
-                    "default": ["device_info"]
+                    "default": ["device_info"],
                 }
             },
             "network_elements": {
                 "device_info": {
                     "get_function_name": self.get_pnp_devices,
                 }
-            }
+            },
         }
 
         return schema
@@ -768,7 +757,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting device transformation from API format to playbook structure. Extracting "
             "deviceInfo section for parameter mapping.",
-            "DEBUG"
+            "DEBUG",
         )
 
         device_info_item = OrderedDict()
@@ -778,7 +767,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Device missing deviceInfo section. Skipping transformation for invalid device "
                 "structure.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -788,7 +777,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Device missing required serial_number field. Cannot create device_info entry "
                 "without unique identifier. Skipping device transformation.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -797,7 +786,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Processing device with serial_number: {0}. Extracting optional and required "
             "device attributes.".format(serial_number),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Hostname (optional)
@@ -808,7 +797,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Hostname found for device {0}: {1}. Including in device_info.".format(
                     serial_number, hostname
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Extract state with default value
@@ -819,7 +808,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Device {0} state set to: {1}. Using default 'Unclaimed' if not provided by API.".format(
                 serial_number, state
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # PID is required
@@ -830,7 +819,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "entry without hardware identifier. Skipping device transformation.".format(
                     serial_number
                 ),
-                "WARNING"
+                "WARNING",
             )
             return None
         device_info_item["pid"] = pid
@@ -839,7 +828,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Product ID found for device {0}: {1}. Including as required field in device_info.".format(
                 serial_number, pid
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Stack device flag (optional)
@@ -850,7 +839,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Stack device flag found for device {0}: {1}. Including in device_info.".format(
                     serial_number, is_stack_device
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # SUDI requirement (optional)
@@ -861,7 +850,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "SUDI requirement flag found for device {0}: {1}. Including in device_info.".format(
                     serial_number, sudi_required
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # User SUDI serial numbers are applicable only when SUDI is required
@@ -872,13 +861,13 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "SUDI serial numbers found for device {0}. Including them in "
                     "device_info.".format(serial_number),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     "Device {0} requires SUDI authentication, but userSudiSerialNos was not "
                     "provided by the API response.".format(serial_number),
-                    "WARNING"
+                    "WARNING",
                 )
 
         # Authorization flag (optional)
@@ -888,7 +877,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Device {0} requires authorization. auth_operation: {1}. Setting authorize "
                 "flag to True in device_info.".format(serial_number, auth_operation),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -896,7 +885,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "serialization with state: {2}, pid: {3}.".format(
                 serial_number, len(device_info_item), state, pid
             ),
-            "INFO"
+            "INFO",
         )
 
         return device_info_item
@@ -925,7 +914,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting device grouping for YAML configuration structure. Processing {0} raw "
             "device(s) from API response.".format(len(devices) if devices else 0),
-            "DEBUG"
+            "DEBUG",
         )
         config_groups = []
 
@@ -940,7 +929,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "structure. Type: {2}".format(
                         device_index, len(devices), type(device).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -949,8 +938,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 devices_skipped += 1
                 self.log(
                     "Skipping device {0}/{1} due to missing deviceInfo section. Device cannot "
-                    "be processed without required attributes.".format(device_index, len(devices)),
-                    "WARNING"
+                    "be processed without required attributes.".format(
+                        device_index, len(devices)
+                    ),
+                    "WARNING",
                 )
                 continue
 
@@ -964,7 +955,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "pid: {5}. Starting device transformation to playbook format.".format(
                     device_index, len(devices), serial_number, device_family, state, pid
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Transform and add the device to its own config-level claim group
@@ -985,11 +976,13 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     config_groups.append(config_group)
                     devices_processed += 1
 
-                    self.operation_successes.append({
-                        "device_serial": device_info_item.get("serial_number"),
-                        "device_state": device_info_item.get("state"),
-                        "status": "success"
-                    })
+                    self.operation_successes.append(
+                        {
+                            "device_serial": device_info_item.get("serial_number"),
+                            "device_state": device_info_item.get("state"),
+                            "status": "success",
+                        }
+                    )
 
                     self.log(
                         "Successfully transformed device {0}/{1} with serial_number: {2}. Added "
@@ -1000,9 +993,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             serial_number,
                             site_name or "Not provided",
                             pnp_type or "Not provided",
-                            len(device_info_item)
+                            len(device_info_item),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     devices_skipped += 1
@@ -1011,25 +1004,31 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Device skipped due to missing required fields or validation failure.".format(
                             device_index, len(devices), serial_number
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
             except Exception as e:
                 devices_skipped += 1
                 error_message = str(e)
 
-                self.operation_failures.append({
-                    "device_serial": serial_number,
-                    "error": error_message,
-                    "status": "failed"
-                })
+                self.operation_failures.append(
+                    {
+                        "device_serial": serial_number,
+                        "error": error_message,
+                        "status": "failed",
+                    }
+                )
 
                 self.log(
                     "Exception during device transformation for device {0}/{1} with serial_number: "
                     "{2}. Exception type: {3}, Exception message: {4}. Device skipped and added "
                     "to failure tracking.".format(
-                        device_index, len(devices), serial_number, type(e).__name__, error_message
+                        device_index,
+                        len(devices),
+                        serial_number,
+                        type(e).__name__,
+                        error_message,
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
 
         self.log(
@@ -1037,12 +1036,12 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Per-device configuration groups created: {2}".format(
                 devices_processed, devices_skipped, len(config_groups)
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Configuration group structure before return: {0}".format(config_groups),
-            "DEBUG"
+            "DEBUG",
         )
 
         return config_groups
@@ -1073,7 +1072,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting PnP device retrieval from Catalyst Center. Processing configuration "
             "filters for targeted device discovery.",
-            "INFO"
+            "INFO",
         )
 
         # Handle None config
@@ -1081,7 +1080,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No configuration provided for device retrieval. Using empty filters to "
                 "retrieve all available PnP devices.",
-                "WARNING"
+                "WARNING",
             )
             config = {}
 
@@ -1091,7 +1090,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Global filters is None, defaulting to empty dict. All devices will be "
                 "retrieved without filtering criteria.",
-                "DEBUG"
+                "DEBUG",
             )
             global_filters = {}
 
@@ -1102,7 +1101,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "parameters with state filter if provided.".format(
                 device_state_filter or "None"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -1113,34 +1112,36 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Applying state filter at API level: {0}. This reduces initial dataset "
                     "size for efficient processing.".format(device_state_filter),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             response = self.catalystcenter._exec(
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params=params,
-                op_modifies=False
+                op_modifies=False,
             )
             self.log(
                 "Received API response for PnP devices. Response type: {0}, Response "
                 "structure: {1}".format(type(response).__name__, response),
-                "DEBUG"
+                "DEBUG",
             )
             if not response:
                 self.log(
                     "No PnP devices found in API response. Empty response returned from "
                     "Catalyst Center indicating no devices match criteria or PnP inventory "
                     "is empty.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return {"pnp_devices": []}
 
             devices = response if isinstance(response, list) else []
             self.log(
                 "Retrieved {0} total PnP device(s) from API before applying post-retrieval "
-                "filters. Beginning validation and filtering process.".format(len(devices)),
-                "INFO"
+                "filters. Beginning validation and filtering process.".format(
+                    len(devices)
+                ),
+                "INFO",
             )
 
             # Apply additional filters
@@ -1157,7 +1158,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "dictionary structure. Type: {2}".format(
                             device_index, len(devices), type(device).__name__
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -1171,7 +1172,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "cannot be processed without required attributes.".format(
                             device_index, len(devices)
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
                     continue
 
@@ -1185,7 +1186,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "filtered device list for YAML generation.".format(
                         device_index, len(devices), serial_number
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             self.log(
@@ -1193,7 +1194,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "{1}, Devices skipped: {2}. Filtered devices ready for transformation.".format(
                     len(devices), devices_processed, devices_skipped
                 ),
-                "INFO"
+                "INFO",
             )
             self.total_devices_processed = len(filtered_devices)
 
@@ -1206,12 +1207,15 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Exception message: {1}. Failing module due to API error.".format(
                     type(e).__name__, error_message
                 ),
-                "ERROR"
+                "ERROR",
             )
             import traceback
+
             self.log("Traceback: {0}".format(traceback.format_exc()), "ERROR")
             self.fail_and_exit(
-                "Failed to retrieve PnP devices from Catalyst Center: {0}".format(error_message)
+                "Failed to retrieve PnP devices from Catalyst Center: {0}".format(
+                    error_message
+                )
             )
 
     def yaml_config_generator(self, yaml_config_generator):
@@ -1248,7 +1252,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Starting YAML configuration generation workflow for PnP devices. Processing "
             "configuration parameters and determining output file path.",
-            "INFO"
+            "INFO",
         )
 
         # Track components processing - PnP module only supports device_info component
@@ -1261,7 +1265,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No configuration provided for YAML generation. Using empty config dict with "
                 "default values for all parameters.",
-                "WARNING"
+                "WARNING",
             )
             yaml_config_generator = {}
 
@@ -1272,18 +1276,18 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No file path specified in configuration. Auto-generated filename: {0} for "
                 "YAML output.".format(file_path),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "Using provided file path for YAML output: {0}".format(file_path),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Retrieving network element configuration for device_info component from module "
             "schema. Preparing to execute device retrieval function.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Get PnP devices
@@ -1293,7 +1297,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         self.log(
             "Executing device retrieval function with configuration filters. Fetching PnP "
             "devices from Catalyst Center matching specified criteria.",
-            "DEBUG"
+            "DEBUG",
         )
 
         devices_data = get_function(network_element, yaml_config_generator)
@@ -1310,14 +1314,14 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "status": "success",
                 "message": self.msg,
                 "components_processed": 0,
-                "components_skipped": components_skipped
+                "components_skipped": components_skipped,
             }
             self.status = "success"
 
             self.log(
                 "Device retrieval returned empty result. No PnP devices available or filters "
                 "excluded all devices. Terminating YAML generation with informational status.",
-                "WARNING"
+                "WARNING",
             )
             return self
 
@@ -1326,7 +1330,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "by configuration structure for YAML formatting.".format(
                 len(devices_data.get("pnp_devices", []))
             ),
-            "INFO"
+            "INFO",
         )
 
         # Create one configuration group per device for config-level claim fields
@@ -1344,14 +1348,14 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "status": "success",
                 "message": self.msg,
                 "components_processed": 0,
-                "components_skipped": components_skipped
+                "components_skipped": components_skipped,
             }
             self.status = "success"
 
             self.log(
                 "Device grouping returned empty result. All devices failed validation or "
                 "transformation during processing. Check operation_failures for details.",
-                "WARNING"
+                "WARNING",
             )
             return self
 
@@ -1359,9 +1363,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Device grouping completed successfully. Created {0} configuration group(s) with "
             "total {1} valid device(s). Preparing final output structure.".format(
                 len(grouped_configs),
-                sum(len(group.get("device_info", [])) for group in grouped_configs)
+                sum(len(group.get("device_info", [])) for group in grouped_configs),
             ),
-            "INFO"
+            "INFO",
         )
 
         # Prepare output with grouped configurations
@@ -1370,9 +1374,11 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             final_output.append(config_group)
             self.log(
                 "Added configuration group {0}/{1} to final output with {2} device(s).".format(
-                    group_index, len(grouped_configs), len(config_group.get("device_info", []))
+                    group_index,
+                    len(grouped_configs),
+                    len(config_group.get("device_info", [])),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
         # Wrap in config structure for pnp_workflow_manager
@@ -1383,7 +1389,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Structure contains {0} top-level config entry(ies). Writing to YAML file: {1}".format(
                 len(final_output), file_path
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         file_written = self.write_dict_to_yaml(
@@ -1427,9 +1433,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 configurations_count,
                 components_processed,
                 components_skipped,
-                file_written
+                file_written,
             ),
-            "INFO"
+            "INFO",
         )
         self.result["changed"] = bool(file_written)
         self.status = "success"
@@ -1470,7 +1476,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Starting brownfield PnP device gathering workflow for state 'gathered' "
             "to extract existing PnP device registrations from Cisco Catalyst Center "
             "and generate Ansible-compatible YAML playbooks",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Record workflow start time for performance tracking
@@ -1480,28 +1486,29 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Workflow execution started at timestamp: {0}".format(
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_start_time))
             ),
-            "INFO"
+            "INFO",
         )
 
         # Define operations registry for this workflow state
         # Each tuple contains: (param_key, operation_name, operation_func)
         operations = [
-            ("yaml_config_generator", "YAML Configuration Generator", self.yaml_config_generator)
+            (
+                "yaml_config_generator",
+                "YAML Configuration Generator",
+                self.yaml_config_generator,
+            )
         ]
 
         self.log(
             "Registered {0} operation(s) for execution in 'gathered' workflow: {1}".format(
-                len(operations),
-                [op[1] for op in operations]
+                len(operations), [op[1] for op in operations]
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate operations registry
         if not operations:
-            error_msg = (
-                "Operations registry is empty for state 'gathered' - no operations to execute"
-            )
+            error_msg = "Operations registry is empty for state 'gathered' - no operations to execute"
             self.log(error_msg, "ERROR")
             self.fail_and_exit(error_msg)
 
@@ -1518,16 +1525,16 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Extracted configuration from validated_config. Config keys: {0}".format(
                 list(config.keys()) if config else "None"
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Build want dictionary for operation execution
-        self.want = {
-            "yaml_config_generator": config
-        }
+        self.want = {"yaml_config_generator": config}
 
         # Execute each operation in sequence
-        for operation_index, (param_key, operation_name, operation_func) in enumerate(operations, start=1):
+        for operation_index, (param_key, operation_name, operation_func) in enumerate(
+            operations, start=1
+        ):
             operations_attempted += 1
 
             self.log(
@@ -1535,7 +1542,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "in workflow state)".format(
                     operation_index, len(operations), operation_name, param_key
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Validate operation function is callable
@@ -1543,8 +1550,10 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 error_msg = (
                     "Operation {0}/{1} '{2}' has invalid function reference (expected "
                     "callable, got {3}). Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_func).__name__ if operation_func else "None"
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        type(operation_func).__name__ if operation_func else "None",
                     )
                 )
                 self.log(error_msg, "ERROR")
@@ -1560,7 +1569,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "(parameter key '{3}' not found or empty). Skipping operation.".format(
                         operation_index, len(operations), operation_name, param_key
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 operations_skipped += 1
                 continue
@@ -1570,10 +1579,12 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 self.log(
                     "Operation {0}/{1} '{2}' has invalid parameters structure - "
                     "expected dict, got {3}. Skipping operation.".format(
-                        operation_index, len(operations), operation_name,
-                        type(operation_params).__name__
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        type(operation_params).__name__,
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
                 operations_skipped += 1
                 continue
@@ -1581,10 +1592,13 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "Operation {0}/{1} '{2}' parameters found in workflow state with "
                 "{3} configuration key(s): {4}. Starting operation execution.".format(
-                    operation_index, len(operations), operation_name,
-                    len(operation_params), list(operation_params.keys())
+                    operation_index,
+                    len(operations),
+                    operation_name,
+                    len(operation_params),
+                    list(operation_params.keys()),
                 ),
-                "INFO"
+                "INFO",
             )
 
             # Record operation start time
@@ -1594,7 +1608,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "Executing operation '{0}' with parameters: {1}".format(
                     operation_name, operation_params
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             try:
@@ -1607,7 +1621,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         "Operation '{0}' completed but returned None result".format(
                             operation_name
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
 
                 # Check operation status via check_return_status()
@@ -1620,9 +1634,12 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
                 self.log(
                     "Operation {0}/{1} '{2}' completed successfully in {3:.2f} seconds".format(
-                        operation_index, len(operations), operation_name, operation_duration
+                        operation_index,
+                        len(operations),
+                        operation_name,
+                        operation_duration,
                     ),
-                    "INFO"
+                    "INFO",
                 )
 
                 operations_executed += 1
@@ -1632,11 +1649,12 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 operation_end_time = time.time()
                 operation_duration = operation_end_time - operation_start_time
 
-                error_msg = (
-                    "Operation {0}/{1} '{2}' failed after {3:.2f} seconds with error: {4}".format(
-                        operation_index, len(operations), operation_name,
-                        operation_duration, str(e)
-                    )
+                error_msg = "Operation {0}/{1} '{2}' failed after {3:.2f} seconds with error: {4}".format(
+                    operation_index,
+                    len(operations),
+                    operation_name,
+                    operation_duration,
+                    str(e),
                 )
                 self.log(error_msg, "ERROR")
 
@@ -1658,10 +1676,13 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "Brownfield PnP device gathering workflow completed. "
             "Execution summary: attempted={0}, executed={1}, skipped={2}, failed={3}, "
             "total_duration={4:.2f} seconds".format(
-                operations_attempted, operations_executed, operations_skipped,
-                operations_failed, workflow_duration
+                operations_attempted,
+                operations_executed,
+                operations_skipped,
+                operations_failed,
+                workflow_duration,
             ),
-            "INFO"
+            "INFO",
         )
 
         # Determine overall workflow success
@@ -1669,7 +1690,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.log(
                 "No operations were executed - all operations were skipped or had invalid "
                 "configurations. Workflow completed with warnings.",
-                "WARNING"
+                "WARNING",
             )
             self.msg = (
                 "Workflow completed but no operations were executed. "
@@ -1678,18 +1699,22 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             self.status = "ok"
         elif operations_failed > 0:
             self.log(
-                "Workflow completed with {0} operation failure(s)".format(operations_failed),
-                "ERROR"
+                "Workflow completed with {0} operation failure(s)".format(
+                    operations_failed
+                ),
+                "ERROR",
             )
             self.fail_and_exit(
-                "Workflow completed with {0} operation failure(s)".format(operations_failed)
+                "Workflow completed with {0} operation failure(s)".format(
+                    operations_failed
+                )
             )
         else:
             self.log(
                 "All {0} operation(s) executed successfully without errors".format(
                     operations_executed
                 ),
-                "INFO"
+                "INFO",
             )
             # Note: Individual operation may have already set status to "success"
             # We preserve that status if it was set
@@ -1701,9 +1726,9 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "timestamp {0}. Total execution time: {1:.2f} seconds. Final status: {2}".format(
                 time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(workflow_end_time)),
                 workflow_duration,
-                self.status
+                self.status,
             ),
-            "INFO"
+            "INFO",
         )
 
         return self
@@ -1768,20 +1793,72 @@ def main():
     module_start_time = time.time()
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "file_path": {"type": "str", "required": False},
         "file_mode": {"type": "str", "required": False, "default": "overwrite"},
         "config": {"required": False, "type": "dict"},
@@ -1794,25 +1871,32 @@ def main():
     pnp_generator.log(
         "Brownfield PnP Playbook Generator module initialized. Starting execution workflow "
         "for state-based operation processing.",
-        "INFO"
+        "INFO",
     )
 
     # Version check
     pnp_generator.log(
         "Starting Catalyst Center version compatibility check. Retrieving current version "
         "from Catalyst Center instance.",
-        "DEBUG"
+        "DEBUG",
     )
     current_version = pnp_generator.get_ccc_version()
     min_supported_version = "2.3.7.9"
 
     pnp_generator.log(
         "Version check completed. Current Catalyst Center version: {0}, Minimum required "
-        "version: {1}. Validating compatibility.".format(current_version, min_supported_version),
-        "INFO"
+        "version: {1}. Validating compatibility.".format(
+            current_version, min_supported_version
+        ),
+        "INFO",
     )
 
-    if pnp_generator.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
+    if (
+        pnp_generator.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
+        < 0
+    ):
         pnp_generator.msg = "PnP features require Cisco Catalyst Center version {0} or later. Current version: {1}".format(
             min_supported_version, current_version
         )
@@ -1821,15 +1905,17 @@ def main():
             "version {1}. PnP device APIs unavailable. Module execution terminated.".format(
                 current_version, min_supported_version
             ),
-            "ERROR"
+            "ERROR",
         )
-        pnp_generator.set_operation_result("failed", False, pnp_generator.msg, "CRITICAL")
+        pnp_generator.set_operation_result(
+            "failed", False, pnp_generator.msg, "CRITICAL"
+        )
         module.fail_json(msg=pnp_generator.msg)
 
     # Get state
     pnp_generator.log(
         "Version compatibility check passed. Proceeding with state parameter validation.",
-        "INFO"
+        "INFO",
     )
     state = pnp_generator.params.get("state")
 
@@ -1837,17 +1923,21 @@ def main():
         "Validating state parameter. Requested state: {0}, Supported states: {1}".format(
             state, pnp_generator.supported_states
         ),
-        "DEBUG"
+        "DEBUG",
     )
 
     if state not in pnp_generator.supported_states:
-        pnp_generator.msg = "State '{0}' is not supported. Supported states: {1}".format(
-            state, pnp_generator.supported_states
+        pnp_generator.msg = (
+            "State '{0}' is not supported. Supported states: {1}".format(
+                state, pnp_generator.supported_states
+            )
         )
         pnp_generator.log(
             "State validation failed. Requested state '{0}' not in supported states list: {1}. "
-            "Module execution terminated.".format(state, pnp_generator.supported_states),
-            "ERROR"
+            "Module execution terminated.".format(
+                state, pnp_generator.supported_states
+            ),
+            "ERROR",
         )
         pnp_generator.set_operation_result("failed", False, pnp_generator.msg, "ERROR")
         module.fail_json(msg=pnp_generator.msg)
@@ -1856,14 +1946,14 @@ def main():
     pnp_generator.log(
         "State validation passed. State '{0}' is supported. Starting input configuration "
         "validation against schema.".format(state),
-        "INFO"
+        "INFO",
     )
     pnp_generator.validate_input().check_return_status()
 
     pnp_generator.log(
         "Input validation completed successfully. Processing validated configuration "
         "through YAML generation workflow.",
-        "INFO"
+        "INFO",
     )
 
     # Process configuration
@@ -1871,7 +1961,7 @@ def main():
     pnp_generator.log(
         "Processing configuration. Extracting desired state and executing "
         "gathered workflow.",
-        "DEBUG"
+        "DEBUG",
     )
     pnp_generator.get_want(config, state).check_return_status()
     pnp_generator.get_diff_state_apply[state]().check_return_status()
@@ -1888,7 +1978,7 @@ def main():
         "Module start: {1}, Module end: {2}".format(
             execution_time, module_start_time, module_end_time
         ),
-        "INFO"
+        "INFO",
     )
 
     module.exit_json(**pnp_generator.result)

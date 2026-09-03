@@ -14,23 +14,25 @@ description:
     `Wireless Profile`. This API requires the `id` of the `Wireless Profile` to be provided as a path parameter. - > This
     endpoint retrieves the details of a specific `Site Tag` associated with a given `Wireless Profile`. This API requires
     the `id` of the `Wireless Profile` and the `siteTagId` of the `Site Tag`.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
   id:
     description:
-      - Id path parameter. Wireless profile id.
+      - Id path parameter. Wireless Profile ID.
+    type: str
+  siteTagId:
+    description:
+      - SiteTagId path parameter. SiteTag ID.
     type: str
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter.
     type: int
   offset:
     description:
@@ -40,12 +42,8 @@ options:
     description:
       - SiteTagName query parameter.
     type: str
-  siteTagId:
-    description:
-      - SiteTagId path parameter. Site Tag Id.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless RetrieveASpecificSiteTagForAWirelessProfile
@@ -75,9 +73,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
-    siteTagName: string
+    limit: 500
+    offset: 1
+    siteTagName: custom_siteTag_1
     id: string
   register: result
 - name: Get Wireless Profiles Id Site Tags by id
@@ -108,7 +106,8 @@ catalystcenter_response:
         "siteTagName": "string",
         "flexProfileName": "string",
         "apProfileName": "string",
-        "siteTagId": "string"
+        "siteTagId": "string",
+        "load": {}
       },
       "version": "string"
     }

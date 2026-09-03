@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Snmpv3 Credential.
   - Adds global SNMPv3 credentials.
   - Updates global SNMPv3 credential.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   authPassword:
     description: Auth password for SNMPv3. Required if snmpMode is 'AUTHPRIV' or 'AUTHNOPRIV'. Use 'NO!$DATA!$' if no change
@@ -57,7 +57,7 @@ options:
     description: SNMPv3 username.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery CreateSNMPv3Credentials
@@ -87,18 +87,19 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    authPassword: string
-    authType: string
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    privacyPassword: string
-    privacyType: string
-    snmpMode: string
-    username: string
+    payload:
+      - authPassword: string
+        authType: string
+        comments: string
+        credentialType: string
+        description: string
+        id: string
+        instanceTenantId: string
+        instanceUuid: string
+        privacyPassword: string
+        privacyType: string
+        snmpMode: string
+        username: string
 - name: Update all
   cisco.catalystcenter.snmpv3_credential:
     catalystcenter_host: "{{catalystcenter_host}}"

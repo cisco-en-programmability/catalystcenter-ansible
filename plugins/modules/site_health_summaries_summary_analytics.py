@@ -10,34 +10,34 @@ module: site_health_summaries_summary_analytics
 short_description: Resource module for Site Health Summaries Summary Analytics
 description:
   - Manage operation create of the resource Site Health Summaries Summary Analytics.
-  - Query an aggregated summary of all site health.
-version_added: '6.15.0'
+  - Query an aggregated summary of all site health This API provides the latest.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   attributes:
-    description: Attributes.
+    description: Site Health Summaries Summary Analytics's attributes.
     elements: str
     type: list
   endTime:
-    description: End Time.
+    description: Site Health Summaries Summary Analytics's endTime.
     type: int
   headers:
     description: Additional headers.
     type: dict
   id:
-    description:
-      - Id query parameter. The list of entity Uuids.
-      - Example "6bef213c-19ca-4170-8375-b694e251101c".
-      - Multiple entity uuids can be provided with '&' separator.
+    description: Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c
+      (single entity uuid requested) id=6bef213c-19ca-4170-8375-b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79...
+      (multiple entity uuid with '&' separator).
     type: str
   siteHierarchy:
-    description:
-      - SiteHierarchy query parameter. The full hierarchical breakdown of the site tree.
-      - Starting from Global site name and ending with the specific site name.
-      - The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`).
-      - This field supports wildcard asterisk (`*`) character search support.
+    description: SiteHierarchy query parameter. The full hierarchical breakdown of the site tree starting from Global site
+      name and ending with the specific site name. The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`)
+      This field supports wildcard asterisk (`*`) character search support. E.g. `*/San*, */San, /San*` Examples
+          `?siteHierarchy=Global/AreaName/BuildingName/FloorName`
+      (single siteHierarchy requested) `?siteHierarchy=Global/AreaName/BuildingName/FloorName&siteHierarchy=Global/... (multiple
+      siteHierarchies requested).
     type: str
   siteHierarchyId:
     description: SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global
@@ -52,14 +52,14 @@ options:
       (multiple siteTypes requested).
     type: str
   startTime:
-    description: Start Time.
+    description: Site Health Summaries Summary Analytics's startTime.
     type: int
   views:
-    description: Views.
+    description: Site Health Summaries Summary Analytics's views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthData

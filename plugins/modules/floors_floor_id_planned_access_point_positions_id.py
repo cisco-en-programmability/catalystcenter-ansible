@@ -7,14 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_id
-short_description: Resource module for Floors Floor Id Planned Access Point Positions
+short_description: Resource module for Floors Floor Id Planned Access Point Positions Id
 description:
-  - Manage operation delete of the resource Floors Floor Id Planned Access Point Positions.
+  - Manage operation delete of the resource Floors Floor Id Planned Access Point Positions Id.
   - Delete specified Planned Access Points Position designated for a specific floor.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   floorId:
     description: FloorId path parameter. Floor Id.
@@ -23,15 +23,15 @@ options:
     description: Id path parameter. Planned Access Point Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design DeletePlannedAccessPointsPositionV2
-    description: Complete reference of the DeletePlannedAccessPointsPositionV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-points-position-v-2
+  - name: Cisco Catalyst Center documentation for Site Design DeletePlannedAccessPointsPosition
+    description: Complete reference of the DeletePlannedAccessPointsPosition API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-points-position
 notes:
   - SDK Method used are
-    site_design.SiteDesign.delete_planned_access_points_position_v2,
+    site_design.SiteDesign.delete_planned_access_points_position,
   - Paths used are
     delete /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/{id},
 """
@@ -47,7 +47,6 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
     floorId: string
     id: string
 """
@@ -58,9 +57,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

@@ -21,7 +21,9 @@ __metaclass__ = type
 import os
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import user_role_playbook_config_generator
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    user_role_playbook_config_generator,
+)
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
@@ -34,7 +36,9 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
     playbook_user_role_details = test_data.get("playbook_user_role_details")
     playbook_specific_user_details = test_data.get("playbook_specific_user_details")
     playbook_specific_role_details = test_data.get("playbook_specific_role_details")
-    playbook_generate_all_configurations = test_data.get("playbook_generate_all_configurations")
+    playbook_generate_all_configurations = test_data.get(
+        "playbook_generate_all_configurations"
+    )
     playbook_invalid_components = test_data.get("playbook_invalid_components")
     playbook_all_role_details = test_data.get("playbook_all_role_details")
     playbook_config_empty = test_data.get("playbook_config_empty")
@@ -46,7 +50,8 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
         super(TestCatalystCenterUserRolePlaybookGenerator, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -97,7 +102,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_users2"),
                 self.test_data.get("get_roles4"),
-                self.test_data.get("get_roles5")
+                self.test_data.get("get_roles5"),
             ]
 
         elif "playbook_invalid_components" in self._testMethodName:
@@ -125,7 +130,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path="/tmp/specific_userrole_details_info",
-                config=self.playbook_user_role_details
+                config=self.playbook_user_role_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -138,8 +143,8 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 13,
                 "file_path": "/tmp/specific_userrole_details_info",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_user_role_playbook_config_generator_playbook_specific_user_details(self):
@@ -159,7 +164,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path="/tmp/specific_user_details1",
-                config=self.playbook_specific_user_details
+                config=self.playbook_specific_user_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -172,8 +177,8 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_user_role_playbook_config_generator_playbook_specific_role_details(self):
@@ -193,7 +198,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path="/tmp/specific_user_details1",
-                config=self.playbook_specific_role_details
+                config=self.playbook_specific_role_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -206,11 +211,13 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 1,
                 "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_user_role_playbook_config_generator_playbook_generate_all_configurations(self):
+    def test_user_role_playbook_config_generator_playbook_generate_all_configurations(
+        self,
+    ):
         """
         Test the User Role Playbook Generator's ability to generate all configurations.
 
@@ -226,7 +233,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
-                file_path="/tmp/specific_user_details1"
+                file_path="/tmp/specific_user_details1",
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -239,8 +246,8 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 13,
                 "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
     def test_user_role_playbook_config_generator_playbook_invalid_components(self):
@@ -260,7 +267,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path="/tmp/specific_user_details1",
-                config=self.playbook_invalid_components
+                config=self.playbook_invalid_components,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -268,7 +275,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             "Invalid component names found in 'components_list': ['role_detailss']. "
-            "Allowed values are: ['role_details', 'user_details']."
+            "Allowed values are: ['role_details', 'user_details'].",
         )
 
     def test_brownfield_user_role_playbook_all_role_details(self):
@@ -288,7 +295,7 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
                 file_path="/tmp/specific_user_details1",
-                config=self.playbook_all_role_details
+                config=self.playbook_all_role_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -301,11 +308,13 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
                 "configurations_count": 3,
                 "file_path": "/tmp/specific_user_details1",
                 "message": "YAML configuration file generated successfully for module 'user_role_workflow_manager'",
-                "status": "success"
-            }
+                "status": "success",
+            },
         )
 
-    def test_user_role_playbook_config_generator_config_empty_defaults_generate_all(self):
+    def test_user_role_playbook_config_generator_config_empty_defaults_generate_all(
+        self,
+    ):
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -338,5 +347,5 @@ class TestCatalystCenterUserRolePlaybookGenerator(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             "Invalid parameters found in configuration: ['generate_all_configurations']. "
-            "Valid parameters are: ['component_specific_filters']."
+            "Valid parameters are: ['component_specific_filters'].",
         )

@@ -11,10 +11,10 @@ short_description: Resource module for Backups Id Restore
 description:
   - Manage operation create of the resource Backups Id Restore.
   - This api is used to trigger restore workflow of a specific backup.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   encryptionPassphrase:
     description: Passphrase to restore backup.
@@ -24,15 +24,15 @@ options:
       of the `/dna/system/api/v1/backups` API.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Backup RestoreBackup
+  - name: Cisco Catalyst Center documentation for Restore RestoreBackup
     description: Complete reference of the RestoreBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!restore-backup
 notes:
   - SDK Method used are
-    backup.Backup.restore_backup,
+    restore.Restore.restore_backup,
   - Paths used are
     post /dna/system/api/v1/backups/{id}/restore,
 """

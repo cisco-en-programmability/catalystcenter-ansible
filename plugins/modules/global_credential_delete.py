@@ -11,16 +11,16 @@ short_description: Resource module for Global Credential Delete
 description:
   - Manage operation delete of the resource Global Credential Delete.
   - Deletes global credential for the given ID.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   globalCredentialId:
     description: GlobalCredentialId path parameter. ID of global-credential.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredentialsById

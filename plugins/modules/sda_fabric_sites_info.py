@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabric Sites
 description:
   - Get all Sda Fabric Sites.
   - Returns a list of fabric sites that match the provided query parameters.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
         single request is 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetFabricSites
@@ -65,8 +65,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
     siteId: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
   register: result
 """
 RETURN = r"""
@@ -78,10 +78,11 @@ catalystcenter_response:
     {
       "response": [
         {
-          "id": "string",
-          "siteId": "string",
-          "authenticationProfileName": "string",
-          "isPubSubEnabled": true
+          "id": {},
+          "siteId": {},
+          "authenticationProfileName": {},
+          "isPubSubEnabled": {},
+          "underlayTransport": {}
         }
       ],
       "version": "string"

@@ -11,10 +11,10 @@ short_description: Information module for License Device License Summary
 description:
   - Get all License Device License Summary.
   - Show license summary of devices.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -62,7 +62,7 @@ options:
       - Device_uuid query parameter. Id of device.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Licenses DeviceLicenseSummary
@@ -87,12 +87,12 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    page_number: 0
-    order: string
+    page_number: 1
+    order: asc
     sort_by: string
     dna_level: string
     device_type: string
-    limit: 0
+    limit: 500
     registration_status: string
     virtual_account_name: string
     smart_account_id: 0

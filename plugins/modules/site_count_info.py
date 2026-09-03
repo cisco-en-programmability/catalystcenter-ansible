@@ -11,10 +11,10 @@ short_description: Information module for Site Count
 description:
   - Get all Site Count.
   - Get the site count of the specified site's sub-hierarchy inclusive of the provided site .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,15 +24,15 @@ options:
       - SiteId query parameter. Site instance UUID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Sites GetSiteCount
-    description: Complete reference of the GetSiteCount API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-site-count
+  - name: Cisco Catalyst Center documentation for Sites GetSiteCountV1
+    description: Complete reference of the GetSiteCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-count-v-1
 notes:
   - SDK Method used are
-    sites.Sites.get_site_count,
+    sites.Sites.get_site_count_v1,
   - Paths used are
     get /dna/intent/api/v1/site/count,
 """
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    siteId: string
+    siteId: application/json
   register: result
 """
 RETURN = r"""

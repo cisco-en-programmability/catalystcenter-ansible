@@ -10,11 +10,11 @@ module: images_count_info
 short_description: Information module for Images Count
 description:
   - Get all Images Count.
-  - Returns the count of software images for given `siteId`. The default value of siteId is global.
-version_added: '6.15.0'
+  - Returns the count of software images for given `siteId`. The default value of.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -83,7 +83,7 @@ options:
         When set to `false`, it will retrieve the images that are not add-on images.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ReturnsCountOfSoftwareImages
@@ -128,8 +128,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "count": 0
       },
       "version": "string"
     }

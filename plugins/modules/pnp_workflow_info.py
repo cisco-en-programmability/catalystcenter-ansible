@@ -13,14 +13,18 @@ description:
   - Get Pnp Workflow by id.
   - Returns a workflow specified by id. - > Returns the list of workflows based on filter criteria. If a limit is not specified,
     it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter.
+    type: str
   limit:
     description:
       - >
@@ -52,12 +56,8 @@ options:
       - Name query parameter. Workflow Name.
     elements: str
     type: list
-  id:
-    description:
-      - Id path parameter.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) GetWorkflowById
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
+    limit: 50
     offset: 0
     sort: []
     sortOrder: string

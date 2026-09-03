@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
+
+def _build_action_module():
+    from ansible.plugins.action import ActionBase
+
+    try:
+        from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
+            AnsibleArgSpecValidator,
+        )
+    except ImportError:
+        ANSIBLE_UTILS_IS_INSTALLED = False
+    else:
+        ANSIBLE_UTILS_IS_INSTALLED = True
+    from ansible.errors import AnsibleActionFail
+    from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
+        CatalystCenterSDK,
+        catalystcenter_argument_spec,
+    )
+
+    # Get common arguments specification
+    argument_spec = catalystcenter_argument_spec()
+    # Add arguments specific for this module
+    argument_spec.update(
+        dict(
+            ethernetMac=dict(type="str"),
+            wlcIpAddress=dict(type="str"),
+            mode=dict(type="str"),
+            model=dict(type="str"),
+            meshRole=dict(type="str"),
+            provisioningStatus=dict(type="bool"),
+            siteTag=dict(type="str"),
+            accessPointJoinProfile=dict(type="str"),
+            flexProfile=dict(type="str"),
+            rfTag=dict(type="str"),
+            policyTag=dict(type="str"),
+            locationHierarchy=dict(type="str"),
+            expiryTime=dict(type="int"),
+            offset=dict(type="int"),
+            limit=dict(type="int"),
+            headers=dict(type="dict"),
+        )
+    )
+
+    required_if = []
+    required_one_of = []
+    mutually_exclusive = []
+    required_together = []
+
+    class ActionModule(ActionBase):
+        def __init__(self, *args, **kwargs):
+            if not ANSIBLE_UTILS_IS_INSTALLED:
+                raise AnsibleActionFail(
+                    "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+                )
+            super(ActionModule, self).__init__(*args, **kwargs)
+            self._supports_async = False
+            self._supports_check_mode = True
+            self._result = None
+
+        # Checks the supplied parameters against the argument spec for this module
+        def _check_argspec(self):
+            aav = AnsibleArgSpecValidator(
+                data=self._task.args,
+                schema=dict(argument_spec=argument_spec),
+                schema_format="argspec",
+                schema_conditionals=dict(
+                    required_if=required_if,
+                    required_one_of=required_one_of,
+                    mutually_exclusive=mutually_exclusive,
+                    required_together=required_together,
+                ),
+                name=self._task.action,
+            )
+            valid, errors, self._task.args = aav.validate()
+            if not valid:
+                raise AnsibleActionFail(errors)
+
+        def get_object(self, params):
+            new_object = dict(
+                ethernet_mac=params.get("ethernetMac"),
+                wlc_ip_address=params.get("wlcIpAddress"),
+                mode=params.get("mode"),
+                model=params.get("model"),
+                mesh_role=params.get("meshRole"),
+                provisioning_status=params.get("provisioningStatus"),
+                site_tag=params.get("siteTag"),
+                access_point_join_profile=params.get("accessPointJoinProfile"),
+                flex_profile=params.get("flexProfile"),
+                rf_tag=params.get("rfTag"),
+                policy_tag=params.get("policyTag"),
+                location_hierarchy=params.get("locationHierarchy"),
+                expiry_time=params.get("expiryTime"),
+                offset=params.get("offset"),
+                limit=params.get("limit"),
+                headers=params.get("headers"),
+            )
+            return new_object
+
+        def run(self, tmp=None, task_vars=None):
+            self._task.diff = False
+            self._result = super(ActionModule, self).run(tmp, task_vars)
+            self._result["changed"] = False
+            self._check_argspec()
+
+            self._result.update(dict(catalystcenter_response={}, dnac_response={}))
+
+            catalystcenter = CatalystCenterSDK(params=self._task.args)
+
+            response = catalystcenter.exec(
+                family="wireless",
+                function="retrieve_access_point_details",
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(
+                dict(catalystcenter_response=response, dnac_response=response)
+            )
+            self._result.update(catalystcenter.exit_json())
+            return self._result
+
+    return ActionModule
+
+
+def __getattr__(name):
+    # PEP 562: ActionModule is built on first access. See
+    # tests/unit/plugins/action/test_action_plugins_loadable.py
+    if name == "ActionModule":
+        cls = _build_action_module()
+        globals()["ActionModule"] = cls
+        return cls
+    raise AttributeError(name)

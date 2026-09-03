@@ -5,7 +5,7 @@ This role manages SDA Fabric Devices in Cisco Catalyst Center using the `sda_fab
 ## Requirements
 
 - `cisco.catalystcenter` collection installed
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - Python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.6
 

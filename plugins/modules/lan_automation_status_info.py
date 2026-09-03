@@ -13,14 +13,18 @@ description:
   - Get Lan Automation Status by id.
   - Invoke this API to get the LAN Automation session status based on the given Lan Automation session id.
   - Invoke this API to get the LAN Automation session status.
-version_added: '6.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. LAN Automation session identifier.
+    type: str
   offset:
     description:
       - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
@@ -29,12 +33,8 @@ options:
     description:
       - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
     type: int
-  id:
-    description:
-      - Id path parameter. LAN Automation session identifier.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for LAN Automation LANAutomationStatus
@@ -64,8 +64,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 10
   register: result
 - name: Get Lan Automation Status by id
   cisco.catalystcenter.lan_automation_status_info:
@@ -133,7 +133,14 @@ catalystcenter_response:
             }
           ],
           "hostNamePrefix": "string",
-          "hostNameFileId": "string"
+          "hostNameFileId": "string",
+          "routingProtocol": {},
+          "processId": 0,
+          "areaId": 0,
+          "authenticationKey": "string",
+          "advertiseLANAutomationRoutesIntoBGP": true,
+          "ipV6Only": true,
+          "useP2PLinkLocalAddress": true
         }
       ],
       "version": "string"

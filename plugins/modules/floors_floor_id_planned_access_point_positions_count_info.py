@@ -11,10 +11,10 @@ short_description: Information module for Floors Floor Id Planned Access Point P
 description:
   - Get all Floors Floor Id Planned Access Point Positions Count.
   - Retrieve all Planned Access Points Positions count designated for a specific floor.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,15 +36,15 @@ options:
       - Type query parameter. Planned Access Point type.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetPlannedAccessPointsPositionsCountV2
-    description: Complete reference of the GetPlannedAccessPointsPositionsCountV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetPlannedAccessPointsPositionsCount
+    description: Complete reference of the GetPlannedAccessPointsPositionsCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-positions-count
 notes:
   - SDK Method used are
-    site_design.SiteDesign.get_planned_access_points_positions_count_v2,
+    site_design.SiteDesign.get_planned_access_points_positions_count,
   - Paths used are
     get /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/count,
 """
@@ -62,7 +62,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    macAddress: string
+    macAddress: 00:00:0C:15:C0:00
     type: string
     floorId: string
   register: result

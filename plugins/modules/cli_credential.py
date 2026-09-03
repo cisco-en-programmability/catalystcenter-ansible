@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Cli Credential.
   - Adds global CLI credential.
   - Updates global CLI credentials.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   comments:
     description: Comments to identify the CLI credential.
@@ -45,7 +45,7 @@ options:
     description: CLI Username.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery CreateCLICredentials

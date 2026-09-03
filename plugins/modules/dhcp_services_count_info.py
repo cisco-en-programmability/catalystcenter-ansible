@@ -10,13 +10,11 @@ module: dhcp_services_count_info
 short_description: Information module for Dhcp Services Count
 description:
   - Get all Dhcp Services Count.
-  - Retrieves the total number of DHCP Services for given parameters.
-  - For detailed information about the usage of the API, please refer to the Open API specification document
-    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
-version_added: '6.17.0'
+  - Retrieves the total number of DHCP Services for given parameters. For detailed.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -85,7 +83,7 @@ options:
         (single id requested) `?deviceSiteIds=id1&deviceSiteIds=id2&siteId=id3` (multiple ids requested).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrievesTheTotalNumberOfDHCPServicesForGivenParameters
@@ -93,7 +91,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-number-of-dhcp-services-for-given-parameters
 notes:
   - SDK Method used are
-    devices.Devices.retrieves_the_total_number_of_d_h_c_p_services_for_given_parameters,
+    devices.Devices.retrieves_the_total_number_of_dhcp_services_for_given_parameters,
   - Paths used are
     get /dna/data/api/v1/dhcpServices/count,
 """

@@ -14,10 +14,10 @@ description:
   - Deletes a port channel based on id.
   - Deletes port channels based on user input.
   - Updates port channels based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   connectedDeviceType:
     description: ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are TRUNK,
@@ -48,7 +48,7 @@ options:
         description: Description of the port channel.
         type: str
       fabricId:
-        description: ID of the fabric the device is assigned to.
+        description: ID of the fabric this port channel belongs to.
         type: str
       interfaceNames:
         description: Interface names for this port channel (Maximum 16 ports for LACP protocol, Maximum 8 ports for PAGP and
@@ -69,12 +69,13 @@ options:
   portChannelIds:
     description: PortChannelIds query parameter. IDs of the port channels to be selectively deleted(Maximum number of IDs
       this parameter could consume is 10).
-    type: str
+    elements: str
+    type: list
   portChannelName:
     description: PortChannelName query parameter. Name of the port channel.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddPortChannels
@@ -103,21 +104,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_port_channels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    connectedDeviceType: string
-    fabricId: string
-    networkDeviceId: string
-    portChannelIds: string
-    portChannelName: string
 - name: Create
   cisco.catalystcenter.sda_port_channels:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -160,6 +146,21 @@ EXAMPLES = r"""
         networkDeviceId: string
         portChannelName: string
         protocol: string
+- name: Delete all
+  cisco.catalystcenter.sda_port_channels:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    connectedDeviceType: TRUNK
+    fabricId: string
+    networkDeviceId: string
+    portChannelIds: []
+    portChannelName: string
 - name: Delete by id
   cisco.catalystcenter.sda_port_channels:
     catalystcenter_host: "{{catalystcenter_host}}"

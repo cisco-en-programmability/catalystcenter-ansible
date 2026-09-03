@@ -13,14 +13,18 @@ description:
   - Get Backups by id.
   - This api is used to get a specific backup based on the provided `backup id`.
   - This api is used to get all the backup available in the configured storage.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. The `id` of the backup to be retrieved.
+    type: str
   query:
     description:
       - Query query parameter. Filter based on the provided text on predefined fields.
@@ -43,12 +47,8 @@ options:
         Order query parameter. Whether ascending or descending order should be used to sort the response.Use
         `asc` for ascending and `desc` for descending order .
     type: str
-  id:
-    description:
-      - Id path parameter. The `id` of the backup to be retrieved.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup GetAllBackup
@@ -79,8 +79,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     query: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 50
     sortBy: string
     order: string
   register: result

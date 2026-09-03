@@ -9,31 +9,30 @@ DOCUMENTATION = r"""
 module: filter_group_associations
 short_description: Resource module for Filter Group Associations
 description:
-  - Manage operation create of the resource Filter Group Associations. - > Creates association between a filter group and
-    entity. For detailed information about the usage of the API, please refer to the Open API specification document - https
-    //github.com/cisco-en-programmability/catalyst- center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-FilterGroups-1.0.0-resolved.yaml.
-version_added: '6.46.0'
+  - Manage operation create of the resource Filter Group Associations.
+  - Creates association between a filter group and entity.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   entityId:
-    description: Entity Id.
+    description: Entity id with which the Filter Group is associated.
     type: str
   entityName:
-    description: Entity Name.
+    description: Entity name with which the Filter Group is associated.
     type: str
   entityType:
-    description: Entity Type.
+    description: The type of the entity with which the Filter Group is associated.
     type: str
   filterGroupId:
-    description: Filter Group Id.
+    description: Filter Group id.
     type: str
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices CreateFilterGroupAssociation

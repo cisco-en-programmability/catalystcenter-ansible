@@ -11,10 +11,10 @@ short_description: Information module for Templates Template Id Network Profiles
 description:
   - Get all Templates Template Id Network Profiles For Sites Count.
   - Retrieves the count of network profiles that a CLI template has been attached to by the template ID.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates RetrieveCountOfNetworkProfilesAttachedToACLITemplate

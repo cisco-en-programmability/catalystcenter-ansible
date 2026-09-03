@@ -13,10 +13,10 @@ description:
   - Get Compliance Policys Rules Variables by id.
   - Retrieves a specific variable within the specified compliance policy and rule.
   - Retrieves the list of all variables within the specified compliance policy and rule.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -35,16 +35,14 @@ options:
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   id:
     description:
       - Id path parameter. The `id` of the variable.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveASpecificVariable
@@ -74,10 +72,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
-    policyId: string
-    ruleId: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
   register: result
 - name: Get Compliance Policys Rules Variables by id
   cisco.catalystcenter.compliance_policys_rules_variables_info:
@@ -89,9 +87,9 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    policyId: string
-    ruleId: string
-    id: string
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
+    ruleId: e8eef5e2-1eab-426c-be77-97ee81dcba06
+    id: 7aa85f96-fac2-49c0-89a5-b6c2df2bfa48
   register: result
 """
 RETURN = r"""
@@ -101,33 +99,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "sequenceNumber": 0,
-          "name": "string",
-          "description": "string",
-          "dataType": "string",
-          "mandatory": true,
-          "inputType": "string",
-          "selectionList": [
-            {
-              "key": "string",
-              "value": "string",
-              "default": true
-            }
-          ],
-          "defaultValue": "string",
-          "maxLength": 0,
-          "validationRegex": "string",
-          "minValue": 0,
-          "maxValue": 0,
-          "identifier": "string",
-          "usedByConditions": [
-            "string"
-          ]
-        }
-      ],
+      "response": {},
       "version": "string"
     }
 """

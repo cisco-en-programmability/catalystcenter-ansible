@@ -12,51 +12,51 @@ description:
   - Manage operations create and update of the resource Event Webhook.
   - Create Webhook Destination.
   - Update Webhook Destination.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   description:
-    description: Description.
+    description: Event Webhook's description.
     type: str
   headers:
     description: Event Webhook's headers.
     elements: dict
     suboptions:
       defaultValue:
-        description: Default Value.
+        description: Event Webhook's defaultValue.
         type: str
       encrypt:
-        description: Encrypt.
+        description: Encrypt flag.
         type: bool
       name:
-        description: Name.
+        description: Event Webhook's name.
         type: str
       value:
-        description: Value.
+        description: Event Webhook's value.
         type: str
     type: list
   isProxyRoute:
-    description: Is Proxy Route.
+    description: IsProxyRoute flag.
     type: bool
   method:
-    description: Method.
+    description: Event Webhook's method.
     type: str
   name:
-    description: Name.
+    description: Event Webhook's name.
     type: str
   trustCert:
-    description: Trust Cert.
+    description: TrustCert flag.
     type: bool
   url:
-    description: Url.
+    description: Event Webhook's url.
     type: str
   webhookId:
     description: Required only for update webhook configuration.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Event Management CreateWebhookDestination
@@ -76,7 +76,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
+- name: Update all
   cisco.catalystcenter.event_webhook:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -98,7 +98,7 @@ EXAMPLES = r"""
     trustCert: true
     url: string
     webhookId: string
-- name: Update all
+- name: Create
   cisco.catalystcenter.event_webhook:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"

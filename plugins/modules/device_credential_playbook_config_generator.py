@@ -15,6 +15,7 @@ targeted extraction, masks sensitive fields with Jinja2 variable placeholders, a
 generates formatted YAML files for configuration documentation, credential auditing,
 disaster recovery, and multi-site credential standardization workflows.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -39,7 +40,7 @@ description:
   Jinja2 variable placeholders for secure playbook generation.
 - Transforms camelCase API responses to snake_case YAML format with comprehensive
   header comments and metadata.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -210,7 +211,7 @@ options:
             elements: str
             required: false
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 - PyYAML >= 5.1
 notes:
@@ -495,6 +496,7 @@ from collections import OrderedDict
 # Third-party imports
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -509,8 +511,8 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
 )
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -590,7 +592,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - catalystcentersdk: 3.1.6.0.2 or higher
+        - catalystcentersdk: 3.2.3.0.0 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -653,7 +655,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Starting validation of playbook configuration parameters. Checking "
             "configuration availability, schema compliance, and minimum requirements "
             "for device credential extraction workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if configuration is available
@@ -668,16 +670,11 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         self.log(
             "Configuration found with {0} entries. Proceeding with schema validation "
             "against expected parameter specification.".format(len(self.config)),
-            "DEBUG"
+            "DEBUG",
         )
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "component_specific_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"component_specific_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema.", "DEBUG")
@@ -686,7 +683,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         self.log(
             "Schema validation passed successfully. All parameters conform to expected "
             "types and structure. Total valid entries: {0}.".format(len(valid_temp)),
-            "DEBUG"
+            "DEBUG",
         )
         self.log("Validating invalid parameters against provided config", "DEBUG")
         self.validate_invalid_params(self.config, temp_spec.keys())
@@ -706,7 +703,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         self.log(
             "Validation completed successfully. Returning self instance with status "
             "'success' and validated_config populated for method chaining.",
-            "DEBUG"
+            "DEBUG",
         )
         return self
 
@@ -744,7 +741,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "elements. Schema defines filter specifications, reverse mapping functions, "
             "API configuration, and handler functions for global credentials and site "
             "assignments enabling consistent parameter validation and YAML generation.",
-            "DEBUG"
+            "DEBUG",
         )
         return {
             "network_elements": {
@@ -777,7 +774,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "api_function": "get_device_credential_settings_for_a_site",
                     "api_family": "network_settings",
                     "get_function_name": self.get_assign_credentials_to_site_configuration,
-                }
+                },
             },
         }
 
@@ -816,7 +813,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Specification defines transformation rules for 6 credential types (CLI, "
             "HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) with sensitive field masking "
             "to prevent raw credential exposure in generated YAML playbooks.",
-            "DEBUG"
+            "DEBUG",
         )
         # Mask helper builds a placeholder using description to ensure
         # stable variable names (e.g., { { cli_credential_desc_password } }).
@@ -842,7 +839,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "field '{1}' using description '{2}' for unique variable naming.".format(
                         component_key, field, item.get("description", "unknown")
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 masked_value = self.generate_custom_variable_name(
@@ -855,7 +852,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 self.log(
                     "Successfully generated masked placeholder: {0} for field '{1}' "
                     "in component '{2}'.".format(masked_value, field, component_key),
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 return masked_value
@@ -865,123 +862,133 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "field '{1}': {2}. Returning None.".format(
                         component_key, field, str(e)
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 return None
 
-        global_credential_details = OrderedDict({
-            "cli_credential": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "cliCredential",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        "description": key.get("description"),
-                        "username": key.get("username"),
-                        # Sensitive fields masked
-                        "password": mask("cli_credential", key, "password"),
-                        "enable_password": mask("cli_credential", key, "enable_password"),
-                    }
-                    for key in (detail.get("cliCredential") or [])
-                ],
-            },
-            "https_read": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "httpsRead",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        "description": key.get("description"),
-                        "username": key.get("username"),
-                        # Sensitive field masked
-                        "password": mask("https_read", key, "password"),
-                        # Non-sensitive fields passed through
-                        "port": key.get("port"),
-                    }
-                    for key in (detail.get("httpsRead") or [])
-                ],
-            },
-            "https_write": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "httpsWrite",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        "description": key.get("description"),
-                        "username": key.get("username"),
-                        # Sensitive field masked
-                        "password": mask("https_write", key, "password"),
-                        # Non-sensitive fields passed through
-                        "port": key.get("port"),
-                    }
-                    for key in (detail.get("httpsWrite") or [])
-                ],
-            },
-            "snmp_v2c_read": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "snmpV2cRead",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        # Non-sensitive fields passed through
-                        "description": key.get("description"),
-                        # Sensitive field masked
-                        "read_community": mask("snmp_v2c_read", key, "read_community"),
-                    }
-                    for key in (detail.get("snmpV2cRead") or [])
-                ],
-            },
-            "snmp_v2c_write": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "snmpV2cWrite",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        "description": key.get("description"),
-                        # Sensitive field masked
-                        "write_community": mask("snmp_v2c_write", key, "write_community"),
-                    }
-                    for key in (detail.get("snmpV2cWrite") or [])
-                ],
-            },
-            "snmp_v3": {
-                "type": "list",
-                "elements": "dict",
-                "source_key": "snmpV3",
-                "special_handling": True,
-                "transform": lambda detail: [
-                    {
-                        # Non-sensitive fields passed through
-                        "auth_type": key.get("authType"),
-                        "snmp_mode": key.get("snmpMode"),
-                        "privacy_password": mask("snmp_v3", key, "privacy_password"),
-                        "privacy_type": key.get("privacyType"),
-                        "username": key.get("username"),
-                        "description": key.get("description"),
-                        # Sensitive field masked
-                        "auth_password": mask("snmp_v3", key, "auth_password"),
-                    }
-                    for key in (detail.get("snmpV3") or [])
-                ],
-            },
-        })
+        global_credential_details = OrderedDict(
+            {
+                "cli_credential": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "cliCredential",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            "description": key.get("description"),
+                            "username": key.get("username"),
+                            # Sensitive fields masked
+                            "password": mask("cli_credential", key, "password"),
+                            "enable_password": mask(
+                                "cli_credential", key, "enable_password"
+                            ),
+                        }
+                        for key in (detail.get("cliCredential") or [])
+                    ],
+                },
+                "https_read": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "httpsRead",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            "description": key.get("description"),
+                            "username": key.get("username"),
+                            # Sensitive field masked
+                            "password": mask("https_read", key, "password"),
+                            # Non-sensitive fields passed through
+                            "port": key.get("port"),
+                        }
+                        for key in (detail.get("httpsRead") or [])
+                    ],
+                },
+                "https_write": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "httpsWrite",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            "description": key.get("description"),
+                            "username": key.get("username"),
+                            # Sensitive field masked
+                            "password": mask("https_write", key, "password"),
+                            # Non-sensitive fields passed through
+                            "port": key.get("port"),
+                        }
+                        for key in (detail.get("httpsWrite") or [])
+                    ],
+                },
+                "snmp_v2c_read": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "snmpV2cRead",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            # Non-sensitive fields passed through
+                            "description": key.get("description"),
+                            # Sensitive field masked
+                            "read_community": mask(
+                                "snmp_v2c_read", key, "read_community"
+                            ),
+                        }
+                        for key in (detail.get("snmpV2cRead") or [])
+                    ],
+                },
+                "snmp_v2c_write": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "snmpV2cWrite",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            "description": key.get("description"),
+                            # Sensitive field masked
+                            "write_community": mask(
+                                "snmp_v2c_write", key, "write_community"
+                            ),
+                        }
+                        for key in (detail.get("snmpV2cWrite") or [])
+                    ],
+                },
+                "snmp_v3": {
+                    "type": "list",
+                    "elements": "dict",
+                    "source_key": "snmpV3",
+                    "special_handling": True,
+                    "transform": lambda detail: [
+                        {
+                            # Non-sensitive fields passed through
+                            "auth_type": key.get("authType"),
+                            "snmp_mode": key.get("snmpMode"),
+                            "privacy_password": mask(
+                                "snmp_v3", key, "privacy_password"
+                            ),
+                            "privacy_type": key.get("privacyType"),
+                            "username": key.get("username"),
+                            "description": key.get("description"),
+                            # Sensitive field masked
+                            "auth_password": mask("snmp_v3", key, "auth_password"),
+                        }
+                        for key in (detail.get("snmpV3") or [])
+                    ],
+                },
+            }
+        )
         self.log(
             "Reverse mapping specification constructed successfully with 6 credential "
             "type transformations. Specification includes field mappings for username, "
             "passwords (masked), ports, communities (masked for v2c read), auth settings "
             "(masked for v3), and description fields for all credential types.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Returning global credential details reverse mapping specification for use "
             "in modify_parameters() transformation during YAML generation workflow.",
-            "DEBUG"
+            "DEBUG",
         )
         return global_credential_details
 
@@ -1023,7 +1030,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "types (CLI, HTTPS Read/Write, SNMPv2c Read/Write, SNMPv3) extracting "
             "non-sensitive metadata (description, username, id) to prevent raw "
             "credential exposure while maintaining reference integrity.",
-            "DEBUG"
+            "DEBUG",
         )
 
         def pick_fields(src, fields):
@@ -1048,13 +1055,13 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "Source is not a dictionary type, returning None. Source type: {0}".format(
                         type(src).__name__
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 return None
             self.log(
                 "Extracting fields {0} from source credential object. Available source "
                 "keys: {1}".format(fields, list(src.keys())),
-                "DEBUG"
+                "DEBUG",
             )
 
             result = {k: src.get(k) for k in fields if src.get(k) is not None}
@@ -1064,54 +1071,68 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Extracted fields: {2}".format(
                     len(result), len(fields), list(result.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             return result
 
-        assign_credentials_to_site = OrderedDict({
-            "cli_credential": {
-                "type": "dict",
-                "source_key": "cliCredential",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("cliCredential"), ["description", "username"]),
-            },
-            "https_read": {
-                "type": "dict",
-                "source_key": "httpsRead",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("httpsRead"), ["description", "username"]),
-            },
-            "https_write": {
-                "type": "dict",
-                "source_key": "httpsWrite",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("httpsWrite"), ["description", "username"]),
-            },
-            "snmp_v2c_read": {
-                "type": "dict",
-                "source_key": "snmpV2cRead",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("snmpV2cRead"), ["description"]),
-            },
-            "snmp_v2c_write": {
-                "type": "dict",
-                "source_key": "snmpV2cWrite",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("snmpV2cWrite"), ["description"]),
-            },
-            "snmp_v3": {
-                "type": "dict",
-                "source_key": "snmpV3",
-                "special_handling": True,
-                "transform": lambda detail: pick_fields(detail.get("snmpV3"), ["description"]),
-            },
-            "site_name": {
-                "type": "list",
-                "elements": "str",
-                "source_key": "siteName"
-            },
-        })
+        assign_credentials_to_site = OrderedDict(
+            {
+                "cli_credential": {
+                    "type": "dict",
+                    "source_key": "cliCredential",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("cliCredential"), ["description", "username"]
+                    ),
+                },
+                "https_read": {
+                    "type": "dict",
+                    "source_key": "httpsRead",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("httpsRead"), ["description", "username"]
+                    ),
+                },
+                "https_write": {
+                    "type": "dict",
+                    "source_key": "httpsWrite",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("httpsWrite"), ["description", "username"]
+                    ),
+                },
+                "snmp_v2c_read": {
+                    "type": "dict",
+                    "source_key": "snmpV2cRead",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("snmpV2cRead"), ["description"]
+                    ),
+                },
+                "snmp_v2c_write": {
+                    "type": "dict",
+                    "source_key": "snmpV2cWrite",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("snmpV2cWrite"), ["description"]
+                    ),
+                },
+                "snmp_v3": {
+                    "type": "dict",
+                    "source_key": "snmpV3",
+                    "special_handling": True,
+                    "transform": lambda detail: pick_fields(
+                        detail.get("snmpV3"), ["description"]
+                    ),
+                },
+                "site_name": {
+                    "type": "list",
+                    "elements": "str",
+                    "source_key": "siteName",
+                },
+            }
+        )
 
         self.log(
             "Reverse mapping specification constructed successfully with 7 field "
@@ -1119,14 +1140,14 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "transformations for CLI (description, username), HTTPS Read/Write "
             "(description, username), SNMPv2c Read/Write (description), "
             "SNMPv3 (description), and site_name list for location context.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Returning site credential assignment reverse mapping specification for "
             "use in modify_parameters() transformation during YAML generation workflow "
             "with sensitive field protection.",
-            "DEBUG"
+            "DEBUG",
         )
         return assign_credentials_to_site
 
@@ -1170,14 +1191,14 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Workflow includes credential extraction from cache, optional filter "
             "application for targeted selection, reverse mapping transformation to "
             "YAML format, and sensitive field masking to prevent credential exposure.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Extracting component_specific_filters from filters dictionary: {0}. "
             "Filters determine which credential types and descriptions to include in "
             "generated YAML configuration.".format(filters),
-            "DEBUG"
+            "DEBUG",
         )
         component_specific_filters = None
         if "component_specific_filters" in filters:
@@ -1187,19 +1208,19 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Will apply description-based filtering to credential groups.".format(
                     len(component_specific_filters) if component_specific_filters else 0
                 ),
-                "DEBUG"
+                "DEBUG",
             )
         else:
             self.log(
                 "No component_specific_filters provided. Will retrieve all global "
                 "credentials without filtering for complete credential inventory.",
-                "DEBUG"
+                "DEBUG",
             )
         self.log(
             "Initializing final credential list for transformation. List will contain "
             "either filtered credentials or complete credential set based on filter "
             "presence.",
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             (
@@ -1215,11 +1236,13 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "retrieved during initialization from discovery.get_all_global_credentials "
             "API.".format(
                 type(self.global_credential_details),
-                len(self.global_credential_details) if isinstance(
-                    self.global_credential_details, list
-                ) else "N/A"
+                (
+                    len(self.global_credential_details)
+                    if isinstance(self.global_credential_details, list)
+                    else "N/A"
+                ),
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1227,7 +1250,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "cliCredential, httpsRead, httpsWrite, snmpV2cRead, snmpV2cWrite, snmpV3.".format(
                 self.global_credential_details
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         if component_specific_filters:
@@ -1235,26 +1258,32 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Applying component-specific filters to global credentials. Filtering "
                 "by description fields to extract targeted credential subset for YAML "
                 "generation.",
-                "DEBUG"
+                "DEBUG",
             )
-            filtered_credentials = self.filter_credentials(self.global_credential_details, component_specific_filters)
+            filtered_credentials = self.filter_credentials(
+                self.global_credential_details, component_specific_filters
+            )
             self.log(
                 "Filter application completed. Filtered credentials contain {0} "
                 "credential group(s). Groups: {1}".format(
-                    len(filtered_credentials) if isinstance(
-                        filtered_credentials, dict
-                    ) else 0,
-                    list(filtered_credentials.keys()) if isinstance(
-                        filtered_credentials, dict
-                    ) else []
+                    (
+                        len(filtered_credentials)
+                        if isinstance(filtered_credentials, dict)
+                        else 0
+                    ),
+                    (
+                        list(filtered_credentials.keys())
+                        if isinstance(filtered_credentials, dict)
+                        else []
+                    ),
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             self.log(
                 "Filtered credential details: {0}. Using filtered subset for reverse "
                 "mapping transformation.".format(filtered_credentials),
-                "DEBUG"
+                "DEBUG",
             )
             final_global_credentials = [filtered_credentials]
         else:
@@ -1262,7 +1291,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "No filtering applied. Using complete global credential details for "
                 "reverse mapping transformation to generate comprehensive credential "
                 "YAML configuration.",
-                "DEBUG"
+                "DEBUG",
             )
             final_global_credentials = [self.global_credential_details]
 
@@ -1270,7 +1299,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Retrieving reverse mapping specification for global credential details "
             "transformation. Specification defines field mappings, sensitive field "
             "masking rules, and YAML structure for 6 credential types.",
-            "DEBUG"
+            "DEBUG",
         )
         global_credential_details_temp_spec = self.global_credential_details_temp_spec()
 
@@ -1279,7 +1308,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "includes transformations for cli_credential, https_read, https_write, "
             "snmp_v2c_read, snmp_v2c_write, and snmp_v3 with password/community string "
             "masking.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1288,7 +1317,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "YAML structure with sensitive field placeholders.".format(
                 len(final_global_credentials)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         mapped_list = self.modify_parameters(
@@ -1299,7 +1328,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Reverse mapping transformation completed. Generated {0} mapped "
             "credential structure(s) with masked sensitive fields for secure YAML "
             "output.".format(len(mapped_list)),
-            "DEBUG"
+            "DEBUG",
         )
         mapped = mapped_list[0] if mapped_list else {}
         if not mapped:
@@ -1307,7 +1336,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "No credentials mapped after transformation. Final mapped structure is "
                 "empty. This may indicate invalid filters or missing credential data. "
                 "Returning empty credential details.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1402,9 +1431,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             else:
                 self.log(
                     "Filter entry {0}: 'description' must be a list of strings, "
-                    "got {1}. Skipping.".format(
-                        entry_index, type(desc).__name__
-                    ),
+                    "got {1}. Skipping.".format(entry_index, type(desc).__name__),
                     "WARNING",
                 )
                 continue
@@ -1424,14 +1451,13 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 )
             else:
                 matched = [
-                    item for item in src_items
+                    item
+                    for item in src_items
                     if item.get("description") in descriptions
                 ]
                 self.log(
                     "Type '{0}': matched {1}/{2} credential(s) for descriptions "
-                    "{3}.".format(
-                        f_type, len(matched), len(src_items), descriptions
-                    ),
+                    "{3}.".format(f_type, len(matched), len(src_items), descriptions),
                     "DEBUG",
                 )
 
@@ -1500,14 +1526,14 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "calls to retrieve credential sync status per site, credential ID matching "
             "against global credential cache, and reverse mapping transformation to "
             "YAML format with sensitive field protection.",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Extracting component_specific_filters from filters dictionary: {0}. "
             "Filters determine which sites to process for credential assignment "
             "retrieval.".format(filters),
-            "DEBUG"
+            "DEBUG",
         )
 
         component_specific_filters = None
@@ -1537,38 +1563,46 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Building name-to-site-ID mapping from cached site_id_name_dict with {0} "
             "site entries. Mapping enables site name resolution to site IDs for API "
             "calls.".format(len(self.site_id_name_dict)),
-            "DEBUG"
+            "DEBUG",
         )
 
-        name_site_id_dict = {v: k for k, v in self.site_id_name_dict.items() if v is not None}
+        name_site_id_dict = {
+            v: k for k, v in self.site_id_name_dict.items() if v is not None
+        }
 
         self.log(
             "Name-to-site-ID mapping created with {0} entries. Mapping: {1}".format(
                 len(name_site_id_dict), name_site_id_dict
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Determining site names to process based on filter presence. Extracting "
             "site_name list from component_specific_filters or using all cached sites.",
-            "DEBUG"
+            "DEBUG",
         )
 
         site_names = []
         if component_specific_filters:
-            site_names = list(component_specific_filters) if isinstance(component_specific_filters, list) else []
+            site_names = (
+                list(component_specific_filters)
+                if isinstance(component_specific_filters, list)
+                else []
+            )
             self.log(
                 "Using filtered site names from component_specific_filters: {0}. "
-                "Will process {1} specified site(s).".format(site_names, len(site_names)),
-                "DEBUG"
+                "Will process {1} specified site(s).".format(
+                    site_names, len(site_names)
+                ),
+                "DEBUG",
             )
         else:
             site_names = list(name_site_id_dict.keys())
             self.log(
                 "No site name filter provided. Using all {0} cached site names for "
                 "complete credential assignment retrieval.".format(len(site_names)),
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
@@ -1576,17 +1610,19 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "against name_site_id_dict with {1} entries.".format(
                 len(site_names), len(name_site_id_dict)
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
-        site_ids = [name_site_id_dict.get(n) for n in site_names if n in name_site_id_dict]
+        site_ids = [
+            name_site_id_dict.get(n) for n in site_names if n in name_site_id_dict
+        ]
 
         self.log(
             "Site name resolution completed. Resolved {0} site ID(s) from {1} site "
             "name(s). Site names: {2}, Site IDs: {3}".format(
                 len(site_ids), len(site_names), site_names, site_ids
             ),
-            "INFO"
+            "INFO",
         )
 
         if not site_ids:
@@ -1594,7 +1630,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "No site IDs resolved from site names: {0}. No sites found in cached "
                 "mapping or invalid site names provided. Returning empty credential "
                 "assignment dictionary.".format(site_names),
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1602,7 +1638,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Initializing credential ID to group mapping for credential matching. "
             "Mapping converts sync status credential ID keys (cliCredentialsId, etc.) "
             "to global credential group keys (cliCredential, etc.) for lookup.",
-            "DEBUG"
+            "DEBUG",
         )
 
         key_map = {
@@ -1617,7 +1653,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         self.log(
             "Credential ID mapping initialized with {0} credential type mappings for "
             "sync status to global credential group conversion.".format(len(key_map)),
-            "DEBUG"
+            "DEBUG",
         )
 
         def find_credential(cred_group_key, cred_id):
@@ -1645,7 +1681,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "global_credential_details cache for matching credential object.".format(
                     cred_group_key, cred_id
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             group = []
             if isinstance(self.global_credential_details, dict):
@@ -1653,7 +1689,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 self.log(
                     "Retrieved credential group '{0}' with {1} credential(s) from "
                     "cache for ID matching.".format(cred_group_key, len(group)),
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
@@ -1661,7 +1697,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "Cannot search for credential.".format(
                         type(self.global_credential_details).__name__
                     ),
-                    "WARNING"
+                    "WARNING",
                 )
 
             for item_index, item in enumerate(group, start=1):
@@ -1669,10 +1705,13 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     self.log(
                         "Found matching credential at position {0}/{1} in group '{2}'. "
                         "Credential description: '{3}', username: '{4}'".format(
-                            item_index, len(group), cred_group_key,
-                            item.get("description"), item.get("username")
+                            item_index,
+                            len(group),
+                            cred_group_key,
+                            item.get("description"),
+                            item.get("username"),
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     return item
             self.log(
@@ -1680,14 +1719,14 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "credential(s). Credential may not exist or wrong group specified.".format(
                     cred_id, cred_group_key, len(group)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
         self.log(
             "Starting iteration through {0} resolved site ID(s) to retrieve credential "
             "sync status and build site assignment mappings.".format(len(site_ids)),
-            "DEBUG"
+            "DEBUG",
         )
 
         for site_index, site_id in enumerate(site_ids, start=1):
@@ -1695,7 +1734,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 self.log(
                     "Site {0}/{1} has None/empty site_id, skipping credential sync "
                     "status retrieval.".format(site_index, len(site_ids)),
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1704,20 +1743,21 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "status using API family '{3}', function '{4}'.".format(
                     site_index, len(site_ids), site_id, api_family, api_function
                 ),
-                "DEBUG"
+                "DEBUG",
             )
             try:
-                resp = self.catalystcenter._exec(
-                    family=api_family,
-                    function=api_function,
-                    params={"id": site_id}
-                ) or {}
+                resp = (
+                    self.catalystcenter._exec(
+                        family=api_family, function=api_function, params={"id": site_id}
+                    )
+                    or {}
+                )
                 self.log(
                     "API call successful for site {0}/{1} (site_id: {2}). Response "
                     "received with {3} key(s).".format(
                         site_index, len(site_ids), site_id, len(resp)
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
             except Exception as e:
                 self.log(
@@ -1725,7 +1765,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     "type: {4}. Skipping this site and continuing with remaining sites.".format(
                         site_index, len(site_ids), site_id, str(e), type(e).__name__
                     ),
-                    "ERROR"
+                    "ERROR",
                 )
                 continue
 
@@ -1735,7 +1775,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Response contains {4} key(s) for credential assignment processing.".format(
                     site_index, len(site_ids), site_id, sync_resp, len(sync_resp)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             self.log(
@@ -1744,7 +1784,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "populated with matched credentials from sync status response.".format(
                     site_index, len(site_ids)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             raw_assign = {
@@ -1761,18 +1801,24 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "response for site {0}/{1}. Iterating through {2} key mappings.".format(
                     site_index, len(site_ids), len(key_map)
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
-            for map_index, (sync_key, global_key) in enumerate(key_map.items(), start=1):
+            for map_index, (sync_key, global_key) in enumerate(
+                key_map.items(), start=1
+            ):
                 self.log(
                     "Processing credential mapping {0}/{1} for site {2}/{3}: "
                     "sync_key='{4}', global_key='{5}'. Extracting credential ID from "
                     "sync response.".format(
-                        map_index, len(key_map), site_index, len(site_ids),
-                        sync_key, global_key
+                        map_index,
+                        len(key_map),
+                        site_index,
+                        len(site_ids),
+                        sync_key,
+                        global_key,
                     ),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 raw_val = sync_resp.get(sync_key)
                 cred_id = None
@@ -1783,16 +1829,14 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                         "ID will be matched against global credential cache.".format(
                             sync_key, cred_id
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         "Sync key '{0}' value is not a dictionary or not found in sync "
                         "response. Value type: {1}. Skipping credential matching for "
-                        "this type.".format(
-                            sync_key, type(raw_val).__name__
-                        ),
-                        "DEBUG"
+                        "this type.".format(sync_key, type(raw_val).__name__),
+                        "DEBUG",
                     )
                 if not cred_id:
                     self.log(
@@ -1800,22 +1844,21 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                         "this credential type assigned. Skipping to next credential type.".format(
                             sync_key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                     continue
 
                 self.log(
                     "Searching global credential cache for credential ID {0} in group "
                     "'{1}' for sync_key '{2}'.".format(cred_id, global_key, sync_key),
-                    "DEBUG"
+                    "DEBUG",
                 )
                 cred_obj = find_credential(global_key, cred_id)
                 if cred_obj and raw_assign.get(global_key) is None:
                     raw_assign[global_key] = cred_obj
                     self.log(
                         (
-                            "Matched credential id {0} for sync key {1} "
-                            "(group {2})"
+                            "Matched credential id {0} for sync key {1} " "(group {2})"
                         ).format(cred_id, sync_key, global_key),
                         "DEBUG",
                     )
@@ -1825,7 +1868,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                         "for global_key '{1}'. Skipping duplicate assignment.".format(
                             cred_id, global_key
                         ),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
@@ -1833,9 +1876,11 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                         "group '{1}'. Credential may have been deleted or cache stale.".format(
                             cred_id, global_key
                         ),
-                        "WARNING"
+                        "WARNING",
                     )
-            raw_assign["siteName"] = [self.site_id_name_dict.get(site_id, "UNKNOWN SITE")]
+            raw_assign["siteName"] = [
+                self.site_id_name_dict.get(site_id, "UNKNOWN SITE")
+            ]
 
             none_count = 0
             for k in list(raw_assign.keys()):
@@ -1847,7 +1892,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Remaining credential types: {1}".format(
                     none_count, list(raw_assign.keys())
                 ),
-                "DEBUG"
+                "DEBUG",
             )
 
             # Skip sites with no credentials assigned (only siteName remaining).
@@ -1866,7 +1911,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "Retrieving reverse mapping specification for site credential "
                 "assignment transformation. Specification extracts non-sensitive fields "
                 "(description, username, id) from matched credentials.",
-                "DEBUG"
+                "DEBUG",
             )
             assign_spec = self.assign_credentials_to_site_temp_spec()
             mapped_list = self.modify_parameters(assign_spec, [raw_assign])
@@ -1878,7 +1923,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "structure(s) ready for YAML generation.".format(
                 len(site_ids), len(final_assignments)
             ),
-            "INFO"
+            "INFO",
         )
         return final_assignments
 
@@ -1928,7 +1973,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "sensitive credential exposure in generated YAML playbook.".format(
                 network_component, parameter, network_component_name_parameter
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
@@ -1936,7 +1981,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "value from field '{1}' for unique variable naming.".format(
                 network_component_details, network_component_name_parameter
             ),
-            "DEBUG"
+            "DEBUG",
         )
         self.log(
             "Network component name parameter: {0}".format(
@@ -1947,7 +1992,10 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         self.log("Parameter: {0}".format(parameter), "DEBUG")
         variable_name = "{{ {0}_{1}_{2} }}".format(
             network_component,
-            network_component_details[network_component_name_parameter].replace(" ", "_").replace("-", "_").lower(),
+            network_component_details[network_component_name_parameter]
+            .replace(" ", "_")
+            .replace("-", "_")
+            .lower(),
             parameter,
         )
         custom_variable_name = "{" + variable_name + "}"
@@ -1983,7 +2031,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Workflow orchestrates yaml_config_generator operation by checking want "
             "dictionary for parameters, executing generation function, validating "
             "operation status, and tracking execution timing for performance monitoring.",
-            "DEBUG"
+            "DEBUG",
         )
         start_time = time.time()
         self.log("Starting 'get_diff_gathered' operation.", "DEBUG")
@@ -1999,7 +2047,10 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -2023,17 +2074,20 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -2050,27 +2104,25 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Gathered state workflow execution completed successfully."
             "Workflow processed {0} operation(s): {1} executed, "
             "{2} skipped. Operation results available in self.result for module exit.".format(
-                len(workflow_operations), operations_executed,
-                operations_skipped
+                len(workflow_operations), operations_executed, operations_skipped
             ),
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Performance metrics - Start time: {0}, End time: {1},"
             "Operations executed: {2}, Operations skipped: {3}. Metrics provide timing "
             "analysis for workflow optimization and performance monitoring.".format(
-                start_time, end_time, operations_executed,
-                operations_skipped
+                start_time, end_time, operations_executed, operations_skipped
             ),
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             "Returning self instance for method chaining. Instance contains complete "
             "operation results with msg, status, result attributes populated by "
             "yaml_config_generator execution for module exit and user feedback.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2161,30 +2213,89 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "config": {"type": "dict", "required": False},
         "file_path": {"type": "str", "required": False},
-        "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
+        "file_mode": {
+            "type": "str",
+            "required": False,
+            "default": "overwrite",
+            "choices": ["overwrite", "append"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
     }
 
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
     # Initialize the NetworkCompliance object with the module
-    ccc_device_credential_playbook_config_generator = DeviceCredentialPlaybookConfigGenerator(module)
+    ccc_device_credential_playbook_config_generator = (
+        DeviceCredentialPlaybookConfigGenerator(module)
+    )
     if (
         ccc_device_credential_playbook_config_generator.compare_catalystcenter_versions(
             ccc_device_credential_playbook_config_generator.get_ccc_version(), "2.3.7.9"
@@ -2198,7 +2309,10 @@ def main():
             )
         )
         ccc_device_credential_playbook_config_generator.set_operation_result(
-            "failed", False, ccc_device_credential_playbook_config_generator.msg, "ERROR"
+            "failed",
+            False,
+            ccc_device_credential_playbook_config_generator.msg,
+            "ERROR",
         ).check_return_status()
 
     # Get the state parameter from the provided parameters
@@ -2207,8 +2321,8 @@ def main():
     # Check if the state is valid
     if state not in ccc_device_credential_playbook_config_generator.supported_states:
         ccc_device_credential_playbook_config_generator.status = "invalid"
-        ccc_device_credential_playbook_config_generator.msg = "State {0} is invalid".format(
-            state
+        ccc_device_credential_playbook_config_generator.msg = (
+            "State {0} is invalid".format(state)
         )
         ccc_device_credential_playbook_config_generator.check_return_status()
 

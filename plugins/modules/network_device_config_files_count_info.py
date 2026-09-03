@@ -11,10 +11,10 @@ short_description: Information module for Network Device Config Files Count
 description:
   - Get all Network Device Config Files Count.
   - Retrieves count the details of the network device configuration files.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -36,7 +36,7 @@ options:
         'STARTUPCONFIG', 'VLAN'.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Archive CountOfNetworkDeviceConfigurationFiles

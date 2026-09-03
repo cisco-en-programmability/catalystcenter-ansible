@@ -11,10 +11,10 @@ short_description: Information module for Field Notices Results Network Devices 
 description:
   - Get all Field Notices Results Network Devices Network Device Id Notices Count.
   - Get count of field notices affecting the network device.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -32,7 +32,7 @@ options:
       - Type query parameter. Return field notices with this type. Available values SOFTWARE, HARDWARE.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetCountOfFieldNoticesAffectingTheNetworkDevice

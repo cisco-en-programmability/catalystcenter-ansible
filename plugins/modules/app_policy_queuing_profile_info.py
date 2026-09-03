@@ -11,10 +11,10 @@ short_description: Information module for App Policy Queuing Profile
 description:
   - Get all App Policy Queuing Profile.
   - Get all or by name, existing application policy queuing profiles.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - Name query parameter. Queuing profile name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy GetApplicationPolicyQueuingProfile
@@ -78,16 +78,10 @@ catalystcenter_response:
           "provisioningState": "string",
           "qualifier": "string",
           "resourceVersion": 0,
-          "targetIdList": [
-            "string"
-          ],
+          "targetIdList": [],
           "type": "string",
-          "cfsChangeInfo": [
-            "string"
-          ],
-          "customProvisions": [
-            "string"
-          ],
+          "cfsChangeInfo": [],
+          "customProvisions": [],
           "genId": 0,
           "internal": true,
           "isDeleted": true,
@@ -141,9 +135,7 @@ catalystcenter_response:
               ]
             }
           ],
-          "contractClassifier": [
-            "string"
-          ]
+          "contractClassifier": []
         }
       ],
       "version": "string"

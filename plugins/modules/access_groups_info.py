@@ -11,16 +11,20 @@ short_description: Information module for Access Groups
 description:
   - Get all Access Groups.
   - Get Access Groups by id.
-  - Get all access groups in the system.
-  - Get an access group in the system.
-version_added: '6.46.0'
+  - Get all access groups in the system. - > Get an access group in the system.This API provides the ability to get an access
+    group that has already been created. Please refer to the Add access group API for more details about access groups.
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Id of the access group to query.
+    type: str
   userCount:
     description:
       - >
@@ -55,12 +59,8 @@ options:
     description:
       - Limit query parameter. Limit on the number of access groups on a page. Default page size is 20.
     type: int
-  id:
-    description:
-      - Id path parameter. Id of the access group to query.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for User and Roles GetAccessGroup
@@ -71,8 +71,8 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!get-access-groups
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_access_group,
-    userand_roles.UserandRoles.get_access_groups,
+    user_and_roles.UserAndRoles.get_access_group,
+    user_and_roles.UserAndRoles.get_access_groups,
   - Paths used are
     get /dna/system/api/v1/accessGroups,
     get /dna/system/api/v1/accessGroups/{id},
@@ -108,7 +108,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    id: string
+    id: application/json
   register: result
 """
 RETURN = r"""

@@ -11,10 +11,10 @@ short_description: Information module for Compliance Network Devices Detail Poli
 description:
   - Get all Compliance Network Devices Detail Policys Violations.
   - Retrieve the violation details of the compliance policy for the network device.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -33,12 +33,10 @@ options:
     type: int
   limit:
     description:
-      - >
-        Limit query parameter. The number of records to show for this page. Default is 500 if not specified.
-        Maximum allowed limit is 500.
+      - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveThePolicyViolations
@@ -63,10 +61,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
+    offset: 1
     limit: 0
-    networkDeviceId: string
-    policyId: string
+    networkDeviceId: 0003e9dc-4eaf-41bc-a0e4-bcaaf78e6302
+    policyId: c9eef5e2-1eab-426c-be77-97ee81dcba05
   register: result
 """
 RETURN = r"""
@@ -78,13 +76,28 @@ catalystcenter_response:
     {
       "response": [
         {
-          "policyId": "string",
-          "policyName": "string",
-          "policyDescription": "string",
-          "maxSeverity": "string",
-          "violationsCount": 0,
-          "errorCount": 0,
-          "lastComplianceRunTime": 0
+          "ruleId": "string",
+          "ruleName": "string",
+          "ruleDescription": "string",
+          "ruleSuggestedFix": "string",
+          "violations": [
+            {
+              "sequenceNumber": 0,
+              "conditionId": "string",
+              "violationMessage": "string",
+              "severity": "string"
+            }
+          ],
+          "errors": [
+            {
+              "sequenceNumber": 0,
+              "conditionId": "string",
+              "errorCode": "string",
+              "errorMessage": "string"
+            }
+          ],
+          "maxSeverity": {},
+          "errorCount": 0
         }
       ],
       "version": "string"

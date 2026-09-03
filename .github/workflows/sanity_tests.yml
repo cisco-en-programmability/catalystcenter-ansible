@@ -6,6 +6,16 @@ on:
   pull_request:
   schedule:
     - cron: '0 6 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  # Cancel a superseded run for the same PR/branch instead of letting it burn
+  # CI minutes alongside the new one.
+  group: ${{ github.workflow }}-${{ (github.head_ref && github.event.number) || github.run_id }}
+  cancel-in-progress: true
+
 env:
   NAMESPACE: cisco
   COLLECTION_NAME: catalystcenter
@@ -15,27 +25,48 @@ jobs:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     timeout-minutes: 60
     strategy:
+      fail-fast: false
       matrix:
         ansible:
+          - stable-2.16
+          - stable-2.17
+          - stable-2.18
           - stable-2.19
           - stable-2.20
           - stable-2.21
-          - devel
+          # devel is covered by sanity_tests_devel.yml on every PR, with its
+          # own change-detection; running it here too would just duplicate
+          # that work on every push.
         include:
-          - ansible: stable-2.19
+          # Matches the python versions nox's own matrix-generator picks
+          # for each ansible-core release (`nox -s matrix-generator`), not
+          # the flat 3.12-everywhere the old workflow used.
+          - ansible: stable-2.16
             python: '3.12'
-          - ansible: stable-2.20
+          - ansible: stable-2.17
             python: '3.12'
-          - ansible: stable-2.21
-            python: '3.12'
-          - ansible: devel
+          - ansible: stable-2.18
             python: '3.13'
+          - ansible: stable-2.19
+            python: '3.13'
+          - ansible: stable-2.20
+            python: '3.14'
+          - ansible: stable-2.21
+            python: '3.14'
     runs-on: ubuntu-22.04
     steps:
       - name: Check out code
         uses: actions/checkout@v4
         with:
           path: cisco-en-programmability/catalystcenter-ansible
+          # Only pull real git history when we can use it (see the
+          # --changed step below); a shallow checkout is enough otherwise.
+          # Quoted '0'/'1', not bare 0/1: GitHub Actions expressions treat
+          # the number 0 as falsy, so `cond && 0 || 1` always evaluates to
+          # 1 regardless of cond (the `|| 1` masks the falsy 0). Quoted
+          # strings sidestep that trap -- this is the same pattern
+          # antsibull-nox's own reusable workflow uses.
+          fetch-depth: ${{ github.event_name == 'pull_request' && '0' || '1' }}
 
       - name: Create directory
         run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
@@ -43,20 +74,53 @@ jobs:
       - name: Move repository
         run: mv ./cisco-en-programmability/catalystcenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
+      - name: Create branches for change detection
+        if: github.event_name == 'pull_request'
+        env:
+          GHA_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GHA_BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          # actions/checkout leaves us on a detached HEAD (the PR merge
+          # commit), and `ansible-test --changed` needs a real branch (it
+          # runs `git symbolic-ref --short HEAD` internally, which fails
+          # otherwise with "fatal: ref HEAD is not a symbolic ref").
+          git checkout -b "pull-request-${GHA_PR_NUMBER}"
+          git branch "${GHA_BASE_REF}" --track "origin/${GHA_BASE_REF}"
+          git branch -vv
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
 
+      - name: Set cache date key
+        id: date
+        run: echo "today=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache ansible-core (${{ matrix.ansible }}) install
+        id: ansible_cache
+        uses: actions/cache@v4
+        with:
+          # The whole interpreter dir, not just site-packages: pip also
+          # drops the ansible/ansible-test console scripts under bin/, and
+          # those need to be restored too for a cache hit to actually work.
+          path: ${{ env.pythonLocation }}
+          # Stable branches move, so the key is scoped to the day: at most
+          # one real download per branch per day, never a stale ansible-core
+          # for more than that.
+          key: ansible-${{ matrix.ansible }}-${{ matrix.python }}-${{ steps.date.outputs.today }}
+
       - name: Install ansible-base (${{ matrix.ansible }})
+        if: steps.ansible_cache.outputs.cache-hit != 'true'
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      - name: Ensure swap space (2 GB)
+      - name: Ensure swap space (4 GB)
         run: |
           if swapon --show | grep -q '^/mnt/swapfile'; then
             echo "/mnt/swapfile already active, skipping"
           else
-            sudo fallocate -l 2G /mnt/swapfile
+            sudo fallocate -l 4G /mnt/swapfile
             sudo chmod 600 /mnt/swapfile
             sudo mkswap /mnt/swapfile
             sudo swapon /mnt/swapfile
@@ -64,9 +128,14 @@ jobs:
 
       - name: Run sanity tests
         run: |
-          if [ "${{ matrix.ansible }}" = "devel" ]; then
-            echo "⚠ Running reduced tests for devel branch"
-            ansible-test sanity --docker -v --color --test pep8 --test validate-modules
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Only sanity-test what actually changed vs. the PR base branch,
+            # instead of the whole ~3000-file collection on every push.
+            # Uses the local tracking branch created in the step above, not
+            # "origin/<ref>" directly (ansible-test's --changed wants a
+            # local branch name here).
+            ansible-test sanity --docker -v --color --changed \
+              --base-branch "${{ github.event.pull_request.base.ref }}"
           else
             ansible-test sanity --docker -v --color
           fi

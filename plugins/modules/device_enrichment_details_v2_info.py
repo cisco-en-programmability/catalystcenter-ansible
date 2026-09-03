@@ -11,24 +11,24 @@ short_description: Information module for Device Enrichment Details V2
 description:
   - Get all Device Enrichment Details V2. - > Enriches a given network device context device id or device Mac Address or device
     management IP address with details about the device and neighbor topology.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetailsV2
-    description: Complete reference of the GetDeviceEnrichmentDetailsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details-v-2
+  - name: Cisco Catalyst Center documentation for Devices GetDeviceEnrichmentDetails
+    description: Complete reference of the GetDeviceEnrichmentDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
 notes:
   - SDK Method used are
-    devices.Devices.get_device_enrichment_details_v2,
+    devices.Devices.get_device_enrichment_details,
   - Paths used are
     get /dna/intent/api/v2/device-enrichment-details,
 """
@@ -123,7 +123,7 @@ catalystcenter_response:
                   "source": "string",
                   "linkStatus": "string",
                   "label": [
-                    "string"
+                    {}
                   ],
                   "target": "string",
                   "id": {},

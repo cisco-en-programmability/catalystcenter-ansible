@@ -12,17 +12,20 @@ description:
   - Manage operations create and update of the resource Sda Transit Networks.
   - Adds transit networks based on user input.
   - Updates transit networks based on user input.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   payload:
     description: Sda Transit Networks's payload.
     elements: dict
     suboptions:
+      id:
+        description: ID of the transit network (updating this field is not allowed).
+        type: str
       ipTransitSettings:
-        description: Sda Transit Networks's ipTransitSettings.
+        description: Settings of the transit network of type IP_BASED_TRANSIT (updating this field is not allowed).
         suboptions:
           autonomousSystemNumber:
             description: Autonomous System Number of the IP transit network. Allowed range is 1 to 4294967295 (updating this
@@ -33,10 +36,10 @@ options:
             type: str
         type: dict
       name:
-        description: Name of the transit network.
+        description: Name of the transit network (updating this field is not allowed).
         type: str
       sdaTransitSettings:
-        description: Sda Transit Networks's sdaTransitSettings.
+        description: Settings of the transit network of type SDA_LISP_PUB_SUB_TRANSIT or SDA_LISP_BGP_TRANSIT.
         suboptions:
           controlPlaneNetworkDeviceIds:
             description: List of network device IDs that will be used as control plane nodes. Maximum 2 network device IDs
@@ -55,11 +58,12 @@ options:
           Control Plane Devices must be located within the transit network's Site.
         type: str
       type:
-        description: Type of the transit network.
-        type: str
+        description: Type of the transit network (updating this field is not allowed).
+        elements: str
+        type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddTransitNetworks
@@ -79,27 +83,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.sda_transit_networks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - ipTransitSettings:
-          autonomousSystemNumber: string
-          routingProtocolName: string
-        name: string
-        sdaTransitSettings:
-          controlPlaneNetworkDeviceIds:
-            - string
-          isMulticastOverTransitEnabled: true
-        siteId: string
-        type: string
 - name: Update all
   cisco.catalystcenter.sda_transit_networks:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -121,7 +104,30 @@ EXAMPLES = r"""
             - string
           isMulticastOverTransitEnabled: true
         siteId: string
-        type: string
+        type:
+          - string
+- name: Create
+  cisco.catalystcenter.sda_transit_networks:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - ipTransitSettings:
+          autonomousSystemNumber: string
+          routingProtocolName: string
+        name: string
+        sdaTransitSettings:
+          controlPlaneNetworkDeviceIds:
+            - string
+          isMulticastOverTransitEnabled: true
+        siteId: string
+        type:
+          - string
 """
 RETURN = r"""
 catalystcenter_response:

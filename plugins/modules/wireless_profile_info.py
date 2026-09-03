@@ -11,10 +11,10 @@ short_description: Information module for Wireless Profile
 description:
   - Get all Wireless Profile.
   - Gets either one or all the wireless network profiles if no name is provided for network-profile.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -24,7 +24,7 @@ options:
       - ProfileName query parameter. Wireless Network Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetWirelessProfile
@@ -49,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    profileName: string
+    profileName: application/json
   register: result
 """
 RETURN = r"""
@@ -69,6 +69,7 @@ catalystcenter_response:
           "ssidDetails": [
             {
               "name": "string",
+              "type": "string",
               "enableFabric": true,
               "flexConnect": {
                 "enableFlexConnect": true,

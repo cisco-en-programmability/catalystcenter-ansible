@@ -13,10 +13,10 @@ description:
   - Get Configuration Template Project by id.
   - Get the details of the given project by its id.
   - List the projects.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -34,12 +34,12 @@ options:
       - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates GetsAListOfProjects
-    description: Complete reference of the GetsAListOfProjects API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+  - name: Cisco Catalyst Center documentation for Configuration Templates GetsAListOfProjectsV1
+    description: Complete reference of the GetsAListOfProjectsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects-v-1
   - name: Cisco Catalyst Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
     description: Complete reference of the GetsTheDetailsOfAGivenProject API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
@@ -65,7 +65,7 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
-    sortOrder: string
+    sortOrder: ASC
   register: result
 - name: Get Configuration Template Project by id
   cisco.catalystcenter.configuration_template_project_info:

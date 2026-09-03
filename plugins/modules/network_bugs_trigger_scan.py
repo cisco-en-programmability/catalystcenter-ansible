@@ -12,17 +12,17 @@ description:
   - Manage operation create of the resource Network Bugs Trigger Scan. - > Triggers a bugs scan for the supported network
     devices. The supported devices are switches and routers. If a device is not supported, the NetworkBugsDevice scanStatus
     will be Failed with appropriate comments.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   failedDevicesOnly:
     description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that
       failed during the previous scan. If not specified, this parameter defaults to false.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance TriggersABugsScanForTheSupportedNetworkDevices
@@ -57,7 +57,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

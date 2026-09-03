@@ -9,12 +9,12 @@ DOCUMENTATION = r"""
 module: site_health_summaries_trend_analytics_info
 short_description: Information module for Site Health Summaries Trend Analytics
 description:
-  - Get all Site Health Summaries Trend Analytics. - > Retrieves the time series information of health and issue data for
-    sites specified by query parameters, or all sites. The data will be grouped based on the specified trend time interval.
-version_added: '6.17.0'
+  - Get all Site Health Summaries Trend Analytics.
+  - Retrieves the time series information of health and issue data for sites.
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -112,7 +112,7 @@ options:
         used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites ReadTrendAnalyticsDataForAGroupingOfSitesInYourNetwork

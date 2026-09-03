@@ -11,10 +11,10 @@ short_description: Resource module for Golden Tag Image Delete
 description:
   - Manage operation delete of the resource Golden Tag Image Delete.
   - Remove golden tag. Set siteId as -1 for Global site.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceFamilyIdentifier:
     description: DeviceFamilyIdentifier path parameter. Device family identifier e.g. 277696480-283933147, e.g. 277696480.
@@ -30,7 +30,7 @@ options:
     description: SiteId path parameter. Site Id in uuid format. Set siteId as -1 for Global site.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImage
@@ -68,7 +68,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

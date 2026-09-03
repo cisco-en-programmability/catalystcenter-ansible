@@ -10,11 +10,11 @@ module: health_score_definitions
 short_description: Resource module for Health Score Definitions
 description:
   - Manage operation update of the resource Health Score Definitions.
-  - Update health threshold, include status of overall health status.
-version_added: '6.15.0'
+  - Update health threshold, include status of overall health status. And also to.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -23,16 +23,16 @@ options:
     description: Id path parameter. Health score definition id.
     type: str
   includeForOverallHealth:
-    description: Include For Overall Health.
+    description: IncludeForOverallHealth flag.
     type: bool
   synchronizeToIssueThreshold:
-    description: Synchronize To Issue Threshold.
+    description: SynchronizeToIssueThreshold flag.
     type: bool
   thresholdValue:
-    description: Thresehold Value.
+    description: Health Score Definitions's thresholdValue.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices UpdateHealthScoreDefinitionForTheGivenId

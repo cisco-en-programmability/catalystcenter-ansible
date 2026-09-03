@@ -11,10 +11,10 @@ short_description: Information module for Sda Fabrics Vlan To Ssids
 description:
   - Get all Sda Fabrics Vlan To Ssids.
   - It will return all vlan to SSID mapping across all the fabric site.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -30,7 +30,7 @@ options:
       - Offset query parameter. Number of records to skip for pagination.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Fabric Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMapping
@@ -55,8 +55,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
   register: result
 """
 RETURN = r"""

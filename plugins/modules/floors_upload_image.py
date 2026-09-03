@@ -11,24 +11,24 @@ short_description: Resource module for Floors Upload Image
 description:
   - Manage operation create of the resource Floors Upload Image.
   - Uploads floor image.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Floor Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design UploadsFloorImageV2
-    description: Complete reference of the UploadsFloorImageV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image-v-2
+  - name: Cisco Catalyst Center documentation for Site Design UploadsFloorImage
+    description: Complete reference of the UploadsFloorImage API.
+    link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image
 notes:
   - SDK Method used are
-    site_design.SiteDesign.uploads_floor_image_v2,
+    site_design.SiteDesign.uploads_floor_image,
   - Paths used are
     post /dna/intent/api/v2/floors/{id}/uploadImage,
 """
@@ -52,5 +52,8 @@ catalystcenter_response:
   returned: always
   type: dict
   sample: >
-    {}
+    {
+      "response": {},
+      "version": "string"
+    }
 """

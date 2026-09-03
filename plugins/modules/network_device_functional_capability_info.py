@@ -13,14 +13,18 @@ description:
   - Get Network Device Functional Capability by id.
   - Returns functional capability with given Id.
   - Returns the functional-capability for given devices.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter. Functional Capability UUID.
+    type: str
   deviceId:
     description:
       - >
@@ -32,12 +36,8 @@ options:
       - FunctionName query parameter.
     elements: str
     type: list
-  id:
-    description:
-      - Id path parameter. Functional Capability UUID.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices GetFunctionalCapabilityById

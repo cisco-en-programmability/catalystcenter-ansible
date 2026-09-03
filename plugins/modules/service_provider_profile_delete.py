@@ -11,24 +11,24 @@ short_description: Resource module for Service Provider Profile Delete
 description:
   - Manage operation delete of the resource Service Provider Profile Delete.
   - API to delete Service Provider Profile QoS .
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   spProfileName:
     description: SpProfileName path parameter. Sp profile name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfile
-    description: Complete reference of the DeleteSPProfile API.
-    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
+  - name: Cisco Catalyst Center documentation for Network Settings DeleteSPProfileV1
+    description: Complete reference of the DeleteSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile,
+    network_settings.NetworkSettings.delete_sp_profile_v1,
   - Paths used are
     delete /dna/intent/api/v1/sp-profile/{spProfileName},
 """
@@ -44,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    spProfileName: string
+    spProfileName: application/json
 """
 RETURN = r"""
 catalystcenter_response:
@@ -53,8 +53,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

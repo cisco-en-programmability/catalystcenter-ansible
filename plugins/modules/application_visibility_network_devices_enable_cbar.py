@@ -11,13 +11,13 @@ short_description: Resource module for Application Visibility Network Devices En
 description:
   - Manage operation create of the resource Application Visibility Network Devices Enable Cbar.
   - This API can be used to enable CBAR feature on multiple network devices. Request payload.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   networkDevices:
-    description: Application Visibility Network Devices Enable Cbar's networkDevices.
+    description: List of network devices where CBAR has to be enabled.
     elements: dict
     suboptions:
       excludeInterfaceIds:
@@ -38,7 +38,7 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy EnableCBARFeatureOnMultipleNetworkDevices
@@ -46,7 +46,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/#!enable-cbar-feature-on-multiple-network-devices
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.enable_c_b_a_r_feature_on_multiple_network_devices,
+    application_policy.ApplicationPolicy.enable_cbar_feature_on_multiple_network_devices,
   - Paths used are
     post /dna/intent/api/v1/applicationVisibility/networkDevices/enableCbar,
 """

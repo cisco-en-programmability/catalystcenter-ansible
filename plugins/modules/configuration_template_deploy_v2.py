@@ -11,10 +11,10 @@ short_description: Resource module for Configuration Template Deploy V2
 description:
   - Manage operation create of the resource Configuration Template Deploy V2.
   - V2 API to deploy a template.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   forcePushTemplate:
     description: ForcePushTemplate flag.
@@ -30,7 +30,8 @@ options:
     elements: str
     type: list
   targetInfo:
-    description: Configuration Template Deploy V2's targetInfo.
+    description: Target info to deploy template. If the target is not applicable for the template, nothing is provisioned
+      and task is successful.
     elements: dict
     suboptions:
       hostName:
@@ -57,15 +58,15 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Configuration Templates DeployTemplateV2
-    description: Complete reference of the DeployTemplateV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-2
+  - name: Cisco Catalyst Center documentation for Configuration Templates DeployTemplate
+    description: Complete reference of the DeployTemplate API.
+    link: https://developer.cisco.com/docs/dna-center/#!deploy-template
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.deploy_template_v2,
+    configuration_templates.ConfigurationTemplates.deploy_template,
   - Paths used are
     post /dna/intent/api/v2/template-programmer/template/deploy,
 """
@@ -104,7 +105,7 @@ catalystcenter_response:
   sample: >
     {
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       },
       "version": "string"

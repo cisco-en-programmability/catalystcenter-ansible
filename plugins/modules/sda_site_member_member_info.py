@@ -11,10 +11,10 @@ short_description: Information module for Sda Site Member Member
 description:
   - Get all Sda Site Member Member.
   - API to get devices that are assigned to a site.
-version_added: '6.14.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -42,7 +42,7 @@ options:
         value is -1, devices for all child sites will be listed.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sites GetDevicesThatAreAssignedToASite
@@ -67,10 +67,10 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    offset: 0
-    limit: 0
-    memberType: string
-    level: string
+    offset: 1
+    limit: 500
+    memberType: networkdevice
+    level: 0
     id: string
   register: result
 """

@@ -13,14 +13,18 @@ description:
   - Get Pnp Device by id.
   - Returns device details specified by device id. - > Returns list of devices from Plug & Play based on filter criteria.
     Returns 50 devices by default. This endpoint supports Pagination and Sorting.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
     type: dict
+  id:
+    description:
+      - Id path parameter.
+    type: str
   limit:
     description:
       - >
@@ -108,12 +112,8 @@ options:
     description:
       - SiteName query parameter. Device Site Name.
     type: str
-  id:
-    description:
-      - Id path parameter.
-    type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) GetDeviceById
@@ -143,7 +143,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
+    limit: 50
     offset: 0
     sort: []
     sortOrder: string

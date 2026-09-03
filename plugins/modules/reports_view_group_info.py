@@ -13,10 +13,10 @@ description:
   - Get Reports View Group by id.
   - Gives a list of summary of all view groups. - > Gives a list of summary of all views in a viewgroup. Use "Get all view
     groups" API to get the viewGroupIds required as a query param for this API for available viewgroups.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -26,7 +26,7 @@ options:
       - ViewGroupId path parameter. ViewGroupId of viewgroup.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Reports GetAllViewGroups

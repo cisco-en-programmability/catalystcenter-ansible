@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Inventory Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -19,7 +20,7 @@ description:
   enabling programmatic modifications.
 - The YAML configurations generated represent the inventory configurations
   configured on the Cisco Catalyst Center.
-version_added: 6.44.0
+version_added: 2.6.0
 extends_documentation_fragment:
 - cisco.catalystcenter.workflow_manager_params
 author:
@@ -98,7 +99,7 @@ options:
             default: "ip_address"
 
 requirements:
-- catalystcentersdk >= 3.1.6.0.2
+- catalystcentersdk >= 3.2.3.0.0
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -269,10 +270,10 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper import (
-    BrownFieldHelper
+    BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    CatalystCenterBase,
 )
 from collections import OrderedDict
 import time
@@ -285,7 +286,12 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
     VALUES_TO_NULLIFY = ("NOT CONFIGURED",)
     # Device identifier fields used for filtering and expansion
-    DEVICE_IDENTIFIER_FIELDS = ("ip_address", "hostname", "serial_number", "mac_address")
+    DEVICE_IDENTIFIER_FIELDS = (
+        "ip_address",
+        "hostname",
+        "serial_number",
+        "mac_address",
+    )
 
     def __init__(self, module):
         """
@@ -326,17 +332,14 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         # Check if configuration is not provided (None) - treat as generate_all
         if self.config is None:
             self.validated_config = {"generate_all_configurations": True}
-            self.msg = "Configuration is not provided - treating as generate all config mode"
+            self.msg = (
+                "Configuration is not provided - treating as generate all config mode"
+            )
             self.log(self.msg, "INFO")
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
-            "global_filters": {
-                "type": "dict",
-                "required": False
-            }
-        }
+        temp_spec = {"global_filters": {"type": "dict", "required": False}}
 
         # Validate params
         self.log("Validating configuration against schema", "DEBUG")
@@ -384,15 +387,15 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                         "DISTRIBUTION",
                         "CORE",
                         "BORDER ROUTER",
-                        "UNKNOWN"
-                    ]
+                        "UNKNOWN",
+                    ],
                 },
                 "device_identifier": {
                     "type": "str",
                     "choices": self.DEVICE_IDENTIFIER_FIELDS,
                     "default": "ip_address",
-                    "required": False
-                }
+                    "required": False,
+                },
             }
         }
 
@@ -485,7 +488,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 "serial_number": {"type": "str", "source_key": "serialNumber"},
                 "mac_address": {"type": "str", "source_key": "macAddress"},
                 "role": {"type": "str", "source_key": "role"},
-                "family": {"type": "str", "source_key": "family"}
+                "family": {"type": "str", "source_key": "family"},
             }
         )
 
@@ -550,8 +553,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Resolved global filters - devices({0}): {1}, roles({2}): {3}".format(
-                len(devices_values), devices_values,
-                len(roles_values), roles_values
+                len(devices_values), devices_values, len(roles_values), roles_values
             ),
             "DEBUG",
         )
@@ -596,8 +598,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             )
 
         self.log(
-            "Completed filtering using global filters. Matched {0} of {1} input record(s). Filtered data: {2}"
-            .format(
+            "Completed filtering using global filters. Matched {0} of {1} input record(s). Filtered data: {2}".format(
                 len(filtered_data),
                 len(inventory_config_data),
                 filtered_data,
@@ -678,7 +679,9 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         return expanded_records
 
-    def transform_config_using_device_identifier(self, inventory_config_data, device_identifier):
+    def transform_config_using_device_identifier(
+        self, inventory_config_data, device_identifier
+    ):
         """
         Transform inventory records to use selected device identifier list key.
 
@@ -716,7 +719,9 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
 
         self.log(
             "Transforming device identifier '{0}' to '{1}' for {2} record(s).".format(
-                device_identifier, device_identifier_list_key, len(inventory_config_data)
+                device_identifier,
+                device_identifier_list_key,
+                len(inventory_config_data),
             ),
             "DEBUG",
         )
@@ -862,14 +867,18 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             global_filters = yaml_config_generator.get("global_filters", {})
 
-            final_inventory_data = self.apply_global_filters(final_inventory_data, global_filters)
+            final_inventory_data = self.apply_global_filters(
+                final_inventory_data, global_filters
+            )
             self.log(
                 "Inventory data count after applying global filters: {0}".format(
                     len(final_inventory_data)
                 ),
                 "DEBUG",
             )
-            config_device_identifier = global_filters.get("device_identifier", "ip_address")
+            config_device_identifier = global_filters.get(
+                "device_identifier", "ip_address"
+            )
 
         # Expand stack records whose selected device_identifier contains comma-separated
         # values into individual records to keep output list values atomic.
@@ -878,10 +887,14 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         )
 
         self.log(
-            "Device identifier selected for YAML configuration: '{0}'".format(config_device_identifier),
-            "DEBUG"
+            "Device identifier selected for YAML configuration: '{0}'".format(
+                config_device_identifier
+            ),
+            "DEBUG",
         )
-        transformed_inventory_config = self.transform_config_using_device_identifier(final_inventory_data, config_device_identifier)
+        transformed_inventory_config = self.transform_config_using_device_identifier(
+            final_inventory_data, config_device_identifier
+        )
 
         return transformed_inventory_config
 
@@ -905,9 +918,9 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             )
             self.msg = {
                 "status": "ok",
-                "message":
-                    "No configurations found for module '{0}'. Verify filters applied and inventory data in Catalyst Center."
-                    .format(self.module_name)
+                "message": "No configurations found for module '{0}'. Verify filters applied and inventory data in Catalyst Center.".format(
+                    self.module_name
+                ),
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
             return self
@@ -932,11 +945,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        file_written = self.write_dict_to_yaml(
-            final_config,
-            file_path,
-            file_mode
-        )
+        file_written = self.write_dict_to_yaml(final_config, file_path, file_mode)
 
         if file_written:
             self.msg = {
@@ -946,7 +955,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "file_mode": file_mode,
-                "configurations_count": len(final_inventory_config)
+                "configurations_count": len(final_inventory_config),
             }
             self.set_operation_result("success", True, self.msg, "INFO")
 
@@ -965,7 +974,7 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                 ),
                 "file_path": file_path,
                 "file_mode": file_mode,
-                "configurations_count": len(final_inventory_config)
+                "configurations_count": len(final_inventory_config),
             }
             self.set_operation_result("ok", False, self.msg, "INFO")
 
@@ -1007,7 +1016,10 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         operations_skipped = 0
 
         # Iterate over operations and process them
-        self.log("Beginning iteration over defined workflow operations for processing.", "DEBUG")
+        self.log(
+            "Beginning iteration over defined workflow operations for processing.",
+            "DEBUG",
+        )
         for index, (param_key, operation_name, operation_func) in enumerate(
             workflow_operations, start=1
         ):
@@ -1031,17 +1043,20 @@ class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
                     operations_executed += 1
                     self.log(
                         "{0} operation completed successfully".format(operation_name),
-                        "DEBUG"
+                        "DEBUG",
                     )
                 except Exception as e:
                     self.log(
-                        "{0} operation failed with error: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "{0} operation failed with error: {1}".format(
+                            operation_name, str(e)
+                        ),
+                        "ERROR",
                     )
                     self.set_operation_result(
-                        "failed", True,
+                        "failed",
+                        True,
                         "{0} operation failed: {1}".format(operation_name, str(e)),
-                        "ERROR"
+                        "ERROR",
                     ).check_return_status()
 
             else:
@@ -1068,20 +1083,72 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "state": {"default": "gathered", "choices": ["gathered"]},
         "file_path": {"required": False, "type": "str"},
         "file_mode": {
@@ -1119,21 +1186,15 @@ def main():
     # Check if the state is valid
     if state not in config_generator.supported_states:
         config_generator.status = "invalid"
-        config_generator.msg = "State {0} is invalid".format(
-            state
-        )
+        config_generator.msg = "State {0} is invalid".format(state)
         config_generator.check_return_status()
 
     # Validate the input parameters and check the return status
     config_generator.validate_input().check_return_status()
 
     config = config_generator.validated_config
-    config_generator.get_want(
-        config, state
-    ).check_return_status()
-    config_generator.get_diff_state_apply[
-        state
-    ]().check_return_status()
+    config_generator.get_want(config, state).check_return_status()
+    config_generator.get_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**config_generator.result)
 

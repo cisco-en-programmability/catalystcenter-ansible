@@ -12,15 +12,14 @@ description:
   - Manage operations create and delete of the resource Sda Fabric Control Plane Device.
   - Add control plane device in SDA Fabric.
   - Delete control plane device in SDA Fabric.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   deviceManagementIpAddress:
-    description: DeviceManagementIpAddress query parameter.
+    description: Management Ip Address of the Device which is provisioned successfully.
     type: str
-    version_added: 4.0.0
   routeDistributionProtocol:
     description: Route Distribution Protocol for Control Plane Device. Allowed values are "LISP_BGP" or "LISP_PUB_SUB". Default
       value is "LISP_BGP".
@@ -28,9 +27,8 @@ options:
   siteNameHierarchy:
     description: SiteNameHierarchy of the Provisioned Device(site should be part of Fabric Site).
     type: str
-    version_added: 4.0.0
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA AddControlPlaneDeviceInSDAFabric
@@ -50,17 +48,6 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Delete all
-  cisco.catalystcenter.sda_fabric_control_plane_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    deviceManagementIpAddress: string
 - name: Create
   cisco.catalystcenter.sda_fabric_control_plane_device:
     catalystcenter_host: "{{catalystcenter_host}}"
@@ -74,6 +61,17 @@ EXAMPLES = r"""
     deviceManagementIpAddress: string
     routeDistributionProtocol: string
     siteNameHierarchy: string
+- name: Delete all
+  cisco.catalystcenter.sda_fabric_control_plane_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    deviceManagementIpAddress: application/json
 """
 RETURN = r"""
 catalystcenter_response:

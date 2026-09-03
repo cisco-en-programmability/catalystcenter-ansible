@@ -13,10 +13,10 @@ description:
   - Get Field Notices Results Notices Id Network Devices by id.
   - Get field notice network device for the notice by network device id.
   - Get field notice network devices for the notice.
-version_added: '6.17.0'
+version_added: '2.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -27,7 +27,7 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   scanStatus:
     description:
@@ -58,7 +58,7 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetFieldNoticeNetworkDeviceForTheNoticeByNetworkDeviceId
@@ -90,10 +90,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
     scanStatus: string
-    offset: 0
-    limit: 0
+    offset: 1
+    limit: 500
     sortBy: string
-    order: string
+    order: asc
     id: string
   register: result
 - name: Get Field Notices Results Notices Id Network Devices by id

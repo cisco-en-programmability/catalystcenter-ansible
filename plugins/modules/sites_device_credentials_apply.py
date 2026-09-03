@@ -14,20 +14,11 @@ description:
     credential get managed in inventory with the associated site credential. Credential gets configured on network devices
     before these get managed in inventory. Please make a note that cli credential wouldn't be configured on AAA authenticated
     devices but they just get managed with the associated site cli credential.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
-  configureDevice:
-    description: If the value is true and the devices at the applied site are locally authenticated, the applied CLI credentials
-      will be configured on the devices. Authentication will then be performed using the applied CLI credentials. If the authentication
-      is successful, the devices will be updated in the inventory with the applied CLI credentials. If the value is true and
-      the devices are AAA authenticated, authentication will be performed on the devices using the applied CLI credentials.
-      If the authentication is successful, the devices will be updated in the inventory with the applied CLI credentials.
-      If the value is false, the devices will be directly updated in the inventory with the applied CLI credentials, without
-      any authentication being performed.
-    type: bool
   deviceCredentialId:
     description: It must be cli/snmpV2Read/snmpV2Write/snmpV3 Id.
     type: str
@@ -35,7 +26,7 @@ options:
     description: Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings SyncNetworkDevicesCredential
@@ -59,7 +50,6 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    configureDevice: true
     deviceCredentialId: string
     siteId: string
 """
@@ -72,7 +62,8 @@ catalystcenter_response:
     {
       "version": "string",
       "response": {
-        "count": 0
+        "url": "string",
+        "taskId": "string"
       }
     }
 """

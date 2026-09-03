@@ -11,10 +11,10 @@ short_description: Information module for Floors
 description:
   - Get Floors by id.
   - Gets a floor in the network hierarchy.
-version_added: '6.15.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -25,18 +25,18 @@ options:
     type: str
   _unitsOfMeasure:
     description:
-      - _unitsOfMeasure query parameter. Floor units of measure.
+      - _unitsOfMeasure query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
-  - name: Cisco Catalyst Center documentation for Site Design GetsAFloorV2
-    description: Complete reference of the GetsAFloorV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2
+  - name: Cisco Catalyst Center documentation for Site Design GetsAFloor
+    description: Complete reference of the GetsAFloor API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor
 notes:
   - SDK Method used are
-    site_design.SiteDesign.gets_a_floor_v2,
+    site_design.SiteDesign.gets_a_floor,
   - Paths used are
     get /dna/intent/api/v2/floors/{id},
 """
@@ -53,7 +53,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    _unitsOfMeasure: string
+    _unitsOfMeasure: str
     id: string
   register: result
 """
@@ -64,19 +64,7 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "parentId": "string",
-        "name": "string",
-        "floorNumber": 0,
-        "rfModel": "string",
-        "width": 0,
-        "length": 0,
-        "height": 0,
-        "unitsOfMeasure": "string",
-        "type": "string",
-        "id": "string",
-        "nameHierarchy": "string",
-        "siteHierarchyId": "string"
-      }
+      "response": {},
+      "version": "string"
     }
 """

@@ -11,10 +11,10 @@ short_description: Information module for Wireless Profiles Policy Tags
 description:
   - Get all Wireless Profiles Policy Tags. - > This endpoint retrieves a list of all `Policy Tags` associated with a specific
     `Wireless Profile`. This API requires the `id` of the `Wireless Profile` to be provided as a path parameter.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -38,7 +38,7 @@ options:
       - PolicyTagName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless RetrieveAllPolicyTagsForAWirelessProfile
@@ -63,8 +63,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    limit: 0
-    offset: 0
+    limit: 500
+    offset: 1
     policyTagName: string
     id: string
   register: result

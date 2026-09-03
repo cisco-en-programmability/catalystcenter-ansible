@@ -4,10 +4,11 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to generate YAML configurations for Access Point Location Module."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("A Mohamed Rafeek, Madhan Sankaranarayanan")
+__author__ = "A Mohamed Rafeek, Madhan Sankaranarayanan"
 
 DOCUMENTATION = r"""
 ---
@@ -26,7 +27,7 @@ description:
     planned access points, real access points, AP models, or MAC addresses).
   - Auto-generates timestamped YAML filenames when file path not
     specified.
-version_added: 6.45.0
+version_added: 2.6.0
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author:
@@ -160,7 +161,7 @@ options:
             elements: str
             required: false
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 notes:
   - This module utilizes the following SDK methods
@@ -367,14 +368,15 @@ import copy
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
     yaml = None
 from collections import OrderedDict
 
-
 if HAS_YAML:
+
     class OrderedDumper(yaml.Dumper):
         def represent_dict(self, data):
             return self.represent_mapping("tag:yaml.org,2002:map", data.items())
@@ -406,13 +408,23 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         super().__init__(module)
         self.module_name = "accesspoint_location_workflow_manager"
         self.module_schema = self.get_workflow_elements_schema()
-        self.log("Initialized AccesspointLocationPlaybookGenerator class instance.", "DEBUG")
+        self.log(
+            "Initialized AccesspointLocationPlaybookGenerator class instance.", "DEBUG"
+        )
         self.log(self.module_schema, "DEBUG")
 
         # Initialize generate_all_configurations as class-level parameter
         self.generate_all_configurations = False
-        self.have["all_floor"], self.have["filtered_floor"], self.have["all_detailed_config"] = [], [], []
-        self.have["all_config"], self.have["planned_aps"], self.have["real_aps"] = [], [], []
+        (
+            self.have["all_floor"],
+            self.have["filtered_floor"],
+            self.have["all_detailed_config"],
+        ) = ([], [], [])
+        self.have["all_config"], self.have["planned_aps"], self.have["real_aps"] = (
+            [],
+            [],
+            [],
+        )
 
     def validate_input(self):
         """
@@ -438,7 +450,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting validation of playbook configuration parameters. Checking "
             "configuration availability, schema compliance, and minimum requirements "
             "for access point location playbook generation workflow.",
-            "INFO"
+            "INFO",
         )
 
         config_provided = self.params.get("config") is not None
@@ -466,12 +478,9 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "generate_all_configurations": {
                 "type": "bool",
                 "required": False,
-                "default": False
+                "default": False,
             },
-            "global_filters": {
-                "type": "dict",
-                "required": False
-            },
+            "global_filters": {"type": "dict", "required": False},
         }
 
         valid_temp = self.validate_config_dict(self.config, temp_spec)
@@ -508,8 +517,11 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 return self
 
             valid_filter_keys = [
-                "site_list", "planned_accesspoint_list", "real_accesspoint_list",
-                "accesspoint_model_list", "mac_address_list"
+                "site_list",
+                "planned_accesspoint_list",
+                "real_accesspoint_list",
+                "accesspoint_model_list",
+                "mac_address_list",
             ]
             provided_filters = {
                 key: global_filters.get(key)
@@ -543,7 +555,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 valid_temp["global_filters"] = provided_filters
                 self.log(
                     f"global_filters.{filter_key} deduplicated values: {filter_value}",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
         # Set validated configuration and return success
@@ -559,9 +571,9 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "has_global_filters: {1}, file_mode: {2}".format(
                 bool(valid_temp.get("generate_all_configurations")),
                 bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
+                self.params.get("file_mode", "overwrite"),
             ),
-            "INFO"
+            "INFO",
         )
 
         self.set_operation_result("success", False, self.msg, "INFO")
@@ -597,7 +609,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Starting detailed validation of individual configuration parameters for access point "
             "location playbook generation. Checking configuration completeness, parameter types, "
             "and file system accessibility.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check for required parameters
@@ -614,7 +626,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Configuration parameter dictionary provided with {len(config)} key(s):"
             f" {list(config.keys())}. Proceeding "
             "with parameter-specific validation.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate file_path if provided
@@ -623,9 +635,10 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "Validating file_path parameter: '{file_path}'. Checking directory existence and "
                 "write permissions.",
-                "DEBUG"
+                "DEBUG",
             )
             import os
+
             directory = os.path.dirname(file_path)
 
             if directory:
@@ -633,14 +646,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         f"Directory does not exist: '{directory}'. Attempting to create directory "
                         "structure with makedirs().",
-                        "INFO"
+                        "INFO",
                     )
                     try:
                         os.makedirs(directory, exist_ok=True)
                         self.log(
                             f"Successfully created directory: '{directory}'. File path is now "
                             "accessible for YAML output.",
-                            "INFO"
+                            "INFO",
                         )
                     except Exception as e:
                         self.msg = (
@@ -655,18 +668,19 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         f"Directory exists and is accessible: '{directory}'. File path validation "
                         "successful.",
-                        "DEBUG"
+                        "DEBUG",
                     )
             else:
                 self.log(
                     "No directory specified in file_path (current directory will be used): "
-                    f"'{file_path}'", "DEBUG"
+                    f"'{file_path}'",
+                    "DEBUG",
                 )
         else:
             self.log(
                 "No file_path parameter provided. Default filename will be generated "
                 "automatically based on module name and timestamp.",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Validate generate_all_configurations parameter if provided
@@ -675,7 +689,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 f"generate_all_configurations parameter provided: {generate_all}. This will determine "
                 "whether to collect all access point locations or use global_filters.",
-                "DEBUG"
+                "DEBUG",
             )
             if not isinstance(generate_all, bool):
                 self.msg = (
@@ -693,7 +707,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "global_filters parameter provided with "
                 f"{len(global_filters) if isinstance(global_filters, dict) else 0} filter(s). Validating filter "
                 "structure.",
-                "DEBUG"
+                "DEBUG",
             )
             if not isinstance(global_filters, dict):
                 self.msg = (
@@ -707,13 +721,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 "global_filters structure validated successfully. Filters will be processed "
                 "during get_have() and yaml_config_generator() operations.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             "Configuration parameters validation completed successfully. All parameters "
             "conform to expected types and formats. Status: success",
-            "DEBUG"
+            "DEBUG",
         )
         self.status = "success"
         return self
@@ -757,14 +771,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"configuration. State parameter: '{state}'. This operation validates input parameters, "
             "extracts YAML generation settings, and populates the want dictionary for downstream "
             "processing by get_have() and yaml_config_generator() functions.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             "Initiating comprehensive input parameter validation using validate_params(). "
             "This validates parameter types, required fields, and schema compliance for "
             "YAML generation workflow.",
-            "INFO"
+            "INFO",
         )
 
         self.validate_params(config)
@@ -772,7 +786,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Input parameter validation completed successfully. All configuration parameters "
             "conform to expected schema and type requirements. Proceeding with want dictionary "
             "population.",
-            "DEBUG"
+            "DEBUG",
         )
 
         want = {}
@@ -783,7 +797,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Successfully extracted yaml_config_generator parameters from playbook. Complete "
             f"parameter structure: {want['yaml_config_generator']}. These parameters will control YAML generation mode "
             "(generate_all vs filtered), output file location, and access point filtering criteria.",
-            "INFO"
+            "INFO",
         )
 
         self.want = want
@@ -859,7 +873,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "This operation collects AP position configurations including coordinates, floor "
             "assignments, radio settings, and device metadata based on configuration mode "
             "(generate_all or filtered). Data will be used for YAML playbook generation workflow.",
-            "INFO"
+            "INFO",
         )
 
         if not config or not isinstance(config, dict):
@@ -867,7 +881,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Invalid config parameter provided to get_have(). Config is None or not a "
                 f"dictionary type. Cannot retrieve AP location data without valid configuration. "
                 f"Skipping data collection. Config type: {type(config).__name__}",
-                "WARNING"
+                "WARNING",
             )
             self.msg = "Invalid configuration provided. Skipping access point location data retrieval."
             return self
@@ -875,7 +889,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Configuration parameter validated successfully. Config type: dict. Proceeding with "
             "operational mode detection and data collection workflow.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if config.get("generate_all_configurations", False):
@@ -885,14 +899,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "without applying any filters. This mode retrieves ALL AP positions (planned and "
                 "real) including complete position coordinates, radio configurations, and floor "
                 "assignments for comprehensive access point location config and documentation.",
-                "INFO"
+                "INFO",
             )
 
             self.log(
                 "Calling collect_all_accesspoint_location_list() without filters to retrieve "
                 "complete AP location inventory from Catalyst Center. This will fetch all floor "
                 "sites and associated AP positions using paginated API calls.",
-                "INFO"
+                "INFO",
             )
             self.collect_all_accesspoint_location_list()
 
@@ -912,7 +926,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"collected: Planned={len(self.have.get('planned_aps', []))}, "
                 f"Real={len(self.have.get('real_aps', []))}. Complete configuration data: "
                 f"{self.pprint(self.have.get('all_config'))}",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
@@ -921,7 +935,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "validation strategy. Supported filters: site_list, planned_accesspoint_list, "
                 "real_accesspoint_list, accesspoint_model_list, mac_address_list. Each filter is "
                 "processed independently with existence validation.",
-                "INFO"
+                "INFO",
             )
 
             global_filters = config.get("global_filters")
@@ -934,7 +948,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "generate_all_configurations or provide global_filters with at least one filter "
                     "type (site_list, planned_accesspoint_list, real_accesspoint_list, "
                     "accesspoint_model_list, or mac_address_list).",
-                    "WARNING"
+                    "WARNING",
                 )
                 self.msg = (
                     "No global_filters provided in filtered mode. Cannot collect access point "
@@ -946,7 +960,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Global filters parameter validated successfully. Calling "
                 f"collect_all_accesspoint_location_list() to retrieve complete AP inventory for "
                 f"filter validation. Filter structure: {global_filters}",
-                "DEBUG"
+                "DEBUG",
             )
             self.collect_all_accesspoint_location_list()
 
@@ -968,7 +982,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"(count: {len(model_list) if isinstance(model_list, list) else 0}), "
                 f"mac_address_list: {mac_list} "
                 f"(count: {len(mac_list) if isinstance(mac_list, list) else 0})",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Process site_list filter
@@ -977,13 +991,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Site list filter detected. Requested floor site hierarchies: {site_list} "
                     f"(count: {len(site_list)}). This filter validates floor sites contain access "
                     f"points and exist in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self._is_wildcard_list(site_list, "Site list"):
                     self.log(
                         "Wildcard 'all' detected in site_list. Skipping validation of floor site existence. "
-                        "All floor sites from Catalyst Center will be included in YAML generation.", "INFO"
+                        "All floor sites from Catalyst Center will be included in YAML generation.",
+                        "INFO",
                     )
                     return self
 
@@ -991,14 +1006,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Validating {len(site_list)} floor site(s) exist in filtered_floor data "
                     f"populated by collect_all_accesspoint_location_list(). Each site must exist "
                     f"or playbook will fail.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 missing_floors = []
                 for floor_index, floor_name in enumerate(site_list, start=1):
                     self.log(
                         f"Validating floor site {floor_index}/{len(site_list)}: '{floor_name}'. "
                         f"Checking existence in filtered_floor list.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     floor_exist = self.find_dict_by_key_value(
                         self.have["filtered_floor"], "floor_site_hierarchy", floor_name
@@ -1009,13 +1024,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"Floor site hierarchy '{floor_name}' does not exist or has no "
                             f"access points configured. Adding to missing_floors list.",
-                            "WARNING"
+                            "WARNING",
                         )
                     else:
                         self.log(
                             f"Floor site {floor_index}/{len(site_list)}: '{floor_name}' "
                             f"validated successfully. Floor exists with AP configurations.",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 if missing_floors:
@@ -1031,7 +1046,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         f"All {len(site_list)} floor site(s) validated successfully. All requested "
                         f"floors exist with access point configurations.",
-                        "INFO"
+                        "INFO",
                     )
 
             # Process planned_accesspoint_list filter
@@ -1040,28 +1055,29 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Planned access point list filter detected. Requested planned AP names: "
                     f"{planned_ap_list} (count: {len(planned_ap_list)}). This filter validates "
                     f"planned APs exist in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self._is_wildcard_list(planned_ap_list, "Planned AP list"):
                     self.log(
                         "Wildcard 'all' detected in planned_accesspoint_list. Skipping validation of "
                         "planned AP existence. All planned APs from Catalyst Center will be included in "
-                        "YAML generation.", "INFO"
+                        "YAML generation.",
+                        "INFO",
                     )
                     return self
 
                 self.log(
                     f"Validating {len(planned_ap_list)} planned AP(s) exist in "
                     f"all_detailed_config data. Each planned AP must exist or playbook will fail.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 missing_planned_aps = []
                 for ap_index, planned_ap in enumerate(planned_ap_list, start=1):
                     self.log(
                         f"Validating planned AP {ap_index}/{len(planned_ap_list)}: "
                         f"'{planned_ap}'. Checking existence in all_detailed_config.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_exist = self.find_dict_by_key_value(
                         self.have["all_detailed_config"], "accesspoint_name", planned_ap
@@ -1072,13 +1088,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"Planned access point '{planned_ap}' does not exist or is marked "
                             f"as 'real' type. Adding to missing_planned_aps list.",
-                            "WARNING"
+                            "WARNING",
                         )
                     else:
                         self.log(
                             f"Planned AP {ap_index}/{len(planned_ap_list)}: '{planned_ap}' "
                             f"validated successfully. AP exists with type 'planned'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 if missing_planned_aps:
@@ -1093,7 +1109,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"All {len(planned_ap_list)} planned AP(s) validated successfully. All "
                     f"requested planned APs exist in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
             # Process real_accesspoint_list filter
@@ -1102,28 +1118,29 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Real access point list filter detected. Requested real AP names: "
                     f"{real_ap_list} (count: {len(real_ap_list)}). This filter validates real/"
                     f"deployed APs exist in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self._is_wildcard_list(real_ap_list, "Real AP list"):
                     self.log(
                         "Wildcard 'all' detected in real_accesspoint_list. Skipping validation of "
                         "real AP existence. All real/deployed APs from Catalyst Center will be included in "
-                        "YAML generation.", "INFO"
+                        "YAML generation.",
+                        "INFO",
                     )
                     return self
 
                 self.log(
                     f"Validating {len(real_ap_list)} real AP(s) exist in all_detailed_config "
                     f"data. Each real AP must exist or playbook will fail.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 missing_real_aps = []
                 for ap_index, real_ap in enumerate(real_ap_list, start=1):
                     self.log(
                         f"Validating real AP {ap_index}/{len(real_ap_list)}: '{real_ap}'. "
                         f"Checking existence in all_detailed_config.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_exist = self.find_dict_by_key_value(
                         self.have["all_detailed_config"], "accesspoint_name", real_ap
@@ -1134,13 +1151,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"Real access point '{real_ap}' does not exist or is not marked "
                             f"as 'real' type. Adding to missing_real_aps list.",
-                            "WARNING"
+                            "WARNING",
                         )
                     else:
                         self.log(
                             f"Real AP {ap_index}/{len(real_ap_list)}: '{real_ap}' validated "
                             f"successfully. AP exists with type 'real'.",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 if missing_real_aps:
@@ -1155,7 +1172,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"All {len(real_ap_list)} real AP(s) validated successfully. All requested "
                     f"real/deployed APs exist in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
             # Process accesspoint_model_list filter
@@ -1164,28 +1181,29 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Access point model list filter detected. Requested AP models: {model_list} "
                     f"(count: {len(model_list)}). This filter validates AP hardware models exist "
                     f"in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self._is_wildcard_list(model_list, "AP model list"):
                     self.log(
                         "Wildcard 'all' detected in accesspoint_model_list. Skipping validation of AP "
                         "model existence. All AP models from Catalyst Center will be included in YAML "
-                        "generation.", "INFO"
+                        "generation.",
+                        "INFO",
                     )
                     return self
 
                 self.log(
                     f"Validating {len(model_list)} AP model(s) exist in all_detailed_config "
                     f"data. Each model must have at least one AP or playbook will fail.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 missing_models = []
                 for model_index, model in enumerate(model_list, start=1):
                     self.log(
                         f"Validating AP model {model_index}/{len(model_list)}: '{model}'. "
                         f"Searching for APs with this model in all_detailed_config.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     aps_exist = self.find_multiple_dict_by_key_value(
                         self.have["all_detailed_config"], "accesspoint_model", model
@@ -1196,13 +1214,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"Access point model '{model}' not found in Catalyst Center. No "
                             f"APs with this model exist. Adding to missing_models list.",
-                            "WARNING"
+                            "WARNING",
                         )
                     else:
                         self.log(
                             f"AP model {model_index}/{len(model_list)}: '{model}' validated "
                             f"successfully. Found {len(aps_exist)} AP(s) with this model.",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 if missing_models:
@@ -1217,7 +1235,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"All {len(model_list)} AP model(s) validated successfully. All requested "
                     f"models have deployed APs in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
             # Process mac_address_list filter
@@ -1226,21 +1244,22 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"MAC address list filter detected. Requested MAC addresses: {mac_list} "
                     f"(count: {len(mac_list)}). This filter validates AP MAC addresses exist in "
                     f"Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self._is_wildcard_list(mac_list, "MAC address list"):
                     self.log(
                         "Wildcard 'all' detected in mac_address_list. Skipping validation of MAC "
                         "address existence. All MAC addresses from Catalyst Center will be included in "
-                        "YAML generation.", "INFO"
+                        "YAML generation.",
+                        "INFO",
                     )
                     return self
 
                 self.log(
                     f"Validating {len(mac_list)} MAC address(es) exist in all_detailed_config "
                     f"data. Each MAC must match an AP or playbook will fail.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 missing_macs = []
                 for mac_index, mac in enumerate(mac_list, start=1):
@@ -1248,7 +1267,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         f"Validating MAC address {mac_index}/{len(mac_list)}: '{normalized_mac}' "
                         f"(normalized). Searching for AP with this MAC in all_detailed_config.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     aps_exist = self.find_multiple_dict_by_key_value(
                         self.have["all_detailed_config"], "mac_address", normalized_mac
@@ -1259,13 +1278,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"MAC address '{normalized_mac}' not found in Catalyst Center. No "
                             f"AP with this MAC exists. Adding to missing_macs list.",
-                            "WARNING"
+                            "WARNING",
                         )
                     else:
                         self.log(
                             f"MAC address {mac_index}/{len(mac_list)}: '{normalized_mac}' "
                             f"validated successfully. Found {len(aps_exist)} AP(s) with this MAC.",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 if missing_macs:
@@ -1280,7 +1299,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"All {len(mac_list)} MAC address(es) validated successfully. All requested "
                     f"MAC addresses match deployed APs in Catalyst Center.",
-                    "INFO"
+                    "INFO",
                 )
 
         self.log(
@@ -1290,7 +1309,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"All configs: {len(self.have.get('all_config', []))}, "
             f"Planned APs: {len(self.have.get('planned_aps', []))}, "
             f"Real APs: {len(self.have.get('real_aps', []))}",
-            "INFO"
+            "INFO",
         )
         self.msg = "Successfully retrieved access point location details from Cisco Catalyst Center."
         return self
@@ -1311,12 +1330,12 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "{0} contains 'all' keyword along with {1} other entries. "
                     "The 'all' keyword takes precedence — all other entries "
                     "will be ignored.".format(list_name, len(item_list) - 1),
-                    "WARNING"
+                    "WARNING",
                 )
             self.log(
                 "{0} contains 'all' keyword. Skipping validation — all items "
                 "will be included.".format(list_name),
-                "INFO"
+                "INFO",
             )
             return True
 
@@ -1378,7 +1397,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"in a list containing {len(data_list) if isinstance(data_list, list) else 0} item(s). "
             "This search will return all matching dictionaries "
             "or None if no matches are found.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Validate data_list is a list
@@ -1392,7 +1411,9 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         # Validate all items in data_list are dictionaries
         if not all(isinstance(item, dict) for item in data_list):
-            invalid_types = [type(item).__name__ for item in data_list if not isinstance(item, dict)]
+            invalid_types = [
+                type(item).__name__ for item in data_list if not isinstance(item, dict)
+            ]
             self.msg = (
                 f"All items in 'data_list' must be dictionaries. Found invalid type(s): {set(invalid_types)}. "
                 "Please ensure all list items are dictionary objects."
@@ -1403,29 +1424,27 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         # Handle empty list case
         if not data_list:
             self.log(
-                "Empty data_list provided. No items to search. Returning None.",
-                "DEBUG"
+                "Empty data_list provided. No items to search. Returning None.", "DEBUG"
             )
             return None
 
         self.log(
             f"Input validation passed. Beginning iteration through {len(data_list)} dictionary item(s) "
             f"to find matches for key '{key}' with value '{value}'.",
-            "DEBUG"
+            "DEBUG",
         )
 
         matched_items = []
         for idx, item in enumerate(data_list):
             # Log search progress for debugging (verbose mode)
             self.log(
-                f"Checking item at index {idx + 1}/{len(data_list)}: {item}",
-                "DEBUG"
+                f"Checking item at index {idx + 1}/{len(data_list)}: {item}", "DEBUG"
             )
 
             if item.get(key) == value:
                 self.log(
                     f"Match found at index {idx + 1}/{len(data_list)}. Item: {item}. Adding to matched_items list.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 matched_items.append(item)
 
@@ -1435,7 +1454,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Dictionary search completed successfully. Total matches "
                 f"found: {len(matched_items)} out of {len(data_list)} "
                 f"item(s) searched. Matched items: {matched_items}",
-                "DEBUG"
+                "DEBUG",
             )
             return matched_items
 
@@ -1443,7 +1462,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Dictionary search completed. No matching items found for "
             f"key '{key}' with value '{value}' "
             f"in {len(data_list)} item(s) searched. Returning None.",
-            "DEBUG"
+            "DEBUG",
         )
         return None
 
@@ -1496,36 +1515,32 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "Schema includes global_filters structure with five filter types: site_list, "
             "planned_accesspoint_list, real_accesspoint_list, accesspoint_model_list, and "
             "mac_address_list. All filters are optional and expect list[str] format.",
-            "DEBUG"
+            "DEBUG",
         )
 
         schema = {
             "global_filters": {
-                "site_list": {
-                    "type": "list",
-                    "required": False,
-                    "elements": "str"
-                },
+                "site_list": {"type": "list", "required": False, "elements": "str"},
                 "planned_accesspoint_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "real_accesspoint_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "accesspoint_model_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
+                    "elements": "str",
                 },
                 "mac_address_list": {
                     "type": "list",
                     "required": False,
-                    "elements": "str"
-                }
+                    "elements": "str",
+                },
             }
         }
 
@@ -1533,7 +1548,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Schema definition completed. Schema contains {len(schema.get('global_filters', {}))}"
             f" global filter type(s): {list(schema.get('global_filters', {}).keys())}. "
             "This schema will be used for input validation and filter processing.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return schema
@@ -1586,7 +1601,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         self.log(
             "Starting floor site collection from Cisco Catalyst Center. Preparing to query "
             "all floor-type sites using paginated API requests with automatic retry logic.",
-            "INFO"
+            "INFO",
         )
 
         response_all = []
@@ -1594,14 +1609,16 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         limit = 500
         api_family, api_function, param_key = "site_design", "get_sites", "type"
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+        resync_retry_interval = int(
+            self.payload.get("catalystcenter_task_poll_interval")
+        )
         request_params = {param_key: "floor", "offset": offset, "limit": limit}
 
         self.log(
             f"Initialized pagination parameters: offset={offset}, limit={limit}, "
             f"timeout={resync_retry_count}s, poll_interval={resync_retry_interval}s. "
             f"API target: {api_family}.{api_function}(type='floor')",
-            "DEBUG"
+            "DEBUG",
         )
 
         while resync_retry_count > 0:
@@ -1609,16 +1626,18 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Sending paginated API request to Catalyst Center - "
                 f"Family: '{api_family}', Function: '{api_function}', "
                 f"Parameters: {request_params}. Remaining timeout: {resync_retry_count}s",
-                "DEBUG"
+                "DEBUG",
             )
 
-            response = self.execute_get_request(api_family, api_function, request_params)
+            response = self.execute_get_request(
+                api_family, api_function, request_params
+            )
 
             if not response:
                 self.log(
                     f"No data received from API at offset {request_params['offset']}. "
                     f"This may indicate end of results or API error. Exiting pagination loop.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -1626,7 +1645,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 f"Received {len(response_data)} floor site(s) from API at offset "
                 f"{request_params['offset']}. Processing floor data extraction.",
-                "DEBUG"
+                "DEBUG",
             )
 
             floor_list = response.get("response")
@@ -1634,32 +1653,32 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Processing {len(floor_list)} floor site(s). Extracting ID and "
                     f"site hierarchy information. Raw response: {self.pprint(floor_list)}",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 required_data_list = []
                 for idx, floor_response in enumerate(floor_list, start=1):
                     required_data = {
                         "id": floor_response.get("id"),
-                        "floor_site_hierarchy": floor_response.get("nameHierarchy")
+                        "floor_site_hierarchy": floor_response.get("nameHierarchy"),
                     }
                     required_data_list.append(required_data)
                     self.log(
                         f"Extracted floor {idx}/{len(floor_list)}: ID='{required_data['id']}', "
                         f"Hierarchy='{required_data['floor_site_hierarchy']}'",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 response_all.extend(required_data_list)
                 self.log(
                     f"Added {len(required_data_list)} floor(s) to collection. "
                     f"Total floors collected so far: {len(response_all)}",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"No valid floor list in API response at offset {request_params['offset']}. "
                     f"Response type: {type(floor_list).__name__ if floor_list else 'None'}",
-                    "WARNING"
+                    "WARNING",
                 )
 
             # Check if this is the last page
@@ -1667,7 +1686,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Received {len(response.get('response', []))} results (less than limit of {limit}). "
                     f"Assuming this is the last page. Exiting pagination loop.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 break
 
@@ -1677,14 +1696,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 f"Incrementing pagination offset to {request_params['offset']} for next API request. "
                 f"Will retrieve next {limit} floor sites.",
-                "DEBUG"
+                "DEBUG",
             )
 
             # Rate limiting delay
             self.log(
                 f"Applying rate limiting delay: pausing execution for {resync_retry_interval} second(s) "
                 f"before next API request to avoid overwhelming Catalyst Center.",
-                "INFO"
+                "INFO",
             )
             time.sleep(resync_retry_interval)
             resync_retry_count = resync_retry_count - resync_retry_interval
@@ -1694,17 +1713,17 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 f"Floor site collection completed successfully. Total floor sites retrieved: "
                 f"{len(response_all)}. Floor details: {self.pprint(response_all)}",
-                "DEBUG"
+                "DEBUG",
             )
             self.log(
                 f"Successfully collected {len(response_all)} floor site(s) from Cisco Catalyst Center.",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 "Floor site collection completed but no floor sites were found. This may indicate "
                 "no floors are configured in Catalyst Center or all floors were filtered out.",
-                "WARNING"
+                "WARNING",
             )
 
         return response_all
@@ -1779,22 +1798,18 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"AP type: '{ap_type if ap_type else 'planned'}', Floor ID: '{floor_id}'. "
             f"This operation will query Catalyst Center site design APIs to retrieve AP "
             f"location and configuration data.",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             f"Preparing API request parameters - Floor: '{floor_name}', "
             f"Floor ID: '{floor_id}', AP Type: '{ap_type if ap_type else 'planned'}'. "
             f"Determining appropriate API endpoint based on AP type.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Prepare API payload with pagination
-        payload = {
-            "offset": 1,
-            "limit": 500,
-            "floor_id": floor_id
-        }
+        payload = {"offset": 1, "limit": 500, "floor_id": floor_id}
 
         # Determine API function based on AP type
         function_name = "get_planned_access_points_positions"
@@ -1805,19 +1820,17 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"API endpoint selected: site_design.{function_name}(). Payload: {payload}. "
             f"This endpoint will retrieve {ap_type if ap_type else 'planned'} access point "
             f"positions for floor '{floor_name}'.",
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
             self.log(
                 f"Executing API request to retrieve {ap_type if ap_type else 'planned'} AP positions. "
                 f"Target: site_design.{function_name}, Floor: '{floor_name}', ID: '{floor_id}'",
-                "DEBUG"
+                "DEBUG",
             )
 
-            response = self.execute_get_request(
-                "site_design", function_name, payload
-            )
+            response = self.execute_get_request("site_design", function_name, payload)
 
             if not response:
                 msg = (
@@ -1841,7 +1854,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Successfully retrieved {ap_type if ap_type else 'planned'} AP position data from API. "
                 f"Floor: '{floor_name}', Response structure: {response}. "
                 f"Extracting AP details from response.",
-                "DEBUG"
+                "DEBUG",
             )
 
             ap_positions = response.get("response")
@@ -1850,13 +1863,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Found {len(ap_positions) if isinstance(ap_positions, list) else 'unknown'} "
                     f"{ap_type if ap_type else 'planned'} access point(s) on floor '{floor_name}'. "
                     f"Returning AP position data for downstream processing.",
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
                     f"No {ap_type if ap_type else 'planned'} access points found on floor '{floor_name}' "
                     f"(Floor ID: '{floor_id}'). The floor exists but has no APs configured.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             return ap_positions
@@ -1871,12 +1884,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Exception traceback for AP position retrieval failure - "
                 f"Floor: '{floor_name}', AP Type: '{ap_type if ap_type else 'planned'}', "
                 f"Exception: {type(e).__name__}, Message: {str(e)}",
-                "DEBUG"
+                "DEBUG",
             )
             return None
 
-    def parse_accesspoint_position_for_floor(self, floor_id, floor_site_hierarchy,
-                                             floor_response, ap_type=None):
+    def parse_accesspoint_position_for_floor(
+        self, floor_id, floor_site_hierarchy, floor_response, ap_type=None
+    ):
         """
         Parses and transforms raw AP position data into structured configuration format.
 
@@ -1943,7 +1957,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"AP type: '{ap_type if ap_type else 'planned'}'. Processing raw API response data to "
             f"extract position coordinates, radio configurations, and device metadata into structured "
             f"format for YAML generation and internal filtering operations.",
-            "INFO"
+            "INFO",
         )
 
         if not floor_response or not isinstance(floor_response, list):
@@ -1951,7 +1965,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Invalid or empty floor_response received for floor ID '{floor_id}', floor '{floor_site_hierarchy}'. "
                 f"Response type: {type(floor_response).__name__ if floor_response else 'None'}. Cannot parse AP "
                 f"position data without valid list of AP responses. Returning None to indicate no parseable data.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -1959,7 +1973,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Received {len(floor_response)} AP position(s) to parse for floor '{floor_site_hierarchy}'. "
             f"Initiating per-AP data extraction and transformation. Each AP will be processed for position "
             f"coordinates (x/y/z), radio configurations (bands/channels/power), antenna settings, and metadata.",
-            "DEBUG"
+            "DEBUG",
         )
 
         parsed_floor_data = {}
@@ -1971,20 +1985,20 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Processing AP {ap_index}/{len(floor_response)} on floor '{floor_site_hierarchy}'. "
                 f"AP Name: '{ap_position.get('name')}', Model: '{ap_position.get('type')}'. "
                 f"Extracting position coordinates and configuration parameters.",
-                "DEBUG"
+                "DEBUG",
             )
 
             if (
-                int(ap_position.get("position", {}).get("x")) < 0 or
-                int(ap_position.get("position", {}).get("y")) < 0 or
-                int(ap_position.get("position", {}).get("z")) < 0
+                int(ap_position.get("position", {}).get("x")) < 0
+                or int(ap_position.get("position", {}).get("y")) < 0
+                or int(ap_position.get("position", {}).get("z")) < 0
             ):
                 self.log(
                     f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has un-positioned coordinates: "
                     f"x={ap_position.get('position', {}).get('x')}, "
                     f"y={ap_position.get('position', {}).get('y')}, "
                     f"z={ap_position.get('position', {}).get('z')}. Skipping this AP.",
-                    "WARNING"
+                    "WARNING",
                 )
                 continue
 
@@ -1995,8 +2009,8 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "position": {
                     "x_position": int(ap_position.get("position", {}).get("x")),
                     "y_position": int(ap_position.get("position", {}).get("y")),
-                    "z_position": int(ap_position.get("position", {}).get("z"))
-                }
+                    "z_position": int(ap_position.get("position", {}).get("z")),
+                },
             }
 
             # Add MAC address if available (real APs have MACs, planned may not)
@@ -2006,13 +2020,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has MAC address: "
                     f"{normalized_mac} (normalized to lowercase). This indicates a real/deployed AP.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has no MAC address. "
                     f"This is expected for planned APs in design phase.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             # Process radio configurations if available
@@ -2021,7 +2035,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Processing {len(radio_params)} radio configuration(s) for AP '{ap_position.get('name')}'. "
                     f"Extracting band configurations, channel assignments, TX power, and antenna parameters.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 parsed_radios = []
                 for radio_index, radio in enumerate(radio_params, start=1):
@@ -2042,22 +2056,22 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "antenna": {
                             "antenna_name": radio.get("antenna", {}).get("name"),
                             "azimuth": radio.get("antenna", {}).get("azimuth"),
-                            "elevation": radio.get("antenna", {}).get("elevation")
-                        }
+                            "elevation": radio.get("antenna", {}).get("elevation"),
+                        },
                     }
                     parsed_radios.append(parsed_radio)
                     self.log(
                         f"Radio {radio_index}/{len(radio_params)} parsed for AP '{ap_position.get('name')}'. "
                         f"Bands: {parsed_radio['bands']}, Channel: {parsed_radio.get('channel')}, "
                         f"TX Power: {parsed_radio.get('tx_power')} dBm, Antenna: {parsed_radio['antenna'].get('antenna_name')}",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 parsed_data["radios"] = parsed_radios
                 self.log(
                     f"Completed radio configuration parsing for AP '{ap_position.get('name')}'. "
                     f"Total radios configured: {len(parsed_radios)}.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Create detailed metadata version with floor and ID information
@@ -2072,34 +2086,34 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Created detailed metadata for AP '{ap_position.get('name')}' on floor '{floor_site_hierarchy}'. "
                     f"Metadata includes: floor_id='{floor_id}', accesspoint_type='{ap_type if ap_type else 'planned'}', "
                     f"AP ID='{ap_position.get('id')}'. Full detailed data: {self.pprint(detailed_data)}",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}' has no radio configurations. "
                     f"Radio parameters missing or empty in API response.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
             parsed_positions.append(parsed_data)
             self.log(
                 f"Completed parsing AP {ap_index}/{len(floor_response)} '{ap_position.get('name')}'. "
                 f"Added to parsed_positions collection. Current parsed count: {len(parsed_positions)}.",
-                "DEBUG"
+                "DEBUG",
             )
 
         self.log(
             f"AP position parsing completed for floor '{floor_site_hierarchy}' (Floor ID: {floor_id}). "
             f"Successfully parsed {len(parsed_positions)} access point(s). Parsed positions (simplified): "
             f"{len(parsed_positions)} item(s), Detailed metadata: {len(parsed_detailed_data)} item(s).",
-            "INFO"
+            "INFO",
         )
 
         self.log(
             f"Final parsed data structures - Floor Data: {self.pprint(parsed_floor_data)}, "
             f"Detailed Positions: {self.pprint(parsed_detailed_data)}. Returning tuple of "
             f"(parsed_positions, parsed_detailed_data) for downstream processing.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return parsed_positions, parsed_detailed_data
@@ -2191,7 +2205,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "This operation will retrieve all floor sites, query both planned and real AP positions "
             "for each floor, parse position data into structured configurations, and organize data "
             "into multiple collections supporting various filtering and YAML generation scenarios.",
-            "INFO"
+            "INFO",
         )
 
         # Initialize collection structures
@@ -2206,7 +2220,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "planned_config (planned only), real_config (real only), filtered_floor (floors with APs), "
             "all_detailed_config (complete metadata). Calling get_all_floors_from_sites() to retrieve "
             "floor inventory from Catalyst Center.",
-            "DEBUG"
+            "DEBUG",
         )
 
         floor_response = self.get_all_floors_from_sites()
@@ -2216,13 +2230,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Successfully retrieved {len(self.have['all_floor'])} floor site(s) from Catalyst Center. "
                 f"Floor site details: {self.pprint(self.have['all_floor'])}. Proceeding to query AP positions "
                 f"for each floor (2 API calls per floor: planned + real).",
-                "DEBUG"
+                "DEBUG",
             )
 
             self.log(
                 f"Starting per-floor AP position collection loop. Total floors to process: "
                 f"{len(floor_response)}. Each floor will be queried for both planned and real AP positions.",
-                "INFO"
+                "INFO",
             )
 
             for floor_index, floor in enumerate(floor_response, start=1):
@@ -2233,145 +2247,165 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Processing floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}' "
                     f"(Floor ID: {floor_id}). Querying planned and real AP positions for this floor.",
-                    "DEBUG"
+                    "DEBUG",
                 )
 
                 # Query and process planned AP positions
                 self.log(
                     f"Querying planned AP positions for floor {floor_index}/{len(floor_response)}: "
                     f"'{floor_site_hierarchy}'. Calling get_access_point_position() with ap_type='planned'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
-                planned_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy)
+                planned_ap_response = self.get_access_point_position(
+                    floor_id, floor_site_hierarchy
+                )
                 if planned_ap_response:
                     self.log(
                         f"Received {len(planned_ap_response) if isinstance(planned_ap_response, list) else 'unknown'} "
                         f"planned AP position(s) for floor '{floor_site_hierarchy}'. Raw API response: "
                         f"{self.pprint(planned_ap_response)}. Parsing AP data into structured format.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-                    each_planned_config, planned_detailed_config = self.parse_accesspoint_position_for_floor(
-                        floor_id, floor_site_hierarchy, planned_ap_response, ap_type="planned"
+                    each_planned_config, planned_detailed_config = (
+                        self.parse_accesspoint_position_for_floor(
+                            floor_id,
+                            floor_site_hierarchy,
+                            planned_ap_response,
+                            ap_type="planned",
+                        )
                     )
                     if each_planned_config and planned_detailed_config:
                         collect_each_floor_config.extend(each_planned_config)
                         collect_all_detailed_config.extend(planned_detailed_config)
                         planned_floor_data = {
                             "floor_site_hierarchy": floor_site_hierarchy,
-                            "access_points": each_planned_config
+                            "access_points": each_planned_config,
                         }
                         collect_planned_config.append(planned_floor_data)
                         self.log(
                             f"Successfully parsed and collected {len(each_planned_config)} planned AP(s) for floor "
                             f"'{floor_site_hierarchy}'. Added to planned_config collection. Total planned floors collected: "
                             f"{len(collect_planned_config)}.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             f"Planned AP response received but parsing returned empty data for floor '{floor_site_hierarchy}'. "
                             f"This may indicate data format issues or missing required fields in API response.",
-                            "WARNING"
+                            "WARNING",
                         )
                 else:
                     self.log(
                         f"No planned APs found on floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}'. "
                         f"API returned None or empty response.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Query and process real AP positions
                 self.log(
                     f"Querying real/deployed AP positions for floor {floor_index}/{len(floor_response)}: "
                     f"'{floor_site_hierarchy}'. Calling get_access_point_position() with ap_type='real'.",
-                    "DEBUG"
+                    "DEBUG",
                 )
-                real_ap_response = self.get_access_point_position(floor_id, floor_site_hierarchy, ap_type="real")
+                real_ap_response = self.get_access_point_position(
+                    floor_id, floor_site_hierarchy, ap_type="real"
+                )
                 if real_ap_response:
                     self.log(
                         f"Received {len(real_ap_response) if isinstance(real_ap_response, list) else 'unknown'} "
                         f"real AP position(s) for floor '{floor_site_hierarchy}'. Raw API response: "
                         f"{self.pprint(real_ap_response)}. Parsing AP data into structured format.",
-                        "DEBUG"
+                        "DEBUG",
                     )
-                    each_real_config, real_detailed_config = self.parse_accesspoint_position_for_floor(
-                        floor_id, floor_site_hierarchy, real_ap_response, ap_type="real"
+                    each_real_config, real_detailed_config = (
+                        self.parse_accesspoint_position_for_floor(
+                            floor_id,
+                            floor_site_hierarchy,
+                            real_ap_response,
+                            ap_type="real",
+                        )
                     )
 
                     if each_real_config and real_detailed_config:
                         for index, each_ap in enumerate(each_real_config):
-                            each_ap["mac_address"] = self.convert_eth_mac_address_to_mac_address(
-                                each_ap.get("mac_address")
+                            each_ap["mac_address"] = (
+                                self.convert_eth_mac_address_to_mac_address(
+                                    each_ap.get("mac_address")
+                                )
                             )
-                            real_detailed_config[index]["mac_address"] = each_ap["mac_address"]
+                            real_detailed_config[index]["mac_address"] = each_ap[
+                                "mac_address"
+                            ]
 
                         collect_all_detailed_config.extend(real_detailed_config)
                         collect_each_floor_config.extend(each_real_config)
                         real_floor_data = {
                             "floor_site_hierarchy": floor_site_hierarchy,
-                            "access_points": each_real_config
+                            "access_points": each_real_config,
                         }
                         self.log(
                             f"Parced real floor data for floor '{floor_site_hierarchy}': {self.pprint(real_floor_data)}. "
                             f"Adding to real_config collection.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         collect_real_config.append(real_floor_data)
                         self.log(
                             f"Successfully parsed and collected {len(each_real_config)} real AP(s) for floor "
                             f"'{floor_site_hierarchy}'. Added to real_config collection. Total real floors collected: "
                             f"{len(collect_real_config)}.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             f"Real AP response received but parsing returned empty data for floor '{floor_site_hierarchy}'. "
                             f"This may indicate data format issues or missing required fields in API response.",
-                            "WARNING"
+                            "WARNING",
                         )
                 else:
                     self.log(
                         f"No real APs found on floor {floor_index}/{len(floor_response)}: '{floor_site_hierarchy}'. "
                         f"API returned None or empty response.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Create combined config entry if any APs present on this floor
                 if collect_each_floor_config:
                     floor_data = {
                         "floor_site_hierarchy": floor_site_hierarchy,
-                        "access_points": collect_each_floor_config
+                        "access_points": collect_each_floor_config,
                     }
                     collect_all_config.append(floor_data)
                     self.log(
                         f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' has {len(collect_each_floor_config)} "
                         f"total AP(s) (planned + real combined). Added to all_config collection. Total floors with APs: "
                         f"{len(collect_all_config)}.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' has no APs configured "
                         f"(neither planned nor real). Skipping all_config entry for this floor.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
                 # Add floor to filtered list if it has any AP positions
                 if planned_ap_response or real_ap_response:
-                    filtered_floor.append({
-                        "floor_id": floor_id,
-                        "floor_site_hierarchy": floor_site_hierarchy
-                    })
+                    filtered_floor.append(
+                        {
+                            "floor_id": floor_id,
+                            "floor_site_hierarchy": floor_site_hierarchy,
+                        }
+                    )
                     self.log(
                         f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' added to filtered_floor "
                         f"collection (has at least one AP configured). Total filtered floors: {len(filtered_floor)}.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                 else:
                     self.log(
                         f"Floor {floor_index}/{len(floor_response)} '{floor_site_hierarchy}' NOT added to filtered_floor "
                         f"(no APs configured). This floor will be excluded from site_list validation.",
-                        "DEBUG"
+                        "DEBUG",
                     )
 
             # Populate self.have with all collected data structures
@@ -2390,7 +2424,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Real AP floors: {len(collect_real_config)}, "
                 f"Total detailed AP configs: {len(collect_all_detailed_config)}. "
                 f"All data structures populated in self.have for downstream processing.",
-                "INFO"
+                "INFO",
             )
 
             self.log(
@@ -2400,7 +2434,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"real_aps: {len(collect_real_config)} floor(s), "
                 f"filtered_floor: {len(filtered_floor)} floor(s), "
                 f"all_detailed_config: {len(collect_all_detailed_config)} AP(s) with complete metadata.",
-                "DEBUG"
+                "DEBUG",
             )
 
         else:
@@ -2410,12 +2444,12 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"AP location data without floor inventory. This indicates either no floors are configured in "
                 f"Catalyst Center or API connectivity issue. Verify floor sites exist in Catalyst Center Site "
                 f"Hierarchy before running AP location playbook generation.",
-                "WARNING"
+                "WARNING",
             )
             self.log(
                 "AP location collection completed with no data. All self.have collections remain empty. "
                 "No access points found in Cisco Catalyst Center.",
-                "WARNING"
+                "WARNING",
             )
 
         return self
@@ -2471,7 +2505,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Starting Ethernet MAC to primary MAC conversion for AP. Ethernet MAC address: "
             f"'{ap_ethernet_mac_address}'. Preparing to query Catalyst Center wireless API "
             f"to retrieve full AP configuration and extract primary MAC address field.",
-            "DEBUG"
+            "DEBUG",
         )
 
         input_param = {"key": ap_ethernet_mac_address}
@@ -2481,7 +2515,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"API request parameters prepared: {input_param}. Calling "
             f"wireless.get_access_point_configuration API to retrieve AP configuration "
             f"for Ethernet MAC '{ap_ethernet_mac_address}'.",
-            "DEBUG"
+            "DEBUG",
         )
 
         try:
@@ -2496,7 +2530,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "Received API response from get_access_point_configuration for Ethernet MAC "
                     f"'{ap_ethernet_mac_address}'. Response structure: {self.pprint(ap_config_response)}. "
                     "Extracting primary MAC address from 'macAddress' field.",
-                    "INFO"
+                    "INFO",
                 )
                 mac_address = ap_config_response.get("macAddress")
                 if mac_address:
@@ -2504,7 +2538,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "Successfully extracted primary MAC address from API response. "
                         f"Ethernet MAC '{ap_ethernet_mac_address}' maps to primary MAC '{mac_address}'. "
                         "MAC address conversion completed successfully.",
-                        "INFO"
+                        "INFO",
                     )
                     return mac_address
                 else:
@@ -2512,14 +2546,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "API response received but 'macAddress' field is missing or empty. "
                         f"Ethernet MAC: '{ap_ethernet_mac_address}'. Response may indicate invalid AP "
                         "or incomplete configuration. Returning None.",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
                     "No response received from get_access_point_configuration API for Ethernet MAC "
                     f"'{ap_ethernet_mac_address}'. This may indicate AP not found, API connectivity "
                     "issue, or invalid MAC address provided. Returning None.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         except Exception as e:
@@ -2527,13 +2561,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Unable to retrieve access point configuration for Ethernet MAC "
                 f"'{ap_ethernet_mac_address}'. API request parameters: {input_param}. "
                 f"Exception type: {type(e).__name__}, Error: {str(e)}. Returning None.",
-                "WARNING"
+                "WARNING",
             )
 
         self.log(
             f"MAC address conversion completed with no result. Ethernet MAC '{ap_ethernet_mac_address}' "
             f"could not be resolved to primary MAC address. Returning None to caller.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return None
@@ -2598,7 +2632,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "parameters from validated want dictionary, calling yaml_config_generator function, "
             "and checking operation status. Workflow supports extensible operation pattern for "
             "future enhancements.",
-            "DEBUG"
+            "DEBUG",
         )
         operations = [
             (
@@ -2613,7 +2647,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Operations configuration defined successfully. Total operations: {len(operations)}. "
             f"Operation details: {[(op[0], op[1]) for op in operations]}. Each operation will be "
             f"processed sequentially with parameter validation and status checking.",
-            "DEBUG"
+            "DEBUG",
         )
         for index, (param_key, operation_name, operation_func) in enumerate(
             operations, start=1
@@ -2623,7 +2657,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Checking for parameters in self.want using param_key '{param_key}'. If parameters "
                 f"exist, operation function will be called with extracted parameters and return "
                 f"status validated.",
-                "DEBUG"
+                "DEBUG",
             )
             params = self.want.get(param_key)
             if params:
@@ -2632,7 +2666,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"'{operation_name}' operation. Parameter structure: {param_key} "
                     f"(type: {type(params).__name__}). Initiating operation execution by calling "
                     f"operation function with extracted parameters.",
-                    "INFO"
+                    "INFO",
                 )
 
                 self.log(
@@ -2640,7 +2674,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"'{operation_name}' with extracted parameters. Function will process parameters, "
                     f"execute YAML generation workflow, and return self instance with updated result "
                     f"status. check_return_status() will validate operation success after completion.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 operation_func(params).check_return_status()
                 self.log(
@@ -2648,7 +2682,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"successfully. check_return_status() validated operation success. Result status: "
                     f"{self.status}, Changed: {self.result.get('changed')}. Continuing to next "
                     f"operation if available.",
-                    "INFO"
+                    "INFO",
                 )
             else:
                 self.log(
@@ -2656,7 +2690,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"'{operation_name}' operation using param_key '{param_key}'. Parameters are "
                     f"None or missing, indicating operation should be skipped. This is expected if "
                     f"operation is optional or disabled. Continuing to next operation without execution.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         end_time = time.time()
@@ -2664,7 +2698,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Completed 'get_diff_gathered' operation in {end_time - start_time:.2f} seconds. "
             f"All configured operations processed successfully. YAML configuration generation workflow "
             f"completed. Final result status: {self.status}.",
-            "DEBUG"
+            "DEBUG",
         )
 
         return self
@@ -2752,7 +2786,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Input parameters: {yaml_config_generator}. This operation will process AP location "
             f"configurations from Catalyst Center, apply filtering criteria, and export structured "
             f"data to YAML file compatible with accesspoint_location_workflow_manager module.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Check if generate_all_configurations mode is enabled
@@ -2763,7 +2797,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "This mode will retrieve complete AP location inventory from Catalyst Center including "
                 "all planned and real AP positions on all floors, ignoring any provided filters. Use this "
                 "mode for comprehensive access point location configuration and documentation.",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
@@ -2771,7 +2805,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "This mode will apply global_filters to extract specific AP location subset based on "
                 "site_list, planned_accesspoint_list, real_accesspoint_list, accesspoint_model_list, "
                 "or mac_address_list criteria.",
-                "INFO"
+                "INFO",
             )
 
         self.log("Determining output file path for YAML configuration", "DEBUG")
@@ -2781,19 +2815,19 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "No custom file_path provided by user in module parameters. "
                 "Initiating automatic filename generation with timestamp format. Default filename "
                 "pattern: accesspoint_location_playbook_config_YYYY-MM-DD_HH-MM-SS.yml",
-                "DEBUG"
+                "DEBUG",
             )
             file_path = self.generate_filename()
             self.log(
                 f"Auto-generated default filename for YAML output: {file_path}. File will be created "
                 f"in current working directory with timestamped name for uniqueness.",
-                "INFO"
+                "INFO",
             )
         else:
             self.log(
                 f"Using user-provided custom file_path from module parameters for YAML output: {file_path}. File will be "
                 f"created at specified path (absolute or relative path supported).",
-                "INFO"
+                "INFO",
             )
 
         self.log(f"YAML configuration file path determined: {file_path}", "DEBUG")
@@ -2808,7 +2842,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Processing in GENERATE ALL CONFIGURATIONS mode. Preparing to collect complete AP "
                 "location inventory from Catalyst Center without applying any filters. This will "
                 "include all AP configurations discovered during get_have() operation.",
-                "INFO"
+                "INFO",
             )
 
             # Warn if filters provided in generate_all mode
@@ -2818,7 +2852,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "IGNORED due to generate_all_configurations=True. In generate_all mode, ALL access "
                     "point locations are processed regardless of filter criteria. Remove global_filters "
                     "or set generate_all_configurations=False to apply filtering.",
-                    "WARNING"
+                    "WARNING",
                 )
 
             final_list = self.have.get("all_config", [])
@@ -2826,7 +2860,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"All configurations collected for generate_all_configurations mode. Total floor sites "
                 f"with AP configurations: {len(final_list)}. Complete configuration data structure: "
                 f"{self.pprint(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
         else:
             # Filtered configuration mode
@@ -2834,7 +2868,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "Processing in FILTERED CONFIGURATION mode. Extracting global_filters parameter to "
                 "determine filter criteria. Supported filter types: site_list, planned_accesspoint_list, "
                 "real_accesspoint_list, accesspoint_model_list, mac_address_list.",
-                "INFO"
+                "INFO",
             )
 
             # Use provided filters or default to empty
@@ -2844,27 +2878,27 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     f"Global filters provided for AP location filtering. Filter structure: "
                     f"{global_filters}. Calling process_global_filters() to apply filter criteria "
                     f"and extract matching AP configurations.",
-                    "INFO"
+                    "INFO",
                 )
                 final_list = self.process_global_filters(global_filters)
                 if final_list:
                     self.log(
                         f"Filtered configurations collected successfully. Total floor sites matching "
                         f"filter criteria: {len(final_list)}. Filtered data ready for YAML generation.",
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         "Filter processing returned empty result. No access point locations match the "
                         "provided filter criteria. This may indicate filter values don't exist in "
                         "Catalyst Center or filters are too restrictive.",
-                        "WARNING"
+                        "WARNING",
                     )
             else:
                 self.log(
                     "No global_filters provided in filtered mode. Cannot determine which AP locations "
                     "to collect. Either provide global_filters or enable generate_all_configurations.",
-                    "WARNING"
+                    "WARNING",
                 )
 
         if not final_list:
@@ -2883,14 +2917,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"Final YAML dictionary structure created successfully. Dictionary contains {len(final_list)} "
             f"floor site configuration(s) under 'config' key. Total structure: {self.pprint(final_dict)}. "
             f"Proceeding to write dictionary to YAML file: {file_path}",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             f"Initiating YAML file write operation. Target file: {file_path}. Converting Python "
             f"dictionary to YAML format with proper indentation and structure for Ansible playbook "
             f"compatibility.",
-            "DEBUG"
+            "DEBUG",
         )
 
         if self.write_dict_to_yaml(final_dict, file_path, file_mode):
@@ -2903,7 +2937,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"YAML configuration file created successfully at: {file_path}. File contains "
                 f"{len(final_list)} floor site(s) with access point location configurations. "
                 f"File is ready for use with accesspoint_location_workflow_manager Ansible module.",
-                "INFO"
+                "INFO",
             )
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
@@ -2915,7 +2949,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             self.log(
                 f"YAML configuration file is already up-to-date at: {file_path}. "
                 f"No write operation performed.",
-                "INFO"
+                "INFO",
             )
             self.set_operation_result("ok", False, self.msg, "INFO")
 
@@ -2999,7 +3033,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"matching configurations from self.have collections based on provided filter criteria. "
             f"Supported filter types: site_list, planned_accesspoint_list, real_accesspoint_list, "
             f"accesspoint_model_list, mac_address_list.",
-            "DEBUG"
+            "DEBUG",
         )
 
         site_list = global_filters.get("site_list")
@@ -3021,13 +3055,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"(count: {len(accesspoint_model_list) if isinstance(accesspoint_model_list, list) else 0}), "
             f"mac_address_list: {mac_address_list} "
             f"(count: {len(mac_address_list) if isinstance(mac_address_list, list) else 0})",
-            "DEBUG"
+            "DEBUG",
         )
 
         self.log(
             f"Metadata keys to remove from detailed configs before return: {keys_to_remove}. "
             f"These keys are internal metadata not needed in YAML output.",
-            "DEBUG"
+            "DEBUG",
         )
 
         # Process site_list filter (HIGHEST PRIORITY)
@@ -3036,20 +3070,20 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Site list filter detected (HIGHEST PRIORITY). Requested floor site hierarchies: "
                 f"{site_list} (count: {len(site_list)}). This filter will extract AP configurations "
                 f"for specified floor sites. Other filters will be IGNORED due to priority hierarchy.",
-                "INFO"
+                "INFO",
             )
 
             if self._is_wildcard_list(site_list, "Site list"):
                 self.log(
                     "Site list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual site validation. This bypasses per-site matching.",
-                    "INFO"
+                    "INFO",
                 )
                 if not self.have.get("planned_aps"):
                     self.log(
                         "No planned access points found in Catalyst Center. self.have['planned_aps'] "
                         "is empty or None. Cannot return planned AP configurations.",
-                        "WARNING"
+                        "WARNING",
                     )
 
                 if not self.have.get("all_config", []):
@@ -3057,7 +3091,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "No configurations found in self.have['all_config'] for 'all' site_list filter. "
                         "This may indicate no AP locations exist in Catalyst Center or data collection "
                         "failed. Returning empty configuration list.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
                 else:
@@ -3066,20 +3100,20 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Returned {len(final_list)} floor site(s) with planned AP configurations for "
                     f"'all' keyword in site_list.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"Processing {len(site_list)} specific floor site(s) from site_list. Searching "
                     f"for matching floor sites in all_config collection.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 prepare_planned_list = []
                 for site_index, floor in enumerate(site_list, start=1):
                     self.log(
                         f"Searching for site {site_index}/{len(site_list)}: '{floor}' in all_config "
                         f"collection. Calling find_multiple_dict_by_key_value() to find matching floor.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_site_exist = self.find_multiple_dict_by_key_value(
                         self.have.get("all_config", []), "floor_site_hierarchy", floor
@@ -3091,26 +3125,26 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             f"Site {site_index}/{len(site_list)}: '{floor}' found in all_config. "
                             f"Added floor configuration to collection. Current collected: "
                             f"{len(prepare_planned_list)}/{len(site_list)}.",
-                            "DEBUG"
+                            "DEBUG",
                         )
                     else:
                         self.log(
                             f"Site {site_index}/{len(site_list)}: '{floor}' NOT found in all_config. "
                             f"This floor either has no APs or doesn't exist. Skipping.",
-                            "WARNING"
+                            "WARNING",
                         )
 
                 final_list = prepare_planned_list
                 self.log(
                     f"Site list processing completed. Collected {len(final_list)} floor site(s) out "
                     f"of {len(site_list)} requested.",
-                    "INFO"
+                    "INFO",
                 )
 
             self.log(
                 f"Access point locations collected for site list {site_list}. Total floor "
                 f"configurations: {len(final_list)}. Final data: {self.pprint(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Process planned_accesspoint_list filter (MEDIUM PRIORITY)
@@ -3119,39 +3153,41 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Planned access point list filter detected (MEDIUM PRIORITY, site_list not provided). "
                 f"Requested planned AP names: {planned_accesspoint_list} (count: {len(planned_accesspoint_list)}). "
                 f"This filter will extract configurations for specified planned APs.",
-                "INFO"
+                "INFO",
             )
 
             if self._is_wildcard_list(planned_accesspoint_list, "Planned AP list"):
                 self.log(
                     "Planned AP list contains 'all' keyword. Returning complete planned AP configuration "
                     "collection without individual AP validation.",
-                    "INFO"
+                    "INFO",
                 )
                 if not self.have.get("planned_aps"):
                     self.log(
                         "No planned access points found in Catalyst Center. self.have['planned_aps'] "
                         "is empty or None.",
-                        "WARNING"
+                        "WARNING",
                     )
                 final_list = self.have.get("planned_aps", [])
                 self.log(
                     f"Returned {len(final_list)} floor site(s) with planned AP configurations for "
                     f"'all' keyword.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"Processing {len(planned_accesspoint_list)} specific planned AP(s). Searching "
                     f"all_detailed_config for matching planned APs.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 collected_aps = []
-                for ap_index, planned_ap in enumerate(planned_accesspoint_list, start=1):
+                for ap_index, planned_ap in enumerate(
+                    planned_accesspoint_list, start=1
+                ):
                     self.log(
                         f"Searching for planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
                         f"in all_detailed_config. Filtering by accesspoint_name and accesspoint_type='planned'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_exist = self.find_multiple_dict_by_key_value(
                         self.have["all_detailed_config"], "accesspoint_name", planned_ap
@@ -3167,35 +3203,38 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             f"Planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
                             f"found with {len(ap_exist)} instance(s). Added to collection. "
                             f"Total collected: {len(collected_aps)} AP(s).",
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         self.log(
                             f"Planned AP {ap_index}/{len(planned_accesspoint_list)}: '{planned_ap}' "
                             f"NOT found in all_detailed_config or not type='planned'. Skipping.",
-                            "WARNING"
+                            "WARNING",
                         )
 
                 if not collected_aps:
                     self.log(
                         f"No planned access points found matching the provided list: "
                         f"{planned_accesspoint_list}. None of the requested APs exist as planned type.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
 
                 self.log(
                     f"Successfully collected {len(collected_aps)} planned AP instance(s) matching "
                     f"filter criteria. Organizing by floor site hierarchy.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self.have.get("filtered_floor"):
-                    floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    floors = {
+                        floor.get("floor_site_hierarchy")
+                        for floor in self.have.get("filtered_floor", [])
+                    }
                     self.log(
                         f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
                         f"site(s). Grouping APs by floor_site_hierarchy.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     prepare_planned_list = []
                     for floor_index, floor in enumerate(floors, start=1):
@@ -3207,7 +3246,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
                                 f"matching planned AP(s). Removing metadata keys: {keys_to_remove}",
-                                "DEBUG"
+                                "DEBUG",
                             )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
@@ -3215,24 +3254,24 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
                             floor_data = {
                                 "floor_site_hierarchy": floor,
-                                "access_points": ap_site_exist
+                                "access_points": ap_site_exist,
                             }
                             prepare_planned_list.append(floor_data)
                             self.log(
                                 f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     final_list = prepare_planned_list
                     self.log(
                         f"Floor organization completed. Total floor configurations created: {len(final_list)}",
-                        "INFO"
+                        "INFO",
                     )
 
             self.log(
                 f"Access point locations collected for planned access point list "
                 f"{planned_accesspoint_list}. Total floor configurations: {len(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Process real_accesspoint_list filter (MEDIUM-LOW PRIORITY)
@@ -3241,40 +3280,40 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Real access point list filter detected (MEDIUM-LOW PRIORITY). Requested real AP names: "
                 f"{real_accesspoint_list} (count: {len(real_accesspoint_list)}). This filter will extract "
                 f"configurations for specified real/deployed APs.",
-                "INFO"
+                "INFO",
             )
 
             if self._is_wildcard_list(real_accesspoint_list, "Real AP list"):
                 self.log(
                     "Real AP list contains 'all' keyword. Returning complete real AP configuration "
                     "collection without individual AP validation.",
-                    "INFO"
+                    "INFO",
                 )
                 if not self.have.get("real_aps"):
                     self.log(
                         "No real access points found in Catalyst Center. self.have['real_aps'] "
                         "is empty or None.",
-                        "WARNING"
+                        "WARNING",
                     )
 
                 final_list = self.have.get("real_aps", [])
                 self.log(
                     f"Returned {len(final_list)} floor site(s) with real AP configurations for "
                     f"'all' keyword.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"Processing {len(real_accesspoint_list)} specific real AP(s). Searching "
                     f"all_detailed_config for matching real APs.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 collected_aps = []
                 for ap_index, real_ap in enumerate(real_accesspoint_list, start=1):
                     self.log(
                         f"Searching for real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' "
                         f"in all_detailed_config. Filtering by accesspoint_name and accesspoint_type='real'.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_exist = self.find_multiple_dict_by_key_value(
                         self.have["all_detailed_config"], "accesspoint_name", real_ap
@@ -3290,35 +3329,38 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             f"Real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' found with "
                             f"{len(ap_exist)} instance(s). Added to collection. Total collected: "
                             f"{len(collected_aps)} AP(s).",
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         self.log(
                             f"Real AP {ap_index}/{len(real_accesspoint_list)}: '{real_ap}' NOT found "
                             f"in all_detailed_config or not type='real'. Skipping.",
-                            "WARNING"
+                            "WARNING",
                         )
 
                 if not collected_aps:
                     self.log(
                         f"No real access points found matching the provided list: {real_accesspoint_list}. "
                         f"None of the requested APs exist as real/deployed type.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
 
                 self.log(
                     f"Successfully collected {len(collected_aps)} real AP instance(s) matching filter "
                     f"criteria. Organizing by floor site hierarchy.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self.have.get("filtered_floor"):
-                    floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    floors = {
+                        floor.get("floor_site_hierarchy")
+                        for floor in self.have.get("filtered_floor", [])
+                    }
                     self.log(
                         f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
                         f"site(s). Grouping APs by floor_site_hierarchy.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     prepare_real_list = []
                     for floor_index, floor in enumerate(floors, start=1):
@@ -3330,7 +3372,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
                                 f"matching real AP(s). Removing metadata keys: {keys_to_remove}",
-                                "DEBUG"
+                                "DEBUG",
                             )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
@@ -3338,24 +3380,24 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
                             floor_data = {
                                 "floor_site_hierarchy": floor,
-                                "access_points": ap_site_exist
+                                "access_points": ap_site_exist,
                             }
                             prepare_real_list.append(floor_data)
                             self.log(
                                 f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     final_list = prepare_real_list
                     self.log(
                         f"Floor organization completed. Total floor configurations created: {len(final_list)}",
-                        "INFO"
+                        "INFO",
                     )
 
             self.log(
                 f"Access point locations collected for real access point list {real_accesspoint_list}. "
                 f"Total floor configurations: {len(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Process accesspoint_model_list filter (LOW PRIORITY)
@@ -3364,43 +3406,47 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"Access point model list filter detected (LOW PRIORITY). Requested AP models: "
                 f"{accesspoint_model_list} (count: {len(accesspoint_model_list)}). This filter will extract "
                 f"configurations for specified AP hardware models.",
-                "INFO"
+                "INFO",
             )
 
             if self._is_wildcard_list(accesspoint_model_list, "AP model list"):
                 self.log(
                     "AP model list contains 'all' keyword. Returning complete AP configuration collection "
                     "(planned + real) without individual model validation.",
-                    "INFO"
+                    "INFO",
                 )
                 if not self.have.get("all_config"):
                     self.log(
                         "No access point locations found in Catalyst Center. self.have['all_config'] "
                         "is empty or None.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
 
                 final_list = self.have.get("all_config", [])
                 self.log(
                     f"Returned {len(final_list)} floor site(s) with AP configurations for 'all' keyword.",
-                    "DEBUG"
+                    "DEBUG",
                 )
             else:
                 self.log(
                     f"Processing {len(accesspoint_model_list)} specific AP model(s). Searching "
                     f"all_detailed_config for matching models.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 collected_aps = []
-                for model_index, each_model in enumerate(accesspoint_model_list, start=1):
+                for model_index, each_model in enumerate(
+                    accesspoint_model_list, start=1
+                ):
                     self.log(
                         f"Searching for AP model {model_index}/{len(accesspoint_model_list)}: "
                         f"'{each_model}' in all_detailed_config. Filtering by accesspoint_model.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     ap_exist = self.find_multiple_dict_by_key_value(
-                        self.have["all_detailed_config"], "accesspoint_model", each_model
+                        self.have["all_detailed_config"],
+                        "accesspoint_model",
+                        each_model,
                     )
 
                     if ap_exist:
@@ -3409,35 +3455,38 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             f"AP model {model_index}/{len(accesspoint_model_list)}: '{each_model}' found "
                             f"with {len(ap_exist)} AP instance(s). Added to collection. Total collected: "
                             f"{len(collected_aps)} AP(s).",
-                            "INFO"
+                            "INFO",
                         )
                     else:
                         self.log(
                             f"AP model {model_index}/{len(accesspoint_model_list)}: '{each_model}' NOT "
                             f"found in all_detailed_config. No APs with this model. Skipping.",
-                            "WARNING"
+                            "WARNING",
                         )
 
                 if not collected_aps:
                     self.log(
                         f"No access points found matching the provided model list: {accesspoint_model_list}. "
                         f"None of the requested models have deployed APs.",
-                        "WARNING"
+                        "WARNING",
                     )
                     return None
 
                 self.log(
                     f"Successfully collected {len(collected_aps)} AP instance(s) matching model filter "
                     f"criteria. Organizing by floor site hierarchy.",
-                    "INFO"
+                    "INFO",
                 )
 
                 if self.have.get("filtered_floor"):
-                    floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                    floors = {
+                        floor.get("floor_site_hierarchy")
+                        for floor in self.have.get("filtered_floor", [])
+                    }
                     self.log(
                         f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor "
                         f"site(s). Grouping APs by floor_site_hierarchy.",
-                        "DEBUG"
+                        "DEBUG",
                     )
                     prepare_model_list = []
                     for floor_index, floor in enumerate(floors, start=1):
@@ -3449,7 +3498,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             self.log(
                                 f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
                                 f"AP(s) matching model filter. Removing metadata keys: {keys_to_remove}",
-                                "DEBUG"
+                                "DEBUG",
                             )
                             for each_ap_site in ap_site_exist:
                                 for key in keys_to_remove:
@@ -3457,24 +3506,24 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
                             floor_data = {
                                 "floor_site_hierarchy": floor,
-                                "access_points": ap_site_exist
+                                "access_points": ap_site_exist,
                             }
                             prepare_model_list.append(floor_data)
                             self.log(
                                 f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
-                                "DEBUG"
+                                "DEBUG",
                             )
 
                     final_list = prepare_model_list
                     self.log(
                         f"Floor organization completed. Total floor configurations created: {len(final_list)}",
-                        "INFO"
+                        "INFO",
                     )
 
             self.log(
                 f"Access point location config collected for model list {accesspoint_model_list}. "
                 f"Total floor configurations: {len(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         # Process mac_address_list filter (LOWEST PRIORITY)
@@ -3483,14 +3532,14 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 f"MAC address list filter detected (LOWEST PRIORITY). Requested MAC addresses: "
                 f"{mac_address_list} (count: {len(mac_address_list)}). This filter will extract "
                 f"configurations for specified AP MAC addresses.",
-                "INFO"
+                "INFO",
             )
 
             collected_aps = []
             self.log(
                 f"Processing {len(mac_address_list)} MAC address(es). Searching all_detailed_config "
                 f"for matching MAC addresses (normalized to lowercase).",
-                "DEBUG"
+                "DEBUG",
             )
 
             for mac_index, each_mac in enumerate(mac_address_list, start=1):
@@ -3498,7 +3547,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     f"Searching for MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' "
                     f"(normalized) in all_detailed_config. Filtering by mac_address field.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 ap_exist = self.find_multiple_dict_by_key_value(
                     self.have["all_detailed_config"], "mac_address", normalized_mac
@@ -3510,35 +3559,38 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         f"MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' found with "
                         f"{len(ap_exist)} AP instance(s). Added to collection. Total collected: "
                         f"{len(collected_aps)} AP(s).",
-                        "INFO"
+                        "INFO",
                     )
                 else:
                     self.log(
                         f"MAC address {mac_index}/{len(mac_address_list)}: '{normalized_mac}' NOT found "
                         f"in all_detailed_config. No AP with this MAC. Skipping.",
-                        "WARNING"
+                        "WARNING",
                     )
 
             if not collected_aps:
                 self.log(
                     f"No access points found matching the provided MAC address list: {mac_address_list}. "
                     f"None of the requested MAC addresses have deployed APs.",
-                    "WARNING"
+                    "WARNING",
                 )
                 return None
 
             self.log(
                 f"Successfully collected {len(collected_aps)} AP instance(s) matching MAC address filter "
                 f"criteria. Organizing by floor site hierarchy.",
-                "INFO"
+                "INFO",
             )
 
             if self.have.get("filtered_floor"):
-                floors = {floor.get("floor_site_hierarchy") for floor in self.have.get("filtered_floor", [])}
+                floors = {
+                    floor.get("floor_site_hierarchy")
+                    for floor in self.have.get("filtered_floor", [])
+                }
                 self.log(
                     f"Organizing {len(collected_aps)} collected AP(s) into {len(floors)} floor site(s). "
                     f"Grouping APs by floor_site_hierarchy.",
-                    "DEBUG"
+                    "DEBUG",
                 )
                 prepare_mac_list = []
                 for floor_index, floor in enumerate(floors, start=1):
@@ -3550,7 +3602,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.log(
                             f"Floor {floor_index}/{len(floors)}: '{floor}' has {len(ap_site_exist)} "
                             f"AP(s) matching MAC filter. Removing metadata keys: {keys_to_remove}",
-                            "DEBUG"
+                            "DEBUG",
                         )
                         for each_ap_site in ap_site_exist:
                             for key in keys_to_remove:
@@ -3558,24 +3610,24 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
                         floor_data = {
                             "floor_site_hierarchy": floor,
-                            "access_points": ap_site_exist
+                            "access_points": ap_site_exist,
                         }
                         prepare_mac_list.append(floor_data)
                         self.log(
                             f"Added floor configuration for '{floor}' with {len(ap_site_exist)} AP(s).",
-                            "DEBUG"
+                            "DEBUG",
                         )
 
                 final_list = prepare_mac_list
                 self.log(
                     f"Floor organization completed. Total floor configurations created: {len(final_list)}",
-                    "INFO"
+                    "INFO",
                 )
 
             self.log(
                 f"Access point location config collected for MAC address list {mac_address_list}. "
                 f"Total floor configurations: {len(final_list)}",
-                "DEBUG"
+                "DEBUG",
             )
 
         else:
@@ -3584,7 +3636,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "which AP locations to collect. Supported filters: site_list, planned_accesspoint_list, "
                 "real_accesspoint_list, accesspoint_model_list, mac_address_list. Provide at least one "
                 "valid filter with values.",
-                "WARNING"
+                "WARNING",
             )
 
         if not final_list:
@@ -3592,7 +3644,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 "No access point positions found in Catalyst Center matching the provided filter criteria. "
                 "This indicates either filter values don't exist or filters are too restrictive. Verify "
                 "filter values match existing AP configurations in Catalyst Center.",
-                "WARNING"
+                "WARNING",
             )
             return None
 
@@ -3601,7 +3653,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             f"floor site configuration(s) with filtered AP data. Total APs across all floors: "
             f"{sum(len(floor.get('access_points', [])) for floor in final_list)}. Returning filtered "
             f"configuration list for YAML generation.",
-            "INFO"
+            "INFO",
         )
 
         return final_list
@@ -3810,20 +3862,72 @@ def main():
     # ========================================
     # Define the specification for the module's arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {
+            "required": True,
+            "type": "str",
+            "aliases": ["dnac_host"],
+        },
+        "catalystcenter_port": {
+            "type": "str",
+            "default": "443",
+            "aliases": ["dnac_port", "catalystcenter_api_port"],
+        },
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["dnac_username", "user"],
+        },
+        "catalystcenter_password": {
+            "type": "str",
+            "no_log": True,
+            "aliases": ["dnac_password"],
+        },
+        "catalystcenter_verify": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_verify"],
+        },
+        "catalystcenter_version": {
+            "type": "str",
+            "default": "2.3.7.6",
+            "aliases": ["dnac_version"],
+        },
+        "catalystcenter_debug": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_debug"],
+        },
+        "catalystcenter_log_level": {
+            "type": "str",
+            "default": "WARNING",
+            "aliases": ["dnac_log_level"],
+        },
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
+        },
+        "catalystcenter_log_append": {
+            "type": "bool",
+            "default": True,
+            "aliases": ["dnac_log_append"],
+        },
+        "catalystcenter_log": {
+            "type": "bool",
+            "default": False,
+            "aliases": ["dnac_log"],
+        },
         "validate_response_schema": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["dnac_api_task_timeout"]},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2, "aliases": ["dnac_task_poll_interval"]},
+        "catalystcenter_api_task_timeout": {
+            "type": "int",
+            "default": 1200,
+            "aliases": ["dnac_api_task_timeout"],
+        },
+        "catalystcenter_task_poll_interval": {
+            "type": "int",
+            "default": 2,
+            "aliases": ["dnac_task_poll_interval"],
+        },
         "file_path": {"type": "str", "required": False},
         "file_mode": {
             "type": "str",
@@ -3842,7 +3946,9 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=True)
 
     # Initialize the AccesspointLocationPlaybookGenerator object with the module
-    ccc_accesspoint_location_playbook_generator = AccesspointLocationPlaybookGenerator(module)
+    ccc_accesspoint_location_playbook_generator = AccesspointLocationPlaybookGenerator(
+        module
+    )
 
     # ========================================
     # Catalyst Center Version Validation
@@ -3892,9 +3998,7 @@ def main():
     ccc_accesspoint_location_playbook_generator.get_want(
         config, state
     ).check_return_status()
-    ccc_accesspoint_location_playbook_generator.get_have(
-        config
-    ).check_return_status()
+    ccc_accesspoint_location_playbook_generator.get_have(config).check_return_status()
     ccc_accesspoint_location_playbook_generator.get_diff_state_apply[
         state
     ]().check_return_status()

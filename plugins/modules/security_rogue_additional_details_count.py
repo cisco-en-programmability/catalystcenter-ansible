@@ -11,10 +11,10 @@ short_description: Resource module for Security Rogue Additional Details Count
 description:
   - Manage operation create of the resource Security Rogue Additional Details Count.
   - This API returns the count for the Rogue Additional Details.
-version_added: '6.16.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   endTime:
     description: This is the epoch end time in milliseconds upto which data need to be fetched. Default value is current time.
@@ -36,7 +36,7 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RogueAdditionalDetailCount

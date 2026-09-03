@@ -12,10 +12,10 @@ description:
   - Manage operations create and update of the resource Http Write Credential.
   - Adds global HTTP write credentials.
   - Updates global HTTP write credentials.
-version_added: '3.1.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   comments:
     description: Comments to identify the HTTP(S) Write credential.
@@ -48,7 +48,7 @@ options:
     description: HTTP(S) Write Username.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery CreateHTTPWriteCredentials
@@ -78,16 +78,17 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    comments: string
-    credentialType: string
-    description: string
-    id: string
-    instanceTenantId: string
-    instanceUuid: string
-    password: string
-    port: 0
-    secure: true
-    username: string
+    payload:
+      - comments: string
+        credentialType: string
+        description: string
+        id: string
+        instanceTenantId: string
+        instanceUuid: string
+        password: string
+        port: 0
+        secure: true
+        username: string
 - name: Update all
   cisco.catalystcenter.http_write_credential:
     catalystcenter_host: "{{catalystcenter_host}}"

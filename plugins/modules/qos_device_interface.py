@@ -14,10 +14,10 @@ description:
     specific SP Profile and to be able to define a shaper on WAN interfaces.
   - Delete all qos device interface infos associate with network device id.
   - Update existing qos device interface infos associate with network device id.
-version_added: '4.0.0'
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   id:
     description: Id path parameter. Id of the qos device info, this object holds all qos device interface infos associate
@@ -38,7 +38,7 @@ options:
         description: Network device id.
         type: str
       qosDeviceInterfaceInfo:
-        description: Qos Device Interface's qosDeviceInterfaceInfo.
+        description: Qos device interface info list.
         elements: dict
         suboptions:
           dmvpnRemoteSitesBw:
@@ -63,7 +63,7 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy CreateQosDeviceInterfaceInfo

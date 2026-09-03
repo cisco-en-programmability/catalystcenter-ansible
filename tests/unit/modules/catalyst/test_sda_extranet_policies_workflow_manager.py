@@ -83,7 +83,9 @@ class SDAExtranetPolicies(TestCatalystModule):
         # FIXTURES FOR FAILURE TESTCASES ############################################################
 
         if "create_sda_extranet_policies_failure_1" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [Exception("Simulated exception")]
+            self.run_catalystcenter_exec.side_effect = [
+                Exception("Simulated exception")
+            ]
 
         if "create_sda_extranet_policies_failure_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -134,7 +136,9 @@ class SDAExtranetPolicies(TestCatalystModule):
             ]
 
         if "delete_sda_extranet_policies_failure_1" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [Exception("Simulated exception")]
+            self.run_catalystcenter_exec.side_effect = [
+                Exception("Simulated exception")
+            ]
 
         if "delete_sda_extranet_policies_failure_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [

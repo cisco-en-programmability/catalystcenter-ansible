@@ -11,10 +11,10 @@ short_description: Information module for Discoverys Jobs Discovered Network Dev
 description:
   - Get all Discoverys Jobs Discovered Network Devices.
   - API to get the details of all the devices discovered by the given jobId and discoveryId.
-version_added: '6.46.0'
+version_added: '2.3.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   headers:
     description: Additional headers.
@@ -64,7 +64,7 @@ options:
       - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices FetchesTheDetailsOfAllTheDevicesDiscoveredByTheGivenJobIdAndDiscoveryId
@@ -97,7 +97,7 @@ EXAMPLES = r"""
     http: string
     netconf: string
     limit: 0
-    offset: 0
+    offset: 1
     discoveryId: string
     jobId: string
   register: result
@@ -112,7 +112,7 @@ catalystcenter_response:
       "response": [
         {
           "id": "string",
-          "managementIpAddress": "string",
+          "managementIpAddress": {},
           "hostname": "string",
           "discoveryStatus": "string",
           "status": "string",

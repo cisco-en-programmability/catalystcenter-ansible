@@ -11,10 +11,10 @@ short_description: Resource module for Backup Configuration
 description:
   - Manage operation create of the resource Backup Configuration.
   - This api is used to create or update backup configuration.
-version_added: '6.18.0'
+version_added: '2.2.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dataRetention:
     description: Date retention policy of the backup.
@@ -29,7 +29,7 @@ options:
     description: The storage type.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Backup CreateBackupConfiguration

@@ -9,26 +9,21 @@ DOCUMENTATION = r"""
 module: sites_dhcp_settings
 short_description: Resource module for Sites Dhcp Settings
 description:
-  - Manage operation update of the resource Sites Dhcp Settings. - > Set DHCP settings for a site; `null` values indicate
-    that the setting will be inherited from the parent site; empty objects `{}` indicate that the settings is unset.
-version_added: '6.15.0'
+  - Manage operation update of the resource Sites Dhcp Settings.
+  - Sets dhcp settings for the given site.
+version_added: '1.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
-author: Rafael Campos (@racampos)
+author: Bryan Vargas (@bvargasre)
 options:
   dhcp:
-    description: Sites Dhcp Settings's dhcp.
-    suboptions:
-      servers:
-        description: NTP servers to facilitate system clock synchronization for your network. Max 10.
-        elements: str
-        type: list
+    description: DHCP servers settings.
     type: dict
   id:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.2
+  - catalystcentersdk >= 3.2.3.0.0
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Network Settings SetDhcpSettingsForASite
@@ -53,10 +48,8 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    dhcp:
-      servers:
-        - string
-    id: string
+    dhcp: {}
+    id: e298f95b-cd70-48ae-a590-b2076bfb6033
 """
 RETURN = r"""
 catalystcenter_response:
@@ -65,9 +58,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "count": 0
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """
