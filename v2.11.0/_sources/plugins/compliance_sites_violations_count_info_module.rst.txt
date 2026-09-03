@@ -1,0 +1,1034 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.compliance_sites_violations_count_info module -- Information module for Compliance Sites Violations Count
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.compliance_sites_violations_count_info`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Compliance Sites Violations Count.
+- Returns the total count of compliance violations for a site based on the specified filters.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-acknowledgementStatus"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-acknowledgementstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **acknowledgementStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-acknowledgementStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AcknowledgementStatus query parameter. The acknowledgement status of the violation. If not specified, all violations will be considered regardless of their acknowledgement status.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-complianceType"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-compliancetype:
+
+      .. rst-class:: ansible-option-title
+
+      **complianceType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-complianceType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ComplianceType query parameter. The type of compliance.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-feature"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-feature:
+
+      .. rst-class:: ansible-option-title
+
+      **feature**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-feature" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Feature query parameter. The feature that has the violation. Default behaviour is case-insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*Wlan\*\`, \`\*SSID\`, \`Wireless\*Config\`, \`\*/Guest-SSID\`.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-operation"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-operation:
+
+      .. rst-class:: ansible-option-title
+
+      **operation**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-operation" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Operation query parameter. Represents the type of configuration operation performed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-parameter"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-parameter:
+
+      .. rst-class:: ansible-option-title
+
+      **parameter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-parameter" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Parameter query parameter. The parameter name that has the violation. Default behaviour is case- insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*interface\*\`, \`\*ssid\`, \`server\*\`, \`admin\*status\`.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-policyName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-policyname:
+
+      .. rst-class:: ansible-option-title
+
+      **policyName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-policyName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PolicyName query parameter. The name of the policy. Default behaviour is case-insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*Vlan\*\`, \`password\*policy\`, \`Traffic\*\`. Use the \`GET /dna/intent/api/v1/compliancePolicys\` endpoint to retrieve the policies.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ruleName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-rulename:
+
+      .. rst-class:: ansible-option-title
+
+      **ruleName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ruleName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RuleName query parameter. The name of the rule that has the violation. Default behaviour is case- insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*Vlan\*\`, \`\*password\`, \`traffic\*\`, \`\*SMU\*installed\`. Use the \`GET /dna/intent/api/v1/compliancePolicys/{policyId}/rules\` endpoint to retrieve the rules.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SiteId path parameter. The \`id\` of the site. Use the \`GET /dna/intent/api/v1/sites\` endpoint to retrieve the sites.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-subTypes"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-subtypes:
+
+      .. rst-class:: ansible-option-title
+
+      **subTypes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-subTypes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SubTypes query parameter. Specify the compliance sub-types. If not specified, all applicable sub-types will be considered.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-templatename:
+
+      .. rst-class:: ansible-option-title
+
+      **templateName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TemplateName query parameter. The name of the CLI template that has the violation. Default behaviour is case-insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*Vlan\*\`, \`\*route\`, \`ACL\*\`, \`interface\*template\`. Use the \`GET /dna/intent/api/v2/template-programmer/template\` endpoint to retrieve the templates.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-violationMessage"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__parameter-violationmessage:
+
+      .. rst-class:: ansible-option-title
+
+      **violationMessage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-violationMessage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ViolationMessage query parameter. Message describing the violation. Default behaviour is case- insensitive exact match. This field supports wildcard (\`\*\`) character search. E.g. \`\*Vlan\*\`, \`\*ssid\`, \`GigabitEthernet\*\`, \`interface\*has no acl\*\`. Use the \`GET /dna/intent/api/v1/compliancePolicys/{policyId}/rules/{ruleId}/conditions\` endpoint to retrieve the conditions.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are compliance.Compliance.retrieve\_the\_count\_of\_violations,
+   - Paths used are get /dna/intent/api/v1/compliance/sites/{siteId}/violations/count,
+   - Supports \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Compliance RetrieveTheCountOfViolations <https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-violations>`_
+       Complete reference of the RetrieveTheCountOfViolations API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Get all Compliance Sites Violations Count
+      cisco.catalystcenter.compliance_sites_violations_count_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        complianceType: NETWORK_SETTINGS
+        subTypes: []
+        acknowledgementStatus: UNACKNOWLEDGED
+        feature: string
+        parameter: string
+        operation: CHANGED
+        templateName: string
+        policyName: string
+        ruleName: string
+        violationMessage: string
+        siteId: b8eeb5e2-1eab-426c-be77-97ee81dcba07
+      register: result
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.compliance_sites_violations_count_info_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -1,0 +1,2050 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create module -- Resource module for Wireless Controllers Stats Trend Analytics Create
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.11.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.catalystcenter 2.11.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Wireless Controllers Stats Trend Analytics Create. - \> Retrieves the time series stats of a specific WLC by applying complex filters, aggregate functions, and grouping. The data will be grouped based on the specified trend time interval. If startTime and endTime are not provided, the API defaults to the last 24 hours. - \> Retrieves the time series stats of a specific WLC by applying complex filters, aggregate functions, and grouping. The data will be grouped based on the specified trend time interval. If startTime and endTime are not provided, the API defaults to the last 24 hours.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- catalystcentersdk \>= 3.2.3.0.0
+- python \>= 3.12
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aggregateAttributes"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-aggregateattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **aggregateAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aggregateAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Stats Trend Analytics Create's aggregateAttributes.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aggregateAttributes/function"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-aggregateattributes/function:
+
+      .. rst-class:: ansible-option-title
+
+      **function**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aggregateAttributes/function" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of aggregate function to apply on the field when querying data.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aggregateAttributes/name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-aggregateattributes/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aggregateAttributes/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported aggregated attributes related to WlcStats All the aggregate attributes support min, max, avg, sum functions.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-attributes"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-attributes:
+
+      .. rst-class:: ansible-option-title
+
+      **attributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-attributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Stats Trend Analytics Create's attributes.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_api_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco Catalyst Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-endtime:
+
+      .. rst-class:: ansible-option-title
+
+      **endTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      End time to which the API queries the dataset related to the resource. It must be specified in terms of milliseconds since UNIX epoch. Value is inclusive.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Stats Trend Analytics Create's filters.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested array of filters in case of AND/OR based filters. Only one level of nesting will be supported. Structure of nested filter is the same as parent with all operators supported except AND or OR.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested array of filters in case of AND/OR based filters. Only one level of nesting will be supported. Structure of nested filter is the same as parent with all operators supported except AND or OR.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested array of filters in case of AND/OR based filters. Only one level of nesting will be supported. Structure of nested filter is the same as parent with all operators supported except AND or OR.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested array of filters in case of AND/OR based filters. Only one level of nesting will be supported. Structure of nested filter is the same as parent with all operators supported except AND or OR.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters/filters"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters/filters:
+
+      .. rst-class:: ansible-option-title
+
+      **filters**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters/filters" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Nested array of filters in case of AND/OR based filters. Only one level of nesting will be supported. Structure of nested filter is the same as parent with all operators supported except AND or OR.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported filter attributes related to WlcStats.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters/logicalOperator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters/logicaloperator:
+
+      .. rst-class:: ansible-option-title
+
+      **logicalOperator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters/logicalOperator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operator to use when attempting to apply a logical conjunction of more than 1 filter Logical operations include 'and', 'or'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters/operator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of filter operator to use for querying data | in and out operator takes multiple values and applies the filters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/filters/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/filters/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/filters/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Field value(s) to filter the data set. Array of values is used for "in" or "out" operator. Values will be of whatever type the specific field being filtered is defined with. For other operators, filter value is of whatever type the specific field being filtered is defined with. In the case of an "and" or "or" operator, this values array will be ignored, and the values arrays in each of the \*nested filters\* will be used. The data type of a value, or each item inside the value in case it is a list, must match the type defined in the WlcStats response model.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported filter attributes related to WlcStats.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/logicalOperator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/logicaloperator:
+
+      .. rst-class:: ansible-option-title
+
+      **logicalOperator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/logicalOperator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operator to use when attempting to apply a logical conjunction of more than 1 filter Logical operations include 'and', 'or'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/operator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of filter operator to use for querying data | in and out operator takes multiple values and applies the filters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/filters/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/filters/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/filters/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Field value(s) to filter the data set. Array of values is used for "in" or "out" operator. Values will be of whatever type the specific field being filtered is defined with. For other operators, filter value is of whatever type the specific field being filtered is defined with. In the case of an "and" or "or" operator, this values array will be ignored, and the values arrays in each of the \*nested filters\* will be used. The data type of a value, or each item inside the value in case it is a list, must match the type defined in the WlcStats response model.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported filter attributes related to WlcStats.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/logicalOperator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/logicaloperator:
+
+      .. rst-class:: ansible-option-title
+
+      **logicalOperator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/logicalOperator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operator to use when attempting to apply a logical conjunction of more than 1 filter Logical operations include 'and', 'or'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/operator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of filter operator to use for querying data | in and out operator takes multiple values and applies the filters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/filters/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/filters/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/filters/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Field value(s) to filter the data set. Array of values is used for "in" or "out" operator. Values will be of whatever type the specific field being filtered is defined with. For other operators, filter value is of whatever type the specific field being filtered is defined with. In the case of an "and" or "or" operator, this values array will be ignored, and the values arrays in each of the \*nested filters\* will be used. The data type of a value, or each item inside the value in case it is a list, must match the type defined in the WlcStats response model.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported filter attributes related to WlcStats.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/logicalOperator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/logicaloperator:
+
+      .. rst-class:: ansible-option-title
+
+      **logicalOperator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/logicalOperator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operator to use when attempting to apply a logical conjunction of more than 1 filter Logical operations include 'and', 'or'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/operator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of filter operator to use for querying data | in and out operator takes multiple values and applies the filters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/filters/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/filters/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/filters/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Field value(s) to filter the data set. Array of values is used for "in" or "out" operator. Values will be of whatever type the specific field being filtered is defined with. For other operators, filter value is of whatever type the specific field being filtered is defined with. In the case of an "and" or "or" operator, this values array will be ignored, and the values arrays in each of the \*nested filters\* will be used. The data type of a value, or each item inside the value in case it is a list, must match the type defined in the WlcStats response model.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supported filter attributes related to WlcStats.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/logicalOperator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/logicaloperator:
+
+      .. rst-class:: ansible-option-title
+
+      **logicalOperator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/logicalOperator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Operator to use when attempting to apply a logical conjunction of more than 1 filter Logical operations include 'and', 'or'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/operator"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of filter operator to use for querying data | in and out operator takes multiple values and applies the filters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-filters/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-filters/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-filters/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Field value(s) to filter the data set. Array of values is used for "in" or "out" operator. Values will be of whatever type the specific field being filtered is defined with. For other operators, filter value is of whatever type the specific field being filtered is defined with. In the case of an "and" or "or" operator, this values array will be ignored, and the values arrays in each of the \*nested filters\* will be used. The data type of a value, or each item inside the value in case it is a list, must match the type defined in the WlcStats response model.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-groupBy"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-groupby:
+
+      .. rst-class:: ansible-option-title
+
+      **groupBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-groupBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Stats Trend Analytics Create's groupBy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The WLC device UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-page:
+
+      .. rst-class:: ansible-option-title
+
+      **page**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Controllers Stats Trend Analytics Create's page.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page/count"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-page/count:
+
+      .. rst-class:: ansible-option-title
+
+      **count**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page/count" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of records returned after applying applicable filtering. Field is ignored for request and updated by API in the response.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page/cursor"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-page/cursor:
+
+      .. rst-class:: ansible-option-title
+
+      **cursor**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page/cursor" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      It's an opaque string field that indicates the next record in the requested collection. If no records remain, the API returns a response with a count of zero. The default value is an empty string, and the initial value must be an empty string. The cursor value is populated by the API in the response page block. If the user wants more records, the cursor in the subsequent request must be updated with the value from the previous response.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page/limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-page/limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page/limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of records to fetch in a page.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page/timeSortOrder"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-page/timesortorder:
+
+      .. rst-class:: ansible-option-title
+
+      **timeSortOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page/timeSortOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sort order. 'asc' for ascending and 'desc' for descending.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-starttime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Start time from which the API queries the dataset related to the resource. It must be specified in terms of milliseconds since UNIX epoch. Value is inclusive.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-trendInterval"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-trendinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **trendInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-trendInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The time window to aggregate the metrics. Interval can be 5 minutes or 10 minutes or 1 hour or 1 day or 7 days.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are devices.Devices.retrieves\_specific\_stats\_for\_a\_wlc\_over\_a\_specified\_period\_of\_time\_know\_your\_network,
+   - Paths used are post /dna/data/api/v1/wirelessControllersStats/trendAnalytics, post /dna/data/api/v1/wirelessControllersStats/{id}/trendAnalytics,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
+   - Requires Python \>= 3.10, matching the controller Python versions supported by the collection's minimum ansible-core version (see the collection README for the current ansible-core / Python compatibility range)
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco Catalyst Center documentation for Devices RetrievesSpecificStatsForAWLCOverASpecifiedPeriodOfTime <https://developer.cisco.com/docs/dna-center/#!retrieves-specific-stats-for-awlc-over-a-specified-period-of-time>`_
+       Complete reference of the RetrievesSpecificStatsForAWLCOverASpecifiedPeriodOfTime API.
+   `Cisco Catalyst Center documentation for Devices RetrievesSpecificStatsForAWLCOverASpecifiedPeriodOfTimeKnowYourNetwork <https://developer.cisco.com/docs/dna-center/#!retrieves-specific-stats-for-awlc-over-a-specified-period-of-time-know-your-network>`_
+       Complete reference of the RetrievesSpecificStatsForAWLCOverASpecifiedPeriodOfTimeKnowYourNetwork API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    ---
+    - name: Create
+      cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        aggregateAttributes:
+          - function: string
+            name: string
+        attributes:
+          - string
+        endTime: 0
+        filters:
+          - filters:
+              - filters:
+                  - filters:
+                      - filters:
+                          - filters:
+                              - {}
+                            key: string
+                            logicalOperator: string
+                            operator: string
+                            value: {}
+                        key: string
+                        logicalOperator: string
+                        operator: string
+                        value: {}
+                    key: string
+                    logicalOperator: string
+                    operator: string
+                    value: {}
+                key: string
+                logicalOperator: string
+                operator: string
+                value: {}
+            key: string
+            logicalOperator: string
+            operator: string
+            value: {}
+        groupBy:
+          - string
+        headers: '{{my_headers | from_json}}'
+        id: string
+        page:
+          count: 0
+          cursor: string
+          limit: 0
+          timeSortOrder: string
+        startTime: 0
+        trendInterval: string
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_stats_trend_analytics_create_module__return-catalystcenter_response:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "cursor": "string", "limit": 0, "timeSortOrder": "string"}, "response": [{"aggregateAttributes": [{"function": "string", "name": "string", "value": {}}], "attributes": [{"name": "string", "value": {}}], "groups": [{"aggregateAttributes": [{"function": "string", "name": "string", "value": {}}], "attributes": [{"name": "string", "value": {}}], "id": "string"}], "timestamp": 0}], "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Bryan Vargas (@bvargasre)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/catalystcenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
